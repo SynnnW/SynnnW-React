@@ -60,9 +60,9 @@ export default function Contact({ t = {} }) {
     setErrors({});
     setStatus('loading');
 
-    // Kirim via Formspree — ganti YOUR_FORM_ID dengan ID Formspree kamu
+    const FORMSPREE_ID = 'xzdwbgrd';
     try {
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ ...form, services: services.join(', ') }),
