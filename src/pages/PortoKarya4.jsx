@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /* ══════════════════════════════════════════════════════
@@ -74,11 +74,67 @@ const DEFAULT_DATA = {
   externalLink: 'https://basketyuk.id/klasemen/youth-east-java-basketball-league-2026-seri-4/389',
 };
 
+/* ── Gallery Items ── */
+const GALLERY_ITEMS = [
+  {
+    src: '/assets/k4/obs-controller-1.png',
+    alt: 'OBS Web Controller — Tablet View',
+    caption: 'OBS Web Controller',
+    cls: 'k4-gal-wide',
+    descId: 'Tampilan utama OBS web controller yang diakses dari tablet. Panel ini memungkinkan operator mengganti scene, mengaktifkan overlay skor, dan mengatur transisi langsung dari lapangan — tanpa menyentuh keyboard atau mouse di komputer.',
+    descEn: 'Main view of the OBS web controller accessed from a tablet. This panel lets the operator switch scenes, activate score overlays, and manage transitions directly from the court — without touching the keyboard or mouse at the computer.',
+  },
+  {
+    src: '/assets/k4/obs-controller-2.png',
+    alt: 'OBS Web Controller — Scoreboard Panel',
+    caption: 'Scoreboard Control Panel',
+    cls: 'k4-gal-wide',
+    descId: 'Panel kontrol scoreboard basket yang terintegrasi langsung ke OBS via WebSocket. Operator dapat memperbarui skor tim kiri/kanan, foul, ronde, dan waktu secara real-time selama pertandingan berlangsung.',
+    descEn: 'Basketball scoreboard control panel integrated directly into OBS via WebSocket. The operator can update left/right team scores, fouls, round, and match time in real-time throughout the game.',
+  },
+  {
+    src: '/assets/k4/scoreboard-design.png',
+    alt: 'Scoreboard Overlay Design — YEJBL',
+    caption: 'Scoreboard Overlay Design',
+    cls: 'k4-gal-full',
+    descId: 'Desain overlay scoreboard kustom untuk YEJBL yang tampil langsung di layar siaran. Menampilkan skor, nama tim, foul count, nomor ronde, dan countdown timer — semuanya diperbarui secara live dari panel tablet.',
+    descEn: 'Custom scoreboard overlay design for YEJBL displayed live on the broadcast screen. Shows scores, team names, foul counts, round number, and a countdown timer — all updated live from the tablet panel.',
+  },
+];
+
+/* ── Image Modal ── */
+function ImageModal({ src, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handler);
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+  }, [onClose]);
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'k4ModalIn 0.25s ease' }}>
+      <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(10px)' }} />
+      <div style={{ position: 'relative', zIndex: 1, padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+        <button onClick={onClose}
+          style={{ position: 'absolute', top: '20px', right: '20px', width: '44px', height: '44px', borderRadius: '50%', background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '1.2rem', transition: 'all 0.3s', zIndex: 2 }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.color = '#fff'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg3)'; e.currentTarget.style.color = 'var(--text)'; }}>
+          <i className="fa-solid fa-xmark" />
+        </button>
+        <img src={src} alt="Preview" style={{ maxWidth: '90%', maxHeight: '90vh', objectFit: 'contain', borderRadius: '16px', boxShadow: '0 25px 60px rgba(0,0,0,0.75)', animation: 'k4ImgIn 0.3s ease' }} loading="lazy" />
+      </div>
+    </div>
+  );
+}
+
 export default function PortoKarya4({ t = {} }) {
   const navigate = useNavigate();
   const [data, setData] = useState(DEFAULT_DATA);
   const [openProcess, setOpenProcess] = useState(null);
+  const [modalSrc, setModalSrc] = useState(null);
   const revealEls = useRef([]);
+
+  const openModal  = useCallback((src) => setModalSrc(src), []);
+  const closeModal = useCallback(() => setModalSrc(null), []);
 
   const r = (el) => {
     if (el && !revealEls.current.includes(el)) revealEls.current.push(el);
@@ -140,6 +196,46 @@ export default function PortoKarya4({ t = {} }) {
         @keyframes k4OrbPulse {
           from { transform: scale(0.9); opacity: 0.7; }
           to   { transform: scale(1.15); opacity: 1; }
+        }
+        @keyframes k4ModalIn { from{opacity:0} to{opacity:1} }
+        @keyframes k4ImgIn   { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
+
+        /* GALLERY */
+        .k4-gal-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+        .k4-gal-item {
+          position: relative; border-radius: 20px; overflow: hidden;
+          background: var(--glass); border: 1px solid var(--border);
+          transition: transform 0.4s ease, border-color 0.4s ease;
+          cursor: pointer;
+        }
+        .k4-gal-item:hover { transform: translateY(-6px); border-color: rgba(139,92,246,0.35); }
+        .k4-gal-wide { grid-column: span 1; aspect-ratio: 16/9; }
+        .k4-gal-full { grid-column: span 2; aspect-ratio: 21/9; }
+        .k4-gal-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; display: block; }
+        .k4-gal-item:hover img { transform: scale(1.05); }
+        .k4-gal-caption {
+          position: absolute; bottom: 0; left: 0; right: 0;
+          padding: 14px 18px;
+          background: linear-gradient(to top, rgba(7,7,9,0.72) 0%, transparent 100%);
+          font-size: 0.62rem; font-weight: 600; letter-spacing: 0.18em;
+          text-transform: uppercase; color: rgba(255,255,255,0.8);
+          pointer-events: none;
+        }
+        .k4-gal-ph {
+          width: 100%; height: 100%; display: flex; flex-direction: column;
+          align-items: center; justify-content: center; gap: 12px;
+          background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%);
+          color: var(--text-dim); font-size: 0.65rem; letter-spacing: 0.18em;
+          text-transform: uppercase; min-height: 180px;
+        }
+        .k4-gal-ph i { font-size: 2rem; opacity: 0.18; }
+        .k4-gal-desc {
+          padding: 16px 18px; font-size: 0.75rem; line-height: 1.75;
+          color: var(--text-dim); border-top: 1px solid var(--border);
         }
         .k4-breadcrumb {
           font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
@@ -330,6 +426,8 @@ export default function PortoKarya4({ t = {} }) {
           .k4-tech-grid { grid-template-columns: 1fr; }
           .k4-cta { margin: 0 24px 60px; padding: 40px 24px; }
           .k4-nav { padding: 24px 24px; }
+          .k4-gal-grid { grid-template-columns: 1fr; }
+          .k4-gal-wide, .k4-gal-full { grid-column: span 1; aspect-ratio: 16/9; }
         }
       `}</style>
 
@@ -410,9 +508,38 @@ export default function PortoKarya4({ t = {} }) {
           ))}
         </div>
 
+        {/* ══ GALLERY ══ */}
+        <section className="k4-section">
+          <span ref={r} className="k4-sec-label reveal">02 / Gallery</span>
+          <h2 ref={r} className="k4-sec-title reveal rv-d1">
+            Visual <em>Showcase.</em>
+          </h2>
+          <div ref={r} className="k4-gal-grid reveal rv-d2">
+            {GALLERY_ITEMS.map((item, i) => (
+              <div key={i} className={`k4-gal-item ${item.cls}`}
+                style={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
+                onClick={() => openModal(item.src)}
+              >
+                <div style={{ position: 'relative', flex: '1 1 auto', overflow: 'hidden' }}>
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s ease', display: 'block' }}
+                    onError={(e) => { e.currentTarget.parentElement.innerHTML = `<div class="k4-gal-ph"><i class="fa-solid fa-display" style="font-size:2rem;opacity:0.18"></i><span>${item.caption}</span></div>`; }}
+                  />
+                  <div className="k4-gal-caption">{item.caption}</div>
+                </div>
+                <div className="k4-gal-desc" onClick={(e) => e.stopPropagation()}>
+                  {item.descId}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ══ FEATURES ══ */}
         <section className="k4-section">
-          <span ref={r} className="k4-sec-label reveal">02 / Fitur</span>
+          <span ref={r} className="k4-sec-label reveal">03 / Fitur</span>
           <h2 ref={r} className="k4-sec-title reveal rv-d1">
             Fitur & <em>Keunggulan.</em>
           </h2>
@@ -429,7 +556,7 @@ export default function PortoKarya4({ t = {} }) {
 
         {/* ══ TECH STACK ══ */}
         <section className="k4-section">
-          <span ref={r} className="k4-sec-label reveal">03 / Teknologi</span>
+          <span ref={r} className="k4-sec-label reveal">04 / Teknologi</span>
           <h2 ref={r} className="k4-sec-title reveal rv-d1">
             Tech <em>Stack.</em>
           </h2>
@@ -485,6 +612,7 @@ export default function PortoKarya4({ t = {} }) {
         </div>
 
       </div>
+      {modalSrc && <ImageModal src={modalSrc} onClose={closeModal} />}
     </>
   );
 }
