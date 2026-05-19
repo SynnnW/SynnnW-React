@@ -77,7 +77,7 @@ const DEFAULT_DATA = {
 /* ── Gallery Items ── */
 const GALLERY_ITEMS = [
   {
-    src: '/assets/obs-controller-1.png',
+    src: '/assets/img/obs-controller-1.png',
     alt: 'OBS Web Controller — Tablet View',
     caption: 'OBS Web Controller',
     cls: 'k4-gal-wide',
@@ -85,7 +85,7 @@ const GALLERY_ITEMS = [
     descEn: 'Main view of the OBS web controller accessed from a tablet. This panel lets the operator switch scenes, activate score overlays, and manage transitions directly from the court — without touching the keyboard or mouse at the computer.',
   },
   {
-    src: '/assets/obs-controller-2.png',
+    src: '/assets/img/obs-controller-2.png',
     alt: 'OBS Web Controller — Scoreboard Panel',
     caption: 'Scoreboard Control Panel',
     cls: 'k4-gal-wide',
@@ -93,7 +93,7 @@ const GALLERY_ITEMS = [
     descEn: 'Basketball scoreboard control panel integrated directly into OBS via WebSocket. The operator can update left/right team scores, fouls, round, and match time in real-time throughout the game.',
   },
   {
-    src: '/assets/scoreboard-design.png',
+    src: '/assets/img/scoreboard-design.png',
     alt: 'Scoreboard Overlay Design — YEJBL',
     caption: 'Scoreboard Overlay Design',
     cls: 'k4-gal-full',
