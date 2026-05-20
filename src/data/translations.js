@@ -206,6 +206,98 @@ const TRANSLATIONS = {
     k4CTABtn: 'Mulai Proyek Sekarang',
     k4CTABtnLive: 'Lihat Jadwal YEJBL',
 
+    /* KARYA4 — Hero */
+    k4HeroBadge: 'Live Stream & Broadcast',
+    k4HeroTitle: 'Live Stream Design &',
+    k4HeroTitleEm: 'OBS via Tablet',
+    k4HeroSub: 'Merancang dan mengoperasikan sistem live streaming profesional untuk PERBASI Youth East Java Basketball League (YEJBL) — menggunakan OBS via website tablet sebagai controller dengan overlay desain kustom yang bisa diperbarui secara real-time langsung dari lapangan.',
+    k4HeroYearLabel: 'Tahun',
+    k4HeroRoleLabel: 'Peran',
+    k4HeroStatusLabel: 'Status',
+    k4HeroClientLabel: 'Client',
+
+    /* KARYA4 — Overview */
+    k4SecOverview: '01 / Gambaran Proyek',
+    k4OverviewTitle: 'Tentang Proyek ',
+    k4OverviewTitleEm: 'Ini.',
+    k4OverviewP1: 'Proyek ini lahir dari kebutuhan nyata PERBASI Kabupaten Probolinggo untuk menghadirkan siaran live streaming pertandingan basket YEJBL dengan tampilan yang profesional, dinamis, dan menarik — setara kualitas siaran olahraga nasional, namun dioperasikan secara mandiri tanpa tim teknis besar.',
+    k4OverviewP2: 'Tantangan utamanya adalah: bagaimana seorang operator bisa mengontrol seluruh siaran — scene switching, scoreboard, transisi, timer — tanpa harus duduk terus di depan komputer? Solusi yang dikembangkan adalah sistem OBS berbasis kontrol tablet via website custom. Operator cukup pegang tablet, sentuh panel, dan semua perubahan langsung terefleksi di layar siaran secara instan.',
+    k4OverviewP3: 'Dari sisi desain, seluruh elemen visual overlay dirancang dari nol menggunakan Figma — mulai dari scoreboard, lower third nama pemain, bumper transisi, hingga template opening dan closing yang konsisten dengan identitas visual YEJBL. Hasilnya adalah paket siaran yang terasa utuh dan berkarakter.',
+    k4OverviewP4: 'Sistem ini sudah berjalan aktif di beberapa seri turnamen YEJBL dan terus dikembangkan. Setiap pertandingan menjadi kesempatan untuk iterasi — menambah fitur baru, menyempurnakan layout, dan meningkatkan kualitas broadcast secara keseluruhan.',
+    k4HighlightLabel: 'Highlight Utama',
+    k4Highlight1: 'Kontrol OBS dari tablet via jaringan lokal — tanpa kabel, tanpa software tambahan',
+    k4Highlight2: 'Update scoreboard real-time via WebSocket — perubahan muncul instan di siaran',
+    k4Highlight3: 'Seluruh desain overlay dibuat custom di Figma sesuai identitas YEJBL',
+    k4Highlight4: 'Distribusi langsung ke YouTube Live dengan stream key terenkripsi',
+    k4Card1Title: 'Latar Belakang',
+    k4Card1Text: 'PERBASI Kabupaten Probolinggo menyelenggarakan YEJBL secara rutin setiap tahun. Sebelumnya siaran dilakukan dengan setup sederhana tanpa overlay dinamis. Proyek ini hadir untuk mengangkat kualitas broadcast agar lebih kompetitif dan membanggakan bagi atlet, orang tua, dan penonton.',
+    k4Card2Title: 'Pendekatan Teknis',
+    k4Card2Text: 'OBS WebSocket digunakan sebagai jembatan antara website tablet controller dan software OBS di komputer. Setiap tombol di website mengirimkan perintah ke OBS secara real-time — scene switch, update text source scoreboard, toggle visibility overlay — tanpa latency yang terasa.',
+    k4Card3Title: 'Dampak & Hasil',
+    k4Card3Text: 'Sejak sistem ini diterapkan, kualitas visual siaran YEJBL meningkat signifikan. Penonton live streaming bertambah, komentar positif mengalir di kolom chat YouTube, dan tim PERBASI merasa lebih percaya diri menghadirkan siaran yang terlihat profesional.',
+    k4Card4Title: 'Ongoing Development',
+    k4Card4Text: 'Proyek ini masih aktif dikembangkan. Setiap seri turnamen membawa kebutuhan baru — layout baru, fitur tambahan, perbaikan UX panel tablet. Roadmap ke depan termasuk integrasi Firebase untuk remote config dan multi-operator support.',
+
+    /* KARYA4 — Gallery */
+    k4SecGallery: '02 / Gallery',
+    k4GalleryTitle: 'Visual ',
+    k4GalleryTitleEm: 'Showcase.',
+    k4Gal1Caption: 'OBS Web Controller',
+    k4Gal1Desc: 'Tampilan utama OBS web controller yang diakses dari tablet. Panel ini memungkinkan operator mengganti scene, mengaktifkan overlay skor, dan mengatur transisi langsung dari lapangan — tanpa menyentuh keyboard atau mouse di komputer.',
+    k4Gal2Caption: 'Scoreboard Control Panel',
+    k4Gal2Desc: 'Panel kontrol scoreboard basket yang terintegrasi langsung ke OBS via WebSocket. Operator dapat memperbarui skor tim kiri/kanan, foul, ronde, dan waktu secara real-time selama pertandingan berlangsung.',
+    k4Gal3Caption: 'Scoreboard Overlay Design',
+    k4Gal3Desc: 'Desain overlay scoreboard kustom untuk YEJBL yang tampil langsung di layar siaran. Menampilkan skor, nama tim, foul count, nomor ronde, dan countdown timer — semuanya diperbarui secara live dari panel tablet.',
+
+    /* KARYA4 — Live Demo */
+    k4SecDemo: '03 / Live Demo',
+    k4DemoTitle: 'Coba Langsung ',
+    k4DemoTitleEm: 'Sekarang.',
+    k4DemoLiveLabel: 'Live Demo Tersedia',
+    k4DemoCardTitle: 'Coba Langsung OBS Web Controller-nya',
+    k4DemoCardDesc: 'Website OBS controller ini bisa dicoba langsung dari browser kamu — tidak perlu install apa pun. Buka linknya, dan kamu bisa melihat sendiri bagaimana tampilan panel kontrol yang digunakan operator saat siaran berlangsung. Tombol-tombol scene switching, panel scoreboard, dan semua kontrol sudah ada di sana. Untuk penggunaan penuh, controller ini perlu terhubung ke OBS Studio via WebSocket di jaringan yang sama — tapi untuk preview UI-nya, bisa langsung dijajal.',
+    k4DemoBtn: 'Buka Web Controller',
+    k4DemoNote: '* Controller ini merupakan modifikasi custom dari OBS-web open source yang dikembangkan oleh Niek van der Maas, dengan tambahan fitur scoreboard basket khusus untuk kebutuhan YEJBL. Nama text source di OBS harus dikonfigurasi secara spesifik agar sinkronisasi scoreboard berjalan — hubungi admin untuk info setup lengkapnya.',
+
+    /* KARYA4 — YouTube */
+    k4SecYoutube: '04 / Live on YouTube',
+    k4YoutubeTitle: 'Tonton Siaran ',
+    k4YoutubeTitleEm: 'Langsung.',
+    k4YoutubeIntro: 'Hasil nyata dari sistem ini bisa disaksikan langsung di channel YouTube resmi PERBASI Kabupaten Probolinggo. Setiap pertandingan YEJBL distreaming secara live menggunakan setup yang sama — OBS Studio dengan overlay kustom, dikontrol dari tablet via web controller ini.',
+    k4YtVideoLabel: 'Salah Satu Siaran YEJBL',
+    k4YtVideoNote: 'Siaran ini menggunakan sistem OBS web controller yang dikembangkan dalam proyek ini. Overlay scoreboard, timer, dan transisi scene semua dikendalikan secara real-time dari tablet oleh operator selama pertandingan berlangsung.',
+    k4YtChannelTitle: 'PERBASI Kab. Probolinggo — YouTube Channel',
+    k4YtChannelDesc: 'Channel YouTube resmi PERBASI Kabupaten Probolinggo adalah rumah dari semua siaran pertandingan YEJBL dan event basket lainnya. Dari sini penonton bisa menyaksikan seluruh arsip pertandingan — mulai dari babak penyisihan, semifinal, hingga grand final — dengan kualitas broadcast yang terus berkembang setiap serinya. Setiap video yang ada di channel ini merupakan hasil kerja nyata dari sistem streaming yang dibangun dalam proyek ini: overlay yang terdesain rapi, scoreboard yang selalu akurat, dan transisi scene yang mulus. Subscribe channel-nya untuk tidak melewatkan siaran pertandingan berikutnya!',
+    k4YtChannelBtn: 'Lihat Semua Siaran',
+    k4YtChannelNote: 'Kunjungi tab Live dan Videos untuk melihat semua rekaman pertandingan YEJBL yang sudah disiarkan.',
+
+    /* KARYA4 — Features */
+    k4SecFeatures: '05 / Fitur',
+    k4FeatTitle: 'Fitur & ',
+    k4FeatTitleEm: 'Keunggulan.',
+    k4Feat1Title: 'Custom Overlay Design',
+    k4Feat1Desc: 'Seluruh elemen overlay dirancang dari nol di Figma — scoreboard dengan font yang bold dan terbaca jelas dari layar monitor maupun HP penonton, lower third nama pemain, animasi transisi scene, hingga template bumper dan sponsor. Identitas visual YEJBL dijaga konsisten di setiap frame siaran.',
+    k4Feat2Title: 'Tablet Web Controller',
+    k4Feat2Desc: 'Panel kontrol OBS berbasis website yang bisa diakses dari browser tablet mana pun. Tidak perlu install aplikasi khusus, tidak perlu keyboard, tidak perlu mouse. Operator cukup pegang tablet dan mengontrol seluruh siaran dari mana saja selama masih dalam jaringan yang sama — sangat fleksibel untuk lingkungan lapangan olahraga yang dinamis.',
+    k4Feat3Title: 'Scene Transition',
+    k4Feat3Desc: 'Manajemen scene lengkap — dari opening countdown sebelum tipoff, live game view dengan scoreboard aktif, timeout screen dengan animasi, halftime break, hingga closing credit. Setiap transisi antar scene menggunakan efek yang smooth agar penonton tidak merasakan perpindahan yang kasar atau mendadak.',
+    k4Feat4Title: 'Live Scoreboard',
+    k4Feat4Desc: 'Scoreboard real-time yang terintegrasi langsung ke OBS via WebSocket. Operator update skor, foul, ronde, dan waktu dari panel tablet — perubahan langsung muncul di overlay siaran dalam hitungan milidetik. Tidak ada delay, tidak ada copy-paste manual, tidak ada resiko salah angka karena human error.',
+    k4Feat5Title: 'Multi-Platform Stream',
+    k4Feat5Desc: 'Output streaming langsung ke YouTube Live menggunakan stream key yang sudah dikonfigurasi di OBS. Dengan satu klik Record & Stream, siaran langsung terdistribusi ke channel resmi PERBASI Kabupaten Probolinggo — sekaligus tersimpan sebagai file rekaman lokal untuk keperluan highlight dan dokumentasi.',
+    k4Feat6Title: 'Broadcast Layout',
+    k4Feat6Desc: 'Layout siaran yang dirancang dengan prinsip keterbacaan tinggi dan estetika yang kuat. Setiap elemen ditempatkan agar tidak saling bertabrakan — skor di pojok, nama tim terbaca jelas, timer tidak menutupi aksi pemain. Sistem ini juga mendukung penambahan lower third dinamis untuk highlight pemain atau momen penting.',
+
+    /* KARYA4 — Tech Stack */
+    k4SecTech: '05 / Teknologi',
+    k4TechTitle: 'Tech ',
+    k4TechTitleEm: 'Stack.',
+
+    /* KARYA4 — CTA */
+    k4CTAEyebrow: 'Butuh tim live streaming profesional?',
+    k4CTATitle: 'Mari wujudkan siaran',
+    k4CTATitleEm: 'yang berkesan.',
+
     /* ═══════════════════════════════
        TENTANG PAGE
     ═══════════════════════════════ */
@@ -542,6 +634,98 @@ const TRANSLATIONS = {
     k4NavPrevTitle: 'Video Editing Collection',
     k4CTABtn: 'Start a Project Now',
     k4CTABtnLive: 'View YEJBL Schedule',
+
+    /* KARYA4 — Hero */
+    k4HeroBadge: 'Live Stream & Broadcast',
+    k4HeroTitle: 'Live Stream Design &',
+    k4HeroTitleEm: 'OBS via Tablet',
+    k4HeroSub: 'Designing and operating a professional live streaming system for PERBASI Youth East Java Basketball League (YEJBL) — using OBS via tablet website as controller, with custom overlay design updatable in real-time directly from the court.',
+    k4HeroYearLabel: 'Year',
+    k4HeroRoleLabel: 'Role',
+    k4HeroStatusLabel: 'Status',
+    k4HeroClientLabel: 'Client',
+
+    /* KARYA4 — Overview */
+    k4SecOverview: '01 / Project Overview',
+    k4OverviewTitle: 'About This ',
+    k4OverviewTitleEm: 'Project.',
+    k4OverviewP1: 'This project was born from a real need of PERBASI Kabupaten Probolinggo to deliver professional, dynamic, and compelling live streaming broadcasts for YEJBL basketball matches — matching the quality of national sports broadcasts, yet operated independently without a large technical team.',
+    k4OverviewP2: 'The core challenge was: how can a single operator control the entire broadcast — scene switching, scoreboard, transitions, timer — without being stuck at a computer the whole time? The solution developed is an OBS system based on tablet control via a custom website. The operator simply holds a tablet, taps the panel, and all changes are instantly reflected on the live broadcast screen.',
+    k4OverviewP3: 'On the design side, all visual overlay elements were built from scratch in Figma — from the scoreboard, player lower thirds, transition bumpers, to opening and closing templates consistent with YEJBL\'s visual identity. The result is a broadcast package that feels complete and distinctive.',
+    k4OverviewP4: 'This system has been running actively across several YEJBL tournament series and continues to be developed. Every match is an opportunity to iterate — adding new features, refining the layout, and improving the overall broadcast quality.',
+    k4HighlightLabel: 'Key Highlights',
+    k4Highlight1: 'Control OBS from tablet via local network — no cables, no extra software',
+    k4Highlight2: 'Real-time scoreboard updates via WebSocket — changes appear instantly on broadcast',
+    k4Highlight3: 'All overlay designs built custom in Figma matching YEJBL visual identity',
+    k4Highlight4: 'Direct distribution to YouTube Live with encrypted stream key',
+    k4Card1Title: 'Background',
+    k4Card1Text: 'PERBASI Kabupaten Probolinggo holds YEJBL regularly every year. Previously, broadcasts were done with simple setups without dynamic overlays. This project was created to elevate the broadcast quality to be more competitive and something athletes, parents, and spectators can be proud of.',
+    k4Card2Title: 'Technical Approach',
+    k4Card2Text: 'OBS WebSocket serves as the bridge between the tablet website controller and OBS software on the computer. Every button press on the website sends a command to OBS in real-time — scene switch, text source scoreboard update, overlay visibility toggle — with no noticeable latency.',
+    k4Card3Title: 'Impact & Results',
+    k4Card3Text: 'Since this system was deployed, the visual quality of YEJBL broadcasts has improved significantly. Live streaming viewership has grown, positive comments pour into the YouTube chat, and the PERBASI team feels more confident presenting a broadcast that looks genuinely professional.',
+    k4Card4Title: 'Ongoing Development',
+    k4Card4Text: 'This project is still actively developed. Each tournament series brings new needs — new layouts, additional features, UX improvements for the tablet panel. The roadmap ahead includes Firebase integration for remote config and multi-operator support.',
+
+    /* KARYA4 — Gallery */
+    k4SecGallery: '02 / Gallery',
+    k4GalleryTitle: 'Visual ',
+    k4GalleryTitleEm: 'Showcase.',
+    k4Gal1Caption: 'OBS Web Controller',
+    k4Gal1Desc: 'Main view of the OBS web controller accessed from a tablet. This panel lets the operator switch scenes, activate score overlays, and manage transitions directly from the court — without touching the keyboard or mouse at the computer.',
+    k4Gal2Caption: 'Scoreboard Control Panel',
+    k4Gal2Desc: 'Basketball scoreboard control panel integrated directly into OBS via WebSocket. The operator can update left/right team scores, fouls, round, and match time in real-time throughout the game.',
+    k4Gal3Caption: 'Scoreboard Overlay Design',
+    k4Gal3Desc: 'Custom scoreboard overlay design for YEJBL displayed live on the broadcast screen. Shows scores, team names, foul counts, round number, and a countdown timer — all updated live from the tablet panel.',
+
+    /* KARYA4 — Live Demo */
+    k4SecDemo: '03 / Live Demo',
+    k4DemoTitle: 'Try It ',
+    k4DemoTitleEm: 'Right Now.',
+    k4DemoLiveLabel: 'Live Demo Available',
+    k4DemoCardTitle: 'Try the OBS Web Controller Yourself',
+    k4DemoCardDesc: 'This OBS controller website can be tried directly from your browser — no installation needed. Open the link and you can see exactly how the control panel looks when the operator runs a live broadcast. Scene switching buttons, the scoreboard panel, and all controls are right there. For full functionality, this controller needs to be connected to OBS Studio via WebSocket on the same network — but for a UI preview, you can try it right away.',
+    k4DemoBtn: 'Open Web Controller',
+    k4DemoNote: '* This controller is a custom modification of the open-source OBS-web developed by Niek van der Maas, with additional basketball scoreboard features built specifically for YEJBL\'s needs. OBS text source names must be configured specifically for scoreboard sync to work — contact the admin for full setup instructions.',
+
+    /* KARYA4 — YouTube */
+    k4SecYoutube: '04 / Live on YouTube',
+    k4YoutubeTitle: 'Watch the ',
+    k4YoutubeTitleEm: 'Live Broadcast.',
+    k4YoutubeIntro: 'The real-world results of this system can be seen live on the official PERBASI Kabupaten Probolinggo YouTube channel. Every YEJBL match is streamed live using the same setup — OBS Studio with custom overlays, controlled from a tablet via this web controller.',
+    k4YtVideoLabel: 'A YEJBL Live Broadcast',
+    k4YtVideoNote: 'This broadcast uses the OBS web controller system developed in this project. The scoreboard overlay, timer, and scene transitions are all controlled in real-time from a tablet by the operator throughout the match.',
+    k4YtChannelTitle: 'PERBASI Kab. Probolinggo — YouTube Channel',
+    k4YtChannelDesc: 'The official YouTube channel of PERBASI Kabupaten Probolinggo is home to all YEJBL match broadcasts and other basketball events. Viewers can watch the full archive of matches — from group stage, semifinals, to grand final — with broadcast quality that keeps improving every series. Every video on this channel is the real output of the streaming system built in this project: neatly designed overlays, always-accurate scoreboards, and smooth scene transitions. Subscribe to the channel so you don\'t miss the next live match!',
+    k4YtChannelBtn: 'View All Broadcasts',
+    k4YtChannelNote: 'Visit the Live and Videos tabs to see all recorded YEJBL matches that have been broadcast.',
+
+    /* KARYA4 — Features */
+    k4SecFeatures: '05 / Features',
+    k4FeatTitle: 'Features & ',
+    k4FeatTitleEm: 'Highlights.',
+    k4Feat1Title: 'Custom Overlay Design',
+    k4Feat1Desc: 'All overlay elements were designed from scratch in Figma — a scoreboard with bold, screen-readable fonts visible on both monitor and mobile viewers, player lower thirds, scene transition animations, and bumper and sponsor templates. YEJBL\'s visual identity is maintained consistently in every broadcast frame.',
+    k4Feat2Title: 'Tablet Web Controller',
+    k4Feat2Desc: 'An OBS control panel built as a website accessible from any tablet browser. No special apps to install, no keyboard, no mouse. The operator just holds the tablet and controls the entire broadcast from anywhere within the same network — highly flexible for the dynamic environment of a sports venue.',
+    k4Feat3Title: 'Scene Transition',
+    k4Feat3Desc: 'Complete scene management — from opening countdown before tip-off, live game view with active scoreboard, animated timeout screen, halftime break, to closing credits. Each scene transition uses smooth effects so viewers never feel an abrupt or jarring switch.',
+    k4Feat4Title: 'Live Scoreboard',
+    k4Feat4Desc: 'Real-time scoreboard directly integrated into OBS via WebSocket. The operator updates scores, fouls, round, and time from the tablet panel — changes appear on the broadcast overlay in milliseconds. No delay, no manual copy-paste, no risk of wrong numbers due to human error.',
+    k4Feat5Title: 'Multi-Platform Stream',
+    k4Feat5Desc: 'Streaming output goes directly to YouTube Live using a stream key pre-configured in OBS. With one click of Record & Stream, the broadcast is distributed to the official PERBASI Kabupaten Probolinggo channel — while simultaneously saved as a local recording file for highlight and documentation purposes.',
+    k4Feat6Title: 'Broadcast Layout',
+    k4Feat6Desc: 'A broadcast layout designed with high readability principles and strong aesthetics. Every element is positioned so nothing clashes — score in the corner, team names clearly visible, timer never covering player action. The system also supports adding dynamic lower thirds for player highlights or key moments.',
+
+    /* KARYA4 — Tech Stack */
+    k4SecTech: '05 / Technology',
+    k4TechTitle: 'Tech ',
+    k4TechTitleEm: 'Stack.',
+
+    /* KARYA4 — CTA */
+    k4CTAEyebrow: 'Need a professional live streaming team?',
+    k4CTATitle: 'Let\'s create a broadcast',
+    k4CTATitleEm: 'worth remembering.',
 
     /* ═══════════════════════════════
        TENTANG PAGE
