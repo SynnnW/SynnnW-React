@@ -17,8 +17,8 @@ const PortoKarya3  = lazy(() => import('./pages/PortoKarya3'));
 const PortoKarya4  = lazy(() => import('./pages/PortoKarya4'));
 
 /* ── Tambahan Lazy Load untuk Halaman Baru Kamu ── */
-const Dashboard   = lazy(() => import('./components/Dashboard'));
-const CheckoutQRIS = lazy(() => import('./components/CheckoutQRIS'));
+const Dashboard   = lazy(() => import('./pages/Dashboard'));
+const CheckoutQRIS = lazy(() => import('./pages/CheckoutQRIS'));
 
 /* ── 404 Page ── */
 function NotFound() {
