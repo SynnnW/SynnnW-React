@@ -1,636 +1,1309 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth, db } from '../firebase';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
-const SERVICES = [
-  'Web Design',
-  'Video Editing',
-  'Ilustrasi',
-  'Fotografi',
-  'Videografi',
-  'Motion Graphic',
+/* ─────────────────────────────────────────────────────────────
+   DATA CONFIG
+───────────────────────────────────────────────────────────── */
+
+const CLIENT_TYPES = [
+  { value: 'individu',     label: 'Pribadi / Individu',                icon: 'fa-user' },
+  { value: 'bisnis',       label: 'Bisnis / Brand / UMKM',             icon: 'fa-briefcase' },
+  { value: 'organisasi',   label: 'Sekolah / Kampus / Komunitas',       icon: 'fa-building-columns' },
+  { value: 'pasangan',     label: 'Pasangan (Wedding)',                 icon: 'fa-heart' },
+  { value: 'kreator',      label: 'Kreator Konten / Influencer',        icon: 'fa-video' },
 ];
 
+const SERVICES = [
+  { value: 'web',        label: 'Web Design & Development', icon: 'fa-globe',        desc: 'Website, landing page, undangan digital' },
+  { value: 'video',      label: 'Video Editing',            icon: 'fa-film',         desc: 'Editing, color grading, montase' },
+  { value: 'motion',     label: 'Motion Graphic',           icon: 'fa-wand-magic-sparkles', desc: 'Animasi, intro, overlay streaming' },
+  { value: 'desain',     label: 'Ilustrasi & Desain Grafis',icon: 'fa-palette',      desc: 'Poster, logo, thumbnail, cetak' },
+  { value: 'fotovideo',  label: 'Fotografi & Videografi',   icon: 'fa-camera',       desc: 'Sesi foto/video, dokumentasi event' },
+  { value: 'livestream', label: 'Live Streaming & Broadcast',icon: 'fa-tower-broadcast', desc: 'Siaran langsung, overlay, scoreboard' },
+];
+
+const BUDGET_OPTIONS = [
+  'Di bawah Rp 300.000',
+  'Rp 300.000 – Rp 750.000',
+  'Rp 750.000 – Rp 2.000.000',
+  'Rp 2.000.000 – Rp 5.000.000',
+  'Di atas Rp 5.000.000',
+  'Fleksibel / ingin diskusi dulu',
+];
+
+const DEADLINE_OPTIONS = [
+  'Sangat mendesak (< 3 hari)',
+  '1 minggu',
+  '2–4 minggu',
+  'Lebih dari sebulan / santai',
+];
+
+const REFERRAL_OPTIONS = [
+  'Instagram',
+  'Rekomendasi teman / kenalan',
+  'GitHub / website langsung',
+  'Lainnya',
+];
+
+/* Branch-specific questions per service */
+const BRANCH_QUESTIONS = {
+  web: {
+    q1: {
+      label: 'Jenis website yang dibutuhkan',
+      options: [
+        'Website portofolio personal',
+        'Undangan pernikahan digital',
+        'Landing page / profil bisnis',
+        'Lainnya',
+      ],
+    },
+    q2: {
+      label: 'Status domain & hosting',
+      options: [
+        'Belum sama sekali — butuh saran',
+        'Sudah punya, tinggal pasang',
+        'Belum, tapi mau ngurusin sendiri',
+      ],
+    },
+    q3: {
+      label: 'Fitur khusus yang diinginkan',
+      multi: true,
+      options: [
+        'Form RSVP / kontak tamu',
+        'Integrasi musik / audio',
+        'Animasi / interaktif',
+        'Galeri foto/video',
+        'Integrasi bot / notifikasi',
+        'Tidak tahu, serahkan ke kamu',
+      ],
+    },
+    q4: { label: 'Referensi desain (link, screenshot, atau deskripsi)', type: 'textarea' },
+  },
+  video: {
+    q1: {
+      label: 'Jenis konten video',
+      options: [
+        'Film pendek / dokumenter',
+        'Video promosi / iklan',
+        'Konten media sosial (Reels, TikTok, YouTube)',
+        'Video event / dokumentasi acara',
+        'Company profile / profil lembaga',
+      ],
+    },
+    q2: {
+      label: 'Status footage/materi video',
+      options: [
+        'Sudah ada, tinggal diedit',
+        'Belum — butuh shooting juga',
+        'Sebagian ada, sebagian perlu tambahan',
+      ],
+    },
+    q3: {
+      label: 'Target platform tayang',
+      multi: true,
+      options: [
+        'YouTube',
+        'Instagram / TikTok',
+        'Presentasi / internal',
+        'Ditayangkan di event/layar',
+      ],
+    },
+    q4: { label: 'Perkiraan durasi video akhir yang diinginkan', type: 'text', placeholder: 'Contoh: 2–3 menit' },
+  },
+  motion: {
+    q1: {
+      label: 'Jenis motion graphic',
+      options: [
+        'Intro / outro YouTube / video',
+        'Animasi teks / lower third',
+        'Infografis bergerak',
+        'Overlay live streaming',
+        'Animasi logo / bumper',
+      ],
+    },
+    q2: {
+      label: 'Format output yang dibutuhkan',
+      options: [
+        'Dengan background (MP4)',
+        'Transparan / overlay (WebM / MOV alpha)',
+        'Keduanya',
+      ],
+    },
+    q3: { label: 'Referensi gaya visual', type: 'textarea', placeholder: 'Minimalis, dinamis, elegan, futuristik...' },
+  },
+  desain: {
+    q1: {
+      label: 'Jenis desain',
+      options: [
+        'Poster (promosi, event, edukasi)',
+        'Thumbnail YouTube / konten sosmed',
+        'Logo & identitas brand',
+        'Infografis / presentasi visual',
+        'Desain cetak (spanduk, brosur, dll)',
+      ],
+    },
+    q2: {
+      label: 'Format output yang dibutuhkan',
+      options: [
+        'Digital saja (PNG, JPG)',
+        'Siap cetak (resolusi tinggi / PDF)',
+        'Keduanya',
+      ],
+    },
+    q3: { label: 'Referensi warna, gaya, atau brand guideline', type: 'textarea', placeholder: 'Ceritakan atau tempel link referensi...' },
+  },
+  fotovideo: {
+    q1: {
+      label: 'Jenis sesi',
+      options: [
+        'Foto portrait / personal branding',
+        'Dokumentasi event / acara',
+        'Video sinematik pernikahan / wisuda',
+        'Konten produk / komersial',
+      ],
+    },
+    q2: { label: 'Lokasi pengambilan gambar', type: 'text', placeholder: 'Kota / kabupaten...' },
+    q3: {
+      label: 'Post-processing / editing',
+      options: [
+        'Ya, butuh editing juga',
+        'Tidak, hanya pengambilan gambar',
+        'Belum tahu, diskusikan dulu',
+      ],
+    },
+    q4: { label: 'Tanggal yang sudah ditargetkan (opsional)', type: 'text', placeholder: 'Contoh: Agustus 2025' },
+  },
+  livestream: {
+    q1: {
+      label: 'Jenis event',
+      options: [
+        'Event olahraga (pertandingan, kompetisi)',
+        'Acara sekolah / kampus / wisuda',
+        'Seminar / webinar',
+        'Pernikahan / acara keluarga',
+        'Lainnya',
+      ],
+    },
+    q2: { label: 'Lokasi event', type: 'text', placeholder: 'Kota / kabupaten...' },
+    q3: { label: 'Perkiraan durasi siaran', type: 'text', placeholder: 'Contoh: 4 jam' },
+    q4: {
+      label: 'Butuh desain grafis siaran?',
+      options: [
+        'Ya, butuh paket lengkap (overlay, lower third, dll)',
+        'Tidak, sudah ada desainnya',
+        'Belum tahu',
+      ],
+    },
+  },
+};
+
+const TOTAL_STEPS = 5;
+
+/* ─────────────────────────────────────────────────────────────
+   COMPONENT
+───────────────────────────────────────────────────────────── */
 export default function Contact({ t = {} }) {
-  const navigate  = useNavigate();
-  const revealEls = useRef([]);
+  const navigate   = useNavigate();
+  const revealEls  = useRef([]);
+  const formRef    = useRef(null);
 
-  /* ── Form state ── */
-  const [form, setForm]         = useState({ name: '', email: '', subject: '', message: '' });
-  const [services, setServices] = useState([]);
-  const [errors, setErrors]     = useState({});
-  const [status, setStatus]     = useState('idle'); // idle | loading | success | error
+  /* ── Step state ── */
+  const [step, setStep]       = useState(1);
+  const [animDir, setAnimDir] = useState('forward'); // 'forward' | 'back'
+  const [visible, setVisible] = useState(true);
 
-  const r = (el) => {
-    if (el && !revealEls.current.includes(el)) revealEls.current.push(el);
-  };
+  /* ── Form data ── */
+  const [data, setData] = useState({
+    // Step 1
+    name: '', email: '', whatsapp: '', clientType: '',
+    // Step 2
+    service: '',
+    // Step 3 (branch)
+    branch: {},
+    // Step 4
+    budget: '', deadline: '',
+    // Step 5
+    story: '', referral: '',
+  });
+
+  const [errors, setErrors]   = useState({});
+  const [authStatus, setAuthStatus] = useState('idle'); // idle | loading | success | error
+  const [authError, setAuthError]   = useState('');
 
   /* ── Reveal observer ── */
+  const r = (el) => { if (el && !revealEls.current.includes(el)) revealEls.current.push(el); };
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
       { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
     );
-    const id = setTimeout(() => {
-      revealEls.current.forEach((el) => { if (el) observer.observe(el); });
-    }, 50);
-    return () => { clearTimeout(id); observer.disconnect(); };
+    const id = setTimeout(() => { revealEls.current.forEach((el) => { if (el) obs.observe(el); }); }, 50);
+    return () => { clearTimeout(id); obs.disconnect(); };
   }, []);
 
-  /* ── Handlers ── */
-  const toggleService = (svc) => {
-    setServices((prev) =>
-      prev.includes(svc) ? prev.filter((s) => s !== svc) : [...prev, svc]
-    );
+  /* ── Animate step transition ── */
+  const goToStep = (next, dir = 'forward') => {
+    setAnimDir(dir);
+    setVisible(false);
+    setTimeout(() => {
+      setStep(next);
+      setErrors({});
+      setVisible(true);
+      if (formRef.current) {
+        formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 280);
   };
 
+  /* ── Field helpers ── */
+  const set = (key, val) => setData((prev) => ({ ...prev, [key]: val }));
+  const setBranch = (key, val) => setData((prev) => ({ ...prev, branch: { ...prev.branch, [key]: val } }));
+  const toggleBranchMulti = (key, val) => {
+    setData((prev) => {
+      const cur = prev.branch[key] || [];
+      const next = cur.includes(val) ? cur.filter((v) => v !== val) : [...cur, val];
+      return { ...prev, branch: { ...prev.branch, [key]: next } };
+    });
+  };
+
+  /* ── Validation per step ── */
   const validate = () => {
     const e = {};
-    if (!form.name.trim())    e.name    = 'Nama wajib diisi.';
-    if (!form.email.trim())   e.email   = 'Email wajib diisi.';
-    else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = 'Format email tidak valid.';
-    if (!form.subject.trim()) e.subject = 'Subjek wajib diisi.';
-    if (!form.message.trim()) e.message = 'Pesan wajib diisi.';
+    if (step === 1) {
+      if (!data.name.trim())      e.name      = 'Nama wajib diisi.';
+      if (!data.email.trim())     e.email     = 'Email wajib diisi.';
+      else if (!/\S+@\S+\.\S+/.test(data.email)) e.email = 'Format email tidak valid.';
+      if (!data.whatsapp.trim())  e.whatsapp  = 'Nomor WhatsApp wajib diisi.';
+      if (!data.clientType)       e.clientType= 'Pilih salah satu.';
+    }
+    if (step === 2) {
+      if (!data.service) e.service = 'Pilih layanan terlebih dahulu.';
+    }
+    if (step === 4) {
+      if (!data.budget)   e.budget   = 'Pilih kisaran budget.';
+      if (!data.deadline) e.deadline = 'Pilih target deadline.';
+    }
     return e;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-    setErrors({});
-    setStatus('loading');
+  const handleNext = () => {
+    const e = validate();
+    if (Object.keys(e).length) { setErrors(e); return; }
+    goToStep(step + 1, 'forward');
+  };
 
-    const FORMSPREE_ID = 'xzdwbgrd';
+  const handleBack = () => goToStep(step - 1, 'back');
+
+  /* ── Final submit: Google Sign-In → Firestore ── */
+  const handleSubmit = async () => {
+    setAuthStatus('loading');
+    setAuthError('');
     try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...form, services: services.join(', ') }),
-      });
-      if (res.ok) {
-        setStatus('success');
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
+      const provider = new GoogleAuthProvider();
+      const result   = await signInWithPopup(auth, provider);
+      const user     = result.user;
+
+      const payload = {
+        uid:        user.uid,
+        displayName:user.displayName,
+        email:      user.email,
+        photoURL:   user.photoURL,
+        // Form data
+        contactName:  data.name,
+        contactEmail: data.email,
+        whatsapp:     data.whatsapp,
+        clientType:   data.clientType,
+        service:      data.service,
+        branch:       data.branch,
+        budget:       data.budget,
+        deadline:     data.deadline,
+        story:        data.story,
+        referral:     data.referral,
+        status:       'pending_review',
+        createdAt:    serverTimestamp(),
+      };
+
+      await setDoc(doc(db, 'users', user.uid), payload, { merge: true });
+
+      setAuthStatus('success');
+      setTimeout(() => navigate('/dashboard'), 800);
+    } catch (err) {
+      console.error(err);
+      setAuthError(err.message || 'Terjadi kesalahan saat login. Coba lagi.');
+      setAuthStatus('error');
     }
   };
 
-  const reset = () => {
-    setForm({ name: '', email: '', subject: '', message: '' });
-    setServices([]);
-    setErrors({});
-    setStatus('idle');
+  /* ── Step label ── */
+  const STEP_LABELS = ['Perkenalan', 'Layanan', 'Detail', 'Anggaran', 'Cerita'];
+
+  /* ─── BRANCH QUESTIONS RENDERER ─── */
+  const branchData = BRANCH_QUESTIONS[data.service] || {};
+
+  const renderBranchField = (key, q) => {
+    if (!q) return null;
+
+    if (q.type === 'textarea') {
+      return (
+        <div key={key} className="cq-field-group">
+          <label className="cq-field-label">{q.label}</label>
+          <textarea
+            className="cq-field-input cq-field-textarea"
+            placeholder={q.placeholder || ''}
+            value={data.branch[key] || ''}
+            onChange={(e) => setBranch(key, e.target.value)}
+          />
+        </div>
+      );
+    }
+
+    if (q.type === 'text') {
+      return (
+        <div key={key} className="cq-field-group">
+          <label className="cq-field-label">{q.label}</label>
+          <input
+            type="text"
+            className="cq-field-input"
+            placeholder={q.placeholder || ''}
+            value={data.branch[key] || ''}
+            onChange={(e) => setBranch(key, e.target.value)}
+          />
+        </div>
+      );
+    }
+
+    if (q.multi) {
+      const selected = data.branch[key] || [];
+      return (
+        <div key={key} className="cq-field-group">
+          <label className="cq-field-label">{q.label} <span className="cq-multi-hint">(bisa pilih beberapa)</span></label>
+          <div className="cq-pill-grid">
+            {q.options.map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                className={`cq-pill ${selected.includes(opt) ? 'cq-pill-active' : ''}`}
+                onClick={() => toggleBranchMulti(key, opt)}
+              >
+                {selected.includes(opt) && <i className="fa-solid fa-check" style={{ fontSize: '0.6rem' }} />}
+                {opt}
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* Single select */
+    return (
+      <div key={key} className="cq-field-group">
+        <label className="cq-field-label">{q.label}</label>
+        <div className="cq-pill-grid">
+          {q.options.map((opt) => (
+            <button
+              key={opt}
+              type="button"
+              className={`cq-pill ${data.branch[key] === opt ? 'cq-pill-active' : ''}`}
+              onClick={() => setBranch(key, opt)}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
   };
 
-  const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  /* ─────────────────────────────────────
+  /* ─────────────────────────────────────────────────────────────
      RENDER
-  ───────────────────────────────────── */
+  ───────────────────────────────────────────────────────────── */
   return (
     <>
       <style>{CSS}</style>
 
-      <div className="contact-page">
+      <div className="cq-page">
 
-        {/* ══════════════════════════════
-            HERO
-        ══════════════════════════════ */}
-        <div className="contact-hero">
-          <div className="hero-orb orb-1" />
-          <div className="hero-orb orb-2" />
-          <div className="hero-inner">
-            <span ref={r} className="page-label reveal">KONTAK</span>
-            <h1 ref={r} className="hero-title reveal rv-d1">
-              <span>Mari</span><br />
-              <em>Berkolaborasi.</em>
+        {/* ══════════════════════════════ HERO ══════════════════════════════ */}
+        <div className="cq-hero">
+          <div className="cq-hero-orb cq-orb-1" />
+          <div className="cq-hero-orb cq-orb-2" />
+          <div className="cq-hero-orb cq-orb-3" />
+          <div className="cq-hero-inner">
+            <span ref={r} className="cq-page-label reveal">MULAI PROYEK</span>
+            <h1 ref={r} className="cq-hero-title reveal rv-d1">
+              <span>Ceritakan</span><br />
+              <em>Proyekmu.</em>
             </h1>
-            <p ref={r} className="hero-sub reveal rv-d2">
-              Punya proyek yang ingin diwujudkan? Saya siap mendengar dan menciptakan sesuatu yang luar biasa bersama Anda.
+            <p ref={r} className="cq-hero-sub reveal rv-d2">
+              Jawab beberapa pertanyaan singkat, aku akan pahami kebutuhanmu dan siapkan solusi terbaik.
             </p>
           </div>
-          <div ref={r} className="hero-scroll-hint reveal rv-d3">
-            <span>Gulir ke bawah</span>
+          <div ref={r} className="cq-scroll-hint reveal rv-d3">
+            <span>Mulai di sini</span>
             <i className="fa-solid fa-arrow-down" />
           </div>
         </div>
 
-        {/* ══════════════════════════════
-            MAIN: LEFT + RIGHT
-        ══════════════════════════════ */}
-        <div className="contact-main">
+        {/* ══════════════════════════════ QUESTIONNAIRE ══════════════════════════════ */}
+        <div className="cq-body" ref={formRef}>
 
-          {/* ── LEFT: Info ── */}
-          <div ref={r} className="contact-left reveal">
-
-            <div className="info-block">
-              <h2 className="info-heading">Informasi Kontak</h2>
-              <p className="info-desc">
-                Respons biasanya dalam 1–2 hari kerja. Untuk urusan mendesak, hubungi via Instagram DM.
-              </p>
+          {/* LEFT: sticky info */}
+          <div ref={r} className="cq-left reveal">
+            <div className="cq-steps-track">
+              {STEP_LABELS.map((lbl, i) => {
+                const idx  = i + 1;
+                const done = step > idx;
+                const active = step === idx;
+                return (
+                  <div key={idx} className={`cq-step-item ${active ? 'cq-step-active' : ''} ${done ? 'cq-step-done' : ''}`}>
+                    <div className="cq-step-dot">
+                      {done
+                        ? <i className="fa-solid fa-check" style={{ fontSize: '0.62rem' }} />
+                        : <span>{idx}</span>
+                      }
+                    </div>
+                    <div className="cq-step-info">
+                      <span className="cq-step-num">Step {idx}</span>
+                      <span className="cq-step-name">{lbl}</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="info-items">
-              <a href="mailto:aldokraksaan@gmail.com" className="info-item">
-                <div className="info-icon"><i className="fa-solid fa-envelope" /></div>
-                <div className="info-text">
-                  <span className="info-label">Email</span>
-                  <span className="info-val">aldokraksaan@gmail.com</span>
-                </div>
-                <i className="fa-solid fa-arrow-up-right info-arrow" />
-              </a>
-
-              <a href="https://www.instagram.com/aldosynnn?igsh=MWNhYTdzaWQyOGkwaA==" target="_blank" rel="noopener" className="info-item">
-                <div className="info-icon"><i className="fa-brands fa-instagram" /></div>
-                <div className="info-text">
-                  <span className="info-label">Instagram</span>
-                  <span className="info-val">@aldosynnn</span>
-                </div>
-                <i className="fa-solid fa-arrow-up-right info-arrow" />
-              </a>
-
-              <a href="https://github.com/SynnnW" target="_blank" rel="noopener" className="info-item">
-                <div className="info-icon"><i className="fa-brands fa-github" /></div>
-                <div className="info-text">
-                  <span className="info-label">GitHub</span>
-                  <span className="info-val">SynnnW</span>
-                </div>
-                <i className="fa-solid fa-arrow-up-right info-arrow" />
-              </a>
-
-              <div className="info-item info-item-static">
-                <div className="info-icon"><i className="fa-solid fa-location-dot" /></div>
-                <div className="info-text">
-                  <span className="info-label">Lokasi</span>
-                  <span className="info-val">Jawa Timur, Indonesia</span>
-                </div>
-              </div>
+            <div className="cq-left-hint">
+              <i className="fa-solid fa-lock" style={{ fontSize: '0.75rem', color: 'var(--accent3)' }} />
+              <span>Data kamu aman &amp; hanya digunakan untuk memproses projekmu.</span>
             </div>
 
-            <div className="avail-badge">
-              <span className="avail-dot" />
+            <div className="cq-avail-badge">
+              <span className="cq-avail-dot" />
               <span>Tersedia untuk proyek baru</span>
             </div>
+          </div>
 
-            <div className="services-list">
-              <p className="services-heading">Layanan yang ditawarkan</p>
-              <div className="svc-chips">
-                {SERVICES.map((s) => (
-                  <span key={s} className="svc-chip">{s}</span>
-                ))}
+          {/* RIGHT: form card */}
+          <div ref={r} className="cq-right reveal rv-d1">
+            <div className="cq-card">
+              <div className="cq-card-glow" />
+              <div className="cq-card-line" />
+
+              {/* Progress bar */}
+              <div className="cq-progress-bar-wrap">
+                <div className="cq-progress-bar" style={{ width: `${(step / TOTAL_STEPS) * 100}%` }} />
               </div>
-            </div>
 
-          </div>
+              {/* Step counter */}
+              <div className="cq-step-counter">
+                <span className="cq-step-current">{step}</span>
+                <span className="cq-step-sep"> / </span>
+                <span className="cq-step-total">{TOTAL_STEPS}</span>
+              </div>
 
-          {/* ── RIGHT: Form ── */}
-          <div ref={r} className="contact-right reveal rv-d1">
-            <div className="form-glass">
-              <div className="form-glass-glow" />
-              <div className="form-glass-top-line" />
+              {/* ── Animated step content ── */}
+              <div className={`cq-step-body ${visible ? (animDir === 'forward' ? 'cq-enter-right' : 'cq-enter-left') : 'cq-exit'}`}>
 
-              {status === 'success' ? (
-                /* ── Success state ── */
-                <div className="form-success">
-                  <div className="success-icon"><i className="fa-solid fa-circle-check" /></div>
-                  <h3 className="success-title">Pesan Terkirim!</h3>
-                  <p className="success-desc">
-                    Terima kasih telah menghubungi saya. Saya akan membalas dalam 1–2 hari kerja.
-                  </p>
-                  <button className="btn-reset" onClick={reset}>
-                    Kirim Pesan Lain
-                  </button>
-                </div>
-              ) : (
-                /* ── Form ── */
-                <>
-                  <h2 className="form-title">Ceritakan proyek Anda.</h2>
-                  <p className="form-sub">Isi formulir di bawah dan saya akan segera menghubungi Anda.</p>
+                {/* ════════ STEP 1 — Perkenalan ════════ */}
+                {step === 1 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">01 — PERKENALAN</span>
+                      <h2 className="cq-step-title">Siapa kamu <em>dan dari mana?</em></h2>
+                      <p className="cq-step-desc">Mari kita mulai dengan perkenalan singkat.</p>
+                    </div>
 
-                  <form onSubmit={handleSubmit} noValidate>
-                    <div className="field-row">
-                      <div className="field-group">
-                        <label className="field-label" htmlFor="f-name">Nama Lengkap</label>
-                        <input
-                          className={`field-input${errors.name ? ' error' : ''}`}
-                          type="text" id="f-name" placeholder="Aldo Leo Saputra"
-                          value={form.name}
-                          onChange={(e) => setForm({ ...form, name: e.target.value })}
-                          autoComplete="name"
-                        />
-                        <span className="field-error">{errors.name}</span>
+                    <div className="cq-fields">
+                      <div className="cq-field-row">
+                        <div className="cq-field-group">
+                          <label className="cq-field-label">Nama Lengkap *</label>
+                          <input
+                            type="text"
+                            className={`cq-field-input ${errors.name ? 'cq-field-error' : ''}`}
+                            placeholder="Contoh: Budi Santoso"
+                            value={data.name}
+                            onChange={(e) => set('name', e.target.value)}
+                          />
+                          {errors.name && <span className="cq-err-msg">{errors.name}</span>}
+                        </div>
+                        <div className="cq-field-group">
+                          <label className="cq-field-label">Alamat Email Aktif *</label>
+                          <input
+                            type="email"
+                            className={`cq-field-input ${errors.email ? 'cq-field-error' : ''}`}
+                            placeholder="nama@email.com"
+                            value={data.email}
+                            onChange={(e) => set('email', e.target.value)}
+                          />
+                          {errors.email && <span className="cq-err-msg">{errors.email}</span>}
+                        </div>
                       </div>
-                      <div className="field-group">
-                        <label className="field-label" htmlFor="f-email">Alamat Email</label>
-                        <input
-                          className={`field-input${errors.email ? ' error' : ''}`}
-                          type="email" id="f-email" placeholder="email@anda.com"
-                          value={form.email}
-                          onChange={(e) => setForm({ ...form, email: e.target.value })}
-                          autoComplete="email"
-                        />
-                        <span className="field-error">{errors.email}</span>
+
+                      <div className="cq-field-group">
+                        <label className="cq-field-label">Nomor WhatsApp *</label>
+                        <div className="cq-input-prefix-wrap">
+                          <span className="cq-input-prefix">+62</span>
+                          <input
+                            type="tel"
+                            className={`cq-field-input cq-field-prefixed ${errors.whatsapp ? 'cq-field-error' : ''}`}
+                            placeholder="812-3456-7890"
+                            value={data.whatsapp}
+                            onChange={(e) => set('whatsapp', e.target.value)}
+                          />
+                        </div>
+                        {errors.whatsapp && <span className="cq-err-msg">{errors.whatsapp}</span>}
+                      </div>
+
+                      <div className="cq-field-group">
+                        <label className="cq-field-label">Kamu mewakili siapa? *</label>
+                        {errors.clientType && <span className="cq-err-msg" style={{ marginBottom: 6 }}>{errors.clientType}</span>}
+                        <div className="cq-type-grid">
+                          {CLIENT_TYPES.map((ct) => (
+                            <button
+                              key={ct.value}
+                              type="button"
+                              className={`cq-type-card ${data.clientType === ct.value ? 'cq-type-active' : ''}`}
+                              onClick={() => set('clientType', ct.value)}
+                            >
+                              <i className={`fa-solid ${ct.icon}`} />
+                              <span>{ct.label}</span>
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
+                  </div>
+                )}
 
-                    <div className="field-group">
-                      <label className="field-label" htmlFor="f-subject">Subjek</label>
-                      <input
-                        className={`field-input${errors.subject ? ' error' : ''}`}
-                        type="text" id="f-subject" placeholder="Proyek web portofolio"
-                        value={form.subject}
-                        onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                      />
-                      <span className="field-error">{errors.subject}</span>
+                {/* ════════ STEP 2 — Pilih Layanan ════════ */}
+                {step === 2 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">02 — LAYANAN</span>
+                      <h2 className="cq-step-title">Apa yang paling <em>kamu butuhkan?</em></h2>
+                      <p className="cq-step-desc">Pilih satu layanan utama — pertanyaan selanjutnya akan menyesuaikan.</p>
                     </div>
 
-                    <div className="field-group">
-                      <label className="field-label">Layanan yang Dibutuhkan</label>
-                      <div className="svc-select-grid">
-                        {SERVICES.map((svc) => (
-                          <label
-                            key={svc}
-                            className={`svc-opt${services.includes(svc) ? ' checked' : ''}`}
-                            onClick={() => toggleService(svc)}
-                          >
-                            <span className="svc-opt-box" />
-                            <span>{svc}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
+                    {errors.service && <div className="cq-global-err"><i className="fa-solid fa-triangle-exclamation" />{errors.service}</div>}
 
-                    <div className="field-group">
-                      <label className="field-label" htmlFor="f-msg">Pesan</label>
-                      <textarea
-                        className={`field-input field-textarea${errors.message ? ' error' : ''}`}
-                        id="f-msg" placeholder="Halo! Saya ingin membuat..."
-                        value={form.message}
-                        onChange={(e) => setForm({ ...form, message: e.target.value })}
-                      />
-                      <span className="field-error">{errors.message}</span>
+                    <div className="cq-service-grid">
+                      {SERVICES.map((svc) => (
+                        <button
+                          key={svc.value}
+                          type="button"
+                          className={`cq-service-card ${data.service === svc.value ? 'cq-service-active' : ''}`}
+                          onClick={() => { set('service', svc.value); set('branch', {}); }}
+                        >
+                          <div className="cq-svc-icon-wrap">
+                            <i className={`fa-solid ${svc.icon}`} />
+                          </div>
+                          <div className="cq-svc-info">
+                            <span className="cq-svc-name">{svc.label}</span>
+                            <span className="cq-svc-desc">{svc.desc}</span>
+                          </div>
+                          {data.service === svc.value && (
+                            <div className="cq-svc-check"><i className="fa-solid fa-check" /></div>
+                          )}
+                        </button>
+                      ))}
                     </div>
+                  </div>
+                )}
 
-                    {status === 'error' && (
-                      <p className="form-err-global">
-                        <i className="fa-solid fa-triangle-exclamation" /> Gagal mengirim. Coba lagi atau hubungi via email.
+                {/* ════════ STEP 3 — Detail (branching) ════════ */}
+                {step === 3 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">03 — DETAIL</span>
+                      <h2 className="cq-step-title">Ceritakan lebih <em>spesifik.</em></h2>
+                      <p className="cq-step-desc">
+                        Detail ini membantu aku mempersiapkan solusi yang tepat untuk proyekmu.
                       </p>
-                    )}
+                    </div>
 
-                    <button type="submit" className="btn-submit" disabled={status === 'loading'}>
-                      {status === 'loading' ? (
-                        <><i className="fa-solid fa-circle-notch fa-spin" /> Mengirim...</>
-                      ) : (
-                        <>Kirim Pesan <i className="fa-solid fa-paper-plane" /></>
+                    <div className="cq-fields">
+                      {Object.entries(branchData).map(([key, q]) => renderBranchField(key, q))}
+
+                      {/* Fallback jika tidak ada service dipilih */}
+                      {!data.service && (
+                        <div className="cq-global-err">
+                          <i className="fa-solid fa-triangle-exclamation" />
+                          Kamu belum memilih layanan. Kembali ke Step 2.
+                        </div>
                       )}
-                    </button>
-                  </form>
-                </>
-              )}
-            </div>
-          </div>
+                    </div>
+                  </div>
+                )}
 
-        </div>
-      </div>
+                {/* ════════ STEP 4 — Budget & Timeline ════════ */}
+                {step === 4 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">04 — ANGGARAN</span>
+                      <h2 className="cq-step-title">Budget & <em>Timeline.</em></h2>
+                      <p className="cq-step-desc">Biar aku bisa kasih solusi yang paling pas untukmu.</p>
+                    </div>
 
-      {/* ── Footer ── */}
-      <footer className="site-footer">
-        <div className="footer-bottom">
-          <span className="footer-copy">© 2026 Aldo Leo Saputra</span>
-          <div className="footer-socials">
-            <a href="https://github.com/SynnnW" target="_blank" rel="noopener" className="f-soc-link" aria-label="GitHub">
-              <i className="fa-brands fa-github" />
-            </a>
-            <a href="https://www.instagram.com/aldosynnn?igsh=MWNhYTdzaWQyOGkwaA==" target="_blank" rel="noopener" className="f-soc-link" aria-label="Instagram">
-              <i className="fa-brands fa-instagram" />
-            </a>
-          </div>
-          <button className="footer-top-btn" onClick={scrollTop}>
-            <i className="fa-solid fa-arrow-up" /> Ke atas
-          </button>
-        </div>
-      </footer>
+                    <div className="cq-fields">
+                      <div className="cq-field-group">
+                        <label className="cq-field-label">Perkiraan budget yang disiapkan *</label>
+                        {errors.budget && <span className="cq-err-msg">{errors.budget}</span>}
+                        <div className="cq-budget-grid">
+                          {BUDGET_OPTIONS.map((opt) => (
+                            <button
+                              key={opt}
+                              type="button"
+                              className={`cq-budget-card ${data.budget === opt ? 'cq-budget-active' : ''}`}
+                              onClick={() => set('budget', opt)}
+                            >
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="cq-field-group">
+                        <label className="cq-field-label">Target deadline *</label>
+                        {errors.deadline && <span className="cq-err-msg">{errors.deadline}</span>}
+                        <div className="cq-deadline-grid">
+                          {DEADLINE_OPTIONS.map((opt) => (
+                            <button
+                              key={opt}
+                              type="button"
+                              className={`cq-pill ${data.deadline === opt ? 'cq-pill-active' : ''}`}
+                              onClick={() => set('deadline', opt)}
+                            >
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ════════ STEP 5 — Story & Submit ════════ */}
+                {step === 5 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">05 — CERITA</span>
+                      <h2 className="cq-step-title">Hampir selesai — <em>ceritakan!</em></h2>
+                      <p className="cq-step-desc">Bagian bebas. Makin detail, makin baik hasilnya.</p>
+                    </div>
+
+                    <div className="cq-fields">
+                      <div className="cq-field-group">
+                        <label className="cq-field-label">Ceritakan proyekmu secara bebas</label>
+                        <textarea
+                          className="cq-field-input cq-field-textarea cq-field-textarea-lg"
+                          placeholder="Visi, konteks, hal unik yang perlu aku ketahui, referensi yang kamu suka, dll..."
+                          value={data.story}
+                          onChange={(e) => set('story', e.target.value)}
+                        />
+                      </div>
+
+                      <div className="cq-field-group">
+                        <label className="cq-field-label">Dari mana kamu tahu tentang SynnnW?</label>
+                        <div className="cq-pill-grid">
+                          {REFERRAL_OPTIONS.map((opt) => (
+                            <button
+                              key={opt}
+                              type="button"
+                              className={`cq-pill ${data.referral === opt ? 'cq-pill-active' : ''}`}
+                              onClick={() => set('referral', opt)}
+                            >
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Google Sign-In CTA */}
+                      <div className="cq-submit-wrap">
+                        <div className="cq-submit-note">
+                          <i className="fa-brands fa-google" />
+                          <p>
+                            Kamu akan login dengan Google untuk mengamankan data proyekmu dan memudahkan komunikasi selanjutnya.
+                          </p>
+                        </div>
+
+                        {authError && (
+                          <div className="cq-global-err">
+                            <i className="fa-solid fa-triangle-exclamation" />
+                            {authError}
+                          </div>
+                        )}
+
+                        <button
+                          type="button"
+                          className="cq-btn-google"
+                          onClick={handleSubmit}
+                          disabled={authStatus === 'loading' || authStatus === 'success'}
+                        >
+                          {authStatus === 'loading' && (
+                            <span className="cq-spinner" />
+                          )}
+                          {authStatus === 'success' && (
+                            <i className="fa-solid fa-check" />
+                          )}
+                          {authStatus === 'idle' || authStatus === 'error' ? (
+                            <i className="fa-brands fa-google" />
+                          ) : null}
+                          <span>
+                            {authStatus === 'loading' ? 'Menyimpan...'
+                              : authStatus === 'success' ? 'Berhasil! Mengarahkan...'
+                              : 'Selesai & Login dengan Google'}
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+              </div>{/* end cq-step-body */}
+
+              {/* ── Navigation buttons ── */}
+              <div className="cq-nav">
+                {step > 1 && (
+                  <button type="button" className="cq-btn-back" onClick={handleBack}>
+                    <i className="fa-solid fa-arrow-left" />
+                    Kembali
+                  </button>
+                )}
+                {step < TOTAL_STEPS && (
+                  <button type="button" className="cq-btn-next" onClick={handleNext}>
+                    Lanjut
+                    <i className="fa-solid fa-arrow-right" />
+                  </button>
+                )}
+              </div>
+
+            </div>{/* end cq-card */}
+          </div>{/* end cq-right */}
+        </div>{/* end cq-body */}
+      </div>{/* end cq-page */}
     </>
   );
 }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────────────────────────────
    CSS
-───────────────────────────────────────── */
+───────────────────────────────────────────────────────────── */
 const CSS = `
-/* Reveal */
-.reveal { opacity:0; transform:translateY(38px); transition:opacity 0.82s ease, transform 0.82s ease; }
-.reveal.visible { opacity:1; transform:translateY(0); }
-.rv-d1 { transition-delay:0.12s; }
-.rv-d2 { transition-delay:0.24s; }
-.rv-d3 { transition-delay:0.36s; }
+/* ── Reveal ── */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.rv-d1 { transition-delay: 0.1s; }
+.rv-d2 { transition-delay: 0.2s; }
+.rv-d3 { transition-delay: 0.3s; }
 
-.contact-page { padding-top: 76px; }
+/* ── Page ── */
+.cq-page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding-top: 64px;
+}
 
-/* Hero */
-.contact-hero {
-  min-height: 52vh;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 60px 80px 70px;
-  position: relative; overflow: hidden;
+/* ── Hero ── */
+.cq-hero {
+  position: relative;
+  min-height: 56vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 80px 70px;
+  overflow: hidden;
   border-bottom: 1px solid var(--border);
 }
-.hero-orb {
+.cq-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 80px; right: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  pointer-events: none;
+}
+.cq-hero-orb {
   position: absolute; border-radius: 50%;
   pointer-events: none; filter: blur(80px);
 }
-.orb-1 {
-  width: 500px; height: 500px; top: -100px; right: -60px;
-  background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+.cq-orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 65%);
+  top: -120px; left: -100px;
 }
-.orb-2 {
-  width: 350px; height: 350px; bottom: -80px; left: 5%;
-  background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%);
+.cq-orb-2 {
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(167,139,250,0.09) 0%, transparent 65%);
+  bottom: -80px; right: 10%;
 }
-.contact-hero::after {
-  content: '';
-  position: absolute; bottom: 0; left: 80px; right: 80px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent2), transparent);
-  opacity: 0.22;
+.cq-orb-3 {
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 65%);
+  top: 40%; left: 40%;
 }
-.hero-inner { position: relative; z-index: 1; max-width: 700px; }
-.page-label {
-  display: block; font-size: 0.62rem; font-weight: 600;
-  letter-spacing: 0.32em; text-transform: uppercase;
-  color: var(--text-dim); margin-bottom: 14px;
+.cq-hero-inner { position: relative; z-index: 1; max-width: 640px; }
+.cq-page-label {
+  display: inline-block;
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--accent3);
+  margin-bottom: 20px;
 }
-.hero-title {
+.cq-hero-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3.5rem, 9vw, 8.5rem);
-  font-weight: 300; line-height: 0.88; margin-bottom: 22px;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 300; line-height: 1.08;
+  color: var(--text); margin: 0 0 20px;
+  letter-spacing: -0.02em;
 }
-.hero-title em { font-style: italic; color: var(--text-dim); }
-.hero-sub {
-  font-size: 0.92rem; color: var(--text-dim);
-  max-width: 480px; line-height: 1.80;
+.cq-hero-title em { font-style: italic; color: var(--accent3); }
+.cq-hero-sub {
+  font-size: 1rem; color: var(--text-dim);
+  line-height: 1.75; max-width: 480px; margin: 0;
 }
-.hero-scroll-hint {
-  position: absolute; bottom: 30px; right: 80px; z-index: 1;
-  display: flex; align-items: center; gap: 8px;
-  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.2em;
+.cq-scroll-hint {
+  position: absolute; bottom: 28px; right: 80px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.66rem; font-weight: 600; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--text-dim);
 }
-
-/* Main layout */
-.contact-main {
-  display: grid; grid-template-columns: 1fr 1.5fr;
-  gap: 0; min-height: 60vh;
+.cq-scroll-hint i { animation: bounceDown 1.8s ease-in-out infinite; }
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(5px); }
 }
 
-/* Left */
-.contact-left {
-  padding: 60px 50px 80px;
-  background: var(--bg2);
+/* ── Body layout ── */
+.cq-body {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: 100vh;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── LEFT ── */
+.cq-left {
+  padding: 56px 36px;
   border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; gap: 44px;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
-.info-heading {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem; font-weight: 600; margin-bottom: 12px;
+.cq-steps-track {
+  display: flex; flex-direction: column; gap: 4px;
 }
-.info-desc { font-size: 0.84rem; color: var(--text-dim); line-height: 1.78; }
+.cq-step-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 14px; border-radius: 12px;
+  transition: background 0.25s;
+  opacity: 0.45;
+}
+.cq-step-item.cq-step-active,
+.cq-step-item.cq-step-done { opacity: 1; }
+.cq-step-item.cq-step-active { background: var(--glass); }
 
-.info-items { display: flex; flex-direction: column; gap: 2px; }
-.info-item {
-  display: flex; align-items: center; gap: 16px;
-  padding: 16px 18px; border-radius: 14px;
-  border: 1px solid transparent;
-  transition: all 0.28s ease; text-decoration: none; color: inherit;
-}
-.info-item:hover {
-  background: var(--glass2); border-color: var(--gborder);
-  transform: translateX(4px);
-}
-.info-item-static:hover { transform: none; cursor: default; }
-.info-icon {
-  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
-  background: var(--glass); border: 1px solid var(--gborder);
-  backdrop-filter: blur(12px);
+.cq-step-dot {
+  width: 30px; height: 30px; flex-shrink: 0;
+  border-radius: 50%; border: 1.5px solid var(--border2);
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.95rem; color: var(--accent2); transition: all 0.28s;
+  font-size: 0.66rem; font-weight: 700;
+  color: var(--text-dim); background: var(--bg);
+  transition: all 0.3s;
 }
-.info-item:hover .info-icon { background: var(--glass3); border-color: var(--accent2); }
-.info-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-.info-label { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
-.info-val { font-size: 0.88rem; color: var(--text); }
-.info-arrow { font-size: 0.72rem; color: var(--text-dim); opacity: 0; transition: opacity 0.28s; }
-.info-item:hover .info-arrow { opacity: 1; }
+.cq-step-item.cq-step-active .cq-step-dot {
+  border-color: var(--accent3);
+  color: var(--accent3);
+  background: rgba(139,92,246,0.08);
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+}
+.cq-step-item.cq-step-done .cq-step-dot {
+  border-color: #4ade80;
+  color: #4ade80;
+  background: rgba(74,222,128,0.08);
+}
+.cq-step-info { display: flex; flex-direction: column; gap: 2px; }
+.cq-step-num  { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.cq-step-name { font-size: 0.82rem; font-weight: 500; color: var(--text); }
 
-/* Available badge */
-.avail-badge {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: rgba(34,197,94,0.08);
-  border: 1px solid rgba(34,197,94,0.22);
-  border-radius: 99px; padding: 10px 18px;
+.cq-left-hint {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.72rem; color: var(--text-dim); line-height: 1.6;
+  padding: 14px; border: 1px solid var(--gborder);
+  border-radius: 12px; background: var(--glass);
+}
+.cq-avail-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.18);
+  border-radius: 99px; padding: 8px 14px;
   width: fit-content;
   font-size: 0.72rem; font-weight: 600; color: rgba(74,222,128,0.9);
   letter-spacing: 0.05em;
 }
-[data-theme="light"] .avail-badge {
-  background: rgba(34,197,94,0.06);
-  color: rgba(22,163,74,0.9);
+[data-theme="light"] .cq-avail-badge {
+  background: rgba(34,197,94,0.06); color: rgba(22,163,74,0.9);
   border-color: rgba(22,163,74,0.25);
 }
-.avail-dot {
+.cq-avail-dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: #4ade80; flex-shrink: 0;
-  animation: pulse 2s ease infinite;
+  animation: cqPulse 2s ease infinite;
 }
-[data-theme="light"] .avail-dot { background: #16a34a; }
-@keyframes pulse {
+@keyframes cqPulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
   50%       { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
 }
 
-.services-heading {
-  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px;
-}
-.svc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.svc-chip {
-  background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 99px; padding: 6px 14px;
-  font-size: 0.65rem; font-weight: 600; color: var(--text-dim);
-  backdrop-filter: blur(10px); transition: all 0.25s;
-}
-.svc-chip:hover { border-color: var(--accent3); color: var(--accent3); }
+/* ── RIGHT ── */
+.cq-right { padding: 56px 60px 80px; }
 
-/* Right / Form */
-.contact-right { padding: 60px 60px 80px; }
-
-.form-glass {
+/* ── Card ── */
+.cq-card {
   background: var(--glass);
   backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--gborder);
-  border-radius: 28px; padding: 44px 48px;
+  border-radius: 28px;
+  padding: 0;
   position: relative; overflow: hidden;
+  max-width: 680px; margin: 0 auto;
 }
-.form-glass-glow {
-  position: absolute; top: -80px; right: -80px;
-  width: 320px; height: 320px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 65%);
+.cq-card-glow {
+  position: absolute; top: -100px; right: -100px;
+  width: 380px; height: 380px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 65%);
   pointer-events: none;
 }
-.form-glass-top-line {
+.cq-card-line {
   position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.5), transparent);
-}
-.form-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.8rem; font-weight: 600; margin-bottom: 8px;
-  position: relative; z-index: 1;
-}
-.form-sub {
-  font-size: 0.84rem; color: var(--text-dim);
-  line-height: 1.7; margin-bottom: 34px;
-  position: relative; z-index: 1;
+  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.45), transparent);
 }
 
-form { display: flex; flex-direction: column; gap: 22px; position: relative; z-index: 1; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.field-group { display: flex; flex-direction: column; gap: 8px; }
-.field-label {
+/* ── Progress bar ── */
+.cq-progress-bar-wrap {
+  height: 3px;
+  background: var(--glass2);
+  border-radius: 99px 99px 0 0;
+  overflow: hidden;
+}
+.cq-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent3));
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 99px;
+}
+
+/* ── Step counter ── */
+.cq-step-counter {
+  padding: 18px 36px 0;
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-dim);
+}
+.cq-step-current { color: var(--accent3); }
+
+/* ── Step body animation ── */
+.cq-step-body {
+  padding: 28px 36px 0;
+}
+@keyframes enterRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes enterLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes exitAnim {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.cq-enter-right { animation: enterRight 0.3s ease forwards; }
+.cq-enter-left  { animation: enterLeft  0.3s ease forwards; }
+.cq-exit        { animation: exitAnim   0.25s ease forwards; }
+
+/* ── Step head ── */
+.cq-step-head { margin-bottom: 28px; }
+.cq-step-badge {
+  display: inline-block;
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--accent3);
+  margin-bottom: 12px;
+}
+.cq-step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 400; line-height: 1.15;
+  color: var(--text); margin: 0 0 10px;
+  letter-spacing: -0.01em;
+}
+.cq-step-title em { font-style: italic; color: var(--accent3); }
+.cq-step-desc {
+  font-size: 0.84rem; color: var(--text-dim);
+  line-height: 1.7; margin: 0;
+}
+
+/* ── Fields ── */
+.cq-fields { display: flex; flex-direction: column; gap: 22px; }
+.cq-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cq-field-group { display: flex; flex-direction: column; gap: 8px; }
+.cq-field-label {
   font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--text-dim);
 }
-.field-input {
+.cq-multi-hint { font-weight: 400; opacity: 0.7; text-transform: none; letter-spacing: 0; }
+.cq-field-input {
   background: var(--glass2); border: 1px solid var(--gborder);
   border-radius: 12px; padding: 13px 16px;
   font-family: 'Outfit', sans-serif; font-size: 0.88rem;
   color: var(--text); outline: none;
   transition: border-color 0.28s, background 0.28s;
   backdrop-filter: blur(10px); width: 100%;
+  box-sizing: border-box;
 }
-.field-input::placeholder { color: var(--text-dim); opacity: 0.5; }
-.field-input:focus { border-color: var(--accent2); background: var(--glass3); }
-.field-input.error { border-color: rgba(239,68,68,0.6); }
-.field-error {
-  font-size: 0.65rem; color: rgba(239,68,68,0.8); min-height: 16px; display: block;
+.cq-field-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+.cq-field-input:focus { border-color: var(--accent2); background: var(--glass3); }
+.cq-field-error { border-color: rgba(239,68,68,0.6) !important; }
+.cq-err-msg {
+  font-size: 0.65rem; color: rgba(239,68,68,0.85);
+  display: block; min-height: 16px;
 }
-.field-textarea { resize: vertical; min-height: 130px; line-height: 1.65; }
+.cq-field-textarea {
+  resize: vertical; min-height: 110px; line-height: 1.65;
+}
+.cq-field-textarea-lg { min-height: 160px; }
 
-/* Service checkboxes */
-.svc-select-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-top: 2px; }
-.svc-opt {
-  display: flex; align-items: center; gap: 9px;
+/* Prefix input */
+.cq-input-prefix-wrap { display: flex; position: relative; }
+.cq-input-prefix {
+  display: flex; align-items: center;
+  padding: 0 14px;
   background: var(--glass2); border: 1px solid var(--gborder);
-  border-radius: 10px; padding: 10px 13px;
-  cursor: pointer; transition: all 0.25s;
-  font-size: 0.74rem; color: var(--text-dim);
-  user-select: none;
+  border-right: none;
+  border-radius: 12px 0 0 12px;
+  font-size: 0.84rem; color: var(--text-dim);
+  white-space: nowrap; flex-shrink: 0;
 }
-.svc-opt:hover { border-color: var(--gborder2); color: var(--text); background: var(--glass3); }
-.svc-opt.checked {
-  background: rgba(139,92,246,0.12);
-  border-color: rgba(139,92,246,0.4);
+.cq-field-prefixed { border-radius: 0 12px 12px 0 !important; }
+
+/* ── Client type grid ── */
+.cq-type-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px;
+}
+.cq-type-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  padding: 14px 14px 12px;
+  background: var(--glass2); border: 1px solid var(--gborder);
+  border-radius: 14px; cursor: pointer; text-align: left;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.73rem; color: var(--text-dim);
+  transition: all 0.25s; line-height: 1.4;
+}
+.cq-type-card i { font-size: 1.1rem; color: var(--text-dim); transition: color 0.25s; }
+.cq-type-card:hover { border-color: var(--gborder2); color: var(--text); background: var(--glass3); }
+.cq-type-active {
+  background: rgba(139,92,246,0.1) !important;
+  border-color: rgba(139,92,246,0.4) !important;
+  color: var(--accent3) !important;
+}
+.cq-type-active i { color: var(--accent3) !important; }
+
+/* ── Service grid ── */
+.cq-service-grid {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.cq-service-card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 18px;
+  background: var(--glass2); border: 1px solid var(--gborder);
+  border-radius: 16px; cursor: pointer; text-align: left;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.25s; position: relative;
+}
+.cq-service-card:hover { border-color: var(--gborder2); background: var(--glass3); }
+.cq-service-active {
+  background: rgba(139,92,246,0.1) !important;
+  border-color: rgba(139,92,246,0.4) !important;
+}
+.cq-svc-icon-wrap {
+  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+  background: var(--glass); border: 1px solid var(--gborder);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: var(--text-dim);
+  transition: all 0.25s;
+}
+.cq-service-active .cq-svc-icon-wrap {
+  background: rgba(139,92,246,0.15);
+  border-color: rgba(139,92,246,0.35);
   color: var(--accent3);
 }
-.svc-opt-box {
-  display: block; flex-shrink: 0;
-  width: 14px; height: 14px; border-radius: 4px;
-  border: 1px solid var(--border2);
-  background: transparent; transition: all 0.22s;
-}
-.svc-opt.checked .svc-opt-box {
-  background: var(--accent); border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(139,92,246,0.2);
+.cq-svc-info { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.cq-svc-name { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.cq-svc-desc { font-size: 0.72rem; color: var(--text-dim); }
+.cq-service-active .cq-svc-name { color: var(--accent3); }
+.cq-svc-check {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; flex-shrink: 0;
 }
 
-/* Global error */
-.form-err-global {
+/* ── Pills ── */
+.cq-pill-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.cq-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px;
+  background: var(--glass2); border: 1px solid var(--gborder);
+  border-radius: 99px; cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem; color: var(--text-dim);
+  transition: all 0.22s;
+}
+.cq-pill:hover { border-color: var(--gborder2); color: var(--text); }
+.cq-pill-active {
+  background: rgba(139,92,246,0.12) !important;
+  border-color: rgba(139,92,246,0.4) !important;
+  color: var(--accent3) !important;
+}
+
+/* ── Budget grid ── */
+.cq-budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cq-budget-card {
+  padding: 12px 14px;
+  background: var(--glass2); border: 1px solid var(--gborder);
+  border-radius: 12px; cursor: pointer; text-align: left;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem; color: var(--text-dim);
+  transition: all 0.22s; line-height: 1.4;
+}
+.cq-budget-card:hover { border-color: var(--gborder2); color: var(--text); }
+.cq-budget-active {
+  background: rgba(139,92,246,0.12) !important;
+  border-color: rgba(139,92,246,0.4) !important;
+  color: var(--accent3) !important;
+}
+.cq-deadline-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ── Global error ── */
+.cq-global-err {
+  display: flex; align-items: center; gap: 10px;
   font-size: 0.78rem; color: rgba(239,68,68,0.85);
   background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2);
-  border-radius: 10px; padding: 12px 16px;
-  display: flex; align-items: center; gap: 9px;
+  border-radius: 12px; padding: 12px 16px;
+  margin-bottom: 8px;
 }
 
-/* Submit */
-.btn-submit {
+/* ── Submit ── */
+.cq-submit-wrap { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+.cq-submit-note {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px;
+  background: var(--glass2); border: 1px solid var(--gborder);
+  border-radius: 14px;
+}
+.cq-submit-note i { font-size: 1.1rem; color: var(--accent3); flex-shrink: 0; margin-top: 2px; }
+.cq-submit-note p { font-size: 0.78rem; color: var(--text-dim); line-height: 1.65; margin: 0; }
+
+.cq-btn-google {
   display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 16px;
+  width: 100%; padding: 17px;
   background: var(--accent); color: #fff;
   border: none; border-radius: 14px;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   cursor: pointer; transition: all 0.35s;
   box-shadow: 0 8px 32px rgba(139,92,246,0.35);
-  margin-top: 4px; position: relative; z-index: 1;
 }
-.btn-submit:hover:not(:disabled) {
+.cq-btn-google:hover:not(:disabled) {
   background: var(--accent2); transform: translateY(-2px);
   box-shadow: 0 14px 44px rgba(139,92,246,0.48);
 }
-.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.cq-btn-google:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
 
-/* Success */
-.form-success {
-  text-align: center; padding: 40px 20px;
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
-  position: relative; z-index: 1;
+/* Spinner */
+.cq-spinner {
+  display: inline-block;
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  animation: cqSpin 0.7s linear infinite;
+  flex-shrink: 0;
 }
-.success-icon { font-size: 3.2rem; color: #4ade80; }
-[data-theme="light"] .success-icon { color: #16a34a; }
-.success-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem; font-weight: 600;
+@keyframes cqSpin { to { transform: rotate(360deg); } }
+
+/* ── Navigation ── */
+.cq-nav {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 24px 36px 32px;
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
 }
-.success-desc { font-size: 0.88rem; color: var(--text-dim); line-height: 1.78; max-width: 340px; }
-.btn-reset {
+.cq-btn-back {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--glass2); border: 1px solid var(--gborder2);
-  border-radius: 99px; padding: 11px 28px;
+  padding: 11px 22px;
+  background: var(--glass2); border: 1px solid var(--gborder);
+  border-radius: 99px; cursor: pointer;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--text); cursor: pointer; transition: all 0.3s;
-  backdrop-filter: blur(12px); margin-top: 8px;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-dim); transition: all 0.25s;
 }
-.btn-reset:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.cq-btn-back:hover { color: var(--text); border-color: var(--gborder2); }
 
-/* Footer */
-.site-footer { background: var(--bg2); padding: 26px 80px; border-top: 1px solid var(--border); }
-.footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
-.footer-copy { font-size: 0.72rem; color: var(--text-dim); }
-.footer-socials { display: flex; gap: 10px; }
-.f-soc-link {
-  width: 36px; height: 36px; border-radius: 50%;
-  border: 1px solid var(--border); background: var(--glass);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-dim); font-size: 0.82rem; transition: all 0.3s; text-decoration: none;
+.cq-btn-next {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 28px;
+  background: var(--text); color: var(--bg);
+  border: none; border-radius: 99px; cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: all 0.3s;
+  margin-left: auto;
 }
-.f-soc-link:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
-.footer-top-btn {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--text-dim); background: none; border: none;
-  transition: color 0.3s; cursor: pointer; font-family: 'Outfit', sans-serif;
+.cq-btn-next:hover {
+  background: var(--accent); color: #fff;
+  box-shadow: 0 8px 28px rgba(139,92,246,0.35);
+  transform: translateY(-1px);
 }
-.footer-top-btn:hover { color: var(--text); }
 
-/* Responsive */
+/* ── Responsive ── */
 @media (max-width: 1024px) {
-  .contact-hero { padding: 60px 40px 60px; }
-  .contact-main { grid-template-columns: 1fr; }
-  .contact-left { padding: 50px 40px; border-right: none; border-bottom: 1px solid var(--border); }
-  .contact-right { padding: 50px 40px 70px; }
-  .site-footer { padding: 22px 40px; }
+  .cq-hero { padding: 60px 40px 60px; }
+  .cq-body { grid-template-columns: 1fr; }
+  .cq-left {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 36px 40px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .cq-steps-track { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .cq-right { padding: 40px 40px 70px; }
 }
 @media (max-width: 768px) {
-  .contact-hero { padding: 50px 24px 52px; min-height: auto; }
-  .contact-hero::after { left: 24px; right: 24px; }
-  .hero-scroll-hint { right: 24px; }
-  .contact-left { padding: 40px 24px; }
-  .contact-right { padding: 40px 24px 60px; }
-  .form-glass { padding: 30px 22px; border-radius: 20px; }
-  .field-row { grid-template-columns: 1fr; }
-  .svc-select-grid { grid-template-columns: 1fr 1fr; }
-  .site-footer { padding: 20px 24px; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .cq-hero { padding: 50px 24px 52px; min-height: auto; }
+  .cq-scroll-hint { right: 24px; }
+  .cq-left { padding: 28px 24px; }
+  .cq-right { padding: 32px 18px 60px; }
+  .cq-card { border-radius: 20px; }
+  .cq-step-body { padding: 22px 22px 0; }
+  .cq-nav { padding: 20px 22px 26px; }
+  .cq-field-row { grid-template-columns: 1fr; }
+  .cq-type-grid { grid-template-columns: 1fr 1fr; }
+  .cq-budget-grid { grid-template-columns: 1fr; }
+  .cq-step-counter { padding: 16px 22px 0; }
+}
+@media (max-width: 480px) {
+  .cq-type-grid { grid-template-columns: 1fr; }
+  .cq-steps-track { display: none; }
 }
 `;
