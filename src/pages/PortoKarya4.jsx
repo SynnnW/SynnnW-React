@@ -38,15 +38,17 @@ const DEFAULT_DATA = {
     badge: 'Live Stream & Broadcast',
     title: 'Live Stream Design &',
     titleEm: 'OBS via Tablet',
-    sub: 'Merancang dan mengoperasikan sistem live streaming profesional untuk PERBASI Youth East Java Basketball League (YEJBL) — menggunakan OBS via website tablet sebagai controller dengan overlay desain kustom.',
+    sub: 'Merancang dan mengoperasikan sistem live streaming profesional untuk PERBASI Youth East Java Basketball League (YEJBL) — menggunakan OBS via website tablet sebagai controller dengan overlay desain kustom yang bisa diperbarui secara real-time langsung dari lapangan.',
     year: '2026',
     role: 'Stream Designer & Operator',
     duration: 'Ongoing',
     client: 'PERBASI Youth East Java Basketball League',
   },
   overview: {
-    p1: 'Proyek ini lahir dari kebutuhan PERBASI untuk menghadirkan siaran live streaming pertandingan basket YEJBL dengan tampilan yang profesional dan menarik — setara siaran olahraga nasional, namun dioperasikan secara mandiri.',
-    p2: 'Solusi yang dikembangkan adalah sistem OBS berbasis kontrol tablet via website, sehingga operator dapat mengganti scene, mengaktifkan overlay skor, dan mengelola transisi tanpa harus duduk di depan komputer — sangat fleksibel untuk environment lapangan olahraga.',
+    p1: 'Proyek ini lahir dari kebutuhan nyata PERBASI Kabupaten Probolinggo untuk menghadirkan siaran live streaming pertandingan basket YEJBL dengan tampilan yang profesional, dinamis, dan menarik — setara kualitas siaran olahraga nasional, namun dioperasikan secara mandiri tanpa tim teknis besar.',
+    p2: 'Tantangan utamanya adalah: bagaimana seorang operator bisa mengontrol seluruh siaran — scene switching, scoreboard, transisi, timer — tanpa harus duduk terus di depan komputer? Solusi yang dikembangkan adalah sistem OBS berbasis kontrol tablet via website custom. Operator cukup pegang tablet, sentuh panel, dan semua perubahan langsung terefleksi di layar siaran secara instan.',
+    p3: 'Dari sisi desain, seluruh elemen visual overlay dirancang dari nol menggunakan Figma — mulai dari scoreboard, lower third nama pemain, bumper transisi, hingga template opening dan closing yang konsisten dengan identitas visual YEJBL. Hasilnya adalah paket siaran yang terasa utuh dan berkarakter.',
+    p4: 'Sistem ini sudah berjalan aktif di beberapa seri turnamen YEJBL dan terus dikembangkan. Setiap pertandingan menjadi kesempatan untuk iterasi — menambah fitur baru, menyempurnakan layout, dan meningkatkan kualitas broadcast secara keseluruhan.',
   },
   stats: [
     { val: 'OBS', label: 'Streaming Engine' },
@@ -55,12 +57,36 @@ const DEFAULT_DATA = {
     { val: 'Live', label: 'Production Type' },
   ],
   features: [
-    { icon: 'fa-solid fa-layer-group', title: 'Custom Overlay Design', desc: 'Overlay skor, timer, nama tim, dan sponsor yang dirancang khusus sesuai identitas visual YEJBL.' },
-    { icon: 'fa-solid fa-tablet-screen-button', title: 'Tablet Web Controller', desc: 'Kontrol OBS scene switching via website yang diakses dari tablet — tanpa perlu keyboard/mouse di lapangan.' },
-    { icon: 'fa-solid fa-repeat', title: 'Scene Transition', desc: 'Transisi antar scene yang mulus — dari opening, live game, timeout, hingga closing.' },
-    { icon: 'fa-solid fa-ranking-star', title: 'Live Scoreboard', desc: 'Scoreboard real-time yang dapat diupdate langsung selama pertandingan berlangsung.' },
-    { icon: 'fa-solid fa-broadcast-tower', title: 'Multi-Platform Stream', desc: 'Streaming ke YouTube Live dan platform lain secara bersamaan dalam satu sesi.' },
-    { icon: 'fa-solid fa-palette', title: 'Broadcast Layout', desc: 'Layout siaran profesional dengan lower third, bumper video, dan intro/outro yang konsisten.' },
+    {
+      icon: 'fa-solid fa-layer-group',
+      title: 'Custom Overlay Design',
+      desc: 'Seluruh elemen overlay dirancang dari nol di Figma — scoreboard dengan font yang bold dan terbaca jelas dari layar monitor maupun HP penonton, lower third nama pemain, animasi transisi scene, hingga template bumper dan sponsor. Identitas visual YEJBL dijaga konsisten di setiap frame siaran.',
+    },
+    {
+      icon: 'fa-solid fa-tablet-screen-button',
+      title: 'Tablet Web Controller',
+      desc: 'Panel kontrol OBS berbasis website yang bisa diakses dari browser tablet mana pun. Tidak perlu install aplikasi khusus, tidak perlu keyboard, tidak perlu mouse. Operator cukup pegang tablet dan mengontrol seluruh siaran dari mana saja selama masih dalam jaringan yang sama — sangat fleksibel untuk lingkungan lapangan olahraga yang dinamis.',
+    },
+    {
+      icon: 'fa-solid fa-repeat',
+      title: 'Scene Transition',
+      desc: 'Manajemen scene lengkap — dari opening countdown sebelum tipoff, live game view dengan scoreboard aktif, timeout screen dengan animasi, halftime break, hingga closing credit. Setiap transisi antar scene menggunakan efek yang smooth agar penonton tidak merasakan perpindahan yang kasar atau mendadak.',
+    },
+    {
+      icon: 'fa-solid fa-ranking-star',
+      title: 'Live Scoreboard',
+      desc: 'Scoreboard real-time yang terintegrasi langsung ke OBS via WebSocket. Operator update skor, foul, ronde, dan waktu dari panel tablet — perubahan langsung muncul di overlay siaran dalam hitungan milidetik. Tidak ada delay, tidak ada copy-paste manual, tidak ada resiko salah angka karena human error.',
+    },
+    {
+      icon: 'fa-solid fa-broadcast-tower',
+      title: 'Multi-Platform Stream',
+      desc: 'Output streaming langsung ke YouTube Live menggunakan stream key yang sudah dikonfigurasi di OBS. Dengan satu klik Record & Stream, siaran langsung terdistribusi ke channel resmi PERBASI Kabupaten Probolinggo — sekaligus tersimpan sebagai file rekaman lokal untuk keperluan highlight dan dokumentasi.',
+    },
+    {
+      icon: 'fa-solid fa-palette',
+      title: 'Broadcast Layout',
+      desc: 'Layout siaran yang dirancang dengan prinsip keterbacaan tinggi dan estetika yang kuat. Setiap elemen ditempatkan agar tidak saling bertabrakan — skor di pojok, nama tim terbaca jelas, timer tidak menutupi aksi pemain. Sistem ini juga mendukung penambahan lower third dinamis untuk highlight pemain atau momen penting.',
+    },
   ],
   techStack: [
     { icon: 'fa-solid fa-circle-dot', label: 'OBS Studio', desc: 'Engine utama streaming & recording' },
@@ -70,8 +96,11 @@ const DEFAULT_DATA = {
     { icon: 'fa-brands fa-youtube', label: 'YouTube Live', desc: 'Platform distribusi streaming' },
     { icon: 'fa-solid fa-fire', label: 'Firebase', desc: 'Real-time data & remote config' },
   ],
-  tags: ['OBS Studio', 'Live Streaming', 'PERBASI', 'YEJBL', 'Tablet Controller', 'Overlay Design', 'Broadcast Layout', 'YouTube Live', 'Scene Transition', 'Lower Third'],
+  tags: ['OBS Studio', 'Live Streaming', 'PERBASI', 'YEJBL', 'Tablet Controller', 'Overlay Design', 'Broadcast Layout', 'YouTube Live', 'Scene Transition', 'Lower Third', 'WebSocket', 'Figma', 'Scoreboard Real-time'],
   externalLink: 'https://basketyuk.id/klasemen/youth-east-java-basketball-league-2026-seri-4/389',
+  demoLink: 'https://obss-livid.vercel.app/',
+  youtubeVideoId: 'LJHbo9zjma0',
+  youtubeChannel: 'https://www.youtube.com/@perbasikabupatenprobolingg6971/streams',
 };
 
 /* ── Gallery Items ── */
@@ -236,6 +265,120 @@ export default function PortoKarya4({ t = {} }) {
         .k4-gal-desc {
           padding: 16px 18px; font-size: 0.75rem; line-height: 1.75;
           color: var(--text-dim); border-top: 1px solid var(--border);
+        }
+
+        /* DEMO SECTION */
+        .k4-demo-card {
+          display: flex; align-items: center; gap: 40px;
+          background: linear-gradient(135deg, rgba(34,197,94,0.05) 0%, rgba(139,92,246,0.05) 100%);
+          border: 1px solid rgba(34,197,94,0.2); border-radius: 24px;
+          padding: 48px 56px; position: relative; overflow: hidden;
+        }
+        .k4-demo-card::before {
+          content: ''; position: absolute; top: -1px; left: 10%; right: 10%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent);
+        }
+        .k4-demo-icon-wrap {
+          width: 80px; height: 80px; border-radius: 20px; flex-shrink: 0;
+          background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 2rem; color: #22c55e;
+        }
+        .k4-demo-text { flex: 1; }
+        .k4-demo-text h3 {
+          font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600;
+          margin-bottom: 10px; line-height: 1.1;
+        }
+        .k4-demo-text p {
+          font-size: 0.83rem; line-height: 1.8; color: var(--text-dim); margin-bottom: 24px;
+        }
+        .k4-demo-btn {
+          display: inline-flex; align-items: center; gap: 10px;
+          background: #22c55e; color: #fff; border: none; border-radius: 99px;
+          padding: 13px 32px; font-size: 0.72rem; font-weight: 700;
+          letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+          transition: all 0.3s; cursor: pointer;
+          box-shadow: 0 8px 28px rgba(34,197,94,0.3);
+        }
+        .k4-demo-btn:hover { background: #16a34a; transform: scale(1.05); }
+        .k4-demo-url {
+          display: inline-flex; align-items: center; gap: 8px;
+          margin-left: 14px; font-size: 0.7rem; color: var(--text-dim);
+          text-decoration: none; letter-spacing: 0.08em;
+          transition: color 0.25s;
+        }
+        .k4-demo-url:hover { color: #22c55e; }
+
+        /* YOUTUBE SECTION */
+        .k4-yt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .k4-yt-embed-wrap {
+          border-radius: 20px; overflow: hidden; position: relative;
+          aspect-ratio: 16/9; border: 1px solid var(--border);
+          background: #000;
+        }
+        .k4-yt-embed-wrap iframe {
+          width: 100%; height: 100%; border: none; display: block;
+        }
+        .k4-yt-channel-card {
+          display: flex; flex-direction: column; justify-content: space-between;
+          background: linear-gradient(135deg, rgba(255,0,0,0.06) 0%, rgba(139,92,246,0.04) 100%);
+          border: 1px solid rgba(255,60,60,0.18); border-radius: 20px;
+          padding: 36px 36px; position: relative; overflow: hidden;
+        }
+        .k4-yt-channel-card::before {
+          content: ''; position: absolute; top: -1px; left: 10%; right: 10%; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,60,60,0.4), transparent);
+        }
+        .k4-yt-channel-logo {
+          width: 60px; height: 60px; border-radius: 50%;
+          background: rgba(255,0,0,0.12); border: 1px solid rgba(255,60,60,0.25);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.6rem; color: #ff4444; margin-bottom: 20px;
+        }
+        .k4-yt-channel-card h3 {
+          font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600;
+          margin-bottom: 10px; line-height: 1.15;
+        }
+        .k4-yt-channel-card p {
+          font-size: 0.78rem; line-height: 1.8; color: var(--text-dim); margin-bottom: 28px; flex: 1;
+        }
+        .k4-yt-btn {
+          display: inline-flex; align-items: center; gap: 10px;
+          background: #ff0000; color: #fff; border: none; border-radius: 99px;
+          padding: 12px 28px; font-size: 0.7rem; font-weight: 700;
+          letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+          transition: all 0.3s; width: fit-content;
+          box-shadow: 0 6px 22px rgba(255,0,0,0.25);
+        }
+        .k4-yt-btn:hover { background: #cc0000; transform: scale(1.04); }
+        .k4-yt-label {
+          font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em;
+          text-transform: uppercase; color: #ff4444; margin-bottom: 8px;
+          display: flex; align-items: center; gap: 6px;
+        }
+        .k4-yt-label-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444;
+          animation: k4Blink 1.5s infinite; }
+        .k4-yt-note {
+          font-size: 0.7rem; color: var(--text-dim); margin-top: 12px;
+          line-height: 1.65; font-style: italic;
+        }
+
+        /* OVERVIEW EXTENDED */
+        .k4-overview-extended {
+          margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+        }
+        .k4-overview-ext-card {
+          background: var(--glass); border: 1px solid var(--border); border-radius: 18px;
+          padding: 28px 26px;
+        }
+        .k4-overview-ext-card h4 {
+          font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600;
+          margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
+        }
+        .k4-overview-ext-card h4 i { font-size: 0.95rem; color: var(--accent2); }
+        .k4-overview-ext-card p {
+          font-size: 0.78rem; line-height: 1.82; color: var(--text-dim);
         }
         .k4-breadcrumb {
           font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
@@ -416,6 +559,9 @@ export default function PortoKarya4({ t = {} }) {
           .k4-nav { padding: 28px 40px; }
           .k4-overview-grid { grid-template-columns: 1fr; gap: 32px; }
           .k4-tech-grid { grid-template-columns: repeat(2, 1fr); }
+          .k4-demo-card { flex-direction: column; gap: 24px; padding: 36px 36px; }
+          .k4-yt-grid { grid-template-columns: 1fr; }
+          .k4-overview-extended { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
           .k4-hero { padding: 110px 24px 60px; }
@@ -428,6 +574,8 @@ export default function PortoKarya4({ t = {} }) {
           .k4-nav { padding: 24px 24px; }
           .k4-gal-grid { grid-template-columns: 1fr; }
           .k4-gal-wide, .k4-gal-full { grid-column: span 1; aspect-ratio: 16/9; }
+          .k4-demo-card { padding: 28px 24px; }
+          .k4-yt-channel-card { padding: 28px 24px; }
         }
       `}</style>
 
@@ -484,14 +632,47 @@ export default function PortoKarya4({ t = {} }) {
             <div ref={r} className="k4-overview-text reveal">
               <p>{d.overview.p1}</p>
               <p>{d.overview.p2}</p>
+              <p>{d.overview.p3}</p>
+              <p>{d.overview.p4}</p>
             </div>
-            <div ref={r} className="k4-firebase-badge reveal rv-d1">
-              <i className="fa-solid fa-fire" />
-              <div>
-                <strong>Firebase Ready</strong><br />
-                Konten halaman ini dapat diedit langsung dari Firebase Console — tanpa perlu coding atau deploy ulang. Setup Firebase di bagian atas file untuk mengaktifkan fitur ini.
+            <div>
+              <div ref={r} className="k4-firebase-badge reveal rv-d1">
+                <i className="fa-solid fa-fire" />
+                <div>
+                  <strong>Firebase Ready</strong><br />
+                  Konten halaman ini dapat diedit langsung dari Firebase Console — tanpa perlu coding atau deploy ulang. Setup Firebase di bagian atas file untuk mengaktifkan fitur ini.
+                </div>
+              </div>
+              <div ref={r} className="reveal rv-d2" style={{ background: 'var(--glass)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px 22px', marginTop: '16px' }}>
+                <div style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '14px' }}>Highlight Utama</div>
+                {[
+                  { icon: 'fa-solid fa-wifi', text: 'Kontrol OBS dari tablet via jaringan lokal — tanpa kabel, tanpa software tambahan' },
+                  { icon: 'fa-solid fa-bolt', text: 'Update scoreboard real-time via WebSocket — perubahan muncul instan di siaran' },
+                  { icon: 'fa-solid fa-paint-brush', text: 'Seluruh desain overlay dibuat custom di Figma sesuai identitas YEJBL' },
+                  { icon: 'fa-brands fa-youtube', text: 'Distribusi langsung ke YouTube Live dengan stream key terenkripsi' },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: i < 3 ? '12px' : 0 }}>
+                    <i className={item.icon} style={{ color: 'var(--accent2)', marginTop: '3px', flexShrink: 0, width: '14px', textAlign: 'center' }} />
+                    <span style={{ fontSize: '0.78rem', lineHeight: 1.7, color: 'var(--text-dim)' }}>{item.text}</span>
+                  </div>
+                ))}
               </div>
             </div>
+          </div>
+
+          {/* Extended cards */}
+          <div ref={r} className="k4-overview-extended reveal rv-d2">
+            {[
+              { icon: 'fa-solid fa-lightbulb', title: 'Latar Belakang', text: 'PERBASI Kabupaten Probolinggo menyelenggarakan YEJBL secara rutin setiap tahun. Sebelumnya siaran dilakukan dengan setup sederhana tanpa overlay dinamis. Proyek ini hadir untuk mengangkat kualitas broadcast agar lebih kompetitif dan membanggakan bagi atlet, orang tua, dan penonton.' },
+              { icon: 'fa-solid fa-wrench', title: 'Pendekatan Teknis', text: 'OBS WebSocket digunakan sebagai jembatan antara website tablet controller dan software OBS di komputer. Setiap tombol di website mengirimkan perintah ke OBS secara real-time — scene switch, update text source scoreboard, toggle visibility overlay — tanpa latency yang terasa.' },
+              { icon: 'fa-solid fa-chart-line', title: 'Dampak & Hasil', text: 'Sejak sistem ini diterapkan, kualitas visual siaran YEJBL meningkat signifikan. Penonton live streaming bertambah, komentar positif mengalir di kolom chat YouTube, dan tim PERBASI merasa lebih percaya diri menghadirkan siaran yang terlihat profesional.' },
+              { icon: 'fa-solid fa-arrows-rotate', title: 'Ongoing Development', text: 'Proyek ini masih aktif dikembangkan. Setiap seri turnamen membawa kebutuhan baru — layout baru, fitur tambahan, perbaikan UX panel tablet. Roadmap ke depan termasuk integrasi Firebase untuk remote config dan multi-operator support.' },
+            ].map((card, i) => (
+              <div key={i} className="k4-overview-ext-card">
+                <h4><i className={card.icon} /> {card.title}</h4>
+                <p>{card.text}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -537,9 +718,102 @@ export default function PortoKarya4({ t = {} }) {
           </div>
         </section>
 
+        {/* ══ LIVE DEMO ══ */}
+        <section className="k4-section">
+          <span ref={r} className="k4-sec-label reveal">03 / Live Demo</span>
+          <h2 ref={r} className="k4-sec-title reveal rv-d1">
+            Coba Langsung <em>Sekarang.</em>
+          </h2>
+          <div ref={r} className="k4-demo-card reveal">
+            <div className="k4-demo-icon-wrap">
+              <i className="fa-solid fa-display" />
+            </div>
+            <div className="k4-demo-text">
+              <div style={{ fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#22c55e', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block', animation: 'k4Blink 1.5s infinite' }} />
+                Live Demo Tersedia
+              </div>
+              <h3>Coba Langsung OBS Web Controller-nya</h3>
+              <p>
+                Website OBS controller ini bisa dicoba langsung dari browser kamu — tidak perlu install apa pun. Buka linknya, dan kamu bisa melihat sendiri bagaimana tampilan panel kontrol yang digunakan operator saat siaran berlangsung. Tombol-tombol scene switching, panel scoreboard, dan semua kontrol sudah ada di sana. Untuk penggunaan penuh, controller ini perlu terhubung ke OBS Studio via WebSocket di jaringan yang sama — tapi untuk preview UI-nya, bisa langsung dijajal.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                <a href={d.demoLink} target="_blank" rel="noopener noreferrer" className="k4-demo-btn">
+                  <i className="fa-solid fa-arrow-up-right-from-square" />
+                  Buka Web Controller
+                </a>
+                <a href={d.demoLink} target="_blank" rel="noopener noreferrer" className="k4-demo-url">
+                  <i className="fa-solid fa-link" />
+                  obss-livid.vercel.app
+                </a>
+              </div>
+              <p style={{ fontSize: '0.68rem', color: 'var(--text-dim)', marginTop: '14px', marginBottom: 0, fontStyle: 'italic', lineHeight: 1.65 }}>
+                * Controller ini merupakan modifikasi custom dari OBS-web open source yang dikembangkan oleh Niek van der Maas, dengan tambahan fitur scoreboard basket khusus untuk kebutuhan YEJBL. Nama text source di OBS harus dikonfigurasi secara spesifik agar sinkronisasi scoreboard berjalan — hubungi admin untuk info setup lengkapnya.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ══ YOUTUBE ══ */}
+        <section className="k4-section">
+          <span ref={r} className="k4-sec-label reveal">04 / Live on YouTube</span>
+          <h2 ref={r} className="k4-sec-title reveal rv-d1">
+            Tonton Siaran <em>Langsung.</em>
+          </h2>
+          <p ref={r} className="reveal rv-d1" style={{ fontSize: '0.88rem', color: 'var(--text-dim)', maxWidth: '620px', lineHeight: 1.85, marginBottom: '40px' }}>
+            Hasil nyata dari sistem ini bisa disaksikan langsung di channel YouTube resmi PERBASI Kabupaten Probolinggo. Setiap pertandingan YEJBL distreaming secara live menggunakan setup yang sama — OBS Studio dengan overlay kustom, dikontrol dari tablet via web controller ini.
+          </p>
+          <div ref={r} className="k4-yt-grid reveal rv-d2">
+
+            {/* Video Embed */}
+            <div>
+              <div className="k4-yt-label" style={{ marginBottom: '12px' }}>
+                <span className="k4-yt-label-dot" />
+                Salah Satu Siaran YEJBL
+              </div>
+              <div className="k4-yt-embed-wrap">
+                <iframe
+                  src={`https://www.youtube.com/embed/${d.youtubeVideoId}`}
+                  title="YEJBL Live Stream — PERBASI Kabupaten Probolinggo"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <p className="k4-yt-note">
+                Siaran ini menggunakan sistem OBS web controller yang dikembangkan dalam proyek ini. Overlay scoreboard, timer, dan transisi scene semua dikendalikan secara real-time dari tablet oleh operator selama pertandingan berlangsung.
+              </p>
+            </div>
+
+            {/* Channel Card */}
+            <div className="k4-yt-channel-card">
+              <div>
+                <div className="k4-yt-channel-logo">
+                  <i className="fa-brands fa-youtube" />
+                </div>
+                <h3>PERBASI Kab. Probolinggo — YouTube Channel</h3>
+                <p>
+                  Channel YouTube resmi PERBASI Kabupaten Probolinggo adalah rumah dari semua siaran pertandingan YEJBL dan event basket lainnya. Dari sini penonton bisa menyaksikan seluruh arsip pertandingan — mulai dari babak penyisihan, semifinal, hingga grand final — dengan kualitas broadcast yang terus berkembang setiap serinya.
+                  <br /><br />
+                  Setiap video yang ada di channel ini merupakan hasil kerja nyata dari sistem streaming yang dibangun dalam proyek ini: overlay yang terdesain rapi, scoreboard yang selalu akurat, dan transisi scene yang mulus. Subscribe channel-nya untuk tidak melewatkan siaran pertandingan berikutnya!
+                </p>
+              </div>
+              <div>
+                <a href={d.youtubeChannel} target="_blank" rel="noopener noreferrer" className="k4-yt-btn">
+                  <i className="fa-brands fa-youtube" />
+                  Lihat Semua Siaran
+                </a>
+                <p className="k4-yt-note" style={{ marginTop: '16px' }}>
+                  Kunjungi tab <strong>Live</strong> dan <strong>Videos</strong> untuk melihat semua rekaman pertandingan YEJBL yang sudah disiarkan.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
         {/* ══ FEATURES ══ */}
         <section className="k4-section">
-          <span ref={r} className="k4-sec-label reveal">03 / Fitur</span>
+          <span ref={r} className="k4-sec-label reveal">05 / Fitur</span>
           <h2 ref={r} className="k4-sec-title reveal rv-d1">
             Fitur & <em>Keunggulan.</em>
           </h2>
@@ -556,7 +830,7 @@ export default function PortoKarya4({ t = {} }) {
 
         {/* ══ TECH STACK ══ */}
         <section className="k4-section">
-          <span ref={r} className="k4-sec-label reveal">04 / Teknologi</span>
+          <span ref={r} className="k4-sec-label reveal">05 / Teknologi</span>
           <h2 ref={r} className="k4-sec-title reveal rv-d1">
             Tech <em>Stack.</em>
           </h2>
