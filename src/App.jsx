@@ -19,6 +19,7 @@ const PortoKarya4  = lazy(() => import('./pages/PortoKarya4'));
 /* ── Tambahan Lazy Load untuk Halaman Baru Kamu ── */
 const Dashboard   = lazy(() => import('./pages/Dashboard'));
 const CheckoutQRIS = lazy(() => import('./pages/CheckoutQRIS'));
+const PriceList    = lazy(() => import('./pages/PriceList'));
 
 /* ── 404 Page ── */
 function NotFound() {
@@ -73,6 +74,7 @@ function Layout() {
             {/* ── Rute Baru untuk Dashboard & Pembayaran Kamu ── */}
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/checkout" element={<CheckoutQRIS />} />
+            <Route path="/pricelist" element={<PriceList />} />
 
             {/* 404 Route */}
             <Route path="*" element={<NotFound />} />
