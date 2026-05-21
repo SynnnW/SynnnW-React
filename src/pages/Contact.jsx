@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from './firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 /* ─────────────────────────────────────────────────────────────
    DATA CONFIG
@@ -233,6 +233,51 @@ export default function Contact({ t = {} }) {
   const [authStatus, setAuthStatus] = useState('idle'); // idle | loading | success | error
   const [authError, setAuthError]   = useState('');
 
+  /* ── Pre-form gate state ── */
+  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+  const [preData, setPreData] = useState({ nama: '', hp: '', email: '', kebutuhan: '', hari: 7 });
+  const [preErrors, setPreErrors] = useState({});
+  const [preSaving, setPreSaving] = useState(false);
+  const [tempDocId, setTempDocId] = useState(null);
+
+  const setP = (k, v) => setPreData((prev) => ({ ...prev, [k]: v }));
+
+  const validatePre = () => {
+    const e = {};
+    if (!preData.nama.trim())       e.nama      = 'Nama wajib diisi.';
+    if (!preData.hp.trim())         e.hp        = 'Nomor HP wajib diisi.';
+    if (!preData.email.trim())      e.email     = 'Email wajib diisi.';
+    else if (!/\S+@\S+\.\S+/.test(preData.email)) e.email = 'Format email tidak valid.';
+    if (!preData.kebutuhan.trim())  e.kebutuhan = 'Ceritakan kebutuhanmu singkat.';
+    return e;
+  };
+
+  const handlePreLanjut = async () => {
+    const e = validatePre();
+    if (Object.keys(e).length) { setPreErrors(e); return; }
+    setPreSaving(true);
+    try {
+      const docRef = await addDoc(collection(db, 'inquiries'), {
+        nama:       preData.nama,
+        hp:         preData.hp,
+        email:      preData.email,
+        kebutuhan:  preData.kebutuhan,
+        hari:       preData.hari,
+        status:     'pre_inquiry',
+        createdAt:  serverTimestamp(),
+      });
+      setTempDocId(docRef.id);
+      setShowQuestionnaire(true);
+      setTimeout(() => {
+        if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setPreSaving(false);
+    }
+  };
+
   /* ── Reveal observer ── */
   const r = (el) => { if (el && !revealEls.current.includes(el)) revealEls.current.push(el); };
 
@@ -448,7 +493,108 @@ export default function Contact({ t = {} }) {
           </div>
         </div>
 
+        {/* ══════════════════════════════ PRE-FORM GATE ══════════════════════════════ */}
+        {!showQuestionnaire && (
+          <div className="cq-pregate">
+            <div className="cq-pregate-inner">
+              <div className="cq-pregate-head">
+                <span className="cq-step-badge">SEBELUM LANJUT</span>
+                <h2 className="cq-step-title">Isi dulu <em>info singkat kamu.</em></h2>
+                <p className="cq-step-desc">Biar aku bisa langsung tahu siapa kamu dan apa yang kamu butuhkan — tanpa perlu login dulu.</p>
+              </div>
+
+              <div className="cq-fields">
+                <div className="cq-field-row">
+                  <div className="cq-field-group">
+                    <label className="cq-field-label">Nama *</label>
+                    <input
+                      type="text"
+                      className={`cq-field-input ${preErrors.nama ? 'cq-field-error' : ''}`}
+                      placeholder="Nama kamu"
+                      value={preData.nama}
+                      onChange={(e) => setP('nama', e.target.value)}
+                    />
+                    {preErrors.nama && <span className="cq-err-msg">{preErrors.nama}</span>}
+                  </div>
+                  <div className="cq-field-group">
+                    <label className="cq-field-label">Nomor HP / WhatsApp *</label>
+                    <div className="cq-input-prefix-wrap">
+                      <span className="cq-input-prefix">+62</span>
+                      <input
+                        type="tel"
+                        className={`cq-field-input cq-field-prefixed ${preErrors.hp ? 'cq-field-error' : ''}`}
+                        placeholder="812-3456-7890"
+                        value={preData.hp}
+                        onChange={(e) => setP('hp', e.target.value)}
+                      />
+                    </div>
+                    {preErrors.hp && <span className="cq-err-msg">{preErrors.hp}</span>}
+                  </div>
+                </div>
+
+                <div className="cq-field-group">
+                  <label className="cq-field-label">Email *</label>
+                  <input
+                    type="email"
+                    className={`cq-field-input ${preErrors.email ? 'cq-field-error' : ''}`}
+                    placeholder="nama@email.com"
+                    value={preData.email}
+                    onChange={(e) => setP('email', e.target.value)}
+                  />
+                  {preErrors.email && <span className="cq-err-msg">{preErrors.email}</span>}
+                </div>
+
+                <div className="cq-field-group">
+                  <label className="cq-field-label">Kebutuhan kamu apa? * <span className="cq-multi-hint">(singkat aja)</span></label>
+                  <textarea
+                    className={`cq-field-input cq-field-textarea ${preErrors.kebutuhan ? 'cq-field-error' : ''}`}
+                    placeholder="Contoh: mau bikin website portofolio, atau edit video tugas sekolah, atau desain poster lomba..."
+                    value={preData.kebutuhan}
+                    onChange={(e) => setP('kebutuhan', e.target.value)}
+                  />
+                  {preErrors.kebutuhan && <span className="cq-err-msg">{preErrors.kebutuhan}</span>}
+                </div>
+
+                <div className="cq-field-group">
+                  <label className="cq-field-label">
+                    Butuh selesai dalam berapa hari?
+                    <span className="cq-slider-val">{preData.hari} hari</span>
+                  </label>
+                  <div className="cq-slider-wrap">
+                    <span className="cq-slider-tick">1</span>
+                    <input
+                      type="range"
+                      min="1" max="60" step="1"
+                      className="cq-slider"
+                      value={preData.hari}
+                      onChange={(e) => setP('hari', Number(e.target.value))}
+                    />
+                    <span className="cq-slider-tick">60</span>
+                  </div>
+                  <div className="cq-slider-labels">
+                    <span className={preData.hari <= 3 ? 'cq-sl-active' : ''}>🔥 Mendesak</span>
+                    <span className={preData.hari > 3 && preData.hari <= 14 ? 'cq-sl-active' : ''}>⚡ Normal</span>
+                    <span className={preData.hari > 14 && preData.hari <= 30 ? 'cq-sl-active' : ''}>🌿 Santai</span>
+                    <span className={preData.hari > 30 ? 'cq-sl-active' : ''}>☁️ Fleksibel</span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="cq-btn-pregate"
+                  onClick={handlePreLanjut}
+                  disabled={preSaving}
+                >
+                  {preSaving ? <span className="cq-spinner" /> : <i className="fa-solid fa-arrow-right" />}
+                  <span>{preSaving ? 'Menyimpan...' : 'Lanjut ke Pertanyaan Detail'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* ══════════════════════════════ QUESTIONNAIRE ══════════════════════════════ */}
+        {showQuestionnaire && (
         <div className="cq-body" ref={formRef}>
 
           {/* LEFT: sticky info */}
@@ -784,6 +930,7 @@ export default function Contact({ t = {} }) {
             </div>{/* end cq-card */}
           </div>{/* end cq-right */}
         </div>{/* end cq-body */}
+        )}{/* end showQuestionnaire */}
       </div>{/* end cq-page */}
     </>
   );
@@ -1302,8 +1449,86 @@ const CSS = `
   .cq-budget-grid { grid-template-columns: 1fr; }
   .cq-step-counter { padding: 16px 22px 0; }
 }
-@media (max-width: 480px) {
-  .cq-type-grid { grid-template-columns: 1fr; }
-  .cq-steps-track { display: none; }
+/* ── Pre-gate section ── */
+.cq-pregate {
+  display: flex;
+  justify-content: center;
+  padding: 72px 24px 100px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.cq-pregate-inner {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.cq-pregate-head { margin-bottom: 4px; }
+
+.cq-btn-pregate {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; padding: 17px;
+  background: var(--text); color: var(--bg);
+  border: none; border-radius: 14px; cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.84rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: all 0.35s; margin-top: 8px;
+}
+.cq-btn-pregate:hover:not(:disabled) {
+  background: var(--accent); color: #fff;
+  box-shadow: 0 8px 32px rgba(139,92,246,0.38);
+  transform: translateY(-2px);
+}
+.cq-btn-pregate:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── Slider ── */
+.cq-slider-wrap {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 6px;
+}
+.cq-slider-tick {
+  font-size: 0.66rem; color: var(--text-dim); font-weight: 600;
+  flex-shrink: 0; width: 22px; text-align: center;
+}
+.cq-slider {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; height: 4px; border-radius: 99px;
+  background: var(--glass2); outline: none; cursor: pointer;
+  border: 1px solid var(--gborder);
+}
+.cq-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.25);
+  transition: box-shadow 0.2s;
+}
+.cq-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px rgba(139,92,246,0.3); }
+.cq-slider::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.25);
+}
+.cq-slider-val {
+  margin-left: 10px;
+  font-size: 0.78rem; font-weight: 700; color: var(--accent3);
+  background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.25);
+  border-radius: 99px; padding: 2px 10px;
+}
+.cq-slider-labels {
+  display: flex; justify-content: space-between;
+  margin-top: 10px; padding: 0 2px;
+}
+.cq-slider-labels span {
+  font-size: 0.65rem; color: var(--text-dim); font-weight: 500;
+  transition: color 0.25s;
+}
+.cq-slider-labels .cq-sl-active { color: var(--accent3); font-weight: 700; }
+
+@media (max-width: 768px) {
+  .cq-pregate { padding: 48px 18px 80px; }
 }
 `;
