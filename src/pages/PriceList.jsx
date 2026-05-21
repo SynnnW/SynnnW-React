@@ -164,6 +164,14 @@ const CATEGORIES = [
         syarat: true,
       },
       {
+        id: 'pw', name: 'Undangan Digital Wedding', icon: 'fa-heart',
+        price: 100000, origPrice: 200000, unit: '/ project',
+        badge: 'Tanpa Domain & Hosting',
+        short: 'Cukup jasa desain — hosting & domain pakai punyamu',
+        desc: 'Paket undangan pernikahan digital khusus jasa desain saja. Kamu sudah punya hosting dan domain sendiri, jadi kita fokus bikin undangannya seindah mungkin!\n\n✦ Desain undangan digital interaktif\n✦ Animasi halus & elegan\n✦ Fitur RSVP (konfirmasi kehadiran)\n✦ Musik latar opsional\n✦ Countdown hari H\n✦ Galeri foto pasangan\n✦ Share link via WhatsApp\n✦ Mobile-first & responsif\n✦ Deploy ke hosting/domain kamu\n✦ Revisi 3x\n\n💡 Harga: Rp 100.000 – 200.000 tergantung fitur\n⚠️ Di luar biaya domain & hosting',
+        syarat: true,
+      },
+      {
         id: 'p3', name: 'Paket 3 — Aplikasi + QRIS Cafe', icon: 'fa-qrcode',
         price: 0, origPrice: 0, unit: '',
         badge: 'Coming Soon',
