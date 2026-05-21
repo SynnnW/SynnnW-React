@@ -238,6 +238,7 @@ export default function Contact({ t = {} }) {
   const [preData, setPreData] = useState({ nama: '', hp: '', email: '', kebutuhan: '', hari: 7 });
   const [preErrors, setPreErrors] = useState({});
   const [preSaving, setPreSaving] = useState(false);
+  const [preSaveError, setPreSaveError] = useState('');
   const [tempDocId, setTempDocId] = useState(null);
 
   const setP = (k, v) => setPreData((prev) => ({ ...prev, [k]: v }));
@@ -255,6 +256,7 @@ export default function Contact({ t = {} }) {
   const handlePreLanjut = async () => {
     const e = validatePre();
     if (Object.keys(e).length) { setPreErrors(e); return; }
+    setPreSaveError('');
     setPreSaving(true);
     try {
       const docRef = await addDoc(collection(db, 'inquiries'), {
@@ -273,6 +275,7 @@ export default function Contact({ t = {} }) {
       }, 100);
     } catch (err) {
       console.error(err);
+      setPreSaveError('Gagal menyimpan data. Coba lagi.');
     } finally {
       setPreSaving(false);
     }
@@ -579,6 +582,11 @@ export default function Contact({ t = {} }) {
                   </div>
                 </div>
 
+                {preSaveError && (
+                  <div className="cq-global-err" style={{ marginBottom: 16 }}>
+                    <i className="fa-solid fa-triangle-exclamation" /> {preSaveError}
+                  </div>
+                )}
                 <button
                   type="button"
                   className="cq-btn-pregate"
@@ -586,7 +594,7 @@ export default function Contact({ t = {} }) {
                   disabled={preSaving}
                 >
                   {preSaving ? <span className="cq-spinner" /> : <i className="fa-solid fa-arrow-right" />}
-                  <span>{preSaving ? 'Menyimpan...' : 'Lanjut ke Pertanyaan Detail'}</span>
+                  <span>{preSaving ? 'Menyimpan...' : 'Lanjut ke proses pengerjaan'}</span>
                 </button>
               </div>
             </div>
@@ -594,8 +602,8 @@ export default function Contact({ t = {} }) {
         )}
 
         {/* ══════════════════════════════ QUESTIONNAIRE ══════════════════════════════ */}
-        {showQuestionnaire && (
-        <div className="cq-body" ref={formRef}>
+        {showQuestionnaire ? (
+          <div className="cq-body" ref={formRef}>
 
           {/* LEFT: sticky info */}
           <div ref={r} className="cq-left reveal">
@@ -929,8 +937,8 @@ export default function Contact({ t = {} }) {
 
             </div>{/* end cq-card */}
           </div>{/* end cq-right */}
-        </div>{/* end cq-body */}
-        )}{/* end showQuestionnaire */}
+        </div>
+        ) : null}
       </div>{/* end cq-page */}
     </>
   );
