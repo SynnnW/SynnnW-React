@@ -2,802 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { db } from './firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
-/* ─────────────────────────────────────────────────────────────
-   CONSTANTS
-───────────────────────────────────────────────────────────── */
-
-const CLIENT_TYPES = [
-  { value: 'individu',   label: 'Pribadi / Individu',        icon: 'fa-user',             desc: 'Proyek personal, portofolio, dll.' },
-  { value: 'bisnis',     label: 'Bisnis / Brand / UMKM',     icon: 'fa-briefcase',         desc: 'Branding, konten, pemasaran' },
-  { value: 'organisasi', label: 'Sekolah / Kampus / Komunitas', icon: 'fa-building-columns', desc: 'Event, tugas, kegiatan institusi' },
-  { value: 'pasangan',   label: 'Pasangan (Wedding)',         icon: 'fa-heart',             desc: 'Dokumentasi & undangan digital' },
-  { value: 'kreator',    label: 'Kreator Konten / Influencer', icon: 'fa-video',            desc: 'YouTube, TikTok, Reels, streaming' },
-];
-
-const TOTAL_STEPS = 5;
-const WA_NUMBER   = '628XXXXXXXXXX'; // ← Ganti dengan nomor WA kamu
-
-/* ─────────────────────────────────────────────────────────────
-   COMPONENT
-───────────────────────────────────────────────────────────── */
-
-export default function Contact() {
-  /* ── Cart ── */
-  const [cartData,   setCartData]   = useState(null);
-  const [cartLoaded, setCartLoaded] = useState(false);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem('selectedServices');
-      if (raw) setCartData(JSON.parse(raw));
-    } catch (_) {/* corrupt data — biarkan null */}
-    setCartLoaded(true);
-  }, []);
-
-  /* ── Step & animation ── */
-  const [step,    setStep]    = useState(1);
-  const [animDir, setAnimDir] = useState('forward');
-  const [visible, setVisible] = useState(true);
-
-  /* ── Form fields ── */
-  const [clientType,     setClientType]     = useState('');
-  const [creativeSlider, setCreativeSlider] = useState(50);
-  const [projectName,    setProjectName]    = useState('');
-  const [projectDesc,    setProjectDesc]    = useState('');
-
-  /* ── Errors ── */
-  const [errors, setErrors] = useState({});
-
-  /* ── Firebase submit ── */
-  const [submitting,   setSubmitting]   = useState(false);
-  const [submitError,  setSubmitError]  = useState('');
-  const [generatedId,  setGeneratedId]  = useState('');
-
-  const formRef = useRef(null);
-
-  /* ── Safe cart helpers with optional chaining ── */
-  const cartItems = cartData?.items ?? [];
-  const cartTotal = cartData?.total ?? 0;
-
-  /* ─────── STEP NAVIGATION ─────── */
-  const goToStep = (next, dir = 'forward') => {
-    setAnimDir(dir);
-    setVisible(false);
-    setTimeout(() => {
-      setStep(next);
-      setErrors({});
-      setVisible(true);
-      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 280);
-  };
-
-  const handleNext = () => {
-    const e = {};
-    if (step === 1 && !clientType)         e.clientType  = 'Pilih salah satu tipe klien.';
-    if (step === 4 && !projectName.trim()) e.projectName = 'Nama proyek wajib diisi.';
-    if (Object.keys(e).length) { setErrors(e); return; }
-    goToStep(step + 1, 'forward');
-  };
-
-  const handleBack = () => goToStep(step - 1, 'back');
-
-  /* ─────── FIREBASE SUBMIT (try-catch-finally) ─────── */
-  const handleSubmitData = async () => {
-    setSubmitting(true);
-    setSubmitError('');
-    try {
-      const payload = {
-        clientType,
-        creativePreference:  creativeSlider,
-        creativeLabel:       sliderLabel(creativeSlider),
-        projectName:         projectName.trim(),
-        projectDesc:         projectDesc.trim(),
-        selectedItems:       cartItems,
-        cartTotal,
-        status:              'pending',
-        createdAt:           serverTimestamp(),
-      };
-      const docRef = await addDoc(collection(db, 'client_briefs'), payload);
-      setGeneratedId(docRef.id);
-      /* ✅ SUKSES → ubah step ke 6, TANPA navigate/redirect */
-      setStep(6);
-    } catch (err) {
-      console.error('[Contact] Firebase error:', err);
-      setSubmitError('Gagal menyimpan data. Periksa koneksi dan coba lagi.');
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  /* ─────── SLIDER LABEL HELPER ─────── */
-  const sliderLabel = (val) => {
-    if (val < 30)  return 'Minimalis & Bersih';
-    if (val < 60)  return 'Seimbang & Fleksibel';
-    if (val < 85)  return 'Dinamis & Berkarakter';
-    return 'Kompleks & Ekspresif';
-  };
-
-  /* ─────── WA MESSAGE ─────── */
-  const buildWAMessage = () => {
-    const itemLines = cartItems?.length
-      ? cartItems.map(i =>
-          `  • ${i?.name ?? 'Item'} ×${i?.qty ?? 1} — Rp ${((i?.price ?? 0) * (i?.qty ?? 1)).toLocaleString('id-ID')}`
-        ).join('\n')
-      : '  (tidak ada item dari Price List)';
-
-    const clientLabel = CLIENT_TYPES.find(c => c.value === clientType)?.label ?? clientType;
-
-    const msg = [
-      '🎨 *BRIEF & ORDER BARU — SynnnW*',
-      '━━━━━━━━━━━━━━━━━━━━━━━━━',
-      '',
-      `📋 *ORDER ID:* \`${generatedId}\``,
-      '',
-      '👤 *TIPE KLIEN*',
-      `  • ${clientLabel}`,
-      '',
-      '🎨 *PREFERENSI KREATIF*',
-      `  • Skala ${creativeSlider}/100 — ${sliderLabel(creativeSlider)}`,
-      '',
-      '📁 *DETAIL PROYEK*',
-      `  • Nama Proyek : ${projectName}`,
-      `  • Deskripsi   : ${projectDesc || '—'}`,
-      '',
-      '🛒 *ITEM YANG DIPESAN*',
-      itemLines,
-      '',
-      `💰 *TOTAL TAGIHAN : Rp ${cartTotal.toLocaleString('id-ID')}*`,
-      `   DP 50% yang harus ditransfer: *Rp ${Math.ceil(cartTotal / 2).toLocaleString('id-ID')}*`,
-      '',
-      '━━━━━━━━━━━━━━━━━━━━━━━━━',
-      'Halo kak, saya ingin konfirmasi pembayaran untuk order di atas! 🙏',
-    ].join('\n');
-
-    return encodeURIComponent(msg);
-  };
-
-  /* ═══════════════════════════════════════════════════════════
-     GUARD: KERANJANG KOSONG
-  ══════════════════════════════════════════════════════════ */
-  if (cartLoaded && cartItems.length === 0) {
-    return (
-      <>
-        <style>{CSS}</style>
-        <div className="cq-page">
-          <div className="cq-warn-page">
-            <div className="cq-warn-orb cq-wo1" />
-            <div className="cq-warn-orb cq-wo2" />
-            <div className="cq-warn-card">
-              <div className="cq-warn-icon-ring">
-                <i className="fa-solid fa-cart-shopping" />
-              </div>
-              <span className="cq-warn-eyebrow">PERHATIAN</span>
-              <h2 className="cq-warn-title">Keranjang<br /><em>Masih Kosong</em></h2>
-              <p className="cq-warn-sub">
-                Kamu belum memilih layanan apapun. Kunjungi halaman <strong>Price List</strong> terlebih dahulu, pilih paket yang kamu butuhkan, lalu kembali ke sini untuk melanjutkan proses pesanan.
-              </p>
-              <a href="/price-list" className="cq-warn-cta">
-                <i className="fa-solid fa-arrow-left" />
-                <span>Ke Halaman Price List</span>
-              </a>
-              <p className="cq-warn-hint">
-                <i className="fa-solid fa-circle-info" />
-                Setelah memilih layanan, tekan tombol <strong>&#34;Order&#34;</strong> atau <strong>&#34;Pesan&#34;</strong> untuk membuka halaman ini dengan keranjang terisi.
-              </p>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     STEP 6: CHECKOUT / NOTA PEMBAYARAN
-  ══════════════════════════════════════════════════════════ */
-  if (step === 6) {
-    return (
-      <>
-        <style>{CSS}</style>
-        <div className="cq-page">
-          <div className="cq-checkout-page">
-            <div className="cq-co-orb cq-coo1" />
-            <div className="cq-co-orb cq-coo2" />
-            <div className="cq-co-orb cq-coo3" />
-
-            <div className="cq-co-wrap">
-
-              {/* ── Header ── */}
-              <div className="cq-co-header">
-                <div className="cq-co-success-ring">
-                  <i className="fa-solid fa-circle-check" />
-                </div>
-                <span className="cq-co-eyebrow">Brief Sukses Tersimpan!</span>
-                <h1 className="cq-co-title">Selesaikan dengan<br /><em>Konfirmasi Pembayaran</em></h1>
-              </div>
-
-              {/* ── Order ID ── */}
-              <div className="cq-co-id-card">
-                <div className="cq-co-id-left">
-                  <i className="fa-solid fa-fingerprint" />
-                  <div>
-                    <span className="cq-co-id-lbl">ORDER ID</span>
-                    <code className="cq-co-id-val">{generatedId}</code>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className="cq-co-id-copy"
-                  onClick={() => navigator.clipboard?.writeText(generatedId)}
-                  title="Salin ID"
-                >
-                  <i className="fa-regular fa-copy" />
-                </button>
-              </div>
-
-              {/* ── Nota grid ── */}
-              <div className="cq-co-grid">
-
-                {/* LEFT: Order summary */}
-                <div className="cq-co-nota">
-                  <div className="cq-co-nota-head">
-                    <i className="fa-solid fa-receipt" />
-                    <span>Ringkasan Pesanan</span>
-                  </div>
-
-                  <div className="cq-co-nota-items">
-                    {cartItems?.map((item, idx) => (
-                      <div key={item?.id ?? idx} className="cq-co-nota-row">
-                        <span className="cq-co-nota-name">{item?.name ?? 'Item'}</span>
-                        <span className="cq-co-nota-qty">×{item?.qty ?? 1}</span>
-                        <span className="cq-co-nota-price">
-                          Rp {((item?.price ?? 0) * (item?.qty ?? 1)).toLocaleString('id-ID')}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="cq-co-nota-divider" />
-
-                  <div className="cq-co-nota-total">
-                    <span>Total Tagihan</span>
-                    <span className="cq-co-nota-total-num">
-                      Rp {cartTotal.toLocaleString('id-ID')}
-                    </span>
-                  </div>
-
-                  <div className="cq-co-dp-badge">
-                    <i className="fa-solid fa-coins" />
-                    <div>
-                      <p className="cq-co-dp-label">DP 50% yang ditransfer sekarang</p>
-                      <p className="cq-co-dp-amount">
-                        Rp {Math.ceil(cartTotal / 2).toLocaleString('id-ID')}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="cq-co-nota-meta">
-                    <div className="cq-co-nota-meta-row">
-                      <span>Proyek</span>
-                      <span>{projectName || '—'}</span>
-                    </div>
-                    <div className="cq-co-nota-meta-row">
-                      <span>Tipe Klien</span>
-                      <span>{CLIENT_TYPES.find(c => c.value === clientType)?.label ?? clientType}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* RIGHT: QRIS */}
-                <div className="cq-co-qris-col">
-                  <p className="cq-co-qris-title">Scan QRIS untuk Transfer DP</p>
-                  <div className="cq-co-qris-frame">
-                    <img src="/qris.png" alt="QRIS Pembayaran SynnnW" className="cq-co-qris-img" />
-                  </div>
-                  <p className="cq-co-qris-sub">
-                    Bisa scan dengan aplikasi banking, GoPay, OVO, Dana, dan semua e-wallet apapun.
-                  </p>
-                  <div className="cq-co-qris-amount">
-                    <span>Nominal transfer:</span>
-                    <strong>Rp {Math.ceil(cartTotal / 2).toLocaleString('id-ID')}</strong>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* ── WA Button ── */}
-              <a
-                href={`https://wa.me/${WA_NUMBER}?text=${buildWAMessage()}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cq-co-wa-btn"
-              >
-                <i className="fa-brands fa-whatsapp" />
-                <span>Konfirmasi Pembayaran via WhatsApp</span>
-                <i className="fa-solid fa-arrow-up-right-from-square cq-co-wa-ext" />
-              </a>
-
-              <p className="cq-co-footer">
-                <i className="fa-solid fa-clock" />
-                Tim kami akan membalas dalam <strong>1×24 jam</strong> untuk mengkonfirmasi penerimaan brief dan pembayaran kamu.
-              </p>
-
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     STEP 1–5: FORM KUESIONER
-  ══════════════════════════════════════════════════════════ */
-  const STEP_LABELS = ['Tipe Klien', 'Ringkasan', 'Preferensi', 'Detail Proyek', 'Konfirmasi'];
-
-  return (
-    <>
-      <style>{CSS}</style>
-      <div className="cq-page">
-
-        {/* ─── HERO ─── */}
-        <div className="cq-hero">
-          <div className="cq-hero-orb cq-ho1" />
-          <div className="cq-hero-orb cq-ho2" />
-          <div className="cq-hero-orb cq-ho3" />
-          <div className="cq-hero-inner">
-            <span className="cq-hero-eyebrow">MULAI PROYEK BARU</span>
-            <h1 className="cq-hero-title">
-              Ceritakan<br /><em>Proyekmu.</em>
-            </h1>
-            <p className="cq-hero-sub">
-              Jawab 5 pertanyaan singkat — aku akan pahami kebutuhanmu dan siapkan solusi terbaik. Prosesnya mudah &amp; cepat.
-            </p>
-          </div>
-          {cartItems.length > 0 && (
-            <div className="cq-hero-cart-badge">
-              <i className="fa-solid fa-bag-shopping" />
-              <span>{cartItems.length} layanan dipilih — Rp {cartTotal.toLocaleString('id-ID')}</span>
-            </div>
-          )}
-        </div>
-
-        {/* ─── BODY ─── */}
-        <div className="cq-body" ref={formRef}>
-
-          {/* LEFT: sticky step tracker */}
-          <div className="cq-left">
-            <div className="cq-steps-track">
-              {STEP_LABELS.map((lbl, i) => {
-                const idx    = i + 1;
-                const done   = step > idx;
-                const active = step === idx;
-                return (
-                  <div
-                    key={idx}
-                    className={`cq-step-item ${active ? 'cq-step-active' : ''} ${done ? 'cq-step-done' : ''}`}
-                  >
-                    <div className="cq-step-dot">
-                      {done
-                        ? <i className="fa-solid fa-check" style={{ fontSize: '0.58rem' }} />
-                        : <span>{idx}</span>
-                      }
-                    </div>
-                    <div className="cq-step-info">
-                      <span className="cq-step-num">Step {idx}</span>
-                      <span className="cq-step-name">{lbl}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="cq-left-security">
-              <i className="fa-solid fa-lock" />
-              <span>Data kamu aman &amp; hanya digunakan untuk memproses proyekmu.</span>
-            </div>
-
-            <div className="cq-avail-badge">
-              <span className="cq-avail-dot" />
-              <span>Tersedia untuk proyek baru</span>
-            </div>
-          </div>
-
-          {/* RIGHT: form card */}
-          <div className="cq-right">
-            <div className="cq-card">
-              <div className="cq-card-glow" />
-              <div className="cq-card-line" />
-
-              {/* Progress bar */}
-              <div className="cq-progress-wrap">
-                <div className="cq-progress-bar" style={{ width: `${(step / TOTAL_STEPS) * 100}%` }} />
-              </div>
-
-              {/* Step counter */}
-              <div className="cq-step-counter">
-                <span className="cq-sc-cur">{step}</span>
-                <span className="cq-sc-sep"> / </span>
-                <span className="cq-sc-tot">{TOTAL_STEPS}</span>
-                <span className="cq-sc-lbl">&nbsp;— {STEP_LABELS[step - 1]}</span>
-              </div>
-
-              {/* Animated step content */}
-              <div
-                className={`cq-step-body ${
-                  visible
-                    ? animDir === 'forward' ? 'cq-enter-right' : 'cq-enter-left'
-                    : 'cq-exit'
-                }`}
-              >
-
-                {/* ══════ STEP 1: TIPE KLIEN ══════ */}
-                {step === 1 && (
-                  <div className="cq-step-content">
-                    <div className="cq-step-head">
-                      <span className="cq-step-badge">01 — TIPE KLIEN</span>
-                      <h2 className="cq-step-title">Kamu mewakili <em>siapa?</em></h2>
-                      <p className="cq-step-desc">
-                        Pilih kategori yang paling menggambarkan dirimu. Ini membantu aku menyesuaikan pendekatannya.
-                      </p>
-                    </div>
-
-                    {errors.clientType && (
-                      <div className="cq-global-err">
-                        <i className="fa-solid fa-triangle-exclamation" />
-                        {errors.clientType}
-                      </div>
-                    )}
-
-                    <div className="cq-type-grid">
-                      {CLIENT_TYPES.map((ct) => (
-                        <button
-                          key={ct.value}
-                          type="button"
-                          className={`cq-type-card ${clientType === ct.value ? 'cq-type-active' : ''}`}
-                          onClick={() => setClientType(ct.value)}
-                        >
-                          <div className="cq-type-icon-wrap">
-                            <i className={`fa-solid ${ct.icon}`} />
-                          </div>
-                          <div className="cq-type-info">
-                            <span className="cq-type-label">{ct.label}</span>
-                            <span className="cq-type-desc">{ct.desc}</span>
-                          </div>
-                          {clientType === ct.value && (
-                            <div className="cq-type-check">
-                              <i className="fa-solid fa-check" style={{ fontSize: '0.55rem' }} />
-                            </div>
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* ══════ STEP 2: ORDER SUMMARY ══════ */}
-                {step === 2 && (
-                  <div className="cq-step-content">
-                    <div className="cq-step-head">
-                      <span className="cq-step-badge">02 — RINGKASAN PESANAN</span>
-                      <h2 className="cq-step-title">Ini yang akan <em>dikerjakan.</em></h2>
-                      <p className="cq-step-desc">
-                        Berikut layanan yang sudah kamu pilih dari Price List. Pastikan semuanya sudah benar sebelum lanjut.
-                      </p>
-                    </div>
-
-                    <div className="cq-summary-card">
-                      <div className="cq-summary-head">
-                        <i className="fa-solid fa-bag-shopping" />
-                        <span>Daftar Item Pesanan</span>
-                        <span className="cq-summary-count">{cartItems.length} item</span>
-                      </div>
-
-                      <div className="cq-summary-items">
-                        {cartItems?.map((item, idx) => (
-                          <div key={item?.id ?? idx} className="cq-summary-row">
-                            <div className="cq-summary-row-info">
-                              <span className="cq-summary-name">{item?.name ?? 'Item'}</span>
-                              {item?.short && (
-                                <span className="cq-summary-short">{item.short}</span>
-                              )}
-                            </div>
-                            <div className="cq-summary-row-right">
-                              <span className="cq-summary-qty">×{item?.qty ?? 1}</span>
-                              <span className="cq-summary-price">
-                                Rp {((item?.price ?? 0) * (item?.qty ?? 1)).toLocaleString('id-ID')}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="cq-summary-divider" />
-
-                      <div className="cq-summary-total">
-                        <span>Estimasi Total</span>
-                        <span className="cq-summary-total-num">
-                          Rp {cartTotal.toLocaleString('id-ID')}
-                        </span>
-                      </div>
-
-                      <div className="cq-summary-notes">
-                        <p>
-                          <i className="fa-solid fa-circle-info" />
-                          Harga final dikonfirmasi setelah konsultasi singkat.
-                        </p>
-                        <p>
-                          <i className="fa-solid fa-coins" />
-                          Pembayaran dengan sistem <strong>DP 50%</strong> di awal, pelunasan setelah proyek selesai.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ══════ STEP 3: CREATIVE PREFERENCE ══════ */}
-                {step === 3 && (
-                  <div className="cq-step-content">
-                    <div className="cq-step-head">
-                      <span className="cq-step-badge">03 — PREFERENSI KREATIF</span>
-                      <h2 className="cq-step-title">Gaya visual <em>seperti apa?</em></h2>
-                      <p className="cq-step-desc">
-                        Geser slider untuk menggambarkan arah desain yang kamu inginkan. Tidak ada jawaban yang salah!
-                      </p>
-                    </div>
-
-                    <div className="cq-slider-section">
-                      {/* Slider */}
-                      <div className="cq-slider-main">
-                        <div className="cq-slider-pole cq-pole-left">
-                          <i className="fa-solid fa-feather" />
-                          <span>Minimalis</span>
-                        </div>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          step="1"
-                          className="cq-slider"
-                          value={creativeSlider}
-                          onChange={(e) => setCreativeSlider(Number(e.target.value))}
-                        />
-                        <div className="cq-slider-pole cq-pole-right">
-                          <i className="fa-solid fa-explosion" />
-                          <span>Kompleks</span>
-                        </div>
-                      </div>
-
-                      {/* Label berjalan */}
-                      <div className="cq-slider-result">
-                        <div
-                          className="cq-slider-thumb-label"
-                          style={{ left: `calc(${creativeSlider}% - ${creativeSlider * 0.6}px)` }}
-                        >
-                          {creativeSlider}
-                        </div>
-                      </div>
-
-                      {/* Visual bands */}
-                      <div className="cq-slider-bands">
-                        {[
-                          { range: [0,  29],  emoji: '🪶', label: 'Minimalis & Bersih',      desc: 'Ruang lega, tipografi bersih, elemen sederhana.' },
-                          { range: [30, 59],  emoji: '⚡', label: 'Seimbang & Fleksibel',     desc: 'Perpaduan clean dan detail yang pas.' },
-                          { range: [60, 84],  emoji: '🎨', label: 'Dinamis & Berkarakter',    desc: 'Bold, bernyawa, banyak detail visual menarik.' },
-                          { range: [85, 100], emoji: '💥', label: 'Kompleks & Ekspresif',     desc: 'Penuh ekspresi, tekstur, dan elemen berlapis.' },
-                        ].map(({ range, emoji, label, desc }) => {
-                          const active = creativeSlider >= range[0] && creativeSlider <= range[1];
-                          return (
-                            <div key={label} className={`cq-band ${active ? 'cq-band-active' : ''}`}>
-                              <span className="cq-band-emoji">{emoji}</span>
-                              <div>
-                                <span className="cq-band-label">{label}</span>
-                                <span className="cq-band-desc">{desc}</span>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-
-                      <div className="cq-slider-chosen">
-                        <i className="fa-solid fa-wand-magic-sparkles" />
-                        <span>Pilihan kamu: <strong>{sliderLabel(creativeSlider)}</strong> ({creativeSlider}/100)</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ══════ STEP 4: DETAIL PROYEK ══════ */}
-                {step === 4 && (
-                  <div className="cq-step-content">
-                    <div className="cq-step-head">
-                      <span className="cq-step-badge">04 — DETAIL PROYEK</span>
-                      <h2 className="cq-step-title">Proyeknya <em>tentang apa?</em></h2>
-                      <p className="cq-step-desc">
-                        Berikan nama dan cerita singkat proyekmu. Semakin jelas, semakin tepat solusi yang aku siapkan.
-                      </p>
-                    </div>
-
-                    <div className="cq-fields">
-                      <div className="cq-field-group">
-                        <label className="cq-field-label">
-                          Nama Proyek <span className="cq-required">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          className={`cq-field-input ${errors.projectName ? 'cq-field-err' : ''}`}
-                          placeholder="Contoh: Website Portofolio Budi, Film Pendek OSIS 2025..."
-                          value={projectName}
-                          onChange={(e) => setProjectName(e.target.value)}
-                          maxLength={80}
-                        />
-                        {errors.projectName && (
-                          <span className="cq-err-msg">{errors.projectName}</span>
-                        )}
-                        <span className="cq-field-count">{projectName.length}/80</span>
-                      </div>
-
-                      <div className="cq-field-group">
-                        <label className="cq-field-label">
-                          Deskripsi Proyek
-                          <span className="cq-field-optional"> (opsional tapi sangat membantu)</span>
-                        </label>
-                        <textarea
-                          className="cq-field-input cq-field-textarea"
-                          placeholder="Ceritakan konteks proyek, target audiens, referensi yang kamu suka, hal penting yang perlu diperhatikan, atau apapun yang menurutmu relevan..."
-                          value={projectDesc}
-                          onChange={(e) => setProjectDesc(e.target.value)}
-                          maxLength={1000}
-                        />
-                        <span className="cq-field-count">{projectDesc.length}/1000</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ══════ STEP 5: KONFIRMASI AKHIR ══════ */}
-                {step === 5 && (
-                  <div className="cq-step-content">
-                    <div className="cq-step-head">
-                      <span className="cq-step-badge">05 — KONFIRMASI</span>
-                      <h2 className="cq-step-title">Hampir selesai — <em>cek semuanya!</em></h2>
-                      <p className="cq-step-desc">
-                        Periksa ringkasan brief kamu sebelum dikirim. Jika ada yang kurang tepat, kembali dan edit dulu.
-                      </p>
-                    </div>
-
-                    {/* Review card */}
-                    <div className="cq-review-card">
-
-                      <div className="cq-review-section">
-                        <span className="cq-review-lbl">
-                          <i className="fa-solid fa-user" /> Tipe Klien
-                        </span>
-                        <span className="cq-review-val">
-                          {CLIENT_TYPES.find(c => c.value === clientType)?.label ?? '—'}
-                        </span>
-                      </div>
-
-                      <div className="cq-review-divider" />
-
-                      <div className="cq-review-section">
-                        <span className="cq-review-lbl">
-                          <i className="fa-solid fa-bag-shopping" /> Pesanan
-                        </span>
-                        <div className="cq-review-cart">
-                          {cartItems?.map((item, idx) => (
-                            <div key={item?.id ?? idx} className="cq-review-item">
-                              <span>{item?.name ?? 'Item'} ×{item?.qty ?? 1}</span>
-                              <span>Rp {((item?.price ?? 0) * (item?.qty ?? 1)).toLocaleString('id-ID')}</span>
-                            </div>
-                          ))}
-                          <div className="cq-review-item cq-review-total-row">
-                            <span>Total</span>
-                            <strong>Rp {cartTotal.toLocaleString('id-ID')}</strong>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="cq-review-divider" />
-
-                      <div className="cq-review-section">
-                        <span className="cq-review-lbl">
-                          <i className="fa-solid fa-palette" /> Preferensi Kreatif
-                        </span>
-                        <span className="cq-review-val">
-                          {sliderLabel(creativeSlider)} ({creativeSlider}/100)
-                        </span>
-                      </div>
-
-                      <div className="cq-review-divider" />
-
-                      <div className="cq-review-section">
-                        <span className="cq-review-lbl">
-                          <i className="fa-solid fa-folder" /> Nama Proyek
-                        </span>
-                        <span className="cq-review-val">{projectName || '—'}</span>
-                      </div>
-
-                      {projectDesc && (
-                        <>
-                          <div className="cq-review-divider" />
-                          <div className="cq-review-section cq-review-section-col">
-                            <span className="cq-review-lbl">
-                              <i className="fa-solid fa-align-left" /> Deskripsi
-                            </span>
-                            <p className="cq-review-desc-val">{projectDesc}</p>
-                          </div>
-                        </>
-                      )}
-
-                    </div>
-
-                    {/* Submit note */}
-                    <div className="cq-submit-note">
-                      <i className="fa-solid fa-paper-plane" />
-                      <p>
-                        Brief kamu akan tersimpan ke database kami, lalu kamu langsung diarahkan ke halaman <strong>checkout</strong> dengan QRIS dan tombol konfirmasi WhatsApp.
-                        Pembayaran via <strong>DP 50%</strong> — bukan bayar penuh di awal.
-                      </p>
-                    </div>
-
-                    {submitError && (
-                      <div className="cq-global-err">
-                        <i className="fa-solid fa-triangle-exclamation" />
-                        {submitError}
-                      </div>
-                    )}
-
-                  </div>
-                )}
-
-              </div>{/* end cq-step-body */}
-
-              {/* ─── Navigation ─── */}
-              <div className="cq-nav">
-                {step > 1 && (
-                  <button type="button" className="cq-btn-back" onClick={handleBack}>
-                    <i className="fa-solid fa-arrow-left" />
-                    Kembali
-                  </button>
-                )}
-
-                {step < TOTAL_STEPS && (
-                  <button type="button" className="cq-btn-next" onClick={handleNext}>
-                    Lanjut
-                    <i className="fa-solid fa-arrow-right" />
-                  </button>
-                )}
-
-                {step === TOTAL_STEPS && (
-                  <button
-                    type="button"
-                    className="cq-btn-submit"
-                    onClick={handleSubmitData}
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <span className="cq-spinner" />
-                    ) : (
-                      <i className="fa-solid fa-paper-plane" />
-                    )}
-                    <span>
-                      {submitting ? 'Mengirim Brief...' : 'Kirim & Lanjut ke Checkout'}
-                    </span>
-                  </button>
-                )}
-              </div>
-
-            </div>{/* end cq-card */}
-          </div>{/* end cq-right */}
-
-        </div>{/* end cq-body */}
-      </div>{/* end cq-page */}
-    </>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   CSS — Dark Glassmorphic System
-══════════════════════════════════════════════════════════════ */
 const CSS = `
 /* ── Variables (augment globals) ── */
 :root {
@@ -1687,3 +891,797 @@ const CSS = `
   .cq-checkout-page { padding: 40px 16px 60px; }
 }
 `;
+
+
+/* ─────────────────────────────────────────────────────────────
+   CONSTANTS
+───────────────────────────────────────────────────────────── */
+
+const CLIENT_TYPES = [
+  { value: 'individu',   label: 'Pribadi / Individu',        icon: 'fa-user',             desc: 'Proyek personal, portofolio, dll.' },
+  { value: 'bisnis',     label: 'Bisnis / Brand / UMKM',     icon: 'fa-briefcase',         desc: 'Branding, konten, pemasaran' },
+  { value: 'organisasi', label: 'Sekolah / Kampus / Komunitas', icon: 'fa-building-columns', desc: 'Event, tugas, kegiatan institusi' },
+  { value: 'pasangan',   label: 'Pasangan (Wedding)',         icon: 'fa-heart',             desc: 'Dokumentasi & undangan digital' },
+  { value: 'kreator',    label: 'Kreator Konten / Influencer', icon: 'fa-video',            desc: 'YouTube, TikTok, Reels, streaming' },
+];
+
+const TOTAL_STEPS = 5;
+const WA_NUMBER   = '628XXXXXXXXXX'; // ← Ganti dengan nomor WA kamu
+
+/* ─────────────────────────────────────────────────────────────
+   COMPONENT
+───────────────────────────────────────────────────────────── */
+
+export default function Contact() {
+  /* ── Cart ── */
+  const [cartData,   setCartData]   = useState(null);
+  const [cartLoaded, setCartLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('selectedServices');
+      if (raw) setCartData(JSON.parse(raw));
+    } catch (_) {/* corrupt data — biarkan null */}
+    setCartLoaded(true);
+  }, []);
+
+  /* ── Step & animation ── */
+  const [step,    setStep]    = useState(1);
+  const [animDir, setAnimDir] = useState('forward');
+  const [visible, setVisible] = useState(true);
+
+  /* ── Form fields ── */
+  const [clientType,     setClientType]     = useState('');
+  const [creativeSlider, setCreativeSlider] = useState(50);
+  const [projectName,    setProjectName]    = useState('');
+  const [projectDesc,    setProjectDesc]    = useState('');
+
+  /* ── Errors ── */
+  const [errors, setErrors] = useState({});
+
+  /* ── Firebase submit ── */
+  const [submitting,   setSubmitting]   = useState(false);
+  const [submitError,  setSubmitError]  = useState('');
+  const [generatedId,  setGeneratedId]  = useState('');
+
+  const formRef = useRef(null);
+
+  /* ── Safe cart helpers with optional chaining ── */
+  const cartItems = cartData?.items ?? [];
+  const cartTotal = cartData?.total ?? 0;
+
+  /* ─────── STEP NAVIGATION ─────── */
+  const goToStep = (next, dir = 'forward') => {
+    setAnimDir(dir);
+    setVisible(false);
+    setTimeout(() => {
+      setStep(next);
+      setErrors({});
+      setVisible(true);
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 280);
+  };
+
+  const handleNext = () => {
+    const e = {};
+    if (step === 1 && !clientType)         e.clientType  = 'Pilih salah satu tipe klien.';
+    if (step === 4 && !projectName.trim()) e.projectName = 'Nama proyek wajib diisi.';
+    if (Object.keys(e).length) { setErrors(e); return; }
+    goToStep(step + 1, 'forward');
+  };
+
+  const handleBack = () => goToStep(step - 1, 'back');
+
+  /* ─────── FIREBASE SUBMIT (try-catch-finally) ─────── */
+  const handleSubmitData = async () => {
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const payload = {
+        clientType,
+        creativePreference:  creativeSlider,
+        creativeLabel:       sliderLabel(creativeSlider),
+        projectName:         projectName.trim(),
+        projectDesc:         projectDesc.trim(),
+        selectedItems:       cartItems,
+        cartTotal,
+        status:              'pending',
+        createdAt:           serverTimestamp(),
+      };
+      const docRef = await addDoc(collection(db, 'client_briefs'), payload);
+      setGeneratedId(docRef.id);
+      /* ✅ SUKSES → ubah step ke 6, TANPA navigate/redirect */
+      setStep(6);
+    } catch (err) {
+      console.error('[Contact] Firebase error:', err);
+      setSubmitError('Gagal menyimpan data. Periksa koneksi dan coba lagi.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  /* ─────── SLIDER LABEL HELPER ─────── */
+  const sliderLabel = (val) => {
+    if (val < 30)  return 'Minimalis & Bersih';
+    if (val < 60)  return 'Seimbang & Fleksibel';
+    if (val < 85)  return 'Dinamis & Berkarakter';
+    return 'Kompleks & Ekspresif';
+  };
+
+  /* ─────── WA MESSAGE ─────── */
+  const buildWAMessage = () => {
+    const itemLines = cartItems?.length
+      ? cartItems.map(i =>
+          `  • ${i?.name ?? 'Item'} ×${i?.qty ?? 1} — Rp ${((i?.price ?? 0) * (i?.qty ?? 1)).toLocaleString('id-ID')}`
+        ).join('\n')
+      : '  (tidak ada item dari Price List)';
+
+    const clientLabel = CLIENT_TYPES.find(c => c.value === clientType)?.label ?? clientType;
+
+    const msg = [
+      '🎨 *BRIEF & ORDER BARU — SynnnW*',
+      '━━━━━━━━━━━━━━━━━━━━━━━━━',
+      '',
+      `📋 *ORDER ID:* \`${generatedId}\``,
+      '',
+      '👤 *TIPE KLIEN*',
+      `  • ${clientLabel}`,
+      '',
+      '🎨 *PREFERENSI KREATIF*',
+      `  • Skala ${creativeSlider}/100 — ${sliderLabel(creativeSlider)}`,
+      '',
+      '📁 *DETAIL PROYEK*',
+      `  • Nama Proyek : ${projectName}`,
+      `  • Deskripsi   : ${projectDesc || '—'}`,
+      '',
+      '🛒 *ITEM YANG DIPESAN*',
+      itemLines,
+      '',
+      `💰 *TOTAL TAGIHAN : Rp ${cartTotal.toLocaleString('id-ID')}*`,
+      `   DP 50% yang harus ditransfer: *Rp ${Math.ceil(cartTotal / 2).toLocaleString('id-ID')}*`,
+      '',
+      '━━━━━━━━━━━━━━━━━━━━━━━━━',
+      'Halo kak, saya ingin konfirmasi pembayaran untuk order di atas! 🙏',
+    ].join('\n');
+
+    return encodeURIComponent(msg);
+  };
+
+  /* ═══════════════════════════════════════════════════════════
+     GUARD: KERANJANG KOSONG
+  ══════════════════════════════════════════════════════════ */
+  if (cartLoaded && cartItems.length === 0) {
+    return (
+      <>
+        <style>{CSS}</style>
+        <div className="cq-page">
+          <div className="cq-warn-page">
+            <div className="cq-warn-orb cq-wo1" />
+            <div className="cq-warn-orb cq-wo2" />
+            <div className="cq-warn-card">
+              <div className="cq-warn-icon-ring">
+                <i className="fa-solid fa-cart-shopping" />
+              </div>
+              <span className="cq-warn-eyebrow">PERHATIAN</span>
+              <h2 className="cq-warn-title">Keranjang<br /><em>Masih Kosong</em></h2>
+              <p className="cq-warn-sub">
+                Kamu belum memilih layanan apapun. Kunjungi halaman <strong>Price List</strong> terlebih dahulu, pilih paket yang kamu butuhkan, lalu kembali ke sini untuk melanjutkan proses pesanan.
+              </p>
+              <a href="/price-list" className="cq-warn-cta">
+                <i className="fa-solid fa-arrow-left" />
+                <span>Ke Halaman Price List</span>
+              </a>
+              <p className="cq-warn-hint">
+                <i className="fa-solid fa-circle-info" />
+                Setelah memilih layanan, tekan tombol <strong>&#34;Order&#34;</strong> atau <strong>&#34;Pesan&#34;</strong> untuk membuka halaman ini dengan keranjang terisi.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     STEP 6: CHECKOUT / NOTA PEMBAYARAN
+  ══════════════════════════════════════════════════════════ */
+  if (step === 6) {
+    return (
+      <>
+        <style>{CSS}</style>
+        <div className="cq-page">
+          <div className="cq-checkout-page">
+            <div className="cq-co-orb cq-coo1" />
+            <div className="cq-co-orb cq-coo2" />
+            <div className="cq-co-orb cq-coo3" />
+
+            <div className="cq-co-wrap">
+
+              {/* ── Header ── */}
+              <div className="cq-co-header">
+                <div className="cq-co-success-ring">
+                  <i className="fa-solid fa-circle-check" />
+                </div>
+                <span className="cq-co-eyebrow">Brief Sukses Tersimpan!</span>
+                <h1 className="cq-co-title">Selesaikan dengan<br /><em>Konfirmasi Pembayaran</em></h1>
+              </div>
+
+              {/* ── Order ID ── */}
+              <div className="cq-co-id-card">
+                <div className="cq-co-id-left">
+                  <i className="fa-solid fa-fingerprint" />
+                  <div>
+                    <span className="cq-co-id-lbl">ORDER ID</span>
+                    <code className="cq-co-id-val">{generatedId}</code>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="cq-co-id-copy"
+                  onClick={() => navigator.clipboard?.writeText(generatedId)}
+                  title="Salin ID"
+                >
+                  <i className="fa-regular fa-copy" />
+                </button>
+              </div>
+
+              {/* ── Nota grid ── */}
+              <div className="cq-co-grid">
+
+                {/* LEFT: Order summary */}
+                <div className="cq-co-nota">
+                  <div className="cq-co-nota-head">
+                    <i className="fa-solid fa-receipt" />
+                    <span>Ringkasan Pesanan</span>
+                  </div>
+
+                  <div className="cq-co-nota-items">
+                    {cartItems?.map((item, idx) => (
+                      <div key={item?.id ?? idx} className="cq-co-nota-row">
+                        <span className="cq-co-nota-name">{item?.name ?? 'Item'}</span>
+                        <span className="cq-co-nota-qty">×{item?.qty ?? 1}</span>
+                        <span className="cq-co-nota-price">
+                          Rp {((item?.price ?? 0) * (item?.qty ?? 1)).toLocaleString('id-ID')}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="cq-co-nota-divider" />
+
+                  <div className="cq-co-nota-total">
+                    <span>Total Tagihan</span>
+                    <span className="cq-co-nota-total-num">
+                      Rp {cartTotal.toLocaleString('id-ID')}
+                    </span>
+                  </div>
+
+                  <div className="cq-co-dp-badge">
+                    <i className="fa-solid fa-coins" />
+                    <div>
+                      <p className="cq-co-dp-label">DP 50% yang ditransfer sekarang</p>
+                      <p className="cq-co-dp-amount">
+                        Rp {Math.ceil(cartTotal / 2).toLocaleString('id-ID')}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="cq-co-nota-meta">
+                    <div className="cq-co-nota-meta-row">
+                      <span>Proyek</span>
+                      <span>{projectName || '—'}</span>
+                    </div>
+                    <div className="cq-co-nota-meta-row">
+                      <span>Tipe Klien</span>
+                      <span>{CLIENT_TYPES.find(c => c.value === clientType)?.label ?? clientType}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* RIGHT: QRIS */}
+                <div className="cq-co-qris-col">
+                  <p className="cq-co-qris-title">Scan QRIS untuk Transfer DP</p>
+                  <div className="cq-co-qris-frame">
+                    <img src="/qris.png" alt="QRIS Pembayaran SynnnW" className="cq-co-qris-img" />
+                  </div>
+                  <p className="cq-co-qris-sub">
+                    Bisa scan dengan aplikasi banking, GoPay, OVO, Dana, dan semua e-wallet apapun.
+                  </p>
+                  <div className="cq-co-qris-amount">
+                    <span>Nominal transfer:</span>
+                    <strong>Rp {Math.ceil(cartTotal / 2).toLocaleString('id-ID')}</strong>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* ── WA Button ── */}
+              <a
+                href={`https://wa.me/${WA_NUMBER}?text=${buildWAMessage()}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cq-co-wa-btn"
+              >
+                <i className="fa-brands fa-whatsapp" />
+                <span>Konfirmasi Pembayaran via WhatsApp</span>
+                <i className="fa-solid fa-arrow-up-right-from-square cq-co-wa-ext" />
+              </a>
+
+              <p className="cq-co-footer">
+                <i className="fa-solid fa-clock" />
+                Tim kami akan membalas dalam <strong>1×24 jam</strong> untuk mengkonfirmasi penerimaan brief dan pembayaran kamu.
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     STEP 1–5: FORM KUESIONER
+  ══════════════════════════════════════════════════════════ */
+  const STEP_LABELS = ['Tipe Klien', 'Ringkasan', 'Preferensi', 'Detail Proyek', 'Konfirmasi'];
+
+  return (
+    <>
+      <style>{CSS}</style>
+      <div className="cq-page">
+
+        {/* ─── HERO ─── */}
+        <div className="cq-hero">
+          <div className="cq-hero-orb cq-ho1" />
+          <div className="cq-hero-orb cq-ho2" />
+          <div className="cq-hero-orb cq-ho3" />
+          <div className="cq-hero-inner">
+            <span className="cq-hero-eyebrow">MULAI PROYEK BARU</span>
+            <h1 className="cq-hero-title">
+              Ceritakan<br /><em>Proyekmu.</em>
+            </h1>
+            <p className="cq-hero-sub">
+              Jawab 5 pertanyaan singkat — aku akan pahami kebutuhanmu dan siapkan solusi terbaik. Prosesnya mudah &amp; cepat.
+            </p>
+          </div>
+          {cartItems.length > 0 && (
+            <div className="cq-hero-cart-badge">
+              <i className="fa-solid fa-bag-shopping" />
+              <span>{cartItems.length} layanan dipilih — Rp {cartTotal.toLocaleString('id-ID')}</span>
+            </div>
+          )}
+        </div>
+
+        {/* ─── BODY ─── */}
+        <div className="cq-body" ref={formRef}>
+
+          {/* LEFT: sticky step tracker */}
+          <div className="cq-left">
+            <div className="cq-steps-track">
+              {STEP_LABELS.map((lbl, i) => {
+                const idx    = i + 1;
+                const done   = step > idx;
+                const active = step === idx;
+                return (
+                  <div
+                    key={idx}
+                    className={`cq-step-item ${active ? 'cq-step-active' : ''} ${done ? 'cq-step-done' : ''}`}
+                  >
+                    <div className="cq-step-dot">
+                      {done
+                        ? <i className="fa-solid fa-check" style={{ fontSize: '0.58rem' }} />
+                        : <span>{idx}</span>
+                      }
+                    </div>
+                    <div className="cq-step-info">
+                      <span className="cq-step-num">Step {idx}</span>
+                      <span className="cq-step-name">{lbl}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="cq-left-security">
+              <i className="fa-solid fa-lock" />
+              <span>Data kamu aman &amp; hanya digunakan untuk memproses proyekmu.</span>
+            </div>
+
+            <div className="cq-avail-badge">
+              <span className="cq-avail-dot" />
+              <span>Tersedia untuk proyek baru</span>
+            </div>
+          </div>
+
+          {/* RIGHT: form card */}
+          <div className="cq-right">
+            <div className="cq-card">
+              <div className="cq-card-glow" />
+              <div className="cq-card-line" />
+
+              {/* Progress bar */}
+              <div className="cq-progress-wrap">
+                <div className="cq-progress-bar" style={{ width: `${(step / TOTAL_STEPS) * 100}%` }} />
+              </div>
+
+              {/* Step counter */}
+              <div className="cq-step-counter">
+                <span className="cq-sc-cur">{step}</span>
+                <span className="cq-sc-sep"> / </span>
+                <span className="cq-sc-tot">{TOTAL_STEPS}</span>
+                <span className="cq-sc-lbl">&nbsp;— {STEP_LABELS[step - 1]}</span>
+              </div>
+
+              {/* Animated step content */}
+              <div
+                className={`cq-step-body ${
+                  visible
+                    ? animDir === 'forward' ? 'cq-enter-right' : 'cq-enter-left'
+                    : 'cq-exit'
+                }`}
+              >
+
+                {/* ══════ STEP 1: TIPE KLIEN ══════ */}
+                {step === 1 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">01 — TIPE KLIEN</span>
+                      <h2 className="cq-step-title">Kamu mewakili <em>siapa?</em></h2>
+                      <p className="cq-step-desc">
+                        Pilih kategori yang paling menggambarkan dirimu. Ini membantu aku menyesuaikan pendekatannya.
+                      </p>
+                    </div>
+
+                    {errors.clientType && (
+                      <div className="cq-global-err">
+                        <i className="fa-solid fa-triangle-exclamation" />
+                        {errors.clientType}
+                      </div>
+                    )}
+
+                    <div className="cq-type-grid">
+                      {CLIENT_TYPES.map((ct) => (
+                        <button
+                          key={ct.value}
+                          type="button"
+                          className={`cq-type-card ${clientType === ct.value ? 'cq-type-active' : ''}`}
+                          onClick={() => setClientType(ct.value)}
+                        >
+                          <div className="cq-type-icon-wrap">
+                            <i className={`fa-solid ${ct.icon}`} />
+                          </div>
+                          <div className="cq-type-info">
+                            <span className="cq-type-label">{ct.label}</span>
+                            <span className="cq-type-desc">{ct.desc}</span>
+                          </div>
+                          {clientType === ct.value && (
+                            <div className="cq-type-check">
+                              <i className="fa-solid fa-check" style={{ fontSize: '0.55rem' }} />
+                            </div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ══════ STEP 2: ORDER SUMMARY ══════ */}
+                {step === 2 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">02 — RINGKASAN PESANAN</span>
+                      <h2 className="cq-step-title">Ini yang akan <em>dikerjakan.</em></h2>
+                      <p className="cq-step-desc">
+                        Berikut layanan yang sudah kamu pilih dari Price List. Pastikan semuanya sudah benar sebelum lanjut.
+                      </p>
+                    </div>
+
+                    <div className="cq-summary-card">
+                      <div className="cq-summary-head">
+                        <i className="fa-solid fa-bag-shopping" />
+                        <span>Daftar Item Pesanan</span>
+                        <span className="cq-summary-count">{cartItems.length} item</span>
+                      </div>
+
+                      <div className="cq-summary-items">
+                        {cartItems?.map((item, idx) => (
+                          <div key={item?.id ?? idx} className="cq-summary-row">
+                            <div className="cq-summary-row-info">
+                              <span className="cq-summary-name">{item?.name ?? 'Item'}</span>
+                              {item?.short && (
+                                <span className="cq-summary-short">{item.short}</span>
+                              )}
+                            </div>
+                            <div className="cq-summary-row-right">
+                              <span className="cq-summary-qty">×{item?.qty ?? 1}</span>
+                              <span className="cq-summary-price">
+                                Rp {((item?.price ?? 0) * (item?.qty ?? 1)).toLocaleString('id-ID')}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="cq-summary-divider" />
+
+                      <div className="cq-summary-total">
+                        <span>Estimasi Total</span>
+                        <span className="cq-summary-total-num">
+                          Rp {cartTotal.toLocaleString('id-ID')}
+                        </span>
+                      </div>
+
+                      <div className="cq-summary-notes">
+                        <p>
+                          <i className="fa-solid fa-circle-info" />
+                          Harga final dikonfirmasi setelah konsultasi singkat.
+                        </p>
+                        <p>
+                          <i className="fa-solid fa-coins" />
+                          Pembayaran dengan sistem <strong>DP 50%</strong> di awal, pelunasan setelah proyek selesai.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ══════ STEP 3: CREATIVE PREFERENCE ══════ */}
+                {step === 3 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">03 — PREFERENSI KREATIF</span>
+                      <h2 className="cq-step-title">Gaya visual <em>seperti apa?</em></h2>
+                      <p className="cq-step-desc">
+                        Geser slider untuk menggambarkan arah desain yang kamu inginkan. Tidak ada jawaban yang salah!
+                      </p>
+                    </div>
+
+                    <div className="cq-slider-section">
+                      {/* Slider */}
+                      <div className="cq-slider-main">
+                        <div className="cq-slider-pole cq-pole-left">
+                          <i className="fa-solid fa-feather" />
+                          <span>Minimalis</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          step="1"
+                          className="cq-slider"
+                          value={creativeSlider}
+                          onChange={(e) => setCreativeSlider(Number(e.target.value))}
+                        />
+                        <div className="cq-slider-pole cq-pole-right">
+                          <i className="fa-solid fa-explosion" />
+                          <span>Kompleks</span>
+                        </div>
+                      </div>
+
+                      {/* Label berjalan */}
+                      <div className="cq-slider-result">
+                        <div
+                          className="cq-slider-thumb-label"
+                          style={{ left: `calc(${creativeSlider}% - ${creativeSlider * 0.6}px)` }}
+                        >
+                          {creativeSlider}
+                        </div>
+                      </div>
+
+                      {/* Visual bands */}
+                      <div className="cq-slider-bands">
+                        {[
+                          { range: [0,  29],  emoji: '🪶', label: 'Minimalis & Bersih',      desc: 'Ruang lega, tipografi bersih, elemen sederhana.' },
+                          { range: [30, 59],  emoji: '⚡', label: 'Seimbang & Fleksibel',     desc: 'Perpaduan clean dan detail yang pas.' },
+                          { range: [60, 84],  emoji: '🎨', label: 'Dinamis & Berkarakter',    desc: 'Bold, bernyawa, banyak detail visual menarik.' },
+                          { range: [85, 100], emoji: '💥', label: 'Kompleks & Ekspresif',     desc: 'Penuh ekspresi, tekstur, dan elemen berlapis.' },
+                        ].map(({ range, emoji, label, desc }) => {
+                          const active = creativeSlider >= range[0] && creativeSlider <= range[1];
+                          return (
+                            <div key={label} className={`cq-band ${active ? 'cq-band-active' : ''}`}>
+                              <span className="cq-band-emoji">{emoji}</span>
+                              <div>
+                                <span className="cq-band-label">{label}</span>
+                                <span className="cq-band-desc">{desc}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      <div className="cq-slider-chosen">
+                        <i className="fa-solid fa-wand-magic-sparkles" />
+                        <span>Pilihan kamu: <strong>{sliderLabel(creativeSlider)}</strong> ({creativeSlider}/100)</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ══════ STEP 4: DETAIL PROYEK ══════ */}
+                {step === 4 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">04 — DETAIL PROYEK</span>
+                      <h2 className="cq-step-title">Proyeknya <em>tentang apa?</em></h2>
+                      <p className="cq-step-desc">
+                        Berikan nama dan cerita singkat proyekmu. Semakin jelas, semakin tepat solusi yang aku siapkan.
+                      </p>
+                    </div>
+
+                    <div className="cq-fields">
+                      <div className="cq-field-group">
+                        <label className="cq-field-label">
+                          Nama Proyek <span className="cq-required">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className={`cq-field-input ${errors.projectName ? 'cq-field-err' : ''}`}
+                          placeholder="Contoh: Website Portofolio Budi, Film Pendek OSIS 2025..."
+                          value={projectName}
+                          onChange={(e) => setProjectName(e.target.value)}
+                          maxLength={80}
+                        />
+                        {errors.projectName && (
+                          <span className="cq-err-msg">{errors.projectName}</span>
+                        )}
+                        <span className="cq-field-count">{projectName.length}/80</span>
+                      </div>
+
+                      <div className="cq-field-group">
+                        <label className="cq-field-label">
+                          Deskripsi Proyek
+                          <span className="cq-field-optional"> (opsional tapi sangat membantu)</span>
+                        </label>
+                        <textarea
+                          className="cq-field-input cq-field-textarea"
+                          placeholder="Ceritakan konteks proyek, target audiens, referensi yang kamu suka, hal penting yang perlu diperhatikan, atau apapun yang menurutmu relevan..."
+                          value={projectDesc}
+                          onChange={(e) => setProjectDesc(e.target.value)}
+                          maxLength={1000}
+                        />
+                        <span className="cq-field-count">{projectDesc.length}/1000</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ══════ STEP 5: KONFIRMASI AKHIR ══════ */}
+                {step === 5 && (
+                  <div className="cq-step-content">
+                    <div className="cq-step-head">
+                      <span className="cq-step-badge">05 — KONFIRMASI</span>
+                      <h2 className="cq-step-title">Hampir selesai — <em>cek semuanya!</em></h2>
+                      <p className="cq-step-desc">
+                        Periksa ringkasan brief kamu sebelum dikirim. Jika ada yang kurang tepat, kembali dan edit dulu.
+                      </p>
+                    </div>
+
+                    {/* Review card */}
+                    <div className="cq-review-card">
+
+                      <div className="cq-review-section">
+                        <span className="cq-review-lbl">
+                          <i className="fa-solid fa-user" /> Tipe Klien
+                        </span>
+                        <span className="cq-review-val">
+                          {CLIENT_TYPES.find(c => c.value === clientType)?.label ?? '—'}
+                        </span>
+                      </div>
+
+                      <div className="cq-review-divider" />
+
+                      <div className="cq-review-section">
+                        <span className="cq-review-lbl">
+                          <i className="fa-solid fa-bag-shopping" /> Pesanan
+                        </span>
+                        <div className="cq-review-cart">
+                          {cartItems?.map((item, idx) => (
+                            <div key={item?.id ?? idx} className="cq-review-item">
+                              <span>{item?.name ?? 'Item'} ×{item?.qty ?? 1}</span>
+                              <span>Rp {((item?.price ?? 0) * (item?.qty ?? 1)).toLocaleString('id-ID')}</span>
+                            </div>
+                          ))}
+                          <div className="cq-review-item cq-review-total-row">
+                            <span>Total</span>
+                            <strong>Rp {cartTotal.toLocaleString('id-ID')}</strong>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="cq-review-divider" />
+
+                      <div className="cq-review-section">
+                        <span className="cq-review-lbl">
+                          <i className="fa-solid fa-palette" /> Preferensi Kreatif
+                        </span>
+                        <span className="cq-review-val">
+                          {sliderLabel(creativeSlider)} ({creativeSlider}/100)
+                        </span>
+                      </div>
+
+                      <div className="cq-review-divider" />
+
+                      <div className="cq-review-section">
+                        <span className="cq-review-lbl">
+                          <i className="fa-solid fa-folder" /> Nama Proyek
+                        </span>
+                        <span className="cq-review-val">{projectName || '—'}</span>
+                      </div>
+
+                      {projectDesc && (
+                        <>
+                          <div className="cq-review-divider" />
+                          <div className="cq-review-section cq-review-section-col">
+                            <span className="cq-review-lbl">
+                              <i className="fa-solid fa-align-left" /> Deskripsi
+                            </span>
+                            <p className="cq-review-desc-val">{projectDesc}</p>
+                          </div>
+                        </>
+                      )}
+
+                    </div>
+
+                    {/* Submit note */}
+                    <div className="cq-submit-note">
+                      <i className="fa-solid fa-paper-plane" />
+                      <p>
+                        Brief kamu akan tersimpan ke database kami, lalu kamu langsung diarahkan ke halaman <strong>checkout</strong> dengan QRIS dan tombol konfirmasi WhatsApp.
+                        Pembayaran via <strong>DP 50%</strong> — bukan bayar penuh di awal.
+                      </p>
+                    </div>
+
+                    {submitError && (
+                      <div className="cq-global-err">
+                        <i className="fa-solid fa-triangle-exclamation" />
+                        {submitError}
+                      </div>
+                    )}
+
+                  </div>
+                )}
+
+              </div>{/* end cq-step-body */}
+
+              {/* ─── Navigation ─── */}
+              <div className="cq-nav">
+                {step > 1 && (
+                  <button type="button" className="cq-btn-back" onClick={handleBack}>
+                    <i className="fa-solid fa-arrow-left" />
+                    Kembali
+                  </button>
+                )}
+
+                {step < TOTAL_STEPS && (
+                  <button type="button" className="cq-btn-next" onClick={handleNext}>
+                    Lanjut
+                    <i className="fa-solid fa-arrow-right" />
+                  </button>
+                )}
+
+                {step === TOTAL_STEPS && (
+                  <button
+                    type="button"
+                    className="cq-btn-submit"
+                    onClick={handleSubmitData}
+                    disabled={submitting}
+                  >
+                    {submitting ? (
+                      <span className="cq-spinner" />
+                    ) : (
+                      <i className="fa-solid fa-paper-plane" />
+                    )}
+                    <span>
+                      {submitting ? 'Mengirim Brief...' : 'Kirim & Lanjut ke Checkout'}
+                    </span>
+                  </button>
+                )}
+              </div>
+
+            </div>{/* end cq-card */}
+          </div>{/* end cq-right */}
+
+        </div>{/* end cq-body */}
+      </div>{/* end cq-page */}
+    </>
+  );
+}
