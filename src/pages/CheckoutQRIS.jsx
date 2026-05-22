@@ -1,280 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-/* ─────────────────────────────────────────────────────────────
-   Buat Order ID sekali saja
-───────────────────────────────────────────────────────────── */
-function makeOrderId() {
-  return 'SYN-' + Math.floor(100000 + Math.random() * 900000);
-}
-
-export default function CheckoutQRIS() {
-  const navigate        = useNavigate();
-  const [orderId]       = useState(makeOrderId);
-  const [cartData, setCartData]   = useState(null);   // { items, total }
-  const [waData, setWaData]       = useState(null);   // { msg, number }
-  const [copied, setCopied]       = useState(false);
-  const [countdown, setCountdown] = useState(15 * 60);
-  const timerRef = useRef(null);
-
-  /* ── Baca data dari localStorage ── */
-  useEffect(() => {
-    try {
-      const cart = localStorage.getItem('selectedServices');
-      if (cart) setCartData(JSON.parse(cart));
-
-      const wa = localStorage.getItem('checkoutWAMsg');
-      if (wa) setWaData(JSON.parse(wa));
-    } catch (e) {
-      console.error('Gagal baca localStorage:', e);
-    }
-  }, []);
-
-  /* ── Countdown timer ── */
-  useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setCountdown((c) => (c > 0 ? c - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timerRef.current);
-  }, []);
-
-  const mins = String(Math.floor(countdown / 60)).padStart(2, '0');
-  const secs = String(countdown % 60).padStart(2, '0');
-  const isExpired = countdown === 0;
-
-  /* ── Format Rupiah ── */
-  const formatRp = (n) => 'Rp ' + Number(n).toLocaleString('id-ID');
-
-  /* ── Build WA URL ── */
-  const waUrl = waData
-    ? `https://wa.me/${waData.number}?text=${encodeURIComponent(waData.msg)}`
-    : `https://wa.me/6281252790018?text=${encodeURIComponent('Halo kak, saya ingin konfirmasi order dari website SynnnW 🙏')}`;
-
-  /* ── Copy orderId ── */
-  const handleCopy = () => {
-    navigator.clipboard.writeText(orderId).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
-
-  return (
-    <>
-      <style>{CSS}</style>
-      <div className="ck-page">
-
-        {/* ── Orbs ── */}
-        <div className="ck-orb ck-orb1" /><div className="ck-orb ck-orb2" />
-
-        <div className="ck-wrap">
-
-          {/* ════════════════════ LEFT — ORDER SUMMARY ════════════════════ */}
-          <div className="ck-left">
-
-            {/* Header */}
-            <div className="ck-left-head">
-              <button className="ck-btn-back" onClick={() => navigate('/price-list')}>
-                <i className="fa-solid fa-arrow-left" />
-                <span>Price List</span>
-              </button>
-              <span className="ck-step-label">CHECKOUT</span>
-            </div>
-
-            <h2 className="ck-left-title">
-              Ringkasan <em>Pesanan</em>
-            </h2>
-
-            {/* Order Summary */}
-            {cartData && cartData.items && cartData.items.length > 0 ? (
-              <div className="ck-summary-card">
-                <div className="ck-summary-items">
-                  {cartData.items.map((item) => (
-                    <div key={item.id} className="ck-summary-item">
-                      <div className="ck-sum-icon"><i className="fa-solid fa-layer-group" /></div>
-                      <div className="ck-sum-info">
-                        <span className="ck-sum-name">{item.name}</span>
-                        <span className="ck-sum-unit">{item.unit} · ×{item.qty}</span>
-                      </div>
-                      <span className="ck-sum-price">{formatRp(item.price * item.qty)}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="ck-sum-divider" />
-
-                <div className="ck-sum-total">
-                  <span>Total Keseluruhan</span>
-                  <span className="ck-sum-total-num">{formatRp(cartData.total)}</span>
-                </div>
-
-                <div className="ck-dp-box">
-                  <i className="fa-solid fa-coins" />
-                  <div>
-                    <p className="ck-dp-title">Sistem Pembayaran DP 50%</p>
-                    <p className="ck-dp-sub">
-                      Bayar <strong>{formatRp(cartData.total / 2)}</strong> sebagai DP sekarang.
-                      Sisa <strong>{formatRp(cartData.total / 2)}</strong> setelah project selesai.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="ck-empty-cart">
-                <i className="fa-solid fa-bag-shopping" />
-                <p>Tidak ada item pesanan.</p>
-                <button className="ck-btn-back" onClick={() => navigate('/price-list')}>
-                  Kembali ke Price List
-                </button>
-              </div>
-            )}
-
-            {/* Order ID */}
-            <div className="ck-orderid-box">
-              <span className="ck-orderid-label">ID Pesanan</span>
-              <div className="ck-orderid-row">
-                <code className="ck-orderid-code">{orderId}</code>
-                <button className="ck-btn-copy" onClick={handleCopy}>
-                  <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`} />
-                  <span>{copied ? 'Tersalin' : 'Salin'}</span>
-                </button>
-              </div>
-              <p className="ck-orderid-note">
-                Sertakan ID ini saat konfirmasi pembayaran via WhatsApp.
-              </p>
-            </div>
-
-          </div>
-
-          {/* ════════════════════ RIGHT — QRIS + WA ════════════════════ */}
-          <div className="ck-right">
-
-            {/* Countdown */}
-            <div className={`ck-countdown-bar ${isExpired ? 'ck-expired' : ''}`}>
-              <i className={`fa-solid ${isExpired ? 'fa-clock' : 'fa-circle-dot'}`} />
-              {isExpired
-                ? 'Sesi habis — refresh halaman jika masih ingin membayar'
-                : `Sesi aktif selama ${mins}:${secs}`}
-            </div>
-
-            {/* QRIS Card */}
-            <div className="ck-qris-card">
-              <div className="ck-qris-header">
-                <div className="ck-qris-brand">
-                  <i className="fa-solid fa-qrcode" />
-                  <span>QRIS</span>
-                </div>
-                <span className="ck-qris-name">SynnnW Studio</span>
-              </div>
-
-              {/* QR Code area */}
-              <div className="ck-qr-wrap">
-                {isExpired && (
-                  <div className="ck-qr-expired-overlay">
-                    <i className="fa-solid fa-rotate" />
-                    <span>QR Kedaluwarsa</span>
-                  </div>
-                )}
-                {/* ── Mock QR SVG — ganti dengan <img src="qris-kamu.png"> ── */}
-                <div className="ck-qr-box">
-                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="ck-qr-svg">
-                    <rect x="10" y="10" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                    <rect x="20" y="20" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                    <rect x="135" y="10" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                    <rect x="145" y="20" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                    <rect x="10" y="135" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                    <rect x="20" y="145" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                    {[75,85,95,105,115,125].map((x,i) =>
-                      [10,20,30,40,50,60,70,80,90].map((y,j) =>
-                        (i+j)%3!==0 ? <rect key={`${i}-${j}`} x={x} y={y} width="8" height="8" fill="#1e1b4b" rx="1"/> : null
-                      )
-                    )}
-                    {[10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180].map((x,i) =>
-                      [75,85,95,105,115,125,135,145,155,165,175,185].map((y,j) =>
-                        (i*3+j*7)%5!==0 ? <rect key={`d-${i}-${j}`} x={x} y={y} width="8" height="8" fill="#1e1b4b" rx="1"/> : null
-                      )
-                    )}
-                    <rect x="82" y="82" width="36" height="36" rx="8" fill="#8b5cf6"/>
-                    <text x="100" y="105" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="700">S</text>
-                  </svg>
-                  <p className="ck-qr-hint">Scan dengan m-banking atau dompet digital</p>
-                  <p className="ck-qr-apps">GoPay · OVO · Dana · BRIVA · M-Banking</p>
-                </div>
-              </div>
-
-              {/* Amount to pay */}
-              {cartData?.total > 0 && (
-                <div className="ck-amount-row">
-                  <div>
-                    <span className="ck-amount-label">Nominal DP (50%)</span>
-                    <span className="ck-amount-num">{formatRp(cartData.total / 2)}</span>
-                  </div>
-                  <div className="ck-amount-badge">
-                    <span className="ck-pulse-dot" />
-                    Menunggu
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Divider */}
-            <div className="ck-or-divider">
-              <span />
-              <p>atau konfirmasi dulu via</p>
-              <span />
-            </div>
-
-            {/* WhatsApp CTA */}
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ck-btn-wa"
-            >
-              <i className="fa-brands fa-whatsapp" />
-              <div>
-                <span className="ck-btn-wa-title">Hubungi Saya via WhatsApp</span>
-                <span className="ck-btn-wa-sub">Konfirmasi order · Diskusi · Tanya harga</span>
-              </div>
-              <i className="fa-solid fa-arrow-up-right ck-btn-wa-arrow" />
-            </a>
-
-            <div className="ck-wa-note">
-              <i className="fa-solid fa-circle-info" />
-              <span>
-                Klik tombol di atas untuk membuka WhatsApp dengan detail pesananmu yang sudah terisi otomatis.
-                Pembayaran QRIS dapat dilakukan sebelum atau sesudah konfirmasi.
-              </span>
-            </div>
-
-            {/* Steps */}
-            <div className="ck-steps">
-              {[
-                ['fa-comments', 'Konfirmasi via WhatsApp', 'Klik tombol di atas — detail pesanan sudah terisi otomatis'],
-                ['fa-qrcode', 'Scan & Bayar QRIS', `Transfer DP 50%${cartData?.total ? ' (' + formatRp(cartData.total / 2) + ')' : ''} via m-banking atau dompet digital`],
-                ['fa-image', 'Kirim Bukti Bayar', 'Screenshot konfirmasi pembayaran ke nomor WhatsApp yang sama'],
-                ['fa-rocket', 'Project Dimulai', 'Setelah DP diterima, pengerjaan langsung dimulai sesuai brief'],
-              ].map(([icon, title, desc], i) => (
-                <div key={i} className="ck-step-item">
-                  <div className="ck-step-num">{i + 1}</div>
-                  <div className="ck-step-ico"><i className={`fa-solid ${icon}`} /></div>
-                  <div>
-                    <p className="ck-step-title">{title}</p>
-                    <p className="ck-step-desc">{desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   CSS — Dark Glassmorphism
-───────────────────────────────────────────────────────────── */
 const CSS = `
 /* ── Page ── */
 .ck-page {
@@ -645,3 +371,275 @@ const CSS = `
   .ck-qr-svg { width: 160px; height: 160px; }
 }
 `;
+
+
+/* ─────────────────────────────────────────────────────────────
+   Buat Order ID sekali saja
+───────────────────────────────────────────────────────────── */
+function makeOrderId() {
+  return 'SYN-' + Math.floor(100000 + Math.random() * 900000);
+}
+
+export default function CheckoutQRIS() {
+  const navigate        = useNavigate();
+  const [orderId]       = useState(makeOrderId);
+  const [cartData, setCartData]   = useState(null);   // { items, total }
+  const [waData, setWaData]       = useState(null);   // { msg, number }
+  const [copied, setCopied]       = useState(false);
+  const [countdown, setCountdown] = useState(15 * 60);
+  const timerRef = useRef(null);
+
+  /* ── Baca data dari localStorage ── */
+  useEffect(() => {
+    try {
+      const cart = localStorage.getItem('selectedServices');
+      if (cart) setCartData(JSON.parse(cart));
+
+      const wa = localStorage.getItem('checkoutWAMsg');
+      if (wa) setWaData(JSON.parse(wa));
+    } catch (e) {
+      console.error('Gagal baca localStorage:', e);
+    }
+  }, []);
+
+  /* ── Countdown timer ── */
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setCountdown((c) => (c > 0 ? c - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timerRef.current);
+  }, []);
+
+  const mins = String(Math.floor(countdown / 60)).padStart(2, '0');
+  const secs = String(countdown % 60).padStart(2, '0');
+  const isExpired = countdown === 0;
+
+  /* ── Format Rupiah ── */
+  const formatRp = (n) => 'Rp ' + Number(n).toLocaleString('id-ID');
+
+  /* ── Build WA URL ── */
+  const waUrl = waData
+    ? `https://wa.me/${waData.number}?text=${encodeURIComponent(waData.msg)}`
+    : `https://wa.me/6281252790018?text=${encodeURIComponent('Halo kak, saya ingin konfirmasi order dari website SynnnW 🙏')}`;
+
+  /* ── Copy orderId ── */
+  const handleCopy = () => {
+    navigator.clipboard.writeText(orderId).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <>
+      <style>{CSS}</style>
+      <div className="ck-page">
+
+        {/* ── Orbs ── */}
+        <div className="ck-orb ck-orb1" /><div className="ck-orb ck-orb2" />
+
+        <div className="ck-wrap">
+
+          {/* ════════════════════ LEFT — ORDER SUMMARY ════════════════════ */}
+          <div className="ck-left">
+
+            {/* Header */}
+            <div className="ck-left-head">
+              <button className="ck-btn-back" onClick={() => navigate('/price-list')}>
+                <i className="fa-solid fa-arrow-left" />
+                <span>Price List</span>
+              </button>
+              <span className="ck-step-label">CHECKOUT</span>
+            </div>
+
+            <h2 className="ck-left-title">
+              Ringkasan <em>Pesanan</em>
+            </h2>
+
+            {/* Order Summary */}
+            {cartData && cartData.items && cartData.items.length > 0 ? (
+              <div className="ck-summary-card">
+                <div className="ck-summary-items">
+                  {cartData.items.map((item) => (
+                    <div key={item.id} className="ck-summary-item">
+                      <div className="ck-sum-icon"><i className="fa-solid fa-layer-group" /></div>
+                      <div className="ck-sum-info">
+                        <span className="ck-sum-name">{item.name}</span>
+                        <span className="ck-sum-unit">{item.unit} · ×{item.qty}</span>
+                      </div>
+                      <span className="ck-sum-price">{formatRp(item.price * item.qty)}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="ck-sum-divider" />
+
+                <div className="ck-sum-total">
+                  <span>Total Keseluruhan</span>
+                  <span className="ck-sum-total-num">{formatRp(cartData.total)}</span>
+                </div>
+
+                <div className="ck-dp-box">
+                  <i className="fa-solid fa-coins" />
+                  <div>
+                    <p className="ck-dp-title">Sistem Pembayaran DP 50%</p>
+                    <p className="ck-dp-sub">
+                      Bayar <strong>{formatRp(cartData.total / 2)}</strong> sebagai DP sekarang.
+                      Sisa <strong>{formatRp(cartData.total / 2)}</strong> setelah project selesai.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="ck-empty-cart">
+                <i className="fa-solid fa-bag-shopping" />
+                <p>Tidak ada item pesanan.</p>
+                <button className="ck-btn-back" onClick={() => navigate('/price-list')}>
+                  Kembali ke Price List
+                </button>
+              </div>
+            )}
+
+            {/* Order ID */}
+            <div className="ck-orderid-box">
+              <span className="ck-orderid-label">ID Pesanan</span>
+              <div className="ck-orderid-row">
+                <code className="ck-orderid-code">{orderId}</code>
+                <button className="ck-btn-copy" onClick={handleCopy}>
+                  <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`} />
+                  <span>{copied ? 'Tersalin' : 'Salin'}</span>
+                </button>
+              </div>
+              <p className="ck-orderid-note">
+                Sertakan ID ini saat konfirmasi pembayaran via WhatsApp.
+              </p>
+            </div>
+
+          </div>
+
+          {/* ════════════════════ RIGHT — QRIS + WA ════════════════════ */}
+          <div className="ck-right">
+
+            {/* Countdown */}
+            <div className={`ck-countdown-bar ${isExpired ? 'ck-expired' : ''}`}>
+              <i className={`fa-solid ${isExpired ? 'fa-clock' : 'fa-circle-dot'}`} />
+              {isExpired
+                ? 'Sesi habis — refresh halaman jika masih ingin membayar'
+                : `Sesi aktif selama ${mins}:${secs}`}
+            </div>
+
+            {/* QRIS Card */}
+            <div className="ck-qris-card">
+              <div className="ck-qris-header">
+                <div className="ck-qris-brand">
+                  <i className="fa-solid fa-qrcode" />
+                  <span>QRIS</span>
+                </div>
+                <span className="ck-qris-name">SynnnW Studio</span>
+              </div>
+
+              {/* QR Code area */}
+              <div className="ck-qr-wrap">
+                {isExpired && (
+                  <div className="ck-qr-expired-overlay">
+                    <i className="fa-solid fa-rotate" />
+                    <span>QR Kedaluwarsa</span>
+                  </div>
+                )}
+                {/* ── Mock QR SVG — ganti dengan <img src="qris-kamu.png"> ── */}
+                <div className="ck-qr-box">
+                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="ck-qr-svg">
+                    <rect x="10" y="10" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
+                    <rect x="20" y="20" width="35" height="35" rx="3" fill="#1e1b4b"/>
+                    <rect x="135" y="10" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
+                    <rect x="145" y="20" width="35" height="35" rx="3" fill="#1e1b4b"/>
+                    <rect x="10" y="135" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
+                    <rect x="20" y="145" width="35" height="35" rx="3" fill="#1e1b4b"/>
+                    {[75,85,95,105,115,125].map((x,i) =>
+                      [10,20,30,40,50,60,70,80,90].map((y,j) =>
+                        (i+j)%3!==0 ? <rect key={`${i}-${j}`} x={x} y={y} width="8" height="8" fill="#1e1b4b" rx="1"/> : null
+                      )
+                    )}
+                    {[10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180].map((x,i) =>
+                      [75,85,95,105,115,125,135,145,155,165,175,185].map((y,j) =>
+                        (i*3+j*7)%5!==0 ? <rect key={`d-${i}-${j}`} x={x} y={y} width="8" height="8" fill="#1e1b4b" rx="1"/> : null
+                      )
+                    )}
+                    <rect x="82" y="82" width="36" height="36" rx="8" fill="#8b5cf6"/>
+                    <text x="100" y="105" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="700">S</text>
+                  </svg>
+                  <p className="ck-qr-hint">Scan dengan m-banking atau dompet digital</p>
+                  <p className="ck-qr-apps">GoPay · OVO · Dana · BRIVA · M-Banking</p>
+                </div>
+              </div>
+
+              {/* Amount to pay */}
+              {cartData?.total > 0 && (
+                <div className="ck-amount-row">
+                  <div>
+                    <span className="ck-amount-label">Nominal DP (50%)</span>
+                    <span className="ck-amount-num">{formatRp(cartData.total / 2)}</span>
+                  </div>
+                  <div className="ck-amount-badge">
+                    <span className="ck-pulse-dot" />
+                    Menunggu
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div className="ck-or-divider">
+              <span />
+              <p>atau konfirmasi dulu via</p>
+              <span />
+            </div>
+
+            {/* WhatsApp CTA */}
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ck-btn-wa"
+            >
+              <i className="fa-brands fa-whatsapp" />
+              <div>
+                <span className="ck-btn-wa-title">Hubungi Saya via WhatsApp</span>
+                <span className="ck-btn-wa-sub">Konfirmasi order · Diskusi · Tanya harga</span>
+              </div>
+              <i className="fa-solid fa-arrow-up-right ck-btn-wa-arrow" />
+            </a>
+
+            <div className="ck-wa-note">
+              <i className="fa-solid fa-circle-info" />
+              <span>
+                Klik tombol di atas untuk membuka WhatsApp dengan detail pesananmu yang sudah terisi otomatis.
+                Pembayaran QRIS dapat dilakukan sebelum atau sesudah konfirmasi.
+              </span>
+            </div>
+
+            {/* Steps */}
+            <div className="ck-steps">
+              {[
+                ['fa-comments', 'Konfirmasi via WhatsApp', 'Klik tombol di atas — detail pesanan sudah terisi otomatis'],
+                ['fa-qrcode', 'Scan & Bayar QRIS', `Transfer DP 50%${cartData?.total ? ' (' + formatRp(cartData.total / 2) + ')' : ''} via m-banking atau dompet digital`],
+                ['fa-image', 'Kirim Bukti Bayar', 'Screenshot konfirmasi pembayaran ke nomor WhatsApp yang sama'],
+                ['fa-rocket', 'Project Dimulai', 'Setelah DP diterima, pengerjaan langsung dimulai sesuai brief'],
+              ].map(([icon, title, desc], i) => (
+                <div key={i} className="ck-step-item">
+                  <div className="ck-step-num">{i + 1}</div>
+                  <div className="ck-step-ico"><i className={`fa-solid ${icon}`} /></div>
+                  <div>
+                    <p className="ck-step-title">{title}</p>
+                    <p className="ck-step-desc">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
