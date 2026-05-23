@@ -384,16 +384,19 @@ const CSS = `
   background-size: cover; background-position: center;
   opacity: 0.30; transition: opacity 0.5s;
 }
-[data-theme="light"] .home-bg { opacity: 0.55; filter: grayscale(0.15) contrast(1.05); }
+[data-theme="light"] .home-bg { opacity: 0.60; filter: saturate(0.9) contrast(1.02); }
 .home-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(7,7,9,0.72) 0%, rgba(7,7,9,0.05) 45%, rgba(7,7,9,0.75) 100%);
+  /* Hanya kiri & bawah — muka di kanan atas bebas */
+  background:
+    linear-gradient(to right, rgba(7,7,9,0.80) 0%, rgba(7,7,9,0.35) 45%, rgba(7,7,9,0.00) 72%),
+    linear-gradient(to top,   rgba(7,7,9,0.70) 0%, rgba(7,7,9,0.00) 40%);
 }
 [data-theme="light"] .home-overlay {
-  /* Gradient hanya dari kiri dan bawah biar teks tetap terbaca, wajah visible */
+  /* Overlay cream HANYA dari kiri & bawah — wajah di kanan tetap kelihatan */
   background:
-    linear-gradient(to right,  rgba(250,249,246,0.88) 0%, rgba(250,249,246,0.30) 45%, rgba(250,249,246,0.00) 70%),
-    linear-gradient(to top,    rgba(250,249,246,0.80) 0%, rgba(250,249,246,0.00) 40%);
+    linear-gradient(to right, rgba(242,239,233,0.90) 0%, rgba(242,239,233,0.55) 38%, rgba(242,239,233,0.00) 65%),
+    linear-gradient(to top,   rgba(242,239,233,0.75) 0%, rgba(242,239,233,0.00) 35%);
 }
 .home-content {
   position: relative; z-index: 2;

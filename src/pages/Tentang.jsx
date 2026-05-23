@@ -1144,20 +1144,6 @@ export default function Tentang({ t }) {
           .t-cta-glass { padding: 44px 28px; }
           .t-site-footer { padding: 22px 24px; }
           .t-footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
-
-          /* ── Light mode adjustments ── */
-          [data-theme="light"] .t-photo-glass {
-            box-shadow: 0 8px 30px rgba(28,27,24,0.08), 0 0 0 1px rgba(92,33,182,0.10);
-          }
-          [data-theme="light"] .t-info-item {
-            box-shadow: 0 2px 12px rgba(28,27,24,0.06);
-          }
-          [data-theme="light"] .t-skill-bar-fill {
-            box-shadow: none;
-          }
-          [data-theme="light"] .t-section-card {
-            box-shadow: 0 4px 24px rgba(28,27,24,0.07);
-          }
         }
       `}</style>
 

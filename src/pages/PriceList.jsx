@@ -71,7 +71,7 @@ const CSS = `
 @keyframes fabIn { from{opacity:0;transform:scale(0.7) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
 .pl-cart-fab:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 14px 50px rgba(139,92,246,0.55); }
 .pl-cart-count {
-  background: #fff; color: var(--accent);
+  background: var(--bg2); color: var(--accent);
   border-radius: 50%; width: 22px; height: 22px;
   display: flex; align-items: center; justify-content: center;
   font-size: 0.66rem; font-weight: 800; flex-shrink: 0;

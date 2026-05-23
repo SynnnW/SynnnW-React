@@ -1,62 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap');
 
-/* ══════════════════════════════════════════════════════
-   DARK MODE (default)
-══════════════════════════════════════════════════════ */
 :root {
   --bg: #070709; --bg2: #0d0d10; --bg3: #131318;
   --text: #f0ede8; --text-dim: #64605a;
   --accent: #8b5cf6; --accent2: #a78bfa; --accent3: #c4b5fd;
   --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.12);
-  --gborder: rgba(255,255,255,0.08); --gborder2: rgba(255,255,255,0.18);
   --glass: rgba(255,255,255,0.04); --glass2: rgba(255,255,255,0.07);
-  --nav-bg: rgba(7,7,9,0.75);
+  --nav-bg: rgba(7,7,9,0.78);
   --shadow: rgba(0,0,0,0.7);
-  --blur: blur(16px);
-  --transition: background 0.45s ease, color 0.45s ease;
-  color-scheme: dark;
+  --transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* ══════════════════════════════════════════════════════
-   LIGHT MODE — Warm Minimalist / Premium Cream
-══════════════════════════════════════════════════════ */
 [data-theme="light"] {
-  /* backgrounds */
-  --bg:  #FAF9F6;   /* Alabaster — main canvas                */
-  --bg2: #FFFFFF;   /* Pure white — cards pop out from cream   */
-  --bg3: #EFEDe8;   /* Oatmeal deep — tertiary sections        */
-
-  /* text */
-  --text:     #1C1B18;  /* Soft black — kinder on eyes          */
-  --text-dim: #7A7570;  /* Warm grey                            */
-
-  /* accent (slightly deeper so contrast ok on cream) */
+  /* ── Warm Cream Palette ── */
+  --bg:  #F2EFE9;          /* background utama: warm linen, bukan putih polos  */
+  --bg2: #E8E4DC;          /* card / section: sedikit lebih gelap dari bg       */
+  --bg3: #DDD9CF;          /* tertiary / pressed state                          */
+  --text:     #1A1916;     /* soft black — bukan #000, lebih hangat             */
+  --text-dim: #706B61;     /* muted warm grey                                   */
   --accent:  #5B21B6;
   --accent2: #6D28D9;
   --accent3: #7C3AED;
-
-  /* borders */
-  --border:  rgba(28,27,24,0.08);
-  --border2: rgba(28,27,24,0.15);
-  --gborder: rgba(28,27,24,0.10);
-  --gborder2:rgba(28,27,24,0.22);
-
-  /* glass — very subtle tint for cream bg */
-  --glass:  rgba(28,27,24,0.03);
-  --glass2: rgba(28,27,24,0.06);
-
-  /* navbar */
-  --nav-bg: rgba(250,249,246,0.72);
-
-  /* shadow softer */
-  --shadow: rgba(28,27,24,0.10);
-
-  color-scheme: light;
+  --shadow: rgba(26,25,22,0.10);
+  --nav-bg: rgba(242,239,233,0.80);
+  --border:  rgba(26,25,22,0.08);
+  --border2: rgba(26,25,22,0.16);
+  --gborder: rgba(26,25,22,0.10);
+  --gborder2:rgba(26,25,22,0.20);
+  --glass:  rgba(26,25,22,0.04);
+  --glass2: rgba(26,25,22,0.07);
+  /* ── Global pengganti #fff hardcode di light mode ── */
+  --card-bg: #E8E4DC;
 }
 
-/* ══════════════════════════════════════════════════════
-   BASE RESET
-══════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -71,7 +47,9 @@ body {
 }
 
 h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; }
+
 a { color: inherit; text-decoration: none; }
+
 img { max-width: 100%; display: block; }
 
 ::-webkit-scrollbar { width: 3px; }
@@ -80,21 +58,40 @@ img { max-width: 100%; display: block; }
 
 .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
-
+/* ── No tap highlight & focus outline (mobile / desktop) ── */
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
 }
 
-button:focus, button:focus-within,
-a:focus, a:focus-within,
-input:focus, textarea:focus,
-select:focus, div[role="button"]:focus,
-[tabindex]:focus { outline: none; }
+button:focus,
+button:focus-within,
+a:focus,
+a:focus-within,
+input:focus,
+textarea:focus,
+select:focus,
+div[role="button"]:focus,
+[tabindex]:focus {
+  outline: none;
+}
 
-button:focus-visible, a:focus-visible,
-input:focus-visible, textarea:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
 select:focus-visible {
   outline: 2px solid var(--accent3);
   outline-offset: 2px;
+}
+/* ══════════════════════════════════════════════════════
+   Light mode — override semua hardcoded #fff/#ffffff
+   yang dipakai sebagai BACKGROUND (bukan text on accent)
+══════════════════════════════════════════════════════ */
+[data-theme="light"] .ck-qr-box {
+  background: #F2EFE9 !important;
+}
+[data-theme="light"] .pl-modal-backdrop,
+[data-theme="light"] .pl-modal {
+  background: var(--bg) !important;
 }

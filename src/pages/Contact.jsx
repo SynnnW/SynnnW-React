@@ -825,7 +825,7 @@ const CSS = `
 .cq-co-qris-frame {
   width: 220px; height: 220px; border-radius: 16px; overflow: hidden;
   border: 2px solid var(--gborder2);
-  background: #fff;
+  background: var(--bg2);
   display: flex; align-items: center; justify-content: center;
 }
 .cq-co-qris-img { width: 100%; height: 100%; object-fit: contain; }
