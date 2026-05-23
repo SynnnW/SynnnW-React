@@ -198,6 +198,44 @@ const TOOLS = [
   },
 ];
 
+const CERTIF_ITEMS = [
+  {
+    src: "/NOT_ORDINARY.jpg",
+    filename: "NOT_ORDINARY.jpg",
+    caption: "NOT AN ORDINARY TEENAGE 2025",
+    desc: "Peserta — Kegiatan NOT 2025, Universitas Jember · Tema: Strong Mind, Bright Future",
+    cls: "tc-gal-half",
+  },
+  {
+    src: "/SERTTIF_FLS2N.jpg",
+    filename: "SERTTIF_FLS2N.jpg",
+    caption: "Juara 2 Film Pendek FLS2N 2024",
+    desc: "Juara 2 Tingkat Kabupaten Probolinggo — Festival Lomba Seni Siswa Nasional (FLS2N) · SMAN 1 Kraksaan",
+    cls: "tc-gal-half",
+  },
+  {
+    src: "/SERTIF_OSIS.jpg",
+    filename: "SERTIF_OSIS.jpg",
+    caption: "Anggota Sekbid Jurnalistik OSIS 2023–2024",
+    desc: "Anggota Sekbid Jurnalistik — OSIS & MPK SMAN 1 Kraksaan · Periode 2023–2024",
+    cls: "tc-gal-third",
+  },
+  {
+    src: "/film_pendek_nasional.jpg",
+    filename: "film_pendek_nasional.jpg",
+    caption: "Juara I Festival Film Cendana 2025",
+    desc: "Juara I Nasional — Festival Film Cendana 2025 · SMAS Cendana Mandau, Bengkalis, Riau",
+    cls: "tc-gal-third",
+  },
+  {
+    src: "/MEDSPIN.jpg",
+    filename: "MEDSPIN.jpg",
+    caption: "Participant Public Poster MEDSPIN 2025",
+    desc: "Peserta Public Poster — Medical Science and Application Competition (MEDSPIN) · Universitas Airlangga · Sep–Okt 2025",
+    cls: "tc-gal-third",
+  },
+];
+
 /* ============================================================
    ACCORDION ITEM
    ============================================================ */
@@ -235,12 +273,44 @@ function AccordionItem({ item, isOpen, onToggle, t }) {
 }
 
 /* ============================================================
+   IMAGE MODAL (same as PortoKarya1)
+   ============================================================ */
+function CertifModal({ src, filename, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => { window.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
+  }, [onClose]);
+  return (
+    <div style={{ position:"fixed", inset:0, zIndex:2000, display:"flex", alignItems:"center", justifyContent:"center", animation:"tcModalIn 0.25s ease" }}>
+      <div onClick={onClose} style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.9)", backdropFilter:"blur(12px)" }} />
+      <div style={{ position:"relative", zIndex:1, padding:"20px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", width:"100%", height:"100%" }}>
+        <button onClick={onClose}
+          style={{ position:"absolute", top:"20px", right:"20px", width:"44px", height:"44px", borderRadius:"50%", background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.15)", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", fontSize:"1.2rem", transition:"all 0.3s", zIndex:2 }}
+          onMouseEnter={(e) => { e.currentTarget.style.background="rgba(139,92,246,0.7)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background="rgba(255,255,255,0.08)"; }}>
+          <i className="fa-solid fa-xmark" />
+        </button>
+        <img src={src} alt={filename}
+          style={{ maxWidth:"88%", maxHeight:"82vh", objectFit:"contain", borderRadius:"16px", boxShadow:"0 25px 80px rgba(0,0,0,0.8)", animation:"tcImgIn 0.3s ease" }} loading="lazy" />
+        <div style={{ marginTop:"16px", fontSize:"0.66rem", fontWeight:600, letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(255,255,255,0.5)" }}>
+          {filename}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
    MAIN PAGE COMPONENT
    ============================================================ */
 export default function Tentang({ t }) {
   const navigate = useNavigate();
   const [openAcc, setOpenAcc] = useState("acc1");
   const [imgError, setImgError] = useState(false);
+  const [certModal, setCertModal] = useState(null); // { src, filename }
+  const [certErrors, setCertErrors] = useState({});
 
   /* ── Reveal on scroll ── */
   useEffect(() => {
@@ -1101,6 +1171,94 @@ export default function Tentang({ t }) {
         }
         .t-footer-top-btn:hover { color: var(--text); }
 
+        /* CERTIF GALLERY */
+        @keyframes tcModalIn { from{opacity:0}to{opacity:1} }
+        @keyframes tcImgIn   { from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:scale(1)} }
+
+        .tc-gal-grid {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 18px;
+        }
+        .tc-gal-item {
+          position: relative;
+          border-radius: 20px;
+          overflow: hidden;
+          background: var(--bg3);
+          border: 1px solid var(--border);
+          transition: transform 0.4s ease, border-color 0.4s ease;
+          cursor: pointer;
+        }
+        .tc-gal-item:hover { transform: translateY(-6px); border-color: rgba(139,92,246,0.38); }
+        .tc-gal-half  { grid-column: span 3; aspect-ratio: 4/3; }
+        .tc-gal-third { grid-column: span 2; aspect-ratio: 4/3; }
+        .tc-gal-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease; display:block; }
+        .tc-gal-item:hover img { transform: scale(1.05); }
+        .tc-gal-caption {
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          padding: 14px 18px;
+          background: linear-gradient(to top, rgba(7,7,9,0.82) 0%, transparent 100%);
+          font-size: 0.62rem;
+          font-weight: 600;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.85);
+          pointer-events: none;
+        }
+        .tc-gal-filename {
+          position: absolute;
+          top: 12px; left: 14px;
+          background: rgba(0,0,0,0.55);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 8px;
+          padding: 4px 10px;
+          font-size: 0.55rem;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          color: rgba(255,255,255,0.65);
+          pointer-events: none;
+          font-family: 'Outfit', monospace;
+        }
+        .tc-gal-ph {
+          width:100%; height:100%;
+          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+          background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%);
+          color: var(--text-dim);
+          font-size: 0.62rem; letter-spacing:0.18em; text-transform:uppercase;
+          min-height: 180px;
+        }
+        .tc-gal-ph i { font-size:2rem; opacity:0.18; }
+        .tc-gal-zoom {
+          position: absolute;
+          top: 12px; right: 14px;
+          width: 34px; height: 34px;
+          border-radius: 50%;
+          background: rgba(0,0,0,0.5);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255,255,255,0.12);
+          display: flex; align-items: center; justify-content: center;
+          color: rgba(255,255,255,0.7);
+          font-size: 0.72rem;
+          opacity: 0;
+          transition: opacity 0.3s;
+          pointer-events: none;
+        }
+        .tc-gal-item:hover .tc-gal-zoom { opacity: 1; }
+
+        @media (max-width: 1200px) {
+          .tc-gal-grid { grid-template-columns: repeat(4,1fr); }
+          .tc-gal-half  { grid-column: span 2; }
+          .tc-gal-third { grid-column: span 2; }
+        }
+        @media (max-width: 768px) {
+          .tc-gal-grid { grid-template-columns: repeat(2,1fr); }
+          .tc-gal-half  { grid-column: span 2; }
+          .tc-gal-third { grid-column: span 1; }
+        }
+
         /* RESPONSIVE */
         @media (max-width: 1200px) {
           .t-intro-grid { grid-template-columns: 320px 1fr; gap: 60px; }
@@ -1280,9 +1438,44 @@ export default function Tentang({ t }) {
         </div>
       </div>
 
+      {/* ── CERTIF GALLERY ── */}
+      <section className="t-section">
+        <span className="t-sec-label reveal">{tx("certLabel", "02 / Sertifikasi & Pencapaian")}</span>
+        <h2 className="t-sec-title reveal rv-d1">
+          {tx("certTitle", "Bukti ")}<em>{tx("certEm", "Perjalanan.")}</em>
+        </h2>
+        <div className="tc-gal-grid reveal rv-d2">
+          {CERTIF_ITEMS.map((item, i) => (
+            <div
+              key={i}
+              className={`tc-gal-item ${item.cls}`}
+              onClick={() => !certErrors[i] && setCertModal({ src: item.src, filename: item.filename })}
+              title={item.desc}
+            >
+              {certErrors[i] ? (
+                <div className="tc-gal-ph">
+                  <i className="fa-solid fa-file-certificate" />
+                  <span>{item.filename}</span>
+                </div>
+              ) : (
+                <img
+                  src={item.src}
+                  alt={item.caption}
+                  loading="lazy"
+                  onError={() => setCertErrors((p) => ({ ...p, [i]: true }))}
+                />
+              )}
+              <div className="tc-gal-filename">{item.filename}</div>
+              <div className="tc-gal-caption">{item.caption}</div>
+              <div className="tc-gal-zoom"><i className="fa-solid fa-magnifying-glass" /></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── EXPERTISE / ACCORDION ── */}
       <section className="t-section t-expertise">
-        <span className="t-sec-label reveal">{tx("label02t", "02 / Keahlian")}</span>
+        <span className="t-sec-label reveal">{tx("label02t", "03 / Keahlian")}</span>
         <h2 className="t-sec-title reveal rv-d1">
           {tx("expTitle", "Apa yang ")}<em>{tx("expEm", "Saya Kuasai.")}</em>
         </h2>
@@ -1301,7 +1494,7 @@ export default function Tentang({ t }) {
 
       {/* ── SERVICES ── */}
       <section className="t-section t-services">
-        <span className="t-sec-label reveal">{tx("label03t", "03 / Layanan")}</span>
+        <span className="t-sec-label reveal">{tx("label03t", "04 / Layanan")}</span>
         <h2 className="t-sec-title reveal rv-d1">
           {tx("svcTitle", "Yang Bisa Saya ")}<em>{tx("svcEm", "Kerjakan.")}</em>
         </h2>
@@ -1331,7 +1524,7 @@ export default function Tentang({ t }) {
 
       {/* ── TOOLS ── */}
       <section className="t-section t-tools">
-        <span className="t-sec-label reveal">{tx("label04t", "04 / Peralatan")}</span>
+        <span className="t-sec-label reveal">{tx("label04t", "05 / Peralatan")}</span>
         <h2 className="t-sec-title reveal rv-d1">
           {tx("toolTitle", "Senjata ")}<em>{tx("toolEm", "Andalan.")}</em>
         </h2>
@@ -1439,6 +1632,15 @@ export default function Tentang({ t }) {
           </button>
         </div>
       </footer>
+
+      {/* ── CERTIF MODAL ── */}
+      {certModal && (
+        <CertifModal
+          src={certModal.src}
+          filename={certModal.filename}
+          onClose={() => setCertModal(null)}
+        />
+      )}
     </>
   );
 }
