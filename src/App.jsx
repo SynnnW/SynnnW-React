@@ -75,6 +75,7 @@ function Layout() {
             <Route path="/journal/karya1" element={<JournalKarya1 t={t} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/price-list" element={<PriceList />} />
+            <Route path="/preview-logo" element={<PreviewLogo/>} />
             
             {/* ── Rute Baru untuk Dashboard & Pembayaran Kamu ── */}
             <Route path="/dashboard" element={<Dashboard />} />
