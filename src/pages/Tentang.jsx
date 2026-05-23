@@ -200,35 +200,35 @@ const TOOLS = [
 
 const CERTIF_ITEMS = [
   {
-    src: "/NOT_ORDINARY.jpg",
+    src: "/assets/img/NOT ORDINARY.jpg",
     filename: "NOT_ORDINARY.jpg",
     caption: "NOT AN ORDINARY TEENAGE 2025",
     desc: "Peserta — Kegiatan NOT 2025, Universitas Jember · Tema: Strong Mind, Bright Future",
     cls: "tc-gal-half",
   },
   {
-    src: "/SERTTIF_FLS2N.jpg",
+    src: "/assets/img/SERTTIF FLS2N.jpg",
     filename: "SERTTIF_FLS2N.jpg",
     caption: "Juara 2 Film Pendek FLS2N 2024",
     desc: "Juara 2 Tingkat Kabupaten Probolinggo — Festival Lomba Seni Siswa Nasional (FLS2N) · SMAN 1 Kraksaan",
     cls: "tc-gal-half",
   },
   {
-    src: "/SERTIF_OSIS.jpg",
+    src: "/assets/img/SERTIF OSIS.jpg",
     filename: "SERTIF_OSIS.jpg",
     caption: "Anggota Sekbid Jurnalistik OSIS 2023–2024",
     desc: "Anggota Sekbid Jurnalistik — OSIS & MPK SMAN 1 Kraksaan · Periode 2023–2024",
     cls: "tc-gal-third",
   },
   {
-    src: "/film_pendek_nasional.jpg",
+    src: "/assets/img/film pendek nasional.jpg",
     filename: "film_pendek_nasional.jpg",
     caption: "Juara I Festival Film Cendana 2025",
     desc: "Juara I Nasional — Festival Film Cendana 2025 · SMAS Cendana Mandau, Bengkalis, Riau",
     cls: "tc-gal-third",
   },
   {
-    src: "/MEDSPIN.jpg",
+    src: "/assets/img/MEDSPIN.jpg",
     filename: "MEDSPIN.jpg",
     caption: "Participant Public Poster MEDSPIN 2025",
     desc: "Peserta Public Poster — Medical Science and Application Competition (MEDSPIN) · Universitas Airlangga · Sep–Okt 2025",
