@@ -14,6 +14,7 @@ const Contact      = lazy(() => import('./pages/Contact'));
 const PortoKarya1  = lazy(() => import('./pages/PortoKarya1'));
 const PortoKarya2  = lazy(() => import('./pages/PortoKarya2'));
 const PortoKarya3  = lazy(() => import('./pages/PortoKarya3'));
+const PortoKarya4  = lazy(() => import('./pages/PortoKarya4'));
 const PreviewLogo  = lazy(() => import('./pages/PreviewLogo'));
 
 
