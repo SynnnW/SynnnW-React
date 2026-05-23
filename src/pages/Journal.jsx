@@ -39,24 +39,24 @@ export default function Journal({ t = {} }) {
           <div className="header-orb orb-1" />
           <div className="header-orb orb-2" />
           <div className="header-inner">
-            <span ref={r} className="page-label reveal">JOURNAL</span>
+            <span ref={r} className="page-label reveal">{t.journalPageLabel}</span>
             <h1 ref={r} className="page-title reveal rv-d1">
-              <em>Catatan</em><br />
-              <span>&amp; Cerita.</span>
+              <em>{t.journalTitle}</em><br />
+              <span>{t.journalTitleB}</span>
             </h1>
             <p ref={r} className="page-sub reveal rv-d2">
-              Refleksi, proses kreatif, dan cerita di balik setiap karya dan pengalaman.
+              {t.journalSub}
             </p>
           </div>
           <div ref={r} className="header-stats reveal rv-d3">
             <div className="stat-item">
               <span className="stat-num">1</span>
-              <span className="stat-label">Artikel</span>
+              <span className="stat-label">{t.journalStat1Label}</span>
             </div>
             <div className="stat-divider" />
             <div className="stat-item">
               <span className="stat-num">2024</span>
-              <span className="stat-label">Sejak</span>
+              <span className="stat-label">{t.journalStat2Label}</span>
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function Journal({ t = {} }) {
 
           {/* Featured */}
           <div ref={r} className="featured-wrap reveal">
-            <span className="featured-tag">✦ Artikel Unggulan</span>
+            <span className="featured-tag">{t.featuredTag}</span>
 
             <article
               className="card-featured"
@@ -89,28 +89,28 @@ export default function Journal({ t = {} }) {
               <div className="card-feat-body">
                 <div className="card-feat-meta">
                   <span className="card-dot" />
-                  <span className="card-date">April 2026</span>
+                  <span className="card-date">{t.articleMeta1}</span>
                   <span className="card-dot" />
-                  <span className="card-read">5 menit baca</span>
+                  <span className="card-read">{t.articleMeta2}</span>
                 </div>
                 <h2 className="card-feat-title">
-                  Ketua Pelaksana FISS: Film School Screening se-Tapal Kuda di SMAN 1 Kraksaan
+                  {t.articleTitle}
                 </h2>
                 <p className="card-feat-excerpt">
-                  Sebuah catatan perjalanan tentang memimpin dan mengeksekusi event pemutaran film lintas sekolah se-wilayah Tapal Kuda — dari konsep, koordinasi tim, hingga momen layar menyala di hadapan ratusan penonton muda yang haus sinema.
+                  {t.articleExcerpt}
                 </p>
                 <div className="card-feat-footer">
                   <div className="card-author">
                     <div className="author-avatar">
                       <AuthorAvatar />
                     </div>
-                    <span className="author-name">Aldo Leo Saputra</span>
+                    <span className="author-name">{t.articleAuthor}</span>
                   </div>
                   <button
                     className="btn-read"
                     onClick={(e) => { e.stopPropagation(); go('/journal/karya1'); }}
                   >
-                    Baca Selengkapnya <i className="fa-solid fa-arrow-up-right" />
+                    {t.readMore} <i className="fa-solid fa-arrow-up-right" />
                   </button>
                 </div>
               </div>
@@ -125,7 +125,7 @@ export default function Journal({ t = {} }) {
       ══════════════════════════════ */}
       <footer className="site-footer">
         <div className="footer-bottom">
-          <span className="footer-copy">© 2026 Aldo Leo Saputra</span>
+          <span className="footer-copy">{t.footerCopy}</span>
           <div className="footer-socials">
             <a href="https://github.com/SynnnW" target="_blank" rel="noopener" className="f-soc-link" aria-label="GitHub">
               <i className="fa-brands fa-github" />
@@ -135,7 +135,7 @@ export default function Journal({ t = {} }) {
             </a>
           </div>
           <button className="footer-top-btn" onClick={scrollTop}>
-            <i className="fa-solid fa-arrow-up" /> Ke atas
+            <i className="fa-solid fa-arrow-up" /> {t.portoFooterTop}
           </button>
         </div>
       </footer>

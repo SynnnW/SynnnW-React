@@ -185,7 +185,7 @@ export default function JournalKarya1({ t = {} }) {
                 rel="noopener noreferrer"
                 className="source-link"
               >
-                <i className="fa-solid fa-arrow-up-right" /> Baca Artikel Asli
+                <i className="fa-solid fa-arrow-up-right" /> {t.jk1ReadOriginal}
               </a>
             </div>
 
@@ -217,8 +217,8 @@ export default function JournalKarya1({ t = {} }) {
             <div className="sidebar-widget">
               <h3 className="widget-title">Related Links</h3>
               <ul className="related-links">
-                <li><button className="rel-link-btn" onClick={() => navigate('/journal')}>Kembali ke Journal</button></li>
-                <li><button className="rel-link-btn" onClick={() => navigate('/porto')}>Lihat Portfolio</button></li>
+                <li><button className="rel-link-btn" onClick={() => navigate('/journal')}>{t.jk1BackJournal}</button></li>
+                <li><button className="rel-link-btn" onClick={() => navigate('/porto')}>{t.jk1ViewPortfolio}</button></li>
                 <li><button className="rel-link-btn" onClick={() => navigate('/contact')}>Get In Touch</button></li>
               </ul>
             </div>
@@ -258,7 +258,7 @@ export default function JournalKarya1({ t = {} }) {
                   }
                 </button>
               </div>
-              {copied && <p className="copy-feedback">Link disalin!</p>}
+              {copied && <p className="copy-feedback">{t.jk1CopyFeedback}</p>}
             </div>
 
           </aside>
@@ -270,12 +270,12 @@ export default function JournalKarya1({ t = {} }) {
         <div className="k1-footer-inner">
           <div className="k1-footer-col">
             <p className="k1-footer-brand">SynnnW</p>
-            <p className="k1-footer-desc">Kreator digital multidisiplin dari Jawa Timur.</p>
+            <p className="k1-footer-desc">{t.jk1FooterDesc}</p>
           </div>
           <div className="k1-footer-col">
             <h4 className="k1-footer-heading">Quick Links</h4>
             <ul className="k1-footer-links">
-              {[['Home','/'],['Portfolio','/porto'],['Journal','/journal'],['Tentang','/tentang']].map(([label, path]) => (
+              {[[['Home','/'],['Portfolio','/porto'],['Journal','/journal'],[t.navAbout,'/tentang']]].map(([label, path]) => (
                 <li key={label}><button className="k1-footer-link-btn" onClick={() => navigate(path)}>{label}</button></li>
               ))}
             </ul>
@@ -289,9 +289,9 @@ export default function JournalKarya1({ t = {} }) {
           </div>
         </div>
         <div className="k1-footer-bottom">
-          <span>© 2024 Aldo Leo Saputra. All rights reserved.</span>
+          <span>{t.footerCopy}. All rights reserved.</span>
           <button className="footer-top-btn" onClick={scrollTop}>
-            <i className="fa-solid fa-arrow-up" /> Ke atas
+            <i className="fa-solid fa-arrow-up" /> {t.portoFooterTop}
           </button>
         </div>
       </footer>

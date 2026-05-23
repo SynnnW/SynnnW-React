@@ -692,7 +692,7 @@ const formatRp = (n) => {
 /* ─────────────────────────────────────────────────────────────
    COMPONENT
 ───────────────────────────────────────────────────────────── */
-export default function PriceList() {
+export default function PriceList({ t = {} }) {
   const navigate = useNavigate();
   const revealEls = useRef([]);
   const [cart, setCart]         = useState({});           // { itemId: qty }
@@ -765,7 +765,7 @@ export default function PriceList() {
           <button className="pl-cart-fab" onClick={() => setCartOpen(true)}>
             <i className="fa-solid fa-bag-shopping" />
             <span className="pl-cart-count">{cartCount}</span>
-            <span className="pl-cart-fab-label">Keranjang · {formatRp(cartTotal)}</span>
+            <span className="pl-cart-fab-label">{t.plCartFabLabel} · {formatRp(cartTotal)}</span>
           </button>
         )}
 
@@ -773,23 +773,23 @@ export default function PriceList() {
         <div className="pl-hero">
           <div className="pl-orb pl-orb1" /><div className="pl-orb pl-orb2" /><div className="pl-orb pl-orb3" />
           <div className="pl-hero-inner">
-            <span ref={r} className="pl-page-label reveal">LAYANAN & HARGA</span>
+            <span ref={r} className="pl-page-label reveal">{t.plPageLabel}</span>
             <h1 ref={r} className="pl-hero-title reveal rv-d1">
-              <span>Semua yang</span><br />
-              <em>Kamu Butuhkan.</em>
+              <span>{t.plHeroTitle}</span><br />
+              <em>{t.plHeroTitleEm}</em>
             </h1>
             <p ref={r} className="pl-hero-sub reveal rv-d2">
               Pilih layanan, tap buat lihat detail, tambah ke wishlist atau langsung pesan.<br />
-              Semua harga sudah include diskon — syarat & ketentuan berlaku.
+              {t.plHeroSub}
             </p>
             <div ref={r} className="pl-hero-pills reveal rv-d3">
-              <span className="pl-hero-pill"><i className="fa-solid fa-tag" /> Harga Transparan</span>
-              <span className="pl-hero-pill"><i className="fa-solid fa-rotate" /> Revisi Included</span>
-              <span className="pl-hero-pill"><i className="fa-solid fa-shield-halved" /> File Diserahkan</span>
+              <span className="pl-hero-pill"><i className="fa-solid fa-tag" /> {t.plPillTransparent}</span>
+              <span className="pl-hero-pill"><i className="fa-solid fa-rotate" /> {t.plPillRevisi}</span>
+              <span className="pl-hero-pill"><i className="fa-solid fa-shield-halved" /> {t.plPillFile}</span>
             </div>
           </div>
           <div ref={r} className="pl-scroll-hint reveal rv-d4">
-            <span>Lihat semua layanan</span>
+            <span>{t.plScrollHint}</span>
             <i className="fa-solid fa-arrow-down" />
           </div>
         </div>
@@ -822,7 +822,7 @@ export default function PriceList() {
                     >
                       {/* Badges */}
                       <div className="pl-card-badges">
-                        {item.comingSoon && <span className="pl-badge pl-badge-soon">🚧 Coming Soon</span>}
+                        {item.comingSoon && <span className="pl-badge pl-badge-soon">{t.portoBadgeSoon}</span>}
                         {item.badge && !item.comingSoon && <span className="pl-badge pl-badge-hot">{item.badge}</span>}
                         {discount > 0 && <span className="pl-badge pl-badge-disc">-{discount}%</span>}
                         {item.custom && <span className="pl-badge pl-badge-custom">Custom</span>}
@@ -832,7 +832,7 @@ export default function PriceList() {
                       <button
                         className={`pl-wish-btn ${wished ? 'pl-wished' : ''}`}
                         onClick={(e) => { e.stopPropagation(); toggleWish(item.id); }}
-                        title={wished ? 'Hapus dari wishlist' : 'Tambah ke wishlist'}
+                        title={wished ? t.plWishlistRemove : t.plWishlistAdd}
                       >
                         <i className={`fa-${wished ? 'solid' : 'regular'} fa-heart`} />
                       </button>
@@ -855,13 +855,13 @@ export default function PriceList() {
                                 )}
                               </>
                             ) : item.custom ? (
-                              <span className="pl-card-price-custom">Harga by request</span>
+                              <span className="pl-card-price-custom">{t.plPriceRequest}</span>
                             ) : (
-                              <span className="pl-card-price-soon">Segera Hadir</span>
+                              <span className="pl-card-price-soon">{t.plComingSoon}</span>
                             )}
                           </div>
                           {item.syarat && (
-                            <span className="pl-card-syarat">*Syarat & ketentuan berlaku</span>
+                            <span className="pl-card-syarat">{t.plSyarat}</span>
                           )}
                         </div>
                         <div className="pl-card-detail-hint">
@@ -875,7 +875,7 @@ export default function PriceList() {
                           {qty === 0 ? (
                             <button className="pl-btn-add" onClick={() => addToCart(item.id)}>
                               <i className="fa-solid fa-plus" />
-                              <span>Tambah</span>
+                              <span>{t.plBtnTambah}</span>
                             </button>
                           ) : (
                             <div className="pl-qty-control">
@@ -894,7 +894,7 @@ export default function PriceList() {
                         <div className="pl-card-actions">
                           <button className="pl-btn-notify">
                             <i className="fa-solid fa-bell" />
-                            <span>Beritahu Saya</span>
+                            <span>{t.plBtnNotify}</span>
                           </button>
                         </div>
                       )}
@@ -902,7 +902,7 @@ export default function PriceList() {
                         <div className="pl-card-actions">
                           <button className="pl-btn-discuss" onClick={() => openSheet(item)}>
                             <i className="fa-solid fa-comments" />
-                            <span>Diskusi Harga</span>
+                            <span>{t.plBtnDiskusi}</span>
                           </button>
                         </div>
                       )}
@@ -928,7 +928,7 @@ export default function PriceList() {
                   </div>
                   <div className="pl-sheet-hinfo">
                     <div className="pl-sheet-badges">
-                      {selected.comingSoon && <span className="pl-badge pl-badge-soon">🚧 Coming Soon</span>}
+                      {selected.comingSoon && <span className="pl-badge pl-badge-soon">{t.portoBadgeSoon}</span>}
                       {selected.badge && !selected.comingSoon && <span className="pl-badge pl-badge-hot">{selected.badge}</span>}
                       {selected.price > 0 && selected.origPrice > 0 && (
                         <span className="pl-badge pl-badge-disc">
@@ -947,9 +947,9 @@ export default function PriceList() {
                           )}
                         </>
                       ) : selected.custom ? (
-                        <span className="pl-sheet-price">Harga by request</span>
+                        <span className="pl-sheet-price">{t.plPriceRequest}</span>
                       ) : (
-                        <span className="pl-sheet-price-soon">Segera Hadir</span>
+                        <span className="pl-sheet-price-soon">{t.plComingSoon}</span>
                       )}
                     </div>
                   </div>
@@ -974,7 +974,7 @@ export default function PriceList() {
                 {selected.syarat && (
                   <div className="pl-sheet-syarat">
                     <i className="fa-solid fa-circle-info" />
-                    <span>Syarat & ketentuan berlaku. Harga dapat berubah sewaktu-waktu sesuai kompleksitas project.</span>
+                    <span>{t.plSyaratFull}</span>
                   </div>
                 )}
 
@@ -985,7 +985,7 @@ export default function PriceList() {
                     return qty === 0 ? (
                       <button className="pl-sheet-btn-add" onClick={() => { addToCart(selected.id); }}>
                         <i className="fa-solid fa-bag-shopping" />
-                        <span>Tambah ke Keranjang</span>
+                        <span>{t.plBtnAddCart}</span>
                       </button>
                     ) : (
                       <div className="pl-sheet-qty">
@@ -1019,7 +1019,7 @@ export default function PriceList() {
               <div className="pl-sheet-handle" />
               <div className="pl-sheet-scroll">
                 <div className="pl-cart-header">
-                  <h2 className="pl-cart-title"><i className="fa-solid fa-bag-shopping" /> Keranjang</h2>
+                  <h2 className="pl-cart-title"><i className="fa-solid fa-bag-shopping" /> {t.plCartTitle}</h2>
                   <button className="pl-sheet-close" onClick={() => setCartOpen(false)}>
                     <i className="fa-solid fa-xmark" />
                   </button>
@@ -1049,16 +1049,16 @@ export default function PriceList() {
                 })}
                 <div className="pl-sheet-divider" />
                 <div className="pl-cart-total">
-                  <span>Estimasi Total</span>
+                  <span>{t.plCartEstTotal}</span>
                   <span className="pl-cart-total-num">{formatRp(cartTotal)}</span>
                 </div>
                 <div className="pl-sheet-syarat">
                   <i className="fa-solid fa-circle-info" />
-                  <span>Total belum termasuk domain/hosting aktif. Harga final dikonfirmasi setelah konsultasi.</span>
+                  <span>{t.plCartNote}</span>
                 </div>
                 <button onClick={handleCheckout} className="pl-sheet-btn-add" style={{ border: 'none', cursor: 'pointer', width: '100%' }}>
                   <i className="fa-solid fa-bag-shopping" />
-                  <span>Lanjut ke Pemesanan</span>
+                  <span>{t.plBtnCheckout}</span>
                 </button>
               </div>
             </div>

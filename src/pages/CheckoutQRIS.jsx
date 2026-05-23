@@ -380,7 +380,7 @@ function makeOrderId() {
   return 'SYN-' + Math.floor(100000 + Math.random() * 900000);
 }
 
-export default function CheckoutQRIS() {
+export default function CheckoutQRIS({ t = {} }) {
   const navigate        = useNavigate();
   const [orderId]       = useState(makeOrderId);
   const [cartData, setCartData]   = useState(null);   // { items, total }
@@ -447,13 +447,13 @@ export default function CheckoutQRIS() {
             <div className="ck-left-head">
               <button className="ck-btn-back" onClick={() => navigate('/price-list')}>
                 <i className="fa-solid fa-arrow-left" />
-                <span>Price List</span>
+                <span>{t.navWork}</span>
               </button>
-              <span className="ck-step-label">CHECKOUT</span>
+              <span className="ck-step-label">{t.cqPageLabel}</span>
             </div>
 
             <h2 className="ck-left-title">
-              Ringkasan <em>Pesanan</em>
+              {t.cqRingkasan}
             </h2>
 
             {/* Order Summary */}
@@ -475,14 +475,14 @@ export default function CheckoutQRIS() {
                 <div className="ck-sum-divider" />
 
                 <div className="ck-sum-total">
-                  <span>Total Keseluruhan</span>
+                  <span>{t.cqTotalKeseluruhan}</span>
                   <span className="ck-sum-total-num">{formatRp(cartData.total)}</span>
                 </div>
 
                 <div className="ck-dp-box">
                   <i className="fa-solid fa-coins" />
                   <div>
-                    <p className="ck-dp-title">Sistem Pembayaran DP 50%</p>
+                    <p className="ck-dp-title">{t.cqSistemDP}</p>
                     <p className="ck-dp-sub">
                       Bayar <strong>{formatRp(cartData.total / 2)}</strong> sebagai DP sekarang.
                       Sisa <strong>{formatRp(cartData.total / 2)}</strong> setelah project selesai.
@@ -493,16 +493,16 @@ export default function CheckoutQRIS() {
             ) : (
               <div className="ck-empty-cart">
                 <i className="fa-solid fa-bag-shopping" />
-                <p>Tidak ada item pesanan.</p>
+                <p>{t.cqNoItem}</p>
                 <button className="ck-btn-back" onClick={() => navigate('/price-list')}>
-                  Kembali ke Price List
+                  {t.plBtnCheckout === "Proceed to Order" ? "Back to Price List" : "Kembali ke Price List"}
                 </button>
               </div>
             )}
 
             {/* Order ID */}
             <div className="ck-orderid-box">
-              <span className="ck-orderid-label">ID Pesanan</span>
+              <span className="ck-orderid-label">{t.cqOrderID}</span>
               <div className="ck-orderid-row">
                 <code className="ck-orderid-code">{orderId}</code>
                 <button className="ck-btn-copy" onClick={handleCopy}>
@@ -533,7 +533,7 @@ export default function CheckoutQRIS() {
               <div className="ck-qris-header">
                 <div className="ck-qris-brand">
                   <i className="fa-solid fa-qrcode" />
-                  <span>QRIS</span>
+                  <span>{t.cqPageLabel === "CHECKOUT" ? "QRIS" : "QRIS"}</span>
                 </div>
                 <span className="ck-qris-name">SynnnW Studio</span>
               </div>
@@ -543,7 +543,7 @@ export default function CheckoutQRIS() {
                 {isExpired && (
                   <div className="ck-qr-expired-overlay">
                     <i className="fa-solid fa-rotate" />
-                    <span>QR Kedaluwarsa</span>
+                    <span>{t.cqQRExpired}</span>
                   </div>
                 )}
                 {/* ── Mock QR SVG — ganti dengan <img src="qris-kamu.png"> ── */}
@@ -568,8 +568,8 @@ export default function CheckoutQRIS() {
                     <rect x="82" y="82" width="36" height="36" rx="8" fill="#8b5cf6"/>
                     <text x="100" y="105" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="700">S</text>
                   </svg>
-                  <p className="ck-qr-hint">Scan dengan m-banking atau dompet digital</p>
-                  <p className="ck-qr-apps">GoPay · OVO · Dana · BRIVA · M-Banking</p>
+                  <p className="ck-qr-hint">{t.cqScanHint}</p>
+                  <p className="ck-qr-apps">{t.cqWalletList}</p>
                 </div>
               </div>
 
@@ -577,7 +577,7 @@ export default function CheckoutQRIS() {
               {cartData?.total > 0 && (
                 <div className="ck-amount-row">
                   <div>
-                    <span className="ck-amount-label">Nominal DP (50%)</span>
+                    <span className="ck-amount-label">{t.cqNominalDP}</span>
                     <span className="ck-amount-num">{formatRp(cartData.total / 2)}</span>
                   </div>
                   <div className="ck-amount-badge">
@@ -591,7 +591,7 @@ export default function CheckoutQRIS() {
             {/* Divider */}
             <div className="ck-or-divider">
               <span />
-              <p>atau konfirmasi dulu via</p>
+              <p>{t.cqOrConfirm}</p>
               <span />
             </div>
 
@@ -604,8 +604,8 @@ export default function CheckoutQRIS() {
             >
               <i className="fa-brands fa-whatsapp" />
               <div>
-                <span className="ck-btn-wa-title">Hubungi Saya via WhatsApp</span>
-                <span className="ck-btn-wa-sub">Konfirmasi order · Diskusi · Tanya harga</span>
+                <span className="ck-btn-wa-title">{t.cqWABtn}</span>
+                <span className="ck-btn-wa-sub">{t.cqWADesc}</span>
               </div>
               <i className="fa-solid fa-arrow-up-right ck-btn-wa-arrow" />
             </a>

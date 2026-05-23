@@ -897,12 +897,12 @@ const CSS = `
    CONSTANTS
 ───────────────────────────────────────────────────────────── */
 
-const CLIENT_TYPES = [
-  { value: 'individu',   label: 'Pribadi / Individu',        icon: 'fa-user',             desc: 'Proyek personal, portofolio, dll.' },
-  { value: 'bisnis',     label: 'Bisnis / Brand / UMKM',     icon: 'fa-briefcase',         desc: 'Branding, konten, pemasaran' },
-  { value: 'organisasi', label: 'Sekolah / Kampus / Komunitas', icon: 'fa-building-columns', desc: 'Event, tugas, kegiatan institusi' },
-  { value: 'pasangan',   label: 'Pasangan (Wedding)',         icon: 'fa-heart',             desc: 'Dokumentasi & undangan digital' },
-  { value: 'kreator',    label: 'Kreator Konten / Influencer', icon: 'fa-video',            desc: 'YouTube, TikTok, Reels, streaming' },
+const getClientTypes = (t) => [
+  { value: 'individu',   label: t.cqClientIndividu   || 'Pribadi / Individu',        icon: 'fa-user',             desc: t.cqClientIndividuDesc   || 'Proyek personal, portofolio, dll.' },
+  { value: 'bisnis',     label: t.cqClientBisnis      || 'Bisnis / Brand / UMKM',     icon: 'fa-briefcase',         desc: t.cqClientBisnisDesc      || 'Branding, konten, pemasaran' },
+  { value: 'organisasi', label: t.cqClientOrg         || 'Sekolah / Kampus / Komunitas', icon: 'fa-building-columns', desc: t.cqClientOrgDesc         || 'Event, tugas, kegiatan institusi' },
+  { value: 'pasangan',   label: t.cqClientPasangan    || 'Pasangan (Wedding)',         icon: 'fa-heart',             desc: t.cqClientPasanganDesc    || 'Dokumentasi & undangan digital' },
+  { value: 'kreator',    label: t.cqClientKreator     || 'Kreator Konten / Influencer', icon: 'fa-video',            desc: t.cqClientKreatorDesc     || 'YouTube, TikTok, Reels, streaming' },
 ];
 
 const TOTAL_STEPS = 5;
@@ -912,7 +912,7 @@ const WA_NUMBER   = '628XXXXXXXXXX'; // ← Ganti dengan nomor WA kamu
    COMPONENT
 ───────────────────────────────────────────────────────────── */
 
-export default function Contact() {
+export default function Contact({ t = {} }) {
   /* ── Cart ── */
   const [cartData,   setCartData]   = useState(null);
   const [cartLoaded, setCartLoaded] = useState(false);
@@ -1062,14 +1062,14 @@ export default function Contact() {
               <div className="cq-warn-icon-ring">
                 <i className="fa-solid fa-cart-shopping" />
               </div>
-              <span className="cq-warn-eyebrow">PERHATIAN</span>
-              <h2 className="cq-warn-title">Keranjang<br /><em>Masih Kosong</em></h2>
+              <span className="cq-warn-eyebrow">{t.cqWarnTitle}</span>
+              <h2 className="cq-warn-title">{t.cqWarnCartEmpty}</h2>
               <p className="cq-warn-sub">
                 Kamu belum memilih layanan apapun. Kunjungi halaman <strong>Price List</strong> terlebih dahulu, pilih paket yang kamu butuhkan, lalu kembali ke sini untuk melanjutkan proses pesanan.
               </p>
               <a href="/price-list" className="cq-warn-cta">
                 <i className="fa-solid fa-arrow-left" />
-                <span>Ke Halaman Price List</span>
+                <span>{t.cqWarnGoPriceList}</span>
               </a>
               <p className="cq-warn-hint">
                 <i className="fa-solid fa-circle-info" />
@@ -1102,8 +1102,8 @@ export default function Contact() {
                 <div className="cq-co-success-ring">
                   <i className="fa-solid fa-circle-check" />
                 </div>
-                <span className="cq-co-eyebrow">Brief Sukses Tersimpan!</span>
-                <h1 className="cq-co-title">Selesaikan dengan<br /><em>Konfirmasi Pembayaran</em></h1>
+                <span className="cq-co-eyebrow">{t.cqSuccessEyebrow}</span>
+                <h1 className="cq-co-title">{t.cqSuccessTitle}<br /><em>{t.cqSuccessTitleEm}</em></h1>
               </div>
 
               {/* ── Order ID ── */}
@@ -1111,7 +1111,7 @@ export default function Contact() {
                 <div className="cq-co-id-left">
                   <i className="fa-solid fa-fingerprint" />
                   <div>
-                    <span className="cq-co-id-lbl">ORDER ID</span>
+                    <span className="cq-co-id-lbl">{t.cqOrderID}</span>
                     <code className="cq-co-id-val">{generatedId}</code>
                   </div>
                 </div>
@@ -1132,7 +1132,7 @@ export default function Contact() {
                 <div className="cq-co-nota">
                   <div className="cq-co-nota-head">
                     <i className="fa-solid fa-receipt" />
-                    <span>Ringkasan Pesanan</span>
+                    <span>{t.cqRingkasan}</span>
                   </div>
 
                   <div className="cq-co-nota-items">
@@ -1150,7 +1150,7 @@ export default function Contact() {
                   <div className="cq-co-nota-divider" />
 
                   <div className="cq-co-nota-total">
-                    <span>Total Tagihan</span>
+                    <span>{t.cqTotalTagihan}</span>
                     <span className="cq-co-nota-total-num">
                       Rp {cartTotal.toLocaleString('id-ID')}
                     </span>
@@ -1159,7 +1159,7 @@ export default function Contact() {
                   <div className="cq-co-dp-badge">
                     <i className="fa-solid fa-coins" />
                     <div>
-                      <p className="cq-co-dp-label">DP 50% yang ditransfer sekarang</p>
+                      <p className="cq-co-dp-label">{t.cqDP50Label}</p>
                       <p className="cq-co-dp-amount">
                         Rp {Math.ceil(cartTotal / 2).toLocaleString('id-ID')}
                       </p>
@@ -1168,11 +1168,11 @@ export default function Contact() {
 
                   <div className="cq-co-nota-meta">
                     <div className="cq-co-nota-meta-row">
-                      <span>Proyek</span>
+                      <span>{t.cqProyek}</span>
                       <span>{projectName || '—'}</span>
                     </div>
                     <div className="cq-co-nota-meta-row">
-                      <span>Tipe Klien</span>
+                      <span>{t.cqTipeKlien}</span>
                       <span>{CLIENT_TYPES.find(c => c.value === clientType)?.label ?? clientType}</span>
                     </div>
                   </div>
@@ -1180,15 +1180,15 @@ export default function Contact() {
 
                 {/* RIGHT: QRIS */}
                 <div className="cq-co-qris-col">
-                  <p className="cq-co-qris-title">Scan QRIS untuk Transfer DP</p>
+                  <p className="cq-co-qris-title">{t.cqQRISTitle}</p>
                   <div className="cq-co-qris-frame">
                     <img src="/qris.png" alt="QRIS Pembayaran SynnnW" className="cq-co-qris-img" />
                   </div>
                   <p className="cq-co-qris-sub">
-                    Bisa scan dengan aplikasi banking, GoPay, OVO, Dana, dan semua e-wallet apapun.
+                    {t.cqQRISNote}
                   </p>
                   <div className="cq-co-qris-amount">
-                    <span>Nominal transfer:</span>
+                    <span>{t.cqNominalTransfer}</span>
                     <strong>Rp {Math.ceil(cartTotal / 2).toLocaleString('id-ID')}</strong>
                   </div>
                 </div>
@@ -1203,13 +1203,13 @@ export default function Contact() {
                 className="cq-co-wa-btn"
               >
                 <i className="fa-brands fa-whatsapp" />
-                <span>Konfirmasi Pembayaran via WhatsApp</span>
+                <span>{t.cqConfirmWA}</span>
                 <i className="fa-solid fa-arrow-up-right-from-square cq-co-wa-ext" />
               </a>
 
               <p className="cq-co-footer">
                 <i className="fa-solid fa-clock" />
-                Tim kami akan membalas dalam <strong>1×24 jam</strong> untuk mengkonfirmasi penerimaan brief dan pembayaran kamu.
+                {t.cqReplyTime}
               </p>
 
             </div>
@@ -1222,7 +1222,7 @@ export default function Contact() {
   /* ═══════════════════════════════════════════════════════════
      STEP 1–5: FORM KUESIONER
   ══════════════════════════════════════════════════════════ */
-  const STEP_LABELS = ['Tipe Klien', 'Ringkasan', 'Preferensi', 'Detail Proyek', 'Konfirmasi'];
+  const STEP_LABELS = [t.cqStepTipeKlien || 'Tipe Klien', t.cqStepRingkasan || 'Ringkasan', t.cqStepPreferensi || 'Preferensi', t.cqStepDetail || 'Detail Proyek', t.cqStepKonfirmasi || 'Konfirmasi'];
 
   return (
     <>
@@ -1235,12 +1235,12 @@ export default function Contact() {
           <div className="cq-hero-orb cq-ho2" />
           <div className="cq-hero-orb cq-ho3" />
           <div className="cq-hero-inner">
-            <span className="cq-hero-eyebrow">MULAI PROYEK BARU</span>
+            <span className="cq-hero-eyebrow">{t.cqNewProject}</span>
             <h1 className="cq-hero-title">
-              Ceritakan<br /><em>Proyekmu.</em>
+              {t.cqFormTitle}<br /><em>{t.cqFormTitleEm}</em>
             </h1>
             <p className="cq-hero-sub">
-              Jawab 5 pertanyaan singkat — aku akan pahami kebutuhanmu dan siapkan solusi terbaik. Prosesnya mudah &amp; cepat.
+              {t.cqFormSub}
             </p>
           </div>
           {cartItems.length > 0 && (
@@ -1283,12 +1283,12 @@ export default function Contact() {
 
             <div className="cq-left-security">
               <i className="fa-solid fa-lock" />
-              <span>Data kamu aman &amp; hanya digunakan untuk memproses proyekmu.</span>
+              <span>{t.cqDataSafe}</span>
             </div>
 
             <div className="cq-avail-badge">
               <span className="cq-avail-dot" />
-              <span>Tersedia untuk proyek baru</span>
+              <span>{t.badgeAvail}</span>
             </div>
           </div>
 
@@ -1324,8 +1324,8 @@ export default function Contact() {
                 {step === 1 && (
                   <div className="cq-step-content">
                     <div className="cq-step-head">
-                      <span className="cq-step-badge">01 — TIPE KLIEN</span>
-                      <h2 className="cq-step-title">Kamu mewakili <em>siapa?</em></h2>
+                      <span className="cq-step-badge">{t.cqStep1Num}</span>
+                      <h2 className="cq-step-title">{t.cqStep1Title} <em>{t.cqStep1TitleEm}</em></h2>
                       <p className="cq-step-desc">
                         Pilih kategori yang paling menggambarkan dirimu. Ini membantu aku menyesuaikan pendekatannya.
                       </p>
@@ -1339,7 +1339,7 @@ export default function Contact() {
                     )}
 
                     <div className="cq-type-grid">
-                      {CLIENT_TYPES.map((ct) => (
+                      {getClientTypes(t).map((ct) => (
                         <button
                           key={ct.value}
                           type="button"
@@ -1368,17 +1368,17 @@ export default function Contact() {
                 {step === 2 && (
                   <div className="cq-step-content">
                     <div className="cq-step-head">
-                      <span className="cq-step-badge">02 — RINGKASAN PESANAN</span>
-                      <h2 className="cq-step-title">Ini yang akan <em>dikerjakan.</em></h2>
+                      <span className="cq-step-badge">{t.cqStep2Num}</span>
+                      <h2 className="cq-step-title">{t.cqStep2Title} <em>{t.cqStep2TitleEm}</em></h2>
                       <p className="cq-step-desc">
-                        Berikut layanan yang sudah kamu pilih dari Price List. Pastikan semuanya sudah benar sebelum lanjut.
+                        {t.cqStep2Note}
                       </p>
                     </div>
 
                     <div className="cq-summary-card">
                       <div className="cq-summary-head">
                         <i className="fa-solid fa-bag-shopping" />
-                        <span>Daftar Item Pesanan</span>
+                        <span>{t.cqDaftarItem}</span>
                         <span className="cq-summary-count">{cartItems.length} item</span>
                       </div>
 
@@ -1404,7 +1404,7 @@ export default function Contact() {
                       <div className="cq-summary-divider" />
 
                       <div className="cq-summary-total">
-                        <span>Estimasi Total</span>
+                        <span>{t.cqEstTotal}</span>
                         <span className="cq-summary-total-num">
                           Rp {cartTotal.toLocaleString('id-ID')}
                         </span>
@@ -1413,11 +1413,11 @@ export default function Contact() {
                       <div className="cq-summary-notes">
                         <p>
                           <i className="fa-solid fa-circle-info" />
-                          Harga final dikonfirmasi setelah konsultasi singkat.
+                          {t.cqHargaFinal}
                         </p>
                         <p>
                           <i className="fa-solid fa-coins" />
-                          Pembayaran dengan sistem <strong>DP 50%</strong> di awal, pelunasan setelah proyek selesai.
+                          {t.cqDPSystem}
                         </p>
                       </div>
                     </div>
@@ -1428,10 +1428,10 @@ export default function Contact() {
                 {step === 3 && (
                   <div className="cq-step-content">
                     <div className="cq-step-head">
-                      <span className="cq-step-badge">03 — PREFERENSI KREATIF</span>
-                      <h2 className="cq-step-title">Gaya visual <em>seperti apa?</em></h2>
+                      <span className="cq-step-badge">{t.cqStep3Num}</span>
+                      <h2 className="cq-step-title">{t.cqStep3Title} <em>{t.cqStep3TitleEm}</em></h2>
                       <p className="cq-step-desc">
-                        Geser slider untuk menggambarkan arah desain yang kamu inginkan. Tidak ada jawaban yang salah!
+                        {t.cqStep3Sub}
                       </p>
                     </div>
 
@@ -1440,7 +1440,7 @@ export default function Contact() {
                       <div className="cq-slider-main">
                         <div className="cq-slider-pole cq-pole-left">
                           <i className="fa-solid fa-feather" />
-                          <span>Minimalis</span>
+                          <span>{t.cqMinimalis}</span>
                         </div>
                         <input
                           type="range"
@@ -1453,7 +1453,7 @@ export default function Contact() {
                         />
                         <div className="cq-slider-pole cq-pole-right">
                           <i className="fa-solid fa-explosion" />
-                          <span>Kompleks</span>
+                          <span>{t.cqKompleks}</span>
                         </div>
                       </div>
 
@@ -1490,7 +1490,7 @@ export default function Contact() {
 
                       <div className="cq-slider-chosen">
                         <i className="fa-solid fa-wand-magic-sparkles" />
-                        <span>Pilihan kamu: <strong>{sliderLabel(creativeSlider)}</strong> ({creativeSlider}/100)</span>
+                        <span>{t.cqPilihanKamu} <strong>{sliderLabel(creativeSlider)}</strong> ({creativeSlider}/100)</span>
                       </div>
                     </div>
                   </div>
@@ -1500,8 +1500,8 @@ export default function Contact() {
                 {step === 4 && (
                   <div className="cq-step-content">
                     <div className="cq-step-head">
-                      <span className="cq-step-badge">04 — DETAIL PROYEK</span>
-                      <h2 className="cq-step-title">Proyeknya <em>tentang apa?</em></h2>
+                      <span className="cq-step-badge">{t.cqStep4Num}</span>
+                      <h2 className="cq-step-title">{t.cqStep4Title} <em>{t.cqStep4TitleEm}</em></h2>
                       <p className="cq-step-desc">
                         Berikan nama dan cerita singkat proyekmu. Semakin jelas, semakin tepat solusi yang aku siapkan.
                       </p>
@@ -1510,7 +1510,7 @@ export default function Contact() {
                     <div className="cq-fields">
                       <div className="cq-field-group">
                         <label className="cq-field-label">
-                          Nama Proyek <span className="cq-required">*</span>
+                          {t.cqNamaProyek} <span className="cq-required">*</span>
                         </label>
                         <input
                           type="text"
@@ -1528,8 +1528,8 @@ export default function Contact() {
 
                       <div className="cq-field-group">
                         <label className="cq-field-label">
-                          Deskripsi Proyek
-                          <span className="cq-field-optional"> (opsional tapi sangat membantu)</span>
+                          {t.cqDescProyek}
+                          <span className="cq-field-optional"> {t.cqOptional}</span>
                         </label>
                         <textarea
                           className="cq-field-input cq-field-textarea"
@@ -1548,8 +1548,8 @@ export default function Contact() {
                 {step === 5 && (
                   <div className="cq-step-content">
                     <div className="cq-step-head">
-                      <span className="cq-step-badge">05 — KONFIRMASI</span>
-                      <h2 className="cq-step-title">Hampir selesai — <em>cek semuanya!</em></h2>
+                      <span className="cq-step-badge">{t.cqStep5Num}</span>
+                      <h2 className="cq-step-title">{t.cqStep5Title} <em>{t.cqStep5TitleEm}</em></h2>
                       <p className="cq-step-desc">
                         Periksa ringkasan brief kamu sebelum dikirim. Jika ada yang kurang tepat, kembali dan edit dulu.
                       </p>
@@ -1560,7 +1560,7 @@ export default function Contact() {
 
                       <div className="cq-review-section">
                         <span className="cq-review-lbl">
-                          <i className="fa-solid fa-user" /> Tipe Klien
+                          <i className="fa-solid fa-user" /> {t.cqTipeKlien}
                         </span>
                         <span className="cq-review-val">
                           {CLIENT_TYPES.find(c => c.value === clientType)?.label ?? '—'}
@@ -1571,7 +1571,7 @@ export default function Contact() {
 
                       <div className="cq-review-section">
                         <span className="cq-review-lbl">
-                          <i className="fa-solid fa-bag-shopping" /> Pesanan
+                          <i className="fa-solid fa-bag-shopping" /> {t.cqPesanan}
                         </span>
                         <div className="cq-review-cart">
                           {cartItems?.map((item, idx) => (
@@ -1581,7 +1581,7 @@ export default function Contact() {
                             </div>
                           ))}
                           <div className="cq-review-item cq-review-total-row">
-                            <span>Total</span>
+                            <span>{t.cqTotal}</span>
                             <strong>Rp {cartTotal.toLocaleString('id-ID')}</strong>
                           </div>
                         </div>
@@ -1591,7 +1591,7 @@ export default function Contact() {
 
                       <div className="cq-review-section">
                         <span className="cq-review-lbl">
-                          <i className="fa-solid fa-palette" /> Preferensi Kreatif
+                          <i className="fa-solid fa-palette" /> {t.cqStepPreferensi}
                         </span>
                         <span className="cq-review-val">
                           {sliderLabel(creativeSlider)} ({creativeSlider}/100)
@@ -1602,7 +1602,7 @@ export default function Contact() {
 
                       <div className="cq-review-section">
                         <span className="cq-review-lbl">
-                          <i className="fa-solid fa-folder" /> Nama Proyek
+                          <i className="fa-solid fa-folder" /> {t.cqNamaProyek}
                         </span>
                         <span className="cq-review-val">{projectName || '—'}</span>
                       </div>
@@ -1625,8 +1625,8 @@ export default function Contact() {
                     <div className="cq-submit-note">
                       <i className="fa-solid fa-paper-plane" />
                       <p>
-                        Brief kamu akan tersimpan ke database kami, lalu kamu langsung diarahkan ke halaman <strong>checkout</strong> dengan QRIS dan tombol konfirmasi WhatsApp.
-                        Pembayaran via <strong>DP 50%</strong> — bukan bayar penuh di awal.
+                        Brief kamu akan tersimpan ke database kami, lalu kamu langsung diarahkan ke halaman checkout dengan QRIS dan tombol konfirmasi WhatsApp.
+                        {t.cqDPNote}
                       </p>
                     </div>
 
@@ -1671,7 +1671,7 @@ export default function Contact() {
                       <i className="fa-solid fa-paper-plane" />
                     )}
                     <span>
-                      {submitting ? 'Mengirim Brief...' : 'Kirim & Lanjut ke Checkout'}
+                      {submitting ? t.cqSendingBrief : t.cqSendBtn}
                     </span>
                   </button>
                 )}
