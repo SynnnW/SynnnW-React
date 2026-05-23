@@ -384,13 +384,16 @@ const CSS = `
   background-size: cover; background-position: center;
   opacity: 0.30; transition: opacity 0.5s;
 }
-[data-theme="light"] .home-bg { opacity: 0.18; }
+[data-theme="light"] .home-bg { opacity: 0.55; filter: grayscale(0.15) contrast(1.05); }
 .home-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(7,7,9,0.78) 0%, rgba(7,7,9,0.20) 50%, rgba(7,7,9,0.88) 100%);
+  background: linear-gradient(135deg, rgba(7,7,9,0.72) 0%, rgba(7,7,9,0.05) 45%, rgba(7,7,9,0.75) 100%);
 }
 [data-theme="light"] .home-overlay {
-  background: linear-gradient(135deg, rgba(244,242,238,0.82) 0%, rgba(244,242,238,0.15) 50%, rgba(244,242,238,0.90) 100%);
+  /* Gradient hanya dari kiri dan bawah biar teks tetap terbaca, wajah visible */
+  background:
+    linear-gradient(to right,  rgba(250,249,246,0.88) 0%, rgba(250,249,246,0.30) 45%, rgba(250,249,246,0.00) 70%),
+    linear-gradient(to top,    rgba(250,249,246,0.80) 0%, rgba(250,249,246,0.00) 40%);
 }
 .home-content {
   position: relative; z-index: 2;

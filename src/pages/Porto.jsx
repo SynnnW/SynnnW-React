@@ -520,4 +520,21 @@ const CSS = `
   .site-footer       { padding: 22px 24px; }
   .footer-bottom     { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
+
+
+/* ── Light mode — warm hover shadow, no heavy darks ── */
+[data-theme="light"] .work-card {
+  background: var(--bg2);
+  border-color: rgba(28,27,24,0.08);
+  box-shadow: 0 2px 16px rgba(28,27,24,0.05);
+}
+[data-theme="light"] .work-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(92,33,182,0.28);
+  box-shadow: 0 16px 48px rgba(28,27,24,0.12), 0 0 0 1px rgba(92,33,182,0.12);
+}
+[data-theme="light"] .wcard-badge {
+  background: rgba(28,27,24,0.06);
+  color: var(--text-dim);
+}
 `;
