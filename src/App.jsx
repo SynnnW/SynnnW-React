@@ -22,7 +22,6 @@ const PreviewLogo  = lazy(() => import('./pages/PreviewLogo'));
 const PriceList    = lazy(() => import('./pages/PriceList'));
 
 /* ── Tambahan Lazy Load untuk Halaman Baru Kamu ── */
-const Dashboard   = lazy(() => import('./pages/Dashboard'));
 const CheckoutQRIS = lazy(() => import('./pages/CheckoutQRIS'));
 
 /* ── 404 Page ── */
@@ -296,7 +295,6 @@ function Layout() {
             <Route path="/preview-logo" element={<PreviewLogo/>} />
             
             {/* ── Rute Baru untuk Dashboard & Pembayaran Kamu ── */}
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/checkout" element={<CheckoutQRIS />} />
 
             {/* 404 Route */}
