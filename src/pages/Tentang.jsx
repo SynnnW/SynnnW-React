@@ -273,30 +273,40 @@ function AccordionItem({ item, isOpen, onToggle, t }) {
 }
 
 /* ============================================================
-   IMAGE MODAL (same as PortoKarya1)
+   IMAGE MODAL
    ============================================================ */
 function CertifModal({ src, filename, onClose }) {
   useEffect(() => {
     const handler = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
     document.body.style.overflow = "hidden";
-    return () => { window.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
+    // blur the page content behind modal
+    const root = document.getElementById("root") || document.querySelector("main") || document.body.firstElementChild;
+    if (root) root.style.filter = "blur(8px)";
+    return () => {
+      window.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+      if (root) root.style.filter = "";
+    };
   }, [onClose]);
   return (
     <div style={{ position:"fixed", inset:0, zIndex:2000, display:"flex", alignItems:"center", justifyContent:"center", animation:"tcModalIn 0.25s ease" }}>
-      <div onClick={onClose} style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.9)", backdropFilter:"blur(12px)" }} />
-      <div style={{ position:"relative", zIndex:1, padding:"20px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", width:"100%", height:"100%" }}>
+      <div onClick={onClose} style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.75)", backdropFilter:"blur(2px)" }} />
+      <div style={{ position:"relative", zIndex:1, padding:"20px", display:"flex", alignItems:"center", justifyContent:"center", width:"100%", height:"100%" }}>
         <button onClick={onClose}
           style={{ position:"absolute", top:"20px", right:"20px", width:"44px", height:"44px", borderRadius:"50%", background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.15)", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", fontSize:"1.2rem", transition:"all 0.3s", zIndex:2 }}
-          onMouseEnter={(e) => { e.currentTarget.style.background="rgba(139,92,246,0.7)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background="rgba(255,255,255,0.08)"; }}>
+          onMouseEnter={(e) => { e.currentTarget.style.background="rgba(139,92,246,0.75)"; e.currentTarget.style.borderColor="rgba(139,92,246,0.6)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background="rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor="rgba(255,255,255,0.15)"; }}>
           <i className="fa-solid fa-xmark" />
         </button>
-        <img src={src} alt={filename}
-          style={{ maxWidth:"88%", maxHeight:"82vh", objectFit:"contain", borderRadius:"16px", boxShadow:"0 25px 80px rgba(0,0,0,0.8)", animation:"tcImgIn 0.3s ease" }} loading="lazy" />
-        <div style={{ marginTop:"16px", fontSize:"0.66rem", fontWeight:600, letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(255,255,255,0.5)" }}>
-          {filename}
-        </div>
+        <img
+          src={src}
+          alt={filename}
+          draggable="false"
+          onContextMenu={(e) => e.preventDefault()}
+          style={{ maxWidth:"88%", maxHeight:"88vh", objectFit:"contain", borderRadius:"16px", boxShadow:"0 30px 90px rgba(0,0,0,0.85)", animation:"tcImgIn 0.3s ease", userSelect:"none" }}
+          loading="lazy"
+        />
       </div>
     </div>
   );
@@ -1179,6 +1189,7 @@ export default function Tentang({ t }) {
           display: grid;
           grid-template-columns: repeat(6, 1fr);
           gap: 18px;
+          align-items: stretch;
         }
         .tc-gal-item {
           position: relative;
@@ -1186,62 +1197,57 @@ export default function Tentang({ t }) {
           overflow: hidden;
           background: var(--bg3);
           border: 1px solid var(--border);
-          transition: transform 0.4s ease, border-color 0.4s ease;
+          transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
           cursor: pointer;
+          user-select: none;
+          -webkit-user-select: none;
         }
-        .tc-gal-item:hover { transform: translateY(-6px); border-color: rgba(139,92,246,0.38); }
-        .tc-gal-half  { grid-column: span 3; aspect-ratio: 4/3; }
-        .tc-gal-third { grid-column: span 2; aspect-ratio: 4/3; }
-        .tc-gal-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease; display:block; }
-        .tc-gal-item:hover img { transform: scale(1.05); }
-        .tc-gal-caption {
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          padding: 14px 18px;
-          background: linear-gradient(to top, rgba(7,7,9,0.82) 0%, transparent 100%);
-          font-size: 0.62rem;
-          font-weight: 600;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.85);
+        .tc-gal-item:hover { transform: translateY(-6px); border-color: rgba(139,92,246,0.38); box-shadow: 0 20px 50px var(--shadow); }
+        .tc-gal-half  { grid-column: span 3; aspect-ratio: 3/2; }
+        .tc-gal-third { grid-column: span 2; aspect-ratio: 3/2; }
+        .tc-gal-item img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s ease;
+          display: block;
           pointer-events: none;
+          user-select: none;
+          -webkit-user-select: none;
+          -webkit-user-drag: none;
         }
+        .tc-gal-item:hover img { transform: scale(1.04); }
         .tc-gal-filename {
           position: absolute;
-          top: 12px; left: 14px;
-          background: rgba(0,0,0,0.55);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 8px;
-          padding: 4px 10px;
-          font-size: 0.55rem;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          color: rgba(255,255,255,0.65);
+          bottom: 0; left: 0; right: 0;
+          padding: 32px 18px 16px;
+          background: linear-gradient(to top, rgba(5,5,8,0.78) 0%, transparent 100%);
+          font-size: 0.58rem;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          font-family: 'Outfit', sans-serif;
+          color: rgba(255,255,255,0.55);
           pointer-events: none;
-          font-family: 'Outfit', monospace;
         }
         .tc-gal-ph {
-          width:100%; height:100%;
-          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+          width: 100%; height: 100%;
+          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
           background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%);
           color: var(--text-dim);
-          font-size: 0.62rem; letter-spacing:0.18em; text-transform:uppercase;
-          min-height: 180px;
+          font-size: 0.62rem; letter-spacing: 0.14em;
+          min-height: 200px;
         }
-        .tc-gal-ph i { font-size:2rem; opacity:0.18; }
+        .tc-gal-ph i { font-size: 2rem; opacity: 0.15; }
         .tc-gal-zoom {
           position: absolute;
-          top: 12px; right: 14px;
+          top: 14px; right: 14px;
           width: 34px; height: 34px;
           border-radius: 50%;
-          background: rgba(0,0,0,0.5);
+          background: rgba(0,0,0,0.45);
           backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.12);
+          border: 1px solid rgba(255,255,255,0.1);
           display: flex; align-items: center; justify-content: center;
-          color: rgba(255,255,255,0.7);
-          font-size: 0.72rem;
+          color: rgba(255,255,255,0.65);
+          font-size: 0.7rem;
           opacity: 0;
           transition: opacity 0.3s;
           pointer-events: none;
@@ -1256,7 +1262,7 @@ export default function Tentang({ t }) {
         @media (max-width: 768px) {
           .tc-gal-grid { grid-template-columns: repeat(2,1fr); }
           .tc-gal-half  { grid-column: span 2; }
-          .tc-gal-third { grid-column: span 1; }
+          .tc-gal-third { grid-column: span 1; aspect-ratio: 4/3; }
         }
 
         /* RESPONSIVE */
@@ -1396,7 +1402,7 @@ export default function Tentang({ t }) {
               </div>
               <div className="t-info-item">
                 <span className="t-info-label">{tx("infoFocus", "Fokus")}</span>
-                <span className="t-info-val">{tx("infoFocusVal", "Web & Visual Creative")}</span>
+                <span className="t-info-val">{tx("infoFocusVal", "Web Dev · Poster Design · Video Editing")}</span>
               </div>
               <div className="t-info-item">
                 <span className="t-info-label">{tx("infoStatus", "Status")}</span>
@@ -1438,44 +1444,9 @@ export default function Tentang({ t }) {
         </div>
       </div>
 
-      {/* ── CERTIF GALLERY ── */}
-      <section className="t-section">
-        <span className="t-sec-label reveal">{tx("certLabel", "02 / Sertifikasi & Pencapaian")}</span>
-        <h2 className="t-sec-title reveal rv-d1">
-          {tx("certTitle", "Bukti ")}<em>{tx("certEm", "Perjalanan.")}</em>
-        </h2>
-        <div className="tc-gal-grid reveal rv-d2">
-          {CERTIF_ITEMS.map((item, i) => (
-            <div
-              key={i}
-              className={`tc-gal-item ${item.cls}`}
-              onClick={() => !certErrors[i] && setCertModal({ src: item.src, filename: item.filename })}
-              title={item.desc}
-            >
-              {certErrors[i] ? (
-                <div className="tc-gal-ph">
-                  <i className="fa-solid fa-file-certificate" />
-                  <span>{item.filename}</span>
-                </div>
-              ) : (
-                <img
-                  src={item.src}
-                  alt={item.caption}
-                  loading="lazy"
-                  onError={() => setCertErrors((p) => ({ ...p, [i]: true }))}
-                />
-              )}
-              <div className="tc-gal-filename">{item.filename}</div>
-              <div className="tc-gal-caption">{item.caption}</div>
-              <div className="tc-gal-zoom"><i className="fa-solid fa-magnifying-glass" /></div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── EXPERTISE / ACCORDION ── */}
       <section className="t-section t-expertise">
-        <span className="t-sec-label reveal">{tx("label02t", "03 / Keahlian")}</span>
+        <span className="t-sec-label reveal">{tx("label02t", "02 / Keahlian")}</span>
         <h2 className="t-sec-title reveal rv-d1">
           {tx("expTitle", "Apa yang ")}<em>{tx("expEm", "Saya Kuasai.")}</em>
         </h2>
@@ -1494,7 +1465,7 @@ export default function Tentang({ t }) {
 
       {/* ── SERVICES ── */}
       <section className="t-section t-services">
-        <span className="t-sec-label reveal">{tx("label03t", "04 / Layanan")}</span>
+        <span className="t-sec-label reveal">{tx("label03t", "03 / Layanan")}</span>
         <h2 className="t-sec-title reveal rv-d1">
           {tx("svcTitle", "Yang Bisa Saya ")}<em>{tx("svcEm", "Kerjakan.")}</em>
         </h2>
@@ -1524,7 +1495,7 @@ export default function Tentang({ t }) {
 
       {/* ── TOOLS ── */}
       <section className="t-section t-tools">
-        <span className="t-sec-label reveal">{tx("label04t", "05 / Peralatan")}</span>
+        <span className="t-sec-label reveal">{tx("label04t", "04 / Peralatan")}</span>
         <h2 className="t-sec-title reveal rv-d1">
           {tx("toolTitle", "Senjata ")}<em>{tx("toolEm", "Andalan.")}</em>
         </h2>
@@ -1543,6 +1514,42 @@ export default function Tentang({ t }) {
                   </div>
                 ))}
               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CERTIF GALLERY ── */}
+      <section className="t-section">
+        <span className="t-sec-label reveal">{tx("certLabel", "05 / Pencapaian")}</span>
+        <h2 className="t-sec-title reveal rv-d1">
+          {tx("certTitle", "Sertifikat & ")}<em>{tx("certEm", "Penghargaan.")}</em>
+        </h2>
+        <div className="tc-gal-grid reveal rv-d2">
+          {CERTIF_ITEMS.map((item, i) => (
+            <div
+              key={i}
+              className={`tc-gal-item ${item.cls}`}
+              onClick={() => !certErrors[i] && setCertModal({ src: item.src, filename: item.filename })}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              {certErrors[i] ? (
+                <div className="tc-gal-ph">
+                  <i className="fa-solid fa-file" />
+                  <span>{item.filename}</span>
+                </div>
+              ) : (
+                <img
+                  src={item.src}
+                  alt={item.filename}
+                  loading="lazy"
+                  draggable="false"
+                  onContextMenu={(e) => e.preventDefault()}
+                  onError={() => setCertErrors((p) => ({ ...p, [i]: true }))}
+                />
+              )}
+              <div className="tc-gal-filename">{item.filename}</div>
+              <div className="tc-gal-zoom"><i className="fa-solid fa-magnifying-glass" /></div>
             </div>
           ))}
         </div>
