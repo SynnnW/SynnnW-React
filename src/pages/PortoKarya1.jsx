@@ -415,7 +415,7 @@ export default function PortoKarya1({ t = {} }) {
                 <span>{t.k1CTABtn||'Start a Project Now'}</span>
                 <i className="fa-solid fa-arrow-up-right" />
               </button>
-              <a href="https://synnnw.github.io/SynnnW-HBD/" target="_blank" rel="noopener noreferrer"
+              <a href="https://synnnw.github.io/apa aja/" target="_blank" rel="noopener noreferrer"
                 style={{ display:"inline-flex", alignItems:"center", gap:"10px", background:"var(--glass2)", color:"var(--text)", border:"1px solid var(--gborder2)", borderRadius:"99px", padding:"14px 30px", fontSize:"0.74rem", fontWeight:700, letterSpacing:"0.15em", textTransform:"uppercase", textDecoration:"none", backdropFilter:"blur(12px)", transition:"all 0.3s ease" }}>
                 <i className="fa-solid fa-eye" />
                 <span>{t.k1CTABtnDemo||'View Live Demo'}</span>
