@@ -294,7 +294,7 @@ function Layout() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/price-list" element={<PriceList />} />
             <Route path="/preview-logo" element={<PreviewLogo/>} />
-            <Route path="/Dashoard" element={<Dashboard/>} />
+            <Route path="/Dashboard" element={<Dashboard/>} />
             {/* ── Rute Baru untuk Dashboard & Pembayaran Kamu ── */}
             <Route path="/checkout" element={<CheckoutQRIS />} />
 
