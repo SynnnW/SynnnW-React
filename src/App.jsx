@@ -16,6 +16,7 @@ const PortoKarya2  = lazy(() => import('./pages/PortoKarya2'));
 const PortoKarya3  = lazy(() => import('./pages/PortoKarya3'));
 const PortoKarya4  = lazy(() => import('./pages/PortoKarya4'));
 const PreviewLogo  = lazy(() => import('./pages/PreviewLogo'));
+const PreviewLogo  = lazy(() => import('./pages/Dashboard'));
 
 
 /* ── PriceList ── */
@@ -293,7 +294,7 @@ function Layout() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/price-list" element={<PriceList />} />
             <Route path="/preview-logo" element={<PreviewLogo/>} />
-            
+            <Route path="/Dashoard" element={<Dashboard/>} />
             {/* ── Rute Baru untuk Dashboard & Pembayaran Kamu ── */}
             <Route path="/checkout" element={<CheckoutQRIS />} />
 
