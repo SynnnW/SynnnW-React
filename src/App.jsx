@@ -16,7 +16,7 @@ const PortoKarya2  = lazy(() => import('./pages/PortoKarya2'));
 const PortoKarya3  = lazy(() => import('./pages/PortoKarya3'));
 const PortoKarya4  = lazy(() => import('./pages/PortoKarya4'));
 const PreviewLogo  = lazy(() => import('./pages/PreviewLogo'));
-const PreviewLogo  = lazy(() => import('./pages/Dashboard'));
+const Dashboard  = lazy(() => import('./pages/Dashboard'));
 
 
 /* ── PriceList ── */
