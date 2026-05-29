@@ -1,33 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 /* ── Constants ── */
 const DRIVE_PREVIEW = 'https://drive.google.com/file/d/12Eo_Q49sBgBhLJ2WbsPHPQ2r8sKqyizn/preview';
-const DRIVE_VIEW    = 'https://drive.google.com/file/d/12Eo_Q49sBgBhLJ2WbsPHPQ2r8sKqyizn/view';
-
-const WA_DRAFT = `Permisi, Kak 🙏
-
-Berikut link preview video yang sudah melalui proses cutting:
-🔗 https://drive.google.com/file/d/12Eo_Q49sBgBhLJ2WbsPHPQ2r8sKqyizn/view
-
-📌 *Durasi & Cutting*
-Durasi video saat ini masih lebih dari 10 menit. Bagian review sebenarnya masih bisa dipotong lebih lanjut, tetapi silakan Kakak cek dulu hasil cutting yang sekarang.
-
-✨ *Progress Efek Visual*
-Efek di bagian awal sudah ditambahkan untuk Subjek 1, sedangkan Subjek 2 belum. Untuk penambahan objek PNG dan grafis lainnya akan menyusul di tahap berikutnya.
-
-⚠️ *Catatan Footage Wawancara*
-Ada footage wawancara yang kualitas visualnya kurang optimal di menit *3:28* dan *7:12*. Jika memungkinkan, mohon di-upload ulang menggunakan file video versi aslinya, Kak.
-
-🎵 *Backsound*
-Untuk backsound, apakah ada request lagu khusus? Atau kalau Kakak sudah cocok dengan yang sekarang, tidak masalah.
-
-📝 *Penempatan NIM*
-Untuk konsep NIM, sebaiknya ditaruh di bagian depan atau belakang? Dan desainnya mau dibuat seperti apa — apakah cukup dijadikan thumbnail saja?
-
-🎬 *BTS*
-Untuk footage BTS, rencananya mau diletakkan di bagian mana, Kak?
-
-Terima kasih atas kepercayaannya 🙏`;
 
 /* ── Data ── */
 const TIMELINE = [
@@ -203,26 +177,7 @@ const CSS = `
   width: 100%; height: 100%;
   border: none;
 }
-.db-drive-link {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 22px;
-  font-size: 0.72rem; font-weight: 600;
-  color: var(--text-dim);
-  text-decoration: none;
-  border-top: 1px solid var(--border);
-  transition: color 0.2s, background 0.2s;
-}
-.db-drive-link:hover {
-  color: var(--text);
-  background: rgba(139,92,246,0.05);
-}
-.db-drive-link i:last-child { margin-left: auto; font-size: 0.6rem; opacity: 0.6; }
-.db-drive-link .db-drive-icon {
-  width: 28px; height: 28px; border-radius: 8px;
-  background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--accent3); font-size: 0.75rem; flex-shrink: 0;
-}
+
 
 /* ── Issues ── */
 .db-issue {
@@ -253,53 +208,7 @@ const CSS = `
   line-height: 1.6; margin: 0;
 }
 
-/* ── WA Draft ── */
-.db-wa-wrap { padding: 18px 22px; }
-.db-wa-bubble {
-  background: rgba(37,211,102,0.04);
-  border: 1px solid rgba(37,211,102,0.15);
-  border-radius: 14px; border-top-left-radius: 3px;
-  padding: 18px 20px;
-  position: relative;
-}
-.db-wa-text {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.78rem; color: var(--text);
-  line-height: 1.8; margin: 0;
-  white-space: pre-wrap; word-break: break-word;
-}
-.db-btn-copy {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 18px;
-  background: var(--glass2); border: 1px solid var(--gborder);
-  border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.66rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--text-dim); transition: all 0.22s;
-}
-.db-btn-copy:hover { color: var(--text); border-color: var(--gborder2); }
-.db-btn-copy.copied { color: rgba(74,222,128,0.9); border-color: rgba(74,222,128,0.3); }
-.db-wa-actions {
-  display: flex; align-items: center; gap: 10px;
-  margin-top: 14px;
-}
-.db-btn-wa {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 9px 18px;
-  background: rgba(37,211,102,0.1);
-  border: 1px solid rgba(37,211,102,0.25);
-  border-radius: 99px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.66rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: rgba(37,211,102,0.9);
-  text-decoration: none; transition: all 0.22s;
-}
-.db-btn-wa:hover {
-  background: rgba(37,211,102,0.18);
-  border-color: rgba(37,211,102,0.4);
-}
+
 
 /* ── Sidebar widgets ── */
 .db-widget {
@@ -405,130 +314,49 @@ const CSS = `
   line-height: 1.55; margin: 0;
 }
 
-/* ── QRIS Section ── */
-.db-qris-section {
+/* ── Price List CTA ── */
+.db-pricelist-section {
   margin-top: 48px;
   border-top: 1px solid var(--border);
   padding-top: 48px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 20px;
 }
-.db-qris-head {
-  margin-bottom: 28px;
-}
-.db-qris-label {
+.db-pricelist-label {
   font-size: 0.58rem; font-weight: 800;
   letter-spacing: 0.28em; text-transform: uppercase;
   color: var(--accent3);
   background: rgba(139,92,246,0.08);
   border: 1px solid rgba(139,92,246,0.22);
   padding: 5px 14px; border-radius: 99px;
-  display: inline-block; margin-bottom: 10px;
+  display: inline-block;
 }
-.db-qris-title {
+.db-pricelist-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(1.6rem, 3vw, 2.4rem);
   font-weight: 300; margin: 0 0 4px;
   letter-spacing: -0.02em;
 }
-.db-qris-title em { font-style: italic; color: var(--accent3); }
-.db-qris-sub { font-size: 0.78rem; color: var(--text-dim); margin: 0; }
-
-.db-qris-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-.db-qris-card {
-  background: var(--glass);
-  border: 1px solid var(--gborder);
-  border-radius: 22px;
-  backdrop-filter: var(--blur);
-  overflow: hidden;
-}
-.db-qris-card-head {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
-}
-.db-qr-brand {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 0.72rem; font-weight: 800;
-  letter-spacing: 0.18em; color: var(--accent3);
-}
-.db-qr-name {
-  font-size: 0.68rem; font-weight: 600; color: var(--text-dim);
-}
-.db-qr-body { padding: 28px 24px; text-align: center; }
-.db-qr-box {
-  width: 160px; height: 160px;
-  margin: 0 auto 16px;
-  background: #fff; border-radius: 14px;
-  padding: 10px;
-  display: flex; align-items: center; justify-content: center;
-}
-.db-qr-box svg { width: 100%; height: 100%; }
-.db-qr-hint {
-  font-size: 0.7rem; color: var(--text-dim);
-  margin: 0 0 4px; font-weight: 600;
-}
-.db-qr-apps { font-size: 0.62rem; color: var(--text-dim); margin: 0; }
-
-.db-info-card {
-  background: var(--glass);
-  border: 1px solid var(--gborder);
-  border-radius: 22px;
-  backdrop-filter: var(--blur);
-  padding: 24px;
-  display: flex; flex-direction: column; gap: 18px;
-}
-.db-info-row {
-  display: flex; flex-direction: column; gap: 4px;
-}
-.db-info-lbl {
-  font-size: 0.58rem; font-weight: 800;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--text-dim);
-}
-.db-info-val {
-  font-family: monospace; font-size: 0.9rem; font-weight: 700;
-  color: var(--accent3);
-}
-.db-wa-btn-full {
-  display: flex; align-items: center; gap: 12px;
-  padding: 14px 20px;
-  background: rgba(37,211,102,0.08);
-  border: 1px solid rgba(37,211,102,0.25);
-  border-radius: 14px;
-  text-decoration: none; transition: all 0.22s;
-  cursor: pointer;
-}
-.db-wa-btn-full:hover {
-  background: rgba(37,211,102,0.14);
-  border-color: rgba(37,211,102,0.4);
-  transform: translateY(-1px);
-}
-.db-wa-ico {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: rgba(37,211,102,0.12);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; color: rgba(37,211,102,0.9); flex-shrink: 0;
-}
-.db-wa-btn-title {
+.db-pricelist-title em { font-style: italic; color: var(--accent3); }
+.db-pricelist-sub { font-size: 0.78rem; color: var(--text-dim); margin: 0 0 8px; }
+.db-pricelist-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 32px;
+  background: rgba(139,92,246,0.12);
+  border: 1px solid rgba(139,92,246,0.35);
+  border-radius: 99px; cursor: pointer;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.78rem; font-weight: 700;
-  color: rgba(37,211,102,0.9); display: block;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text); text-decoration: none;
+  transition: all 0.25s;
 }
-.db-wa-btn-sub {
-  font-size: 0.65rem; color: var(--text-dim); display: block;
+.db-pricelist-btn:hover {
+  background: rgba(139,92,246,0.22);
+  border-color: rgba(139,92,246,0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(139,92,246,0.2);
 }
-.db-info-note {
-  font-size: 0.66rem; color: var(--text-dim);
-  line-height: 1.6; margin: 0;
-  padding: 12px 14px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-}
-.db-info-note i { color: var(--accent3); margin-right: 6px; }
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
@@ -548,28 +376,6 @@ function encodeWA(msg) {
    COMPONENT
    ============================================================ */
 export default function Dashboard() {
-  const [copied, setCopied]       = useState(false);
-  const [copiedWA, setCopiedWA]   = useState(false);
-  const [orderId]                  = useState(() => {
-    const ts  = Date.now().toString(36).toUpperCase();
-    const rnd = Math.random().toString(36).slice(2,6).toUpperCase();
-    return `SW-${ts}-${rnd}`;
-  });
-
-  const handleCopyWA = () => {
-    navigator.clipboard.writeText(WA_DRAFT).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    });
-  };
-
-  const handleCopyId = () => {
-    navigator.clipboard.writeText(orderId).then(() => {
-      setCopiedWA(true);
-      setTimeout(() => setCopiedWA(false), 2000);
-    });
-  };
-
   const doneCount = TIMELINE.filter(t => t.status === 'done').length;
   const pct = Math.round((doneCount / TIMELINE.length) * 100);
 
@@ -617,11 +423,6 @@ export default function Dashboard() {
                     title="Preview Video"
                   />
                 </div>
-                <a href={DRIVE_VIEW} target="_blank" rel="noopener noreferrer" className="db-drive-link">
-                  <span className="db-drive-icon"><i className="fa-brands fa-google-drive" /></span>
-                  Buka di Google Drive — akses penuh
-                  <i className="fa-solid fa-arrow-up-right" />
-                </a>
               </div>
 
               {/* Issues */}
@@ -648,45 +449,6 @@ export default function Dashboard() {
                     </div>
                   </div>
                 ))}
-              </div>
-
-              {/* WA Draft */}
-              <div className="db-card">
-                <div className="db-card-header">
-                  <h2 className="db-card-title">
-                    <i className="fa-brands fa-whatsapp" /> Draft Pesan WhatsApp
-                  </h2>
-                  <button
-                    className={`db-btn-copy ${copied ? 'copied' : ''}`}
-                    onClick={handleCopyWA}
-                  >
-                    <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`} />
-                    {copied ? 'Tersalin!' : 'Salin Draft'}
-                  </button>
-                </div>
-                <div className="db-wa-wrap">
-                  <div className="db-wa-bubble">
-                    <pre className="db-wa-text">{WA_DRAFT}</pre>
-                  </div>
-                  <div className="db-wa-actions">
-                    <button
-                      className={`db-btn-copy ${copied ? 'copied' : ''}`}
-                      onClick={handleCopyWA}
-                    >
-                      <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`} />
-                      {copied ? 'Tersalin!' : 'Salin Semua'}
-                    </button>
-                    <a
-                      href={encodeWA(WA_DRAFT)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="db-btn-wa"
-                    >
-                      <i className="fa-brands fa-whatsapp" />
-                      Kirim via WA
-                    </a>
-                  </div>
-                </div>
               </div>
 
             </div>
@@ -741,104 +503,15 @@ export default function Dashboard() {
             </aside>
           </div>
 
-          {/* ════════ QRIS SECTION ════════ */}
-          <section className="db-qris-section">
-            <div className="db-qris-head">
-              <span className="db-qris-label">Pembayaran</span>
-              <h2 className="db-qris-title">Metode Pembayaran <em>QRIS</em></h2>
-              <p className="db-qris-sub">Scan QR di bawah · atau konfirmasi via WhatsApp</p>
-            </div>
-
-            <div className="db-qris-grid">
-
-              {/* QR Card */}
-              <div className="db-qris-card">
-                <div className="db-qris-card-head">
-                  <div className="db-qr-brand">
-                    <i className="fa-solid fa-qrcode" /> QRIS
-                  </div>
-                  <span className="db-qr-name">SynnnW Studio</span>
-                </div>
-                <div className="db-qr-body">
-                  <div className="db-qr-box">
-                    {/* Mock QR — ganti dengan <img src="qris-kamu.png" /> */}
-                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="10" y="10" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                      <rect x="20" y="20" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                      <rect x="135" y="10" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                      <rect x="145" y="20" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                      <rect x="10" y="135" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                      <rect x="20" y="145" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                      {[75,85,95,105,115,125].map((x,i) =>
-                        [10,20,30,40,50,60,70,80,90].map((y,j) =>
-                          (i+j)%3!==0 ? <rect key={`a-${i}-${j}`} x={x} y={y} width="8" height="8" fill="#1e1b4b" rx="1"/> : null
-                        )
-                      )}
-                      {[10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180].map((x,i) =>
-                        [75,85,95,105,115,125,135,145,155,165,175,185].map((y,j) =>
-                          (i*3+j*7)%5!==0 ? <rect key={`b-${i}-${j}`} x={x} y={y} width="8" height="8" fill="#1e1b4b" rx="1"/> : null
-                        )
-                      )}
-                      <rect x="82" y="82" width="36" height="36" rx="8" fill="#8b5cf6"/>
-                      <text x="100" y="105" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="700">S</text>
-                    </svg>
-                  </div>
-                  <p className="db-qr-hint">Scan dengan m-banking atau dompet digital</p>
-                  <p className="db-qr-apps">GoPay · OVO · Dana · Shopeepay · BCA · dll</p>
-                </div>
-              </div>
-
-              {/* Info + WA */}
-              <div className="db-info-card">
-                <div className="db-info-row">
-                  <span className="db-info-lbl">Order ID</span>
-                  <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
-                    <span className="db-info-val">{orderId}</span>
-                    <button
-                      onClick={handleCopyId}
-                      style={{
-                        background:'var(--glass2)', border:'1px solid var(--gborder)',
-                        borderRadius:'6px', padding:'3px 9px', cursor:'pointer',
-                        fontSize:'0.6rem', fontWeight:700, color:'var(--text-dim)',
-                        fontFamily:'Outfit,sans-serif', transition:'all 0.2s',
-                      }}
-                    >
-                      {copiedWA ? '✓' : 'Salin'}
-                    </button>
-                  </div>
-                  <span style={{ fontSize:'0.62rem', color:'var(--text-dim)', lineHeight:1.5 }}>
-                    Sertakan ID ini saat konfirmasi pembayaran.
-                  </span>
-                </div>
-
-                <div className="db-info-row">
-                  <span className="db-info-lbl">Sistem Pembayaran</span>
-                  <span style={{ fontSize:'0.76rem', color:'var(--text)', fontWeight:600 }}>DP 50% di awal · Sisa setelah project selesai</span>
-                </div>
-
-                <a
-                  href={encodeWA(`Halo kak, saya mau konfirmasi pembayaran.\nOrder ID: ${orderId}\n\nSudah transfer DP via QRIS.`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="db-wa-btn-full"
-                >
-                  <div className="db-wa-ico">
-                    <i className="fa-brands fa-whatsapp" />
-                  </div>
-                  <div>
-                    <span className="db-wa-btn-title">Konfirmasi Pembayaran</span>
-                    <span className="db-wa-btn-sub">Kirim bukti transfer via WhatsApp</span>
-                  </div>
-                  <i className="fa-solid fa-arrow-up-right" style={{ marginLeft:'auto', fontSize:'0.65rem', color:'var(--text-dim)' }} />
-                </a>
-
-                <p className="db-info-note">
-                  <i className="fa-solid fa-circle-info" />
-                  Setelah scan QR dan transfer, screenshot bukti bayar dan kirim ke WhatsApp. Project dimulai setelah DP diterima.
-                </p>
-              </div>
-
-            </div>
+          {/* ════════ PRICE LIST CTA ════════ */}
+          <section className="db-pricelist-section">
+            <span className="db-pricelist-label">Pembayaran</span>
+            <h2 className="db-pricelist-title">Lihat <em>Price List</em></h2>
+            <p className="db-pricelist-sub">Cek detail harga, paket, dan metode pembayaran yang tersedia</p>
+            <a href="/price-list" className="db-pricelist-btn">
+              <i className="fa-solid fa-tags" />
+              Lihat Price List
+            </a>
           </section>
 
         </div>
