@@ -1,4 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { auth, db } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 
 /* ── Constants ── */
 const DRIVE_PREVIEW = 'https://drive.google.com/file/d/12Eo_Q49sBgBhLJ2WbsPHPQ2r8sKqyizn/preview';
@@ -14,6 +17,16 @@ const TIMELINE = [
   { id: 7, label: 'Audio / Backsound',          status: 'pending',  note: 'Menunggu request klien' },
   { id: 8, label: 'BTS Integration',            status: 'pending',  note: 'Menunggu arahan klien' },
   { id: 9, label: 'Final Review & Export',      status: 'pending',  note: 'Tahap akhir' },
+];
+
+const ORDER_STEPS = [
+  { id: 1, label: 'Pending' },
+  { id: 2, label: 'Import & Rough Cut' },
+  { id: 3, label: 'Cutting Kasar' },
+  { id: 4, label: 'Efek Visual' },
+  { id: 5, label: 'Audio / Backsound' },
+  { id: 6, label: 'Final Review & Export' },
+  { id: 7, label: 'Selesai' },
 ];
 
 const ISSUES = [
@@ -376,8 +389,55 @@ function encodeWA(msg) {
    COMPONENT
    ============================================================ */
 export default function Dashboard() {
-  const doneCount = TIMELINE.filter(t => t.status === 'done').length;
-  const pct = Math.round((doneCount / TIMELINE.length) * 100);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const latestOrder = orders[0] || null;
+  const currentIndex = latestOrder
+    ? ORDER_STEPS.findIndex((step) => step.label === latestOrder.status)
+    : -1;
+  const doneCount = currentIndex >= 0 ? currentIndex + 1 : 0;
+  const pct = currentIndex >= 0
+    ? Math.round((doneCount / ORDER_STEPS.length) * 100)
+    : 0;
+
+  useEffect(() => {
+    let unsubscribeOrders = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (unsubscribeOrders) {
+        unsubscribeOrders();
+        unsubscribeOrders = null;
+      }
+
+      if (!user) {
+        setOrders([]);
+        setLoading(false);
+        return;
+      }
+
+      const q = query(
+        collection(db, 'orders'),
+        where('userId', '==', user.uid),
+        orderBy('timestamp', 'desc')
+      );
+
+      unsubscribeOrders = onSnapshot(q, (snapshot) => {
+        setOrders(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        setLoading(false);
+      }, (err) => {
+        console.error('[Dashboard] Firestore subscription failed', err);
+        setError('Gagal memuat data order.');
+        setLoading(false);
+      });
+    });
+
+    return () => {
+      if (unsubscribeOrders) unsubscribeOrders();
+      unsubscribeAuth();
+    };
+  }, []);
 
   return (
     <>
@@ -398,7 +458,7 @@ export default function Dashboard() {
             </div>
             <div className="db-status-pill">
               <span className="db-pulse-dot" />
-              {doneCount}/{TIMELINE.length} Selesai · {pct}%
+              {loading ? 'Memuat status order...' : latestOrder ? `${doneCount}/${ORDER_STEPS.length} ${latestOrder.status} · ${pct}%` : 'Belum ada order aktif'}
             </div>
           </header>
 
@@ -408,21 +468,50 @@ export default function Dashboard() {
             {/* ── LEFT ── */}
             <div>
 
-              {/* Video Preview */}
+              {/* Video Preview / Order Summary */}
               <div className="db-card">
                 <div className="db-card-header">
                   <h2 className="db-card-title">
-                    <i className="fa-brands fa-google-drive" /> Preview Video — Cutting Kasar
+                    <i className="fa-brands fa-google-drive" /> {latestOrder ? `Order: ${latestOrder.projectName}` : 'Project Dashboard'}
                   </h2>
                 </div>
-                <div className="db-video-ratio">
-                  <iframe
-                    src={DRIVE_PREVIEW}
-                    allow="autoplay"
-                    allowFullScreen
-                    title="Preview Video"
-                  />
-                </div>
+                {loading ? (
+                  <div style={{ padding: '40px', color: 'var(--text-dim)', textAlign: 'center' }}>
+                    Memuat data order...
+                  </div>
+                ) : !latestOrder ? (
+                  <div style={{ padding: '40px', color: 'var(--text-dim)', textAlign: 'center' }}>
+                    <p>Belum ada order aktif untuk akun Anda.</p>
+                    <p style={{ margin: '18px 0 0', color: 'var(--text-dim)' }}>
+                      Silakan pilih layanan di Price List dan kirim brief untuk memulai.
+                    </p>
+                    <a href="/price-list" className="db-pricelist-btn" style={{ marginTop: 24 }}>
+                      <i className="fa-solid fa-tags" /> Lihat Price List
+                    </a>
+                  </div>
+                ) : (
+                  <>
+                    <div className="db-video-ratio">
+                      <iframe
+                        src={DRIVE_PREVIEW}
+                        allow="autoplay"
+                        allowFullScreen
+                        title="Preview Video"
+                      />
+                    </div>
+                    <div style={{ padding: '18px 22px', borderTop: '1px solid var(--border)' }}>
+                      <p style={{ margin: 0, color: 'var(--text-dim)' }}>
+                        {latestOrder.projectDesc || 'Deskripsi order tidak tersedia.'}
+                      </p>
+                      <p style={{ margin: '14px 0 0', color: 'var(--text-dim)' }}>
+                        <strong>Total Pesanan:</strong> Rp {Number(latestOrder.cartTotal || 0).toLocaleString('id-ID')}
+                      </p>
+                      <p style={{ margin: '8px 0 0', color: 'var(--text-dim)' }}>
+                        <strong>Status saat ini:</strong> {latestOrder.status}
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Issues */}
@@ -464,21 +553,36 @@ export default function Dashboard() {
                   </h3>
                 </div>
                 <div className="db-timeline">
-                  {TIMELINE.map((item, idx) => (
-                    <div key={item.id} className={`db-tl-item ${item.status}`}>
-                      <div className="db-tl-dot-col">
-                        <div className={`db-tl-dot ${item.status}`} />
-                        {idx < TIMELINE.length - 1 && <div className="db-tl-line" />}
+                  {ORDER_STEPS.map((step, idx) => {
+                    const status = latestOrder
+                      ? idx < currentIndex
+                        ? 'done'
+                        : idx === currentIndex
+                          ? 'progress'
+                          : 'pending'
+                      : 'pending';
+                    return (
+                      <div key={step.id} className={`db-tl-item ${status}`}>
+                        <div className="db-tl-dot-col">
+                          <div className={`db-tl-dot ${status}`} />
+                          {idx < ORDER_STEPS.length - 1 && <div className="db-tl-line" />}
+                        </div>
+                        <div className="db-tl-body">
+                          <span className="db-tl-name">{step.label}</span>
+                          <span className="db-tl-note">
+                            {status === 'done'
+                              ? 'Selesai'
+                              : status === 'progress'
+                                ? 'Sedang berjalan'
+                                : 'Menunggu tahap berikutnya'}
+                          </span>
+                        </div>
+                        <span className={`db-tl-badge db-badge-${status}`}>
+                          {status === 'done' ? 'Done' : status === 'progress' ? 'WIP' : 'Soon'}
+                        </span>
                       </div>
-                      <div className="db-tl-body">
-                        <span className="db-tl-name">{item.label}</span>
-                        <span className="db-tl-note">{item.note}</span>
-                      </div>
-                      <span className={`db-tl-badge db-badge-${item.status}`}>
-                        {item.status === 'done' ? 'Done' : item.status === 'progress' ? 'WIP' : 'Soon'}
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
