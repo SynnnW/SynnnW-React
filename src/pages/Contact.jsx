@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { db } from './firebase';
+import { useNavigate } from 'react-router-dom';
+import { auth, db } from './firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 const CSS = `
@@ -943,6 +944,7 @@ export default function Contact({ t = {} }) {
   const [submitting,   setSubmitting]   = useState(false);
   const [submitError,  setSubmitError]  = useState('');
   const [generatedId,  setGeneratedId]  = useState('');
+  const navigate = useNavigate();
 
   const formRef = useRef(null);
 
@@ -974,24 +976,30 @@ export default function Contact({ t = {} }) {
 
   /* ─────── FIREBASE SUBMIT (try-catch-finally) ─────── */
   const handleSubmitData = async () => {
+    if (!auth.currentUser) {
+      setSubmitError('Harap login terlebih dahulu sebelum mengirim brief.');
+      return;
+    }
+
     setSubmitting(true);
     setSubmitError('');
     try {
       const payload = {
+        userId:             auth.currentUser.uid,
         clientType,
-        creativePreference:  creativeSlider,
-        creativeLabel:       sliderLabel(creativeSlider),
-        projectName:         projectName.trim(),
-        projectDesc:         projectDesc.trim(),
-        selectedItems:       cartItems,
+        creativePreference: creativeSlider,
+        creativeLabel:      sliderLabel(creativeSlider),
+        projectName:        projectName.trim(),
+        projectDesc:        projectDesc.trim(),
+        selectedItems:      cartItems,
         cartTotal,
-        status:              'pending',
-        createdAt:           serverTimestamp(),
+        status:             'Pending',
+        timestamp:          serverTimestamp(),
       };
-      const docRef = await addDoc(collection(db, 'client_briefs'), payload);
+
+      const docRef = await addDoc(collection(db, 'orders'), payload);
       setGeneratedId(docRef.id);
-      /* ✅ SUKSES → ubah step ke 6, TANPA navigate/redirect */
-      setStep(6);
+      navigate('/checkout');
     } catch (err) {
       console.error('[Contact] Firebase error:', err);
       setSubmitError('Gagal menyimpan data. Periksa koneksi dan coba lagi.');
