@@ -54,27 +54,26 @@ const CSS = `
   width: 45%;
   background: var(--bg2);
   border-right: 1px solid var(--border);
-  padding: 40px 32px;
+  padding: 40px 28px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
 .auth-logo {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 300;
   color: var(--text);
   display: flex;
   align-items: center;
   gap: 10px;
   letter-spacing: -0.01em;
-  margin-bottom: 8px;
 }
 
 .auth-logo i {
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--accent3);
 }
 
@@ -84,12 +83,13 @@ const CSS = `
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent3);
+  margin-bottom: 4px;
 }
 
 .auth-feed {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   flex: 1;
 }
 
@@ -101,24 +101,27 @@ const CSS = `
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border-radius: 12px;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 14px;
   overflow: hidden;
 }
 
 .auth-feed-item:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .auth-feed-item-img {
   width: 100%;
-  height: 160px;
+  height: 180px;
   background: var(--glass);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--gborder);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .auth-feed-item-img img {
@@ -126,13 +129,18 @@ const CSS = `
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.3s;
+}
+
+.auth-feed-item:hover .auth-feed-item-img img {
+  transform: scale(1.05);
 }
 
 .auth-feed-item-img::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 100%);
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -150,23 +158,30 @@ const CSS = `
 }
 
 .auth-feed-item-title {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text);
   display: flex;
   align-items: center;
   gap: 8px;
+  line-height: 1.4;
 }
 
 .auth-feed-item-title i {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--accent3);
+  flex-shrink: 0;
 }
 
 .auth-feed-item-desc {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--text-dim);
   line-height: 1.5;
+}
+
+.auth-feed-item-date {
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 
 /* ── Right Container ── */
@@ -178,6 +193,7 @@ const CSS = `
   padding: 40px;
   position: relative;
   z-index: 10;
+  overflow-y: auto;
 }
 
 /* ── Card ── */
@@ -185,7 +201,7 @@ const CSS = `
   background: var(--glass);
   border: 1px solid var(--gborder);
   border-radius: 20px;
-  padding: 48px;
+  padding: 52px;
   width: 100%;
   max-width: 520px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -196,7 +212,7 @@ const CSS = `
 /* ── Typography ── */
 .auth-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.4rem;
+  font-size: 2.8rem;
   color: var(--text);
   text-align: center;
   margin: 0 0 12px;
@@ -205,10 +221,10 @@ const CSS = `
 }
 
 .auth-sub {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--text-dim);
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
   line-height: 1.6;
 }
 
@@ -222,11 +238,11 @@ const CSS = `
 
 .auth-tab {
   flex: 1;
-  padding: 12px;
+  padding: 14px;
   border: none;
   background: none;
   color: var(--text-dim);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s;
@@ -243,17 +259,17 @@ const CSS = `
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .auth-input {
   background: var(--input-bg);
   border: 1px solid var(--border-focus);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 14px 16px;
   color: var(--text);
   font-family: 'Outfit', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   outline: none;
   transition: all 0.25s;
   width: 100%;
@@ -271,19 +287,19 @@ const CSS = `
 }
 
 .auth-input-label {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-dim);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   display: block;
 }
 
 .auth-input-helper {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
-  margin-top: -10px;
+  margin-top: -12px;
   margin-left: 2px;
 }
 
@@ -292,7 +308,7 @@ const CSS = `
   background: rgba(217, 119, 6, 0.1);
   border: 1px solid rgba(217, 119, 6, 0.3);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 14px 16px;
   margin: 12px 0;
   display: flex;
   gap: 10px;
@@ -300,14 +316,14 @@ const CSS = `
 }
 
 .auth-password-warning i {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #ea580c;
   margin-top: 2px;
   flex-shrink: 0;
 }
 
 .auth-password-warning-text {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: #fde047;
   line-height: 1.5;
 }
@@ -322,17 +338,19 @@ const CSS = `
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  margin: 16px 0;
+  margin: 18px 0;
 }
 
 .auth-checkbox input {
-  margin-top: 3px;
+  margin-top: 4px;
   cursor: pointer;
   accent-color: var(--accent3);
+  width: 18px;
+  height: 18px;
 }
 
 .auth-checkbox label {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-dim);
   line-height: 1.5;
   cursor: pointer;
@@ -356,8 +374,8 @@ const CSS = `
   color: white;
   border: none;
   border-radius: 12px;
-  padding: 12px 16px;
-  font-size: 0.9rem;
+  padding: 14px 18px;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
@@ -388,7 +406,6 @@ const CSS = `
 .auth-btn-google:hover:not(:disabled) {
   background: var(--glass2);
   border-color: var(--gborder2);
-  box-shadow: none;
 }
 
 /* ── Alerts ── */
@@ -396,10 +413,10 @@ const CSS = `
   background: rgba(220, 38, 38, 0.12);
   border: 1px solid rgba(220, 38, 38, 0.3);
   color: #fca5a5;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-radius: 12px;
-  font-size: 0.85rem;
-  margin-bottom: 16px;
+  font-size: 0.88rem;
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -414,10 +431,10 @@ const CSS = `
   background: rgba(34, 197, 94, 0.12);
   border: 1px solid rgba(34, 197, 94, 0.3);
   color: #86efac;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-radius: 12px;
-  font-size: 0.85rem;
-  margin-bottom: 16px;
+  font-size: 0.88rem;
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -432,8 +449,8 @@ const CSS = `
 .auth-divider {
   text-align: center;
   color: var(--text-muted);
-  font-size: 0.8rem;
-  margin: 20px 0;
+  font-size: 0.85rem;
+  margin: 24px 0;
   position: relative;
 }
 
@@ -459,8 +476,8 @@ const CSS = `
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 20px;
-  font-size: 0.72rem;
+  margin-top: 24px;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
@@ -485,37 +502,41 @@ const CSS = `
 @media (max-width: 1024px) {
   .auth-sidebar {
     width: 40%;
-    padding: 32px 24px;
+    padding: 32px 20px;
   }
   .auth-right {
     width: 60%;
-    padding: 30px;
+    padding: 24px;
   }
   .auth-card {
     padding: 40px;
-    max-width: 100%;
+  }
+  .auth-feed-item-img {
+    height: 160px;
+  }
+  .auth-title {
+    font-size: 2.4rem;
   }
 }
 
 @media (max-width: 768px) {
   .auth-page {
     flex-direction: column;
-    padding-top: 64px;
+    padding-top: 60px;
   }
   .auth-sidebar {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--border);
-    max-height: 240px;
+    max-height: 260px;
     padding: 24px 20px;
   }
   .auth-right {
     width: 100%;
-    padding: 20px;
+    padding: 16px;
   }
   .auth-card {
     padding: 32px 24px;
-    max-width: 100%;
   }
   .auth-title {
     font-size: 2rem;
@@ -523,16 +544,16 @@ const CSS = `
   .auth-feed {
     flex-direction: row;
     overflow-x: auto;
-    gap: 12px;
+    gap: 14px;
     scroll-behavior: smooth;
     padding-bottom: 8px;
   }
   .auth-feed-item {
-    min-width: 160px;
+    min-width: 150px;
     flex-shrink: 0;
   }
   .auth-feed-item-img {
-    height: 120px;
+    height: 140px;
   }
 }
 
@@ -544,20 +565,24 @@ const CSS = `
     font-size: 1.6rem;
   }
   .auth-tab {
-    font-size: 0.8rem;
-    padding: 10px;
+    font-size: 0.85rem;
+    padding: 12px;
   }
   .auth-feed-item {
-    min-width: 140px;
+    min-width: 130px;
   }
   .auth-feed-item-img {
-    height: 100px;
+    height: 120px;
   }
   .auth-feed-item-title {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
   }
   .auth-feed-item-desc {
     font-size: 0.7rem;
+  }
+  .auth-input {
+    padding: 12px 12px;
+    font-size: 0.9rem;
   }
 }
 
@@ -567,7 +592,6 @@ const CSS = `
 }
 .auth-sidebar::-webkit-scrollbar-track {
   background: var(--bg);
-  border-radius: 10px;
 }
 .auth-sidebar::-webkit-scrollbar-thumb {
   background: var(--gborder);
@@ -590,7 +614,7 @@ const CSS = `
 `;
 
 // ═════════════════════════════════════════════════════════════
-// FEED ITEMS dengan images dari assets & links ke actual pages
+// FEED ITEMS - CORRECT ROUTES & IMAGES
 // ═════════════════════════════════════════════════════════════
 const FEED_ITEMS = [
   {
@@ -599,7 +623,6 @@ const FEED_ITEMS = [
     label: 'Journal',
     title: 'Creative Works',
     description: 'Explore our digital art & design',
-    date: 'Latest',
     icon: 'fa-pen-fancy',
     image: '/assets/img/1.png',
     link: '/journal/karya1',
@@ -610,7 +633,6 @@ const FEED_ITEMS = [
     label: 'Service',
     title: 'Live Stream',
     description: 'Professional event broadcasting',
-    date: 'Available',
     icon: 'fa-video',
     image: '/assets/img/livestream.png',
     link: '/porto',
@@ -621,7 +643,6 @@ const FEED_ITEMS = [
     label: 'Portfolio',
     title: 'Video Editing',
     description: 'Cinematic content & effects',
-    date: 'Latest',
     icon: 'fa-film',
     image: '/assets/img/2.png',
     link: '/porto/karya2',
@@ -632,7 +653,6 @@ const FEED_ITEMS = [
     label: 'Portfolio',
     title: 'Wedding Design',
     description: 'Digital wedding packages',
-    date: 'Latest',
     icon: 'fa-heart',
     image: '/assets/img/3.png',
     link: '/porto/karya4',
@@ -643,7 +663,6 @@ const FEED_ITEMS = [
     label: 'Get In Touch',
     title: 'Contact Us',
     description: 'Discuss your project',
-    date: 'Ongoing',
     icon: 'fa-envelope',
     image: '/assets/img/4.png',
     link: '/contact',
@@ -651,7 +670,7 @@ const FEED_ITEMS = [
 ];
 
 // ═════════════════════════════════════════════════════════════
-// CARD COMPONENT - Memoized untuk avoid re-render
+// MEMOIZED CARD COMPONENT
 // ═════════════════════════════════════════════════════════════
 const FeedCard = memo(({ item, navigate }) => {
   const handleClick = (e) => {
@@ -664,7 +683,7 @@ const FeedCard = memo(({ item, navigate }) => {
       className="auth-feed-item"
       onClick={handleClick}
       title={item.title}
-      aria-label={item.title}
+      type="button"
       style={{ cursor: 'pointer' }}
     >
       <div className="auth-feed-item-img">
@@ -722,7 +741,7 @@ export default function AuthLogin() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/contact');
+        navigate('/Dashboard');
       }
     });
     return () => unsubscribe();
@@ -750,8 +769,8 @@ export default function AuthLogin() {
       await signInWithEmailAndPassword(auth, email.trim(), password.trim());
       setSuccess('Login berhasil! Redirecting...');
       setTimeout(() => {
-        navigate('/contact');
-      }, 1000);
+        navigate('/Dashboard');
+      }, 800);
     } catch (err) {
       console.error('[AuthLogin] Login error:', err);
       if (err.code === 'auth/user-not-found') {
@@ -808,8 +827,8 @@ export default function AuthLogin() {
 
       setSuccess('Akun berhasil dibuat! Redirecting...');
       setTimeout(() => {
-        navigate('/contact');
-      }, 1500);
+        navigate('/Dashboard');
+      }, 1000);
     } catch (err) {
       console.error('[AuthLogin] Register error:', err);
       if (err.code === 'auth/email-already-in-use') {
@@ -837,8 +856,8 @@ export default function AuthLogin() {
       if (userDoc.exists()) {
         setSuccess('Akun sudah terdaftar! Redirecting...');
         setTimeout(() => {
-          navigate('/contact');
-        }, 1000);
+          navigate('/Dashboard');
+        }, 800);
         return;
       }
 
@@ -850,10 +869,10 @@ export default function AuthLogin() {
         createdAt: new Date(),
       });
 
-      setSuccess('Akun berhasil dibuat! Silahkan lengkapi profile Anda.');
+      setSuccess('Akun berhasil dibuat!');
       setTimeout(() => {
-        navigate('/contact');
-      }, 1500);
+        navigate('/Dashboard');
+      }, 1000);
     } catch (err) {
       console.error('[AuthLogin] Google register error:', err);
       if (err.code === 'auth/popup-closed-by-user') {
@@ -938,6 +957,7 @@ export default function AuthLogin() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
+                  required
                 />
               </div>
               <div>
@@ -949,6 +969,7 @@ export default function AuthLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
+                  required
                 />
               </div>
               <button type="submit" className="auth-btn" disabled={loading}>
@@ -970,6 +991,7 @@ export default function AuthLogin() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={loading}
+                  required
                 />
               </div>
               <div>
@@ -981,6 +1003,7 @@ export default function AuthLogin() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
+                  required
                 />
               </div>
               <div>
@@ -992,6 +1015,7 @@ export default function AuthLogin() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   disabled={loading}
+                  required
                 />
               </div>
               <div>
@@ -1003,6 +1027,7 @@ export default function AuthLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
+                  required
                 />
                 <div className="auth-input-helper">Min. 8 karakter, gunakan huruf, angka, dan simbol</div>
               </div>
@@ -1011,7 +1036,7 @@ export default function AuthLogin() {
               <div className="auth-password-warning">
                 <i className="fa-solid fa-triangle-exclamation" />
                 <div className="auth-password-warning-text">
-                  <strong>Penting:</strong> Jangan gunakan password yang sama dengan password Google Anda
+                  <strong>Penting:</strong> Jangan gunakan password sama dengan Google Anda
                 </div>
               </div>
 
@@ -1024,6 +1049,7 @@ export default function AuthLogin() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   disabled={loading}
+                  required
                 />
                 {passwordMismatch && (
                   <div className="auth-input-helper" style={{ color: '#f87171' }}>
@@ -1040,9 +1066,10 @@ export default function AuthLogin() {
                   checked={agreeTerms}
                   onChange={(e) => setAgreeTerms(e.target.checked)}
                   disabled={loading}
+                  required
                 />
                 <label htmlFor="terms">
-                  Dengan mendaftar, saya menyetujui{' '}
+                  Saya menyetujui{' '}
                   <a href="/terms" target="_blank" rel="noopener noreferrer">
                     Kebijakan Privasi
                   </a>
