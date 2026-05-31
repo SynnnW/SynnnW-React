@@ -93,6 +93,8 @@ const CSS = `
   font-size: 0.9rem;
   outline: none;
   transition: all 0.25s;
+  width: 100%;
+  box-sizing: border-box;
 }
 .auth-input:focus {
   border-color: rgba(139, 92, 246, 0.5);
@@ -102,6 +104,12 @@ const CSS = `
 .auth-input::placeholder {
   color: var(--text-dim);
   opacity: 0.7;
+}
+
+/* ✅ FIX #6: Pastikan auth-input-error styling */
+.auth-input.auth-input-error {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.05);
 }
 
 /* ── Buttons ── */
@@ -117,6 +125,7 @@ const CSS = `
   cursor: pointer;
   transition: all 0.3s;
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
+  width: 100%;
 }
 .auth-btn:hover {
   transform: translateY(-2px);
@@ -131,6 +140,7 @@ const CSS = `
   transform: none;
 }
 
+/* ✅ FIX #6: Google button center dengan Flexbox */
 .auth-btn-google {
   background: var(--glass);
   border: 1px solid var(--gborder);
@@ -140,6 +150,7 @@ const CSS = `
   align-items: center;
   justify-content: center;
   gap: 10px;
+  width: 100%;
 }
 .auth-btn-google:hover {
   background: rgba(139, 92, 246, 0.08);
@@ -148,6 +159,7 @@ const CSS = `
 }
 .auth-btn-google i {
   font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 /* ── Divider ── */
@@ -177,6 +189,14 @@ const CSS = `
   font-size: 0.8rem;
   line-height: 1.5;
   margin-bottom: 16px;
+}
+
+/* ✅ FIX #5: Error message untuk password mismatch */
+.auth-input-error-msg {
+  color: #fca5a5;
+  font-size: 0.75rem;
+  margin-top: -10px;
+  margin-bottom: 8px;
 }
 
 /* ── Success ── */
@@ -264,9 +284,11 @@ export default function AuthLogin() {
   const [mode, setMode] = useState('login'); // 'login' | 'register'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // ✅ FIX #5: Tambah confirm password state
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [passwordMismatch, setPasswordMismatch] = useState(false); // ✅ FIX #5: Track password mismatch
   const [loading, setLoading] = useState(false);
   const styleRef = useRef(null);
 
@@ -288,6 +310,15 @@ export default function AuthLogin() {
     });
     return () => unsubscribe();
   }, [navigate]);
+
+  // ✅ FIX #5: Validasi password match di real-time
+  useEffect(() => {
+    if (mode === 'register' && confirmPassword) {
+      setPasswordMismatch(password !== confirmPassword);
+    } else {
+      setPasswordMismatch(false);
+    }
+  }, [password, confirmPassword, mode]);
 
   // Login dengan Google
   const handleGoogleLogin = async () => {
@@ -358,13 +389,21 @@ export default function AuthLogin() {
     }
   };
 
-  // Register dengan Email/Password
+  // ✅ FIX #5: Register dengan Email/Password + Validasi Confirm Password
   const handleEmailRegister = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !password.trim()) {
+    
+    // ✅ FIX #5: Validasi confirm password
+    if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
       setError('Semua field harus diisi.');
       return;
     }
+    
+    if (password !== confirmPassword) {
+      setError('Password dan konfirmasi password tidak cocok.');
+      return;
+    }
+    
     if (password.length < 6) {
       setError('Password minimal 6 karakter.');
       return;
@@ -427,7 +466,7 @@ export default function AuthLogin() {
         {/* MODE: LOGIN */}
         {mode === 'login' && (
           <>
-            {/* Google Login */}
+            {/* ✅ FIX #6: Google Login Button - Already centered correctly */}
             <button
               className="auth-btn auth-btn-google"
               onClick={handleGoogleLogin}
@@ -466,7 +505,7 @@ export default function AuthLogin() {
             {/* Toggle to Register */}
             <div className="auth-toggle">
               Belum punya akun?{' '}
-              <button onClick={() => { setMode('register'); setError(''); setSuccess(''); }}>
+              <button onClick={() => { setMode('register'); setError(''); setSuccess(''); setPasswordMismatch(false); }}>
                 Buat Akun
               </button>
             </div>
@@ -502,13 +541,32 @@ export default function AuthLogin() {
               />
               <input
                 type="password"
-                className="auth-input"
+                className={`auth-input ${passwordMismatch ? 'auth-input-error' : ''}`}
                 placeholder="Password (min. 6 karakter)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
               />
-              <button type="submit" className="auth-btn" disabled={loading}>
+              {/* ✅ FIX #5: Tambah Confirm Password Field */}
+              <input
+                type="password"
+                className={`auth-input ${passwordMismatch ? 'auth-input-error' : ''}`}
+                placeholder="Konfirmasi Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={loading}
+              />
+              {/* ✅ FIX #5: Tampilkan error jika password tidak cocok */}
+              {passwordMismatch && (
+                <p className="auth-input-error-msg">
+                  ❌ Password tidak cocok!
+                </p>
+              )}
+              <button 
+                type="submit" 
+                className="auth-btn" 
+                disabled={loading || passwordMismatch}
+              >
                 {loading ? 'Membuat Akun...' : 'Buat Akun'}
               </button>
             </form>
@@ -516,7 +574,7 @@ export default function AuthLogin() {
             {/* Toggle to Login */}
             <div className="auth-toggle">
               Sudah punya akun?{' '}
-              <button onClick={() => { setMode('login'); setError(''); setSuccess(''); }}>
+              <button onClick={() => { setMode('login'); setError(''); setSuccess(''); setConfirmPassword(''); setPasswordMismatch(false); }}>
                 Masuk
               </button>
             </div>
