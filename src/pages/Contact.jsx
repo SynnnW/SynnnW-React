@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from './firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { signOut } from 'firebase/auth';
 
 const CSS = `
 /* ── Variables (augment globals) ── */
@@ -993,13 +994,24 @@ export default function Contact({ t = {} }) {
         projectDesc:        projectDesc.trim(),
         selectedItems:      cartItems,
         cartTotal,
+        serviceCategory: (() => {
+          if (!cartItems || cartItems.length === 0) return 'general';
+          const firstId = cartItems[0]?.id ?? '';
+          if (firstId.startsWith('ve') || firstId.startsWith('m'))  return 'video';
+          if (firstId.startsWith('dg'))                              return 'design';
+          if (firstId.startsWith('ls'))                              return 'livestream';
+          if (firstId.startsWith('p') || firstId.startsWith('w'))   return 'website';
+          if (firstId.startsWith('d') || firstId.startsWith('h'))   return 'domain';
+          return 'general';
+        })(),
+        serviceNames: cartItems.map(i => i?.name ?? '').filter(Boolean),
         status:             'Pending',
         timestamp:          serverTimestamp(),
       };
 
       const docRef = await addDoc(collection(db, 'orders'), payload);
       setGeneratedId(docRef.id);
-      navigate('/checkout');
+      navigate('/Dashboard');
     } catch (err) {
       console.error('[Contact] Firebase error:', err);
       setSubmitError('Gagal menyimpan data. Periksa koneksi dan coba lagi.');
@@ -1214,6 +1226,28 @@ export default function Contact({ t = {} }) {
                 <span>{t.cqConfirmWA}</span>
                 <i className="fa-solid fa-arrow-up-right-from-square cq-co-wa-ext" />
               </a>
+
+              <button
+                onClick={async () => { await signOut(auth); navigate('/'); }}
+                style={{
+                  marginTop: '12px',
+                  background: 'rgba(239,68,68,0.08)',
+                  border: '1px solid rgba(239,68,68,0.2)',
+                  color: '#f87171',
+                  padding: '10px 24px',
+                  borderRadius: '99px',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  fontSize: '0.82rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  width: '100%',
+                  justifyContent: 'center',
+                }}
+              >
+                <i className="fa-solid fa-right-from-bracket" /> Logout
+              </button>
 
               <p className="cq-co-footer">
                 <i className="fa-solid fa-clock" />
