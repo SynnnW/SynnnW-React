@@ -20,6 +20,7 @@ const PortoKarya2  = lazy(() => import('./pages/PortoKarya2'));
 const PortoKarya3  = lazy(() => import('./pages/PortoKarya3'));
 const PortoKarya4  = lazy(() => import('./pages/PortoKarya4'));
 const PreviewLogo  = lazy(() => import('./pages/PreviewLogo'));
+const Terms        = lazy(() => import('./pages/Terms'));
 const Dashboard    = lazy(() => import('./pages/Dashboard'));
 const PriceList    = lazy(() => import('./pages/PriceList'));
 const CheckoutQRIS = lazy(() => import('./pages/CheckoutQRIS'));
@@ -91,6 +92,7 @@ function Layout({ user }) {
             <Route path="/journal/karya1" element={<JournalKarya1 t={t} />} />
             <Route path="/price-list" element={<PriceList />} />
             <Route path="/preview-logo" element={<PreviewLogo />} />
+            <Route path="/terms" element={<Terms />} />
             
             {/* Halaman Login - Kalau sudah login, lempar menjauh dari halaman ini */}
             <Route 
