@@ -69,15 +69,19 @@ function ScrollToTop() {
 function Layout({ user }) {
   const { theme, toggleTheme } = useTheme();
   const { lang, t, toggleLang } = useLang();
+  const { pathname } = useLocation();
   
   // Email Admin
   const ADMIN_EMAIL = "aldokraksaan@gmail.com";
+  
+  // Halaman yang tidak pakai Navbar/Footer (full-screen)
+  const isFullscreen = pathname === '/Dashboard' || pathname === '/admin-dashboard';
 
   return (
     <>
       <ScrollToTop />
-      <Navbar t={t} lang={lang} toggleLang={toggleLang} theme={theme} toggleTheme={toggleTheme} />
-      <main style={{ paddingTop: '64px' }}>
+      {!isFullscreen && <Navbar t={t} lang={lang} toggleLang={toggleLang} theme={theme} toggleTheme={toggleTheme} />}
+      <main style={{ paddingTop: isFullscreen ? '0' : '64px' }}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             {/* Rute Bebas (Tidak Perlu Login) */}
@@ -97,7 +101,7 @@ function Layout({ user }) {
             {/* Halaman Login - Kalau sudah login, lempar menjauh dari halaman ini */}
             <Route 
               path="/login" 
-              element={user ? <Navigate to={user.email === ADMIN_EMAIL ? "/admin-dashboard" : "/contact"} /> : <AuthLogin />} 
+              element={user ? <Navigate to={user.email === ADMIN_EMAIL ? "/admin-dashboard" : "/Dashboard"} /> : <AuthLogin />} 
             />
 
             {/* RUTE TERPROTEKSI (Wajib Login) */}
@@ -128,7 +132,7 @@ function Layout({ user }) {
           </Routes>
         </Suspense>
       </main>
-      <Footer t={t} />
+      {!isFullscreen && <Footer t={t} />}
     </>
   );
 }
