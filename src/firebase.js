@@ -1,7 +1,8 @@
-// src/pages/firebase.js  ← PAKAI VERSI INI
 import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+// Konfigurasi resmi dari Firebase Console
 const firebaseConfig = {
   apiKey: "AIzaSyCUUtQZbqd5yjJgBMlwjNEo5JGIRcgKowI",
   authDomain: "synnnw-85363.firebaseapp.com",
@@ -12,5 +13,12 @@ const firebaseConfig = {
   measurementId: "G-95CV0YB7FK",
 };
 
+// Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
+
+// Auth
+export const auth     = getAuth(app);
+export const provider = new GoogleAuthProvider();
+
+// Firestore
 export const db = getFirestore(app);
