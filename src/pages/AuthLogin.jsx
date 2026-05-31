@@ -357,6 +357,52 @@ export default function AuthLogin() {
     }
   };
 
+  // 🆕 Register dengan Google - NEW
+  const handleGoogleRegister = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Check jika user sudah di Firestore
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+      if (userDoc.exists()) {
+        // Sudah terdaftar - redirect ke dashboard
+        setSuccess('Akun sudah terdaftar! Redirecting...');
+        setTimeout(() => {
+          navigate('/contact');
+        }, 1000);
+        return;
+      }
+
+      // Belum terdaftar - simpan minimal data dan redirect ke Contact
+      await setDoc(doc(db, 'users', user.uid), {
+        name: user.displayName || 'Google User',
+        email: user.email,
+        photoURL: user.photoURL || null,
+        authMethod: 'google',
+        createdAt: new Date(),
+      });
+
+      setSuccess('Akun berhasil dibuat! Silahkan lengkapi profile Anda.');
+      // 🔑 IMPORTANT: Redirect ke Contact untuk simpan data lengkap
+      setTimeout(() => {
+        navigate('/contact');
+      }, 1500);
+    } catch (err) {
+      console.error('[AuthLogin] Google register error:', err);
+      if (err.code === 'auth/popup-closed-by-user') {
+        setError('Popup ditutup. Silahkan coba lagi.');
+      } else {
+        setError('Gagal daftar dengan Google. Coba lagi nanti.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Login dengan Email/Password
   const handleEmailLogin = async (e) => {
     e.preventDefault();
@@ -466,20 +512,7 @@ export default function AuthLogin() {
         {/* MODE: LOGIN */}
         {mode === 'login' && (
           <>
-            {/* ✅ FIX #6: Google Login Button - Already centered correctly */}
-            <button
-              className="auth-btn auth-btn-google"
-              onClick={handleGoogleLogin}
-              disabled={loading}
-            >
-              <i className="fa-brands fa-google" />
-              Masuk dengan Google
-            </button>
-
-            {/* Divider */}
-            <div className="auth-divider">Atau</div>
-
-            {/* Email/Password Login */}
+            {/* Email/Password Login - Default for existing users */}
             <form className="auth-form" onSubmit={handleEmailLogin}>
               <input
                 type="email"
@@ -547,6 +580,9 @@ export default function AuthLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
               />
+              <p className="auth-sub" style={{ margin: '8px 0 0 0', fontSize: '0.75rem', color: 'var(--text-dim)', lineHeight: '1.5' }}>
+                ⚠️ <strong>Tips:</strong> Jangan gunakan password yang sama dengan password Gmail Anda demi menjaga privasi dan kenyamanan.
+              </p>
               {/* ✅ FIX #5: Tambah Confirm Password Field */}
               <input
                 type="password"
@@ -567,9 +603,22 @@ export default function AuthLogin() {
                 className="auth-btn" 
                 disabled={loading || passwordMismatch}
               >
-                {loading ? 'Membuat Akun...' : 'Buat Akun'}
+                {loading ? 'Membuat Akun...' : 'Daftar dengan Email'}
               </button>
             </form>
+
+            {/* Divider */}
+            <div className="auth-divider">Atau</div>
+
+            {/* Google Registration */}
+            <button
+              className="auth-btn auth-btn-google"
+              onClick={handleGoogleRegister}
+              disabled={loading}
+            >
+              <i className="fa-brands fa-google" />
+              Daftar dengan Google
+            </button>
 
             {/* Toggle to Login */}
             <div className="auth-toggle">
