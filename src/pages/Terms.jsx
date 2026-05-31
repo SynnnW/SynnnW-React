@@ -450,8 +450,65 @@ const SECTIONS = [
     ),
   },
   {
-    id: 'batasan',
+    id: 'pemberitahuan-privasi',
     num: '09',
+    title: 'Pemberitahuan Privasi (Privacy Notice)',
+    content: (
+      <>
+        <p>
+          <strong>Pemberitahuan Privasi</strong> ("Pemberitahuan Privasi") berikut ini menjelaskan bagaimana 
+          Kami, PT SynnnW Studio dan/atau afiliasi nya (selanjutnya disebut "SynnnW" atau "Kami") memperoleh, 
+          mengumpulkan, menyimpan, menguasai, menggunakan, mengolah, menganalisa, memperbaiki, melakukan pembaruan, 
+          menampilkan, mengumumkan, mentransfer, mengungkapkan dan melindungi Data Pribadi ("Memproses Data Pribadi" 
+          atau melakukan "Pemrosesan Data Pribadi") milik klien yang menggunakan Aplikasi dan Layanan Kami untuk 
+          menerima dan memproses transaksi dari pelanggannya ("Merchant"), maupun Data Pribadi milik pelanggan 
+          sebagaimana dimaksud yang melakukan pembelian barang atau jasa yang ditawarkan oleh Merchant dan memproses 
+          pembayaran atas transaksi pembelian barang atau jasa tersebut melalui Layanan Kami ("Pelanggan").
+        </p>
+
+        <p>
+          Pemberitahuan Privasi ini berlaku untuk Anda, baik sebagai Merchant maupun Pelanggan ("Pengguna" atau 
+          "Anda") aplikasi seluler Kami (SynnnW Studio App), situs web (www.synnwstudio.com dan situs-situs 
+          turunannya), fitur, layanan, dan produk (secara bersama-sama disebut "Aplikasi") dan layanan-layanan 
+          atau produk-produk lainnya yang dari waktu ke waktu disediakan oleh Kami, baik yang digunakan di dalam 
+          maupun di luar Aplikasi Kami (Aplikasi beserta layanan atau produk lainnya sebagaimana dimaksud secara 
+          bersama-sama disebut "Layanan"), kecuali diatur pada pemberitahuan privasi yang terpisah.
+        </p>
+
+        <p>
+          Harap baca Pemberitahuan Privasi ini secara menyeluruh untuk memastikan bahwa Anda memahami praktik 
+          pelindungan data Kami. Kami ingin membuat ini mudah dimengerti.
+        </p>
+
+        <div className="tnc-highlight">
+          <i className="fa-solid fa-shield-halved" />
+          <p>
+            <strong>Pengakuan dan Persetujuan:</strong> Dengan menyetujui Pemberitahuan Privasi, Anda mengakui bahwa 
+            Anda telah membaca dan memahami Pemberitahuan Privasi ini serta menyetujui segala ketentuannya.
+          </p>
+        </div>
+
+        <ul className="tnc-points">
+          <li><strong>Persetujuan untuk Pemrosesan Data:</strong> Anda sepakat dan memberikan persetujuan kepada Kami untuk Memproses Data Pribadi Anda sesuai dengan Pemberitahuan Privasi ini.</li>
+          <li><strong>Data Pihak Ketiga:</strong> Jika Anda menyediakan kepada Kami Data Pribadi yang berkaitan dengan individu lain (seperti anggota keluarga, teman, atau pekerja), maka Anda menyatakan dan menjamin bahwa Anda telah memperoleh persetujuan dari individu tersebut.</li>
+          <li><strong>Penarikan Persetujuan:</strong> Anda dapat menarik persetujuan Anda untuk setiap atau segala Pemrosesan Data Pribadi Anda kapan saja dengan memberikan kepada Kami pemberitahuan yang wajar secara tertulis.</li>
+          <li><strong>Konsekuensi Penarikan:</strong> Anda harus memahami bahwa setelah penarikan persetujuan tersebut, Anda mungkin tidak lagi dapat menggunakan Layanan. Penarikan persetujuan Anda dapat mengakibatkan penghentian Layanan, penghapusan akun atau pengakhiran hubungan kontraktual Anda dengan Kami.</li>
+        </ul>
+
+        <div className="tnc-warn">
+          <i className="fa-solid fa-info" />
+          <p>
+            Setelah menerima penarikan persetujuan dari Anda, Kami akan menginformasikan Anda tentang konsekuensi 
+            yang mungkin terjadi dari penarikan tersebut sehingga Anda dapat memutuskan apakah Anda tetap ingin 
+            menarik persetujuan. Kami berkomitmen untuk transparansi dalam semua komunikasi terkait data pribadi Anda.
+          </p>
+        </div>
+      </>
+    ),
+  },
+  {
+    id: 'batasan',
+    num: '10',
     title: 'Batasan Tanggung Jawab',
     content: (
       <>
@@ -470,7 +527,7 @@ const SECTIONS = [
   },
   {
     id: 'hukum',
-    num: '10',
+    num: '11',
     title: 'Hukum yang Berlaku',
     content: (
       <>
@@ -509,7 +566,7 @@ export default function Terms() {
     return () => observer.disconnect();
   }, []);
 
-  const lastUpdated = 'Juni 2025';
+  const lastUpdated = 'Juni 2026';
 
   return (
     <div className="tnc-page" ref={containerRef}>
@@ -542,7 +599,7 @@ export default function Terms() {
             </span>
             <span className="tnc-meta-pill">
               <i className="fa-solid fa-list-ol" />
-              10 Pasal
+              11 Pasal
             </span>
           </div>
         </div>
