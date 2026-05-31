@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, provider, db } from './firebase';
 import {
@@ -13,45 +13,47 @@ const CSS = `
 /* ── Page ── */
 .auth-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #070709 0%, #1a1a2e 100%);
+  background: var(--bg);
   display: flex;
   position: relative;
   overflow: hidden;
   font-family: 'Outfit', sans-serif;
+  padding-top: 64px;
 }
 
 .auth-page::before {
   content: '';
   position: absolute;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent-rgb), transparent);
   border-radius: 50%;
-  top: -100px;
-  left: -100px;
-  filter: blur(60px);
+  top: -150px;
+  left: -150px;
+  filter: blur(80px);
+  opacity: 0.08;
   pointer-events: none;
 }
 
 .auth-page::after {
   content: '';
   position: absolute;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--accent-rgb), transparent);
   border-radius: 50%;
-  bottom: 50px;
-  right: -50px;
-  filter: blur(60px);
+  bottom: -100px;
+  right: -100px;
+  filter: blur(80px);
+  opacity: 0.05;
   pointer-events: none;
 }
 
 /* ── Left Sidebar ── */
 .auth-sidebar {
   width: 45%;
-  background: rgba(15, 15, 25, 0.4);
-  backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(139,92,246,0.1);
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
   padding: 40px 32px;
   overflow-y: auto;
   display: flex;
@@ -61,86 +63,110 @@ const CSS = `
 
 .auth-logo {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 300;
-  color: #ffffff;
+  color: var(--text);
   display: flex;
   align-items: center;
   gap: 10px;
   letter-spacing: -0.01em;
+  margin-bottom: 8px;
 }
 
 .auth-logo i {
-  font-size: 1.6rem;
-  color: #a78bfa;
+  font-size: 1.8rem;
+  color: var(--accent3);
 }
 
 .auth-sidebar-label {
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #a78bfa;
-  margin-top: 8px;
+  color: var(--accent3);
 }
 
 .auth-feed {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   flex: 1;
 }
 
 .auth-feed-item {
-  padding: 16px 14px;
-  border-radius: 14px;
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(139, 92, 246, 0.15);
+  padding: 0;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .auth-feed-item:hover {
-  background: rgba(139, 92, 246, 0.15);
-  border-color: rgba(139, 92, 246, 0.3);
   transform: translateY(-2px);
 }
 
+.auth-feed-item-img {
+  width: 100%;
+  height: 160px;
+  background: var(--glass);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--gborder);
+  position: relative;
+}
+
+.auth-feed-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.auth-feed-item-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.auth-feed-item:hover .auth-feed-item-img::after {
+  opacity: 1;
+}
+
 .auth-feed-item-label {
-  font-size: 0.6rem;
+  font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #a78bfa;
+  color: var(--accent3);
 }
 
 .auth-feed-item-title {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .auth-feed-item-title i {
-  font-size: 0.85rem;
-  color: #a78bfa;
+  font-size: 0.9rem;
+  color: var(--accent3);
 }
 
 .auth-feed-item-desc {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: var(--text-dim);
   line-height: 1.5;
-}
-
-.auth-feed-item-date {
-  font-size: 0.68rem;
-  color: #64748b;
 }
 
 /* ── Right Container ── */
@@ -156,21 +182,22 @@ const CSS = `
 
 /* ── Card ── */
 .auth-card {
-  background: rgba(30, 30, 50, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: var(--glass);
+  border: 1px solid var(--gborder);
   border-radius: 20px;
   padding: 48px;
   width: 100%;
   max-width: 520px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
 }
 
 /* ── Typography ── */
 .auth-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 2.4rem;
-  color: #ffffff;
+  color: var(--text);
   text-align: center;
   margin: 0 0 12px;
   font-weight: 300;
@@ -179,7 +206,7 @@ const CSS = `
 
 .auth-sub {
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: var(--text-dim);
   text-align: center;
   margin-bottom: 32px;
   line-height: 1.6;
@@ -190,7 +217,7 @@ const CSS = `
   display: flex;
   gap: 0;
   margin-bottom: 32px;
-  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+  border-bottom: 1px solid var(--gborder);
 }
 
 .auth-tab {
@@ -198,7 +225,7 @@ const CSS = `
   padding: 12px;
   border: none;
   background: none;
-  color: #64748b;
+  color: var(--text-dim);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -208,8 +235,8 @@ const CSS = `
 }
 
 .auth-tab.active {
-  color: #a78bfa;
-  border-bottom-color: #a78bfa;
+  color: var(--accent3);
+  border-bottom-color: var(--accent3);
 }
 
 /* ── Form ── */
@@ -220,28 +247,27 @@ const CSS = `
 }
 
 .auth-input {
-  background: rgba(51, 51, 80, 0.4);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: var(--input-bg);
+  border: 1px solid var(--border-focus);
   border-radius: 12px;
   padding: 12px 14px;
-  color: #ffffff;
+  color: var(--text);
   font-family: 'Outfit', sans-serif;
   font-size: 0.9rem;
   outline: none;
   transition: all 0.25s;
   width: 100%;
   box-sizing: border-box;
-  backdrop-filter: blur(5px);
 }
 
 .auth-input:focus {
-  border-color: #a78bfa;
-  background: rgba(51, 51, 80, 0.6);
-  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+  border-color: var(--accent3);
+  background: var(--input-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .auth-input::placeholder {
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .auth-input-label {
@@ -249,14 +275,14 @@ const CSS = `
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: var(--text-dim);
   margin-bottom: 6px;
   display: block;
 }
 
 .auth-input-helper {
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--text-muted);
   margin-top: -10px;
   margin-left: 2px;
 }
@@ -302,31 +328,31 @@ const CSS = `
 .auth-checkbox input {
   margin-top: 3px;
   cursor: pointer;
-  accent-color: #a78bfa;
+  accent-color: var(--accent3);
 }
 
 .auth-checkbox label {
   font-size: 0.8rem;
-  color: #94a3b8;
+  color: var(--text-dim);
   line-height: 1.5;
   cursor: pointer;
 }
 
 .auth-checkbox a {
-  color: #a78bfa;
+  color: var(--accent3);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
 }
 
 .auth-checkbox a:hover {
-  color: #c4b5fd;
+  color: var(--accent2);
   text-decoration: underline;
 }
 
 /* ── Button ── */
 .auth-btn {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -344,9 +370,8 @@ const CSS = `
 }
 
 .auth-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 8px 24px var(--accent-shadow);
 }
 
 .auth-btn:disabled {
@@ -355,15 +380,15 @@ const CSS = `
 }
 
 .auth-btn-google {
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  color: #a78bfa;
+  background: var(--glass);
+  border: 1px solid var(--gborder);
+  color: var(--accent3);
 }
 
 .auth-btn-google:hover:not(:disabled) {
-  background: rgba(139, 92, 246, 0.25);
-  border-color: rgba(139, 92, 246, 0.5);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+  background: var(--glass2);
+  border-color: var(--gborder2);
+  box-shadow: none;
 }
 
 /* ── Alerts ── */
@@ -406,7 +431,7 @@ const CSS = `
 /* ── Divider ── */
 .auth-divider {
   text-align: center;
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.8rem;
   margin: 20px 0;
   position: relative;
@@ -419,11 +444,14 @@ const CSS = `
   left: 0;
   right: 0;
   height: 1px;
-  background: rgba(139, 92, 246, 0.1);
+  background: var(--gborder);
   z-index: -1;
 }
 
-.auth-divider { background: rgba(30, 30, 50, 0.5); padding: 0 8px; }
+.auth-divider {
+  background: var(--glass);
+  padding: 0 8px;
+}
 
 /* ── Links ── */
 .auth-links {
@@ -433,24 +461,24 @@ const CSS = `
   gap: 12px;
   margin-top: 20px;
   font-size: 0.72rem;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .auth-links a {
-  color: #a78bfa;
+  color: var(--accent3);
   text-decoration: none;
   transition: all 0.2s;
 }
 
 .auth-links a:hover {
   text-decoration: underline;
-  color: #c4b5fd;
+  color: var(--accent2);
 }
 
 .auth-links-sep {
   width: 1px;
   height: 12px;
-  background: rgba(139, 92, 246, 0.2);
+  background: var(--gborder);
 }
 
 /* ── Responsive ── */
@@ -472,12 +500,13 @@ const CSS = `
 @media (max-width: 768px) {
   .auth-page {
     flex-direction: column;
+    padding-top: 64px;
   }
   .auth-sidebar {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid rgba(139,92,246,0.1);
-    max-height: 220px;
+    border-bottom: 1px solid var(--border);
+    max-height: 240px;
     padding: 24px 20px;
   }
   .auth-right {
@@ -496,10 +525,14 @@ const CSS = `
     overflow-x: auto;
     gap: 12px;
     scroll-behavior: smooth;
+    padding-bottom: 8px;
   }
   .auth-feed-item {
     min-width: 160px;
     flex-shrink: 0;
+  }
+  .auth-feed-item-img {
+    height: 120px;
   }
 }
 
@@ -514,15 +547,17 @@ const CSS = `
     font-size: 0.8rem;
     padding: 10px;
   }
-  .auth-feed {
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 10px;
-  }
   .auth-feed-item {
     min-width: 140px;
-    padding: 12px;
-    font-size: 0.8rem;
+  }
+  .auth-feed-item-img {
+    height: 100px;
+  }
+  .auth-feed-item-title {
+    font-size: 0.85rem;
+  }
+  .auth-feed-item-desc {
+    font-size: 0.7rem;
   }
 }
 
@@ -531,15 +566,15 @@ const CSS = `
   width: 6px;
 }
 .auth-sidebar::-webkit-scrollbar-track {
-  background: rgba(139, 92, 246, 0.05);
+  background: var(--bg);
   border-radius: 10px;
 }
 .auth-sidebar::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.2);
+  background: var(--gborder);
   border-radius: 10px;
 }
 .auth-sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.4);
+  background: var(--gborder2);
 }
 
 .auth-feed::-webkit-scrollbar {
@@ -549,59 +584,109 @@ const CSS = `
   background: transparent;
 }
 .auth-feed::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.2);
+  background: var(--gborder);
   border-radius: 10px;
 }
 `;
 
-// Portfolio/News Feed Data - 5 cards dengan hooks yang menarik
+// ═════════════════════════════════════════════════════════════
+// FEED ITEMS dengan images dari assets & links ke actual pages
+// ═════════════════════════════════════════════════════════════
 const FEED_ITEMS = [
   {
     id: 1,
     type: 'journal',
     label: 'Journal',
     title: 'Creative Works',
-    description: 'Explore our digital art & design collection',
+    description: 'Explore our digital art & design',
     date: 'Latest',
     icon: 'fa-pen-fancy',
+    image: '/assets/img/1.png',
+    link: '/journal/karya1',
   },
   {
     id: 2,
     type: 'service',
     label: 'Service',
     title: 'Live Stream',
-    description: 'Professional event broadcasting & streaming',
+    description: 'Professional event broadcasting',
     date: 'Available',
     icon: 'fa-video',
+    image: '/assets/img/livestream.png',
+    link: '/porto',
   },
   {
     id: 3,
     type: 'portfolio',
     label: 'Portfolio',
     title: 'Video Editing',
-    description: 'Cinematic content with motion graphics',
+    description: 'Cinematic content & effects',
     date: 'Latest',
     icon: 'fa-film',
+    image: '/assets/img/2.png',
+    link: '/porto/karya2',
   },
   {
     id: 4,
     type: 'portfolio',
     label: 'Portfolio',
     title: 'Wedding Design',
-    description: 'Digital wedding & pre-wedding packages',
+    description: 'Digital wedding packages',
     date: 'Latest',
     icon: 'fa-heart',
+    image: '/assets/img/3.png',
+    link: '/porto/karya4',
   },
   {
     id: 5,
     type: 'contact',
     label: 'Get In Touch',
     title: 'Contact Us',
-    description: 'Discuss your project with our team',
+    description: 'Discuss your project',
     date: 'Ongoing',
     icon: 'fa-envelope',
+    image: '/assets/img/4.png',
+    link: '/contact',
   },
 ];
+
+// ═════════════════════════════════════════════════════════════
+// CARD COMPONENT - Memoized untuk avoid re-render
+// ═════════════════════════════════════════════════════════════
+const FeedCard = memo(({ item, navigate }) => {
+  const handleClick = (e) => {
+    e.preventDefault();
+    navigate(item.link);
+  };
+
+  return (
+    <button
+      className="auth-feed-item"
+      onClick={handleClick}
+      title={item.title}
+      aria-label={item.title}
+      style={{ cursor: 'pointer' }}
+    >
+      <div className="auth-feed-item-img">
+        <img
+          src={item.image}
+          alt={item.title}
+          loading="lazy"
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+          }}
+        />
+      </div>
+      <div className="auth-feed-item-label">{item.label}</div>
+      <div className="auth-feed-item-title">
+        <i className={`fa-solid ${item.icon}`} /> {item.title}
+      </div>
+      <div className="auth-feed-item-desc">{item.description}</div>
+    </button>
+  );
+});
+
+FeedCard.displayName = 'FeedCard';
 
 export default function AuthLogin() {
   const navigate = useNavigate();
@@ -626,7 +711,11 @@ export default function AuthLogin() {
     style.textContent = CSS;
     document.head.appendChild(style);
     styleRef.current = style;
-    return () => document.head.removeChild(style);
+    return () => {
+      if (styleRef.current && styleRef.current.parentNode) {
+        styleRef.current.parentNode.removeChild(styleRef.current);
+      }
+    };
   }, []);
 
   // Check if already logged in
@@ -789,14 +878,11 @@ export default function AuthLogin() {
         <div className="auth-sidebar-label">Our Latest Works</div>
         <div className="auth-feed">
           {FEED_ITEMS.map((item) => (
-            <a key={item.id} href="#" className="auth-feed-item" onClick={(e) => e.preventDefault()} title={item.title}>
-              <div className="auth-feed-item-label">{item.label}</div>
-              <div className="auth-feed-item-title">
-                <i className={`fa-solid ${item.icon}`} /> {item.title}
-              </div>
-              <div className="auth-feed-item-desc">{item.description}</div>
-              <div className="auth-feed-item-date">{item.date}</div>
-            </a>
+            <FeedCard
+              key={item.id}
+              item={item}
+              navigate={navigate}
+            />
           ))}
         </div>
       </div>
