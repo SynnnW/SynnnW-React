@@ -13,67 +13,165 @@ const CSS = `
 /* ── Page ── */
 .auth-page {
   min-height: 100vh;
-  background: var(--bg);
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
   position: relative;
   overflow: hidden;
   font-family: 'Outfit', sans-serif;
 }
 
-/* ── Orbs ── */
-.auth-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(110px);
-  pointer-events: none;
+/* ── Left Sidebar ── */
+.auth-sidebar {
+  width: 40%;
+  background: white;
+  border-right: 1px solid #e0e7ff;
+  padding: 32px 28px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
-.auth-o1 {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 65%);
-  top: -150px;
-  left: -150px;
+
+.auth-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.auth-o2 {
-  width: 380px;
-  height: 380px;
-  background: radial-gradient(circle, rgba(74,222,128,0.08) 0%, transparent 65%);
-  bottom: -100px;
-  right: -100px;
+
+.auth-logo i {
+  font-size: 1.8rem;
+  color: #6366f1;
+}
+
+.auth-sidebar-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6366f1;
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.auth-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.auth-feed-item {
+  padding: 14px 12px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  border-left: 3px solid #6366f1;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+  display: block;
+}
+
+.auth-feed-item:hover {
+  background: #f0f3ff;
+  transform: translateX(4px);
+}
+
+.auth-feed-item-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6366f1;
+  margin-bottom: 4px;
+}
+
+.auth-feed-item-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.auth-feed-item-desc {
+  font-size: 0.75rem;
+  color: #718096;
+  line-height: 1.4;
+}
+
+.auth-feed-item-date {
+  font-size: 0.70rem;
+  color: #a0aec0;
+  margin-top: 6px;
+}
+
+/* ── Right Container ── */
+.auth-right {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
 }
 
 /* ── Card ── */
 .auth-card {
-  background: var(--glass);
-  border: 1px solid var(--gborder);
-  border-radius: 28px;
+  background: white;
+  border: 1px solid #e0e7ff;
+  border-radius: 16px;
   padding: 48px;
   width: 100%;
-  max-width: 420px;
-  z-index: 1;
-  backdrop-filter: var(--blur);
-  -webkit-backdrop-filter: var(--blur);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  max-width: 520px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* ── Typography ── */
 .auth-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.4rem;
-  color: var(--text);
+  font-size: 2.2rem;
+  color: #1a202c;
   text-align: center;
   margin: 0 0 8px;
   font-weight: 400;
 }
+
 .auth-sub {
-  font-size: 0.86rem;
-  color: var(--text-dim);
+  font-size: 0.85rem;
+  color: #718096;
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   line-height: 1.6;
+}
+
+/* ── Tabs ── */
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: none;
+  color: #718096;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 3px solid transparent;
+  text-align: center;
+}
+
+.auth-tab.active {
+  color: #6366f1;
+  border-bottom-color: #6366f1;
 }
 
 /* ── Form ── */
@@ -84,154 +182,224 @@ const CSS = `
 }
 
 .auth-input {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--gborder);
-  border-radius: 14px;
-  padding: 14px 16px;
-  color: var(--text);
+  background: #f7fafc;
+  border: 1px solid #cbd5e0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #1a202c;
   font-family: 'Outfit', sans-serif;
   font-size: 0.9rem;
   outline: none;
-  transition: all 0.25s;
+  transition: all 0.2s;
   width: 100%;
   box-sizing: border-box;
 }
+
 .auth-input:focus {
-  border-color: rgba(139, 92, 246, 0.5);
-  background: rgba(139, 92, 246, 0.05);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  border-color: #6366f1;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
+
 .auth-input::placeholder {
-  color: var(--text-dim);
-  opacity: 0.7;
+  color: #a0aec0;
 }
 
-/* ✅ FIX #6: Pastikan auth-input-error styling */
-.auth-input.auth-input-error {
-  border-color: rgba(239, 68, 68, 0.5);
-  background: rgba(239, 68, 68, 0.05);
-}
-
-/* ── Buttons ── */
-.auth-btn {
-  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  padding: 14px 16px;
+.auth-input-label {
+  font-size: 0.75rem;
   font-weight: 700;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
-  width: 100%;
-}
-.auth-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.45);
-}
-.auth-btn:active {
-  transform: translateY(0px);
-}
-.auth-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #4a5568;
+  margin-bottom: 4px;
+  display: block;
 }
 
-/* ✅ FIX #6: Google button center dengan Flexbox */
-.auth-btn-google {
-  background: var(--glass);
-  border: 1px solid var(--gborder);
-  color: var(--text);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+.auth-input-helper {
+  font-size: 0.75rem;
+  color: #718096;
+  margin-top: -10px;
+  margin-left: 2px;
+}
+
+/* ── Password Warning ── */
+.auth-password-warning {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.auth-password-warning i {
+  font-size: 0.9rem;
+  color: #d97706;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.auth-password-warning-text {
+  font-size: 0.8rem;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+.auth-password-warning-text strong {
+  color: #78350f;
+  font-weight: 600;
+}
+
+/* ── Checkbox ── */
+.auth-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.auth-checkbox input {
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.auth-checkbox label {
+  font-size: 0.8rem;
+  color: #718096;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.auth-checkbox a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.auth-checkbox a:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+/* ── Button ── */
+.auth-btn {
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  text-transform: capitalize;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  width: 100%;
+  gap: 8px;
 }
-.auth-btn-google:hover {
-  background: rgba(139, 92, 246, 0.08);
-  border-color: rgba(139, 92, 246, 0.3);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+
+.auth-btn:hover:not(:disabled) {
+  background: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
-.auth-btn-google i {
-  font-size: 1.1rem;
-  flex-shrink: 0;
+
+.auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-btn-google {
+  background: white;
+  color: #1a202c;
+  border: 1px solid #cbd5e0;
+  margin-top: 8px;
+}
+
+.auth-btn-google:hover:not(:disabled) {
+  background: #f7fafc;
+  border-color: #6366f1;
 }
 
 /* ── Divider ── */
 .auth-divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 24px 0;
+  text-align: center;
+  color: #a0aec0;
   font-size: 0.8rem;
-  color: var(--text-dim);
+  margin: 20px 0;
+  position: relative;
 }
+
 .auth-divider::before,
 .auth-divider::after {
   content: '';
-  flex: 1;
+  position: absolute;
+  top: 50%;
+  width: 45%;
   height: 1px;
-  background: var(--gborder);
+  background: #e2e8f0;
 }
 
-/* ── Error ── */
-.auth-err {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  color: #fca5a5;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  margin-bottom: 16px;
+.auth-divider::before {
+  left: 0;
 }
 
-/* ✅ FIX #5: Error message untuk password mismatch */
-.auth-input-error-msg {
-  color: #fca5a5;
-  font-size: 0.75rem;
-  margin-top: -10px;
-  margin-bottom: 8px;
-}
-
-/* ── Success ── */
-.auth-success {
-  background: rgba(74, 222, 128, 0.1);
-  border: 1px solid rgba(74, 222, 128, 0.25);
-  color: #86efac;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  margin-bottom: 16px;
+.auth-divider::after {
+  right: 0;
 }
 
 /* ── Toggle ── */
 .auth-toggle {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 20px;
   font-size: 0.8rem;
-  color: var(--text-dim);
+  color: #718096;
   line-height: 1.6;
 }
+
 .auth-toggle button {
   background: none;
   border: none;
-  color: var(--accent3);
+  color: #6366f1;
   font-weight: 700;
   cursor: pointer;
   font-size: 0.8rem;
   transition: all 0.2s;
   padding: 0;
+  text-decoration: none;
 }
+
 .auth-toggle button:hover {
-  color: #a78bfa;
+  color: #4f46e5;
   text-decoration: underline;
+}
+
+/* ── Error/Success ── */
+.auth-err {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.auth-success {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  color: #22c55e;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
 }
 
 /* ── Links ── */
@@ -239,56 +407,172 @@ const CSS = `
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   margin-top: 20px;
-  font-size: 0.75rem;
-  color: var(--text-dim);
+  font-size: 0.72rem;
+  color: #718096;
 }
+
 .auth-links a {
-  color: var(--accent3);
+  color: #6366f1;
   text-decoration: none;
   transition: all 0.2s;
 }
+
 .auth-links a:hover {
   text-decoration: underline;
-  color: #a78bfa;
+  color: #4f46e5;
 }
+
 .auth-links-sep {
   width: 1px;
   height: 12px;
-  background: var(--gborder);
-  opacity: 0.5;
-}
-
-/* ── Loading ── */
-.auth-loading {
-  opacity: 0.6;
-  pointer-events: none;
+  background: #cbd5e0;
 }
 
 /* ── Responsive ── */
-@media (max-width: 480px) {
+@media (max-width: 1024px) {
+  .auth-sidebar {
+    width: 35%;
+    padding: 24px 20px;
+  }
+  .auth-right {
+    width: 65%;
+    padding: 30px;
+  }
+  .auth-card {
+    padding: 36px;
+    max-width: 460px;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-page {
+    flex-direction: column;
+  }
+  .auth-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e7ff;
+    max-height: 200px;
+  }
+  .auth-right {
+    width: 100%;
+  }
   .auth-card {
     padding: 32px 24px;
+    margin: 20px;
+    max-width: 100%;
   }
   .auth-title {
     font-size: 1.8rem;
   }
+  .auth-feed {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .auth-feed-item {
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px 16px;
+  }
+  .auth-title {
+    font-size: 1.5rem;
+  }
+  .auth-feed {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 12px;
+  }
+  .auth-feed-item {
+    min-width: 140px;
+  }
+}
+
+/* ── Scrollbar ── */
+.auth-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.auth-sidebar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+.auth-sidebar::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 10px;
+}
+.auth-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
 }
 `;
+
+// Portfolio/News Feed Data
+const FEED_ITEMS = [
+  {
+    id: 1,
+    type: 'portfolio',
+    label: 'Portfolio',
+    title: 'Video Editing',
+    description: 'Professional editing dengan motion graphics',
+    date: 'Latest',
+    icon: 'fa-film',
+  },
+  {
+    id: 2,
+    type: 'portfolio',
+    label: 'Portfolio',
+    title: 'Web Design',
+    description: 'Modern & responsive website design',
+    date: 'Latest',
+    icon: 'fa-globe',
+  },
+  {
+    id: 3,
+    type: 'service',
+    label: 'Service',
+    title: 'Live Stream',
+    description: 'Event streaming & broadcast production',
+    date: 'Available',
+    icon: 'fa-video',
+  },
+  {
+    id: 4,
+    type: 'portfolio',
+    label: 'Portfolio',
+    title: 'Design',
+    description: 'Graphic & UI/UX design solutions',
+    date: 'Latest',
+    icon: 'fa-palette',
+  },
+  {
+    id: 5,
+    type: 'portfolio',
+    label: 'Portfolio',
+    title: 'Digital Wedding',
+    description: 'Pre-wedding & wedding cinematography',
+    date: 'Latest',
+    icon: 'fa-heart',
+  },
+];
 
 export default function AuthLogin() {
   const navigate = useNavigate();
   
   // States
-  const [mode, setMode] = useState('login'); // 'login' | 'register'
+  const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // ✅ FIX #5: Tambah confirm password state
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [passwordMismatch, setPasswordMismatch] = useState(false); // ✅ FIX #5: Track password mismatch
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const styleRef = useRef(null);
 
@@ -311,7 +595,7 @@ export default function AuthLogin() {
     return () => unsubscribe();
   }, [navigate]);
 
-  // ✅ FIX #5: Validasi password match di real-time
+  // Password mismatch validation
   useEffect(() => {
     if (mode === 'register' && confirmPassword) {
       setPasswordMismatch(password !== confirmPassword);
@@ -319,89 +603,6 @@ export default function AuthLogin() {
       setPasswordMismatch(false);
     }
   }, [password, confirmPassword, mode]);
-
-  // Login dengan Google
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // Check jika user udah di Firestore
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-
-      if (!userDoc.exists()) {
-        // Belum terdaftar - redirect ke register
-        setSuccess('Google berhasil terhubung! Silahkan lengkapi data diri Anda.');
-        setTimeout(() => {
-          navigate('/auth/register-google', { state: { googleUser: user } });
-        }, 1500);
-        return;
-      }
-
-      // Sudah terdaftar - login langsung
-      setSuccess('Berhasil login!');
-      setTimeout(() => {
-        navigate('/contact');
-      }, 1000);
-    } catch (err) {
-      console.error('[AuthLogin] Google login error:', err);
-      if (err.code === 'auth/popup-closed-by-user') {
-        setError('Popup ditutup. Silahkan coba lagi.');
-      } else {
-        setError('Gagal login dengan Google. Coba lagi nanti.');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 🆕 Register dengan Google - NEW
-  const handleGoogleRegister = async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // Check jika user sudah di Firestore
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-
-      if (userDoc.exists()) {
-        // Sudah terdaftar - redirect ke dashboard
-        setSuccess('Akun sudah terdaftar! Redirecting...');
-        setTimeout(() => {
-          navigate('/contact');
-        }, 1000);
-        return;
-      }
-
-      // Belum terdaftar - simpan minimal data dan redirect ke Contact
-      await setDoc(doc(db, 'users', user.uid), {
-        name: user.displayName || 'Google User',
-        email: user.email,
-        photoURL: user.photoURL || null,
-        authMethod: 'google',
-        createdAt: new Date(),
-      });
-
-      setSuccess('Akun berhasil dibuat! Silahkan lengkapi profile Anda.');
-      // 🔑 IMPORTANT: Redirect ke Contact untuk simpan data lengkap
-      setTimeout(() => {
-        navigate('/contact');
-      }, 1500);
-    } catch (err) {
-      console.error('[AuthLogin] Google register error:', err);
-      if (err.code === 'auth/popup-closed-by-user') {
-        setError('Popup ditutup. Silahkan coba lagi.');
-      } else {
-        setError('Gagal daftar dengan Google. Coba lagi nanti.');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Login dengan Email/Password
   const handleEmailLogin = async (e) => {
@@ -415,7 +616,7 @@ export default function AuthLogin() {
     setError('');
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password.trim());
-      setSuccess('Berhasil login!');
+      setSuccess('Berhasil login! Redirecting...');
       setTimeout(() => {
         navigate('/contact');
       }, 1000);
@@ -435,12 +636,11 @@ export default function AuthLogin() {
     }
   };
 
-  // ✅ FIX #5: Register dengan Email/Password + Validasi Confirm Password
+  // Register dengan Email/Password
   const handleEmailRegister = async (e) => {
     e.preventDefault();
     
-    // ✅ FIX #5: Validasi confirm password
-    if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
+    if (!name.trim() || !email.trim() || !phone.trim() || !password.trim() || !confirmPassword.trim()) {
       setError('Semua field harus diisi.');
       return;
     }
@@ -455,17 +655,21 @@ export default function AuthLogin() {
       return;
     }
 
+    if (!agreeTerms) {
+      setError('Anda harus setuju dengan Kebijakan Privasi.');
+      return;
+    }
+
     setLoading(true);
     setError('');
     try {
-      // 1. Buat auth user
       const result = await createUserWithEmailAndPassword(auth, email.trim(), password.trim());
       const user = result.user;
 
-      // 2. Simpan data ke Firestore
       await setDoc(doc(db, 'users', user.uid), {
         name: name.trim(),
         email: email.trim(),
+        phone: phone.trim(),
         authMethod: 'email',
         createdAt: new Date(),
       });
@@ -488,154 +692,262 @@ export default function AuthLogin() {
     }
   };
 
+  // Register dengan Google
+  const handleGoogleRegister = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+      if (userDoc.exists()) {
+        setSuccess('Akun sudah terdaftar! Redirecting...');
+        setTimeout(() => {
+          navigate('/contact');
+        }, 1000);
+        return;
+      }
+
+      await setDoc(doc(db, 'users', user.uid), {
+        name: user.displayName || 'Google User',
+        email: user.email,
+        photoURL: user.photoURL || null,
+        authMethod: 'google',
+        createdAt: new Date(),
+      });
+
+      setSuccess('Akun berhasil dibuat! Silahkan lengkapi profile Anda.');
+      setTimeout(() => {
+        navigate('/contact');
+      }, 1500);
+    } catch (err) {
+      console.error('[AuthLogin] Google register error:', err);
+      if (err.code === 'auth/popup-closed-by-user') {
+        setError('Popup ditutup. Silahkan coba lagi.');
+      } else {
+        setError('Gagal daftar dengan Google. Coba lagi nanti.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="auth-page">
-      <div className="auth-orb auth-o1" />
-      <div className="auth-orb auth-o2" />
+      {/* ── LEFT SIDEBAR: Portfolio Feed ── */}
+      <div className="auth-sidebar">
+        <div className="auth-logo">
+          <i className="fa-solid fa-sparkles" />
+          SynnnW Studio
+        </div>
 
-      <div className={`auth-card ${loading ? 'auth-loading' : ''}`}>
-        <h1 className="auth-title">
-          {mode === 'login' ? 'Masuk' : 'Daftar'}
-        </h1>
-        <p className="auth-sub">
-          {mode === 'login'
-            ? 'Akses dashboard klien dan kelola proyek Anda di SynnnW'
-            : 'Buat akun baru untuk mulai berkolaborasi dengan kami'}
-        </p>
+        <div className="auth-sidebar-label">Our Works & Services</div>
+        <div className="auth-feed">
+          {FEED_ITEMS.map((item) => (
+            <a key={item.id} href="#" className="auth-feed-item" onClick={(e) => e.preventDefault()}>
+              <div className="auth-feed-item-label">{item.label}</div>
+              <div className="auth-feed-item-title">
+                <i className={`fa-solid ${item.icon}`} /> {item.title}
+              </div>
+              <div className="auth-feed-item-desc">{item.description}</div>
+              <div className="auth-feed-item-date">{item.date}</div>
+            </a>
+          ))}
+        </div>
+      </div>
 
-        {/* Error Message */}
-        {error && <div className="auth-err">{error}</div>}
+      {/* ── RIGHT CONTAINER: Login/Register Form ── */}
+      <div className="auth-right">
+        <div className="auth-card">
+          {/* Tabs */}
+          <div className="auth-tabs">
+            <button
+              className={`auth-tab ${mode === 'login' ? 'active' : ''}`}
+              onClick={() => {
+                setMode('login');
+                setError('');
+                setSuccess('');
+              }}
+            >
+              Masuk
+            </button>
+            <button
+              className={`auth-tab ${mode === 'register' ? 'active' : ''}`}
+              onClick={() => {
+                setMode('register');
+                setError('');
+                setSuccess('');
+              }}
+            >
+              Daftar
+            </button>
+          </div>
 
-        {/* Success Message */}
-        {success && <div className="auth-success">{success}</div>}
+          <h1 className="auth-title">
+            {mode === 'login' ? 'Masuk' : 'Buat Akun'}
+          </h1>
+          <p className="auth-sub">
+            {mode === 'login'
+              ? 'Akses dashboard dan kelola proyek Anda'
+              : 'Bergabunglah dengan kami untuk memulai'}
+          </p>
 
-        {/* MODE: LOGIN */}
-        {mode === 'login' && (
-          <>
-            {/* Email/Password Login - Default for existing users */}
+          {error && <div className="auth-err">{error}</div>}
+          {success && <div className="auth-success">{success}</div>}
+
+          {/* ── LOGIN MODE ── */}
+          {mode === 'login' && (
             <form className="auth-form" onSubmit={handleEmailLogin}>
-              <input
-                type="email"
-                className="auth-input"
-                placeholder="Email Anda"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-              />
-              <input
-                type="password"
-                className="auth-input"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={loading}
-              />
+              <div>
+                <label className="auth-input-label">Email atau No. Telepon</label>
+                <input
+                  type="email"
+                  className="auth-input"
+                  placeholder="user@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <label className="auth-input-label">Password</label>
+                <input
+                  type="password"
+                  className="auth-input"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
               <button type="submit" className="auth-btn" disabled={loading}>
                 {loading ? 'Memproses...' : 'Masuk'}
               </button>
             </form>
+          )}
 
-            {/* Toggle to Register */}
-            <div className="auth-toggle">
-              Belum punya akun?{' '}
-              <button onClick={() => { setMode('register'); setError(''); setSuccess(''); setPasswordMismatch(false); }}>
-                Buat Akun
-              </button>
-            </div>
-
-            {/* Links */}
-            <div className="auth-links">
-              <a href="/terms">Syarat & Ketentuan</a>
-              <div className="auth-links-sep" />
-              <a href="/privacy">Privasi</a>
-            </div>
-          </>
-        )}
-
-        {/* MODE: REGISTER */}
-        {mode === 'register' && (
-          <>
+          {/* ── REGISTER MODE ── */}
+          {mode === 'register' && (
             <form className="auth-form" onSubmit={handleEmailRegister}>
-              <input
-                type="text"
-                className="auth-input"
-                placeholder="Nama Lengkap"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={loading}
-              />
-              <input
-                type="email"
-                className="auth-input"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-              />
-              <input
-                type="password"
-                className={`auth-input ${passwordMismatch ? 'auth-input-error' : ''}`}
-                placeholder="Password (min. 6 karakter)"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={loading}
-              />
-              <p className="auth-sub" style={{ margin: '8px 0 0 0', fontSize: '0.75rem', color: 'var(--text-dim)', lineHeight: '1.5' }}>
-                ⚠️ <strong>Tips:</strong> Jangan gunakan password yang sama dengan password Gmail Anda demi menjaga privasi dan kenyamanan.
-              </p>
-              {/* ✅ FIX #5: Tambah Confirm Password Field */}
-              <input
-                type="password"
-                className={`auth-input ${passwordMismatch ? 'auth-input-error' : ''}`}
-                placeholder="Konfirmasi Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                disabled={loading}
-              />
-              {/* ✅ FIX #5: Tampilkan error jika password tidak cocok */}
-              {passwordMismatch && (
-                <p className="auth-input-error-msg">
-                  ❌ Password tidak cocok!
-                </p>
-              )}
-              <button 
-                type="submit" 
-                className="auth-btn" 
-                disabled={loading || passwordMismatch}
+              <div>
+                <label className="auth-input-label">Nama Lengkap</label>
+                <input
+                  type="text"
+                  className="auth-input"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <label className="auth-input-label">Email</label>
+                <input
+                  type="email"
+                  className="auth-input"
+                  placeholder="john@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <label className="auth-input-label">No. Telepon</label>
+                <input
+                  type="tel"
+                  className="auth-input"
+                  placeholder="+62 821 2345 6789"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <label className="auth-input-label">Password</label>
+                <input
+                  type="password"
+                  className="auth-input"
+                  placeholder="Minimal 6 karakter"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                />
+                <div className="auth-input-helper">Min. 8 karakter, gunakan huruf, angka, dan simbol</div>
+              </div>
+
+              {/* Password Security Warning */}
+              <div className="auth-password-warning">
+                <i className="fa-solid fa-triangle-exclamation" />
+                <div className="auth-password-warning-text">
+                  <strong>⚠️ Penting:</strong> Jangan gunakan password yang sama dengan password Google Anda. Gunakan password yang berbeda demi kenyamanan dan privasi Anda.
+                </div>
+              </div>
+
+              <div>
+                <label className="auth-input-label">Konfirmasi Password</label>
+                <input
+                  type="password"
+                  className={`auth-input ${passwordMismatch ? 'error' : ''}`}
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={loading}
+                />
+                {passwordMismatch && (
+                  <div className="auth-input-helper" style={{ color: '#dc2626' }}>
+                    ❌ Password tidak cocok
+                  </div>
+                )}
+              </div>
+
+              {/* Privacy Agreement */}
+              <div className="auth-checkbox">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  disabled={loading}
+                />
+                <label htmlFor="terms">
+                  Dengan mendaftar, saya menyetujui{' '}
+                  <a href="/terms" target="_blank" rel="noopener noreferrer">
+                    Kebijakan Privasi
+                  </a>
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                className="auth-btn"
+                disabled={loading || passwordMismatch || !agreeTerms}
               >
-                {loading ? 'Membuat Akun...' : 'Daftar dengan Email'}
+                {loading ? 'Membuat Akun...' : 'Daftar'}
+              </button>
+
+              {/* Google Alternative */}
+              <div className="auth-divider">atau</div>
+              <button
+                type="button"
+                className="auth-btn auth-btn-google"
+                onClick={handleGoogleRegister}
+                disabled={loading}
+              >
+                <i className="fa-brands fa-google" />
+                Daftar dengan Google
               </button>
             </form>
+          )}
 
-            {/* Divider */}
-            <div className="auth-divider">Atau</div>
-
-            {/* Google Registration */}
-            <button
-              className="auth-btn auth-btn-google"
-              onClick={handleGoogleRegister}
-              disabled={loading}
-            >
-              <i className="fa-brands fa-google" />
-              Daftar dengan Google
-            </button>
-
-            {/* Toggle to Login */}
-            <div className="auth-toggle">
-              Sudah punya akun?{' '}
-              <button onClick={() => { setMode('login'); setError(''); setSuccess(''); setConfirmPassword(''); setPasswordMismatch(false); }}>
-                Masuk
-              </button>
-            </div>
-
-            {/* Links */}
-            <div className="auth-links">
-              <a href="/terms">Syarat & Ketentuan</a>
-              <div className="auth-links-sep" />
-              <a href="/privacy">Privasi</a>
-            </div>
-          </>
-        )}
+          {/* Links */}
+          <div className="auth-links">
+            <a href="/terms">Syarat & Ketentuan</a>
+            <div className="auth-links-sep" />
+            <a href="/terms">Privasi</a>
+          </div>
+        </div>
       </div>
     </div>
   );
