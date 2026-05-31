@@ -4,8 +4,8 @@ import { useTheme, useLang } from './hooks/useApp';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-// Tambahan Firebase Auth
-import { auth } from '../firebase';
+// ✅ FIX #3: Ubah path firebase dari '../firebase' menjadi './pages/firebase'
+import { auth } from './pages/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
 /* ── Lazy load semua halaman ── */
@@ -25,11 +25,11 @@ const Dashboard    = lazy(() => import('./pages/Dashboard'));
 const PriceList    = lazy(() => import('./pages/PriceList'));
 const CheckoutQRIS = lazy(() => import('./pages/CheckoutQRIS'));
 
-// Lazy load komponen baru kita
+// Lazy load komponen baru
 const AuthLogin      = lazy(() => import('./pages/AuthLogin'));
 const DashboardAdmin = lazy(() => import('./pages/DashboardAdmin'));
 
-/* ── 404 Page (Biarkan Sesuai Kode Aslimu) ── */
+/* ── 404 Page ── */
 function NotFound() {
   return (
     <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
@@ -74,8 +74,9 @@ function Layout({ user }) {
   // Email Admin
   const ADMIN_EMAIL = "aldokraksaan@gmail.com";
   
+  // ✅ FIX #4: Tambah '/contact' ke daftar halaman fullscreen
   // Halaman yang tidak pakai Navbar/Footer (full-screen)
-  const isFullscreen = pathname === '/Dashboard' || pathname === '/admin-dashboard';
+  const isFullscreen = pathname === '/Dashboard' || pathname === '/admin-dashboard' || pathname === '/contact';
 
   return (
     <>
