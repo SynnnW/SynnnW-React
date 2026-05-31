@@ -13,137 +13,175 @@ const CSS = `
 /* ── Page ── */
 .auth-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, #070709 0%, #1a1a2e 100%);
   display: flex;
   position: relative;
   overflow: hidden;
   font-family: 'Outfit', sans-serif;
 }
 
+.auth-page::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -100px;
+  left: -100px;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.auth-page::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  bottom: 50px;
+  right: -50px;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
 /* ── Left Sidebar ── */
 .auth-sidebar {
-  width: 40%;
-  background: white;
-  border-right: 1px solid #e0e7ff;
-  padding: 32px 28px;
+  width: 45%;
+  background: rgba(15, 15, 25, 0.4);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(139,92,246,0.1);
+  padding: 40px 32px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
 
 .auth-logo {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #1a202c;
-  margin-bottom: 32px;
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: #ffffff;
   display: flex;
   align-items: center;
   gap: 10px;
+  letter-spacing: -0.01em;
 }
 
 .auth-logo i {
-  font-size: 1.8rem;
-  color: #6366f1;
+  font-size: 1.6rem;
+  color: #a78bfa;
 }
 
 .auth-sidebar-label {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #6366f1;
-  margin-bottom: 16px;
-  margin-top: 24px;
+  color: #a78bfa;
+  margin-top: 8px;
 }
 
 .auth-feed {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   flex: 1;
 }
 
 .auth-feed-item {
-  padding: 14px 12px;
-  border-radius: 12px;
-  background: #f8f9fa;
-  border-left: 3px solid #6366f1;
+  padding: 16px 14px;
+  border-radius: 14px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.15);
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-decoration: none;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .auth-feed-item:hover {
-  background: #f0f3ff;
-  transform: translateX(4px);
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
 }
 
 .auth-feed-item-label {
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6366f1;
-  margin-bottom: 4px;
+  color: #a78bfa;
 }
 
 .auth-feed-item-title {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: #2d3748;
-  margin-bottom: 4px;
-  line-height: 1.4;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-feed-item-title i {
+  font-size: 0.85rem;
+  color: #a78bfa;
 }
 
 .auth-feed-item-desc {
   font-size: 0.75rem;
-  color: #718096;
-  line-height: 1.4;
+  color: #94a3b8;
+  line-height: 1.5;
 }
 
 .auth-feed-item-date {
-  font-size: 0.70rem;
-  color: #a0aec0;
-  margin-top: 6px;
+  font-size: 0.68rem;
+  color: #64748b;
 }
 
 /* ── Right Container ── */
 .auth-right {
-  width: 60%;
+  width: 55%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px;
+  position: relative;
+  z-index: 10;
 }
 
 /* ── Card ── */
 .auth-card {
-  background: white;
-  border: 1px solid #e0e7ff;
-  border-radius: 16px;
+  background: rgba(30, 30, 50, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 20px;
   padding: 48px;
   width: 100%;
   max-width: 520px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* ── Typography ── */
 .auth-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem;
-  color: #1a202c;
+  font-size: 2.4rem;
+  color: #ffffff;
   text-align: center;
-  margin: 0 0 8px;
-  font-weight: 400;
+  margin: 0 0 12px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
 }
 
 .auth-sub {
   font-size: 0.85rem;
-  color: #718096;
+  color: #94a3b8;
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
   line-height: 1.6;
 }
 
@@ -152,7 +190,7 @@ const CSS = `
   display: flex;
   gap: 0;
   margin-bottom: 32px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
 }
 
 .auth-tab {
@@ -160,49 +198,50 @@ const CSS = `
   padding: 12px;
   border: none;
   background: none;
-  color: #718096;
+  color: #64748b;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s;
   border-bottom: 3px solid transparent;
   text-align: center;
 }
 
 .auth-tab.active {
-  color: #6366f1;
-  border-bottom-color: #6366f1;
+  color: #a78bfa;
+  border-bottom-color: #a78bfa;
 }
 
 /* ── Form ── */
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .auth-input {
-  background: #f7fafc;
-  border: 1px solid #cbd5e0;
-  border-radius: 10px;
+  background: rgba(51, 51, 80, 0.4);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 12px;
   padding: 12px 14px;
-  color: #1a202c;
+  color: #ffffff;
   font-family: 'Outfit', sans-serif;
   font-size: 0.9rem;
   outline: none;
-  transition: all 0.2s;
+  transition: all 0.25s;
   width: 100%;
   box-sizing: border-box;
+  backdrop-filter: blur(5px);
 }
 
 .auth-input:focus {
-  border-color: #6366f1;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border-color: #a78bfa;
+  background: rgba(51, 51, 80, 0.6);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
 }
 
 .auth-input::placeholder {
-  color: #a0aec0;
+  color: #64748b;
 }
 
 .auth-input-label {
@@ -210,23 +249,23 @@ const CSS = `
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #4a5568;
-  margin-bottom: 4px;
+  color: #94a3b8;
+  margin-bottom: 6px;
   display: block;
 }
 
 .auth-input-helper {
   font-size: 0.75rem;
-  color: #718096;
+  color: #64748b;
   margin-top: -10px;
   margin-left: 2px;
 }
 
 /* ── Password Warning ── */
 .auth-password-warning {
-  background: #fef3c7;
-  border: 1px solid #fcd34d;
-  border-radius: 10px;
+  background: rgba(217, 119, 6, 0.1);
+  border: 1px solid rgba(217, 119, 6, 0.3);
+  border-radius: 12px;
   padding: 12px 14px;
   margin: 12px 0;
   display: flex;
@@ -236,19 +275,19 @@ const CSS = `
 
 .auth-password-warning i {
   font-size: 0.9rem;
-  color: #d97706;
+  color: #ea580c;
   margin-top: 2px;
   flex-shrink: 0;
 }
 
 .auth-password-warning-text {
   font-size: 0.8rem;
-  color: #92400e;
+  color: #fde047;
   line-height: 1.5;
 }
 
 .auth-password-warning-text strong {
-  color: #78350f;
+  color: #fbbf24;
   font-weight: 600;
 }
 
@@ -263,38 +302,39 @@ const CSS = `
 .auth-checkbox input {
   margin-top: 3px;
   cursor: pointer;
+  accent-color: #a78bfa;
 }
 
 .auth-checkbox label {
   font-size: 0.8rem;
-  color: #718096;
+  color: #94a3b8;
   line-height: 1.5;
   cursor: pointer;
 }
 
 .auth-checkbox a {
-  color: #6366f1;
+  color: #a78bfa;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
 }
 
 .auth-checkbox a:hover {
-  color: #4f46e5;
+  color: #c4b5fd;
   text-decoration: underline;
 }
 
 /* ── Button ── */
 .auth-btn {
-  background: #6366f1;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 12px 16px;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
   width: 100%;
   text-transform: capitalize;
   display: flex;
@@ -304,9 +344,9 @@ const CSS = `
 }
 
 .auth-btn:hover:not(:disabled) {
-  background: #4f46e5;
+  background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
 }
 
 .auth-btn:disabled {
@@ -315,92 +355,75 @@ const CSS = `
 }
 
 .auth-btn-google {
-  background: white;
-  color: #1a202c;
-  border: 1px solid #cbd5e0;
-  margin-top: 8px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #a78bfa;
 }
 
 .auth-btn-google:hover:not(:disabled) {
-  background: #f7fafc;
-  border-color: #6366f1;
+  background: rgba(139, 92, 246, 0.25);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+}
+
+/* ── Alerts ── */
+.auth-err {
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #fca5a5;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-err::before {
+  content: '⚠️';
+  flex-shrink: 0;
+}
+
+.auth-success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-success::before {
+  content: '✓';
+  flex-shrink: 0;
 }
 
 /* ── Divider ── */
 .auth-divider {
   text-align: center;
-  color: #a0aec0;
+  color: #64748b;
   font-size: 0.8rem;
   margin: 20px 0;
   position: relative;
 }
 
-.auth-divider::before,
-.auth-divider::after {
+.auth-divider::before {
   content: '';
   position: absolute;
   top: 50%;
-  width: 45%;
-  height: 1px;
-  background: #e2e8f0;
-}
-
-.auth-divider::before {
   left: 0;
-}
-
-.auth-divider::after {
   right: 0;
+  height: 1px;
+  background: rgba(139, 92, 246, 0.1);
+  z-index: -1;
 }
 
-/* ── Toggle ── */
-.auth-toggle {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 0.8rem;
-  color: #718096;
-  line-height: 1.6;
-}
-
-.auth-toggle button {
-  background: none;
-  border: none;
-  color: #6366f1;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: all 0.2s;
-  padding: 0;
-  text-decoration: none;
-}
-
-.auth-toggle button:hover {
-  color: #4f46e5;
-  text-decoration: underline;
-}
-
-/* ── Error/Success ── */
-.auth-err {
-  background: #fee;
-  border: 1px solid #fcc;
-  color: #c33;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
-
-.auth-success {
-  background: rgba(74, 222, 128, 0.1);
-  border: 1px solid rgba(74, 222, 128, 0.25);
-  color: #22c55e;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
+.auth-divider { background: rgba(30, 30, 50, 0.5); padding: 0 8px; }
 
 /* ── Links ── */
 .auth-links {
@@ -410,39 +433,39 @@ const CSS = `
   gap: 12px;
   margin-top: 20px;
   font-size: 0.72rem;
-  color: #718096;
+  color: #64748b;
 }
 
 .auth-links a {
-  color: #6366f1;
+  color: #a78bfa;
   text-decoration: none;
   transition: all 0.2s;
 }
 
 .auth-links a:hover {
   text-decoration: underline;
-  color: #4f46e5;
+  color: #c4b5fd;
 }
 
 .auth-links-sep {
   width: 1px;
   height: 12px;
-  background: #cbd5e0;
+  background: rgba(139, 92, 246, 0.2);
 }
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .auth-sidebar {
-    width: 35%;
-    padding: 24px 20px;
+    width: 40%;
+    padding: 32px 24px;
   }
   .auth-right {
-    width: 65%;
+    width: 60%;
     padding: 30px;
   }
   .auth-card {
-    padding: 36px;
-    max-width: 460px;
+    padding: 40px;
+    max-width: 100%;
   }
 }
 
@@ -453,26 +476,30 @@ const CSS = `
   .auth-sidebar {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid #e0e7ff;
-    max-height: 200px;
+    border-bottom: 1px solid rgba(139,92,246,0.1);
+    max-height: 220px;
+    padding: 24px 20px;
   }
   .auth-right {
     width: 100%;
+    padding: 20px;
   }
   .auth-card {
     padding: 32px 24px;
-    margin: 20px;
     max-width: 100%;
   }
   .auth-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   .auth-feed {
     flex-direction: row;
     overflow-x: auto;
+    gap: 12px;
+    scroll-behavior: smooth;
   }
   .auth-feed-item {
-    min-width: 180px;
+    min-width: 160px;
+    flex-shrink: 0;
   }
 }
 
@@ -481,15 +508,21 @@ const CSS = `
     padding: 24px 16px;
   }
   .auth-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+  }
+  .auth-tab {
+    font-size: 0.8rem;
+    padding: 10px;
   }
   .auth-feed {
     flex-direction: row;
     overflow-x: auto;
-    gap: 12px;
+    gap: 10px;
   }
   .auth-feed-item {
     min-width: 140px;
+    padding: 12px;
+    font-size: 0.8rem;
   }
 }
 
@@ -498,64 +531,75 @@ const CSS = `
   width: 6px;
 }
 .auth-sidebar::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: rgba(139, 92, 246, 0.05);
   border-radius: 10px;
 }
 .auth-sidebar::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
+  background: rgba(139, 92, 246, 0.2);
   border-radius: 10px;
 }
 .auth-sidebar::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
+  background: rgba(139, 92, 246, 0.4);
+}
+
+.auth-feed::-webkit-scrollbar {
+  height: 4px;
+}
+.auth-feed::-webkit-scrollbar-track {
+  background: transparent;
+}
+.auth-feed::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 10px;
 }
 `;
 
-// Portfolio/News Feed Data
+// Portfolio/News Feed Data - 5 cards dengan hooks yang menarik
 const FEED_ITEMS = [
   {
     id: 1,
-    type: 'portfolio',
-    label: 'Portfolio',
-    title: 'Video Editing',
-    description: 'Professional editing dengan motion graphics',
+    type: 'journal',
+    label: 'Journal',
+    title: 'Creative Works',
+    description: 'Explore our digital art & design collection',
     date: 'Latest',
-    icon: 'fa-film',
+    icon: 'fa-pen-fancy',
   },
   {
     id: 2,
-    type: 'portfolio',
-    label: 'Portfolio',
-    title: 'Web Design',
-    description: 'Modern & responsive website design',
-    date: 'Latest',
-    icon: 'fa-globe',
-  },
-  {
-    id: 3,
     type: 'service',
     label: 'Service',
     title: 'Live Stream',
-    description: 'Event streaming & broadcast production',
+    description: 'Professional event broadcasting & streaming',
     date: 'Available',
     icon: 'fa-video',
+  },
+  {
+    id: 3,
+    type: 'portfolio',
+    label: 'Portfolio',
+    title: 'Video Editing',
+    description: 'Cinematic content with motion graphics',
+    date: 'Latest',
+    icon: 'fa-film',
   },
   {
     id: 4,
     type: 'portfolio',
     label: 'Portfolio',
-    title: 'Design',
-    description: 'Graphic & UI/UX design solutions',
+    title: 'Wedding Design',
+    description: 'Digital wedding & pre-wedding packages',
     date: 'Latest',
-    icon: 'fa-palette',
+    icon: 'fa-heart',
   },
   {
     id: 5,
-    type: 'portfolio',
-    label: 'Portfolio',
-    title: 'Digital Wedding',
-    description: 'Pre-wedding & wedding cinematography',
-    date: 'Latest',
-    icon: 'fa-heart',
+    type: 'contact',
+    label: 'Get In Touch',
+    title: 'Contact Us',
+    description: 'Discuss your project with our team',
+    date: 'Ongoing',
+    icon: 'fa-envelope',
   },
 ];
 
@@ -599,16 +643,15 @@ export default function AuthLogin() {
   useEffect(() => {
     if (mode === 'register' && confirmPassword) {
       setPasswordMismatch(password !== confirmPassword);
-    } else {
-      setPasswordMismatch(false);
     }
   }, [password, confirmPassword, mode]);
 
-  // Login dengan Email/Password
+  // Login dengan Email
   const handleEmailLogin = async (e) => {
     e.preventDefault();
-    if (!email.trim() || !password.trim()) {
-      setError('Email dan password tidak boleh kosong.');
+    
+    if (!email || !password) {
+      setError('Email dan password harus diisi.');
       return;
     }
 
@@ -616,18 +659,18 @@ export default function AuthLogin() {
     setError('');
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password.trim());
-      setSuccess('Berhasil login! Redirecting...');
+      setSuccess('Login berhasil! Redirecting...');
       setTimeout(() => {
         navigate('/contact');
       }, 1000);
     } catch (err) {
-      console.error('[AuthLogin] Email login error:', err);
+      console.error('[AuthLogin] Login error:', err);
       if (err.code === 'auth/user-not-found') {
-        setError('Email tidak terdaftar. Silahkan buat akun terlebih dahulu.');
+        setError('Email tidak terdaftar.');
       } else if (err.code === 'auth/wrong-password') {
-        setError('Password salah. Coba lagi.');
+        setError('Password salah.');
       } else if (err.code === 'auth/invalid-credential') {
-        setError('Email atau password tidak valid.');
+        setError('Email atau password salah.');
       } else {
         setError('Gagal login. Coba lagi nanti.');
       }
@@ -636,11 +679,11 @@ export default function AuthLogin() {
     }
   };
 
-  // Register dengan Email/Password
+  // Register dengan Email
   const handleEmailRegister = async (e) => {
     e.preventDefault();
     
-    if (!name.trim() || !email.trim() || !phone.trim() || !password.trim() || !confirmPassword.trim()) {
+    if (!name || !email || !phone || !password || !confirmPassword) {
       setError('Semua field harus diisi.');
       return;
     }
@@ -740,13 +783,13 @@ export default function AuthLogin() {
       <div className="auth-sidebar">
         <div className="auth-logo">
           <i className="fa-solid fa-sparkles" />
-          SynnnW Studio
+          SynnnW
         </div>
 
-        <div className="auth-sidebar-label">Our Works & Services</div>
+        <div className="auth-sidebar-label">Our Latest Works</div>
         <div className="auth-feed">
           {FEED_ITEMS.map((item) => (
-            <a key={item.id} href="#" className="auth-feed-item" onClick={(e) => e.preventDefault()}>
+            <a key={item.id} href="#" className="auth-feed-item" onClick={(e) => e.preventDefault()} title={item.title}>
               <div className="auth-feed-item-label">{item.label}</div>
               <div className="auth-feed-item-title">
                 <i className={`fa-solid ${item.icon}`} /> {item.title}
@@ -801,7 +844,7 @@ export default function AuthLogin() {
           {mode === 'login' && (
             <form className="auth-form" onSubmit={handleEmailLogin}>
               <div>
-                <label className="auth-input-label">Email atau No. Telepon</label>
+                <label className="auth-input-label">Email</label>
                 <input
                   type="email"
                   className="auth-input"
@@ -823,6 +866,7 @@ export default function AuthLogin() {
                 />
               </div>
               <button type="submit" className="auth-btn" disabled={loading}>
+                {loading ? <i className="fa-solid fa-spinner fa-spin" /> : null}
                 {loading ? 'Memproses...' : 'Masuk'}
               </button>
             </form>
@@ -881,7 +925,7 @@ export default function AuthLogin() {
               <div className="auth-password-warning">
                 <i className="fa-solid fa-triangle-exclamation" />
                 <div className="auth-password-warning-text">
-                  <strong>⚠️ Penting:</strong> Jangan gunakan password yang sama dengan password Google Anda. Gunakan password yang berbeda demi kenyamanan dan privasi Anda.
+                  <strong>Penting:</strong> Jangan gunakan password yang sama dengan password Google Anda
                 </div>
               </div>
 
@@ -896,7 +940,7 @@ export default function AuthLogin() {
                   disabled={loading}
                 />
                 {passwordMismatch && (
-                  <div className="auth-input-helper" style={{ color: '#dc2626' }}>
+                  <div className="auth-input-helper" style={{ color: '#f87171' }}>
                     ❌ Password tidak cocok
                   </div>
                 )}
@@ -924,6 +968,7 @@ export default function AuthLogin() {
                 className="auth-btn"
                 disabled={loading || passwordMismatch || !agreeTerms}
               >
+                {loading ? <i className="fa-solid fa-spinner fa-spin" /> : null}
                 {loading ? 'Membuat Akun...' : 'Daftar'}
               </button>
 
