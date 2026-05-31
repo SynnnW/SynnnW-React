@@ -2,440 +2,468 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
-import {
-  collection, doc, onSnapshot,
-  orderBy, query, where
-} from 'firebase/firestore';
+import { collection, doc, onSnapshot, orderBy, query, where, deleteDoc, updateDoc } from 'firebase/firestore';
 
 const CSS = `
-  .db-page {
+  .client-db-page {
     position: relative;
     min-height: 100vh;
     background: linear-gradient(135deg, #070709 0%, #1a1a2e 100%);
     color: #fff;
     font-family: 'Outfit', sans-serif;
     overflow: hidden;
+    padding-top: 64px;
   }
-  .db-orb {
+
+  .client-db-orb {
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
-    opacity: 0.15;
+    opacity: 0.1;
   }
-  .db-orb1 {
-    width: 400px; height: 400px;
+
+  .client-db-orb1 {
+    width: 400px;
+    height: 400px;
     background: rgba(167, 139, 250, 0.4);
-    top: -100px; left: -100px;
+    top: -100px;
+    left: -100px;
   }
-  .db-orb2 {
-    width: 300px; height: 300px;
+
+  .client-db-orb2 {
+    width: 300px;
+    height: 300px;
     background: rgba(59, 130, 246, 0.3);
-    bottom: 100px; right: -50px;
+    bottom: 100px;
+    right: -50px;
   }
-  .db-wrap {
+
+  .client-db-wrap {
     position: relative;
     z-index: 10;
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 24px;
   }
-  .db-header {
+
+  .client-db-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 40px;
     padding-bottom: 24px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap;
+    gap: 16px;
   }
-  .db-header-content h2 {
+
+  .client-db-header-content h2 {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(1.6rem, 5vw, 2.4rem);
     font-weight: 300;
     margin: 0 0 4px;
+    letter-spacing: -0.01em;
   }
-  .db-header-content em {
+
+  .client-db-header-content em {
     color: #a78bfa;
     font-style: italic;
   }
-  .db-header-sub {
+
+  .client-db-header-sub {
     font-size: 0.85rem;
     color: #94a3b8;
     margin: 0;
   }
-  .db-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(139, 92, 246, 0.1);
+
+  .client-db-header-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .client-db-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
     border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.1);
     color: #a78bfa;
-    padding: 6px 12px;
-    border-radius: 99px;
-    font-size: 0.65rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .db-status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(34, 197, 94, 0.1);
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    color: #86efac;
-    padding: 10px 16px;
-    border-radius: 99px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-  }
-  .db-pulse-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #86efac;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-  .db-btn-logout {
-    background: rgba(239, 68, 68, 0.08);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    color: #f87171;
-    padding: 10px 18px;
-    border-radius: 99px;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 0.75rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-  .db-btn-logout:hover {
-    background: rgba(239, 68, 68, 0.15);
-  }
-  .db-content {
-    display: grid;
-    gap: 36px;
-  }
-  .db-admin-notes {
-    background: rgba(139, 92, 246, 0.06);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    border-radius: 14px;
-    padding: 16px 18px;
-  }
-  .db-admin-notes-label {
-    font-size: 0.6rem;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #a78bfa;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .db-admin-notes p {
-    font-size: 0.78rem;
-    color: #94a3b8;
-    line-height: 1.65;
-    margin: 0;
-  }
-  .db-two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    align-items: start;
-  }
-  @media (max-width: 900px) {
-    .db-two-col {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-  }
-  .db-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
-    padding: 28px;
-    backdrop-filter: blur(18px);
-  }
-  .db-card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    margin: 0 0 18px;
+    transition: all 0.25s;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
   }
-  .db-card-title i {
-    color: #a78bfa;
+
+  .client-db-btn:hover {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.5);
   }
-  .db-iframe-wrap {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    border-radius: 12px;
-    margin-bottom: 20px;
-  }
-  .db-iframe-wrap iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+
+  .client-db-btn.primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
     border: none;
   }
-  .db-placeholder {
-    background: rgba(139, 92, 246, 0.06);
-    border: 2px dashed rgba(139, 92, 246, 0.3);
-    border-radius: 12px;
-    padding: 40px 24px;
-    text-align: center;
-    margin-bottom: 20px;
+
+  .client-db-btn.danger {
+    border-color: rgba(220, 38, 38, 0.3);
+    background: rgba(220, 38, 38, 0.1);
+    color: #fca5a5;
   }
-  .db-placeholder p {
-    margin: 0;
-    font-size: 0.85rem;
-    color: #94a3b8;
+
+  .client-db-btn.danger:hover {
+    background: rgba(220, 38, 38, 0.2);
+    border-color: rgba(220, 38, 38, 0.5);
   }
-  .db-timeline {
-    display: grid;
-    gap: 16px;
-  }
-  .db-timeline-item {
+
+  /* ── Tabs ── */
+  .client-db-tabs {
     display: flex;
-    gap: 16px;
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+    overflow-x: auto;
+    padding-bottom: 12px;
   }
-  .db-timeline-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-  .db-timeline-dot.done {
-    background: #86efac;
-  }
-  .db-timeline-dot.progress {
-    background: #fbbf24;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  .db-timeline-dot.pending {
-    background: #94a3b8;
-  }
-  .db-timeline-content h4 {
-    margin: 0 0 4px;
-    font-size: 0.88rem;
+
+  .client-db-tab {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    color: #64748b;
+    font-size: 0.9rem;
     font-weight: 600;
-  }
-  .db-timeline-content p {
-    margin: 0;
-    font-size: 0.78rem;
-    color: #94a3b8;
-  }
-  .db-issues {
-    display: grid;
-    gap: 12px;
-  }
-  .db-issue-item {
-    background: rgba(239, 68, 68, 0.05);
-    border-left: 3px solid rgba(239, 68, 68, 0.3);
-    border-radius: 6px;
-    padding: 14px 16px;
-  }
-  .db-issue-time {
-    font-size: 0.7rem;
-    color: #f87171;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-    display: block;
-  }
-  .db-issue-title {
-    font-size: 0.88rem;
-    font-weight: 600;
-    margin: 0 0 6px;
-    color: #fff;
-  }
-  .db-issue-desc {
-    font-size: 0.78rem;
-    color: #94a3b8;
-    margin: 0;
-    line-height: 1.5;
-  }
-  .db-questions {
-    display: grid;
-    gap: 12px;
-  }
-  .db-question-item {
-    background: rgba(139, 92, 246, 0.05);
-    border-left: 3px solid rgba(139, 92, 246, 0.3);
-    border-radius: 6px;
-    padding: 14px 16px;
-  }
-  .db-question-tag {
-    display: inline-flex;
+    cursor: pointer;
+    transition: all 0.25s;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  }
+
+  .client-db-tab.active {
     color: #a78bfa;
-    margin-bottom: 6px;
+    border-bottom-color: #a78bfa;
   }
-  .db-question-emoji {
-    font-size: 1rem;
+
+  .client-db-tab i {
+    font-size: 0.95rem;
   }
-  .db-question-text {
-    font-size: 0.85rem;
-    color: #fff;
-    line-height: 1.6;
-    margin: 0;
+
+  /* ── Content Sections ── */
+  .client-db-section {
+    display: none;
   }
-  .db-ls-center {
+
+  .client-db-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ── Reviews Section ── */
+  .client-db-reviews {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
-    padding: 60px 24px;
+    gap: 16px;
   }
-  .db-ls-icon-ring {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background: rgba(139, 92, 246, 0.1);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.2rem;
-    color: #a78bfa;
-  }
-  .db-ls-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 300;
-    margin: 0;
-  }
-  .db-ls-title em {
-    font-style: italic;
-    color: #a78bfa;
-  }
-  .db-ls-desc {
-    font-size: 0.88rem;
-    color: #94a3b8;
-    line-height: 1.8;
-    max-width: 480px;
-    margin: 0;
-  }
-  .db-wa-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 32px;
-    background: rgba(37, 211, 102, 0.1);
-    border: 1px solid rgba(37, 211, 102, 0.3);
-    border-radius: 99px;
-    color: #4ade80;
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
+
+  .client-db-review-card {
+    background: rgba(30, 30, 50, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 14px;
+    padding: 20px;
     transition: all 0.25s;
   }
-  .db-wa-btn:hover {
-    background: rgba(37, 211, 102, 0.18);
-    transform: translateY(-2px);
+
+  .client-db-review-card:hover {
+    border-color: rgba(139, 92, 246, 0.3);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.1);
   }
-  .db-progress-bar {
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 99px;
-    overflow: hidden;
+
+  .client-db-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 12px;
   }
-  .db-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #a78bfa, #3b82f6);
-    border-radius: 99px;
-    transition: width 0.3s ease;
+
+  .client-db-review-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
   }
-  .db-empty {
+
+  .client-db-review-date {
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+
+  .client-db-review-content {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .client-db-review-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .client-db-review-rating i {
+    color: #fbbf24;
+    font-size: 0.85rem;
+  }
+
+  .client-db-review-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .client-db-review-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    background: rgba(139, 92, 246, 0.05);
+    color: #a78bfa;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .client-db-review-btn:hover {
+    background: rgba(139, 92, 246, 0.15);
+  }
+
+  .client-db-empty {
     text-align: center;
-    padding: 60px 24px;
+    padding: 60px 20px;
+    color: #64748b;
+  }
+
+  .client-db-empty i {
+    font-size: 3rem;
+    color: #a78bfa;
+    opacity: 0.5;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .client-db-empty p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  /* ── Profile Section ── */
+  .client-db-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 600px;
+  }
+
+  .client-db-profile-card {
+    background: rgba(30, 30, 50, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 14px;
+    padding: 24px;
+  }
+
+  .client-db-profile-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+  }
+
+  .client-db-profile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.05);
+  }
+
+  .client-db-profile-row:last-child {
+    border-bottom: none;
+  }
+
+  .client-db-profile-label {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: 500;
+  }
+
+  .client-db-profile-value {
+    font-size: 0.9rem;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .client-db-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .client-db-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .client-db-form-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     color: #94a3b8;
   }
-  .db-empty h3 {
-    font-size: 1.3rem;
-    margin: 0 0 12px;
-    color: #fff;
-  }
-  .db-empty p {
-    margin: 0;
+
+  .client-db-form-input {
+    background: rgba(51, 51, 80, 0.4);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
     font-size: 0.9rem;
+    outline: none;
+    transition: all 0.25s;
+  }
+
+  .client-db-form-input:focus {
+    border-color: #a78bfa;
+    background: rgba(51, 51, 80, 0.6);
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+  }
+
+  .client-db-form-input::placeholder {
+    color: #64748b;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .client-db-wrap {
+      padding: 24px 16px;
+    }
+
+    .client-db-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .client-db-header-content h2 {
+      font-size: 1.8rem;
+    }
+
+    .client-db-tabs {
+      flex-wrap: wrap;
+    }
+
+    .client-db-profile {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .client-db-wrap {
+      padding: 16px 12px;
+    }
+
+    .client-db-tab {
+      padding: 8px 12px;
+      font-size: 0.8rem;
+    }
+
+    .client-db-review-card,
+    .client-db-profile-card {
+      padding: 16px;
+    }
+
+    .client-db-review-header {
+      flex-direction: column;
+      gap: 8px;
+    }
   }
 `;
 
-export default function Dashboard() {
+export default function ClientDashboard() {
   const navigate = useNavigate();
-  const [order, setOrder] = useState(null);
-  const [dashContent, setDashContent] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [activeTab, setActiveTab] = useState('reviews');
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const styleRef = null;
 
+  // Inject CSS
   useEffect(() => {
-    let unsubOrder = null;
-    let unsubContent = null;
+    const style = document.createElement('style');
+    style.textContent = CSS;
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, []);
 
-    const unsubAuth = onAuthStateChanged(auth, (user) => {
-      if (unsubOrder) { unsubOrder(); unsubOrder = null; }
-      if (unsubContent) { unsubContent(); unsubContent = null; }
+  // Check auth & load user data
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (!currentUser) {
+        navigate('/auth-login');
+        return;
+      }
 
-      if (!user) { setLoading(false); return; }
-
-      const q = query(
-        collection(db, 'orders'),
-        where('userId', '==', user.uid),
-        orderBy('timestamp', 'desc')
-      );
-
-      unsubOrder = onSnapshot(q, (snap) => {
-        if (snap.empty) { setOrder(null); setLoading(false); return; }
-        const latestOrder = { id: snap.docs[0].id, ...snap.docs[0].data() };
-        setOrder(latestOrder);
-
-        if (unsubContent) unsubContent();
-        unsubContent = onSnapshot(doc(db, 'dashboardContent', latestOrder.id), (docSnap) => {
-          setDashContent(docSnap.exists() ? docSnap.data() : null);
-          setLoading(false);
-        }, () => {
-          setDashContent(null);
-          setLoading(false);
-        });
+      setUser(currentUser);
+      setFormData({
+        name: currentUser.displayName || '',
+        email: currentUser.email || '',
+        phone: '',
       });
     });
 
-    return () => {
-      if (unsubOrder) unsubOrder();
-      if (unsubContent) unsubContent();
-      unsubAuth();
-    };
-  }, []);
+    return () => unsubscribe();
+  }, [navigate]);
+
+  // Load reviews
+  useEffect(() => {
+    if (!user) return;
+
+    const q = query(
+      collection(db, 'reviews'),
+      where('userId', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setReviews(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    return () => unsubscribe();
+  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -446,295 +474,206 @@ export default function Dashboard() {
     }
   };
 
-  if (loading) {
-    return (
-      <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontSize: '0.9rem', letterSpacing: '0.1em' }}>
-        LOADING...
-      </div>
-    );
-  }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveProfile = async () => {
+    setLoading(true);
+    try {
+      if (user) {
+        // Update auth profile
+        if (formData.name) {
+          await user.updateProfile({ displayName: formData.name });
+        }
+        // You can also update additional user data in Firestore here
+      }
+      setIsEditing(false);
+      // Re-fetch user data
+      setUser(prev => ({ ...prev, displayName: formData.name }));
+    } catch (err) {
+      console.error('Profile update error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <style>{CSS}</style>
-      <div className="db-page">
-        <div className="db-orb db-orb1" />
-        <div className="db-orb db-orb2" />
-        <div className="db-wrap">
+      <div className="client-db-page">
+        <div className="client-db-orb client-db-orb1" />
+        <div className="client-db-orb client-db-orb2" />
+
+        <div className="client-db-wrap">
           {/* Header */}
-          <div className="db-header">
-            <div className="db-header-content">
-              <div className="db-chip">Project Dashboard</div>
-              <h2>{order?.projectName || 'Unnamed Project'}</h2>
-              <p className="db-header-sub">{order?.projectDesc || 'No description'}</p>
+          <div className="client-db-header">
+            <div className="client-db-header-content">
+              <h2>Dashboard <em>Anda</em></h2>
+              <p className="client-db-header-sub">Kelola profil dan lihat review</p>
             </div>
-            <button className="db-btn-logout" onClick={handleLogout}>
-              <i className="fa-solid fa-sign-out-alt" /> Logout
+            <div className="client-db-header-actions">
+              <button className="client-db-btn" onClick={() => navigate('/contact')}>
+                <i className="fa-solid fa-arrow-left" /> Kembali
+              </button>
+              <button className="client-db-btn danger" onClick={handleLogout}>
+                <i className="fa-solid fa-sign-out-alt" /> Logout
+              </button>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="client-db-tabs">
+            <button
+              className={`client-db-tab ${activeTab === 'reviews' ? 'active' : ''}`}
+              onClick={() => setActiveTab('reviews')}
+            >
+              <i className="fa-solid fa-star" />
+              Reviews ({reviews.length})
+            </button>
+            <button
+              className={`client-db-tab ${activeTab === 'profile' ? 'active' : ''}`}
+              onClick={() => setActiveTab('profile')}
+            >
+              <i className="fa-solid fa-user" />
+              Akun Profile
             </button>
           </div>
 
-          {/* Status Pill */}
-          <div style={{ marginBottom: 32 }}>
-            <div className="db-status-pill">
-              <div className="db-pulse-dot" />
-              {order?.status || 'Pending'}
-            </div>
+          {/* Reviews Section */}
+          <div className={`client-db-section ${activeTab === 'reviews' ? 'active' : ''}`}>
+            {reviews.length > 0 ? (
+              <div className="client-db-reviews">
+                {reviews.map(review => (
+                  <div key={review.id} className="client-db-review-card">
+                    <div className="client-db-review-header">
+                      <h3 className="client-db-review-title">{review.projectName || 'Project'}</h3>
+                      <span className="client-db-review-date">
+                        {review.createdAt?.toDate().toLocaleDateString('id-ID')}
+                      </span>
+                    </div>
+
+                    {review.rating && (
+                      <div className="client-db-review-rating">
+                        {[...Array(review.rating)].map((_, i) => (
+                          <i key={i} className="fa-solid fa-star" />
+                        ))}
+                      </div>
+                    )}
+
+                    <p className="client-db-review-content">{review.content}</p>
+
+                    <div className="client-db-review-actions">
+                      <button className="client-db-review-btn">Lihat Detail</button>
+                      <button className="client-db-review-btn" style={{color: '#f87171', borderColor: 'rgba(248, 113, 113, 0.3)'}}>
+                        Hapus
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="client-db-empty">
+                <i className="fa-solid fa-star" />
+                <p>Belum ada review dari proyek Anda</p>
+              </div>
+            )}
           </div>
 
-          {/* Konten Berdasarkan Service Category */}
-          {!order ? (
-            <div className="db-empty">
-              <h3>Belum ada order aktif</h3>
-              <p>Kembali ke price list untuk membuat order baru</p>
+          {/* Profile Section */}
+          <div className={`client-db-section ${activeTab === 'profile' ? 'active' : ''}`}>
+            <div className="client-db-profile">
+              {/* Account Info */}
+              <div className="client-db-profile-card">
+                <h3 className="client-db-profile-section-title">Informasi Akun</h3>
+                {!isEditing ? (
+                  <>
+                    <div className="client-db-profile-row">
+                      <span className="client-db-profile-label">Nama</span>
+                      <span className="client-db-profile-value">{formData.name || '-'}</span>
+                    </div>
+                    <div className="client-db-profile-row">
+                      <span className="client-db-profile-label">Email</span>
+                      <span className="client-db-profile-value">{user?.email}</span>
+                    </div>
+                    <div className="client-db-profile-row">
+                      <span className="client-db-profile-label">Telepon</span>
+                      <span className="client-db-profile-value">{formData.phone || '-'}</span>
+                    </div>
+                    <div className="client-db-profile-row" style={{marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(139, 92, 246, 0.1)'}}>
+                      <button className="client-db-btn primary" onClick={() => setIsEditing(true)}>
+                        <i className="fa-solid fa-edit" /> Edit Profil
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <form className="client-db-profile-form" onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSaveProfile();
+                  }}>
+                    <div className="client-db-form-group">
+                      <label className="client-db-form-label">Nama</label>
+                      <input
+                        type="text"
+                        name="name"
+                        className="client-db-form-input"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Nama lengkap"
+                      />
+                    </div>
+
+                    <div className="client-db-form-group">
+                      <label className="client-db-form-label">Email</label>
+                      <input
+                        type="email"
+                        className="client-db-form-input"
+                        value={formData.email}
+                        disabled
+                      />
+                      <small style={{color: '#64748b', fontSize: '0.7rem'}}>Email tidak bisa diubah</small>
+                    </div>
+
+                    <div className="client-db-form-group">
+                      <label className="client-db-form-label">Telepon</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        className="client-db-form-input"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="+62 821 2345 6789"
+                      />
+                    </div>
+
+                    <div style={{display: 'flex', gap: '8px', marginTop: '16px'}}>
+                      <button type="submit" className="client-db-btn primary" disabled={loading}>
+                        {loading ? <i className="fa-solid fa-spinner fa-spin" /> : <i className="fa-solid fa-save" />}
+                        {loading ? 'Menyimpan...' : 'Simpan'}
+                      </button>
+                      <button type="button" className="client-db-btn" onClick={() => setIsEditing(false)}>
+                        <i className="fa-solid fa-times" /> Batal
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+
+              {/* Account Security */}
+              <div className="client-db-profile-card">
+                <h3 className="client-db-profile-section-title">Keamanan Akun</h3>
+                <div className="client-db-profile-row">
+                  <span className="client-db-profile-label">Password</span>
+                  <button className="client-db-btn">
+                    <i className="fa-solid fa-key" /> Ubah Password
+                  </button>
+                </div>
+              </div>
             </div>
-          ) : order.serviceCategory === 'livestream' ? (
-            <DashboardLivestream order={order} dashContent={dashContent} />
-          ) : order.serviceCategory === 'website' || order.serviceCategory === 'domain' ? (
-            <DashboardWebsite order={order} dashContent={dashContent} />
-          ) : (
-            <DashboardVideo order={order} dashContent={dashContent} />
-          )}
+          </div>
         </div>
       </div>
     </>
-  );
-}
-
-function DashboardVideo({ order, dashContent }) {
-  const ORDER_STEPS_DEFAULT = [
-    'Pending', 'Import & Rough Cut', 'Cutting Kasar',
-    'Efek Visual', 'Audio / Backsound', 'Final Review & Export', 'Selesai'
-  ];
-
-  const getTimelineStatus = () => {
-    if (dashContent?.timeline && dashContent.timeline.length > 0) {
-      return dashContent.timeline;
-    }
-    return ORDER_STEPS_DEFAULT.map((step, idx) => {
-      let status = 'pending';
-      const currentStepIdx = ORDER_STEPS_DEFAULT.indexOf(order.status);
-      if (idx < currentStepIdx) status = 'done';
-      else if (idx === currentStepIdx) status = 'progress';
-      return { id: idx, label: step, status, note: '' };
-    });
-  };
-
-  const timeline = getTimelineStatus();
-
-  return (
-    <div className="db-content">
-      <div className="db-two-col">
-        {/* Kolom Kiri */}
-        <div>
-          <div className="db-card">
-            <h3 className="db-card-title">
-              <i className="fa-brands fa-google-drive" /> Video Preview
-            </h3>
-            {dashContent?.driveUrl ? (
-              <div className="db-iframe-wrap">
-                <iframe src={dashContent.driveUrl} allow="autoplay" allowFullScreen />
-              </div>
-            ) : (
-              <div className="db-placeholder">
-                <p>🎬 Preview akan tersedia setelah admin upload file</p>
-              </div>
-            )}
-            {order.projectDesc && (
-              <>
-                <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: 12 }}>{order.projectDesc}</p>
-                <p style={{ fontSize: '0.75rem', color: '#666', margin: 0 }}>Total: Rp {order.cartTotal?.toLocaleString('id-ID') || '0'}</p>
-              </>
-            )}
-          </div>
-
-          <div className="db-card" style={{ marginTop: 24 }}>
-            <h3 className="db-card-title">
-              <i className="fa-solid fa-triangle-exclamation" /> Catatan Masalah Footage
-            </h3>
-            {dashContent?.issues && dashContent.issues.length > 0 ? (
-              <div className="db-issues">
-                {dashContent.issues.map((issue, idx) => (
-                  <div key={idx} className="db-issue-item">
-                    <span className="db-issue-time">{issue.time}</span>
-                    <h4 className="db-issue-title">{issue.title}</h4>
-                    <p className="db-issue-desc">{issue.desc}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p style={{ margin: 0, fontSize: '0.85rem', color: '#94a3b8' }}>Belum ada catatan dari admin.</p>
-            )}
-          </div>
-        </div>
-
-        {/* Kolom Kanan */}
-        <div>
-          <div className="db-card">
-            <h3 className="db-card-title">
-              <i className="fa-solid fa-list-check" /> Progress Timeline
-            </h3>
-            <div className="db-timeline">
-              {timeline.map((step, idx) => (
-                <div key={idx} className="db-timeline-item">
-                  <div className={`db-timeline-dot ${step.status}`} />
-                  <div className="db-timeline-content">
-                    <h4>{step.label}</h4>
-                    {step.note && <p>{step.note}</p>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="db-card" style={{ marginTop: 24 }}>
-            <h3 className="db-card-title">
-              <i className="fa-solid fa-comments" /> Pertanyaan untuk Klien
-            </h3>
-            {dashContent?.questions && dashContent.questions.length > 0 ? (
-              <div className="db-questions">
-                {dashContent.questions.map((q, idx) => (
-                  <div key={idx} className="db-question-item">
-                    <div className="db-question-tag">
-                      <span className="db-question-emoji">{q.emoji}</span>
-                      {q.tag}
-                    </div>
-                    <p className="db-question-text">{q.q}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p style={{ margin: 0, fontSize: '0.85rem', color: '#94a3b8' }}>Belum ada pertanyaan dari admin.</p>
-            )}
-          </div>
-
-          {dashContent?.adminNotes && (
-            <div className="db-admin-notes" style={{ marginTop: 24 }}>
-              <span className="db-admin-notes-label">Catatan Admin</span>
-              <p>{dashContent.adminNotes}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DashboardLivestream({ order, dashContent }) {
-  const waLink = `https://wa.me/62895381517808?text=Halo SynnnW, saya sudah order Paket Live Stream. Order ID: ${order.id}`;
-
-  return (
-    <div className="db-content">
-      <div className="db-ls-center">
-        <div className="db-ls-icon-ring">
-          <i className="fa-solid fa-tower-broadcast" />
-        </div>
-        <h2 className="db-ls-title">
-          Konfirmasi Order <em>Live Stream</em>
-        </h2>
-        <p className="db-ls-desc">
-          Order live stream kamu sudah kami terima! Tim SynnnW akan menghubungi kamu dalam 24 jam untuk mendiskusikan detail teknis, jadwal, dan persiapan.
-        </p>
-        <div className="db-status-pill">
-          <div className="db-pulse-dot" />
-          {order.status || 'Pending'}
-        </div>
-        <a href={waLink} target="_blank" rel="noopener noreferrer" className="db-wa-btn">
-          <i className="fa-brands fa-whatsapp" /> Chat WhatsApp
-        </a>
-        <p style={{ fontSize: '0.78rem', color: '#94a3b8', maxWidth: 400, margin: '0 auto' }}>
-          Pastikan kamu telah mengisi brief di form sebelumnya.
-        </p>
-        {dashContent?.adminNotes && (
-          <div className="db-admin-notes" style={{ maxWidth: 480 }}>
-            <span className="db-admin-notes-label">Catatan Admin</span>
-            <p>{dashContent.adminNotes}</p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function DashboardWebsite({ order, dashContent }) {
-  const STATUS_OPTIONS = ['Pending', 'Diskusi Requirement', 'Desain Mockup', 'Development', 'Review & Revisi', 'Selesai'];
-  const currentIdx = STATUS_OPTIONS.indexOf(order.status);
-  const progressPercent = currentIdx >= 0 ? ((currentIdx + 1) / STATUS_OPTIONS.length) * 100 : 0;
-
-  const waLink = `https://wa.me/62895381517808?text=Halo SynnnW, saya sudah order Paket Website/Domain. Order ID: ${order.id}`;
-
-  return (
-    <div className="db-content">
-      <div className="db-two-col">
-        <div>
-          <div className="db-card">
-            <h3 className="db-card-title">
-              <i className="fa-solid fa-globe" /> Ringkasan Order Website
-            </h3>
-            <p style={{ marginBottom: 16, fontSize: '0.9rem', color: '#fff' }}>
-              <strong>{order.projectName}</strong>
-            </p>
-            <p style={{ marginBottom: 12, fontSize: '0.85rem', color: '#94a3b8' }}>
-              {order.projectDesc}
-            </p>
-            {order.serviceNames && (
-              <div style={{ marginBottom: 16 }}>
-                <p style={{ fontSize: '0.75rem', color: '#a78bfa', fontWeight: 600, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  Layanan
-                </p>
-                <ul style={{ margin: 0, paddingLeft: 20, color: '#94a3b8', fontSize: '0.85rem' }}>
-                  {order.serviceNames.map((name, idx) => (
-                    <li key={idx}>{name}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <p style={{ fontSize: '0.8rem', color: '#666' }}>
-              Total: Rp {order.cartTotal?.toLocaleString('id-ID') || '0'}
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <div className="db-card">
-            <h3 className="db-card-title">
-              <i className="fa-solid fa-chart-line" /> Progress
-            </h3>
-            <div className="db-progress-bar">
-              <div className="db-progress-fill" style={{ width: `${progressPercent}%` }} />
-            </div>
-            <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '0 0 20px', textAlign: 'center' }}>
-              {order.status || 'Pending'}
-            </p>
-            <p style={{ fontSize: '0.85rem', color: '#fff', marginBottom: 20, lineHeight: 1.6 }}>
-              Kami akan menghubungi kamu via WhatsApp untuk diskusi lebih lanjut tentang kebutuhan project kamu.
-            </p>
-            <a href={waLink} target="_blank" rel="noopener noreferrer" className="db-wa-btn" style={{ width: '100%', justifyContent: 'center' }}>
-              <i className="fa-brands fa-whatsapp" /> Chat WhatsApp
-            </a>
-          </div>
-
-          {dashContent?.adminNotes && (
-            <div className="db-admin-notes" style={{ marginTop: 24 }}>
-              <span className="db-admin-notes-label">Catatan Admin</span>
-              <p>{dashContent.adminNotes}</p>
-            </div>
-          )}
-
-          {dashContent?.driveUrl && (
-            <div style={{ marginTop: 24 }}>
-              <a
-                href={dashContent.driveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="db-wa-btn"
-                style={{ width: '100%', justifyContent: 'center' }}
-              >
-                <i className="fa-solid fa-eye" /> Lihat Preview / Mockup
-              </a>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
   );
 }
