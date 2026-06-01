@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth, db } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const CSS = `
 /* ── Reveal ── */
@@ -332,6 +335,36 @@ const CSS = `
 .pl-cart-total { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; font-size: 0.82rem; color: var(--text-dim); font-weight: 600; letter-spacing: 0.06em; }
 .pl-cart-total-num { font-size: 1.3rem; font-weight: 700; color: var(--text); }
 
+/* ── Full booked & Login FAB (Prompt 5 additions) ── */
+.pl-card-full { opacity: 0.65; }
+.pl-card-full:hover { transform: none; }
+.pl-badge-full {
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: rgba(239,68,68,0.9);
+}
+.pl-btn-full {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 10px;
+  background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 12px; cursor: not-allowed;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
+  color: rgba(239,68,68,0.7);
+}
+.pl-login-fab {
+  position: fixed; top: 80px; right: 24px; z-index: 100;
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  background: rgba(139,92,246,0.1);
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 99px; cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem; font-weight: 700;
+  color: #a78bfa; transition: all 0.25s;
+}
+.pl-login-fab:hover { background: rgba(139,92,246,0.2); }
+
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .pl-hero { padding: 70px 40px 70px; }
@@ -382,6 +415,43 @@ const CATEGORIES = [
         badge: null,
         short: 'Video presentasi, tugas PR, atau vlog sekolah',
         desc: 'Editing video sederhana untuk tugas PR, presentasi, atau konten sekolah. Cepat dan rapi.\n\n✦ Cutting & trimming\n✦ Tambah musik/efek suara\n✦ Teks / subtitle\n✦ Export sesuai platform\n✦ Harga: Rp 50.000 – 100.000',
+        syarat: true,
+      },
+      // ── ITEM BARU (Prompt 5 — Bagian 3) ──
+      {
+        id: 've_sma2',
+        name: 'Editing Video Tugas SMA (Kelompok)',
+        icon: 'fa-users',
+        price: 125000,
+        origPrice: 200000,
+        unit: '/ project',
+        badge: null,
+        short: 'Khusus kelompok 2–8 orang, project SMA',
+        desc: 'Editing video tugas SMA untuk kelompok. Termasuk cutting, musik, subtitle, efek sederhana, export HD.\n\n✦ Khusus 2–8 orang per kelompok\n✦ Lebih dari 8 orang: biaya tambah per orang\n✦ Cutting & trimming\n✦ Musik + efek suara\n✦ Teks / subtitle\n✦ Export sesuai platform\n✦ Harga: Rp 125.000 / project',
+        syarat: true,
+      },
+      {
+        id: 've_kuliah1',
+        name: 'Editing Video Kuliah/Ospek (Individu)',
+        icon: 'fa-graduation-cap',
+        price: 75000,
+        origPrice: 120000,
+        unit: '/ project',
+        badge: null,
+        short: 'Project individu kuliah, laporan, ospek',
+        desc: 'Editing video untuk keperluan kuliah — laporan, tugas, ospek, presentasi individu.\n\n✦ Khusus proyek individu\n✦ Cutting & trimming\n✦ Musik/narasi opsional\n✦ Teks / subtitle\n✦ Export HD\n✦ Harga: Rp 75.000 / project',
+        syarat: true,
+      },
+      {
+        id: 've_kuliah2',
+        name: 'Editing Video Kuliah (Kelompok)',
+        icon: 'fa-user-group',
+        price: 135000,
+        origPrice: 220000,
+        unit: '/ project',
+        badge: null,
+        short: 'Kelompok 2–8 orang, eksperimen, tugas kuliah',
+        desc: 'Editing video tugas kuliah untuk kelompok — eksperimen, praktikum, proyek riset, laporan kelompok.\n\n✦ Khusus 2–8 orang per kelompok\n✦ Lebih dari 8 orang: biaya tambah per orang\n✦ Cutting & trimming\n✦ Musik/narasi opsional\n✦ Grafis sederhana\n✦ Export HD\n✦ Harga: Rp 135.000 / project',
         syarat: true,
       },
       {
@@ -695,11 +765,41 @@ const formatRp = (n) => {
 export default function PriceList({ t = {} }) {
   const navigate = useNavigate();
   const revealEls = useRef([]);
-  const [cart, setCart]         = useState({});           // { itemId: qty }
-  const [wishlist, setWishlist] = useState(new Set());    // Set of itemId
-  const [selected, setSelected] = useState(null);         // item for detail sheet
+  const [cart, setCart]         = useState({});
+  const [wishlist, setWishlist] = useState(new Set());
+  const [selected, setSelected] = useState(null);
   const [sheetVisible, setSheetVisible] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+
+  // ── Prompt 5: Auth state & Firestore prices ──
+  const [currentUser, setCurrentUser] = useState(null);
+  const [priceStatuses, setPriceStatuses] = useState({});
+
+  /* ── Auth state listener ── */
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user || null);
+    });
+    return () => unsub();
+  }, []);
+
+  /* ── Firestore: load price statuses ── */
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, 'prices'), (snapshot) => {
+      const statuses = {};
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        if (data.id_lokal) {
+          statuses[data.id_lokal] = data.status || 'active';
+        }
+      });
+      setPriceStatuses(statuses);
+    });
+    return () => unsub();
+  }, []);
+
+  /* ── Helper: get status dari Firestore ── */
+  const getItemStatus = (itemId) => priceStatuses[itemId] || null;
 
   /* ── Reveal observer ── */
   const r = (el) => { if (el && !revealEls.current.includes(el)) revealEls.current.push(el); };
@@ -732,7 +832,7 @@ export default function PriceList({ t = {} }) {
     return sum + (item ? item.price * qty : 0);
   }, 0);
 
-  /* ── Checkout: simpan ke localStorage → navigate ke /contact ── */
+  /* ── Checkout ── */
   const handleCheckout = () => {
     const selectedServices = Object.entries(cart).map(([id, qty]) => {
       const item = CATEGORIES.flatMap((c) => c.items).find((i) => i.id === id);
@@ -759,6 +859,15 @@ export default function PriceList({ t = {} }) {
       <style>{CSS}</style>
 
       <div className="pl-page">
+
+        {/* ══════ LOGIN / DASHBOARD FAB (Prompt 5 — Bagian 1) ══════ */}
+        <button
+          className="pl-login-fab"
+          onClick={() => navigate(currentUser ? '/Dashboard' : '/login')}
+        >
+          <i className={`fa-solid ${currentUser ? 'fa-gauge' : 'fa-right-to-bracket'}`} />
+          <span>{currentUser ? 'Dashboard →' : 'Masuk / Daftar →'}</span>
+        </button>
 
         {/* ══════ FLOATING CART BUTTON ══════ */}
         {cartCount > 0 && (
@@ -808,9 +917,19 @@ export default function PriceList({ t = {} }) {
 
               <div className="pl-grid">
                 {cat.items.map((item, idx) => {
-                  const qty       = cart[item.id] || 0;
-                  const wished    = wishlist.has(item.id);
-                  const discount  = item.origPrice && item.price
+                  // ── Prompt 5: Cek status dari Firestore ──
+                  const firestoreStatus = getItemStatus(item.id);
+
+                  // Jika inactive, sembunyikan kartu
+                  if (firestoreStatus === 'inactive') return null;
+
+                  const isFullBooked  = firestoreStatus === 'full_booked';
+                  // Override comingSoon jika Firestore bilang coming_soon
+                  const isComingSoon  = item.comingSoon || firestoreStatus === 'coming_soon';
+
+                  const qty      = cart[item.id] || 0;
+                  const wished   = wishlist.has(item.id);
+                  const discount = item.origPrice && item.price
                     ? Math.round((1 - item.price / item.origPrice) * 100)
                     : 0;
 
@@ -818,13 +937,14 @@ export default function PriceList({ t = {} }) {
                     <div
                       key={item.id}
                       ref={r}
-                      className={`pl-card reveal rv-d${Math.min(idx + 1, 4)} ${item.comingSoon ? 'pl-card-soon' : ''}`}
+                      className={`pl-card reveal rv-d${Math.min(idx + 1, 4)} ${isComingSoon ? 'pl-card-soon' : ''} ${isFullBooked ? 'pl-card-full' : ''}`}
                     >
                       {/* Badges */}
                       <div className="pl-card-badges">
-                        {item.comingSoon && <span className="pl-badge pl-badge-soon">{t.portoBadgeSoon}</span>}
-                        {item.badge && !item.comingSoon && <span className="pl-badge pl-badge-hot">{item.badge}</span>}
-                        {discount > 0 && <span className="pl-badge pl-badge-disc">-{discount}%</span>}
+                        {isFullBooked && <span className="pl-badge pl-badge-full">PENUH</span>}
+                        {!isFullBooked && isComingSoon && <span className="pl-badge pl-badge-soon">{t.portoBadgeSoon}</span>}
+                        {!isFullBooked && !isComingSoon && item.badge && <span className="pl-badge pl-badge-hot">{item.badge}</span>}
+                        {discount > 0 && !isFullBooked && <span className="pl-badge pl-badge-disc">-{discount}%</span>}
                         {item.custom && <span className="pl-badge pl-badge-custom">Custom</span>}
                       </div>
 
@@ -837,7 +957,7 @@ export default function PriceList({ t = {} }) {
                         <i className={`fa-${wished ? 'solid' : 'regular'} fa-heart`} />
                       </button>
 
-                      {/* Card body — click to open detail */}
+                      {/* Card body */}
                       <div className="pl-card-body" onClick={() => openSheet(item)}>
                         <div className="pl-card-icon-wrap">
                           <i className={`fa-solid ${item.icon}`} />
@@ -869,8 +989,15 @@ export default function PriceList({ t = {} }) {
                         </div>
                       </div>
 
-                      {/* QTY controls */}
-                      {!item.comingSoon && !item.custom && item.price > 0 && (
+                      {/* QTY controls — dengan pengecekan full_booked */}
+                      {isFullBooked ? (
+                        <div className="pl-card-actions">
+                          <div className="pl-btn-full">
+                            <i className="fa-solid fa-ban" />
+                            <span>Sedang Mengerjakan Proyek — Tidak Tersedia</span>
+                          </div>
+                        </div>
+                      ) : !isComingSoon && !item.custom && item.price > 0 ? (
                         <div className="pl-card-actions">
                           {qty === 0 ? (
                             <button className="pl-btn-add" onClick={() => addToCart(item.id)}>
@@ -889,23 +1016,21 @@ export default function PriceList({ t = {} }) {
                             </div>
                           )}
                         </div>
-                      )}
-                      {item.comingSoon && (
+                      ) : isComingSoon ? (
                         <div className="pl-card-actions">
                           <button className="pl-btn-notify">
                             <i className="fa-solid fa-bell" />
                             <span>{t.plBtnNotify}</span>
                           </button>
                         </div>
-                      )}
-                      {item.custom && (
+                      ) : item.custom ? (
                         <div className="pl-card-actions">
                           <button className="pl-btn-discuss" onClick={() => openSheet(item)}>
                             <i className="fa-solid fa-comments" />
                             <span>{t.plBtnDiskusi}</span>
                           </button>
                         </div>
-                      )}
+                      ) : null}
                     </div>
                   );
                 })}
