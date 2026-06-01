@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { db } from './firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 const CSS = `
 /* ── Page ── */
@@ -25,6 +27,20 @@ const CSS = `
   background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 65%);
   bottom: -100px; right: -100px;
 }
+
+/* ── Banner ── */
+.ck-mock-banner {
+  position: relative; z-index: 2;
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 14px 24px;
+  background: rgba(139,92,246,0.08);
+  border-bottom: 1px solid rgba(139,92,246,0.25);
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.78rem; color: var(--text-dim); line-height: 1.65;
+}
+.ck-mock-banner i { color: var(--accent3); font-size: 0.85rem; margin-top: 2px; flex-shrink: 0; }
+.ck-mock-banner strong { color: var(--accent3); }
 
 /* ── Layout ── */
 .ck-wrap {
@@ -213,7 +229,16 @@ const CSS = `
   padding: 24px 24px 16px;
   display: flex; flex-direction: column; align-items: center; gap: 10px;
 }
-.ck-qr-svg { width: 190px; height: 190px; }
+.ck-qr-img { width: 220px; height: 220px; object-fit: contain; display: block; }
+.ck-qr-placeholder {
+  width: 220px; height: 220px;
+  background: #f1f5f9; border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; text-align: center; padding: 16px;
+}
+.ck-qr-placeholder i { font-size: 2rem; color: #94a3b8; }
+.ck-qr-placeholder p { font-size: 0.7rem; color: #64748b; margin: 0; line-height: 1.5; }
 .ck-qr-hint {
   font-size: 0.68rem; color: #475569;
   text-align: center; margin: 0; line-height: 1.5;
@@ -318,6 +343,16 @@ const CSS = `
 }
 .ck-wa-note i { color: var(--accent3); font-size: 0.72rem; margin-top: 1px; flex-shrink: 0; }
 
+/* Mock checkout confirm box */
+.ck-mock-confirm {
+  padding: 16px 20px;
+  background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.2);
+  border-radius: 14px;
+  font-size: 0.75rem; color: var(--text-dim); line-height: 1.7;
+}
+.ck-mock-confirm i { color: var(--accent3); margin-right: 6px; }
+.ck-mock-confirm strong { color: var(--text); }
+
 /* Steps */
 .ck-steps {
   display: flex; flex-direction: column; gap: 0;
@@ -368,7 +403,7 @@ const CSS = `
 }
 @media (max-width: 600px) {
   .ck-left, .ck-right { padding: 36px 20px 60px; }
-  .ck-qr-svg { width: 160px; height: 160px; }
+  .ck-qr-img, .ck-qr-placeholder { width: 180px; height: 180px; }
 }
 `;
 
@@ -382,15 +417,46 @@ function makeOrderId() {
 
 export default function CheckoutQRIS({ t = {} }) {
   const navigate        = useNavigate();
+  const location        = useLocation();
   const [orderId]       = useState(makeOrderId);
-  const [cartData, setCartData]   = useState(null);   // { items, total }
-  const [waData, setWaData]       = useState(null);   // { msg, number }
-  const [copied, setCopied]       = useState(false);
-  const [countdown, setCountdown] = useState(15 * 60);
+  const [cartData, setCartData]         = useState(null);   // { items, total }
+  const [waData, setWaData]             = useState(null);   // { msg, number }
+  const [copied, setCopied]             = useState(false);
+  const [countdown, setCountdown]       = useState(15 * 60);
+  const [qrisImageUrl, setQrisImageUrl] = useState(null);
+  const [isMockCheckout, setIsMockCheckout] = useState(false);
   const timerRef = useRef(null);
 
-  /* ── Baca data dari localStorage ── */
+  /* ── Cek apakah dari Dashboard (Tahap Pemberkasan) ── */
   useEffect(() => {
+    if (location.state?.fromDashboard === true) {
+      setIsMockCheckout(true);
+    }
+  }, [location.state]);
+
+  /* ── Ambil QRIS image dari Firestore ── */
+  useEffect(() => {
+    getDoc(doc(db, 'settings', 'qris'))
+      .then(snap => {
+        if (snap.exists() && snap.data().imageUrl) {
+          setQrisImageUrl(snap.data().imageUrl);
+        }
+      })
+      .catch(err => console.error('Gagal ambil QRIS:', err));
+  }, []);
+
+  /* ── Baca data dari location.state atau localStorage ── */
+  useEffect(() => {
+    // Coba dari location.state dulu (dari PriceList yang sudah diupdate)
+    if (location.state?.items && location.state?.total) {
+      setCartData({ items: location.state.items, total: location.state.total });
+      if (location.state?.projectNote) {
+        const waMsg = `Halo kak, saya sudah melakukan pembayaran DP untuk proyek: ${location.state.projectNote}. Order ID: ${orderId}`;
+        setWaData({ msg: waMsg, number: '6281252790018' });
+      }
+      return;
+    }
+    // Fallback ke localStorage (kompatibilitas lama)
     try {
       const cart = localStorage.getItem('selectedServices');
       if (cart) setCartData(JSON.parse(cart));
@@ -400,7 +466,7 @@ export default function CheckoutQRIS({ t = {} }) {
     } catch (e) {
       console.error('Gagal baca localStorage:', e);
     }
-  }, []);
+  }, [location.state, orderId]);
 
   /* ── Countdown timer ── */
   useEffect(() => {
@@ -417,10 +483,14 @@ export default function CheckoutQRIS({ t = {} }) {
   /* ── Format Rupiah ── */
   const formatRp = (n) => 'Rp ' + Number(n).toLocaleString('id-ID');
 
+  /* ── Nominal pembayaran ── */
+  const nominalTotal = location.state?.total || cartData?.total || null;
+
   /* ── Build WA URL ── */
+  const projectName = location.state?.projectNote || 'proyek saya';
   const waUrl = waData
     ? `https://wa.me/${waData.number}?text=${encodeURIComponent(waData.msg)}`
-    : `https://wa.me/6281252790018?text=${encodeURIComponent('Halo kak, saya ingin konfirmasi order dari website SynnnW 🙏')}`;
+    : `https://wa.me/6281252790018?text=${encodeURIComponent(`Halo, saya sudah melakukan pembayaran DP untuk proyek ${projectName}. Order ID: ${orderId}`)}`;
 
   /* ── Copy orderId ── */
   const handleCopy = () => {
@@ -437,6 +507,17 @@ export default function CheckoutQRIS({ t = {} }) {
 
         {/* ── Orbs ── */}
         <div className="ck-orb ck-orb1" /><div className="ck-orb ck-orb2" />
+
+        {/* ── Banner Tahap Pemberkasan ── */}
+        {isMockCheckout && (
+          <div className="ck-mock-banner">
+            <i className="fa-solid fa-circle-info" />
+            <span>
+              <strong>Tahap Pemberkasan</strong> — Halaman ini masih dalam proses konfigurasi.
+              Admin akan mengonfirmasi melalui WhatsApp atau email setelah pembayaran DP Anda diterima.
+            </span>
+          </div>
+        )}
 
         <div className="ck-wrap">
 
@@ -490,10 +571,28 @@ export default function CheckoutQRIS({ t = {} }) {
                   </div>
                 </div>
               </div>
+            ) : nominalTotal ? (
+              /* Jika tidak ada items tapi ada total (dari Dashboard) */
+              <div className="ck-summary-card">
+                <div className="ck-sum-total" style={{ padding: '20px' }}>
+                  <span>{t.cqTotalKeseluruhan || 'Total Keseluruhan'}</span>
+                  <span className="ck-sum-total-num">{formatRp(nominalTotal)}</span>
+                </div>
+                <div className="ck-dp-box">
+                  <i className="fa-solid fa-coins" />
+                  <div>
+                    <p className="ck-dp-title">{t.cqSistemDP || 'Sistem DP 50%'}</p>
+                    <p className="ck-dp-sub">
+                      Bayar <strong>{formatRp(nominalTotal / 2)}</strong> sebagai DP sekarang.
+                      Sisa <strong>{formatRp(nominalTotal / 2)}</strong> setelah project selesai.
+                    </p>
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className="ck-empty-cart">
                 <i className="fa-solid fa-bag-shopping" />
-                <p>{t.cqNoItem}</p>
+                <p>{t.cqNoItem || 'Tidak ada item di keranjang'}</p>
                 <button className="ck-btn-back" onClick={() => navigate('/price-list')}>
                   {t.plBtnCheckout === "Proceed to Order" ? "Back to Price List" : "Kembali ke Price List"}
                 </button>
@@ -502,7 +601,7 @@ export default function CheckoutQRIS({ t = {} }) {
 
             {/* Order ID */}
             <div className="ck-orderid-box">
-              <span className="ck-orderid-label">{t.cqOrderID}</span>
+              <span className="ck-orderid-label">{t.cqOrderID || 'Order ID'}</span>
               <div className="ck-orderid-row">
                 <code className="ck-orderid-code">{orderId}</code>
                 <button className="ck-btn-copy" onClick={handleCopy}>
@@ -533,7 +632,7 @@ export default function CheckoutQRIS({ t = {} }) {
               <div className="ck-qris-header">
                 <div className="ck-qris-brand">
                   <i className="fa-solid fa-qrcode" />
-                  <span>{t.cqPageLabel === "CHECKOUT" ? "QRIS" : "QRIS"}</span>
+                  <span>QRIS</span>
                 </div>
                 <span className="ck-qris-name">SynnnW Studio</span>
               </div>
@@ -543,59 +642,57 @@ export default function CheckoutQRIS({ t = {} }) {
                 {isExpired && (
                   <div className="ck-qr-expired-overlay">
                     <i className="fa-solid fa-rotate" />
-                    <span>{t.cqQRExpired}</span>
+                    <span>{t.cqQRExpired || 'Sesi habis, refresh halaman'}</span>
                   </div>
                 )}
-                {/* ── Mock QR SVG — ganti dengan <img src="qris-kamu.png"> ── */}
                 <div className="ck-qr-box">
-                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="ck-qr-svg">
-                    <rect x="10" y="10" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                    <rect x="20" y="20" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                    <rect x="135" y="10" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                    <rect x="145" y="20" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                    <rect x="10" y="135" width="55" height="55" rx="6" fill="none" stroke="#1e1b4b" strokeWidth="5"/>
-                    <rect x="20" y="145" width="35" height="35" rx="3" fill="#1e1b4b"/>
-                    {[75,85,95,105,115,125].map((x,i) =>
-                      [10,20,30,40,50,60,70,80,90].map((y,j) =>
-                        (i+j)%3!==0 ? <rect key={`${i}-${j}`} x={x} y={y} width="8" height="8" fill="#1e1b4b" rx="1"/> : null
-                      )
-                    )}
-                    {[10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180].map((x,i) =>
-                      [75,85,95,105,115,125,135,145,155,165,175,185].map((y,j) =>
-                        (i*3+j*7)%5!==0 ? <rect key={`d-${i}-${j}`} x={x} y={y} width="8" height="8" fill="#1e1b4b" rx="1"/> : null
-                      )
-                    )}
-                    <rect x="82" y="82" width="36" height="36" rx="8" fill="#8b5cf6"/>
-                    <text x="100" y="105" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="700">S</text>
-                  </svg>
-                  <p className="ck-qr-hint">{t.cqScanHint}</p>
-                  <p className="ck-qr-apps">{t.cqWalletList}</p>
+                  {qrisImageUrl ? (
+                    <img
+                      src={qrisImageUrl}
+                      alt="QRIS SynnnW Studio"
+                      className="ck-qr-img"
+                    />
+                  ) : (
+                    <div className="ck-qr-placeholder">
+                      <i className="fa-solid fa-qrcode" />
+                      <p>QRIS akan ditampilkan setelah admin mengkonfigurasi</p>
+                    </div>
+                  )}
+                  <p className="ck-qr-hint">{t.cqScanHint || 'Scan dengan aplikasi m-banking atau dompet digital'}</p>
+                  <p className="ck-qr-apps">{t.cqWalletList || 'GoPay · OVO · Dana · ShopeePay · BCA · BRI · Mandiri'}</p>
                 </div>
               </div>
 
               {/* Amount to pay */}
-              {cartData?.total > 0 && (
-                <div className="ck-amount-row">
-                  <div>
-                    <span className="ck-amount-label">{t.cqNominalDP}</span>
-                    <span className="ck-amount-num">{formatRp(cartData.total / 2)}</span>
-                  </div>
-                  <div className="ck-amount-badge">
-                    <span className="ck-pulse-dot" />
-                    Menunggu
-                  </div>
+              <div className="ck-amount-row">
+                <div>
+                  <span className="ck-amount-label">{t.cqNominalDP || 'Nominal DP (50%)'}</span>
+                  <span className="ck-amount-num">
+                    {nominalTotal
+                      ? formatRp(nominalTotal / 2)
+                      : 'Nominal akan dikonfirmasi admin'}
+                  </span>
                 </div>
-              )}
+                <div className="ck-amount-badge">
+                  <span className="ck-pulse-dot" />
+                  Menunggu
+                </div>
+              </div>
             </div>
 
             {/* Divider */}
             <div className="ck-or-divider">
               <span />
-              <p>{t.cqOrConfirm}</p>
+              <p>{t.cqOrConfirm || 'atau konfirmasi via'}</p>
               <span />
             </div>
 
             {/* WhatsApp CTA */}
+            <p style={{ margin: '0 0 -8px', fontSize: '0.72rem', color: 'var(--text-dim)', lineHeight: '1.6' }}>
+              <i className="fa-solid fa-circle-info" style={{ color: 'var(--accent3)', marginRight: '6px' }} />
+              Setelah melakukan pembayaran, hubungi admin via WhatsApp dengan mengirimkan bukti transfer.
+            </p>
+
             <a
               href={waUrl}
               target="_blank"
@@ -604,25 +701,35 @@ export default function CheckoutQRIS({ t = {} }) {
             >
               <i className="fa-brands fa-whatsapp" />
               <div>
-                <span className="ck-btn-wa-title">{t.cqWABtn}</span>
-                <span className="ck-btn-wa-sub">{t.cqWADesc}</span>
+                <span className="ck-btn-wa-title">{t.cqWABtn || 'Konfirmasi via WhatsApp'}</span>
+                <span className="ck-btn-wa-sub">{t.cqWADesc || 'Kirim bukti pembayaran ke admin'}</span>
               </div>
               <i className="fa-solid fa-arrow-up-right ck-btn-wa-arrow" />
             </a>
 
-            <div className="ck-wa-note">
-              <i className="fa-solid fa-circle-info" />
-              <span>
-                Klik tombol di atas untuk membuka WhatsApp dengan detail pesananmu yang sudah terisi otomatis.
-                Pembayaran QRIS dapat dilakukan sebelum atau sesudah konfirmasi.
-              </span>
-            </div>
+            {/* Mock checkout confirmation info */}
+            {isMockCheckout ? (
+              <div className="ck-mock-confirm">
+                <i className="fa-solid fa-circle-check" />
+                <strong>Informasi Konfirmasi:</strong> Pembayaran DP Anda akan dikonfirmasi oleh admin dalam{' '}
+                <strong>1×24 jam</strong>. Hubungi kami di WhatsApp{' '}
+                <strong>081252790018</strong> jika ada pertanyaan.
+              </div>
+            ) : (
+              <div className="ck-wa-note">
+                <i className="fa-solid fa-circle-info" />
+                <span>
+                  Klik tombol di atas untuk membuka WhatsApp dengan detail pesananmu yang sudah terisi otomatis.
+                  Pembayaran QRIS dapat dilakukan sebelum atau sesudah konfirmasi.
+                </span>
+              </div>
+            )}
 
             {/* Steps */}
             <div className="ck-steps">
               {[
                 ['fa-comments', 'Konfirmasi via WhatsApp', 'Klik tombol di atas — detail pesanan sudah terisi otomatis'],
-                ['fa-qrcode', 'Scan & Bayar QRIS', `Transfer DP 50%${cartData?.total ? ' (' + formatRp(cartData.total / 2) + ')' : ''} via m-banking atau dompet digital`],
+                ['fa-qrcode', 'Scan & Bayar QRIS', `Transfer DP 50%${nominalTotal ? ' (' + formatRp(nominalTotal / 2) + ')' : ''} via m-banking atau dompet digital`],
                 ['fa-image', 'Kirim Bukti Bayar', 'Screenshot konfirmasi pembayaran ke nomor WhatsApp yang sama'],
                 ['fa-rocket', 'Project Dimulai', 'Setelah DP diterima, pengerjaan langsung dimulai sesuai brief'],
               ].map(([icon, title, desc], i) => (
