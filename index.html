@@ -38,14 +38,19 @@
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css"
     />
 
+    <!-- ═══ CLOUDFLARE TURNSTILE ═══ -->
+    <!--
+      Menggantikan Google reCAPTCHA Enterprise.
+      Site Key: 0x4AAAAAADctAB5-spbPs4nc
+      render=explicit → widget di-render manual via window.turnstile.render() di AuthLogin.jsx
+    -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+
     <!-- ═══ STYLE: prevent flash of unstyled content ═══ -->
     <style>
       html { background: #070709; }
       [data-theme="light"] { background: #f4f2ee; }
     </style>
-
-    <!-- ═══ GOOGLE reCAPTCHA ENTERPRISE ═══ -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcWrQYtAAAAAFOC6B2rXfmO6z1OjAX32fwaRjH0" async defer></script>
   </head>
   <body>
     <div id="root"></div>
