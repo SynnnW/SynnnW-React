@@ -818,22 +818,44 @@ const COUNTRY_CODES = [
 ];
 
 // ═════════════════════════════════════════════════════════════
-// reCAPTCHA ENTERPRISE HELPER
+// CLOUDFLARE TURNSTILE HELPER
 // ═════════════════════════════════════════════════════════════
-const RECAPTCHA_SITE_KEY = '6LcWrQYtAAAAAFOC6B2rXfmO6z1OjAX32fwaRjH0';
+const TURNSTILE_SITE_KEY = '0x4AAAAAADctAB5-spbPs4nc';
 
-const executeRecaptcha = async (action) => {
-  try {
-    if (!window.grecaptcha?.enterprise) return null;
-    await new Promise(resolve => window.grecaptcha.enterprise.ready(resolve));
-    const token = await window.grecaptcha.enterprise.execute(RECAPTCHA_SITE_KEY, { action });
-    console.log(`[reCAPTCHA] action=${action} token=`, token);
-    return token;
-  } catch (err) {
-    console.warn('[reCAPTCHA] failed:', err);
-    return null;
-  }
-};
+const executeTurnstile = () =>
+  new Promise((resolve) => {
+    try {
+      if (!window.turnstile) {
+        console.warn('[Turnstile] widget tidak tersedia, lanjut tanpa captcha');
+        return resolve(null);
+      }
+      // Render widget ke container tersembunyi, ambil token, lalu hapus
+      const container = document.createElement('div');
+      container.style.cssText = 'position:fixed;bottom:-9999px;left:-9999px;opacity:0;pointer-events:none;';
+      document.body.appendChild(container);
+      window.turnstile.render(container, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: (token) => {
+          console.log('[Turnstile] token:', token);
+          window.turnstile.remove(container);
+          document.body.removeChild(container);
+          resolve(token);
+        },
+        'error-callback': () => {
+          console.warn('[Turnstile] error, lanjut tanpa token');
+          window.turnstile.remove(container);
+          document.body.removeChild(container);
+          resolve(null);
+        },
+        'expired-callback': () => {
+          resolve(null);
+        },
+      });
+    } catch (err) {
+      console.warn('[Turnstile] exception:', err);
+      resolve(null);
+    }
+  });
 
 // ═════════════════════════════════════════════════════════════
 // MEMOIZED FEED CARD — HORIZONTAL ARTICLE STYLE
