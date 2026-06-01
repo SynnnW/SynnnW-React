@@ -28,7 +28,6 @@ const CheckoutQRIS = lazy(() => import('./pages/CheckoutQRIS'));
 // Lazy load komponen baru
 const AuthLogin        = lazy(() => import('./pages/AuthLogin'));
 const DashboardAdmin   = lazy(() => import('./pages/DashboardAdmin'));
-const CompleteProfile  = lazy(() => import('./pages/CompleteProfile'));
 
 /* ── 404 Page ── */
 function NotFound() {
@@ -43,7 +42,6 @@ export default function App() {
   // Sistem deteksi login berjalan di level tertinggi aplikasi
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
-  const [userProfileComplete, setUserProfileComplete] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -53,27 +51,11 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Cek kelengkapan profil (phone wajib ada)
-  useEffect(() => {
-    if (!user) return;
-    import('./pages/firebase').then(({ db }) => {
-      import('firebase/firestore').then(({ doc, getDoc }) => {
-        getDoc(doc(db, 'users', user.uid)).then(snap => {
-          if (!snap.exists() || !snap.data().phone) {
-            setUserProfileComplete(false);
-          } else {
-            setUserProfileComplete(true);
-          }
-        });
-      });
-    });
-  }, [user]);
-
   if (loadingAuth) return <PageLoader />;
 
   return (
     <BrowserRouter>
-      <Layout user={user} userProfileComplete={userProfileComplete} setUserProfileComplete={setUserProfileComplete} />
+      <Layout user={user} />
     </BrowserRouter>
   );
 }
@@ -84,7 +66,7 @@ function ScrollToTop() {
   return null;
 }
 
-function Layout({ user, userProfileComplete, setUserProfileComplete }) {
+function Layout({ user }) {
   const { theme, toggleTheme } = useTheme();
   const { lang, t, toggleLang } = useLang();
   const { pathname } = useLocation();
@@ -98,7 +80,6 @@ function Layout({ user, userProfileComplete, setUserProfileComplete }) {
     '/admin-dashboard',
     '/contact',
     '/login',
-    '/complete-profile',
   ].includes(pathname);
 
   return (
@@ -108,37 +89,25 @@ function Layout({ user, userProfileComplete, setUserProfileComplete }) {
       <main style={{ paddingTop: isFullscreen ? '0' : '64px' }}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            {/* RUTE UTAMA DASHBOARD - PRIORITAS PERTAMA */}
-            {/* User yang sudah login dan profile complete → langsung ke Dashboard */}
+            {/* DASHBOARD - User login langsung masuk sini */}
             <Route 
               path="/Dashboard" 
-              element={
-                user
-                  ? (userProfileComplete ? <Dashboard /> : <Navigate to="/complete-profile" />)
-                  : <Navigate to="/login" />
-              } 
+              element={user ? <Dashboard /> : <Navigate to="/login" />} 
             />
 
-            {/* Complete Profile — wajib login, untuk user baru yang belum isi phone */}
-            <Route
-              path="/complete-profile"
-              element={user ? <CompleteProfile /> : <Navigate to="/login" />}
-            />
-
-            {/* RUTE KHUSUS ADMIN (Hanya "aldokraksaan@gmail.com" yang bisa masuk) */}
+            {/* ADMIN DASHBOARD */}
             <Route 
               path="/admin-dashboard" 
               element={user && user.email === ADMIN_EMAIL ? <DashboardAdmin /> : <Navigate to="/login" />} 
             />
 
-            {/* Halaman Login */}
+            {/* LOGIN */}
             <Route 
               path="/login" 
               element={user ? <Navigate to={user.email === ADMIN_EMAIL ? "/admin-dashboard" : "/Dashboard"} /> : <AuthLogin />} 
             />
 
-            {/* RUTE TERPROTEKSI (Wajib Login) */}
-            {/* Contact adalah halaman tempat form pemesanan setelah klik Checkout di PriceList */}
+            {/* PROTECTED ROUTES */}
             <Route 
               path="/contact" 
               element={user ? <Contact t={t} /> : <Navigate to="/login" />} 
@@ -149,7 +118,7 @@ function Layout({ user, userProfileComplete, setUserProfileComplete }) {
               element={user ? <CheckoutQRIS t={t} /> : <Navigate to="/login" />} 
             />
 
-            {/* Rute Bebas (Tidak Perlu Login) */}
+            {/* PUBLIC PAGES */}
             <Route path="/" element={<Home t={t} />} />
             <Route path="/porto" element={<Porto t={t} />} />
             <Route path="/porto/karya1" element={<PortoKarya1 t={t} />} />
@@ -163,7 +132,7 @@ function Layout({ user, userProfileComplete, setUserProfileComplete }) {
             <Route path="/preview-logo" element={<PreviewLogo />} />
             <Route path="/terms" element={<Terms />} />
 
-            {/* 404 Route */}
+            {/* 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
