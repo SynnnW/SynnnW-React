@@ -818,6 +818,27 @@ const COUNTRY_CODES = [
 ];
 
 // ═════════════════════════════════════════════════════════════
+// RECAPTCHA ENTERPRISE HELPER
+// ═════════════════════════════════════════════════════════════
+const RECAPTCHA_SITE_KEY = '6LcWrQYtAAAAAFOC6B2rXfmO6z1OjAX32fwaRjH0';
+
+const executeRecaptcha = async (action) => {
+  try {
+    if (!window.grecaptcha?.enterprise) {
+      console.warn('[reCAPTCHA] widget tidak tersedia, lanjut tanpa captcha');
+      return null;
+    }
+    await new Promise(resolve => window.grecaptcha.enterprise.ready(resolve));
+    const token = await window.grecaptcha.enterprise.execute(RECAPTCHA_SITE_KEY, { action });
+    console.log('[reCAPTCHA] token for action ' + action + ':', token);
+    return token;
+  } catch (err) {
+    console.warn('[reCAPTCHA] exception:', err);
+    return null;
+  }
+};
+
+// ═════════════════════════════════════════════════════════════
 // CLOUDFLARE TURNSTILE HELPER
 // ═════════════════════════════════════════════════════════════
 const TURNSTILE_SITE_KEY = '0x4AAAAAADctAB5-spbPs4nc';
@@ -978,8 +999,8 @@ export default function AuthLogin() {
     setLoading(true);
     setError('');
 
-    // reCAPTCHA Enterprise
-    await executeRecaptcha('LOGIN');
+    // Cloudflare Turnstile
+    const turnstileToken = await executeTurnstile();
 
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password.trim());
