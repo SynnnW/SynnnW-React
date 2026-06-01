@@ -108,30 +108,33 @@ function Layout({ user, userProfileComplete, setUserProfileComplete }) {
       <main style={{ paddingTop: isFullscreen ? '0' : '64px' }}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            {/* Rute Bebas (Tidak Perlu Login) */}
-            <Route path="/" element={<Home t={t} />} />
-            <Route path="/porto" element={<Porto t={t} />} />
-            <Route path="/porto/karya1" element={<PortoKarya1 t={t} />} />
-            <Route path="/porto/karya2" element={<PortoKarya2 t={t} />} />
-            <Route path="/porto/karya3" element={<PortoKarya3 t={t} />} />
-            <Route path="/porto/karya4" element={<PortoKarya4 t={t} />} />
-            <Route path="/tentang" element={<Tentang t={t} />} />
-            <Route path="/journal" element={<Journal t={t} />} />
-            <Route path="/journal/karya1" element={<JournalKarya1 t={t} />} />
-            <Route path="/price-list" element={<PriceList />} />
-            <Route path="/preview-logo" element={<PreviewLogo />} />
-            <Route path="/terms" element={<Terms />} />
-            
-            {/* Halaman Login - Kalau sudah login, lempar menjauh dari halaman ini */}
+            {/* RUTE UTAMA DASHBOARD - PRIORITAS PERTAMA */}
+            {/* User yang sudah login dan profile complete → langsung ke Dashboard */}
             <Route 
-              path="/login" 
-              element={user ? <Navigate to={user.email === ADMIN_EMAIL ? "/admin-dashboard" : "/Dashboard"} /> : <AuthLogin />} 
+              path="/Dashboard" 
+              element={
+                user
+                  ? (userProfileComplete ? <Dashboard /> : <Navigate to="/complete-profile" />)
+                  : <Navigate to="/login" />
+              } 
             />
 
             {/* Complete Profile — wajib login, untuk user baru yang belum isi phone */}
             <Route
               path="/complete-profile"
               element={user ? <CompleteProfile /> : <Navigate to="/login" />}
+            />
+
+            {/* RUTE KHUSUS ADMIN (Hanya "aldokraksaan@gmail.com" yang bisa masuk) */}
+            <Route 
+              path="/admin-dashboard" 
+              element={user && user.email === ADMIN_EMAIL ? <DashboardAdmin /> : <Navigate to="/login" />} 
+            />
+
+            {/* Halaman Login */}
+            <Route 
+              path="/login" 
+              element={user ? <Navigate to={user.email === ADMIN_EMAIL ? "/admin-dashboard" : "/Dashboard"} /> : <AuthLogin />} 
             />
 
             {/* RUTE TERPROTEKSI (Wajib Login) */}
@@ -145,21 +148,20 @@ function Layout({ user, userProfileComplete, setUserProfileComplete }) {
               path="/checkout" 
               element={user ? <CheckoutQRIS t={t} /> : <Navigate to="/login" />} 
             />
-            
-            <Route 
-              path="/Dashboard" 
-              element={
-                user
-                  ? (!userProfileComplete ? <Navigate to="/complete-profile" /> : <Dashboard />)
-                  : <Navigate to="/login" />
-              } 
-            />
 
-            {/* RUTE KHUSUS ADMIN (Hanya "aldokraksaan@gmail.com" yang bisa masuk) */}
-            <Route 
-              path="/admin-dashboard" 
-              element={user && user.email === ADMIN_EMAIL ? <DashboardAdmin /> : <Navigate to="/login" />} 
-            />
+            {/* Rute Bebas (Tidak Perlu Login) */}
+            <Route path="/" element={<Home t={t} />} />
+            <Route path="/porto" element={<Porto t={t} />} />
+            <Route path="/porto/karya1" element={<PortoKarya1 t={t} />} />
+            <Route path="/porto/karya2" element={<PortoKarya2 t={t} />} />
+            <Route path="/porto/karya3" element={<PortoKarya3 t={t} />} />
+            <Route path="/porto/karya4" element={<PortoKarya4 t={t} />} />
+            <Route path="/tentang" element={<Tentang t={t} />} />
+            <Route path="/journal" element={<Journal t={t} />} />
+            <Route path="/journal/karya1" element={<JournalKarya1 t={t} />} />
+            <Route path="/price-list" element={<PriceList />} />
+            <Route path="/preview-logo" element={<PreviewLogo />} />
+            <Route path="/terms" element={<Terms />} />
 
             {/* 404 Route */}
             <Route path="*" element={<NotFound />} />
