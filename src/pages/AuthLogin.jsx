@@ -10,6 +10,30 @@ import {
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const CSS = `
+/* ── CSS Variables ── */
+.auth-page {
+  --bg: #070709;
+  --bg2: #0d0d0f;
+  --text: #ffffff;
+  --text-dim: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #8b5cf6;
+  --accent2: #7c3aed;
+  --accent3: #a78bfa;
+  --glass: rgba(255,255,255,0.03);
+  --glass2: rgba(255,255,255,0.06);
+  --gborder: rgba(255,255,255,0.08);
+  --gborder2: rgba(255,255,255,0.15);
+  --border: rgba(255,255,255,0.07);
+  --border-focus: rgba(139,92,246,0.3);
+  --input-bg: rgba(255,255,255,0.04);
+  --input-focus: rgba(255,255,255,0.06);
+  --accent-glow: rgba(139,92,246,0.15);
+  --accent-shadow: rgba(139,92,246,0.35);
+  --accent-rgb: #a78bfa;
+  --blur: blur(20px);
+}
+
 /* ── Page ── */
 .auth-page {
   min-height: 100vh;
@@ -89,42 +113,58 @@ const CSS = `
 .auth-feed {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   flex: 1;
 }
 
+/* ── Feed Item: HORIZONTAL / ARTICLE STYLE ── */
 .auth-feed-item {
-  padding: 0;
+  padding: 10px 0;
   background: transparent;
   border: none;
   cursor: pointer;
   text-decoration: none;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border-radius: 14px;
   overflow: hidden;
+  width: 100%;
+  text-align: left;
 }
 
 .auth-feed-item:hover {
-  transform: translateY(-3px);
+  transform: translateX(4px);
 }
 
+/* Left image: fixed 120x90 */
 .auth-feed-item-img {
-  width: 100%;
-  height: 180px;
-  background: var(--glass);
-  border-radius: 14px;
+  width: 120px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: 10px;
   overflow: hidden;
   border: 1px solid var(--gborder);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
 }
 
-.auth-feed-item-img img {
+/* PNG images: transparent bg + contain */
+.auth-feed-item-img.is-png img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s;
+}
+
+/* Livestream / non-PNG: cover */
+.auth-feed-item-img.is-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -136,17 +176,13 @@ const CSS = `
   transform: scale(1.05);
 }
 
-.auth-feed-item-img::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 100%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.auth-feed-item:hover .auth-feed-item-img::after {
-  opacity: 1;
+/* Right text block */
+.auth-feed-item-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 }
 
 .auth-feed-item-label {
@@ -158,30 +194,28 @@ const CSS = `
 }
 
 .auth-feed-item-title {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   line-height: 1.4;
 }
 
 .auth-feed-item-title i {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   color: var(--accent3);
   flex-shrink: 0;
 }
 
 .auth-feed-item-desc {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--text-dim);
   line-height: 1.5;
-}
-
-.auth-feed-item-date {
-  font-size: 0.7rem;
-  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Right Container ── */
@@ -299,8 +333,65 @@ const CSS = `
 .auth-input-helper {
   font-size: 0.78rem;
   color: var(--text-muted);
-  margin-top: -12px;
+  margin-top: 6px;
   margin-left: 2px;
+}
+
+/* ── Phone Row ── */
+.auth-phone-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.auth-phone-select {
+  background: var(--input-bg);
+  border: 1px solid var(--border-focus);
+  border-radius: 12px;
+  padding: 14px 10px;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: all 0.25s;
+  width: 130px;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.auth-phone-select:focus {
+  border-color: var(--accent3);
+  background: var(--input-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.auth-phone-select option {
+  background: #0d0d0f;
+  color: #fff;
+}
+
+.auth-phone-number {
+  flex: 1;
+}
+
+/* ── Google Banner ── */
+.auth-google-banner {
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.84rem;
+  color: var(--accent3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.auth-google-banner i {
+  flex-shrink: 0;
+  font-size: 1rem;
 }
 
 /* ── Password Warning ── */
@@ -309,7 +400,7 @@ const CSS = `
   border: 1px solid rgba(217, 119, 6, 0.3);
   border-radius: 12px;
   padding: 14px 16px;
-  margin: 12px 0;
+  margin: 0;
   display: flex;
   gap: 10px;
   align-items: flex-start;
@@ -338,7 +429,7 @@ const CSS = `
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  margin: 18px 0;
+  margin: 0;
 }
 
 .auth-checkbox input {
@@ -370,7 +461,7 @@ const CSS = `
 
 /* ── Button ── */
 .auth-btn {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -389,7 +480,7 @@ const CSS = `
 
 .auth-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px var(--accent-shadow);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
 }
 
 .auth-btn:disabled {
@@ -445,12 +536,36 @@ const CSS = `
   flex-shrink: 0;
 }
 
+/* ── Switch Mode Text ── */
+.auth-switch-text {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-top: 16px;
+}
+
+.auth-switch-btn {
+  color: var(--accent3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.auth-switch-btn:hover {
+  color: var(--accent2);
+  text-decoration: underline;
+}
+
 /* ── Divider ── */
 .auth-divider {
   text-align: center;
   color: var(--text-muted);
   font-size: 0.85rem;
-  margin: 24px 0;
+  margin: 8px 0;
   position: relative;
 }
 
@@ -462,12 +577,14 @@ const CSS = `
   right: 0;
   height: 1px;
   background: var(--gborder);
-  z-index: -1;
+  z-index: 0;
 }
 
-.auth-divider {
-  background: var(--glass);
-  padding: 0 8px;
+.auth-divider span {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  padding: 0 10px;
 }
 
 /* ── Links ── */
@@ -511,9 +628,6 @@ const CSS = `
   .auth-card {
     padding: 40px;
   }
-  .auth-feed-item-img {
-    height: 160px;
-  }
   .auth-title {
     font-size: 2.4rem;
   }
@@ -528,8 +642,31 @@ const CSS = `
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--border);
-    max-height: 260px;
-    padding: 24px 20px;
+    max-height: 240px;
+    padding: 20px 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .auth-feed {
+    flex-direction: row;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 8px;
+  }
+  .auth-feed-item {
+    min-width: 200px;
+    flex-shrink: 0;
+    flex-direction: column;
+    padding: 0;
+  }
+  .auth-feed-item-img {
+    width: 100%;
+    height: 110px;
+  }
+  .auth-feed-item-img.is-png img,
+  .auth-feed-item-img.is-cover img {
+    object-fit: cover;
   }
   .auth-right {
     width: 100%;
@@ -540,20 +677,6 @@ const CSS = `
   }
   .auth-title {
     font-size: 2rem;
-  }
-  .auth-feed {
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 14px;
-    scroll-behavior: smooth;
-    padding-bottom: 8px;
-  }
-  .auth-feed-item {
-    min-width: 150px;
-    flex-shrink: 0;
-  }
-  .auth-feed-item-img {
-    height: 140px;
   }
 }
 
@@ -568,27 +691,21 @@ const CSS = `
     font-size: 0.85rem;
     padding: 12px;
   }
-  .auth-feed-item {
-    min-width: 130px;
-  }
-  .auth-feed-item-img {
-    height: 120px;
-  }
-  .auth-feed-item-title {
-    font-size: 0.88rem;
-  }
-  .auth-feed-item-desc {
-    font-size: 0.7rem;
-  }
   .auth-input {
     padding: 12px 12px;
     font-size: 0.9rem;
+  }
+  .auth-phone-select {
+    width: 110px;
+    font-size: 0.8rem;
+    padding: 12px 8px;
   }
 }
 
 /* ── Scrollbar ── */
 .auth-sidebar::-webkit-scrollbar {
   width: 6px;
+  height: 4px;
 }
 .auth-sidebar::-webkit-scrollbar-track {
   background: var(--bg);
@@ -614,7 +731,7 @@ const CSS = `
 `;
 
 // ═════════════════════════════════════════════════════════════
-// FEED ITEMS - CORRECT ROUTES & IMAGES
+// FEED ITEMS - HORIZONTAL ARTICLE STYLE
 // ═════════════════════════════════════════════════════════════
 const FEED_ITEMS = [
   {
@@ -625,6 +742,7 @@ const FEED_ITEMS = [
     description: 'Explore our digital art & design',
     icon: 'fa-pen-fancy',
     image: '/assets/img/1.png',
+    isPng: true,
     link: '/journal/karya1',
   },
   {
@@ -635,6 +753,7 @@ const FEED_ITEMS = [
     description: 'Professional event broadcasting',
     icon: 'fa-video',
     image: '/assets/img/livestream.png',
+    isPng: false, // cover style
     link: '/porto',
   },
   {
@@ -645,6 +764,7 @@ const FEED_ITEMS = [
     description: 'Cinematic content & effects',
     icon: 'fa-film',
     image: '/assets/img/2.png',
+    isPng: true,
     link: '/porto/karya2',
   },
   {
@@ -655,6 +775,7 @@ const FEED_ITEMS = [
     description: 'Digital wedding packages',
     icon: 'fa-heart',
     image: '/assets/img/3.png',
+    isPng: true,
     link: '/porto/karya4',
   },
   {
@@ -665,12 +786,57 @@ const FEED_ITEMS = [
     description: 'Discuss your project',
     icon: 'fa-envelope',
     image: '/assets/img/4.png',
+    isPng: true,
     link: '/contact',
   },
 ];
 
 // ═════════════════════════════════════════════════════════════
-// MEMOIZED CARD COMPONENT
+// COUNTRY CODES
+// ═════════════════════════════════════════════════════════════
+const COUNTRY_CODES = [
+  { code: '+62', label: '+62 🇮🇩 Indonesia' },
+  { code: '+1',  label: '+1 🇺🇸 USA' },
+  { code: '+44', label: '+44 🇬🇧 UK' },
+  { code: '+81', label: '+81 🇯🇵 Japan' },
+  { code: '+86', label: '+86 🇨🇳 China' },
+  { code: '+91', label: '+91 🇮🇳 India' },
+  { code: '+65', label: '+65 🇸🇬 Singapore' },
+  { code: '+60', label: '+60 🇲🇾 Malaysia' },
+  { code: '+63', label: '+63 🇵🇭 Philippines' },
+  { code: '+84', label: '+84 🇻🇳 Vietnam' },
+  { code: '+66', label: '+66 🇹🇭 Thailand' },
+  { code: '+82', label: '+82 🇰🇷 Korea' },
+  { code: '+61', label: '+61 🇦🇺 Australia' },
+  { code: '+49', label: '+49 🇩🇪 Germany' },
+  { code: '+33', label: '+33 🇫🇷 France' },
+  { code: '+39', label: '+39 🇮🇹 Italy' },
+  { code: '+34', label: '+34 🇪🇸 Spain' },
+  { code: '+55', label: '+55 🇧🇷 Brazil' },
+  { code: '+52', label: '+52 🇲🇽 Mexico' },
+  { code: '+27', label: '+27 🇿🇦 South Africa' },
+];
+
+// ═════════════════════════════════════════════════════════════
+// reCAPTCHA ENTERPRISE HELPER
+// ═════════════════════════════════════════════════════════════
+const RECAPTCHA_SITE_KEY = '6LcWrQYtAAAAAFOC6B2rXfmO6z1OjAX32fwaRjH0';
+
+const executeRecaptcha = async (action) => {
+  try {
+    if (!window.grecaptcha?.enterprise) return null;
+    await new Promise(resolve => window.grecaptcha.enterprise.ready(resolve));
+    const token = await window.grecaptcha.enterprise.execute(RECAPTCHA_SITE_KEY, { action });
+    console.log(`[reCAPTCHA] action=${action} token=`, token);
+    return token;
+  } catch (err) {
+    console.warn('[reCAPTCHA] failed:', err);
+    return null;
+  }
+};
+
+// ═════════════════════════════════════════════════════════════
+// MEMOIZED FEED CARD — HORIZONTAL ARTICLE STYLE
 // ═════════════════════════════════════════════════════════════
 const FeedCard = memo(({ item, navigate }) => {
   const handleClick = (e) => {
@@ -684,9 +850,9 @@ const FeedCard = memo(({ item, navigate }) => {
       onClick={handleClick}
       title={item.title}
       type="button"
-      style={{ cursor: 'pointer' }}
     >
-      <div className="auth-feed-item-img">
+      {/* Image: left side */}
+      <div className={`auth-feed-item-img ${item.isPng ? 'is-png' : 'is-cover'}`}>
         <img
           src={item.image}
           alt={item.title}
@@ -696,32 +862,52 @@ const FeedCard = memo(({ item, navigate }) => {
           }}
         />
       </div>
-      <div className="auth-feed-item-label">{item.label}</div>
-      <div className="auth-feed-item-title">
-        <i className={`fa-solid ${item.icon}`} /> {item.title}
+
+      {/* Text: right side */}
+      <div className="auth-feed-item-text">
+        <div className="auth-feed-item-label">{item.label}</div>
+        <div className="auth-feed-item-title">
+          <i className={`fa-solid ${item.icon}`} /> {item.title}
+        </div>
+        <div className="auth-feed-item-desc">{item.description}</div>
       </div>
-      <div className="auth-feed-item-desc">{item.description}</div>
     </button>
   );
 });
 
 FeedCard.displayName = 'FeedCard';
 
+// ═════════════════════════════════════════════════════════════
+// MAIN COMPONENT
+// ═════════════════════════════════════════════════════════════
 export default function AuthLogin() {
   const navigate = useNavigate();
-  
-  // States
+
+  // Mode & loading
   const [mode, setMode] = useState('login');
+  const [loading, setLoading] = useState(false);
+
+  // Login fields
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+
+  // Register fields
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  // Phone: split into country code + number
+  const [phoneCountryCode, setPhoneCountryCode] = useState('+62');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  // Google register state
+  const [googleUser, setGoogleUser] = useState(null);
+
+  // Feedback
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
   const styleRef = useRef(null);
 
   // Inject CSS
@@ -737,12 +923,10 @@ export default function AuthLogin() {
     };
   }, []);
 
-  // Check if already logged in
+  // Redirect if already logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate('/Dashboard');
-      }
+      if (user) navigate('/Dashboard');
     });
     return () => unsubscribe();
   }, [navigate]);
@@ -754,10 +938,16 @@ export default function AuthLogin() {
     }
   }, [password, confirmPassword, mode]);
 
-  // Login dengan Email
+  // ── Switch mode helper ──
+  const switchMode = (m) => {
+    setMode(m);
+    setError('');
+    setSuccess('');
+  };
+
+  // ── LOGIN ──
   const handleEmailLogin = async (e) => {
     e.preventDefault();
-    
     if (!email || !password) {
       setError('Email dan password harus diisi.');
       return;
@@ -765,12 +955,14 @@ export default function AuthLogin() {
 
     setLoading(true);
     setError('');
+
+    // reCAPTCHA Enterprise
+    await executeRecaptcha('LOGIN');
+
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password.trim());
       setSuccess('Login berhasil! Redirecting...');
-      setTimeout(() => {
-        navigate('/Dashboard');
-      }, 800);
+      setTimeout(() => navigate('/Dashboard'), 800);
     } catch (err) {
       console.error('[AuthLogin] Login error:', err);
       if (err.code === 'auth/user-not-found') {
@@ -787,25 +979,26 @@ export default function AuthLogin() {
     }
   };
 
-  // Register dengan Email
+  // ── REGISTER (Email atau Google) ──
   const handleEmailRegister = async (e) => {
     e.preventDefault();
-    
-    if (!name || !email || !phone || !password || !confirmPassword) {
-      setError('Semua field harus diisi.');
+
+    // Validasi field
+    if (!name) { setError('Nama harus diisi.'); return; }
+    if (!googleUser && !email) { setError('Email harus diisi.'); return; }
+    if (!phoneNumber) { setError('Nomor telepon harus diisi.'); return; }
+    if (!googleUser && (!password || !confirmPassword)) {
+      setError('Password harus diisi.');
       return;
     }
-    
-    if (password !== confirmPassword) {
+    if (!googleUser && password !== confirmPassword) {
       setError('Password dan konfirmasi password tidak cocok.');
       return;
     }
-    
-    if (password.length < 6) {
+    if (!googleUser && password.length < 6) {
       setError('Password minimal 6 karakter.');
       return;
     }
-
     if (!agreeTerms) {
       setError('Anda harus setuju dengan Kebijakan Privasi.');
       return;
@@ -813,22 +1006,44 @@ export default function AuthLogin() {
 
     setLoading(true);
     setError('');
+
+    const fullPhone = `${phoneCountryCode}${phoneNumber.trim()}`;
+
     try {
-      const result = await createUserWithEmailAndPassword(auth, email.trim(), password.trim());
-      const user = result.user;
+      if (googleUser) {
+        // ── Register via Google (uid sudah ada) ──
+        await setDoc(doc(db, 'users', googleUser.uid), {
+          name: name.trim(),
+          email: googleUser.email,
+          phone: fullPhone,
+          photoURL: googleUser.photoURL || null,
+          authMethod: 'google',
+          createdAt: new Date(),
+        });
+        setSuccess('Akun berhasil dibuat!');
+        setTimeout(() => navigate('/Dashboard'), 1000);
+      } else {
+        // ── Register via Email ──
+        await executeRecaptcha('REGISTER');
 
-      await setDoc(doc(db, 'users', user.uid), {
-        name: name.trim(),
-        email: email.trim(),
-        phone: phone.trim(),
-        authMethod: 'email',
-        createdAt: new Date(),
-      });
+        const result = await createUserWithEmailAndPassword(
+          auth,
+          email.trim(),
+          password.trim()
+        );
+        const user = result.user;
 
-      setSuccess('Akun berhasil dibuat! Redirecting...');
-      setTimeout(() => {
-        navigate('/Dashboard');
-      }, 1000);
+        await setDoc(doc(db, 'users', user.uid), {
+          name: name.trim(),
+          email: email.trim(),
+          phone: fullPhone,
+          authMethod: 'email',
+          createdAt: new Date(),
+        });
+
+        setSuccess('Akun berhasil dibuat! Redirecting...');
+        setTimeout(() => navigate('/Dashboard'), 1000);
+      }
     } catch (err) {
       console.error('[AuthLogin] Register error:', err);
       if (err.code === 'auth/email-already-in-use') {
@@ -843,7 +1058,7 @@ export default function AuthLogin() {
     }
   };
 
-  // Register dengan Google
+  // ── GOOGLE LOGIN / REGISTER ──
   const handleGoogleRegister = async () => {
     setLoading(true);
     setError('');
@@ -851,28 +1066,22 @@ export default function AuthLogin() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
+      // Cek apakah user sudah ada di Firestore
       const userDoc = await getDoc(doc(db, 'users', user.uid));
 
       if (userDoc.exists()) {
+        // User lama → langsung ke Dashboard
         setSuccess('Akun sudah terdaftar! Redirecting...');
-        setTimeout(() => {
-          navigate('/Dashboard');
-        }, 800);
-        return;
+        setTimeout(() => navigate('/Dashboard'), 800);
+      } else {
+        // User baru → redirect ke mode register, pre-fill data
+        setGoogleUser(user);
+        setName(user.displayName || '');
+        setEmail(user.email || '');
+        setMode('register');
+        setSuccess('');
+        setError('');
       }
-
-      await setDoc(doc(db, 'users', user.uid), {
-        name: user.displayName || 'Google User',
-        email: user.email,
-        photoURL: user.photoURL || null,
-        authMethod: 'google',
-        createdAt: new Date(),
-      });
-
-      setSuccess('Akun berhasil dibuat!');
-      setTimeout(() => {
-        navigate('/Dashboard');
-      }, 1000);
     } catch (err) {
       console.error('[AuthLogin] Google register error:', err);
       if (err.code === 'auth/popup-closed-by-user') {
@@ -885,9 +1094,13 @@ export default function AuthLogin() {
     }
   };
 
+  // ═════════════════════════════════════════════════════════════
+  // RENDER
+  // ═════════════════════════════════════════════════════════════
   return (
     <div className="auth-page">
-      {/* ── LEFT SIDEBAR: Portfolio Feed ── */}
+
+      {/* ── LEFT SIDEBAR: Portfolio Feed (Horizontal) ── */}
       <div className="auth-sidebar">
         <div className="auth-logo">
           <i className="fa-solid fa-sparkles" />
@@ -897,37 +1110,26 @@ export default function AuthLogin() {
         <div className="auth-sidebar-label">Our Latest Works</div>
         <div className="auth-feed">
           {FEED_ITEMS.map((item) => (
-            <FeedCard
-              key={item.id}
-              item={item}
-              navigate={navigate}
-            />
+            <FeedCard key={item.id} item={item} navigate={navigate} />
           ))}
         </div>
       </div>
 
-      {/* ── RIGHT CONTAINER: Login/Register Form ── */}
+      {/* ── RIGHT CONTAINER: Form ── */}
       <div className="auth-right">
         <div className="auth-card">
+
           {/* Tabs */}
           <div className="auth-tabs">
             <button
               className={`auth-tab ${mode === 'login' ? 'active' : ''}`}
-              onClick={() => {
-                setMode('login');
-                setError('');
-                setSuccess('');
-              }}
+              onClick={() => switchMode('login')}
             >
               Masuk
             </button>
             <button
               className={`auth-tab ${mode === 'register' ? 'active' : ''}`}
-              onClick={() => {
-                setMode('register');
-                setError('');
-                setSuccess('');
-              }}
+              onClick={() => { setGoogleUser(null); switchMode('register'); }}
             >
               Daftar
             </button>
@@ -945,148 +1147,55 @@ export default function AuthLogin() {
           {error && <div className="auth-err">{error}</div>}
           {success && <div className="auth-success">{success}</div>}
 
-          {/* ── LOGIN MODE ── */}
+          {/* ══════════════════════════════════════
+              LOGIN MODE
+          ══════════════════════════════════════ */}
           {mode === 'login' && (
-            <form className="auth-form" onSubmit={handleEmailLogin}>
-              <div>
-                <label className="auth-input-label">Email</label>
-                <input
-                  type="email"
-                  className="auth-input"
-                  placeholder="user@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-              <div>
-                <label className="auth-input-label">Password</label>
-                <input
-                  type="password"
-                  className="auth-input"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-              <button type="submit" className="auth-btn" disabled={loading}>
-                {loading ? <i className="fa-solid fa-spinner fa-spin" /> : null}
-                {loading ? 'Memproses...' : 'Masuk'}
-              </button>
-            </form>
-          )}
-
-          {/* ── REGISTER MODE ── */}
-          {mode === 'register' && (
-            <form className="auth-form" onSubmit={handleEmailRegister}>
-              <div>
-                <label className="auth-input-label">Nama Lengkap</label>
-                <input
-                  type="text"
-                  className="auth-input"
-                  placeholder="John Doe"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-              <div>
-                <label className="auth-input-label">Email</label>
-                <input
-                  type="email"
-                  className="auth-input"
-                  placeholder="john@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-              <div>
-                <label className="auth-input-label">No. Telepon</label>
-                <input
-                  type="tel"
-                  className="auth-input"
-                  placeholder="+62 821 2345 6789"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-              <div>
-                <label className="auth-input-label">Password</label>
-                <input
-                  type="password"
-                  className="auth-input"
-                  placeholder="Minimal 6 karakter"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-                <div className="auth-input-helper">Min. 8 karakter, gunakan huruf, angka, dan simbol</div>
-              </div>
-
-              {/* Password Security Warning */}
-              <div className="auth-password-warning">
-                <i className="fa-solid fa-triangle-exclamation" />
-                <div className="auth-password-warning-text">
-                  <strong>Penting:</strong> Jangan gunakan password sama dengan Google Anda
+            <>
+              <form className="auth-form" onSubmit={handleEmailLogin}>
+                <div>
+                  <label className="auth-input-label">Email</label>
+                  <input
+                    type="email"
+                    className="auth-input"
+                    placeholder="user@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
+                    required
+                  />
                 </div>
-              </div>
+                <div>
+                  <label className="auth-input-label">Password</label>
+                  <input
+                    type="password"
+                    className="auth-input"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={loading}
+                    required
+                  />
+                </div>
+                <button type="submit" className="auth-btn" disabled={loading}>
+                  {loading && <i className="fa-solid fa-spinner fa-spin" />}
+                  {loading ? 'Memproses...' : 'Masuk'}
+                </button>
+              </form>
 
-              <div>
-                <label className="auth-input-label">Konfirmasi Password</label>
-                <input
-                  type="password"
-                  className={`auth-input ${passwordMismatch ? 'error' : ''}`}
-                  placeholder="••••••••"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-                {passwordMismatch && (
-                  <div className="auth-input-helper" style={{ color: '#f87171' }}>
-                    ❌ Password tidak cocok
-                  </div>
-                )}
-              </div>
+              {/* Switch to register */}
+              <p className="auth-switch-text">
+                Belum punya akun?{' '}
+                <button
+                  className="auth-switch-btn"
+                  onClick={() => { setGoogleUser(null); switchMode('register'); }}
+                >
+                  Daftar di sini →
+                </button>
+              </p>
 
-              {/* Privacy Agreement */}
-              <div className="auth-checkbox">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  checked={agreeTerms}
-                  onChange={(e) => setAgreeTerms(e.target.checked)}
-                  disabled={loading}
-                  required
-                />
-                <label htmlFor="terms">
-                  Saya menyetujui{' '}
-                  <a href="/terms" target="_blank" rel="noopener noreferrer">
-                    Kebijakan Privasi
-                  </a>
-                </label>
-              </div>
+              <div className="auth-divider"><span>atau</span></div>
 
-              <button
-                type="submit"
-                className="auth-btn"
-                disabled={loading || passwordMismatch || !agreeTerms}
-              >
-                {loading ? <i className="fa-solid fa-spinner fa-spin" /> : null}
-                {loading ? 'Membuat Akun...' : 'Daftar'}
-              </button>
-
-              {/* Google Alternative */}
-              <div className="auth-divider">atau</div>
               <button
                 type="button"
                 className="auth-btn auth-btn-google"
@@ -1094,17 +1203,203 @@ export default function AuthLogin() {
                 disabled={loading}
               >
                 <i className="fa-brands fa-google" />
-                Daftar dengan Google
+                Masuk dengan Google
               </button>
-            </form>
+            </>
           )}
 
-          {/* Links */}
+          {/* ══════════════════════════════════════
+              REGISTER MODE
+          ══════════════════════════════════════ */}
+          {mode === 'register' && (
+            <>
+              {/* Google banner jika register via Google */}
+              {googleUser && (
+                <div className="auth-google-banner">
+                  <i className="fa-brands fa-google" />
+                  <span>
+                    Mendaftar dengan Google — email:{' '}
+                    <strong>{googleUser.email}</strong>
+                    <br />
+                    <small style={{ opacity: 0.8 }}>
+                      Akun Google kamu ditemukan! Lengkapi data berikut untuk mendaftar.
+                    </small>
+                  </span>
+                </div>
+              )}
+
+              <form className="auth-form" onSubmit={handleEmailRegister}>
+                {/* Nama */}
+                <div>
+                  <label className="auth-input-label">Nama Lengkap</label>
+                  <input
+                    type="text"
+                    className="auth-input"
+                    placeholder="John Doe"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={loading}
+                    required
+                  />
+                </div>
+
+                {/* Email — sembunyikan jika via Google */}
+                {!googleUser && (
+                  <div>
+                    <label className="auth-input-label">Email</label>
+                    <input
+                      type="email"
+                      className="auth-input"
+                      placeholder="john@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      disabled={loading}
+                      required
+                    />
+                  </div>
+                )}
+
+                {/* Nomor Telepon Internasional */}
+                <div>
+                  <label className="auth-input-label">No. Telepon</label>
+                  <div className="auth-phone-row">
+                    <select
+                      className="auth-phone-select"
+                      value={phoneCountryCode}
+                      onChange={(e) => setPhoneCountryCode(e.target.value)}
+                      disabled={loading}
+                    >
+                      {COUNTRY_CODES.map((c) => (
+                        <option key={c.code} value={c.code}>
+                          {c.label}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      className="auth-input auth-phone-number"
+                      placeholder="812 3456 7890"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      disabled={loading}
+                      required
+                    />
+                  </div>
+                  <div className="auth-input-helper">
+                    Pilih kode negara, lalu isi nomor tanpa angka 0 di depan
+                  </div>
+                </div>
+
+                {/* Password & Konfirmasi — sembunyikan jika via Google */}
+                {!googleUser && (
+                  <>
+                    <div>
+                      <label className="auth-input-label">Password</label>
+                      <input
+                        type="password"
+                        className="auth-input"
+                        placeholder="Minimal 6 karakter"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={loading}
+                        required
+                      />
+                      <div className="auth-input-helper">
+                        Min. 6 karakter, gunakan huruf, angka, dan simbol
+                      </div>
+                    </div>
+
+                    <div className="auth-password-warning">
+                      <i className="fa-solid fa-triangle-exclamation" />
+                      <div className="auth-password-warning-text">
+                        <strong>Penting:</strong> Jangan gunakan password sama dengan akun Google Anda
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="auth-input-label">Konfirmasi Password</label>
+                      <input
+                        type="password"
+                        className={`auth-input ${passwordMismatch ? 'error' : ''}`}
+                        placeholder="••••••••"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        disabled={loading}
+                        required
+                      />
+                      {passwordMismatch && (
+                        <div className="auth-input-helper" style={{ color: '#f87171' }}>
+                          ❌ Password tidak cocok
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                {/* Terms */}
+                <div className="auth-checkbox">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    disabled={loading}
+                    required
+                  />
+                  <label htmlFor="terms">
+                    Saya menyetujui{' '}
+                    <a href="/terms" target="_blank" rel="noopener noreferrer">
+                      Kebijakan Privasi
+                    </a>
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  className="auth-btn"
+                  disabled={loading || (!googleUser && (passwordMismatch || !agreeTerms)) || (googleUser && !agreeTerms)}
+                >
+                  {loading && <i className="fa-solid fa-spinner fa-spin" />}
+                  {loading ? 'Membuat Akun...' : 'Daftar'}
+                </button>
+              </form>
+
+              {/* Switch to login */}
+              <p className="auth-switch-text">
+                Sudah punya akun?{' '}
+                <button
+                  className="auth-switch-btn"
+                  onClick={() => { setGoogleUser(null); switchMode('login'); }}
+                >
+                  Masuk di sini →
+                </button>
+              </p>
+
+              {/* Google register — hanya tampil jika bukan via Google */}
+              {!googleUser && (
+                <>
+                  <div className="auth-divider"><span>atau</span></div>
+                  <button
+                    type="button"
+                    className="auth-btn auth-btn-google"
+                    onClick={handleGoogleRegister}
+                    disabled={loading}
+                  >
+                    <i className="fa-brands fa-google" />
+                    Daftar dengan Google
+                  </button>
+                </>
+              )}
+            </>
+          )}
+
+          {/* Footer links */}
           <div className="auth-links">
-            <a href="/terms">Syarat & Ketentuan</a>
+            <a href="/terms">Syarat &amp; Ketentuan</a>
             <div className="auth-links-sep" />
             <a href="/terms">Privasi</a>
           </div>
+
         </div>
       </div>
     </div>
