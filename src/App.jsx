@@ -26,8 +26,9 @@ const PriceList    = lazy(() => import('./pages/PriceList'));
 const CheckoutQRIS = lazy(() => import('./pages/CheckoutQRIS'));
 
 // Lazy load komponen baru
-const AuthLogin      = lazy(() => import('./pages/AuthLogin'));
-const DashboardAdmin = lazy(() => import('./pages/DashboardAdmin'));
+const AuthLogin        = lazy(() => import('./pages/AuthLogin'));
+const DashboardAdmin   = lazy(() => import('./pages/DashboardAdmin'));
+const CompleteProfile  = lazy(() => import('./pages/CompleteProfile'));
 
 /* ── 404 Page ── */
 function NotFound() {
@@ -42,6 +43,7 @@ export default function App() {
   // Sistem deteksi login berjalan di level tertinggi aplikasi
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
+  const [userProfileComplete, setUserProfileComplete] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -51,11 +53,27 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
+  // Cek kelengkapan profil (phone wajib ada)
+  useEffect(() => {
+    if (!user) return;
+    import('./pages/firebase').then(({ db }) => {
+      import('firebase/firestore').then(({ doc, getDoc }) => {
+        getDoc(doc(db, 'users', user.uid)).then(snap => {
+          if (!snap.exists() || !snap.data().phone) {
+            setUserProfileComplete(false);
+          } else {
+            setUserProfileComplete(true);
+          }
+        });
+      });
+    });
+  }, [user]);
+
   if (loadingAuth) return <PageLoader />;
 
   return (
     <BrowserRouter>
-      <Layout user={user} />
+      <Layout user={user} userProfileComplete={userProfileComplete} setUserProfileComplete={setUserProfileComplete} />
     </BrowserRouter>
   );
 }
@@ -66,7 +84,7 @@ function ScrollToTop() {
   return null;
 }
 
-function Layout({ user }) {
+function Layout({ user, userProfileComplete, setUserProfileComplete }) {
   const { theme, toggleTheme } = useTheme();
   const { lang, t, toggleLang } = useLang();
   const { pathname } = useLocation();
@@ -74,9 +92,14 @@ function Layout({ user }) {
   // Email Admin
   const ADMIN_EMAIL = "aldokraksaan@gmail.com";
   
-  // ✅ FIX #4: Tambah '/contact' ke daftar halaman fullscreen
   // Halaman yang tidak pakai Navbar/Footer (full-screen)
-  const isFullscreen = pathname === '/Dashboard' || pathname === '/admin-dashboard' || pathname === '/contact';
+  const isFullscreen = [
+    '/Dashboard',
+    '/admin-dashboard',
+    '/contact',
+    '/login',
+    '/complete-profile',
+  ].includes(pathname);
 
   return (
     <>
@@ -105,6 +128,12 @@ function Layout({ user }) {
               element={user ? <Navigate to={user.email === ADMIN_EMAIL ? "/admin-dashboard" : "/Dashboard"} /> : <AuthLogin />} 
             />
 
+            {/* Complete Profile — wajib login, untuk user baru yang belum isi phone */}
+            <Route
+              path="/complete-profile"
+              element={user ? <CompleteProfile /> : <Navigate to="/login" />}
+            />
+
             {/* RUTE TERPROTEKSI (Wajib Login) */}
             {/* Contact adalah halaman tempat form pemesanan setelah klik Checkout di PriceList */}
             <Route 
@@ -119,7 +148,11 @@ function Layout({ user }) {
             
             <Route 
               path="/Dashboard" 
-              element={user ? <Dashboard /> : <Navigate to="/login" />} 
+              element={
+                user
+                  ? (!userProfileComplete ? <Navigate to="/complete-profile" /> : <Dashboard />)
+                  : <Navigate to="/login" />
+              } 
             />
 
             {/* RUTE KHUSUS ADMIN (Hanya "aldokraksaan@gmail.com" yang bisa masuk) */}
