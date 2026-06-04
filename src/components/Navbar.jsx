@@ -9,11 +9,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 const ADMIN_EMAIL = 'aldokraksaan@gmail.com';
 
 const NAV_LINKS = [
-  { to: '/',        label: 'Home',    key: 'home',    dropdownKey: 'home'    },
-  { to: '/works',   label: 'Work',    key: 'work',    dropdownKey: null      },
-  { to: '/about',   label: 'About',   key: 'about',   dropdownKey: 'about'   },
-  { to: '/journal', label: 'Journal', key: 'journal', dropdownKey: null      },
-  { to: '/contact', label: 'Contact', key: 'contact', dropdownKey: 'contact' },
+  { to: '/',          label: 'Home',    key: 'home',    dropdownKey: 'home'    },
+  { to: '/works',     label: 'Work',    key: 'work',    dropdownKey: null      },
+  { to: '/about',     label: 'About',   key: 'about',   dropdownKey: 'about'   },
+  { to: '/journal',   label: 'Journal', key: 'journal', dropdownKey: null      },
+  { to: '/price-list', label: 'Price', key: 'price', dropdownKey: null       },
 ];
 
 const DROPDOWN_ITEMS = {
@@ -27,10 +27,6 @@ const DROPDOWN_ITEMS = {
       icon: 'fa-brands fa-instagram',
       external: true,
     },
-  ],
-  contact: [
-    { label: 'Price List', to: '/price-list', icon: 'fa-solid fa-tag', external: false },
-    { label: 'How to Order', to: '/terms#how-to', icon: 'fa-solid fa-circle-question', external: false },
   ],
 };
 
