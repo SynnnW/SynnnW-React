@@ -130,28 +130,6 @@ export default function Footer({ t }) {
           <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', margin: 0 }}>
             © 2025–2026 SynnnW Studio. All rights reserved.
           </p>
-          {/* Sinematura secondary subtle link */}
-          <a
-            href="https://www.instagram.com/sine_matura?igsh=MWQ1MXptNHp6cm0xNw=="
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontSize:      '0.72rem',
-              color:         'var(--text-dim)',
-              opacity:       0.55,
-              textDecoration:'none',
-              display:       'inline-flex',
-              alignItems:    'center',
-              gap:           '5px',
-              transition:    'opacity 0.2s',
-              fontFamily:    'Outfit, sans-serif',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '0.55')}
-          >
-            <i className="fa-brands fa-instagram" style={{ fontSize: '0.68rem' }} />
-            Sinematura
-          </a>
         </div>
 
         {/* Social links */}
