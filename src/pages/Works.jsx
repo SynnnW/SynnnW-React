@@ -28,7 +28,7 @@ const KARYA_LIST = [
     category: ['Short Film'],
     titleEN: 'Suara Sumbang Angin Utara',
     titleID: 'Suara Sumbang Angin Utara',
-    descEN: 'Mira loves traditional music — the saronèn. When a national competition offers her a golden ticket to art school, her mother presents a ring. A film about choosing between a dream and what's expected of you.',
+    descEN: 'Mira loves traditional music — the saronèn. When a national competition offers her a golden ticket to art school, her mother presents a ring. A film about choosing between a dream and whats expected of you.',
     descID: 'Mira cinta musik saronèn. Lomba nasional datang bawa tiket ke perguruan tinggi seni. Tapi ibu kasih cincin — tanda pernikahan. Film tentang dilema mimpi dan kenyataan.',
     tags: ['Short Film', 'Sinematura', 'Competition'],
     award: '🥈 Juara 2 Nasional — Film Festival Cendana 2025',
