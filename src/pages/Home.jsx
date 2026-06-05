@@ -162,22 +162,10 @@ export default function Home({ t = {} }) {
           <p className="home-callme">{tr('callMe', 'panggil aku')}</p>
           <h1 className="home-name">Aldosynnn</h1>
           <div className="home-subtitle">
-            <span className="home-sub1">{tr('sub1', 'Merancang')}</span>
+            <span className="home-sub1">{tr('sub1', 'I like building')}</span>
             <span className="home-sub2">
-              {tr('sub2', 'antarmuka')} <em>{tr('sub2b', 'digital.')}</em>
+              {tr('sub2', 'digital')} <em>{tr('sub2b', 'interfaces.')}</em>
             </span>
-            <svg
-              className="pencil-svg"
-              viewBox="0 0 420 18"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <path
-                className="pencil-path"
-                d="M4 13 C60 4, 140 17, 220 9 C300 2, 360 15, 416 11"
-              />
-            </svg>
           </div>
           <p className="home-quote">
             {tr('quote', '"Mengerjakan proyekmu seolah itu milikku."')}
@@ -368,11 +356,17 @@ button { cursor: pointer; border: none; font-family: inherit; }
 }
 .home-bg {
   position: absolute; inset: 0; z-index: 0;
-  background: linear-gradient(135deg, #0a0a0e 0%, #12131a 100%);
+  background: url('/assets/img/bg1.jpg') center/cover no-repeat;
+  background-attachment: fixed;
 }
 .home-overlay {
   position: absolute; inset: 0; z-index: 1;
-  background: radial-gradient(circle at 50% 50%, rgba(139,92,246,0.08) 0%, transparent 60%);
+  background: linear-gradient(
+    135deg, 
+    rgba(10,10,14,0.65) 0%, 
+    rgba(18,19,26,0.68) 50%,
+    rgba(10,10,14,0.65) 100%
+  );
 }
 .home-content {
   position: relative; z-index: 2; text-align: center; padding: 120px 80px 80px;
@@ -393,15 +387,22 @@ button { cursor: pointer; border: none; font-family: inherit; }
 .home-subtitle {
   position: relative; margin-bottom: 40px;
   animation: fadeUp 1s ease 0.6s both;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px;
 }
 .home-sub1 {
-  display: block; font-size: clamp(1rem, 3vw, 1.5rem);
-  font-weight: 300; color: var(--text-dim); margin-bottom: 8px;
+  display: inline-block; font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+  font-weight: 600; color: #fff;
+  background: var(--accent);
+  padding: 8px 16px;
+  border-radius: 8px;
 }
 .home-sub2 {
-  display: block; font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 600;
-  line-height: 1; color: var(--text);
+  display: inline-block; font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 600;
+  line-height: 1; color: #fff;
+  background: var(--accent);
+  padding: 8px 16px;
+  border-radius: 8px;
 }
 .home-sub2 em {
   font-style: italic; color: var(--accent2);
@@ -643,6 +644,25 @@ button { cursor: pointer; border: none; font-family: inherit; }
 }
 
 @media (max-width: 768px) {
+  .home-subtitle {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  }
+  .home-sub1 {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    padding: 6px 12px;
+    text-align: center;
+  }
+  .home-sub2 {
+    font-size: clamp(1.6rem, 5vw, 3rem);
+    padding: 6px 12px;
+    text-align: center;
+  }
+  .home-bg {
+    background-attachment: scroll;
+  }
   /* Hero fixes */
   .home-content {
     padding: 100px 24px 60px;
@@ -733,16 +753,28 @@ button { cursor: pointer; border: none; font-family: inherit; }
 
 @media (max-width: 480px) {
   .home-content {
-    padding: 80px 16px 50px;
+    padding: 70px 16px 40px;
   }
-  .home-name {
-    font-size: 2rem;
+  .home-subtitle {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 18px;
   }
   .home-sub1 {
     font-size: 0.9rem;
+    padding: 5px 10px;
+    text-align: center;
   }
   .home-sub2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    padding: 5px 10px;
+    text-align: center;
+  }
+  .home-name {
+    font-size: 2rem;
+    margin-bottom: 12px;
   }
   .home-quote {
     font-size: 0.9rem;
