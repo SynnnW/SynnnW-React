@@ -707,7 +707,7 @@ const CSS = `
   width: 100%; height: 100%;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 12px;
-  background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%);
+  background: transparent;
   color: var(--text-dim);
 }
 .h-work-placeholder i { font-size: 3rem; opacity: 0.15; }
