@@ -797,7 +797,7 @@ export default function About() {
               <div className="ab-photo-glow" />
               <div className="ab-photo-frame">
                 <img
-                  src="/assets/img/aldo.jpg"
+                  src="/assets/img/bg1.jpg"
                   alt="Aldo Leo Saputra"
                   className="ab-photo-img"
                   draggable={false}
