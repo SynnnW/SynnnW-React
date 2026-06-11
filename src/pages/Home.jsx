@@ -699,6 +699,9 @@ const CSS = `
 }
 .h-work-img-inner {
   width: 100%; height: 100%;
+  background-image: url('/assets/img/belajar.jpg');
+  background-size: cover;
+  background-position: center;
 }
 .h-work-placeholder {
   width: 100%; height: 100%;
