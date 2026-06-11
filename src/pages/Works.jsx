@@ -265,7 +265,7 @@ const KARYA_LIST = [
     descEN: 'A wedding site that greets each guest by name, opens with a cinematic video intro, and connects to a Firebase dashboard for RSVP management, guest messages, and live attendance tracking.',
     descID: 'Undangan pernikahan digital yang nyambut tamu pakai nama mereka, ada video sinematik di awal, terus semua data tamu diatur via dashboard Firebase.',
     tags: ['Firebase', 'Real-time RSVP', 'HTML/CSS/JS'],
-    image: '/assets/img/digital.png',
+    image: '/assets/img/bg.png',
     gradient: 'linear-gradient(135deg, #9d174d 0%, #831843 100%)',
   },
 ];
