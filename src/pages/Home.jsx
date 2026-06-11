@@ -111,7 +111,7 @@ export default function Home({ t = {} }) {
 
   const [activeDot,  setActiveDot]  = useState('sec-home');
   const [openAcc,    setOpenAcc]    = useState(0);
-  const [heroPhoto,  setHeroPhoto]  = useState('/assets/img/aldo.jpg');
+  const [heroPhoto,  setHeroPhoto]  = useState('/assets/img/bg1.jpg');
 
   const revealEls = useRef([]);
 
