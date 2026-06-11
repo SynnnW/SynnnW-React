@@ -17,6 +17,7 @@ const KARYA_LIST = [
     descEN: 'A birthday website built purely in HTML/CSS/JS. Mini-games, a personal AI assistant, and an immersive story experience for someone special. Vibe coded — no React, no framework, just fast and personal.',
     descID: 'Website kado ulang tahun buat pasangan atau anak. Ada game tantangan, story interaktif, asisten AI personal — semua HTML CSS JS, cepet dan personal banget.',
     tags: ['HTML/CSS/JS', 'Interactive Game', 'AI Integration', 'Vibe Code'],
+    image: '/images/works/image.png',
     gradient: 'linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)',
   },
 
@@ -32,6 +33,7 @@ const KARYA_LIST = [
     descID: 'Mira cinta musik saronèn. Lomba nasional datang bawa tiket ke perguruan tinggi seni. Tapi ibu kasih cincin — tanda pernikahan. Film tentang dilema mimpi dan kenyataan.',
     tags: ['Short Film', 'Sinematura', 'Competition'],
     award: '🥈 Juara 2 Nasional — Film Festival Cendana 2025',
+    image: '/images/works/sumbang.jpg',
     gradient: 'linear-gradient(135deg, #0f766e 0%, #065f46 100%)',
   },
   {
@@ -45,6 +47,7 @@ const KARYA_LIST = [
     descID: 'Sekolah bukan cuma transfer ilmu. Guru bukan cuma pengajar — dia pembentuk karakter. Film ini nanya: apa yang hilang ketika teknologi mulai ngegantiin peran itu?',
     tags: ['Short Film', 'Sinematura', 'Competition'],
     note: 'Jawa Pos SMA Awards 2025',
+    image: '/images/works/jahat.jpg',
     gradient: 'linear-gradient(135deg, #92400e 0%, #78350f 100%)',
   },
   {
@@ -57,6 +60,7 @@ const KARYA_LIST = [
     descEN: 'A profile documentary on an English teacher at SMAN 1 Kraksaan — capturing her personal, human-centered approach to language teaching.',
     descID: 'Dokumenter profil guru Bahasa Inggris SMAN 1 Kraksaan. Cara beliau mengajar — pendekatan yang personal dan bikin siswa nggak takut bahasa Inggris.',
     tags: ['Video Profile', 'EJIES 2025'],
+    image: '/images/works/uswa.jpg',
     gradient: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
   },
   {
@@ -69,6 +73,7 @@ const KARYA_LIST = [
     descEN: 'A profile documentary featuring the fingerprint attendance system at SMAN 1 Kraksaan — how the tech works, and how it\'s reshaping school administration through biometric data.',
     descID: 'Dokumenter profil tentang sistem absen sidik jari di SMAN 1 Kraksaan — gimana teknologinya jalan dan ngubah cara administrasi sekolah.',
     tags: ['Video Profile', 'EJIES 2025', 'Biometric Tech'],
+    image: '/images/works/iwan.jpg',
     gradient: 'linear-gradient(135deg, #0369a1 0%, #075985 100%)',
   },
   {
@@ -81,6 +86,7 @@ const KARYA_LIST = [
     descEN: 'Competition video for the national Anak Indonesia Hebat gymnastics program — SMAN 1 Kraksaan\'s provincial entry. Clean coverage, tight audio sync.',
     descID: 'Video lomba senam Anak Indonesia Hebat 2025, mewakili Jawa Timur dari SMAN 1 Kraksaan. Shoot dan edit bersih, sync audio ketat.',
     tags: ['Competition Video', 'Jawa Timur'],
+    image: '/images/works/anak.jpg',
     gradient: 'linear-gradient(135deg, #b45309 0%, #92400e 100%)',
   },
   {
@@ -93,6 +99,7 @@ const KARYA_LIST = [
     descEN: 'Campaign video for youth parliament candidate Faza Abdi Mahalila. Energy transition isn\'t optional — PLTU Paiton lights millions of homes, but at a cost the land is still paying.',
     descID: 'Video kampanye caleg Parlemen Remaja. PLTU Paiton terangin jutaan rumah, tapi sawah kena abu, hasil panen turun. Program GENSIA: aksi nyata menuju energi bersih.',
     tags: ['Political', 'Youth Parliament', 'Energy Transition'],
+    image: '/images/works/faza.jpg',
     gradient: 'linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%)',
   },
   {
@@ -106,6 +113,7 @@ const KARYA_LIST = [
     descID: 'Video kreatif anti-korupsi yang nggak pake AI. Korupsi ngerugiin semua orang. Pesannya mulai dari diri sendiri: jujur dan berani nolak.',
     tags: ['Competition', 'Non-AI', 'Anti-Corruption'],
     note: 'Non-AI Production',
+    image: '/images/works/anti.jpg',
     gradient: 'linear-gradient(135deg, #be123c 0%, #9f1239 100%)',
   },
 
@@ -121,6 +129,7 @@ const KARYA_LIST = [
     descID: 'Arka, 16 tahun, ngerasa jauh dari orang tuanya yang sibuk. Perkelahian di sekolah jadi titik balik. Dia nemuin beladiri, latihan diam-diam, ikut lomba sendirian — dan menang.',
     tags: ['Short Film', 'Sinematura', 'FLS2N'],
     award: '🏆 Juara 1 Nasional — Film Festival Cendana 2025',
+    image: '/images/works/kepala.jpg',
     gradient: 'linear-gradient(135deg, #047857 0%, #065f46 100%)',
   },
   {
@@ -133,6 +142,7 @@ const KARYA_LIST = [
     descEN: 'Saka\'s bike chain breaks. Everyone passes by. One teacher stops — not with words, but with action. A quiet film about the kind of help that doesn\'t make a scene.',
     descID: 'Rantai sepeda Saka lepas. Semua orang lewat. Satu guru berhenti — bukan dengan kata-kata, tapi dengan tindakan. Film yang tenang tentang pertolongan yang nggak butuh penonton.',
     tags: ['Short Film', 'Sinematura', 'Piala Kadinas Jatim'],
+    image: '/images/works/rantai.jpg',
     gradient: 'linear-gradient(135deg, #475569 0%, #334155 100%)',
   },
   {
@@ -146,6 +156,7 @@ const KARYA_LIST = [
     descID: 'Proyek solo — nulis, nge-shoot, ngedit sendiri. Siswa yang suka seni terus dikomenin orang, terus jadiin itu bahan bakar. Film yang dibuat waktu ada sesuatu yang harus dibuktiin.',
     tags: ['Short Film', 'Solo Project'],
     note: 'Solo production — satu orang',
+    image: '/images/works/luka.jpg',
     gradient: 'linear-gradient(135deg, #7c2d12 0%, #6b21a8 100%)',
   },
   {
@@ -158,6 +169,7 @@ const KARYA_LIST = [
     descEN: 'A story about a minority student fighting to hold a Christmas event at his school, and the unexpected ally who makes it happen. A film about how tolerance is a decision, not a concept.',
     descID: 'Alvin, siswa minoritas, mau ngadain acara Natal di sekolah. Jalannya nggak mudah. Tapi akhirnya ada yang bantu dari tempat yang nggak dia sangka. Film tentang toleransi yang bukan cuma slogan.',
     tags: ['Short Film', 'Sinematura', 'Moderasi Beragama'],
+    image: '/images/works/tengah.jpg',
     gradient: 'linear-gradient(135deg, #0c4a6e 0%, #164e63 100%)',
   },
   {
@@ -170,6 +182,7 @@ const KARYA_LIST = [
     descEN: 'An exploration of how personal objects reveal personality — the things kids carry say more about who they are than any introduction. A quiet visual essay about individuality.',
     descID: 'Eksplorasi tentang perbedaan yang sering nggak disadari — kepribadian anak-anak yang tergambar dari barang-barang yang mereka bawa.',
     tags: ['Jawa Pos SMA Awards', 'Sinematografi'],
+    image: '/images/works/pos.jpg',
     gradient: 'linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%)',
   },
   {
@@ -182,6 +195,7 @@ const KARYA_LIST = [
     descEN: 'A time-travel teaser for SMAN 1 Kraksaan\'s MPLS orientation. Alvin finds a mysterious clock, activates it, and ends up witnessing the moment their class name was decided.',
     descID: 'Teaser MPLS. Alvin nemu jam misterius, nggak sengaja ngaktifin, dan tiba-tiba nonton rapat OSIS tahun 2022 nentuin nama angkatan — ALTERIO 47.',
     tags: ['MPLS', 'Time Travel', 'SMAN 1 Kraksaan'],
+    image: '/images/works/teaser.jpg',
     gradient: 'linear-gradient(135deg, #4338ca 0%, #3730a3 100%)',
   },
   {
@@ -194,6 +208,7 @@ const KARYA_LIST = [
     descEN: 'Video profile for Bilqis Zahratus Syita\'s award entry — edited to match the energy of her vision: moving forward despite obstacles, finding rhythm in every challenge.',
     descID: 'Video profil lomba Duta Pelajar Putri Award 2024. Diedit seenergi semangat Bilqis: terus bergerak, nemu irama di setiap tantangan.',
     tags: ['Jawa Pos SMA Awards', 'Duta Pelajar Putri'],
+    image: '/images/works/pelajar.jpg',
     gradient: 'linear-gradient(135deg, #be185d 0%, #9d174d 100%)',
   },
   {
@@ -206,6 +221,7 @@ const KARYA_LIST = [
     descEN: 'Full live stream production for PERBASI Youth Basketball League — Probolinggo Regency (Kabupaten 14, East Java). Custom OBS overlay, controlled via a tablet web app.',
     descID: 'Produksi live streaming liga basket PERBASI kabupaten 14 Jawa Timur. Desain overlay OBS custom, dikontrol real-time lewat web app di tablet.',
     tags: ['OBS', 'Live Streaming', 'Broadcast Design'],
+    image: '/images/works/perbasi.jpg',
     gradient: 'linear-gradient(135deg, #0f766e 0%, #0891b2 100%)',
   },
 
@@ -220,6 +236,7 @@ const KARYA_LIST = [
     descEN: 'Raka has a vision for waste management that nobody takes seriously. His classmates laugh, throw trash in his bag, call him names. He doesn\'t back down. Sinematura\'s first serious short film.',
     descID: 'Raka visioner soal pengolahan sampah tapi terus dibully temen-temennya. Dia nggak menyerah. Film serius pertama Sinematura.',
     tags: ['Short Film', 'Sinematura', 'Debut'],
+    image: '/images/works/sarka.jpg',
     gradient: 'linear-gradient(135deg, #064e3b 0%, #065f46 100%)',
   },
   {
@@ -233,6 +250,7 @@ const KARYA_LIST = [
     descID: 'Film pertama yang pernah dibuat — sebelum ada komunitas, sebelum ada penghargaan. Pak Rehan pengen daftar CPNS tapi baru belajar pegang HP.',
     tags: ['Short Film', 'First Film'],
     note: 'Before Sinematura existed',
+    image: '/images/works/pramu.jpg',
     gradient: 'linear-gradient(135deg, #78350f 0%, #92400e 100%)',
   },
 
@@ -247,6 +265,7 @@ const KARYA_LIST = [
     descEN: 'A wedding site that greets each guest by name, opens with a cinematic video intro, and connects to a Firebase dashboard for RSVP management, guest messages, and live attendance tracking.',
     descID: 'Undangan pernikahan digital yang nyambut tamu pakai nama mereka, ada video sinematik di awal, terus semua data tamu diatur via dashboard Firebase.',
     tags: ['Firebase', 'Real-time RSVP', 'HTML/CSS/JS'],
+    image: '/images/works/digital.png',
     gradient: 'linear-gradient(135deg, #9d174d 0%, #831843 100%)',
   },
 ];
@@ -611,7 +630,15 @@ export default function Works() {
                 <div className="wk-card-thumb">
                   <div
                     className="wk-card-thumb-inner"
-                    style={{ background: k.gradient }}
+                    style={{
+                      backgroundImage: k.image ? `url('${k.image}')` : 'none',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      background: k.image 
+                        ? `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('${k.image}')` 
+                        : k.gradient,
+                      backgroundAttachment: 'fixed',
+                    }}
                   />
                   {/* Year badge */}
                   <div className="wk-card-year-badge">{k.year}</div>
