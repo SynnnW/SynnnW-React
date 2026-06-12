@@ -140,43 +140,43 @@ function Layout({ user }) {
           <Routes location={location} key={location.pathname}>
 
             {/* ── PUBLIC PAGES ── */}
-            <Route path="/"               element={<Home />} />
-            <Route path="/about"          element={<About />} />
-            <Route path="/price-list"     element={<PriceList />} />
-            <Route path="/terms"          element={<Terms />} />
-            <Route path="/contact"        element={<Contact />} />
-            <Route path="/journal"        element={<Journal />} />
-            <Route path="/journal/karya1" element={<JournalKarya1 />} />
+            <Route path="/"               element={<Home t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/about"          element={<About t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/price-list"     element={<PriceList t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/terms"          element={<Terms t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/contact"        element={<Contact t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/journal"        element={<Journal t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/journal/karya1" element={<JournalKarya1 t={t} lang={lang} toggleLang={toggleLang} />} />
 
             {/* ── UTILITY (dipertahankan dari versi lama) ── */}
-            <Route path="/preview-logo"   element={<PreviewLogo />} />
+            <Route path="/preview-logo"   element={<PreviewLogo t={t} lang={lang} toggleLang={toggleLang} />} />
 
             {/* ── WORKS GALLERY ── */}
-            <Route path="/works" element={<Works />} />
+            <Route path="/works" element={<Works t={t} lang={lang} toggleLang={toggleLang} />} />
 
             {/* ── WORK DETAILS (renamed dari /porto/*) ── */}
-            <Route path="/works/birthday-gift"     element={<WorkDetail1 />} />
-            <Route path="/works/wedding-invite"    element={<WorkDetail2 />} />
-            <Route path="/works/video-collection"  element={<WorkDetail3 />} />
-            <Route path="/works/livestream-perbasi" element={<WorkDetail4 />} />
+            <Route path="/works/birthday-gift"     element={<WorkDetail1 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/wedding-invite"    element={<WorkDetail2 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/video-collection"  element={<WorkDetail3 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/livestream-perbasi" element={<WorkDetail4 t={t} lang={lang} toggleLang={toggleLang} />} />
 
             {/* ── WORK DETAILS NEW (WorkDetail5–20) ── */}
-            <Route path="/works/sarka-2023"                     element={<WorkDetail5 />} />
-            <Route path="/works/pramu-rasa-2023"                element={<WorkDetail6 />} />
-            <Route path="/works/ruang-kepala-2024"              element={<WorkDetail7 />} />
-            <Route path="/works/rantai-2024"                    element={<WorkDetail8 />} />
-            <Route path="/works/luka-menjadi-lukisan-2024"      element={<WorkDetail9 />} />
-            <Route path="/works/jalan-tengah-2024"              element={<WorkDetail10 />} />
-            <Route path="/works/sma-awards-sinematografi-2024"  element={<WorkDetail11 />} />
-            <Route path="/works/teaser-alterio-mpls-2024"       element={<WorkDetail12 />} />
-            <Route path="/works/guru-kita-yang-jahat-2025"      element={<WorkDetail13 />} />
-            <Route path="/works/suara-sumbang-angin-utara-2025" element={<WorkDetail14 />} />
-            <Route path="/works/video-profil-uswatun-2025"      element={<WorkDetail15 />} />
-            <Route path="/works/video-profil-iwan-2025"         element={<WorkDetail16 />} />
-            <Route path="/works/senam-indonesia-hebat-2025"     element={<WorkDetail17 />} />
-            <Route path="/works/duta-pelajar-putri-2024"        element={<WorkDetail18 />} />
-            <Route path="/works/parlemen-remaja-faza-2025"      element={<WorkDetail19 />} />
-            <Route path="/works/video-kreatif-antikorupsi-2025" element={<WorkDetail20 />} />
+            <Route path="/works/sarka-2023"                     element={<WorkDetail5 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/pramu-rasa-2023"                element={<WorkDetail6 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/ruang-kepala-2024"              element={<WorkDetail7 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/rantai-2024"                    element={<WorkDetail8 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/luka-menjadi-lukisan-2024"      element={<WorkDetail9 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/jalan-tengah-2024"              element={<WorkDetail10 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/sma-awards-sinematografi-2024"  element={<WorkDetail11 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/teaser-alterio-mpls-2024"       element={<WorkDetail12 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/guru-kita-yang-jahat-2025"      element={<WorkDetail13 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/suara-sumbang-angin-utara-2025" element={<WorkDetail14 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/video-profil-uswatun-2025"      element={<WorkDetail15 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/video-profil-iwan-2025"         element={<WorkDetail16 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/senam-indonesia-hebat-2025"     element={<WorkDetail17 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/duta-pelajar-putri-2024"        element={<WorkDetail18 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/parlemen-remaja-faza-2025"      element={<WorkDetail19 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/video-kreatif-antikorupsi-2025" element={<WorkDetail20 t={t} lang={lang} toggleLang={toggleLang} />} />
 
             {/* ── LEGACY REDIRECTS (porto/* → works/*) ── */}
             <Route path="/porto"        element={<Navigate to="/works" replace />} />
