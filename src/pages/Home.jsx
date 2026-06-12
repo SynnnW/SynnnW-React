@@ -1018,33 +1018,27 @@ const CSS = `
   .h-svc-grid     { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 768px) {
-  /* Hero — vertical / centered on mobile */
+  /* Hero — vertical / left-aligned on mobile */
   .h-home-content {
     padding: 120px 28px 100px;
-    text-align: center;
     max-width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
-  .h-home-callme  { font-size: 1.8rem; text-align: center; }
-  .h-home-name    { font-size: clamp(3rem, 15vw, 5rem); letter-spacing: -1px; text-align: center; }
-  .h-home-subtitle { text-align: center; }
-  .h-pencil-svg   { margin: 0 auto; }
-  .h-home-quote   { text-align: center; }
-  .h-home-cta     { display: flex; justify-content: center; align-items: center; width: 100%; }
+  .h-home-callme  { font-size: 1.8rem; }
+  .h-home-name    { font-size: clamp(3rem, 15vw, 5rem); letter-spacing: -1px; }
+  .h-home-subtitle { margin-top: 16px; }
+  .h-pencil-svg   { margin: 0; }
+  .h-home-cta     { display: flex; margin-top: 20px; }
   .h-home-location { right: 22px; bottom: 32px; }
   /* Sections below hero */
   .h-scroll-dots  { display: none; }
-  .h-section      { padding: 72px 24px; text-align: center; }
-  .h-sec-title    { margin-bottom: 40px; text-align: center; }
+  .h-section      { padding: 72px 24px; }
+  .h-sec-title    { margin-bottom: 40px; }
   .h-work-grid    { grid-template-columns: 1fr; gap: 36px; }
   .h-identity-grid { grid-template-columns: 1fr; gap: 36px; }
   .h-photo-frame  { max-width: 100%; }
   .h-svc-grid     { grid-template-columns: 1fr; }
-  .h-identity-heading { margin-bottom: 36px; text-align: center; }
-  .h-identity-stats { gap: 16px; justify-content: center; }
+  .h-identity-heading { margin-bottom: 36px; }
+  .h-identity-stats { gap: 16px; }
   .cta-tertarik   { padding: 16px 36px; font-size: 0.9rem; }
 }
 
@@ -1054,27 +1048,22 @@ const CSS = `
 @media (max-width: 480px) {
   .h-home-content {
     padding: 100px 16px 80px;
-    text-align: center;
     max-width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
-  .h-home-callme  { font-size: 1.5rem; text-align: center; }
-  .h-home-name    { font-size: clamp(2.6rem, 15vw, 3.8rem); letter-spacing: -0.5px; text-align: center; }
-  .h-home-subtitle { margin-top: 14px; text-align: center; }
-  .h-home-sub1    { font-size: clamp(1.3rem, 3.2vw, 2rem); text-align: center; }
-  .h-home-sub2    { font-size: clamp(1.3rem, 3.2vw, 2rem); text-align: center; }
-  .h-pencil-svg   { margin: 0 auto 0 auto; max-width: 250px; width: 100%; }
-  .h-home-quote   { font-size: 0.82rem; margin-top: 14px; text-align: center; line-height: 1.5; }
-  .h-home-cta     { display: flex; justify-content: center; align-items: center; margin-top: 18px; width: 100%; }
+  .h-home-callme  { font-size: 1.5rem; }
+  .h-home-name    { font-size: clamp(2.6rem, 15vw, 3.8rem); letter-spacing: -0.5px; }
+  .h-home-subtitle { margin-top: 14px; }
+  .h-home-sub1    { font-size: clamp(1.3rem, 3.2vw, 2rem); }
+  .h-home-sub2    { font-size: clamp(1.3rem, 3.2vw, 2rem); }
+  .h-pencil-svg   { margin: 0; max-width: 250px; width: 100%; }
+  .h-home-quote   { font-size: 0.82rem; margin-top: 14px; line-height: 1.5; }
+  .h-home-cta     { display: flex; margin-top: 18px; width: 100%; }
   .h-btn-cta      { padding: 12px 28px; font-size: 0.65rem; white-space: nowrap; }
   .h-home-location { right: 14px; bottom: 24px; font-size: 0.6rem; }
   
-  .h-section      { padding: 60px 16px; text-align: center; }
+  .h-section      { padding: 60px 16px; }
   .h-sec-label    { font-size: 0.54rem; }
-  .h-sec-title    { margin-bottom: 28px; font-size: clamp(1.9rem, 7.5vw, 2.8rem); text-align: center; }
+  .h-sec-title    { margin-bottom: 28px; font-size: clamp(1.9rem, 7.5vw, 2.8rem); }
   .h-work-grid    { gap: 20px; }
   .h-identity-grid { gap: 20px; }
   .h-svc-grid     { gap: 18px; }
