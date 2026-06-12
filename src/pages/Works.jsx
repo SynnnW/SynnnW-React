@@ -284,10 +284,8 @@ const FILTER_CATS = [
 /* ══════════════════════════════════════════════════════
    MAIN PAGE COMPONENT
 ══════════════════════════════════════════════════════ */
-export default function Works() {
+export default function Works({ lang = 'id' }) {
   const navigate = useNavigate();
-
-  const [lang] = useState(() => localStorage.getItem('synw-lang') || 'id');
   const [activeFilter, setActiveFilter] = useState('All');
   const [sortOrder, setSortOrder] = useState('newest'); // 'newest' | 'oldest'
 
