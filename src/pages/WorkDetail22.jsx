@@ -253,7 +253,7 @@ export default function WorkDetail22({ lang = 'id' }) {
               <iframe
                 src={drivePreviewUrl}
                 title="MINDOVA Research Poster"
-                allow="autoplay"
+                allow="autoplay; encrypted-media"
                 allowFullScreen
                 style={{ width: '100%', aspectRatio: '3/4', border: 'none', display: 'block' }}
               />
@@ -285,7 +285,7 @@ export default function WorkDetail22({ lang = 'id' }) {
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)', margin: 0 }}>MINDOVA — Psychological Empowerment Strategy</p>
               </div>
               <a
-                href="https://drive.google.com/file/d/1qZHAg6tA3v2PgrndCMiEubeFVYrl81tU/preview"
+                href="https://docs.google.com/uc?export=view&id=1qZHAg6tA3v2PgrndCMiEubeFVYrl81tU"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -306,7 +306,7 @@ export default function WorkDetail22({ lang = 'id' }) {
                 }}
               >
                 <i className="fa-solid fa-file-pdf" />
-                View Poster
+                View Full Poster
               </a>
             </div>
           )}
