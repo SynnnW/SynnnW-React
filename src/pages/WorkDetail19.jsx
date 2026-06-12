@@ -291,10 +291,9 @@ const CSS = `
 // ─────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────
-export default function WorkDetail19() {
+export default function WorkDetail19({ lang = 'id' }) {
   const navigate = useNavigate();
   const pageRef  = useReveal();
-  const [lang, setLang] = useState('id');
   const [drivePreviewUrl, setDrivePreviewUrl] = useState(null);
 
   // Inject CSS
@@ -502,17 +501,19 @@ export default function WorkDetail19() {
         )}
 
         {/* Sinematura badge */}
-        <div style={{ marginTop: 36 }} className="wd-reveal wd-d3">
-          <a
-            href={d.sinematura.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="wd-smt-badge"
-          >
-            <i className="fa-brands fa-instagram" />
-            <span>{d.sinematura.handle}</span>
-          </a>
-        </div>
+        {d.sinematura && (
+          <div style={{ marginTop: 36 }} className="wd-reveal wd-d3">
+            <a
+              href={d.sinematura.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="wd-smt-badge"
+            >
+              <i className="fa-brands fa-instagram" />
+              <span>{d.sinematura.handle}</span>
+            </a>
+          </div>
+        )}
       </section>
 
       {/* ══ TIM PRODUKSI ══ */}
@@ -574,15 +575,17 @@ export default function WorkDetail19() {
           Back to Works
         </button>
 
-        <a
-          href={d.sinematura.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="wd-smt-badge"
-        >
-          <i className="fa-brands fa-instagram" />
-          <span>{d.sinematura.handle}</span>
-        </a>
+        {d.sinematura && (
+          <a
+            href={d.sinematura.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="wd-smt-badge"
+          >
+            <i className="fa-brands fa-instagram" />
+            <span>{d.sinematura.handle}</span>
+          </a>
+        )}
       </div>
 
     </div>
