@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from './firebase';
-import { doc, getDoc } from 'firebase/firestore';
 
 const DATA = {
   title:      'Editing Praktikum Biologi',
@@ -167,7 +165,6 @@ const CSS = `
 export default function WorkDetail21({ lang = 'id' }) {
   const navigate = useNavigate();
   const pageRef = useReveal();
-  const [drivePreviewUrl, setDrivePreviewUrl] = useState(null);
 
   useEffect(() => {
     const style = document.createElement('style');
@@ -175,21 +172,6 @@ export default function WorkDetail21({ lang = 'id' }) {
     document.head.appendChild(style);
     window.scrollTo(0, 0);
     return () => { try { document.head.removeChild(style); } catch (_) {} };
-  }, []);
-
-  useEffect(() => {
-    const loadDrivePreview = async () => {
-      try {
-        const docRef = doc(db, 'works-media', 'workDetail21');
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists() && docSnap.data().drivePreviewUrl) {
-          setDrivePreviewUrl(docSnap.data().drivePreviewUrl);
-        }
-      } catch (err) {
-        console.log('Drive preview not available:', err);
-      }
-    };
-    loadDrivePreview();
   }, []);
 
   const d = DATA;
@@ -240,40 +222,18 @@ export default function WorkDetail21({ lang = 'id' }) {
         </h2>
 
         <div className="wd-yt-wrap wd-reveal wd-d2">
-          {drivePreviewUrl ? (
-            <>
-              <iframe
-                src={drivePreviewUrl}
-                title="Editing Praktikum Biologi"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                style={{ width: '100%', aspect: '16/9', border: 'none', display: 'block' }}
-              />
-              <div className="wd-yt-footer">
-                <div className="wd-yt-title-row">
-                  <span className="wd-yt-film-name">Praktikum Biologi</span>
-                  <span className="wd-yt-sub">Professional Video Editing · Educational</span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <video
-              style={{
-                width: '100%',
-                aspectRatio: '16/9',
-                borderRadius: '22px',
-                border: '1px solid var(--border)',
-                backgroundColor: '#000',
-                display: 'block'
-              }}
-              controls
-            >
-              <source src="https://docs.google.com/uc?export=download&id=1T5QXUrhx87AEJ_gU2HB_2z4Nl_qB7dks" type="video/mp4" />
-              <p style={{padding: '20px', color: 'var(--text-dim)'}}>
-                Video tidak bisa diputar. <a href="https://drive.google.com/file/d/1T5QXUrhx87AEJ_gU2HB_2z4Nl_qB7dks/view" target="_blank" rel="noopener noreferrer">Buka di Google Drive</a>
-              </p>
-            </video>
-          )}
+          <iframe
+            src="https://drive.google.com/file/d/1T5QXUrhx87AEJ_gU2HB_2z4Nl_qB7dks/preview"
+            title="Editing Praktikum Biologi"
+            allow="autoplay; encrypted-media"
+            style={{ width: '100%', aspectRatio: '16/9', border: 'none', display: 'block' }}
+          />
+          <div className="wd-yt-footer">
+            <div className="wd-yt-title-row">
+              <span className="wd-yt-film-name">Praktikum Biologi</span>
+              <span className="wd-yt-sub">Professional Video Editing · Educational</span>
+            </div>
+          </div>
         </div>
 
         <p className="wd-desc wd-reveal wd-d3" style={{ marginTop: '28px' }}>
