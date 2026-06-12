@@ -1023,22 +1023,28 @@ const CSS = `
     padding: 120px 28px 100px;
     text-align: center;
     max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .h-home-callme  { font-size: 1.8rem; }
-  .h-home-name    { font-size: clamp(3.6rem, 18vw, 5.5rem); letter-spacing: -1px; }
-  .h-pencil-svg   { margin: -2px auto 0; }
-  .h-home-cta     { display: flex; justify-content: center; }
+  .h-home-callme  { font-size: 1.8rem; text-align: center; }
+  .h-home-name    { font-size: clamp(3rem, 15vw, 5rem); letter-spacing: -1px; text-align: center; }
+  .h-home-subtitle { text-align: center; }
+  .h-pencil-svg   { margin: 0 auto; }
+  .h-home-quote   { text-align: center; }
+  .h-home-cta     { display: flex; justify-content: center; align-items: center; width: 100%; }
   .h-home-location { right: 22px; bottom: 32px; }
   /* Sections below hero */
   .h-scroll-dots  { display: none; }
-  .h-section      { padding: 72px 24px; }
+  .h-section      { padding: 72px 24px; text-align: center; }
+  .h-sec-title    { margin-bottom: 40px; text-align: center; }
   .h-work-grid    { grid-template-columns: 1fr; gap: 36px; }
   .h-identity-grid { grid-template-columns: 1fr; gap: 36px; }
   .h-photo-frame  { max-width: 100%; }
   .h-svc-grid     { grid-template-columns: 1fr; }
-  .h-sec-title    { margin-bottom: 40px; }
-  .h-identity-heading { margin-bottom: 36px; }
-  .h-identity-stats { gap: 16px; }
+  .h-identity-heading { margin-bottom: 36px; text-align: center; }
+  .h-identity-stats { gap: 16px; justify-content: center; }
   .cta-tertarik   { padding: 16px 36px; font-size: 0.9rem; }
 }
 
@@ -1047,28 +1053,32 @@ const CSS = `
 ───────────────────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .h-home-content {
-    padding: 100px 18px 80px;
+    padding: 100px 16px 80px;
     text-align: center;
     max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .h-home-callme  { font-size: 1.5rem; }
-  .h-home-name    { font-size: clamp(2.8rem, 16vw, 4rem); letter-spacing: -0.5px; }
-  .h-home-subtitle { margin-top: 16px; }
-  .h-home-sub1    { font-size: clamp(1.4rem, 3.5vw, 2.2rem); }
-  .h-home-sub2    { font-size: clamp(1.4rem, 3.5vw, 2.2rem); }
-  .h-pencil-svg   { margin: 0 auto; max-width: 280px; }
-  .h-home-quote   { font-size: 0.85rem; margin-top: 16px; }
-  .h-home-cta     { display: flex; justify-content: center; margin-top: 20px; }
-  .h-btn-cta      { padding: 12px 24px; font-size: 0.65rem; }
-  .h-home-location { right: 12px; bottom: 20px; font-size: 0.6rem; }
+  .h-home-callme  { font-size: 1.5rem; text-align: center; }
+  .h-home-name    { font-size: clamp(2.6rem, 15vw, 3.8rem); letter-spacing: -0.5px; text-align: center; }
+  .h-home-subtitle { margin-top: 14px; text-align: center; }
+  .h-home-sub1    { font-size: clamp(1.3rem, 3.2vw, 2rem); text-align: center; }
+  .h-home-sub2    { font-size: clamp(1.3rem, 3.2vw, 2rem); text-align: center; }
+  .h-pencil-svg   { margin: 0 auto 0 auto; max-width: 250px; width: 100%; }
+  .h-home-quote   { font-size: 0.82rem; margin-top: 14px; text-align: center; line-height: 1.5; }
+  .h-home-cta     { display: flex; justify-content: center; align-items: center; margin-top: 18px; width: 100%; }
+  .h-btn-cta      { padding: 12px 28px; font-size: 0.65rem; white-space: nowrap; }
+  .h-home-location { right: 14px; bottom: 24px; font-size: 0.6rem; }
   
-  .h-section      { padding: 60px 16px; }
-  .h-sec-label    { font-size: 0.55rem; }
-  .h-work-grid    { gap: 24px; }
-  .h-identity-grid { gap: 24px; }
-  .h-svc-grid     { gap: 20px; }
-  .h-sec-title    { margin-bottom: 30px; font-size: clamp(2rem, 8vw, 3rem); }
-  .cta-tertarik   { padding: 12px 28px; font-size: 0.8rem; }
+  .h-section      { padding: 60px 16px; text-align: center; }
+  .h-sec-label    { font-size: 0.54rem; }
+  .h-sec-title    { margin-bottom: 28px; font-size: clamp(1.9rem, 7.5vw, 2.8rem); text-align: center; }
+  .h-work-grid    { gap: 20px; }
+  .h-identity-grid { gap: 20px; }
+  .h-svc-grid     { gap: 18px; }
+  .cta-tertarik   { padding: 12px 26px; font-size: 0.75rem; }
 }
 
 /* Prevent horizontal scroll on all screen sizes */
