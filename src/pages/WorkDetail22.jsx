@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from './firebase';
-import { doc, getDoc } from 'firebase/firestore';
 
 const DATA = {
   title:      'MINDOVA',
@@ -170,7 +168,6 @@ const CSS = `
 export default function WorkDetail22({ lang = 'id' }) {
   const navigate = useNavigate();
   const pageRef = useReveal();
-  const [drivePreviewUrl, setDrivePreviewUrl] = useState(null);
 
   useEffect(() => {
     const style = document.createElement('style');
@@ -178,21 +175,6 @@ export default function WorkDetail22({ lang = 'id' }) {
     document.head.appendChild(style);
     window.scrollTo(0, 0);
     return () => { try { document.head.removeChild(style); } catch (_) {} };
-  }, []);
-
-  useEffect(() => {
-    const loadDrivePreview = async () => {
-      try {
-        const docRef = doc(db, 'works-media', 'workDetail22');
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists() && docSnap.data().drivePreviewUrl) {
-          setDrivePreviewUrl(docSnap.data().drivePreviewUrl);
-        }
-      } catch (err) {
-        console.log('Drive preview not available:', err);
-      }
-    };
-    loadDrivePreview();
   }, []);
 
   const d = DATA;
@@ -248,68 +230,18 @@ export default function WorkDetail22({ lang = 'id' }) {
         </h2>
 
         <div className="wd-yt-wrap wd-reveal wd-d2">
-          {drivePreviewUrl ? (
-            <>
-              <iframe
-                src={drivePreviewUrl}
-                title="MINDOVA Research Poster"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                style={{ width: '100%', aspectRatio: '3/4', border: 'none', display: 'block' }}
-              />
-              <div className="wd-yt-footer">
-                <div className="wd-yt-title-row">
-                  <span className="wd-yt-film-name">MINDOVA</span>
-                  <span className="wd-yt-sub">Research Poster · MEDSPIN UNAIR 2025</span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div style={{
-              width: '100%',
-              aspectRatio: '3/4',
-              background: 'linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(220,38,38,0.05) 100%)',
-              border: '1px solid rgba(220,38,38,0.25)',
-              borderRadius: '20px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 20,
-              padding: 40,
-              textAlign: 'center',
-            }}>
-              <i className="fa-solid fa-file-pdf" style={{ fontSize: '3rem', color: 'rgba(220,38,38,0.5)' }} />
-              <div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 500, marginBottom: 8 }}>Poster tersedia di Google Drive</div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)', margin: 0 }}>MINDOVA — Psychological Empowerment Strategy</p>
-              </div>
-              <a
-                href="https://docs.google.com/uc?export=view&id=1qZHAg6tA3v2PgrndCMiEubeFVYrl81tU"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '12px 24px',
-                  background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: 99,
-                  textDecoration: 'none',
-                  fontWeight: 700,
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                }}
-              >
-                <i className="fa-solid fa-file-pdf" />
-                View Full Poster
-              </a>
+          <iframe
+            src="https://drive.google.com/file/d/1qZHAg6tA3v2PgrndCMiEubeFVYrl81tU/preview"
+            title="MINDOVA Research Poster"
+            allow="autoplay; encrypted-media"
+            style={{ width: '100%', aspectRatio: '3/4', border: 'none', display: 'block' }}
+          />
+          <div className="wd-yt-footer">
+            <div className="wd-yt-title-row">
+              <span className="wd-yt-film-name">MINDOVA</span>
+              <span className="wd-yt-sub">Research Poster · MEDSPIN UNAIR 2025</span>
             </div>
-          )}
+          </div>
         </div>
 
         <p className="wd-desc wd-reveal wd-d3" style={{ marginTop: '28px' }}>
