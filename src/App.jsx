@@ -48,6 +48,8 @@ const WorkDetail17 = lazy(() => import('./pages/WorkDetail17'));
 const WorkDetail18 = lazy(() => import('./pages/WorkDetail18'));
 const WorkDetail19 = lazy(() => import('./pages/WorkDetail19'));
 const WorkDetail20 = lazy(() => import('./pages/WorkDetail20'));
+const WorkDetail21 = lazy(() => import('./pages/WorkDetail21')); // editing-praktikum-biologi-2026
+const WorkDetail22 = lazy(() => import('./pages/WorkDetail22')); // mindova-poster-2026
 
 /* ── 404 — lazy (file dibuat sebagai NotFound.jsx) ── */
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -181,6 +183,8 @@ function Layout({ user }) {
             <Route path="/works/duta-pelajar-putri-2024"        element={<WorkDetail18 t={t} lang={lang} toggleLang={toggleLang} />} />
             <Route path="/works/parlemen-remaja-faza-2025"      element={<WorkDetail19 t={t} lang={lang} toggleLang={toggleLang} />} />
             <Route path="/works/video-kreatif-antikorupsi-2025" element={<WorkDetail20 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/editing-praktikum-biologi-2026"  element={<WorkDetail21 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/mindova-poster-2026"             element={<WorkDetail22 t={t} lang={lang} toggleLang={toggleLang} />} />
 
             {/* ── LEGACY REDIRECTS (porto/* → works/*) ── */}
             <Route path="/porto"        element={<Navigate to="/works" replace />} />
