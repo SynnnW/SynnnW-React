@@ -245,7 +245,7 @@ export default function WorkDetail21({ lang = 'id' }) {
               <iframe
                 src={drivePreviewUrl}
                 title="Editing Praktikum Biologi"
-                allow="autoplay"
+                allow="autoplay; encrypted-media"
                 allowFullScreen
                 style={{ width: '100%', aspect: '16/9', border: 'none', display: 'block' }}
               />
@@ -257,50 +257,22 @@ export default function WorkDetail21({ lang = 'id' }) {
               </div>
             </>
           ) : (
-            <div style={{
-              width: '100%',
-              aspectRatio: '16/9',
-              background: 'linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(16,185,129,0.05) 100%)',
-              border: '1px solid rgba(16,185,129,0.25)',
-              borderRadius: '20px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 20,
-              padding: 40,
-              textAlign: 'center',
-            }}>
-              <i className="fa-solid fa-play" style={{ fontSize: '3rem', color: 'rgba(16,185,129,0.5)' }} />
-              <div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 500, marginBottom: 8 }}>Video tersedia di Google Drive</div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)', margin: 0 }}>Praktikum Biologi — Professional Editing</p>
-              </div>
-              <a
-                href="https://drive.google.com/file/d/1T5QXUrhx87AEJ_gU2HB_2z4Nl_qB7dks/preview"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '12px 24px',
-                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: 99,
-                  textDecoration: 'none',
-                  fontWeight: 700,
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                }}
-              >
-                <i className="fa-solid fa-play" />
-                Open Preview
-              </a>
-            </div>
+            <video
+              style={{
+                width: '100%',
+                aspectRatio: '16/9',
+                borderRadius: '22px',
+                border: '1px solid var(--border)',
+                backgroundColor: '#000',
+                display: 'block'
+              }}
+              controls
+            >
+              <source src="https://docs.google.com/uc?export=download&id=1T5QXUrhx87AEJ_gU2HB_2z4Nl_qB7dks" type="video/mp4" />
+              <p style={{padding: '20px', color: 'var(--text-dim)'}}>
+                Video tidak bisa diputar. <a href="https://drive.google.com/file/d/1T5QXUrhx87AEJ_gU2HB_2z4Nl_qB7dks/view" target="_blank" rel="noopener noreferrer">Buka di Google Drive</a>
+              </p>
+            </video>
           )}
         </div>
 
