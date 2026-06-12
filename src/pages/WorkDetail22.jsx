@@ -1,90 +1,349 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { db } from './firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
-const FEATURES_ID = [
-  { icon: "fa-solid fa-brain", name: "MINDOVA Framework", desc: "4 mekanisme utama: Body-Talk Session (rekonsiliasi tubuh-pikiran), Micro-Wins Rituals (merayakan pencapaian), Emo-Tracking Colors (visualisasi emosi), dan Self-Symbol Creation (identitas positif)." },
-  { icon: "fa-solid fa-heart", name: "PELUK Principle", desc: "Self-compassion framework: Pahami emosi, Ekspresikan sehat, Lakukan relaksasi, Utamakan kebutuhan, Komunikasi dengan orang terdekat." },
-  { icon: "fa-solid fa-users", name: "Psychological Rehabilitation", desc: "Fokus pada rehabilitasi psikologis pasien PCOS melalui pendekatan sistematis yang meningkatkan resiliensi dan kualitas hidup." },
-  { icon: "fa-solid fa-chart-line", name: "Research Evidence", desc: "Berbasis riset terkini menunjukkan 30-40% pasien PCOS mengalami kecemasan dan >25% mengalami depresi, memerlukan dukungan psikososial." },
-];
+const DATA = {
+  title:      'MINDOVA',
+  titleSub:   'Mind Over Ovaries',
+  year:       '2026',
+  production: 'MEDSPIN UNAIR 2025',
+  pembina:    null,
+  editor:     'Aldo Leo Saputra',
+  youtubeId:  null,
+  badges:     ['Research Poster', 'Healthcare'],
+  awards:     ['🏥 MEDSPIN UNAIR 2025'],
 
-const FEATURES_EN = [
-  { icon: "fa-solid fa-brain", name: "MINDOVA Framework", desc: "4 key mechanisms: Body-Talk Session (mind-body reconciliation), Micro-Wins Rituals (celebrating achievements), Emo-Tracking Colors (emotion visualization), Self-Symbol Creation (positive identity)." },
-  { icon: "fa-solid fa-heart", name: "PELUK Principle", desc: "Self-compassion framework emphasizing emotional understanding, healthy expression, relaxation, personal wellness, and communication." },
-  { icon: "fa-solid fa-users", name: "Psychological Rehabilitation", desc: "Focuses on psychological rehabilitation of PCOS patients through systematic approach improving resilience and quality of life." },
-  { icon: "fa-solid fa-chart-line", name: "Research Evidence", desc: "Based on current research showing 30-40% of PCOS patients experience anxiety and >25% experience depression, requiring psychosocial support." },
-];
+  descEn: 'Systematic psychological empowerment strategy for PCOS patients. MINDOVA framework consists of 4 core mechanisms: Body-Talk Session (mind-body reconciliation), Micro-Wins Rituals (celebrating achievements), Emo-Tracking Colors (emotion visualization), and Self-Symbol Creation (positive identity). Integrated with PELUK principle emphasizing self-compassion.',
+  descId: 'Strategi sistematis pemberdayaan psikologis pasien PCOS. Framework MINDOVA terdiri dari 4 mekanisme inti: Body-Talk Session (rekonsiliasi tubuh-pikiran), Micro-Wins Rituals (merayakan pencapaian), Emo-Tracking Colors (visualisasi emosi), dan Self-Symbol Creation (identitas positif). Terintegrasi dengan prinsip PELUK yang menekankan self-compassion.',
 
-export default function WorkDetail22({ t = {} }) {
-  const isEn = t.lang === 'en';
-  const FEATURES = isEn ? FEATURES_EN : FEATURES_ID;
+  crew: [
+    { role: 'Author & Designer', name: 'Aldo Leo Saputra' },
+    { role: 'Co-Author', name: 'Agustian Adven Arya Putra' },
+    { role: 'Co-Author', name: 'Reydo Andrea Priatama' },
+  ],
+};
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+function useReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const container = ref.current;
+    if (!container) return;
+    const els = container.querySelectorAll('.wd-reveal');
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('wd-visible'); obs.unobserve(e.target); }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+    );
+    const timer = setTimeout(() => els.forEach((el) => obs.observe(el)), 80);
+    return () => { clearTimeout(timer); obs.disconnect(); };
+  }, []);
+  return ref;
+}
+
+const CSS = `
+.wd-reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.wd-reveal.wd-visible { opacity: 1; transform: translateY(0); }
+.wd-d1 { transition-delay: 0.1s; }
+.wd-d2 { transition-delay: 0.2s; }
+.wd-d3 { transition-delay: 0.3s; }
+
+.wd-page { background: var(--bg); min-height: 100vh; color: var(--text); font-family: 'Outfit', sans-serif; }
+
+.wd-hero {
+  min-height: 72vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 140px 80px 72px;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.wd-hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 55% at 85% 15%, rgba(220,38,38,0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 45% at 10% 85%, rgba(139,92,246,0.08) 0%, transparent 60%);
+}
+.wd-hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--bg) 100%);
+}
+.wd-breadcrumb {
+  font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 20px; position: relative; z-index: 1;
+}
+.wd-breadcrumb span { color: var(--accent2); }
+.wd-badges {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 22px; position: relative; z-index: 1;
+}
+.wd-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 99px;
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.wd-badge-poster { background: rgba(220,38,38,0.12); border: 1px solid rgba(220,38,38,0.3); color: #dc2626; }
+.wd-badge-health { background: rgba(236,72,153,0.12); border: 1px solid rgba(236,72,153,0.3); color: #ec4899; }
+.wd-badge-award { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: #fbbf24; }
+.wd-hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 10vw, 10rem);
+  font-weight: 300; line-height: 0.88;
+  margin-bottom: 20px; position: relative; z-index: 1;
+}
+.wd-hero-title em { font-style: italic; color: var(--text-dim); }
+.wd-hero-meta {
+  display: flex; flex-wrap: wrap; gap: 28px;
+  padding-top: 28px; border-top: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+.wd-meta-item { display: flex; flex-direction: column; gap: 4px; }
+.wd-meta-label { font-size: 0.52rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-dim); }
+.wd-meta-val { font-size: 0.8rem; font-weight: 500; color: var(--text); }
+
+.wd-section { padding: 80px 80px; border-top: 1px solid var(--border); }
+.wd-sec-label { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
+.wd-sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 300; line-height: 0.92; margin-bottom: 48px; }
+.wd-sec-title em { font-style: italic; color: var(--text-dim); }
+
+.wd-yt-wrap {
+  border-radius: 22px; overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+.wd-yt-footer {
+  padding: 16px 20px;
+  background: var(--bg3);
+  border-top: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.wd-yt-title-row {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.wd-yt-film-name {
+  font-size: 0.8rem; font-weight: 700; color: var(--text);
+}
+.wd-yt-sub {
+  font-size: 0.7rem; color: var(--text-dim);
+}
+
+.wd-desc { font-size: 0.92rem; line-height: 1.9; color: var(--text-dim); margin-bottom: 28px; max-width: 680px; }
+
+.wd-crew-table { width: 100%; border-collapse: collapse; }
+.wd-crew-table th {
+  text-align: left; font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim);
+  padding: 0 16px 14px; border-bottom: 1px solid var(--border);
+}
+.wd-crew-table td {
+  padding: 13px 16px; font-size: 0.84rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.wd-crew-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+.wd-crew-table tr:last-child td { border-bottom: none; }
+.wd-crew-role { color: var(--text-dim); font-size: 0.8rem; white-space: nowrap; }
+.wd-crew-name { color: var(--text); font-weight: 500; }
+
+.wd-back-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--glass2); border: 1px solid var(--border);
+  border-radius: 99px; padding: 12px 24px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-dim); cursor: pointer; font-family: 'Outfit', sans-serif;
+  transition: all 0.25s;
+}
+.wd-back-btn:hover { border-color: var(--text); color: var(--text); }
+
+@media (max-width: 1024px) {
+  .wd-hero { padding: 130px 40px 60px; }
+  .wd-section { padding: 65px 40px; }
+}
+@media (max-width: 768px) {
+  .wd-hero { padding: 110px 24px 56px; }
+  .wd-section { padding: 52px 24px; }
+  .wd-hero-title { font-size: clamp(3rem, 12vw, 5.5rem); }
+}
+`;
+
+export default function WorkDetail22({ lang = 'id' }) {
+  const navigate = useNavigate();
+  const pageRef = useReveal();
+  const [drivePreviewUrl, setDrivePreviewUrl] = useState(null);
+
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = CSS;
+    document.head.appendChild(style);
+    window.scrollTo(0, 0);
+    return () => { try { document.head.removeChild(style); } catch (_) {} };
+  }, []);
+
+  useEffect(() => {
+    const loadDrivePreview = async () => {
+      try {
+        const docRef = doc(db, 'works-media', 'workDetail22');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists() && docSnap.data().drivePreviewUrl) {
+          setDrivePreviewUrl(docSnap.data().drivePreviewUrl);
+        }
+      } catch (err) {
+        console.log('Drive preview not available:', err);
+      }
+    };
+    loadDrivePreview();
+  }, []);
+
+  const d = DATA;
+  const isEn = lang === 'en';
 
   return (
-    <div style={{padding: '80px', maxWidth: '1200px', margin: '0 auto'}}>
-      <h1 style={{fontFamily: "'Cormorant Garamond', serif", fontSize: '3rem', marginBottom: '12px'}}>
-        {isEn ? 'MINDOVA Research Poster' : 'MINDOVA Poster'}
-      </h1>
-      <p style={{fontSize: '1rem', marginBottom: '12px', color: 'var(--text-dim)', fontWeight: 600}}>
-        {isEn ? 'Mind Over Ovaries: Systematic Psychological Empowerment Strategy for PCOS Patients' 
-                : 'Mind Over Ovaries: Strategi Sistematis Pemberdayaan Psikologis Pasien PCOS'}
-      </p>
-      <p style={{fontSize: '0.9rem', marginBottom: '40px', color: 'var(--text-dim)'}}>
-        {isEn ? 'Authors: Aldo Leo Saputra, Agustian Adven Arya Putra, Reydo Andrea Priatama' 
-                : 'Penulis: Aldo Leo Saputra, Agustian Adven Arya Putra, Reydo Andrea Priatama'}
-      </p>
-      
-      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '60px'}}>
-        {FEATURES.map((f, i) => (
-          <div key={i} style={{padding: '24px', background: 'var(--glass)', border: '1px solid var(--gborder)', borderRadius: '16px'}}>
-            <i className={f.icon} style={{fontSize: '2rem', color: 'var(--accent3)', marginBottom: '12px', display: 'block'}} />
-            <h3 style={{fontWeight: 700, marginBottom: '8px'}}>{f.name}</h3>
-            <p style={{fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--text-dim)'}}>{f.desc}</p>
+    <div className="wd-page" ref={pageRef}>
+      <section className="wd-hero">
+        <div className="wd-hero-bg" />
+
+        <div className="wd-breadcrumb wd-reveal">
+          Work <span>/ Research Poster</span>
+        </div>
+
+        <div className="wd-badges wd-reveal wd-d1">
+          {d.badges.map((b, i) => {
+            let badgeClass = 'wd-badge-poster';
+            if (b === 'Healthcare') badgeClass = 'wd-badge-health';
+            if (b.includes('MEDSPIN')) badgeClass = 'wd-badge-award';
+            return (
+              <span key={i} className={`wd-badge ${badgeClass}`}>
+                {b}
+              </span>
+            );
+          })}
+        </div>
+
+        <h1 className="wd-hero-title wd-reveal wd-d2">
+          {d.title}<br />
+          <em>{d.titleSub}</em>
+        </h1>
+
+        <div className="wd-hero-meta wd-reveal wd-d3">
+          <div className="wd-meta-item">
+            <span className="wd-meta-label">Year</span>
+            <span className="wd-meta-val">{d.year}</span>
           </div>
-        ))}
-      </div>
+          <div className="wd-meta-item">
+            <span className="wd-meta-label">Event</span>
+            <span className="wd-meta-val">{d.production}</span>
+          </div>
+          <div className="wd-meta-item">
+            <span className="wd-meta-label">Editor</span>
+            <span className="wd-meta-val">{d.editor}</span>
+          </div>
+        </div>
+      </section>
 
-      <div style={{background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)', padding: '60px', borderRadius: '20px', color: '#fff', marginBottom: '40px'}}>
-        <h2 style={{fontSize: '2.2rem', marginBottom: '16px', fontWeight: 300}}>
-          🏥 MEDSPIN UNAIR 2025
+      <section className="wd-section">
+        <span className="wd-sec-label wd-reveal">01 / Poster</span>
+        <h2 className="wd-sec-title wd-reveal wd-d1">
+          View the <em>Research Poster.</em>
         </h2>
-        <p style={{fontSize: '1rem', marginBottom: '24px', lineHeight: 1.8}}>
-          {isEn 
-            ? 'Research presentation poster featuring psychological rehabilitation framework for PCOS patients through integrated MINDOVA and PELUK approaches.'
-            : 'Poster presentasi riset dengan framework rehabilitasi psikologis pasien PCOS melalui pendekatan terintegrasi MINDOVA dan PELUK.'}
-        </p>
-        <a href="https://drive.google.com/file/d/1qZHAg6tA3v2PgrndCMiEubeFVYrl81tU/preview" target="_blank" rel="noopener noreferrer"
-          style={{display: 'inline-block', padding: '14px 36px', background: '#fff', color: '#dc2626', borderRadius: '99px', textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem', transition: 'all 0.3s', cursor: 'pointer'}}
-          onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-        >
-          View Poster on Google Drive
-        </a>
-      </div>
 
-      <div style={{padding: '40px', background: 'var(--glass)', border: '1px solid var(--gborder)', borderRadius: '16px'}}>
-        <h3 style={{fontSize: '1.3rem', fontWeight: 700, marginBottom: '16px'}}>
-          {isEn ? 'Key Information' : 'Informasi Penting'}
-        </h3>
-        <ul style={{listStyle: 'none', padding: 0}}>
-          <li style={{marginBottom: '12px', paddingLeft: '24px', position: 'relative'}}>
-            <span style={{position: 'absolute', left: 0, color: 'var(--accent3)'}}>✓</span>
-            <strong>{isEn ? 'Event' : 'Acara'}:</strong> {isEn ? 'Medical Spin (MEDSPIN) UNAIR 2025' : 'Medical Spin (MEDSPIN) UNAIR 2025'}
-          </li>
-          <li style={{marginBottom: '12px', paddingLeft: '24px', position: 'relative'}}>
-            <span style={{position: 'absolute', left: 0, color: 'var(--accent3)'}}>✓</span>
-            <strong>{isEn ? 'Focus' : 'Fokus'}:</strong> {isEn ? 'Psychological Rehabilitation in PCOS' : 'Rehabilitasi Psikologis pada Pasien PCOS'}
-          </li>
-          <li style={{marginBottom: '12px', paddingLeft: '24px', position: 'relative'}}>
-            <span style={{position: 'absolute', left: 0, color: 'var(--accent3)'}}>✓</span>
-            <strong>{isEn ? 'Category' : 'Kategori'}:</strong> {isEn ? 'Research Poster - Healthcare/Psychology' : 'Poster Riset - Kesehatan/Psikologi'}
-          </li>
-          <li style={{paddingLeft: '24px', position: 'relative'}}>
-            <span style={{position: 'absolute', left: 0, color: 'var(--accent3)'}}>✓</span>
-            <strong>{isEn ? 'Format' : 'Format'}:</strong> {isEn ? 'Standard Research Poster (A1/Vertical)' : 'Poster Riset Standar (A1/Vertikal)'}
-          </li>
-        </ul>
-      </div>
+        <div className="wd-yt-wrap wd-reveal wd-d2">
+          {drivePreviewUrl ? (
+            <>
+              <iframe
+                src={drivePreviewUrl}
+                title="MINDOVA Research Poster"
+                allow="autoplay"
+                allowFullScreen
+                style={{ width: '100%', aspectRatio: '3/4', border: 'none', display: 'block' }}
+              />
+              <div className="wd-yt-footer">
+                <div className="wd-yt-title-row">
+                  <span className="wd-yt-film-name">MINDOVA</span>
+                  <span className="wd-yt-sub">Research Poster · MEDSPIN UNAIR 2025</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div style={{
+              width: '100%',
+              aspectRatio: '3/4',
+              background: 'linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(220,38,38,0.05) 100%)',
+              border: '1px solid rgba(220,38,38,0.25)',
+              borderRadius: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 20,
+              padding: 40,
+              textAlign: 'center',
+            }}>
+              <i className="fa-solid fa-file-pdf" style={{ fontSize: '3rem', color: 'rgba(220,38,38,0.5)' }} />
+              <div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 500, marginBottom: 8 }}>Poster tersedia di Google Drive</div>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)', margin: 0 }}>MINDOVA — Psychological Empowerment Strategy</p>
+              </div>
+              <a
+                href="https://drive.google.com/file/d/1qZHAg6tA3v2PgrndCMiEubeFVYrl81tU/preview"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '12px 24px',
+                  background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 99,
+                  textDecoration: 'none',
+                  fontWeight: 700,
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                }}
+              >
+                <i className="fa-solid fa-file-pdf" />
+                View Poster
+              </a>
+            </div>
+          )}
+        </div>
+
+        <p className="wd-desc wd-reveal wd-d3" style={{ marginTop: '28px' }}>
+          {isEn ? d.descEn : d.descId}
+        </p>
+      </section>
+
+      <section className="wd-section">
+        <span className="wd-sec-label wd-reveal">02 / Authors & Crew</span>
+        <h2 className="wd-sec-title wd-reveal wd-d1">Research <em>Team.</em></h2>
+        <table className="wd-crew-table wd-reveal wd-d2">
+          <thead>
+            <tr>
+              <th>{isEn ? 'Role' : 'Peran'}</th>
+              <th>{isEn ? 'Name' : 'Nama'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {d.crew.map((c, i) => (
+              <tr key={i}>
+                <td><span className="wd-crew-role">{c.role}</span></td>
+                <td><span className="wd-crew-name">{c.name}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section className="wd-section">
+        <button className="wd-back-btn wd-reveal" onClick={() => navigate(-1)}>
+          <i className="fa-solid fa-arrow-left" />
+          {isEn ? 'Back' : 'Kembali'}
+        </button>
+      </section>
     </div>
   );
 }
