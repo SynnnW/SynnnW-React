@@ -1041,4 +1041,36 @@ const CSS = `
   .h-identity-stats { gap: 16px; }
   .cta-tertarik   { padding: 16px 36px; font-size: 0.9rem; }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   EXTRA MOBILE BREAKPOINT for tiny screens (< 480px)
+───────────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .h-home-content {
+    padding: 100px 18px 80px;
+    text-align: center;
+    max-width: 100%;
+  }
+  .h-home-callme  { font-size: 1.5rem; }
+  .h-home-name    { font-size: clamp(2.8rem, 16vw, 4rem); letter-spacing: -0.5px; }
+  .h-home-subtitle { margin-top: 16px; }
+  .h-home-sub1    { font-size: clamp(1.4rem, 3.5vw, 2.2rem); }
+  .h-home-sub2    { font-size: clamp(1.4rem, 3.5vw, 2.2rem); }
+  .h-pencil-svg   { margin: 0 auto; max-width: 280px; }
+  .h-home-quote   { font-size: 0.85rem; margin-top: 16px; }
+  .h-home-cta     { display: flex; justify-content: center; margin-top: 20px; }
+  .h-btn-cta      { padding: 12px 24px; font-size: 0.65rem; }
+  .h-home-location { right: 12px; bottom: 20px; font-size: 0.6rem; }
+  
+  .h-section      { padding: 60px 16px; }
+  .h-sec-label    { font-size: 0.55rem; }
+  .h-work-grid    { gap: 24px; }
+  .h-identity-grid { gap: 24px; }
+  .h-svc-grid     { gap: 20px; }
+  .h-sec-title    { margin-bottom: 30px; font-size: clamp(2rem, 8vw, 3rem); }
+  .cta-tertarik   { padding: 12px 28px; font-size: 0.8rem; }
+}
+
+/* Prevent horizontal scroll on all screen sizes */
+html, body { overflow-x: hidden; }
 `;
