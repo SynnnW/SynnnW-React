@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-route
 import { useTheme, useLang } from './hooks/useApp';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import LoadingScreen from './components/LoadingScreen';
 
 import { auth, db } from './pages/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -69,9 +70,12 @@ export default function App() {
   if (loadingAuth) return <PageLoader />;
 
   return (
-    <BrowserRouter>
-      <Layout user={user} />
-    </BrowserRouter>
+    <>
+      <LoadingScreen />
+      <BrowserRouter>
+        <Layout user={user} />
+      </BrowserRouter>
+    </>
   );
 }
 
