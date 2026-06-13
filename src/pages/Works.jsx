@@ -106,7 +106,7 @@ const KARYA_LIST = [
   },
   {
     id: 'parlemen-remaja-2026',
-    route: '/works/parlemen-remaja-2026',
+    route: '/works/parlemen-remaja-faza-2025',
     year: 2026,
     category: ['Documentary', 'Event'],
     titleEN: 'Youth Parliament Documentary',
@@ -119,7 +119,7 @@ const KARYA_LIST = [
   },
   {
     id: 'korupsi-awareness-2026',
-    route: '/works/korupsi-awareness-2026',
+    route: '/works/video-kreatif-antikorupsi-2025',
     year: 2026,
     category: ['Documentary', 'Educational'],
     titleEN: 'Anti-Corruption Awareness Campaign',
