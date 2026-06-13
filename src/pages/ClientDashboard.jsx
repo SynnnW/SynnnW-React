@@ -1565,6 +1565,40 @@ export default function ClientDashboard() {
                 </div>
               </div>
 
+              {/* Live Stream Section */}
+              {dc?.streamingLink && (
+                <div className="db-card" style={{ border: '1px solid rgba(34,197,94,0.2)' }}>
+                  <div className="db-card-title"><i className="fa-solid fa-broadcast" style={{ color: '#22c55e' }} /> Live Stream dari Editor</div>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', marginBottom: '12px' }}>
+                    Admin sedang melakukan editing dan screen sharing secara live. Anda bisa melihat prosesnya secara real-time di bawah ini:
+                  </p>
+                  <div style={{
+                    width: '100%',
+                    aspectRatio: '16 / 9',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    border: '1px solid rgba(34,197,94,0.2)',
+                    background: '#000',
+                    marginBottom: '12px'
+                  }}>
+                    <iframe
+                      src={dc.streamingLink}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                        borderRadius: '12px'
+                      }}
+                      allow="camera; microphone"
+                      allowFullScreen
+                    />
+                  </div>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                    💡 Tip: Fullscreen mode tersedia untuk pengalaman yang lebih baik. Gunakan tombol di kanan bawah video.
+                  </p>
+                </div>
+              )}
+
               {/* Activity Feed */}
               <div className="db-card">
                 <div className="db-card-title"><i className="fa-solid fa-clock-rotate-left" /> Aktivitas Terbaru</div>
