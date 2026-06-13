@@ -76,6 +76,8 @@ const KARYA_LIST = [
   },
 
   /* ── 2026 (existing) ── */
+  {
+    id: 'editing-praktikum-biologi-2026',
     route: '/works/editing-praktikum-biologi-2026',
     year: 2026,
     category: ['Video', 'Educational'],
