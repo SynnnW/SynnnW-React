@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import TextReveal from '../components/TextReveal';
+import ScrollReveal from '../components/ScrollReveal';
+import CardStagger from '../components/CardStagger';
+import ParallaxImage from '../components/ParallaxImage';
 
 /* ─────────────────────────────────────────
    SCROLL DOTS DATA
@@ -199,24 +203,45 @@ export default function Home({ t = {} }) {
           SECTION 01 — HERO
       ══════════════════════════════════ */}
       <section id="sec-home" className="h-hero">
-        {/* Static background image */}
-        <div className="h-home-bg" />
+        {/* Parallax background image */}
+        <div className="h-home-bg-wrapper" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <ParallaxImage 
+            src="/assets/img/bg1.jpg" 
+            alt="Hero background"
+            className="h-home-bg"
+            speed={0.3}
+          />
+        </div>
         {/* Gradient overlay — darkens only left & bottom, face stays visible on right */}
         <div className="h-home-overlay" />
 
         {/* Left-aligned content */}
-        <div className="h-home-content">
+        <ScrollReveal className="h-home-content" direction="left" delay={0}>
           <p className="h-home-callme">
             {isID ? 'panggil aku' : 'call me'}
           </p>
-          <h1 className="h-home-name">Aldosynnn</h1>
+          <TextReveal 
+            text="Aldosynnn" 
+            className="h-home-name"
+            delay={0.2}
+            wordMode={false}
+            staggerDelay={0.08}
+          />
           <div className="h-home-subtitle">
-            <span className="h-home-sub1">
-              {isID ? 'Merancang' : 'Architecting'}
-            </span>
-            <span className="h-home-sub2">
-              {isID ? <>antarmuka <em>digital.</em></> : <>digital <em>interfaces.</em></>}
-            </span>
+            <TextReveal 
+              text={isID ? 'Merancang' : 'Architecting'} 
+              className="h-home-sub1"
+              delay={0.5}
+              wordMode={true}
+              staggerDelay={0.1}
+            />
+            <TextReveal 
+              text={isID ? 'antarmuka digital.' : 'digital interfaces.'} 
+              className="h-home-sub2"
+              delay={0.7}
+              wordMode={true}
+              staggerDelay={0.1}
+            />
             {/* Animated pencil underline */}
             <svg
               className="h-pencil-svg"
@@ -231,18 +256,20 @@ export default function Home({ t = {} }) {
               />
             </svg>
           </div>
-          <p className="h-home-quote">
-            {isID
-              ? '"Mengerjakan proyekmu seolah itu milikku."'
-              : '"Working on your project as if it were mine."'}
-          </p>
+          <TextReveal 
+            text={isID ? '"Mengerjakan proyekmu seolah itu milikku."' : '"Working on your project as if it were mine."'} 
+            className="h-home-quote"
+            delay={0.9}
+            wordMode={true}
+            staggerDelay={0.08}
+          />
           <div className="h-home-cta">
             <button className="h-btn-cta" onClick={() => go('/login')}>
               {isID ? 'Mulai Proyek' : 'Start a Project'}{' '}
               <i className="fa-solid fa-arrow-up-right" />
             </button>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Location — fixed bottom-right like Salahuddin */}
         <div className="h-home-location">
@@ -256,14 +283,19 @@ export default function Home({ t = {} }) {
           SECTION 02 — SELECTED WORK
       ══════════════════════════════════ */}
       <section id="sec-work" className="h-section h-section--work">
-        <span ref={r} className="h-sec-label reveal">01 / Project</span>
+        <ScrollReveal className="h-sec-label" direction="up" delay={0}>
+          <span ref={r} className="reveal">01 / Project</span>
+        </ScrollReveal>
 
-        <h2 ref={r} className="h-sec-title reveal rv-d1">
-          Selected{' '}
-          <span className="h-grad-text">Work.</span>
-        </h2>
+        <ScrollReveal className="h-sec-title" direction="up" delay={0.1}>
+          <h2 ref={r} className="reveal rv-d1">
+            Selected{' '}
+            <span className="h-grad-text">Work.</span>
+          </h2>
+        </ScrollReveal>
 
-        <div ref={r} className="h-work-grid reveal rv-d2">
+        <ScrollReveal className="h-work-grid" direction="up" delay={0.2}>
+          <div ref={r} className="reveal rv-d2">
           {/* Left: project visual */}
           <div className="h-work-visual">
             <div className="h-work-img-frame">
@@ -311,24 +343,29 @@ export default function Home({ t = {} }) {
               <i className="fa-solid fa-arrow-up-right" />
             </button>
           </div>
-        </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* ══════════════════════════════════
           SECTION 03 — IDENTITY
       ══════════════════════════════════ */}
       <section id="sec-identity" className="h-section h-section--identity">
-        <span ref={r} className="h-sec-label reveal">02 / Identity</span>
+        <ScrollReveal className="h-sec-label" direction="up" delay={0}>
+          <span ref={r} className="reveal">02 / Identity</span>
+        </ScrollReveal>
 
-        <h2 ref={r} className="h-identity-heading reveal rv-d1">
-          <span className="h-who">Who</span>{' '}
-          <span className="h-am">Am</span>{' '}
-          <span className="h-i">I?</span>
-        </h2>
+        <ScrollReveal className="h-identity-heading" direction="up" delay={0.1}>
+          <h2 ref={r} className="reveal rv-d1">
+            <span className="h-who">Who</span>{' '}
+            <span className="h-am">Am</span>{' '}
+            <span className="h-i">I?</span>
+          </h2>
+        </ScrollReveal>
 
         <div className="h-identity-grid">
           {/* Photo with barrier */}
-          <div ref={r} className="h-photo-wrap reveal rv-d2">
+          <ScrollReveal ref={r} className="h-photo-wrap" direction="left" delay={0.2}>
             <div className="h-photo-frame">
               <img
                 src={heroPhoto}
@@ -344,10 +381,10 @@ export default function Home({ t = {} }) {
               />
             </div>
             <div className="h-photo-glow" aria-hidden="true" />
-          </div>
+          </ScrollReveal>
 
           {/* Copy */}
-          <div ref={r} className="h-identity-copy reveal rv-d3">
+          <ScrollReveal ref={r} className="h-identity-copy" direction="right" delay={0.2}>
             <p className="h-identity-en">
               A multidisciplinary digital creator, based in East Java. Not a generalist — a specialist in multiple crafts. Web, video, illustration, photography — all handled with the same level of obsession.
             </p>
@@ -372,7 +409,7 @@ export default function Home({ t = {} }) {
                 <span className="h-stat-label">{tr('statDisciplines', isID ? 'Multidisiplin' : 'Multiple Disciplines')}</span>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -380,7 +417,9 @@ export default function Home({ t = {} }) {
           SECTION 04 — ACCORDION SKILLS
       ══════════════════════════════════ */}
       <section id="sec-skills" className="h-section h-section--skills">
-        <span ref={r} className="h-sec-label reveal">03 / Skills</span>
+        <ScrollReveal className="h-sec-label" direction="up" delay={0}>
+          <span ref={r} className="reveal">03 / Skills</span>
+        </ScrollReveal>
 
         <h2 ref={r} className="h-sec-title reveal rv-d1">
           What I{' '}
@@ -433,14 +472,18 @@ export default function Home({ t = {} }) {
           SECTION 05 — CAPABILITIES
       ══════════════════════════════════ */}
       <section id="sec-services" className="h-section h-section--services">
-        <span ref={r} className="h-sec-label reveal">04 / Capabilities</span>
+        <ScrollReveal className="h-sec-label" direction="up" delay={0}>
+          <span ref={r} className="reveal">04 / Capabilities</span>
+        </ScrollReveal>
 
-        <h2 ref={r} className="h-sec-title reveal rv-d1">
-          Our{' '}
-          <span className="h-grad-text">Services.</span>
-        </h2>
+        <ScrollReveal className="h-sec-title" direction="up" delay={0.1}>
+          <h2 ref={r} className="reveal rv-d1">
+            Our{' '}
+            <span className="h-grad-text">Services.</span>
+          </h2>
+        </ScrollReveal>
 
-        <div className="h-svc-grid">
+        <CardStagger className="h-svc-grid" staggerDelay={0.15} containerDelay={0.2}>
           {SERVICES.map((svc, idx) => {
             const delay = idx % 3 === 1 ? ' rv-d1' : idx % 3 === 2 ? ' rv-d2' : '';
             return (
@@ -459,25 +502,29 @@ export default function Home({ t = {} }) {
               </div>
             );
           })}
-        </div>
+        </CardStagger>
 
         {/* Extra tags strip */}
-        <div ref={r} className="h-extra-tags reveal rv-d1">
-          {EXTRA_TAGS.map(tag => (
-            <span key={tag} className="h-tag h-tag--accent">{tag}</span>
-          ))}
-        </div>
+        <ScrollReveal ref={r} className="h-extra-tags" direction="up" delay={0.3}>
+          <div ref={r} className="reveal rv-d1">
+            {EXTRA_TAGS.map(tag => (
+              <span key={tag} className="h-tag h-tag--accent">{tag}</span>
+            ))}
+          </div>
+        </ScrollReveal>
 
         {/* TERTARIK / INTERESTED CTA Button */}
-        <div ref={r} className="h-cta-center reveal rv-d2">
-          <button
-            className="cta-tertarik"
-            onClick={() => go('/price-list')}
-          >
-            <span>{isID ? 'TERTARIK?' : 'INTERESTED?'}</span>
-            <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.85rem' }} />
-          </button>
-        </div>
+        <ScrollReveal ref={r} className="h-cta-center" direction="up" delay={0.4}>
+          <div ref={r} className="reveal rv-d2">
+            <button
+              className="cta-tertarik"
+              onClick={() => go('/price-list')}
+            >
+              <span>{isID ? 'TERTARIK?' : 'INTERESTED?'}</span>
+              <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.85rem' }} />
+            </button>
+          </div>
+        </ScrollReveal>
       </section>
     </>
   );
