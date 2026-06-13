@@ -1,5 +1,6 @@
 // src/components/TextReveal.jsx
 import { motion } from 'framer-motion';
+import { useRef } from 'react';
 
 export default function TextReveal({ 
   text, 
@@ -9,6 +10,7 @@ export default function TextReveal({
   wordMode = false, // false = character by character, true = word by word
   staggerDelay = 0.05,
 }) {
+  const ref = useRef(null);
   const units = wordMode 
     ? text.split(' ').map(word => ({ id: word, text: word + ' ' }))
     : Array.from(text).map((char, i) => ({ id: i, text: char }));
@@ -35,10 +37,12 @@ export default function TextReveal({
 
   return (
     <motion.div
+      ref={ref}
       className={className}
       variants={containerVariants}
       initial="initial"
-      animate="animate"
+      whileInView="animate"
+      viewport={{ once: true, amount: 0.5 }}
     >
       {units.map(unit => (
         <motion.span
