@@ -78,13 +78,11 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  if (loadingAuth) return <PageLoader />;
-
   return (
     <>
       <CustomCursor />
       <FloatingUtils />
-      <LoadingScreen />
+      {loadingAuth && <LoadingScreen />}
       <BrowserRouter>
         <Layout user={user} />
       </BrowserRouter>
