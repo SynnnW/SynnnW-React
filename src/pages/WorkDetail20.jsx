@@ -85,11 +85,6 @@ const CSS = `
 .wd-sec-title em { font-style: italic; color: var(--text-dim); }
 .wd-embed-wrap { border-radius: 22px; overflow: hidden; border: 1px solid var(--border); position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
 .wd-embed-wrap iframe { display: block; width: 100%; aspect-ratio: 16/9; border: none; }
-.wd-embed-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, rgba(139,92,246,0.06) 0%, rgba(225,48,108,0.06) 100%); border: 1px solid rgba(139,92,246,0.2); border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 40px; text-align: center; }
-.wd-embed-placeholder-icon { font-size: 4rem; color: #e1306c; opacity: 0.6; }
-.wd-embed-placeholder-text { font-size: 0.9rem; color: var(--text-dim); max-width: 400px; line-height: 1.6; }
-.wd-embed-placeholder-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; border: none; border-radius: 99px; font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s; text-decoration: none; }
-.wd-embed-placeholder-btn:hover { opacity: 0.85; }
 .wd-lang-toggle { display: inline-flex; align-items: center; gap: 0; background: var(--glass); border: 1px solid var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 24px; }
 .wd-lang-btn { padding: 7px 18px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: none; border: none; color: var(--text-dim); cursor: pointer; transition: all 0.2s; font-family: 'Outfit', sans-serif; }
 .wd-lang-btn.active { background: var(--accent); color: #fff; border-radius: 99px; }
@@ -106,7 +101,7 @@ const CSS = `
 .wd-crew-name { color: var(--text); font-weight: 500; }
 .wd-back-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--glass2); border: 1px solid var(--border); border-radius: 99px; padding: 12px 24px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); cursor: pointer; font-family: 'Outfit', sans-serif; transition: all 0.25s; }
 .wd-back-btn:hover { border-color: var(--text); color: var(--text); }
-.wd-ig-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; border: none; border-radius: 99px; font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s; text-decoration: none; }
+.wd-ig-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; border: none; border-radius: 99px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: all 0.25s; cursor: pointer; }
 .wd-ig-btn:hover { opacity: 0.85; }
 .wd-ig-btn i { font-size: 0.9rem; }
 @media (max-width: 1024px) { .wd-hero { padding: 130px 40px 60px; } .wd-section { padding: 65px 40px; } }
@@ -117,7 +112,6 @@ const CSS = `
 export default function WorkDetail20() {
   const navigate = useNavigate();
   const pageRef  = useReveal();
-  const [lang, setLang] = useState('id');
   const [lang, setLang] = useState('id');
   const [loading, setLoading] = useState(true);
 
@@ -224,7 +218,7 @@ export default function WorkDetail20() {
         </section>
       )}
 
-      <div className="wd-reveal" style={{ padding: '48px 80px 80px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+      <div className="wd-reveal" style={{ padding: '48px 80px 80px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
         <button className="wd-back-btn" onClick={() => navigate('/works')}><i className="fa-solid fa-arrow-left" />Back to Works</button>
       </div>
     </div>
