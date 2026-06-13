@@ -50,6 +50,11 @@ const WorkDetail19 = lazy(() => import('./pages/WorkDetail19'));
 const WorkDetail20 = lazy(() => import('./pages/WorkDetail20'));
 const WorkDetail21 = lazy(() => import('./pages/WorkDetail21')); // editing-praktikum-biologi-2026
 const WorkDetail22 = lazy(() => import('./pages/WorkDetail22')); // mindova-poster-2026
+const WorkDetail23 = lazy(() => import('./pages/WorkDetail23')); // poster-fomo-2026
+const WorkDetail24 = lazy(() => import('./pages/WorkDetail24')); // poster-waktu-untuk-diri-2026
+const WorkDetail25 = lazy(() => import('./pages/WorkDetail25')); // lanyard-kelas-2026
+const WorkDetail26 = lazy(() => import('./pages/WorkDetail26')); // lanyard-genesis-2026
+const WorkDetail27 = lazy(() => import('./pages/WorkDetail27')); // lanyard-ekstrakurikuler-2026
 
 /* ── 404 — lazy (file dibuat sebagai NotFound.jsx) ── */
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -185,6 +190,11 @@ function Layout({ user }) {
             <Route path="/works/video-kreatif-antikorupsi-2025" element={<WorkDetail20 t={t} lang={lang} toggleLang={toggleLang} />} />
             <Route path="/works/editing-praktikum-biologi-2026"  element={<WorkDetail21 t={t} lang={lang} toggleLang={toggleLang} />} />
             <Route path="/works/mindova-poster-2026"             element={<WorkDetail22 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/poster-fomo-2026"                element={<WorkDetail23 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/poster-waktu-untuk-diri-2026"    element={<WorkDetail24 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/lanyard-kelas-2026"              element={<WorkDetail25 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/lanyard-genesis-2026"            element={<WorkDetail26 t={t} lang={lang} toggleLang={toggleLang} />} />
+            <Route path="/works/lanyard-ekstrakurikuler-2026"    element={<WorkDetail27 t={t} lang={lang} toggleLang={toggleLang} />} />
 
             {/* ── LEGACY REDIRECTS (porto/* → works/*) ── */}
             <Route path="/porto"        element={<Navigate to="/works" replace />} />
