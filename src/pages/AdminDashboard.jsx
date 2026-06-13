@@ -1678,6 +1678,7 @@ function DashboardEditorTab({ orders }) {
   const [dpPaid, setDpPaid] = useState(false);
   const [finalPaid, setFinalPaid] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState('');
+  const [streamingLink, setStreamingLink] = useState('');
 
   // Generate slot keys
   const videoSlots = [...Array(10).keys()].map(i => `v${i + 1}`);
@@ -1694,7 +1695,7 @@ function DashboardEditorTab({ orders }) {
   useEffect(() => {
     if (!selectedOrderId) {
       setAdminNotes(''); setQrisImageUrl(''); setDpPaid(false); setFinalPaid(false);
-      setDownloadUrl(''); setVideos({}); setPosters({}); setLanyards({});
+      setDownloadUrl(''); setVideos({}); setPosters({}); setLanyards({}); setStreamingLink('');
       return;
     }
     const targetUserId = orders.find(o => o.id === selectedOrderId)?.userId;
@@ -1710,9 +1711,10 @@ function DashboardEditorTab({ orders }) {
         setVideos(d.videos || {});
         setPosters(d.posters || {});
         setLanyards(d.lanyards || {});
+        setStreamingLink(d.streamingLink || '');
       } else {
         setAdminNotes(''); setQrisImageUrl(''); setDpPaid(false); setFinalPaid(false);
-        setDownloadUrl(''); setVideos({}); setPosters({}); setLanyards({});
+        setDownloadUrl(''); setVideos({}); setPosters({}); setLanyards({}); setStreamingLink('');
       }
     });
     return () => unsub();
@@ -1736,6 +1738,7 @@ function DashboardEditorTab({ orders }) {
         videos,
         posters,
         lanyards,
+        streamingLink: streamingLink.trim(),
         updatedAt: serverTimestamp(),
       });
       // A9: Activity log
@@ -1794,6 +1797,38 @@ function DashboardEditorTab({ orders }) {
               <textarea className="da-textarea" value={adminNotes}
                 onChange={e => setAdminNotes(e.target.value)}
                 placeholder="Hei, proses sudah sampai tahap cutting. Silakan cek preview di atas..." />
+            </div>
+          </div>
+
+          {/* LIVE STREAM SECTION */}
+          <div className="da-panel">
+            <h3 className="da-panel-title"><i className="fa-solid fa-broadcast" /> Live Stream / Screen Share (VDO.Ninja)</h3>
+            <div className="da-field">
+              <label>Link Streaming Klien (VDO.Ninja)</label>
+              <input className="da-input" value={streamingLink}
+                onChange={e => setStreamingLink(e.target.value)}
+                placeholder="https://vdo.ninja/?view=RUANGAN_EDIT_ALDO&autoplay=1&clean=1" />
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginTop: '4px', display: 'block' }}>
+                Setelah anda share link ini, klien akan dapat melihat live stream dari editor anda di dashboard mereka. Kosongkan untuk menghentikan streaming.
+              </span>
+            </div>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap' }}>
+              <button className="da-btn da-btn-green" onClick={() => {
+                if (streamingLink.trim()) {
+                  navigator.clipboard.writeText(streamingLink);
+                  setMsg('✓ Link streaming disalin ke clipboard!');
+                  setTimeout(() => setMsg(''), 2000);
+                }
+              }} disabled={!streamingLink}>
+                <i className="fa-solid fa-copy" /> Salin Link
+              </button>
+              <button className="da-btn" onClick={() => {
+                if (streamingLink.trim()) {
+                  window.open(streamingLink, '_blank');
+                }
+              }} disabled={!streamingLink}>
+                <i className="fa-solid fa-external-link" /> Buka di Tab Baru
+              </button>
             </div>
           </div>
 
