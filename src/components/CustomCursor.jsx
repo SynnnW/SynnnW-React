@@ -12,6 +12,22 @@ export default function CustomCursor() {
   const isHoveringRef = useRef(false);
 
   useEffect(() => {
+    // Skip cursor on touch devices or small screens
+    const isTouchDevice = () => {
+      return (
+        (typeof window !== 'undefined' && 'ontouchstart' in window) ||
+        (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0) ||
+        (typeof navigator !== 'undefined' && navigator.msMaxTouchPoints > 0)
+      );
+    };
+
+    const isSmallScreen = window.innerWidth < 768;
+
+    if (isTouchDevice() || isSmallScreen) {
+      // Don't initialize custom cursor on mobile/touch devices
+      return;
+    }
+
     // Inject CSS
     const style = document.createElement('style');
     style.id = 'custom-cursor-styles';
