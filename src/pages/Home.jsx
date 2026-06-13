@@ -570,9 +570,14 @@ const CSS = `
 /* Static background image */
 .h-home-bg {
   position: absolute; inset: 0; z-index: 0;
-  background-image: url('/assets/img/bg1.jpg');
+  width: 100%; height: 100%;
   background-size: cover; background-position: center top;
   opacity: 0.32;
+}
+.h-home-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
 /* Directional overlay — dark left side, face visible on right */
