@@ -1374,7 +1374,7 @@ export default function ClientDashboard() {
           <div className="db-main-header-left">
             <h2>Halo, <em>{displayName}</em></h2>
             <p className="db-main-header-sub">
-              Selamat datang di dashboard klien SynnnW Studio
+              {latestOrder?.projectName ? `Proyek: ${latestOrder.projectName}` : 'Selamat datang di dashboard klien SynnnW Studio'}
               {clock && <span style={{ marginLeft: 12, fontFamily: 'monospace', fontSize: '0.75rem', color: 'var(--accent3)', letterSpacing: '0.08em' }}>{clock}</span>}
             </p>
           </div>
