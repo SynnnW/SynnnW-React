@@ -294,7 +294,7 @@ const CSS = `
 export default function WorkDetail19({ lang = 'id' }) {
   const navigate = useNavigate();
   const pageRef  = useReveal();
-  const [drivePreviewUrl, setDrivePreviewUrl] = useState(null);
+  const [lang, setLang] = useState('id');
 
   // Inject CSS
   useEffect(() => {
@@ -384,94 +384,18 @@ export default function WorkDetail19({ lang = 'id' }) {
         </h2>
 
         <div className="wd-yt-wrap wd-reveal wd-d2" style={{ position: 'relative' }}>
-          {drivePreviewUrl ? (
-            <>
-              <iframe
-                src={drivePreviewUrl}
-                title="Parlemen Remaja Faza — Kampanye Video"
-                allow="autoplay"
-                allowFullScreen
-                style={{ width: '100%', aspect: '16/9', border: 'none', display: 'block' }}
-              />
-              <div className="wd-yt-footer">
-                <div className="wd-yt-title-row">
-                  <span className="wd-yt-film-name">Parlemen Remaja 2025</span>
-                  <span className="wd-yt-sub">Campaign Video · Faza Abdi Mahalila</span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div style={{
-              width: '100%',
-              aspectRatio: '16/9',
-              background: 'linear-gradient(135deg, rgba(217,70,239,0.1) 0%, rgba(217,70,239,0.05) 100%)',
-              border: '1px solid rgba(217,70,239,0.25)',
-              borderRadius: '20px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 20,
-              padding: 40,
-              textAlign: 'center',
-            }}>
-              <i className="fa-brands fa-instagram" style={{ fontSize: '3rem', color: 'rgba(217,70,239,0.5)' }} />
-              <div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 500, marginBottom: 8 }}>Video tersedia di Instagram</div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)', margin: 0 }}>Tonton kampanye lengkap Parlemen Remaja 2025</p>
-              </div>
-              <div style={{ display: 'flex', gap: 12, marginTop: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-                <a
-                  href={d.instagramMain}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    padding: '12px 24px',
-                    background: 'linear-gradient(135deg, #e1306c 0%, #fd1d1d 100%)',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: 99,
-                    textDecoration: 'none',
-                    fontWeight: 700,
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <i className="fa-brands fa-instagram" />
-                  Watch on Instagram
-                </a>
-                <a
-                  href={d.instagramTrailer}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    padding: '12px 24px',
-                    background: 'rgba(217,70,239,0.15)',
-                    color: '#d946ef',
-                    border: '1px solid rgba(217,70,239,0.4)',
-                    borderRadius: 99,
-                    textDecoration: 'none',
-                    fontWeight: 700,
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <i className="fa-solid fa-play" />
-                  Watch Trailer
-                </a>
-              </div>
+          <iframe
+            src="https://drive.google.com/file/d/1FS-WWTgPrdldXWvyfGQtvyFh6vp2ffsY/preview"
+            title="Parlemen Remaja Faza — Kampanye Video"
+            allow="autoplay; encrypted-media"
+            style={{ width: '100%', aspectRatio: '16/9', border: 'none', display: 'block' }}
+          />
+          <div className="wd-yt-footer">
+            <div className="wd-yt-title-row">
+              <span className="wd-yt-film-name">Parlemen Remaja 2025</span>
+              <span className="wd-yt-sub">Campaign Video · Faza Abdi Mahalila</span>
             </div>
-          )}
+          </div>
         </div>
       </section>
 
