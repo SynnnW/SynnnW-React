@@ -118,7 +118,7 @@ export default function WorkDetail20() {
   const navigate = useNavigate();
   const pageRef  = useReveal();
   const [lang, setLang] = useState('id');
-  const [drivePreviewUrl, setDrivePreviewUrl] = useState(null);
+  const [lang, setLang] = useState('id');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -177,28 +177,14 @@ export default function WorkDetail20() {
         <span className="wd-sec-label wd-reveal">01 / Video</span>
         <h2 className="wd-sec-title wd-reveal wd-d1">Watch on <em>Instagram.</em></h2>
         
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <p style={{ color: 'var(--text-dim)', fontFamily: 'Outfit' }}>Loading video...</p>
-          </div>
-        ) : drivePreviewUrl ? (
-          <div className="wd-embed-wrap wd-reveal wd-d2">
-            <iframe src={drivePreviewUrl} title={d.title} allow="autoplay" style={{ display: 'block', width: '100%', aspectRatio: '16/9', border: 'none' }} />
-          </div>
-        ) : (
-          <div className="wd-embed-placeholder wd-reveal wd-d2">
-            <div className="wd-embed-placeholder-icon">
-              <i className="fa-brands fa-instagram" />
-            </div>
-            <p className="wd-embed-placeholder-text">
-              {isEn ? 'This video is available on Instagram Reels.' : 'Video ini tersedia di Instagram Reels.'}
-            </p>
-            <a href={d.instagramLink} target="_blank" rel="noopener noreferrer" className="wd-embed-placeholder-btn">
-              <i className="fa-brands fa-instagram" />
-              {isEn ? 'Watch on Instagram' : 'Tonton di Instagram'}
-            </a>
-          </div>
-        )}
+        <div className="wd-embed-wrap wd-reveal wd-d2">
+          <iframe 
+            src="https://drive.google.com/file/d/100vHbx6nJoV8zQ9gxxbifcWRhAzJxoXf/preview" 
+            title={d.title} 
+            allow="autoplay; encrypted-media" 
+            style={{ display: 'block', width: '100%', aspectRatio: '16/9', border: 'none' }} 
+          />
+        </div>
       </section>
 
       <section className="wd-section">
