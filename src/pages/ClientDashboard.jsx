@@ -889,7 +889,6 @@ function notifIconStyle(type) {
 // Barrier transparan + Play/Stop button
 // ─────────────────────────────────────────────
 function DriveVideoPlayer({ url, label }) {
-  const [playing, setPlaying] = useState(false);
   const iframeRef = useRef(null);
 
   const extractDriveIdLocal = (u) => {
@@ -911,68 +910,31 @@ function DriveVideoPlayer({ url, label }) {
     ? `https://drive.google.com/file/d/${fileId}/preview?rm=minimal`
     : null;
 
-  const handlePlay = () => {
-    if (!embedUrl) return;
-    setPlaying(true);
-    if (iframeRef.current) iframeRef.current.src = embedUrl;
-  };
-
-  const handleStop = () => {
-    setPlaying(false);
-    if (iframeRef.current) iframeRef.current.src = '';
-  };
-
   if (!embedUrl) return null;
 
   return (
     <div style={{ marginBottom: 24 }}>
       <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
-        {/* Drive iframe */}
+        {/* Drive iframe - langsung bisa diklik */}
         <iframe
           ref={iframeRef}
-          src=""
+          src={embedUrl}
           style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
           allow="autoplay"
           allowFullScreen
           title={label}
         />
-        {/* Barrier — blokir klik langsung ke elemen Drive saat tidak playing */}
+        {/* Label bawah */}
         <div style={{
-          position: 'absolute', inset: 0, zIndex: 2,
-          background: playing ? 'transparent' : 'rgba(0,0,0,0.25)',
-          display: playing ? 'none' : 'flex',
-          alignItems: 'center', justifyContent: 'center',
-        }} />
-        {/* Overlay bawah: label + tombol Play/Stop */}
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 3,
+          position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 1,
           background: 'linear-gradient(transparent, rgba(0,0,0,0.75))',
           padding: '28px 16px 12px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <span style={{ fontFamily: 'Outfit', fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)' }}>
             {label}
           </span>
-          <button
-            onClick={playing ? handleStop : handlePlay}
-            style={{
-              padding: '8px 18px',
-              background: playing ? 'rgba(248,113,113,0.2)' : 'rgba(139,92,246,0.25)',
-              border: `1px solid ${playing ? 'rgba(248,113,113,0.4)' : 'rgba(139,92,246,0.4)'}`,
-              borderRadius: 99, cursor: 'pointer',
-              color: playing ? '#f87171' : '#a78bfa',
-              fontFamily: 'Outfit', fontSize: '0.75rem', fontWeight: 700,
-              display: 'flex', alignItems: 'center', gap: 6,
-            }}
-          >
-            <i className={`fa-solid fa-${playing ? 'stop' : 'play'}`} />
-            {playing ? 'Stop' : 'Play'}
-          </button>
         </div>
       </div>
-      <p style={{ fontFamily: 'Outfit', fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', marginTop: 6, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-        {label}
-      </p>
     </div>
   );
 }
@@ -1570,7 +1532,7 @@ export default function ClientDashboard() {
                 <div className="db-card" style={{ border: '1px solid rgba(34,197,94,0.2)' }}>
                   <div className="db-card-title"><i className="fa-solid fa-broadcast" style={{ color: '#22c55e' }} /> Live Stream dari Editor</div>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', marginBottom: '12px' }}>
-                    Admin sedang melakukan editing dan screen sharing secara live. Anda bisa melihat prosesnya secara real-time di bawah ini:
+                    Admin sedang melakukan editing dan screen sharing secara live. Klik play untuk melihat:
                   </p>
                   <div style={{
                     width: '100%',
@@ -1589,13 +1551,10 @@ export default function ClientDashboard() {
                         border: 'none',
                         borderRadius: '12px'
                       }}
-                      allow="camera; microphone"
                       allowFullScreen
+                      allow="fullscreen"
                     />
                   </div>
-                  <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                    💡 Tip: Fullscreen mode tersedia untuk pengalaman yang lebih baik. Gunakan tombol di kanan bawah video.
-                  </p>
                 </div>
               )}
 
