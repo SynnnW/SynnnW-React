@@ -9,7 +9,73 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 const KARYA_LIST = [
   /* ── 2026 ── */
   {
-    id: 'editing-praktikum-biologi-2026',
+    id: 'lanyard-ekstrakurikuler-2026',
+    route: '/works/lanyard-ekstrakurikuler-2026',
+    year: 2026,
+    category: ['Lanyard', 'Design'],
+    titleEN: 'Extracurricular Lanyard Design',
+    titleID: 'Design Lanyard Ekstrakurikuler',
+    descEN: 'Custom lanyard design for extracurricular activities featuring vibrant colors and meaningful graphics to represent student involvement and school spirit.',
+    descID: 'Design lanyard custom untuk kegiatan ekstrakurikuler dengan warna cerah dan grafis bermakna yang merepresentasikan keterlibatan siswa dan semangat sekolah.',
+    tags: ['Lanyard Design', 'School ID', 'Branding'],
+    image: '/assets/img/lanyard-ekstra.jpg',
+    gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+  },
+  {
+    id: 'lanyard-genesis-2026',
+    route: '/works/lanyard-genesis-2026',
+    year: 2026,
+    category: ['Lanyard', 'Event'],
+    titleEN: 'GENESIS Lanyard Design',
+    titleID: 'Lanyard GENESIS - Generasi Sejuta Inspirasi',
+    descEN: 'Official lanyard design for GENESIS competition (Generasi Sejuta Inspirasi), a prestigious regional-scale competition and olympiad held annually by SMAN 1 Kraksaan, Probolinggo Regency.',
+    descID: 'Design lanyard resmi untuk kompetisi GENESIS (Generasi Sejuta Inspirasi), ajang kompetisi dan olimpiade bergengsi berskala regional yang diselenggarakan setiap tahun oleh SMAN 1 Kraksaan, Kabupaten Probolinggo.',
+    tags: ['Lanyard Design', 'Competition', 'Event Branding', 'GENESIS', 'SMAN 1 Kraksaan'],
+    image: '/assets/img/lanyard-genesis.jpg',
+    gradient: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
+  },
+  {
+    id: 'lanyard-kelas-2026',
+    route: '/works/lanyard-kelas-2026',
+    year: 2026,
+    category: ['Lanyard', 'Design'],
+    titleEN: 'Class Lanyard Design',
+    titleID: 'Lanyard Kelas - Identitas Bersama',
+    descEN: 'Class lanyard design featuring unified branding elements that strengthen class identity and unity among students.',
+    descID: 'Design lanyard kelas dengan elemen branding terpadu yang memperkuat identitas dan kesatuan kelas di antara siswa.',
+    tags: ['Lanyard Design', 'Class Identity', 'Student Branding'],
+    image: '/assets/img/lanyard-kelas.jpg',
+    gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+  },
+  {
+    id: 'poster-waktu-untuk-diri-2026',
+    route: '/works/poster-waktu-untuk-diri-2026',
+    year: 2026,
+    category: ['Poster', 'Event'],
+    titleEN: '"Me Time" - Time For Yourself',
+    titleID: 'Waktu Untuk Diri - Me Time',
+    descEN: 'Research poster for "Not An Ordinary Teenage" competition held by UNEJ Faculty of Nursing (FKEP). Promoting the importance of personal time and self-care for teenage mental health.',
+    descID: 'Poster riset untuk kompetisi "Not An Ordinary Teenage" yang diselenggarakan oleh UNEJ Fakultas Keperawatan (FKEP). Mempromosikan pentingnya waktu pribadi dan perawatan diri untuk kesehatan mental remaja.',
+    tags: ['Research Poster', 'Mental Health', 'UNEJ FKEP', 'Nursing'],
+    image: '/assets/img/poster-metime.jpg',
+    gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+  },
+  {
+    id: 'poster-fomo-2026',
+    route: '/works/poster-fomo-2026',
+    year: 2026,
+    category: ['Poster', 'Design'],
+    titleEN: 'FOMO - Fear Of Missing Out In The Digital Age',
+    titleID: 'FOMO - Ketakutan Ketinggalan di Era Digital',
+    descEN: 'Educational poster highlighting FOMO (Fear of Missing Out) anxiety caused by social media comparisons. Explores how constant digital engagement impacts self-esteem, stress levels, and sleep quality.',
+    descID: 'Poster edukatif tentang FOMO (Fear of Missing Out) - kecemasan akibat perbandingan media sosial. Mengeksplorasi bagaimana keterlibatan digital konstan berdampak pada harga diri, tingkat stres, dan kualitas tidur.',
+    tags: ['Educational Poster', 'Digital Awareness', 'Mental Health', 'Social Media'],
+    note: 'Poster Task by Aldo Leo Saputra, Anggi Dwi Aprilia, Big TL',
+    image: '/assets/img/poster-fomo.jpg',
+    gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+  },
+
+  /* ── 2026 (existing) ── */
     route: '/works/editing-praktikum-biologi-2026',
     year: 2026,
     category: ['Video', 'Educational'],
@@ -308,6 +374,7 @@ const FILTER_CATS = [
   { key: 'Video',      label: 'Video' },
   { key: 'Event',      label: 'Event' },
   { key: 'Poster',     label: 'Poster' },
+  { key: 'Lanyard',    label: 'Lanyard' },
   { key: 'Academic',   label: 'Academic' },
   { key: 'Live Stream',label: 'Live Stream' },
   { key: 'Documentary',label: 'Documentary' },
@@ -489,8 +556,10 @@ export default function Works({ lang = 'id' }) {
       .cat-live   { color: #f472b6; border-color: rgba(244,114,182,0.35); background: rgba(244,114,182,0.08); }
       .cat-doc    { color: #fbbf24; border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.08); }
       .cat-poster { color: #ec4899; border-color: rgba(236,72,153,0.35); background: rgba(236,72,153,0.08); }
+      .cat-lany   { color: #f59e0b; border-color: rgba(245,158,11,0.35); background: rgba(245,158,11,0.08); }
       .cat-acad   { color: #8b5cf6; border-color: rgba(139,92,246,0.35); background: rgba(139,92,246,0.08); }
       .cat-edu    { color: #06b6d4; border-color: rgba(6,182,212,0.35); background: rgba(6,182,212,0.08); }
+      .cat-design { color: #10b981; border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.08); }
       .cat-other  { color: var(--text-dim); border-color: var(--gborder); background: var(--glass); }
 
       .wk-card-title {
@@ -598,8 +667,10 @@ export default function Works({ lang = 'id' }) {
     if (cat === 'Live Stream') return 'cat-live';
     if (cat === 'Documentary') return 'cat-doc';
     if (cat === 'Poster') return 'cat-poster';
+    if (cat === 'Lanyard') return 'cat-lany';
     if (cat === 'Academic') return 'cat-acad';
     if (cat === 'Educational') return 'cat-edu';
+    if (cat === 'Design') return 'cat-design';
     return 'cat-other';
   }, []);
 
