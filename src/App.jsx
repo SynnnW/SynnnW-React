@@ -1,9 +1,13 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { useTheme, useLang } from './hooks/useApp';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
+import PageTransition from './components/PageTransition';
+import CustomCursor from './components/CustomCursor';
+import FloatingUtils from './components/FloatingUtils';
 
 import { auth, db } from './pages/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -78,6 +82,8 @@ export default function App() {
 
   return (
     <>
+      <CustomCursor />
+      <FloatingUtils />
       <LoadingScreen />
       <BrowserRouter>
         <Layout user={user} />
@@ -147,107 +153,111 @@ function Layout({ user }) {
       )}
 
       <main style={{ paddingTop: isFullscreen ? '0' : '64px' }}>
-        <Suspense fallback={<PageLoader />}>
-          <Routes location={location} key={location.pathname}>
+        <AnimatePresence mode="wait">
+          <Suspense fallback={<PageLoader />}>
+            <PageTransition>
+              <Routes location={location} key={location.pathname}>
 
-            {/* ── PUBLIC PAGES ── */}
-            <Route path="/"               element={<Home t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/about"          element={<About t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/price-list"     element={<PriceList t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/terms"          element={<Terms t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/contact"        element={<Contact t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/journal"        element={<Journal t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/journal/karya1" element={<JournalKarya1 t={t} lang={lang} toggleLang={toggleLang} />} />
+                {/* ── PUBLIC PAGES ── */}
+                <Route path="/"               element={<Home t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/about"          element={<About t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/price-list"     element={<PriceList t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/terms"          element={<Terms t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/contact"        element={<Contact t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/journal"        element={<Journal t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/journal/karya1" element={<JournalKarya1 t={t} lang={lang} toggleLang={toggleLang} />} />
 
-            {/* ── UTILITY (dipertahankan dari versi lama) ── */}
-            <Route path="/preview-logo"   element={<PreviewLogo t={t} lang={lang} toggleLang={toggleLang} />} />
+                {/* ── UTILITY (dipertahankan dari versi lama) ── */}
+                <Route path="/preview-logo"   element={<PreviewLogo t={t} lang={lang} toggleLang={toggleLang} />} />
 
-            {/* ── WORKS GALLERY ── */}
-            <Route path="/works" element={<Works t={t} lang={lang} toggleLang={toggleLang} />} />
+                {/* ── WORKS GALLERY ── */}
+                <Route path="/works" element={<Works t={t} lang={lang} toggleLang={toggleLang} />} />
 
-            {/* ── WORK DETAILS (renamed dari /porto/*) ── */}
-            <Route path="/works/birthday-gift"     element={<WorkDetail1 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/wedding-invite"    element={<WorkDetail2 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/video-collection"  element={<WorkDetail3 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/livestream-perbasi" element={<WorkDetail4 t={t} lang={lang} toggleLang={toggleLang} />} />
+                {/* ── WORK DETAILS (renamed dari /porto/*) ── */}
+                <Route path="/works/birthday-gift"     element={<WorkDetail1 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/wedding-invite"    element={<WorkDetail2 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/video-collection"  element={<WorkDetail3 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/livestream-perbasi" element={<WorkDetail4 t={t} lang={lang} toggleLang={toggleLang} />} />
 
-            {/* ── WORK DETAILS NEW (WorkDetail5–20) ── */}
-            <Route path="/works/sarka-2023"                     element={<WorkDetail5 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/pramu-rasa-2023"                element={<WorkDetail6 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/ruang-kepala-2024"              element={<WorkDetail7 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/rantai-2024"                    element={<WorkDetail8 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/luka-menjadi-lukisan-2024"      element={<WorkDetail9 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/jalan-tengah-2024"              element={<WorkDetail10 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/sma-awards-sinematografi-2024"  element={<WorkDetail11 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/teaser-alterio-mpls-2024"       element={<WorkDetail12 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/guru-kita-yang-jahat-2025"      element={<WorkDetail13 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/suara-sumbang-angin-utara-2025" element={<WorkDetail14 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/video-profil-uswatun-2025"      element={<WorkDetail15 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/video-profil-iwan-2025"         element={<WorkDetail16 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/senam-indonesia-hebat-2025"     element={<WorkDetail17 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/duta-pelajar-putri-2024"        element={<WorkDetail18 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/parlemen-remaja-faza-2025"      element={<WorkDetail19 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/video-kreatif-antikorupsi-2025" element={<WorkDetail20 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/editing-praktikum-biologi-2026"  element={<WorkDetail21 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/mindova-poster-2026"             element={<WorkDetail22 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/poster-fomo-2026"                element={<WorkDetail23 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/poster-waktu-untuk-diri-2026"    element={<WorkDetail24 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/lanyard-kelas-2026"              element={<WorkDetail25 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/lanyard-genesis-2026"            element={<WorkDetail26 t={t} lang={lang} toggleLang={toggleLang} />} />
-            <Route path="/works/lanyard-ekstrakurikuler-2026"    element={<WorkDetail27 t={t} lang={lang} toggleLang={toggleLang} />} />
+                {/* ── WORK DETAILS NEW (WorkDetail5–20) ── */}
+                <Route path="/works/sarka-2023"                     element={<WorkDetail5 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/pramu-rasa-2023"                element={<WorkDetail6 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/ruang-kepala-2024"              element={<WorkDetail7 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/rantai-2024"                    element={<WorkDetail8 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/luka-menjadi-lukisan-2024"      element={<WorkDetail9 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/jalan-tengah-2024"              element={<WorkDetail10 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/sma-awards-sinematografi-2024"  element={<WorkDetail11 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/teaser-alterio-mpls-2024"       element={<WorkDetail12 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/guru-kita-yang-jahat-2025"      element={<WorkDetail13 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/suara-sumbang-angin-utara-2025" element={<WorkDetail14 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/video-profil-uswatun-2025"      element={<WorkDetail15 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/video-profil-iwan-2025"         element={<WorkDetail16 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/senam-indonesia-hebat-2025"     element={<WorkDetail17 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/duta-pelajar-putri-2024"        element={<WorkDetail18 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/parlemen-remaja-faza-2025"      element={<WorkDetail19 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/video-kreatif-antikorupsi-2025" element={<WorkDetail20 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/editing-praktikum-biologi-2026"  element={<WorkDetail21 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/mindova-poster-2026"             element={<WorkDetail22 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/poster-fomo-2026"                element={<WorkDetail23 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/poster-waktu-untuk-diri-2026"    element={<WorkDetail24 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/lanyard-kelas-2026"              element={<WorkDetail25 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/lanyard-genesis-2026"            element={<WorkDetail26 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/lanyard-ekstrakurikuler-2026"    element={<WorkDetail27 t={t} lang={lang} toggleLang={toggleLang} />} />
 
-            {/* ── LEGACY REDIRECTS (porto/* → works/*) ── */}
-            <Route path="/porto"        element={<Navigate to="/works" replace />} />
-            <Route path="/tentang"      element={<Navigate to="/about" replace />} />
-            <Route path="/porto/karya1" element={<Navigate to="/works/birthday-gift" replace />} />
-            <Route path="/porto/karya2" element={<Navigate to="/works/wedding-invite" replace />} />
-            <Route path="/porto/karya3" element={<Navigate to="/works/video-collection" replace />} />
-            <Route path="/porto/karya4" element={<Navigate to="/works/livestream-perbasi" replace />} />
+                {/* ── LEGACY REDIRECTS (porto/* → works/*) ── */}
+                <Route path="/porto"        element={<Navigate to="/works" replace />} />
+                <Route path="/tentang"      element={<Navigate to="/about" replace />} />
+                <Route path="/porto/karya1" element={<Navigate to="/works/birthday-gift" replace />} />
+                <Route path="/porto/karya2" element={<Navigate to="/works/wedding-invite" replace />} />
+                <Route path="/porto/karya3" element={<Navigate to="/works/video-collection" replace />} />
+                <Route path="/porto/karya4" element={<Navigate to="/works/livestream-perbasi" replace />} />
 
-            {/* ── AUTH & PROTECTED ── */}
-            <Route path="/login" element={<AuthLogin />} />
+                {/* ── AUTH & PROTECTED ── */}
+                <Route path="/login" element={<AuthLogin />} />
 
-            <Route
-              path="/complete-profile"
-              element={
-                user ? <CompleteProfile /> : <Navigate to="/login" replace />
-              }
-            />
+                <Route
+                  path="/complete-profile"
+                  element={
+                    user ? <CompleteProfile /> : <Navigate to="/login" replace />
+                  }
+                />
 
-            <Route
-              path="/checkout"
-              element={
-                user ? <CheckoutQRIS /> : <Navigate to="/login" replace />
-              }
-            />
+                <Route
+                  path="/checkout"
+                  element={
+                    user ? <CheckoutQRIS /> : <Navigate to="/login" replace />
+                  }
+                />
 
-            {/* ── CLIENT DASHBOARD ── */}
-            <Route
-              path="/Dashboard"
-              element={
-                user
-                  ? (!userProfileComplete
-                      ? <Navigate to="/complete-profile" replace />
-                      : <ClientDashboard />)
-                  : <Navigate to="/login" replace />
-              }
-            />
+                {/* ── CLIENT DASHBOARD ── */}
+                <Route
+                  path="/Dashboard"
+                  element={
+                    user
+                      ? (!userProfileComplete
+                          ? <Navigate to="/complete-profile" replace />
+                          : <ClientDashboard />)
+                      : <Navigate to="/login" replace />
+                  }
+                />
 
-            {/* ── ADMIN DASHBOARD ── */}
-            <Route
-              path="/admin-dashboard"
-              element={
-                user && user.email === ADMIN_EMAIL
-                  ? <AdminDashboard />
-                  : <Navigate to="/login" replace />
-              }
-            />
+                {/* ── ADMIN DASHBOARD ── */}
+                <Route
+                  path="/admin-dashboard"
+                  element={
+                    user && user.email === ADMIN_EMAIL
+                      ? <AdminDashboard />
+                      : <Navigate to="/login" replace />
+                  }
+                />
 
-            {/* ── 404 NOT FOUND — selalu paling bawah ── */}
-            <Route path="*" element={<NotFound />} />
+                {/* ── 404 NOT FOUND — selalu paling bawah ── */}
+                <Route path="*" element={<NotFound />} />
 
-          </Routes>
-        </Suspense>
+              </Routes>
+            </PageTransition>
+          </Suspense>
+        </AnimatePresence>
       </main>
 
       {!isFullscreen && <Footer t={t} />}
