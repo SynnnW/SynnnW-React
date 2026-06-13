@@ -21,8 +21,8 @@ const DATA = {
   badges:     ['Campaign Video', 'Political'],
   awards:     [],
 
-  descEn: 'A campaign video for youth parliament candidate Faza Abdi Mahalila. The message: energy transition isn\'t optional anymore. PLTU Paiton in Probolinggo lights millions of homes — but at a cost the land is still paying. The GENSIA program proposes training, local advocacy, and real action toward a clean-energy Indonesia by 2045.',
-  descId: 'Video kampanye untuk caleg Parlemen Remaja Faza Abdi Mahalila. Pesannya jelas: transisi energi bukan lagi pilihan. PLTU Paiton di Probolinggo terangin jutaan rumah, tapi sawah kena abu, hasil panen turun, laut makin sepi ikan. Program GENSIA: pelatihan teknis, advokasi berbasis data lokal, panel surya, dan pemulihan ekosistem pesisir.',
+  descEn: 'A campaign video for youth parliament candidate Faza Abdi Mahalila. The message: energy transition isn\'t optional anymore. PLTU Paiton in Probolinggo lights millions of homes — but at a [...]',
+  descId: 'Video kampanye untuk caleg Parlemen Remaja Faza Abdi Mahalila. Pesannya jelas: transisi energi bukan lagi pilihan. PLTU Paiton di Probolinggo terangin jutaan rumah, tapi sawah kena abu, has[...]',
 
   synopsis: null,
 
@@ -291,7 +291,7 @@ const CSS = `
 // ─────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────
-export default function WorkDetail19({ lang = 'id' }) {
+export default function WorkDetail19() {
   const navigate = useNavigate();
   const pageRef  = useReveal();
   const [lang, setLang] = useState('id');
