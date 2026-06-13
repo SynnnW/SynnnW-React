@@ -114,7 +114,7 @@ const KARYA_LIST = [
     descEN: 'Documentary film capturing the Youth Parliament event, showcasing young leaders engaging in civic discussions, debates, and democratic processes. A celebration of youth voice and political awareness.',
     descID: 'Film dokumenter tentang acara Parlemen Remaja, menampilkan para pemimpin muda terlibat dalam diskusi sipil, debat, dan proses demokratis. Perayaan suara pemuda dan kesadaran politik.',
     tags: ['Documentary', 'Youth', 'Parliament', 'Civic', 'Leadership'],
-    image: '/assets/img/parlemen.jpg',
+    image: '/assets/img/faza.jpg',
     gradient: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
   },
   {
@@ -127,7 +127,7 @@ const KARYA_LIST = [
     descEN: 'Educational documentary highlighting the impacts of corruption and promoting anti-corruption awareness among youth. Explores systemic issues and individual responsibility in combating corruption.',
     descID: 'Dokumenter edukatif yang menyoroti dampak korupsi dan mempromosikan kesadaran anti-korupsi di kalangan pemuda. Mengeksplorasi isu sistemik dan tanggung jawab individu dalam memerangi korupsi.',
     tags: ['Documentary', 'Anti-Corruption', 'Awareness', 'Education', 'Social Justice'],
-    image: '/assets/img/korupsi.jpg',
+    image: '/assets/img/anti.jpg',
     gradient: 'linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%)',
   },
 
