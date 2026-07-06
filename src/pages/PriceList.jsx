@@ -431,8 +431,24 @@ const CSS = `
 .pl-addon-price { font-size: 0.82rem; font-weight: 700; color: var(--text); white-space: nowrap; }
 .pl-addon-unit  { font-size: 0.6rem; color: var(--text-dim); }
 
-@media (max-width: 1024px) { .pl-currency-bar { padding: 10px 40px; } .pl-notice { padding: 10px 40px; } }
-@media (max-width: 768px)  { .pl-currency-bar { padding: 10px 18px; } .pl-notice { padding: 10px 18px; } .pl-currency-usd-note { display: none; } }
+@media (max-width: 1024px) { .pl-currency-bar { padding: 10px 40px; } .pl-notice { padding: 10px 40px; } .pl-compliance-disclaimer { padding: 20px 40px; } }
+@media (max-width: 768px)  { .pl-currency-bar { padding: 10px 18px; } .pl-notice { padding: 10px 18px; } .pl-currency-usd-note { display: none; } .pl-compliance-disclaimer { padding: 16px 18px; font-size: 0.68rem; } }
+
+/* ── Compliance Disclaimer ── */
+.pl-compliance-disclaimer {
+  padding: 24px 80px;
+  border-top: 1px solid var(--border);
+  background: rgba(139,92,246,0.04);
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  font-style: italic;
+  margin-top: 40px;
+  font-family: 'Outfit', sans-serif;
+}
+.pl-compliance-disclaimer i { color: var(--accent3); margin-right: 8px; font-size: 0.75rem; }
+.pl-compliance-disclaimer strong { color: var(--text); font-weight: 700; }
 `;
 
 
@@ -450,56 +466,56 @@ const CATEGORIES = [
     desc: 'Edit video tugas, film pendek, dan konten',
     items: [
       {
-        id: 've1', name: 'Editing Film Pendek Sekolah', icon: 'fa-film',
+        id: 've1', name: 'Editing Film Pendek & Dokumenter', icon: 'fa-film',
         price: 150000, origPrice: 250000, unit: '/ project',
         badge: null,
-        short: 'Film pendek tugas sekolah / kampus',
-        desc: 'Editing film pendek untuk keperluan tugas sekolah atau kampus. Termasuk color grading, sound mixing, dan subtitle jika diperlukan.\n\n✦ Editing full film pendek\n✦ Color grading\n✦ Sound mixing\n✦ Subtitle opsional\n✦ Export HD (1080p)\n✦ Harga: Rp 100.000 – 200.000',
+        short: 'Film pendek dan dokumenter profesional',
+        desc: 'Editing film pendek dan dokumenter dengan visual storytelling yang menarik. Termasuk color grading, sound mixing, dan subtitle jika diperlukan.\n\n✦ Editing full film pendek/dokumenter\n✦ Color grading profesional\n✦ Sound mixing dan mastering\n✦ Subtitle opsional\n✦ Export HD (1080p)\n✦ Harga: Rp 150.000 – 250.000',
         syarat: true,
       },
       {
-        id: 've2', name: 'Editing Video Tugas Sekolah', icon: 'fa-video',
+        id: 've2', name: 'Editing Video Kreatif / Kreator Konten', icon: 'fa-video',
         price: 75000, origPrice: 120000, unit: '/ project',
         badge: null,
-        short: 'Video presentasi, tugas PR, atau vlog sekolah',
-        desc: 'Editing video sederhana untuk tugas PR, presentasi, atau konten sekolah. Cepat dan rapi.\n\n✦ Cutting & trimming\n✦ Tambah musik/efek suara\n✦ Teks / subtitle\n✦ Export sesuai platform\n✦ Harga: Rp 50.000 – 100.000',
+        short: 'Video presentasi, vlog, dan konten kreatif',
+        desc: 'Editing video kreatif untuk presentasi visual, konten kreator, atau dokumentasi kegiatan. Fokus pada presentasi yang menarik dan profesional dengan sound & visual yang harmonis.\n\n✦ Cutting & trimming profesional\n✦ Musik/efek suara berkualitas\n✦ Teks / subtitle dengan desain\n✦ Export sesuai platform\n✦ Harga: Rp 75.000 – 120.000',
         syarat: true,
       },
       // ── ITEM BARU (Prompt 5 — Bagian 3) ──
       {
         id: 've_sma2',
-        name: 'Editing Video Tugas SMA (Kelompok)',
+        name: 'Editing Video Dokumentasi Praktikum SMA (Kelompok)',
         icon: 'fa-users',
         price: 125000,
         origPrice: 200000,
         unit: '/ project',
         badge: null,
-        short: 'Khusus kelompok 2–8 orang, project SMA',
-        desc: 'Editing video tugas SMA untuk kelompok. Termasuk cutting, musik, subtitle, efek sederhana, export HD.\n\n✦ Khusus 2–8 orang per kelompok\n✦ Lebih dari 8 orang: biaya tambah per orang\n✦ Cutting & trimming\n✦ Musik + efek suara\n✦ Teks / subtitle\n✦ Export sesuai platform\n✦ Harga: Rp 125.000 / project',
+        short: 'Khusus kelompok 2–8 orang, dokumentasi praktikum SMA',
+        desc: 'Editing video dokumentasi praktikum atau kegiatan kelompok untuk SMA. Fokus pada presentasi visual yang jelas dari hasil praktek/eksperimen. Termasuk cutting, musik, subtitle, efek sederhana, export HD.\n\n✦ Khusus 2–8 orang per kelompok\n✦ Lebih dari 8 orang: biaya tambah per orang\n✦ Cutting & trimming profesional\n✦ Musik + efek suara\n✦ Teks / subtitle informatif\n✦ Export sesuai platform\n✦ Harga: Rp 125.000 / project',
         syarat: true,
       },
       {
         id: 've_kuliah1',
-        name: 'Editing Video Kuliah/Ospek (Individu)',
+        name: 'Editing Video PKKMB / Ospek (Individu)',
         icon: 'fa-graduation-cap',
         price: 75000,
         origPrice: 120000,
         unit: '/ project',
         badge: null,
-        short: 'Project individu kuliah, laporan, ospek',
-        desc: 'Editing video untuk keperluan kuliah — laporan, tugas, ospek, presentasi individu.\n\n✦ Khusus proyek individu\n✦ Cutting & trimming\n✦ Musik/narasi opsional\n✦ Teks / subtitle\n✦ Export HD\n✦ Harga: Rp 75.000 / project',
+        short: 'Project individu kuliah: PKKMB, ospek, dokumentasi',
+        desc: 'Editing video untuk keperluan kuliah — PKKMB, ospek, presentasi individu, atau dokumentasi kegiatan kampus.\n\n✦ Khusus proyek individu\n✦ Cutting & trimming profesional\n✦ Musik/narasi opsional\n✦ Teks / subtitle dengan desain\n✦ Export HD\n✦ Harga: Rp 75.000 / project',
         syarat: true,
       },
       {
         id: 've_kuliah2',
-        name: 'Editing Video Kuliah (Kelompok)',
+        name: 'Editing Video Praktik & Praktikum Kuliah (Kelompok)',
         icon: 'fa-user-group',
         price: 135000,
         origPrice: 220000,
         unit: '/ project',
         badge: null,
-        short: 'Kelompok 2–8 orang, eksperimen, tugas kuliah',
-        desc: 'Editing video tugas kuliah untuk kelompok — eksperimen, praktikum, proyek riset, laporan kelompok.\n\n✦ Khusus 2–8 orang per kelompok\n✦ Lebih dari 8 orang: biaya tambah per orang\n✦ Cutting & trimming\n✦ Musik/narasi opsional\n✦ Grafis sederhana\n✦ Export HD\n✦ Harga: Rp 135.000 / project',
+        short: 'Kelompok 2–8 orang, praktikum, eksperimen, riset',
+        desc: 'Editing video untuk keperluan kelompok kuliah — dokumentasi praktik, praktikum, proyek riset, atau laporan kelompok dengan presentasi visual yang profesional.\n\n✦ Khusus 2–8 orang per kelompok\n✦ Lebih dari 8 orang: biaya tambah per orang\n✦ Cutting & trimming profesional\n✦ Musik/narasi opsional\n✦ Grafis dan teks informatif\n✦ Export HD\n✦ Harga: Rp 135.000 / project',
         syarat: true,
       },
       {
@@ -549,11 +565,11 @@ const CATEGORIES = [
         syarat: true,
       },
       {
-        id: 'dg2', name: 'Poster Tugas / PR Sekolah', icon: 'fa-book',
+        id: 'dg2', name: 'Desain Poster Edukasi / Infografis', icon: 'fa-book',
         price: 50000, origPrice: 80000, unit: '/ poster',
         badge: null,
-        short: 'Poster tugas, PR, dan keperluan sekolah',
-        desc: 'Desain poster untuk kebutuhan tugas sekolah atau kampus. Cepat, rapi, dan informatif.\n\n✦ 1 konsep desain\n✦ Revisi 1x\n✦ File PNG / JPG\n✦ Harga: Rp 50.000 – 100.000\n✦ Pengerjaan 1 hari',
+        short: 'Poster edukasi dan infografis informatif',
+        desc: 'Desain poster edukatif atau infografis untuk keperluan presentasi visual, sosialisasi, atau kampanye pembelajaran. Dirancang untuk menyampaikan informasi dengan jelas dan menarik.\n\n✦ 1 konsep desain\n✦ Revisi 1x\n✦ File PNG / JPG resolusi tinggi\n✦ Layout informatif dan visual\n✦ Harga: Rp 50.000 – 80.000\n✦ Pengerjaan 1 hari',
         syarat: true,
       },
       {
@@ -613,7 +629,8 @@ const CATEGORIES = [
   // WEBSITE GROUP (paling bawah) — Paket dulu, baru perintilan
   // ═══════════════════════════════════════════════════════════
 
-  // ── 5. PAKET WEBSITE (bundel, paling atas di grup website) ─
+  // ── 5. PAKET WEBSITE (DIHAPUS — tidak sesuai OSS) ───
+  /* COMMENTED OUT - Not compliant with OSS business focus
   {
     id: 'paket',
     icon: 'fa-box-open',
@@ -654,9 +671,11 @@ const CATEGORIES = [
         syarat: false,
       },
     ],
-  },
+  }
+  */,
 
-  // ── 6. DOMAIN ────────────────────────────────────────────
+  // ── 6. DOMAIN (DIHAPUS — tidak sesuai OSS) ────────────────────────────────────────────
+  /* COMMENTED OUT - Not compliant with OSS business focus
   {
     id: 'domain',
     icon: 'fa-globe',
@@ -696,9 +715,11 @@ const CATEGORIES = [
         syarat: true,
       },
     ],
-  },
+  }
+  */,
 
-  // ── 7. HOSTING ───────────────────────────────────────────
+  // ── 7. HOSTING (DIHAPUS — tidak sesuai OSS) ───────────────────────────────────────────
+  /* COMMENTED OUT - Not compliant with OSS business focus
   {
     id: 'hosting',
     icon: 'fa-server',
@@ -722,9 +743,11 @@ const CATEGORIES = [
         syarat: true,
       },
     ],
-  },
+  }
+  */,
 
-  // ── 8. DESAIN & DEV WEBSITE — semua pakai Vibe Code ─────
+  // ── 8. DESAIN & DEV WEBSITE (DIHAPUS — tidak sesuai OSS) ─────
+  /* COMMENTED OUT - Not compliant with OSS business focus
   {
     id: 'webdev',
     icon: 'fa-laptop-code',
@@ -764,9 +787,11 @@ const CATEGORIES = [
         syarat: true,
       },
     ],
-  },
+  }
+  */,
 
-  // ── 9. BACKEND & INTEGRASI (paling bawah di grup website) ─
+  // ── 9. BACKEND & INTEGRASI (DIHAPUS — tidak sesuai OSS) ─
+  /* COMMENTED OUT - Not compliant with OSS business focus
   {
     id: 'backend',
     icon: 'fa-database',
@@ -798,7 +823,8 @@ const CATEGORIES = [
         syarat: true,
       },
     ],
-  },
+  }
+  */,
 
 ];
 
@@ -1339,6 +1365,15 @@ export default function PriceList({ t = {} }) {
             </div>
           </div>
         )}
+
+        {/* ══════ COMPLIANCE DISCLAIMER ══════ */}
+        <div className="pl-compliance-disclaimer">
+          <i className="fa-solid fa-circle-info" />
+          <span>
+            <strong>Catatan Kepatuhan:</strong> Kami hanya menyediakan jasa penyuntingan (editing) media visual dan desain kreatif berdasarkan materi yang disediakan konsumen. 
+            Kami tidak melayani segala bentuk jasa joki atau kecurangan akademik.
+          </span>
+        </div>
 
       </div>
     </>
