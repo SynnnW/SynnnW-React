@@ -206,7 +206,7 @@ export default function Home({ t = {} }) {
         {/* Parallax background image */}
         <div className="h-home-bg-wrapper" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <ParallaxImage 
-            src="/assets/img/bg1.jpg" 
+            src="/assets/img/Artboard 1.webp" 
             alt="Hero background"
             className="h-home-bg"
             speed={0.3}
