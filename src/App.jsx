@@ -61,7 +61,8 @@ const WorkDetail26 = lazy(() => import('./pages/WorkDetail26')); // lanyard-gene
 const WorkDetail27 = lazy(() => import('./pages/WorkDetail27')); // lanyard-ekstrakurikuler-2026
 
 /* ── 404 — lazy (file dibuat sebagai NotFound.jsx) ── */
-const NotFound = lazy(() => import('./pages/NotFound'));
+const NotFound    = lazy(() => import('./pages/NotFound'));
+const Pengeluaran = lazy(() => import('./pages/Pengeluaran'));
 
 /* ══════════════════════════════════════════════════════
    ROOT APP — auth state di level tertinggi
@@ -164,6 +165,9 @@ function Layout({ user }) {
                 <Route path="/contact"        element={<Contact t={t} lang={lang} toggleLang={toggleLang} />} />
                 <Route path="/journal"        element={<Journal t={t} lang={lang} toggleLang={toggleLang} />} />
                 <Route path="/journal/karya1" element={<JournalKarya1 t={t} lang={lang} toggleLang={toggleLang} />} />
+
+                {/* ── PENGELUARAN PRIBADI ── */}
+                <Route path="/pengeluaran" element={<Pengeluaran />} />
 
                 {/* ── UTILITY (dipertahankan dari versi lama) ── */}
                 <Route path="/preview-logo"   element={<PreviewLogo t={t} lang={lang} toggleLang={toggleLang} />} />
