@@ -64,6 +64,9 @@ const WorkDetail27 = lazy(() => import('./pages/WorkDetail27')); // lanyard-ekst
 const NotFound    = lazy(() => import('./pages/NotFound'));
 const Pengeluaran = lazy(() => import('./pages/Pengeluaran'));
 
+/* ── Quiz Latsol — halaman tersembunyi, tidak ada link di navbar desktop ── */
+const QuizizFakep = lazy(() => import('./pages/QuizizFakep'));
+
 /* ══════════════════════════════════════════════════════
    ROOT APP — auth state di level tertinggi
 ══════════════════════════════════════════════════════ */
@@ -82,7 +85,6 @@ export default function App() {
   return (
     <>
       <CustomCursor />
-      <FloatingUtils />
       {loadingAuth && <LoadingScreen />}
       <BrowserRouter>
         <Layout user={user} />
@@ -134,11 +136,15 @@ function Layout({ user }) {
     '/admin-dashboard',
     '/login',
     '/complete-profile',
+    '/quiz-latsol',
   ].includes(pathname);
 
   return (
     <>
       <ScrollToTop />
+
+      {/* FloatingUtils (WhatsApp/back-to-top) disembunyikan di halaman quiz agar tidak menutupi UI */}
+      {pathname !== '/quiz-latsol' && <FloatingUtils />}
 
       {!isFullscreen && (
         <Navbar
@@ -252,6 +258,9 @@ function Layout({ user }) {
                       : <Navigate to="/login" replace />
                   }
                 />
+
+                {/* ── QUIZ LATSOL — tersembunyi, hanya via link drawer HP ── */}
+                <Route path="/quiz-latsol" element={<QuizizFakep />} />
 
                 {/* ── 404 NOT FOUND — selalu paling bawah ── */}
                 <Route path="*" element={<NotFound />} />
