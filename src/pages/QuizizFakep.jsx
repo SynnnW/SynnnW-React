@@ -22,7 +22,7 @@ import './firebase'; // pastikan default app sudah di-init
 /* ═══════════════════════════════════════════════
    KONSTANTA — edit sesuai kebutuhan
 ═══════════════════════════════════════════════ */
-const QUIZ_TITLE       = 'Komunikasi Dasar Keperawatan';
+const QUIZ_TITLE       = 'Fakep Sepele';
 const MAX_SCORE        = 2000;
 const HARD_MODE_MINUTES = 100;
 const PINNED_TOP       = { name: 'Ns Leo', score: 2000 };
