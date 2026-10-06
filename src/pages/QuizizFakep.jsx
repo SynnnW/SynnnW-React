@@ -24,9 +24,9 @@ import './firebase'; // pastikan default app sudah di-init
 ═══════════════════════════════════════════════ */
 const QUIZ_TITLE       = 'Komunikasi Dasar Keperawatan';
 const MAX_SCORE        = 2000;
-const HARD_MODE_MINUTES = 60;
+const HARD_MODE_MINUTES = 100;
 const PINNED_TOP       = { name: 'Ns Leo', score: 2000 };
-const QRIS_IMAGE       = '/assets/img/qris.jpg';
+const QRIS_IMAGE       = '/assets/img/qris.png';
 const BLOCK_DESKTOP    = true;
 const QUIZ_PATH        = '/quiz-latsol';
 const LS_KEY           = 'qz_progress_v1';
@@ -1374,7 +1374,7 @@ export default function QuizizFakep() {
         <style>{CSS}</style>
         <div className="qz-desktop-block">
           <div style={{ fontSize: '3rem', marginBottom: 16 }}>📱</div>
-          <h2>Quiz ini khusus HP</h2>
+          <h2> Ea Maungapain Kamu Ini Khusus Di HP</h2>
           <p>Buka halaman ini di smartphone kamu untuk bisa mengerjakan soal dengan nyaman.</p>
           <button className="qz-btn qz-btn-secondary qz-btn-inline" onClick={() => navigate('/')}>
             ← Kembali ke Beranda
@@ -1471,7 +1471,7 @@ export default function QuizizFakep() {
                 tabIndex={0}
                 onKeyDown={e => e.key === 'Enter' && setMode('hard')}
               >
-                <h4>🔴 Hard Mode</h4>
+                <h4>🔴 IBD SEPELE</h4>
                 <p>Timer {HARD_MODE_MINUTES} menit untuk {TOTAL} soal. Uji kecepatan dan ketepatan kamu!</p>
               </div>
             </div>
@@ -1750,7 +1750,7 @@ export default function QuizizFakep() {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
                       <div className="qz-lb-score">{row.score}</div>
-                      <span className="qz-badge-mode">{row.mode === 'hard' ? '🔴 Hard' : '🟢 Unlimited'}</span>
+                      <span className="qz-badge-mode">{row.mode === 'hard' ? '🔴Sok Iye Kamu' : '🟢 SEPELE MODE'}</span>
                     </div>
                   </div>
                 );
@@ -1831,7 +1831,7 @@ export default function QuizizFakep() {
               </div>
               <div className="qz-result-row">
                 <span>Mode</span>
-                <span>{finalStat.mode === 'hard' ? '🔴 Hard Mode' : '🟢 Unlimited'}</span>
+                <span>{finalStat.mode === 'hard' ? '🔴 Sok Iye Kamu Le' : '🟢 Sepele'}</span>
               </div>
               <div className="qz-result-row">
                 <span>Status ranking</span>
