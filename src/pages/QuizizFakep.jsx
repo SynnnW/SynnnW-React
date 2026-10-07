@@ -11,7 +11,7 @@ import {
   onSnapshot, query, orderBy, limit, serverTimestamp, deleteDoc,
 } from 'firebase/firestore';
 import { questions as questions100 } from '../data/quizQuestions';
-import { questions50: questions40 } from '../data/quizQuestions50';
+import { questions50 as questions40 } from '../data/quizQuestions50';
 import './firebase';
 
 // ═══ KONSTANTA ═══
