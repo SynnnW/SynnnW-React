@@ -1,6 +1,6 @@
 // src/pages/QuizizFakep.jsx
 // Quiz Keperawatan — santai, friendly, lengkap tanpa potong
-// Fitur: auth Google/anonim (Firebase instance terpisah), leaderboard Firestore, donasi QRIS
+// Fitur: auth Google/anonim dengan nama sepele (Firebase instance terpisah), leaderboard Firestore, donasi QRIS
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,14 +8,14 @@ import { createPortal } from 'react-dom';
 import { getApp, getApps, initializeApp } from 'firebase/app';
 import {
   getAuth, GoogleAuthProvider, signInWithPopup,
-  signInAnonymously, onAuthStateChanged, signOut,
+  signInAnonymously, onAuthStateChanged, signOut, updateProfile,
 } from 'firebase/auth';
 import {
   getFirestore, collection, doc, getDoc, setDoc,
   onSnapshot, query, orderBy, limit, serverTimestamp, deleteDoc,
 } from 'firebase/firestore';
 import { questions as questions100 } from '../data/quizQuestions';
-import { questions50 as questions40 } from '../data/quizQuestions50';
+import { questions50 as questions50 } from '../data/quizQuestions50';
 import './firebase';
 
 /* ═══════════════════════════════════════════════
@@ -26,12 +26,20 @@ const ADMIN_EMAIL = 'aldokraksaan@gmail.com';
 const MODE_CONFIG = {
   '100-sepele': { name: 'Sepele Mode', count: 100, timeLimit: 100 * 60, maxScore: 1000 },
   '100-hard': { name: 'Sok Iye Kamu', count: 100, timeLimit: 100 * 60, maxScore: 1000 },
-  '40-unlimited': { name: 'Unlimited Quiz', count: 40, timeLimit: 45 * 60, maxScore: 400 },
+  '50-unlimited': { name: 'Unlimited Quiz', count: 50, timeLimit: 45 * 60, maxScore: 500 },
 };
 const QRIS_IMAGE = '/assets/img/qris.jpg';
 const LS_KEY = 'qz_v5';
 const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E'];
 const PINNED_TOP = { name: 'Ns Leo', score: 1000 };
+
+// Daftar nama sepele untuk anonymous mode
+const SILLY_NAMES = [
+  'Nopal Sepele', 'Durian Juara', 'Nanas Bersemangat', 'Jeruk Kocak', 'Apel Ngakak',
+  'Mangga Lucu', 'Pisang Gila', 'Strawberry Kocak', 'Pepaya Santai', 'Jambu Ceria',
+  'Leci Lawak', 'Belimbing Kreatif', 'Buah Naga Gokil', 'Markisa Seru', 'Salak Cerdas',
+  'Persik Jenaka', 'Kiwi Kasep', 'Teh Manis', 'Kopi Santai', 'Jus Campur'
+];
 
 const quizApp = getApps().find(a => a.name === 'quiz') || initializeApp(getApp().options, 'quiz');
 const quizAuth = getAuth(quizApp);
@@ -43,6 +51,7 @@ const quizDb = getFirestore(quizApp);
 const fmt = (sec) => sec == null || sec < 0 ? '--' : `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
 const score = (c, t, m) => Math.round((c / t) * m);
 const isAdmin = (email) => email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+const getRandomSillyName = () => SILLY_NAMES[Math.floor(Math.random() * SILLY_NAMES.length)];
 
 /* ═══════════════════════════════════════════════
    CSS — SANTAI & FRIENDLY STYLING
@@ -245,35 +254,35 @@ const CSS = `
   background: rgba(139,123,255,0.08);
 }
 .qz-mode-btn .label {
-  font-size: 0.9rem;
   font-weight: 700;
-  display: block;
+  font-size: 1rem;
   margin-bottom: 8px;
-  color: var(--qz-text);
 }
 .qz-mode-btn .desc {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--qz-muted);
 }
 
-/* Buttons */
+/* Button — Primary & Secondary */
 .qz-btn {
   width: 100%;
-  padding: 14px;
+  padding: 12px 16px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
+  font-family: var(--qz-font);
+  font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
-  font: 600 0.95rem var(--qz-font);
   transition: all 0.25s;
   margin-top: 12px;
 }
 .qz-btn-primary {
-  background: linear-gradient(135deg, #8b7bff, #7c5cdb);
+  background: linear-gradient(135deg, var(--qz-primary), var(--qz-primary2));
   color: #fff;
 }
-.qz-btn-primary:not(:disabled):hover {
+.qz-btn-primary:hover {
+  opacity: 0.85;
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(139,123,255,0.4);
 }
 .qz-btn-secondary {
   background: var(--qz-surface);
@@ -282,40 +291,55 @@ const CSS = `
 }
 .qz-btn-secondary:hover {
   border-color: var(--qz-primary);
-  background: rgba(139,123,255,0.05);
-}
-.qz-btn-success {
-  background: linear-gradient(135deg, #34d399, #2dd4bf);
-  color: #fff;
-}
-.qz-btn-success:not(:disabled):hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(52,211,153,0.3);
+  background: rgba(139,123,255,0.1);
 }
 
-/* Soal */
-.qz-q-text {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 24px 0 16px;
-  line-height: 1.6;
-  color: var(--qz-text);
+/* Progress bar */
+.qz-prog-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--qz-surface);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
 }
+.qz-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--qz-primary), var(--qz-primary2));
+  transition: width 0.3s ease;
+}
+
+/* Question */
+.qz-q-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  color: var(--qz-text);
+  font-weight: 500;
+}
+
+/* Options */
 .qz-options {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 24px;
 }
 .qz-option {
-  width: 100%;
   padding: 14px 16px;
   background: var(--qz-surface);
   border: 1.5px solid var(--qz-border);
   border-radius: 10px;
-  text-align: left;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.2s;
+  text-align: left;
   color: var(--qz-text);
+  font-family: var(--qz-font);
+  font-size: 0.95rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .qz-option:hover {
   border-color: var(--qz-primary);
@@ -326,78 +350,88 @@ const CSS = `
   background: rgba(139,123,255,0.15);
 }
 .qz-option.correct {
-  border-color: #34d399;
+  border-color: var(--qz-success);
   background: rgba(52,211,153,0.12);
 }
 .qz-option.wrong {
-  border-color: #fb7185;
+  border-color: var(--qz-danger);
   background: rgba(251,113,133,0.12);
 }
-
-/* Feedback */
-.qz-feedback {
-  padding: 14px;
-  border-radius: 10px;
-  margin-top: 16px;
-  font-size: 0.9rem;
-}
-.qz-feedback.ok {
-  background: rgba(52,211,153,0.12);
-  border: 1px solid #34d399;
-  color: #34d399;
-}
-.qz-feedback.err {
-  background: rgba(251,113,133,0.12);
-  border: 1px solid #fb7185;
-  color: #fb7185;
-}
-
-/* Progress bar */
-.qz-prog-bar {
-  width: 100%;
-  height: 6px;
-  background: var(--qz-border);
-  border-radius: 999px;
-  overflow: hidden;
-  margin: 20px 0;
-}
-.qz-prog-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #8b7bff, #5eead4);
-  transition: width 0.3s;
-}
-
-/* Navigator grid */
-.qz-nav-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(36px, 1fr));
-  gap: 6px;
-  max-height: 300px;
-  overflow-y: auto;
-}
-.qz-nav-cell {
-  padding: 8px;
-  background: var(--qz-surface);
-  border: 1px solid var(--qz-border);
+.qz-option-label {
+  min-width: 28px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.75rem;
+  background: var(--qz-surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 600;
-  transition: all 0.2s;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.qz-option.selected .qz-option-label {
+  background: var(--qz-primary);
+  color: #fff;
+}
+.qz-option.correct .qz-option-label {
+  background: var(--qz-success);
+  color: #fff;
+}
+.qz-option.wrong .qz-option-label {
+  background: var(--qz-danger);
+  color: #fff;
+}
+
+/* Explanation */
+.qz-explanation {
+  padding: 14px;
+  background: rgba(52,211,153,0.08);
+  border-left: 3px solid var(--qz-success);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.6;
   color: var(--qz-text);
+  margin-bottom: 20px;
 }
-.qz-nav-cell.ok {
-  background: #34d399;
-  color: #fff;
-  border-color: #34d399;
+
+/* Action buttons */
+.qz-action-btns {
+  display: flex;
+  gap: 10px;
 }
-.qz-nav-cell.err {
-  background: #fb7185;
+.qz-action-btn {
+  flex: 1;
+  padding: 11px;
+  background: var(--qz-surface);
+  border: 1.5px solid var(--qz-border);
+  border-radius: 10px;
+  color: var(--qz-text);
+  font-family: var(--qz-font);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.qz-action-btn:hover {
+  border-color: var(--qz-primary);
+  background: rgba(139,123,255,0.08);
+}
+.qz-action-btn.filled {
+  background: linear-gradient(135deg, var(--qz-primary), var(--qz-primary2));
+  border-color: transparent;
   color: #fff;
-  border-color: #fb7185;
+}
+.qz-action-btn.filled:hover {
+  opacity: 0.85;
 }
 
 /* Leaderboard */
+.qz-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
 .qz-stat-card {
   background: var(--qz-surface);
   border: 1px solid var(--qz-border);
@@ -407,98 +441,78 @@ const CSS = `
 }
 .qz-stat-card h4 {
   font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
   color: var(--qz-muted);
-  margin: 0 0 8px;
-  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 .qz-val {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 800;
   background: linear-gradient(135deg, var(--qz-primary), var(--qz-primary2));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-.qz-stats-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
 
-/* Leaderboard rows */
 .qz-lb-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px 14px;
+  padding: 14px;
   border-bottom: 1px solid var(--qz-border);
-  transition: all 0.2s;
-}
-.qz-lb-row:hover {
-  background: rgba(139,123,255,0.04);
 }
 .qz-lb-row.qz-me {
-  background: rgba(94,234,212,0.08);
-  border-left: 3px solid var(--qz-primary2);
-  padding-left: 11px;
+  background: rgba(139,123,255,0.08);
+  border-radius: 8px;
 }
-
 .qz-lb-rank {
+  min-width: 32px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.qz-lb-rank.qz-gold {
+  color: #fbbf24;
+}
+.qz-lb-rank.qz-silver {
+  color: #e5e7eb;
+}
+.qz-lb-rank.qz-bronze {
+  color: #fb923c;
+}
+.qz-lb-avatar {
   width: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 50%;
   background: var(--qz-surface);
-  border-radius: 8px;
-  font-weight: 800;
-  font-size: 0.95rem;
-  color: var(--qz-primary);
-}
-.qz-lb-rank.qz-gold { color: #fbbf24; }
-.qz-lb-rank.qz-silver { color: #a1a1a9; }
-.qz-lb-rank.qz-bronze { color: #d97706; }
-
-.qz-lb-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--qz-primary), var(--qz-primary2));
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
   font-weight: 700;
   font-size: 0.9rem;
-  overflow: hidden;
   flex-shrink: 0;
+  overflow: hidden;
 }
 .qz-lb-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
-.qz-lb-info {
-  flex: 1;
-}
 .qz-lb-name {
-  font-weight: 700;
-  margin-bottom: 4px;
+  font-weight: 600;
   color: var(--qz-text);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  margin-bottom: 2px;
 }
 .qz-me-tag {
-  font-size: 0.7rem;
-  padding: 4px 8px;
-  background: rgba(94,234,212,0.2);
-  border: 1px solid var(--qz-primary2);
-  border-radius: 4px;
-  color: var(--qz-primary2);
+  display: inline-block;
+  font-size: 0.65rem;
+  background: var(--qz-primary);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+  font-weight: 700;
 }
 .qz-lb-meta {
   font-size: 0.8rem;
@@ -508,88 +522,86 @@ const CSS = `
   font-size: 1.3rem;
   font-weight: 800;
   color: var(--qz-primary);
-  min-width: 60px;
-  text-align: right;
-}
-.qz-badge-mode {
-  font-size: 0.7rem;
-  padding: 4px 8px;
-  background: var(--qz-surface);
-  border: 1px solid var(--qz-border);
-  border-radius: 4px;
-  color: var(--qz-muted);
 }
 
-/* Result screen */
+/* Result */
 .qz-result-score {
-  font-size: 2.8rem;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--qz-primary), var(--qz-primary2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: 4px;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--qz-primary);
+  text-align: center;
+  margin-bottom: 8px;
 }
 .qz-result-details {
   background: var(--qz-surface);
   border: 1px solid var(--qz-border);
   border-radius: 12px;
   padding: 16px;
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 .qz-result-row {
   display: flex;
   justify-content: space-between;
-  padding: 12px 0;
+  padding: 10px 0;
   border-bottom: 1px solid var(--qz-border);
   font-size: 0.95rem;
 }
 .qz-result-row:last-child {
   border-bottom: none;
 }
-.qz-result-row span:last-child {
-  font-weight: 700;
-  color: var(--qz-primary2);
-}
 
-/* QRIS section */
+/* QRIS */
 .qz-qris-card {
-  background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(245,158,11,0.05));
-  border: 1px solid rgba(245,158,11,0.2);
+  background: linear-gradient(135deg, rgba(139,123,255,0.1), rgba(94,234,212,0.05));
+  border: 1px solid var(--qz-border);
   border-radius: 12px;
   padding: 16px;
   text-align: center;
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 .qz-qris-card h4 {
-  font-family: var(--qz-font-display);
-  color: var(--qz-text);
   margin-bottom: 8px;
+  color: var(--qz-text);
+  font-weight: 700;
 }
 .qz-qris-card p {
-  color: var(--qz-muted);
   font-size: 0.9rem;
+  color: var(--qz-muted);
   margin-bottom: 12px;
   line-height: 1.5;
 }
 .qz-qris-img {
-  width: 100%;
-  max-width: 200px;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  max-width: 100%;
+  border-radius: 10px;
   cursor: pointer;
   transition: transform 0.2s;
 }
 .qz-qris-img:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
+}
+.qz-qris-full {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  cursor: pointer;
+  animation: qz-fade-in 0.3s ease;
+  padding: 20px;
+}
+.qz-qris-full img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 12px;
 }
 
-/* Bottom sheet */
+/* Bottom sheet navigator */
 .qz-bs-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
   z-index: 30;
   animation: qz-fade-in 0.3s ease;
 }
@@ -644,23 +656,26 @@ const CSS = `
   margin-top: 16px;
 }
 
-/* QRIS fullscreen */
-.qz-qris-full {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-  cursor: pointer;
-  animation: qz-fade-in 0.3s ease;
-  padding: 20px;
+/* Form Input */
+.qz-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--qz-surface);
+  border: 1.5px solid var(--qz-border);
+  border-radius: 10px;
+  color: var(--qz-text);
+  font-family: var(--qz-font);
+  font-size: 1rem;
+  transition: all 0.2s;
+  margin-bottom: 12px;
 }
-.qz-qris-full img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 12px;
+.qz-input:focus {
+  outline: none;
+  border-color: var(--qz-primary);
+  background: rgba(139,123,255,0.1);
+}
+.qz-input::placeholder {
+  color: var(--qz-muted);
 }
 
 /* Loading & Empty states */
@@ -706,6 +721,41 @@ const CSS = `
 .qz-nav-toggle:hover {
   border-color: var(--qz-primary);
   background: rgba(139,123,255,0.08);
+}
+
+/* Navigation grid */
+.qz-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 8px;
+}
+.qz-nav-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--qz-surface);
+  border: 1px solid var(--qz-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  color: var(--qz-muted);
+}
+.qz-nav-cell:hover {
+  border-color: var(--qz-primary);
+  background: rgba(139,123,255,0.08);
+}
+.qz-nav-cell.ok {
+  background: rgba(52,211,153,0.15);
+  border-color: var(--qz-success);
+  color: var(--qz-success);
+}
+.qz-nav-cell.err {
+  background: rgba(251,113,133,0.15);
+  border-color: var(--qz-danger);
+  color: var(--qz-danger);
 }
 
 /* Animations */
@@ -780,11 +830,13 @@ export default function QuizizFakep() {
   const [lbError, setLbError] = useState('');
   const [qrisError, setQrisError] = useState(false);
   const [qrisLarge, setQrisLarge] = useState(false);
+  const [showAnonModal, setShowAnonModal] = useState(false);
+  const [anonName, setAnonName] = useState('');
 
   const modeConf = MODE_CONFIG[mode];
   const TOTAL = modeConf.count;
   const MAX_SCORE = modeConf.maxScore;
-  const QUESTIONS = mode.includes('40') ? questions40 : questions100;
+  const QUESTIONS = mode.includes('50') ? questions50 : questions100;
 
   // AUTH
   useEffect(() => {
@@ -948,9 +1000,14 @@ export default function QuizizFakep() {
     }
   };
 
-  const loginAnon = async () => {
+  const loginAnon = async (name) => {
     try {
-      await signInAnonymously(quizAuth);
+      const result = await signInAnonymously(quizAuth);
+      if (name && name.trim()) {
+        await updateProfile(result.user, { displayName: name.trim() });
+      }
+      setShowAnonModal(false);
+      setAnonName('');
     } catch (err) {
       console.error(err);
     }
@@ -999,11 +1056,53 @@ export default function QuizizFakep() {
             <button className="qz-btn qz-btn-primary" onClick={loginGoogle}>
               🔐 Login Google
             </button>
-            <button className="qz-btn qz-btn-secondary" onClick={loginAnon}>
+            <button className="qz-btn qz-btn-secondary" onClick={() => setShowAnonModal(true)}>
               ⚡ Lanjut Anonim
             </button>
           </div>
         </div>
+
+        {showAnonModal &&
+          createPortal(
+            <>
+              <div className="qz-modal-overlay" onClick={() => setShowAnonModal(false)} />
+              <div className="qz-modal-box">
+                <h2 className="qz-h2" style={{ textAlign: 'center' }}>🥜 Nopal Sepele Mode</h2>
+                <p style={{ color: 'var(--qz-muted)', fontSize: '0.9rem', textAlign: 'center' }}>
+                  Kasih nama sepele untuk leaderboard kamu! 😄
+                </p>
+                <input
+                  type="text"
+                  className="qz-input"
+                  placeholder="Cth: Nopal Ganteng, Durian Kocak, dll"
+                  value={anonName}
+                  onChange={(e) => setAnonName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') loginAnon(anonName);
+                  }}
+                />
+                <button
+                  className="qz-btn qz-btn-primary"
+                  onClick={() => loginAnon(anonName || getRandomSillyName())}
+                >
+                  Lanjut dengan Nama Ini
+                </button>
+                <button
+                  className="qz-btn qz-btn-secondary"
+                  onClick={() => loginAnon(getRandomSillyName())}
+                >
+                  🎲 Random Nama Sepele
+                </button>
+                <button
+                  className="qz-btn qz-btn-secondary"
+                  onClick={() => setShowAnonModal(false)}
+                >
+                  Batal
+                </button>
+              </div>
+            </>,
+            document.body
+          )}
       </div>
     );
   }
@@ -1068,6 +1167,18 @@ export default function QuizizFakep() {
   // QUIZ
   if (page === 'quiz') {
     const q = QUESTIONS[currentQ];
+    if (!q) {
+      return (
+        <div className="qz-root">
+          <style>{CSS}</style>
+          <div className="qz-wrap">
+            <div className="qz-alert qz-alert-err">
+              ❌ Error: Soal tidak ditemukan untuk mode {mode}
+            </div>
+          </div>
+        </div>
+      );
+    }
     const answered = userAnswers[currentQ] !== undefined;
     const isRevealed = revealed[currentQ];
     const progressPct = ((currentQ + 1) / TOTAL) * 100;
@@ -1096,56 +1207,58 @@ export default function QuizizFakep() {
           </div>
 
           <div className="qz-card qz-card-pad">
-            <div className="qz-q-text">{q.question}</div>
+            <div className="qz-q-text">{q.text}</div>
 
             <div className="qz-options">
-              {q.options.map((opt, i) => (
-                <button
-                  key={i}
-                  className={`qz-option ${
-                    userAnswers[currentQ] === i ? 'selected' : ''
-                  } ${isRevealed && i === q.correct ? 'correct' : ''}
-                  ${isRevealed && userAnswers[currentQ] === i && i !== q.correct ? 'wrong' : ''}`}
-                  onClick={() => selectOption(i)}
-                  disabled={isRevealed}
-                >
-                  <strong>{OPTION_LABELS[i]}.</strong> {opt}
-                </button>
-              ))}
+              {q.options.map((opt, idx) => {
+                let optClass = 'qz-option';
+                if (userAnswers[currentQ] === idx) optClass += ' selected';
+                if (isRevealed) {
+                  if (idx === q.correct) optClass = 'qz-option correct';
+                  else if (userAnswers[currentQ] === idx) optClass = 'qz-option wrong';
+                }
+                return (
+                  <button
+                    key={idx}
+                    className={optClass}
+                    onClick={() => selectOption(idx)}
+                    disabled={isRevealed}
+                  >
+                    <span className="qz-option-label">{OPTION_LABELS[idx]}</span>
+                    <span>{opt}</span>
+                  </button>
+                );
+              })}
             </div>
 
-            {isRevealed && (
-              <div className={`qz-feedback ${answers[currentQ] ? 'ok' : 'err'}`}>
-                {answers[currentQ]
-                  ? '✅ Benar! Mantap!'
-                  : `❌ Salah. Jawaban yang benar adalah ${OPTION_LABELS[q.correct]}`}
+            {isRevealed && q.explanation && (
+              <div className="qz-explanation">
+                <strong>Pembahasan:</strong> {q.explanation}
               </div>
             )}
 
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              {!isRevealed ? (
+            <div className="qz-action-btns">
+              {!isRevealed && (
                 <button
-                  className="qz-btn qz-btn-primary"
+                  className="qz-action-btn filled"
                   onClick={checkAnswer}
                   disabled={!answered}
+                  style={{ opacity: answered ? 1 : 0.5, cursor: answered ? 'pointer' : 'not-allowed' }}
                 >
-                  Periksa Jawaban
+                  ✓ Cek
                 </button>
-              ) : (
-                <button className="qz-btn qz-btn-success" onClick={goNext}>
-                  {currentQ < TOTAL - 1 ? 'Lanjut →' : '🏁 Selesai'}
+              )}
+              {isRevealed && (
+                <button className="qz-action-btn filled" onClick={goNext}>
+                  {currentQ < TOTAL - 1 ? '→ Lanjut' : '🏁 Selesai'}
                 </button>
               )}
             </div>
-
-            <button
-              className="qz-nav-toggle"
-              onClick={() => setShowNav(true)}
-              aria-label="Buka navigator soal"
-            >
-              📋 {Object.keys(answers).length}/{TOTAL}
-            </button>
           </div>
+
+          <button className="qz-nav-toggle" onClick={() => setShowNav(true)}>
+            📌 Navigator ({Object.keys(answers).length}/{TOTAL})
+          </button>
         </div>
 
         {/* Navigator bottom sheet */}
