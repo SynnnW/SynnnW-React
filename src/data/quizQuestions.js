@@ -1,206 +1,706 @@
 // src/data/quizQuestions.js
-// 200 soal IBD HOTS — auto-generated dari IBD_200_HOTS_REVISI_FULL.json
+// 100 SOAL LATIHAN KEPERAWATAN — Konsep, Paradigma, Etik, dan Profesi
 // Format: { id, text, options: [5 string], correct (0-based), explanation }
 
 export const questions = [
-  {"id": 1, "text": "Seorang mahasiswa diminta menjelaskan mengapa kerusakan pada struktur yang sangat kecil dapat akhirnya menyebabkan gangguan fungsi seluruh organ. Ia harus menyusun tingkat organisasi tubuh dari yang paling sederhana menuju yang paling kompleks. Urutan yang paling tepat adalah...", "options": ["Sel → molekul → jaringan → organ → sistem organ → organisme", "Molekul → sel → jaringan → organ → sistem organ → organisme", "Molekul → jaringan → sel → organ → organisme → sistem organ", "Jaringan → sel → molekul → organ → sistem organ → organisme", "Organ → jaringan → sel → molekul → sistem organ → organisme"], "correct": 1, "explanation": "PEMBAHASAN:\nMateri TM 1 menjelaskan hierarki organisasi tubuh sebagai molekul → sel → jaringan → organ → sistem organ → organisme. Molekul menjadi bagian penyusun sel. Sel sejenis membentuk jaringan, beberapa jaringan membentuk organ, beberapa organ bekerja sebagai sistem organ, dan seluruh sistem tersebut membentuk organisme. Konsep ini penting karena gangguan pada tingkat sel dapat berdampak pada jaringan dan organ."},
-  {"id": 2, "text": "Seorang pasien akan menjalani CT scan abdomen. Dokter ingin mendeskripsikan letak organ dengan istilah yang konsisten. Pasien terlebih dahulu diposisikan sebagai posisi anatomi standar. Pernyataan yang paling tepat adalah...", "options": ["Wajah menghadap ke belakang dan telapak tangan menghadap ke belakang", "Berdiri tegak, wajah ke depan, lengan di sisi tubuh, telapak tangan menghadap ke depan", "Berbaring telentang dengan tangan di atas kepala", "Berdiri dengan telapak tangan menghadap ke belakang", "Berdiri dengan kepala menunduk"], "correct": 1, "explanation": "PEMBAHASAN:\nPosisi anatomi standar dalam PPT adalah berdiri tegak, wajah menghadap ke depan, lengan di sisi tubuh, telapak tangan menghadap ke depan, kaki rapat dan jari kaki ke depan. Posisi ini menjadi acuan seluruh terminologi anatomi."},
-  {"id": 3, "text": "Hasil MRI menunjukkan lesi yang terletak tepat di garis tengah tubuh. Dokter membandingkannya dengan lesi yang berada sedikit ke samping dari garis tengah. Istilah yang tepat untuk kedua bidang tersebut adalah...", "options": ["Sagital dan transversal", "Midsagital dan parasagital", "Frontal dan koronal", "Proksimal dan distal", "Superfisial dan profunda"], "correct": 1, "explanation": "PEMBAHASAN:\nBidang midsagital membagi tubuh tepat di garis tengah menjadi sisi kanan dan kiri. Bidang parasagital juga membagi tubuh secara sagital tetapi berada di sisi lateral dari garis tengah. Materi TM 1 menekankan penggunaannya dalam pencitraan seperti CT dan MRI."},
-  {"id": 4, "text": "Perawat mendokumentasikan luka yang berada lebih dekat ke permukaan kulit dibandingkan jaringan di bawahnya. Istilah anatomi yang paling tepat adalah...", "options": ["Profunda", "Superfisial", "Distal", "Kontralateral", "Ipsilateral"], "correct": 1, "explanation": "PEMBAHASAN:\nSuperfisial berarti dekat permukaan tubuh, sedangkan profunda berarti lebih jauh dari permukaan. Ipsilateral berarti sisi yang sama dan kontralateral berarti sisi berlawanan. Proksimal-distal digunakan untuk posisi terhadap pangkal anggota gerak."},
-  {"id": 5, "text": "Seorang pasien mengeluh nyeri pada satu sisi tubuh, kemudian dokter mencatat bahwa kelainan tersebut berada pada sisi tubuh yang sama dengan lokasi pemeriksaan utama. Istilah hubungan sisi tubuh yang tepat adalah...", "options": ["Kontralateral", "Ipsilateral", "Distal", "Profunda", "Sagital"], "correct": 1, "explanation": "PEMBAHASAN:\nIpsilateral berarti berada pada sisi yang sama. Kontralateral berarti berada pada sisi yang berlawanan. Istilah ini sering digunakan untuk menjelaskan hubungan lokasi kelainan pada pemeriksaan neurologis dan muskuloskeletal."},
-  {"id": 6, "text": "Pada pemeriksaan abdomen, dokter meminta pasien menunjukkan lokasi nyeri. Dokter memilih sistem pembagian empat kuadran agar lokasi organ dapat dijelaskan secara lebih terarah. Tujuan utama pembagian kuadran abdomen adalah...", "options": ["Menentukan jenis jaringan secara mikroskopis", "Membantu lokalisasi nyeri dan organ saat pemeriksaan fisik", "Menentukan kadar hormon", "Menghitung jumlah sel darah", "Mengukur tekanan darah"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT TM 1 mencantumkan pembagian abdomen menjadi empat kuadran untuk membantu lokalisasi nyeri dan organ saat pemeriksaan. Ini merupakan penggunaan praktis terminologi anatomi untuk komunikasi klinis."},
-  {"id": 7, "text": "Seorang pasien mengalami pembengkakan sel setelah menerima cairan dengan osmolaritas yang lebih rendah daripada cairan intraseluler. Mekanisme yang paling tepat menjelaskan masuknya air ke sel adalah...", "options": ["Difusi oksigen", "Osmosis menuju kompartemen dengan osmolaritas efektif lebih tinggi", "Transport aktif primer air", "Endositosis air menggunakan ATP", "Eksositosis air"], "correct": 1, "explanation": "PEMBAHASAN:\nOsmosis adalah pergerakan air melalui membran semipermeabel menuju sisi yang mempunyai konsentrasi zat terlarut efektif lebih tinggi. Jika lingkungan ekstraseluler relatif hipotonik, air masuk ke dalam sel dan volume sel meningkat. TM 1 menghubungkan osmosis dengan volume cairan dan keseimbangan kompartemen tubuh."},
-  {"id": 8, "text": "Pada suatu sel, pompa Na+/K+-ATPase berhenti bekerja karena produksi ATP sangat rendah. Perubahan yang paling mungkin terjadi adalah...", "options": ["Gradien Na+ dan K+ menjadi lebih sulit dipertahankan", "Kalium selalu terus masuk tanpa batas", "Natrium selalu tetap rendah di luar sel tanpa pompa", "ATP akan meningkat karena pompa berhenti", "Eksitabilitas membran otomatis meningkat"], "correct": 0, "explanation": "PEMBAHASAN:\nNa+/K+-ATPase menggunakan ATP untuk mempertahankan gradien ion dengan memindahkan Na+ keluar dan K+ masuk. Jika ATP berkurang, pemeliharaan gradien terganggu. Gangguan gradien dapat memengaruhi volume sel dan eksitabilitas membran."},
-  {"id": 9, "text": "Seorang pasien mengalami hipoksia sehingga fosforilasi oksidatif menurun. Organela yang paling langsung berhubungan dengan masalah tersebut adalah...", "options": ["Ribosom", "Mitokondria", "Golgi", "Lisosom", "Sentriol"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT TM 1 menyatakan mitokondria sebagai penghasil utama ATP melalui fosforilasi oksidatif. Hipoksia atau iskemia dapat menurunkan produksi ATP dan menyebabkan disfungsi sel. Ribosom bertugas pada sintesis protein, sedangkan Golgi terutama menyortir dan memproses produk sel."},
-  {"id": 10, "text": "Seorang pasien mengalami gangguan produksi protein. Pemeriksaan menunjukkan kerusakan organel tempat translasi berlangsung. Organel yang paling mungkin terkena adalah...", "options": ["Ribosom", "Lisosom", "Golgi", "Mitokondria", "Peroksisom"], "correct": 0, "explanation": "PEMBAHASAN:\nRibosom adalah tempat translasi, yaitu pembacaan mRNA untuk membentuk rantai polipeptida. TM 1 menekankan fungsi ribosom sebagai organel sintesis protein."},
-  {"id": 11, "text": "Suatu protein membran diketahui menembus bilayer fosfolipid dan menjadi jalur transport dari luar ke dalam sel. Berdasarkan klasifikasi protein membran, protein tersebut termasuk...", "options": ["Protein perifer", "Protein integral", "Kolagen", "Histon", "Enzim lisosomal"], "correct": 1, "explanation": "PEMBAHASAN:\nProtein integral menembus atau tertanam dalam bilayer fosfolipid. Protein perifer hanya menempel pada permukaan membran. Protein membran berperan pada transport dan komunikasi sel."},
-  {"id": 12, "text": "Seorang pasien memiliki gangguan transport aktif ion dan kemudian mengalami gangguan keseimbangan cairan sel. Konsep dasar yang paling berkaitan adalah...", "options": ["ATP menyediakan energi untuk transport aktif", "DNA langsung memompa ion", "Ribosom menyerap natrium", "Golgi mengatur osmosis secara langsung", "Mielin menghasilkan ATP"], "correct": 0, "explanation": "PEMBAHASAN:\nATP mendukung transport aktif melawan gradien. Dalam TM 1, hubungan ATP, pompa Na+/K+-ATPase, gradien elektrokimia, volume sel, dan eksitabilitas dibahas sebagai satu rangkaian konsep."},
-  {"id": 13, "text": "Seorang pasien menjalani pemeriksaan siklus sel. Dokter menjelaskan bahwa sel harus memastikan DNA tidak rusak sebelum masuk fase berikutnya. Mekanisme tersebut paling sesuai dengan...", "options": ["Sistem checkpoint siklus sel", "Difusi terfasilitasi", "Osmosis", "Endositosis", "Transaminasi"], "correct": 0, "explanation": "PEMBAHASAN:\nTM 1 membahas checkpoint G1/S, G2/M, dan spindle assembly checkpoint. Checkpoint membantu memastikan DNA tidak mengalami kerusakan berat sebelum replikasi, pembelahan, atau pemisahan kromosom. Kegagalan kontrol ini dapat berkontribusi pada pertumbuhan sel tidak terkendali dan kanker."},
-  {"id": 14, "text": "Sel somatik manusia memasuki fase S pada siklus sel. Apa peristiwa utama pada fase tersebut?", "options": ["Pembentukan dua sel anak", "Replikasi DNA", "Pemisahan kromatid saudara", "Sitokinesis", "Pembentukan gamet haploid"], "correct": 1, "explanation": "PEMBAHASAN:\nFase S adalah fase sintesis DNA. Setelah fase tersebut, sel memasuki G2 untuk persiapan pembelahan dan kemudian fase M. Replikasi DNA diperlukan sebelum satu sel membentuk dua sel anak."},
-  {"id": 15, "text": "Seorang pasien mengalami regenerasi jaringan setelah luka. Proses pembelahan sel yang menghasilkan dua sel anak diploid dengan jumlah kromosom sama seperti sel induk adalah...", "options": ["Meiosis", "Mitosis", "Fertilisasi", "Crossing over", "Translasi"], "correct": 1, "explanation": "PEMBAHASAN:\nMitosis merupakan pembelahan sel somatik yang menghasilkan dua sel anak dengan jumlah kromosom diploid yang sama, yaitu 2n = 46 pada manusia. Materi menjelaskan perannya dalam pertumbuhan, perbaikan, regenerasi, dan penggantian sel rusak."},
-  {"id": 16, "text": "Pada meiosis I, peristiwa yang menjadi ciri penting adalah...", "options": ["Pemisahan kromosom homolog", "Pembentukan dua sel identik diploid", "Replikasi DNA kembali setelah meiosis I", "Pemisahan seluruh kromatid saudara pada awal pembelahan", "Pembentukan sel somatik"], "correct": 0, "explanation": "PEMBAHASAN:\nMeiosis terdiri dari dua pembelahan. Pada meiosis I, kromosom homolog dipisahkan sehingga terjadi reduksi jumlah kromosom. Pada meiosis II, kromatid saudara kemudian dipisahkan."},
-  {"id": 17, "text": "Seorang mahasiswa membandingkan hasil mitosis dan meiosis. Pernyataan yang paling tepat adalah...", "options": ["Mitosis menghasilkan empat sel haploid", "Meiosis menghasilkan dua sel diploid identik", "Mitosis menghasilkan dua sel diploid; meiosis menghasilkan empat sel haploid", "Keduanya selalu terjadi pada sel somatik", "Keduanya menghasilkan jumlah kromosom yang sama"], "correct": 2, "explanation": "PEMBAHASAN:\nMitosis mempunyai satu pembelahan dan menghasilkan dua sel anak diploid. Meiosis mempunyai dua pembelahan dan menghasilkan empat sel haploid untuk reproduksi seksual. Perbedaan tujuan, lokasi, dan hasil ini ditekankan dalam TM 1."},
-  {"id": 18, "text": "Seorang pasien mengalami kelainan akibat kegagalan pemisahan kromosom sehingga jumlah kromosom tidak normal. Kondisi tersebut disebut...", "options": ["Homeostasis", "Aneuploidy", "Osmosis", "Transkripsi", "Glikolisis"], "correct": 1, "explanation": "PEMBAHASAN:\nAneuploidy adalah ketidaksesuaian jumlah kromosom akibat kesalahan segregasi kromosom. PPT memberi contoh trisomi 21, trisomi 18, dan monosomi X."},
-  {"id": 19, "text": "Seorang anak memiliki kelainan genetik akibat perubahan pada urutan DNA. Istilah umum yang paling tepat untuk perubahan tersebut adalah...", "options": ["Mutasi", "Translokasi cairan", "Osmosis", "Difusi", "Homeostasis"], "correct": 0, "explanation": "PEMBAHASAN:\nMutasi adalah perubahan pada DNA. TM 1 menghubungkan mutasi dengan penyakit herediter, gangguan sel gamet, dan pertumbuhan sel yang tidak terkendali pada kanker."},
-  {"id": 20, "text": "Suatu sel membawa informasi genetik dari DNA untuk kemudian diterjemahkan menjadi protein. Urutan informasi genetik yang paling tepat adalah...", "options": ["Protein → DNA → mRNA", "DNA → transkripsi → mRNA → translasi → protein", "DNA → translasi → mRNA → protein", "RNA → DNA → protein tanpa transkripsi", "Protein → RNA → DNA"], "correct": 1, "explanation": "PEMBAHASAN:\nDogma sentral yang dicantumkan dalam PPT adalah DNA ditranskripsi menjadi mRNA, kemudian mRNA ditranslasi menjadi protein. Protein kemudian menjalankan fungsi struktural, enzimatik, transport, dan imun."},
-  {"id": 21, "text": "Seorang pasien memiliki kelainan yang terjadi karena jumlah kromosom melebihi normal akibat kesalahan segregasi. Contoh yang sesuai dengan materi adalah...", "options": ["Trisomi 21", "Defisiensi laktase", "Hipotensi", "Hipotiroidisme", "Anemia karena perdarahan akut"], "correct": 0, "explanation": "PEMBAHASAN:\nTrisomi 21 merupakan contoh aneuploidi yang terjadi karena adanya tiga salinan kromosom 21. Materi TM 1 juga menyebut trisomi 18 dan monosomi X sebagai contoh kelainan kromosom."},
-  {"id": 22, "text": "Seorang mahasiswa diminta memilih faktor yang termasuk pengatur aktivitas enzim berdasarkan materi TM 1. Kombinasi yang paling tepat adalah...", "options": ["Suhu, pH, konsentrasi substrat, jumlah enzim, kofaktor/koenzim, dan inhibitor", "Golongan darah, tinggi badan, warna kulit, dan denyut nadi", "Tekanan darah saja", "Jumlah tulang dan panjang saraf", "Hanya kadar oksigen"], "correct": 0, "explanation": "PEMBAHASAN:\nSlide enzim TM 1 secara khusus mencantumkan faktor aktivitas enzim, antara lain suhu, pH lingkungan, konsentrasi substrat, jumlah enzim, kofaktor dan koenzim, inhibitor, serta aktivator. Memahami faktor-faktor tersebut lebih sesuai dengan materi daripada hanya menghafal nama enzim."},
-  {"id": 23, "text": "Hasil analisis menunjukkan pH darah arteri 7,25. Kesimpulan yang paling tepat adalah...", "options": ["Normal", "Asidosis", "Alkalosis", "Netral", "Hiperosmolaritas"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menetapkan pH darah arteri normal 7,35–7,45. Di bawah 7,35 disebut asidosis dan di atas 7,45 disebut alkalosis. pH penting bagi fungsi protein, enzim, dan sel."},
-  {"id": 24, "text": "Pasien mengalami hipoventilasi sehingga karbon dioksida meningkat. Menurut mekanisme dalam PPT, perubahan ini paling mungkin menyebabkan...", "options": ["PCO2 turun dan pH naik", "PCO2 naik dan pH turun", "PCO2 tetap dan pH naik", "Bikarbonat langsung menjadi nol", "Tidak ada perubahan asam-basa"], "correct": 1, "explanation": "PEMBAHASAN:\nParu mengatur CO2 secara cepat. Hipoventilasi menyebabkan CO2 tertahan, sehingga keseimbangan asam-basa bergeser ke arah penurunan pH. Sebaliknya, peningkatan ventilasi menurunkan PCO2 dan dapat menaikkan pH."},
-  {"id": 25, "text": "Seorang pasien datang dengan perubahan perilaku, kesulitan merencanakan tindakan, dan kelemahan pada satu sisi tubuh. Lobus yang paling sesuai dengan pola tersebut adalah...", "options": ["Oksipital", "Temporal", "Frontal", "Serebelum", "Medula spinalis"], "correct": 2, "explanation": "PEMBAHASAN:\nPPT saraf menempatkan gerak sadar, perencanaan, dan produksi bahasa pada lobus frontal. Petunjuk klinisnya antara lain perubahan perilaku, hemiparesis, dan kesulitan bicara. Oksipital lebih terkait penglihatan, temporal dengan pendengaran/memori/pemahaman bahasa, sedangkan serebelum dengan koordinasi dan keseimbangan.\nJEBakan: Sama-sama dapat memengaruhi gerak, tetapi serebelum terutama mengoordinasikan gerak, bukan perencanaan perilaku."},
-  {"id": 26, "text": "Pasien dapat mendengar suara tetapi kesulitan memahami bahasa yang didengarnya. Area yang paling mungkin terganggu adalah...", "options": ["Lobus frontal", "Lobus parietal", "Lobus temporal", "Lobus oksipital", "Medula oblongata"], "correct": 2, "explanation": "PEMBAHASAN:\nLobus temporal memproses pendengaran, memori, dan pemahaman bahasa. Kesulitan memahami bahasa menjadi petunjuk utama. Lobus frontal lebih berkaitan dengan produksi bahasa dan perencanaan, sedangkan oksipital dengan penglihatan."},
-  {"id": 27, "text": "Pasien mengatakan dapat membuka mata dan melihat objek tetapi sulit menginterpretasikan informasi visual. Bagian yang paling sesuai adalah...", "options": ["Lobus oksipital", "Lobus temporal", "Lobus frontal", "Hipotalamus", "Serebelum"], "correct": 0, "explanation": "PEMBAHASAN:\nLobus oksipital merupakan pusat utama pemrosesan dan interpretasi informasi visual. PPT menekankan gangguan lapangan pandang dan gangguan visual sebagai petunjuk klinis."},
-  {"id": 28, "text": "Pasien mengeluhkan kebas pada satu sisi dan sulit mengenali posisi anggota gerak tanpa melihatnya. Lobus yang paling sesuai adalah...", "options": ["Frontal", "Parietal", "Temporal", "Oksipital", "Serebelum"], "correct": 1, "explanation": "PEMBAHASAN:\nLobus parietal memproses sensasi tubuh, integrasi ruang, dan atensi. PPT memberikan kebas, pengabaian satu sisi, dan sulit mengenali posisi sebagai petunjuk klinis."},
-  {"id": 29, "text": "Pasien berjalan sempoyongan, keseimbangan buruk, tetapi tidak menunjukkan kehilangan kekuatan otot yang dominan. Struktur yang paling mungkin terganggu adalah...", "options": ["Serebelum", "Lobus temporal", "Hipofisis", "Lobus oksipital", "Tanduk anterior medula"], "correct": 0, "explanation": "PEMBAHASAN:\nSerebelum mengatur keseimbangan, postur, dan koordinasi gerakan halus. Gangguan koordinasi dapat terjadi walaupun kekuatan otot tidak hilang secara primer."},
-  {"id": 30, "text": "Setelah cedera kepala, pasien mengalami perubahan kesadaran dan gangguan pola napas otomatis. Dokter mencurigai batang otak. Alasan paling tepat adalah...", "options": ["Batang otak mengatur fungsi vital otomatis", "Batang otak hanya mengolah penglihatan", "Batang otak hanya mengatur memori", "Batang otak merupakan bagian sumsum tulang", "Batang otak menghasilkan insulin"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menempatkan batang otak sebagai pengatur fungsi vital otomatis seperti detak jantung, tekanan darah, pernapasan, serta refleks dasar."},
-  {"id": 31, "text": "Pasien mengalami trauma pada akar dorsal saraf spinal. Gangguan yang paling sesuai adalah...", "options": ["Sensorik", "Motorik murni", "Kontraksi jantung", "Produksi hormon", "Pencernaan karbohidrat"], "correct": 0, "explanation": "PEMBAHASAN:\nAkar dorsal/posterior adalah jalur aferen sensorik yang membawa sinyal dari tubuh menuju SSP. Akar ventral/anterior adalah jalur eferen motorik."},
-  {"id": 32, "text": "Pasien mengalami trauma pada akar ventral saraf spinal. Gangguan yang paling sesuai adalah...", "options": ["Sensorik masuk menuju SSP", "Perintah motorik keluar menuju efektor", "Penglihatan", "Pendengaran", "Pengolahan memori"], "correct": 1, "explanation": "PEMBAHASAN:\nAkar ventral merupakan jalur eferen yang membawa perintah motorik dari SSP menuju otot atau kelenjar."},
-  {"id": 33, "text": "Seorang pasien dengan cedera medula spinalis masih mempunyai sensasi dan gerak pada beberapa wilayah. Dokter menjelaskan bahwa medula memiliki 31 pasang saraf spinal. Pembagian yang tepat adalah...", "options": ["8 servikal, 12 torakal, 5 lumbal, 5 sakral, 1 koksigeal", "7 servikal, 12 torakal, 5 lumbal, 6 sakral, 1 koksigeal", "8 servikal, 10 torakal, 5 lumbal, 7 sakral, 1 koksigeal", "12 servikal, 8 torakal, 5 lumbal, 5 sakral, 1 koksigeal", "8 servikal, 12 torakal, 6 lumbal, 4 sakral, 1 koksigeal"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT mencantumkan 31 pasang: 8 servikal, 12 torakal, 5 lumbal, 5 sakral, dan 1 koksigeal."},
-  {"id": 34, "text": "Pada penampang medula spinalis, substansia grisea berbentuk seperti huruf H. Bagian tanduk posterior terutama terkait dengan...", "options": ["Pemrosesan sensorik", "Neuron motorik utama", "Penghasil hormon", "Kontraksi jantung", "Pembentukan mielin di seluruh tubuh"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyatakan tanduk posterior memproses sensorik, sedangkan tanduk anterior berisi neuron motorik. Substansia alba berisi traktus asenden sensorik dan desenden motorik."},
-  {"id": 35, "text": "Setelah akar dorsal dan ventral bergabung, struktur yang terbentuk membawa serabut sensorik dan motorik sekaligus. Struktur tersebut adalah...", "options": ["Saraf spinal", "Serebelum", "Traktus asenden", "Korteks motorik", "Talamus"], "correct": 0, "explanation": "PEMBAHASAN:\nSaraf spinal adalah gabungan serabut sensorik dan motorik setelah akar dorsal dan ventral menyatu."},
-  {"id": 36, "text": "Seorang pasien kehilangan sensasi pada satu area kulit karena gangguan pada neuron yang membawa informasi dari perifer menuju SSP. Jalur tersebut disebut...", "options": ["Eferen", "Aferen", "Desenden", "Motorik somatik", "Motorik otonom"], "correct": 1, "explanation": "PEMBAHASAN:\nAferen berarti menuju SSP. Jalur sensorik dimulai dari reseptor dan membawa informasi menuju medula serta otak. Eferen bergerak keluar dari SSP menuju efektor."},
-  {"id": 37, "text": "Struktur neuron yang terutama menerima sinyal dari neuron lain adalah...", "options": ["Akson", "Dendrit", "Terminal akson", "Mielin", "Nodus Ranvier"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menggambarkan dendrit sebagai bagian yang menerima sinyal. Akson membawa impuls keluar dari soma, terminal melepaskan neurotransmiter, sedangkan mielin dan nodus mempercepat penghantaran."},
-  {"id": 38, "text": "Jika mielin pada suatu akson rusak, efek yang paling langsung terhadap penghantaran impuls adalah...", "options": ["Impuls menjadi lebih cepat", "Impuls dapat menjadi lebih lambat atau tidak efisien", "Neurotransmiter diproduksi lebih banyak", "Dendrit berubah menjadi soma", "Semua sinaps berhenti permanen"], "correct": 1, "explanation": "PEMBAHASAN:\nMielin mempercepat impuls. PPT menekankan peran mielin dan nodus Ranvier pada penghantaran yang efisien."},
-  {"id": 39, "text": "Seorang pasien diberi anestesi lokal pada kulit. Ia kehilangan sensasi tetapi dapat menggerakkan otot rangka secara sadar. Jalur yang paling jelas terganggu adalah...", "options": ["Aferen sensorik", "Eferen motorik", "Otonom simpatis", "Otonom parasimpatis", "Neuromuskular jantung"], "correct": 0, "explanation": "PEMBAHASAN:\nAnestesi lokal mengurangi penghantaran sensorik pada area yang dituju. Gerak sadar masih ada sehingga jalur motorik somatik tidak menjadi masalah utama pada kasus ini."},
-  {"id": 40, "text": "Seseorang menyentuh benda panas dan reseptor mendeteksi stimulus tersebut. Jenis reseptor yang paling sesuai adalah...", "options": ["Fotoreseptor", "Termoreseptor", "Proprioseptor", "Kemoreseptor", "Mekanoreseptor"], "correct": 1, "explanation": "PEMBAHASAN:\nTermoreseptor mendeteksi suhu. Nosiseptor mendeteksi ancaman kerusakan, sehingga pada stimulus panas yang berbahaya keduanya dapat terlibat, tetapi kata kunci stimulus suhu menunjuk termoreseptor."},
-  {"id": 41, "text": "Pasien mengalami nyeri akibat luka. Reseptor yang mendeteksi ancaman kerusakan jaringan adalah...", "options": ["Mekanoreseptor", "Termoreseptor", "Nosiseptor", "Fotoreseptor", "Proprioseptor"], "correct": 2, "explanation": "PEMBAHASAN:\nNosiseptor mendeteksi stimulus yang mengancam kerusakan jaringan. PPT membedakan modalitas reseptor berdasarkan stimulus yang paling cocok."},
-  {"id": 42, "text": "Seorang pasien kehilangan kemampuan memperkirakan posisi anggota tubuh tanpa melihatnya. Reseptor yang terutama terkait adalah...", "options": ["Proprioseptor", "Fotoreseptor", "Kemoreseptor", "Nosiseptor", "Baroreseptor"], "correct": 0, "explanation": "PEMBAHASAN:\nProprioseptor memberikan informasi mengenai posisi dan gerak tubuh. Input ini penting untuk postur dan koordinasi gerak."},
-  {"id": 43, "text": "Seorang mahasiswa mengatakan stimulus yang lebih kuat menghasilkan potensial aksi yang amplitudonya jauh lebih besar. Penilaian yang paling tepat adalah...", "options": ["Benar, semua potensial aksi menjadi lebih besar", "Salah, intensitas terutama dikodekan melalui frekuensi potensial aksi dan jumlah reseptor aktif", "Benar hanya pada fotoreseptor", "Salah karena stimulus tidak dapat dikodekan", "Benar hanya pada refleks"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menjelaskan dimensi intensitas melalui frekuensi potensial aksi dan jumlah reseptor aktif. Potensial aksi individual mengikuti prinsip all-or-none."},
-  {"id": 44, "text": "Reseptor yang menonjolkan perubahan cepat pada stimulus mempunyai karakter...", "options": ["Adaptasi cepat", "Adaptasi lambat", "Tidak mengalami transduksi", "Tidak dapat menghasilkan potensial lokal", "Tidak mempunyai modalitas"], "correct": 0, "explanation": "PEMBAHASAN:\nAdaptasi cepat menonjolkan perubahan stimulus. Adaptasi lambat mempertahankan informasi selama stimulus berlangsung."},
-  {"id": 45, "text": "Urutan jalur sensorik yang paling sesuai dengan PPT adalah...", "options": ["Stimulus → reseptor → neuron sensorik → medula → traktus asenden → talamus → korteks sensorik", "Korteks → LMN → reseptor → medula → otot", "Reseptor → korteks → talamus → medula → saraf spinal", "Otot → korteks → reseptor → saraf sensorik", "Talamus → reseptor → medula → korteks"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT memberikan urutan aferen: stimulus → reseptor → neuron sensorik → sumsum tulang belakang → traktus asenden → talamus → korteks sensorik."},
-  {"id": 46, "text": "Urutan jalur motorik sadar yang paling sesuai adalah...", "options": ["Korteks motorik → UMN → traktus desenden → tanduk ventral → LMN → neuromuscular junction → otot", "Reseptor → LMN → UMN → otot", "Korteks → talamus → reseptor → otot", "Otot → LMN → korteks → UMN", "Dendrit → reseptor → talamus → otot"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan jalur eferen dari korteks motorik melalui UMN, traktus desenden, tanduk ventral, LMN, kemudian neuromuscular junction dan otot."},
-  {"id": 47, "text": "Seseorang mengalami peningkatan denyut jantung, pupil melebar, dan motilitas cerna menurun saat menghadapi ancaman. Sistem yang dominan adalah...", "options": ["Parasimpatis", "Simpatis", "Somatik sensorik", "Sensorik khusus", "Cerebral visual"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menyebut simpatis sebagai sistem torakolumbal T1-L2 dengan efek pupil melebar, denyut meningkat, dan motilitas cerna menurun."},
-  {"id": 48, "text": "Setelah makan, motilitas saluran cerna meningkat dan denyut jantung cenderung menurun. Respons ini sesuai dengan...", "options": ["Simpatis", "Parasimpatis", "Somatik motorik", "Eferen sensorik", "UMN"], "correct": 1, "explanation": "PEMBAHASAN:\nParasimpatis bersifat kraniosakral dan lebih terarah untuk pemeliharaan fungsi; PPT mencantumkan pupil menyempit, denyut menurun, dan motilitas cerna meningkat."},
-  {"id": 49, "text": "Pasien mengalami kerusakan pada sistem otonom. Target yang paling sesuai untuk jalur otonom adalah...", "options": ["Hanya otot rangka", "Otot polos, otot jantung, dan kelenjar", "Hanya tulang", "Hanya kulit", "Hanya neuron kortikal"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menjelaskan output otonom melalui ganglion sebelum mencapai otot polos, otot jantung, atau kelenjar. Sistem somatik terutama menuju otot rangka."},
-  {"id": 50, "text": "Pasien menyentuh benda panas dan langsung menarik tangan sebelum sadar penuh terhadap nyeri. Mekanisme paling sesuai adalah...", "options": ["Refleks somatik spinal", "Respon endokrin lambat", "Gerak sadar kortikal murni", "Refleks visual", "Kontraksi otonom"], "correct": 0, "explanation": "PEMBAHASAN:\nRefleks somatik dapat diintegrasikan di medula sehingga respons motorik cepat dapat terjadi sebelum kesadaran penuh. Otak tetap kemudian menerima dan memproses sensasi."},
-  {"id": 51, "text": "Sebuah potensial lokal pada reseptor mencapai ambang. Perubahan berikutnya yang paling sesuai adalah...", "options": ["Potensial aksi all-or-none terbentuk", "Sel langsung mengalami mitosis", "Reseptor mengeluarkan hormon", "Akson berubah menjadi dendrit", "Sel berhenti berkomunikasi"], "correct": 0, "explanation": "PEMBAHASAN:\nTransduksi sensorik menghasilkan potensial reseptor yang bertingkat. Jika ambang tercapai, neuron sensorik membentuk potensial aksi yang bersifat all-or-none."},
-  {"id": 52, "text": "Seorang pasien mengalami gangguan pada transmisi antar-neuron. Bagian neuron yang secara langsung melepaskan neurotransmiter ke celah sinaps adalah...", "options": ["Dendrit", "Soma", "Terminal akson", "Nodus Ranvier", "Mielin"], "correct": 2, "explanation": "PEMBAHASAN:\nTerminal akson melepaskan neurotransmiter ke celah sinaps. Dendrit lebih dominan menerima input."},
-  {"id": 53, "text": "Pada potensial aksi saraf, sifat all-or-none berarti...", "options": ["Setiap stimulus menghasilkan potensial aksi dengan tinggi berbeda", "Jika ambang tercapai, potensial aksi timbul dengan karakteristik yang relatif tetap", "Semua stimulus selalu menghasilkan potensial aksi", "Stimulus lemah menghasilkan potensial aksi separuh ukuran", "Potensial aksi hanya terjadi pada reseptor"], "correct": 1, "explanation": "PEMBAHASAN:\nAll-or-none berarti potensial aksi terjadi bila ambang tercapai dan amplitudonya tidak dikodekan langsung sebagai besar-kecilnya stimulus. Intensitas dikodekan terutama oleh frekuensi dan perekrutan reseptor."},
-  {"id": 54, "text": "Pada akson bermielin, potensial aksi dapat berpindah dari satu nodus Ranvier ke nodus berikutnya. Mekanisme ini disebut...", "options": ["Konduksi kontinu", "Konduksi saltatori", "Osmosis", "Difusi sederhana", "Transkripsi"], "correct": 1, "explanation": "PEMBAHASAN:\nMielin dan nodus Ranvier mendukung konduksi saltatori yang mempercepat penghantaran impuls. Akson tidak bermielin lebih mengandalkan konduksi kontinu."},
-  {"id": 55, "text": "Seorang dokter menjelaskan bahwa sistem saraf bekerja dengan tiga fase besar: menerima informasi, mengintegrasikan, kemudian menghasilkan respons. Contoh yang paling tepat adalah...", "options": ["Reseptor mendeteksi panas → SSP mengintegrasikan → otot menarik tangan", "Otot mendeteksi panas → tulang mengintegrasikan → darah bergerak", "Hati mendeteksi cahaya → jantung mengintegrasikan → ginjal bergerak", "Tulang mendeteksi hormon → korteks menghasilkan glukosa", "Eritrosit mendeteksi sentuhan → tendon berkontraksi"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menekankan bahwa sistem saraf mengubah informasi menjadi respons yang membantu perlindungan dan homeostasis. Contoh klasiknya adalah panas → reseptor → integrasi SSP → respons motorik."},
-  {"id": 56, "text": "Urutan lima komponen utama lengkung refleks yang paling tepat adalah...", "options": ["Reseptor → neuron aferen → pusat integrasi → neuron eferen → efektor", "Efektor → reseptor → pusat integrasi → aferen → eferen", "Aferen → efektor → reseptor → pusat integrasi → eferen", "Reseptor → eferen → pusat integrasi → aferen → efektor", "Pusat integrasi → reseptor → efektor → aferen → eferen"], "correct": 0, "explanation": "PEMBAHASAN:\nLengkung refleks dimulai dari reseptor, informasi masuk melalui jalur aferen ke pusat integrasi, kemudian keluar melalui jalur eferen menuju efektor."},
-  {"id": 57, "text": "Seorang pasien mengeluh kembung, banyak flatus, dan diare setiap kali minum susu. Pemeriksaan tidak menunjukkan alergi protein susu. Penjelasan paling sesuai adalah...", "options": ["Defisiensi laktase", "Defisiensi pepsin", "Kelebihan lipase", "Defisiensi empedu", "Kelebihan amilase"], "correct": 0, "explanation": "PEMBAHASAN:\nLaktase pada brush border memecah laktosa. Jika enzim ini kurang, laktosa tidak tercerna dan mencapai kolon, lalu difermentasi bakteri sehingga menimbulkan gas serta menarik air secara osmotik sehingga terjadi diare. PPT secara langsung memberi intoleransi laktosa sebagai contoh klinis."},
-  {"id": 58, "text": "Glukosa dan galaktosa dari lumen usus masuk ke enterosit terutama melalui...", "options": ["GLUT-5", "SGLT-1 bersama Na+", "GLUT-4", "Difusi sederhana lipid", "PepT1"], "correct": 1, "explanation": "PEMBAHASAN:\nSGLT-1 merupakan kotransporter Na+-glukosa pada membran apikal enterosit. Energi tidak berasal dari ATP secara langsung pada SGLT-1, tetapi dari gradien Na+ yang dipertahankan oleh Na+/K+-ATPase. Fruktosa menggunakan GLUT-5."},
-  {"id": 59, "text": "Fruktosa dari lumen usus terutama masuk ke enterosit melalui...", "options": ["SGLT-1", "GLUT-5", "GLUT-4", "PepT1", "Na+/K+-ATPase"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menyebut fruktosa masuk melalui difusi terfasilitasi dengan GLUT-5. Setelah itu, monosakarida keluar dari sisi basolateral menuju darah melalui GLUT-2."},
-  {"id": 60, "text": "Setelah glukosa masuk ke enterosit, jalur keluarnya menuju kapiler darah menggunakan...", "options": ["GLUT-2", "GLUT-5", "SGLT-1", "PepT1", "Kolipase"], "correct": 0, "explanation": "PEMBAHASAN:\nGlukosa dan galaktosa masuk melalui SGLT-1 dan keluar melalui GLUT-2 pada membran basolateral. Selanjutnya darah dari usus masuk ke vena porta dan dibawa ke hati."},
-  {"id": 61, "text": "Pasien dengan defisiensi laktase mengalami diare terutama karena...", "options": ["Laktosa yang tidak tercerna menambah beban osmotik dan difermentasi bakteri", "Laktosa mempercepat penyerapan air", "Laktosa menghentikan seluruh bakteri kolon", "Laktosa langsung menjadi protein", "Laktosa langsung masuk ke darah tanpa dicerna"], "correct": 0, "explanation": "PEMBAHASAN:\nLaktosa tidak tercerna tetap berada dalam lumen, menarik air secara osmotik, dan difermentasi bakteri kolon menghasilkan gas. Kombinasi inilah yang menghasilkan kembung, flatus, dan diare."},
-  {"id": 62, "text": "Seorang pasien baru selesai makan. Glukosa darah meningkat dan sel beta pankreas aktif. Respons metabolik yang paling sesuai adalah...", "options": ["Insulin meningkat, GLUT-4 meningkat di otot dan adiposa, glikogenesis meningkat", "Glukagon meningkat dominan dan glikogenolisis meningkat", "Lipolisis meningkat maksimal", "Glukoneogenesis hati meningkat", "Ketogenesis meningkat segera"], "correct": 0, "explanation": "PEMBAHASAN:\nKeadaan kenyang ditandai insulin meningkat. Insulin meningkatkan pengambilan glukosa melalui GLUT-4, merangsang glikogenesis, lipogenesis, dan sintesis protein, serta menekan glukoneogenesis dan lipolisis."},
-  {"id": 63, "text": "Pada puasa yang berlangsung lebih lama, hormon yang lebih dominan membantu mempertahankan glukosa darah melalui hati adalah...", "options": ["Insulin", "Glukagon", "Kalsitonin", "ADH", "Somatostatin saja"], "correct": 1, "explanation": "PEMBAHASAN:\nGlukagon meningkat saat glukosa turun. Awalnya glikogenolisis berperan, kemudian glukoneogenesis menjadi semakin penting ketika puasa berlanjut. PPT juga menyebut lipolisis dan ketogenesis sebagai respons keadaan puasa."},
-  {"id": 64, "text": "Pada glikolisis, glukosa diubah menjadi...", "options": ["Asetil-KoA langsung di sitosol", "Dua piruvat di sitosol", "Urea di hati", "Asam urat di ginjal", "Badan keton di usus"], "correct": 1, "explanation": "PEMBAHASAN:\nGlikolisis berlangsung di sitosol dan menghasilkan dua piruvat dengan hasil bersih 2 ATP dan 2 NADH per glukosa. Piruvat kemudian dapat masuk ke mitokondria untuk dekarboksilasi oksidatif menjadi asetil-KoA."},
-  {"id": 65, "text": "Seorang pasien mengalami gangguan piruvat dehidrogenase. Tahap yang paling langsung terganggu adalah...", "options": ["Glukosa → piruvat", "Piruvat → asetil-KoA", "Asetil-KoA → urea", "Lemak → misel", "Purin → timin"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menempatkan piruvat dehidrogenase pada tahap dekarboksilasi oksidatif di mitokondria, yaitu mengubah piruvat menjadi asetil-KoA. Glikolisis sudah selesai sebelum tahap ini."},
-  {"id": 66, "text": "Seorang pasien berpuasa dan menghasilkan banyak asetil-KoA dari beta-oksidasi. Asetil-KoA yang berlebih dapat diarahkan ke pembentukan...", "options": ["Badan keton", "Urea langsung", "Laktosa", "DNA", "Kolagen"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan bahwa kelebihan asetil-KoA saat puasa dapat digunakan untuk ketogenesis, menghasilkan asetoasetat, beta-hidroksibutirat, dan aseton. Badan keton dapat menjadi bahan bakar, termasuk bagi otak pada puasa berkepanjangan."},
-  {"id": 67, "text": "Proses pemecahan asam lemak menjadi asetil-KoA di matriks mitokondria disebut...", "options": ["Lipogenesis", "Beta-oksidasi", "Glikogenesis", "Glukoneogenesis", "Transaminasi"], "correct": 1, "explanation": "PEMBAHASAN:\nBeta-oksidasi merupakan jalur katabolik asam lemak. PPT menyebut asam lemak masuk matriks mitokondria melalui sistem karnitin dan dipecah menjadi asetil-KoA."},
-  {"id": 68, "text": "Pasien menggunakan obat golongan statin. Target biokimia utama yang dijelaskan dalam PPT adalah...", "options": ["HMG-KoA reduktase", "Xantin oksidase", "Piruvat dehidrogenase", "Laktase", "Timidilat sintase"], "correct": 0, "explanation": "PEMBAHASAN:\nSintesis kolesterol melalui HMG-KoA menuju mevalonat menggunakan HMG-KoA reduktase sebagai enzim kunci. PPT menyebut enzim ini sebagai target statin."},
-  {"id": 69, "text": "Pada pencernaan lipid, langkah pertama yang membuat luas permukaan lemak meningkat adalah...", "options": ["Reesterifikasi", "Emulsifikasi oleh garam empedu", "Pembentukan kilomikron", "Beta-oksidasi", "Glikolisis"], "correct": 1, "explanation": "PEMBAHASAN:\nGaram empedu memecah lemak menjadi droplet yang lebih kecil sehingga luas kontak dengan lipase meningkat. Setelah hidrolisis, produk lipid bersama garam empedu membentuk misel."},
-  {"id": 70, "text": "Lipase pankreas bersama kolipase terutama memecah trigliserida menjadi...", "options": ["Asam amino", "2-monogliserida dan asam lemak bebas", "Monosakarida", "Urea", "Purin"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menyebut lipase pankreas dan kolipase memutus trigliserida menjadi 2-monogliserida dan asam lemak bebas. Produk ini kemudian dibawa dalam misel menuju permukaan enterosit."},
-  {"id": 71, "text": "Asam lemak rantai pendek dan sedang setelah absorpsi usus terutama dapat langsung masuk ke...", "options": ["Vena porta", "Lakteal sebagai kilomikron", "Arteri koroner", "Duktus torasikus terlebih dahulu", "Saluran empedu"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut asam lemak rantai pendek-sedang dapat langsung menuju vena porta. Asam lemak rantai lebih panjang direesterifikasi dan dikemas menjadi kilomikron yang masuk ke lakteal dan sistem limfe."},
-  {"id": 72, "text": "Kilomikron dibentuk setelah produk lipid direesterifikasi di retikulum endoplasma dan dikemas dengan...", "options": ["ApoB-48", "Hemoglobin", "Albumin saja", "Insulin", "Pepsin"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut reesterifikasi lipid dan pembentukan kilomikron dengan apoB-48, kemudian partikel tersebut keluar melalui lakteal menuju limfe."},
-  {"id": 73, "text": "Pasien dengan gangguan aliran empedu mengalami steatorea. Mengapa vitamin A, D, E, dan K juga dapat ikut terganggu absorpsinya?", "options": ["Karena vitamin tersebut larut dalam lemak dan ikut terserap bersama misel", "Karena semuanya larut air", "Karena semuanya dibuat oleh pankreas", "Karena semuanya hanya diserap di lambung", "Karena empedu menghancurkan vitamin tersebut"], "correct": 0, "explanation": "PEMBAHASAN:\nVitamin A, D, E, dan K adalah vitamin larut lemak. Gangguan empedu mengganggu emulsifikasi dan pembentukan misel sehingga absorpsi lipid dan vitamin larut lemak menurun."},
-  {"id": 74, "text": "Garam empedu diserap kembali terutama di...", "options": ["Ileum terminal", "Lambung", "Esofagus", "Kolon sigmoid", "Pankreas"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut reabsorpsi garam empedu terutama di ileum terminal melalui sirkulasi enterohepatik. Garam empedu kemudian kembali ke hati dan digunakan ulang."},
-  {"id": 75, "text": "Asam amino dari hasil pencernaan protein terutama diserap melalui...", "options": ["Kotraspor Na+", "GLUT-5", "SGLT-1", "Difusi lipid", "Xantin oksidase"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyatakan asam amino diserap melalui kotranspor Na+. Di- dan tripeptida menggunakan PepT1 yang berkaitan dengan H+."},
-  {"id": 76, "text": "Seorang pasien mengalami gangguan transporter PepT1. Molekul yang paling langsung terganggu absorpsinya adalah...", "options": ["Di- dan tripeptida", "Glukosa", "Fruktosa", "Vitamin K", "Asam lemak rantai pendek"], "correct": 0, "explanation": "PEMBAHASAN:\nPepT1 merupakan transporter peptida kecil, terutama di- dan tripeptida, dengan H+. Monosakarida mempunyai transporter berbeda."},
-  {"id": 77, "text": "Pasien menjalani diet yang seluruh sumber protein nabatinya berasal dari serealia dan kualitas proteinnya kurang optimal. Asam amino yang relatif sering menjadi pembatas pada serealia adalah...", "options": ["Lisin", "Leusin", "Triptofan", "Valin", "Histidin"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut protein nabati sering terbatas pada lisin dalam serealia atau metionin dalam kacang-kacangan. Menggabungkan sumber protein dapat membantu melengkapi profil asam amino."},
-  {"id": 78, "text": "Dalam transaminasi, gugus amino dipindahkan ke alfa-ketoglutarat sehingga terbentuk...", "options": ["Glutamat", "Urea langsung", "Aseton", "UMP", "Laktat"], "correct": 0, "explanation": "PEMBAHASAN:\nTransaminasi memindahkan gugus amino ke alfa-ketoglutarat dan menghasilkan glutamat. PPT mencantumkan ALT dan AST sebagai contoh enzim transaminase dengan koenzim vitamin B6."},
-  {"id": 79, "text": "Enzim glutamat dehidrogenase pada metabolisme asam amino melepaskan...", "options": ["Amonia", "Glukosa", "Trigliserida", "Timin", "Kolesterol"], "correct": 0, "explanation": "PEMBAHASAN:\nDeaminasi oksidatif glutamat di mitokondria hati menghasilkan amonia. Karena amonia toksik, nitrogen kemudian diproses melalui siklus urea."},
-  {"id": 80, "text": "Jika siklus urea terganggu berat, akibat yang paling sesuai adalah...", "options": ["Hiperamonemia dan ensefalopati", "Hipoglikemia karena GLUT-4 meningkat", "Steatorea karena empedu meningkat", "Gout karena kristal kalsium", "Alkalosis respiratorik"], "correct": 0, "explanation": "PEMBAHASAN:\nSiklus urea mengubah NH3 menjadi urea yang lebih aman. Gangguannya dapat menimbulkan hiperamonemia yang berdampak pada sistem saraf dan dapat menyebabkan ensefalopati."},
-  {"id": 81, "text": "Seorang pasien menjalani puasa berkepanjangan. Keseimbangan nitrogen negatif lebih mungkin ditemukan pada...", "options": ["Pertumbuhan normal", "Kehamilan normal", "Pemulihan jaringan", "Kelaparan", "Dewasa sehat dengan asupan cukup"], "correct": 3, "explanation": "PEMBAHASAN:\nPPT menyebut keseimbangan nitrogen positif pada pertumbuhan, kehamilan, dan pemulihan; seimbang pada dewasa sehat; negatif pada kelaparan, luka bakar, sepsis, dan imobilisasi."},
-  {"id": 82, "text": "Produk akhir utama metabolisme purin yang ditekankan dalam PPT adalah...", "options": ["Asam urat", "Urea", "Laktat", "Asetil-KoA", "UMP"], "correct": 0, "explanation": "PEMBAHASAN:\nPurin seperti AMP dan GMP dikatabolisme menjadi hipoksantin/xantin dan akhirnya asam urat. Enzim kunci pada tahap tersebut adalah xantin oksidase."},
-  {"id": 83, "text": "Pasien dengan gout berulang mendapat obat yang menghambat pembentukan asam urat. Target obat yang sesuai dengan materi adalah...", "options": ["Xantin oksidase", "HMG-KoA reduktase", "Timidilat sintase", "CPS-II", "Glutamat dehidrogenase"], "correct": 0, "explanation": "PEMBAHASAN:\nAlopurinol menghambat xantin oksidase sehingga pembentukan asam urat berkurang. PPT mengaitkan gout dengan deposisi kristal monosodium urat."},
-  {"id": 84, "text": "Seorang anak memiliki defisiensi HGPRT dan menunjukkan hiperurisemia serta gangguan neurologis dan perilaku melukai diri. Diagnosis yang paling sesuai berdasarkan materi adalah...", "options": ["Lesch-Nyhan", "Gout primer akibat diet", "Asiduria orotat", "Anemia sel sabit", "Sindrom Cushing"], "correct": 0, "explanation": "PEMBAHASAN:\nSindrom Lesch-Nyhan berkaitan dengan defisiensi HGPRT pada jalur salvage purin. PPT menyebut hiperurisemia berat, gangguan neurologis, dan perilaku melukai diri."},
-  {"id": 85, "text": "Kesalahan utama yang membedakan sintesis purin dan pirimidin adalah...", "options": ["Pada purin cincin dirakit pada PRPP, sedangkan pada pirimidin cincin dibentuk lebih dahulu lalu dipasang ke PRPP", "Keduanya identik", "Pirimidin selalu berakhir menjadi asam urat", "Purin tidak menggunakan PRPP", "Pirimidin hanya dibentuk di ginjal"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT secara eksplisit membandingkan jalur biosintesis: purin dirakit bertahap pada PRPP menjadi IMP lalu AMP/GMP; pirimidin membuat cincin terlebih dahulu dan kemudian dikaitkan dengan PRPP."},
-  {"id": 86, "text": "Seorang pasien mendapat 5-fluorourasil. Jalur yang terutama dihambat adalah...", "options": ["Timidilat sintase sehingga sintesis DNA terganggu", "Xantin oksidase sehingga gout berhenti", "HMG-KoA reduktase sehingga kolesterol turun", "PepT1 sehingga protein tidak diserap", "Laktase sehingga laktosa tidak dicerna"], "correct": 0, "explanation": "PEMBAHASAN:\n5-Fluorourasil menghambat timidilat sintase. PPT menjelaskan bahwa dTMP dibutuhkan untuk sintesis DNA dan penghambatan ini menghentikan proliferasi sel kanker."},
-  {"id": 87, "text": "Seorang dewasa memiliki berat badan 55 kg dan tinggi 1,58 m. IMT yang paling mendekati adalah...", "options": ["12 kg/m²", "17,5 kg/m²", "22,0 kg/m²", "30 kg/m²", "44 kg/m²"], "correct": 2, "explanation": "PEMBAHASAN:\nIMT = berat badan ÷ tinggi badan² = 55 ÷ (1,58²) ≈ 22,0 kg/m². PPT memberi contoh perhitungan yang sama dan mengategorikannya sebagai status gizi normal pada dewasa."},
-  {"id": 88, "text": "Seorang pasien rawat inap mengalami demam dan luka berat. Ketika menghitung kebutuhan energi dengan pendekatan TEE, faktor tambahan yang sesuai materi adalah...", "options": ["Faktor stres dapat ditambahkan karena kondisi sakit, demam, luka bakar, atau pascabedah", "BMR selalu diabaikan", "Aktivitas fisik selalu dianggap nol", "Kebutuhan energi pasti sama dengan AKG populasi", "TEE dihitung hanya dari berat badan tanpa BMR"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan TEE sebagai BMR dikalikan faktor aktivitas, dan pada kondisi sakit, demam, luka bakar, atau pascabedah dapat ditambahkan faktor stres sekitar 1,2–1,6. AKG adalah acuan populasi sehat, bukan otomatis kebutuhan individual pasien."},
-  {"id": 89, "text": "Seorang pasien mengalami gangguan pengaturan lingkungan internal berupa nadi, suhu, dan keseimbangan air, sekaligus terjadi perubahan sekresi hipofisis. Struktur yang paling sesuai adalah...", "options": ["Hipotalamus", "Pineal", "Timus", "Tiroid", "Pankreas"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan hipotalamus sebagai bagian otak yang membantu mempertahankan homeostasis, termasuk regulasi nadi, temperatur, keseimbangan air, dan sekresi pituitari."},
-  {"id": 90, "text": "Seorang pekerja mengalami perubahan pola tidur setelah paparan cahaya malam yang sangat tinggi. Kelenjar yang menghasilkan melatonin dan memberi sinyal tentang kondisi pencahayaan lingkungan adalah...", "options": ["Pineal", "Hipofisis", "Paratiroid", "Adrenal", "Timus"], "correct": 0, "explanation": "PEMBAHASAN:\nKelenjar pineal menghasilkan melatonin. PPT mengaitkan melatonin dengan pemberian sinyal kepada tubuh tentang kondisi pencahayaan lingkungan."},
-  {"id": 91, "text": "Pernyataan yang paling tepat mengenai kelenjar endokrin adalah...", "options": ["Melepaskan hormon langsung ke darah", "Selalu mengeluarkan sekresi melalui duktus", "Hanya ditemukan di saluran cerna", "Tidak berhubungan dengan homeostasis", "Hanya menghasilkan enzim"], "correct": 0, "explanation": "PEMBAHASAN:\nKelenjar endokrin melepaskan produknya langsung ke dalam darah, berbeda dengan kelenjar eksokrin yang menggunakan duktus. Kelenjar seperti tiroid, paratiroid, adrenal, hipofisis, pankreas endokrin, dan gonad termasuk dalam sistem endokrin."},
-  {"id": 92, "text": "Seorang pasien mengalami gangguan pada hipofisis anterior. Hormon yang paling mungkin menurun langsung dari kelenjar tersebut adalah...", "options": ["GH", "ADH", "Oksitosin", "T4", "Insulin"], "correct": 0, "explanation": "PEMBAHASAN:\nHipofisis anterior menghasilkan GH, TSH, ACTH, hormon lactogenic/prolaktin, dan gonadotropin. ADH dan oksitosin dilepas melalui hipofisis posterior, sedangkan T4 dan insulin dibuat oleh tiroid dan pankreas."},
-  {"id": 93, "text": "Seorang anak mengalami gangguan pertumbuhan tulang dan massa otot akibat gangguan sumbu pertumbuhan. Hormon hipofisis yang paling relevan adalah...", "options": ["GH", "MSH", "ADH", "Oksitosin", "TSH saja"], "correct": 0, "explanation": "PEMBAHASAN:\nGH berkaitan dengan metabolisme protein dan pertumbuhan tulang serta otot. PPT lanjutan menjelaskan sumbu GH–IGF-1 sebagai jalur utama pertumbuhan linear."},
-  {"id": 94, "text": "Pasien mengalami hipotiroidisme. Berdasarkan materi, salah satu akibat yang dapat muncul adalah...", "options": ["Hipermetabolisme", "Kretinisme atau gangguan perkembangan bila terjadi pada anak serta miksedema", "Peningkatan produksi panas ekstrem", "Selalu terjadi takikardia", "Hiperglikemia akut pasti"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menyebut hipotiroidisme berhubungan dengan kretinisme, kecerdasan kurang pada kondisi perkembangan tertentu, dan miksedema. Hipertiroidisme justru dikaitkan dengan hipermetabolisme."},
-  {"id": 95, "text": "Pemeriksaan menunjukkan kadar T3/T4 tinggi. Mekanisme umpan balik pada sumbu tiroid yang paling sesuai adalah...", "options": ["T3/T4 meningkatkan TRH dan TSH tanpa batas", "T3/T4 memberi umpan balik negatif sehingga TRH dan TSH ditekan", "TSH tidak terpengaruh", "T3/T4 menghentikan semua hormon tubuh", "TRH berubah menjadi insulin"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT mekanisme hormon menunjukkan sumbu TRH → TSH → tiroid → T3/T4 dengan umpan balik negatif dari hormon tiroid ke hipotalamus dan hipofisis. Ini mempertahankan kadar hormon dalam rentang fisiologis."},
-  {"id": 96, "text": "Seorang pasien mengalami dehidrasi dan produksi urin meningkat. Hormon yang membantu meningkatkan reabsorpsi air di ginjal adalah...", "options": ["ADH", "GH", "TSH", "MSH", "Kalsitonin"], "correct": 0, "explanation": "PEMBAHASAN:\nADH atau vasopresin memengaruhi reabsorpsi urin pada ginjal, mengatur kadar air, dan menurut PPT juga dapat meningkatkan tekanan darah. Dalam keadaan kekurangan air, ADH membantu mempertahankan cairan."},
-  {"id": 97, "text": "Seorang ibu berada pada proses persalinan. Kontraksi uterus makin kuat setelah setiap kontraksi memicu pelepasan hormon yang memperkuat kontraksi. Ini merupakan contoh...", "options": ["Umpan balik negatif", "Umpan balik positif melalui oksitosin", "Refleks somatik", "Difusi terfasilitasi", "Transport aktif"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menyebut oksitosin saat persalinan sebagai contoh umpan balik positif. Kontraksi memperkuat stimulus yang menyebabkan pelepasan oksitosin sampai proses persalinan selesai."},
-  {"id": 98, "text": "PTH terutama membantu mempertahankan kadar kalsium dengan bekerja pada...", "options": ["Tulang, ginjal, dan saluran cerna melalui vitamin D aktif", "Otak, retina, dan kulit saja", "Lambung dan pankreas saja", "Paru dan limpa saja", "Jantung saja"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut target utama PTH adalah tulang, ginjal, dan GI tract. Materi lanjutan menjelaskan PTH meningkatkan reabsorpsi kalsium, ekskresi fosfat, aktivasi vitamin D, dan mobilisasi kalsium sesuai kebutuhan."},
-  {"id": 99, "text": "Kadar Ca2+ turun. Sensor kalsium pada paratiroid menjadi kurang aktif sehingga PTH meningkat. Respons tersebut paling tepat disebut...", "options": ["Umpan balik negatif dalam homeostasis kalsium", "Umpan balik positif permanen", "Tidak ada regulasi", "Respons imun", "Refleks spinal"], "correct": 0, "explanation": "PEMBAHASAN:\nPenurunan kalsium merangsang PTH, lalu efek PTH membantu meningkatkan kalsium sehingga perubahan awal dikoreksi. Saat Ca2+ naik kembali, PTH turun. Ini adalah umpan balik negatif."},
-  {"id": 100, "text": "Seorang pasien mengalami resistensi insulin. Setelah makan, glukosa tetap tinggi karena respons jaringan target terhadap insulin menurun. Jalur yang paling relevan adalah...", "options": ["Translokasi GLUT4 ke membran otot dan adiposa terganggu", "GLUT5 di usus meningkat", "PepT1 menurun", "Xantin oksidase meningkat", "TSH meningkat"], "correct": 0, "explanation": "PEMBAHASAN:\nMateri endokrin menjelaskan bahwa insulin setelah makan meningkatkan translokasi GLUT4 pada otot dan jaringan adiposa, sehingga pengambilan glukosa meningkat. Resistensi insulin berarti respons jalur ini menurun."},
-  {"id": 101, "text": "Seorang pasien puasa. Glukosa darah turun dan glukagon meningkat. Efek awal glukagon pada hati yang ditekankan materi adalah...", "options": ["Glikogenolisis", "Glikogenesis", "Lipogenesis", "Translasi", "Sintesis kolagen"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan saat puasa, glukagon meningkat dan hati menggunakan glikogenolisis lebih awal. Jika puasa berlanjut, glukoneogenesis semakin penting."},
-  {"id": 102, "text": "Somatostatin pankreas terutama berfungsi untuk...", "options": ["Menghambat sekresi insulin dan glukagon", "Meningkatkan insulin tanpa batas", "Mengaktifkan PTH", "Membentuk T3", "Membentuk ADH"], "correct": 0, "explanation": "PEMBAHASAN:\nSel delta pankreas menghasilkan somatostatin. Dalam materi, hormon ini menghambat sekresi insulin dan glukagon sehingga membantu mengendalikan perubahan hormon yang berlebihan."},
-  {"id": 103, "text": "Pasien mengalami stres akut dan dalam hitungan detik tekanan darah serta denyut meningkat. Jalur endokrin yang paling sesuai adalah...", "options": ["Simpatis → medula adrenal → epinefrin/norepinefrin", "CRH → ACTH → kortisol sebagai satu-satunya respons awal", "TRH → TSH → T4", "GHRH → GH", "PTH → kalsitriol"], "correct": 0, "explanation": "PEMBAHASAN:\nMateri membedakan jalur cepat stres melalui sistem simpatis dan medula adrenal. Katekolamin bekerja dalam detik-menit dan meningkatkan denyut serta tekanan darah, bronkodilatasi, dan mobilisasi energi."},
-  {"id": 104, "text": "Pada stres yang berlangsung lebih lama, jalur HPA lebih dominan. Urutan yang paling tepat adalah...", "options": ["CRH → ACTH → kortisol", "TRH → TSH → kortisol", "GH → IGF-1 → ACTH", "PTH → kalsitonin → kortisol", "ADH → insulin → kortisol"], "correct": 0, "explanation": "PEMBAHASAN:\nSumbu HPA terdiri dari CRH hipotalamus, ACTH hipofisis, kemudian kortisol dari korteks adrenal. Kortisol membantu mempertahankan ketersediaan glukosa dan memberi umpan balik ke hipotalamus dan hipofisis."},
-  {"id": 105, "text": "Hormon yang larut lemak cenderung dapat menembus membran plasma dan bekerja melalui...", "options": ["Reseptor sitoplasma atau nukleus yang memengaruhi ekspresi gen", "Hanya reseptor permukaan dengan cAMP", "Ribosom di luar sel", "DNA tanpa reseptor", "Hemoglobin"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT mekanisme hormon menjelaskan hormon lipofilik dapat berdifusi melewati bilayer lipid, mengikat reseptor sitoplasma atau nukleus, mengenali hormone-response element pada DNA, lalu mengubah transkripsi dan translasi. Contoh: kortisol, aldosteron, estrogen/progesteron, T3/T4."},
-  {"id": 106, "text": "Salah satu alasan respons hormon lipofilik cenderung lebih lambat tetapi lebih lama adalah...", "options": ["Hormon lipofilik dapat mengubah ekspresi gen dan sintesis protein", "Hormon selalu dihancurkan sebelum mencapai reseptor", "Hormon tidak dapat masuk ke sel", "Hormon hanya bekerja pada membran", "Hormon tidak mempunyai target"], "correct": 0, "explanation": "PEMBAHASAN:\nPerubahan ekspresi gen membutuhkan proses transkripsi dan translasi sehingga onset cenderung lebih lambat, tetapi produk protein dapat menghasilkan efek yang bertahan lebih lama."},
-  {"id": 107, "text": "Glukagon mengaktifkan reseptor membran yang menggunakan jalur second messenger utama...", "options": ["cAMP → PKA", "JAK → STAT", "RTK → PI3K/Akt", "Reseptor nuklir langsung", "DNA → RNA tanpa reseptor"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT mencantumkan glukagon, ACTH, TSH, dan PTH sebagai contoh hormon yang menggunakan jalur GPCR dengan cAMP/PKA. Jalur ini memperkuat sinyal karena satu aktivasi reseptor dapat memengaruhi banyak protein."},
-  {"id": 108, "text": "Hormon seperti insulin bekerja melalui reseptor tirosin kinase dan jalur...", "options": ["PI3K–Akt", "cAMP–PKA sebagai jalur utama yang dicantumkan", "JAK–STAT", "Reseptor nuklir saja", "IP3 tanpa protein kinase"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut insulin sebagai contoh hormon yang menggunakan receptor tyrosine kinase dan jalur PI3K–Akt. Jalur ini berhubungan antara lain dengan transporter dan metabolisme."},
-  {"id": 109, "text": "GH dan prolaktin dalam materi mekanisme hormon terutama menggunakan...", "options": ["JAK–STAT", "HMG-KoA reduktase", "cAMP saja", "Reseptor nuklir langsung", "PepT1"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT mencantumkan GH dan prolaktin sebagai contoh hormon yang mengaktifkan reseptor terkait kinase melalui jalur JAK–STAT, yang kemudian memengaruhi faktor transkripsi."},
-  {"id": 110, "text": "Satu hormon dapat menghasilkan efek seluler yang besar karena sinyal diperkuat oleh second messenger. Contoh mekanisme amplifikasi yang sesuai adalah...", "options": ["Adenilat siklase membentuk banyak cAMP, lalu PKA memfosforilasi protein", "Hormon langsung menjadi ATP", "Hormon menjadi DNA", "Reseptor selalu berjumlah satu dan hanya memengaruhi satu protein", "Second messenger menghilangkan semua enzim"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan cAMP sebagai second messenger. Aktivasi adenilat siklase menghasilkan cAMP yang mengaktifkan PKA sehingga satu sinyal awal dapat diperkuat menjadi respons sel yang lebih besar."},
-  {"id": 111, "text": "Jalur IP3/DAG paling sesuai menghasilkan...", "options": ["Pelepasan Ca2+ melalui IP3 dan aktivasi PKC oleh DAG", "Sintesis langsung T4", "Penghancuran semua reseptor", "Replikasi DNA langsung", "Produksi urea"], "correct": 0, "explanation": "PEMBAHASAN:\nPLC memecah PIP2 menjadi IP3 dan DAG. IP3 membantu melepaskan Ca2+ dari penyimpanan intrasel, sedangkan DAG mengaktifkan protein kinase C."},
-  {"id": 112, "text": "Seorang pasien mengalami gangguan komunikasi hormon karena reseptor permukaan cepat dimatikan setelah digunakan. Salah satu mekanisme penghentian sinyal yang disebut PPT adalah...", "options": ["Degradasi hormon, defosforilasi, fosfodiesterase, atau internalisasi reseptor", "Pembentukan lebih banyak hormon tanpa batas", "Pemanjangan semua akson", "Osifikasi intramembranosa", "Pembentukan kilomikron"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan beberapa mekanisme terminasi sinyal: degradasi hormon, fosfodiesterase untuk memecah second messenger tertentu, defosforilasi, internalisasi reseptor, serta umpan balik."},
-  {"id": 113, "text": "Seorang pasien mengalami gangguan adrenal. Hormon yang berasal dari korteks adrenal dan berperan dalam keseimbangan elektrolit adalah...", "options": ["Aldosteron", "Epinefrin", "Norepinefrin", "Melatonin", "TSH"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT membagi adrenal menjadi korteks dan medula. Aldosteron merupakan mineralokortikoid korteks yang mengatur keseimbangan elektrolit. Medula menghasilkan adrenalin dan noradrenalin."},
-  {"id": 114, "text": "Hormon yang dilepas medula adrenal saat respons stres akut dan meningkatkan denyut jantung adalah...", "options": ["Adrenalin dan noradrenalin", "Aldosteron dan kortisol", "T3 dan T4", "PTH dan kalsitonin", "Insulin dan glukagon"], "correct": 0, "explanation": "PEMBAHASAN:\nMedula adrenal menghasilkan katekolamin adrenalin dan noradrenalin. Materi menjelaskan efeknya berupa peningkatan denyut jantung, kecepatan napas, dan penyempitan pembuluh darah."},
-  {"id": 115, "text": "Pasien mengalami gangguan fungsi tiroid sehingga laju metaboliknya menurun. Hormon utama yang berhubungan dengan pengaturan penggunaan energi adalah...", "options": ["T3 dan T4", "ADH dan oksitosin", "PTH dan kalsitonin", "Insulin dan glukagon", "MSH dan melatonin"], "correct": 0, "explanation": "PEMBAHASAN:\nSumbu TRH–TSH–T3/T4 mengatur laju metabolisme basal, konsumsi oksigen, produksi panas, turnover karbohidrat dan lipid, serta meningkatkan sensitivitas terhadap katekolamin."},
-  {"id": 116, "text": "T4 diproduksi oleh tiroid dan kemudian dapat diubah menjadi bentuk yang lebih aktif di jaringan. Hormon aktif tersebut adalah...", "options": ["T3", "TSH", "TRH", "ACTH", "PTH"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyatakan T4 diubah menjadi T3 aktif di jaringan. T3/T4 kemudian memberikan umpan balik negatif pada TRH dan TSH."},
-  {"id": 117, "text": "Seorang anak mengalami pertumbuhan linear yang lambat. Sumbu hormon yang paling sesuai adalah...", "options": ["GHRH → GH → IGF-1", "TRH → TSH → T4 saja", "CRH → ACTH → kortisol", "PTH → kalsitriol → kalsium", "ADH → ginjal → natrium"], "correct": 0, "explanation": "PEMBAHASAN:\nPertumbuhan linear melibatkan GHRH dan somatostatin dari hipotalamus, GH dari hipofisis, serta IGF-1 dari hati dan jaringan. IGF-1 berperan pada lempeng pertumbuhan dan sintesis protein serta memberikan feedback negatif."},
-  {"id": 118, "text": "Seorang mahasiswa mengambil sampel GH sekali pada siang hari lalu menyimpulkan bahwa sekresi GH pasien pasti rendah sepanjang hari. Mengapa kesimpulan ini lemah?", "options": ["GH disekresi pulsatif dan dipengaruhi tidur, nutrisi, serta aktivitas", "GH hanya diproduksi saat makan", "GH tidak pernah berubah", "GH hanya diproduksi oleh tiroid", "GH selalu konstan 24 jam"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT secara khusus menekankan pola sekresi GH yang pulsatif. Tidur, nutrisi, aktivitas, dan stres dapat memodulasi pulsanya. Karena itu, satu pengukuran tidak selalu mewakili sekresi sepanjang hari."},
-  {"id": 119, "text": "Seorang wanita mengalami gangguan pematangan folikel dan siklus menstruasi. Hormon hipofisis yang paling berkaitan adalah...", "options": ["Gonadotropin", "ADH", "MSH", "GH", "Kalsitonin"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut gonadotropin pada wanita merangsang pematangan folikel dan terkait dengan produksi estrogen/progesteron. Pada laki-laki, gonadotropin berhubungan dengan spermatogenesis dan produksi androgen/testosteron."},
-  {"id": 120, "text": "Seorang pasien menunjukkan tanda stres akut dan kronis sekaligus. Dokter menjelaskan bahwa tubuh menggunakan respons cepat dan respons bertahan. Pernyataan yang paling tepat adalah...", "options": ["Katekolamin bekerja detik-menit, sedangkan HPA/kortisol mempertahankan respons menit-jam", "Kortisol selalu bekerja lebih cepat daripada katekolamin", "Katekolamin hanya mengatur tulang", "HPA tidak memiliki umpan balik", "Semua hormon stres bekerja dengan reseptor yang sama"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT membedakan jalur SAM yang cepat melalui simpatis-medula adrenal dan jalur HPA yang lebih lambat tetapi bertahan lebih lama melalui CRH-ACTH-kortisol. Kortisol memberikan feedback negatif ke pusat pengatur."},
-  {"id": 121, "text": "Seorang mahasiswa diminta membagi sistem rangka dewasa. Pernyataan yang sesuai dengan PPT adalah...", "options": ["Rangka aksial 80 tulang dan apendikular 126 tulang", "Rangka aksial 126 tulang dan apendikular 80 tulang", "Keduanya masing-masing 103 tulang", "Aksial hanya terdiri dari anggota gerak", "Apendikular hanya terdiri dari tengkorak"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut rangka aksial terdiri dari 80 tulang yang membentuk sumbu tubuh dan rangka apendikular terdiri dari 126 tulang yang membentuk anggota gerak dan gelangnya. Total rangka dewasa sekitar 206 tulang."},
-  {"id": 122, "text": "Seorang pasien mengalami kelainan pada tulang yang termasuk rangka aksial. Struktur yang paling tepat adalah...", "options": ["Kranium", "Femur", "Humerus", "Radius", "Tibia"], "correct": 0, "explanation": "PEMBAHASAN:\nKranium termasuk rangka aksial. Femur, humerus, radius, dan tibia termasuk anggota gerak dalam rangka apendikular."},
-  {"id": 123, "text": "Seorang pasien mengalami cedera pada kartilago yang kuat menahan tekanan dan ditemukan pada diskus intervertebralis. Jenis kartilago tersebut adalah...", "options": ["Hialin", "Fibrosa", "Elastik", "Jaringan ikat longgar", "Tulang kompak"], "correct": 1, "explanation": "PEMBAHASAN:\nPPT menyebut fibrocartilage atau kartilago fibrosa kuat menahan tekanan dan terdapat pada diskus intervertebralis serta simfisis pubis. Kartilago elastik lebih lentur dan kaya serat elastin, sedangkan hialin lebih umum pada ujung tulang dan beberapa saluran."},
-  {"id": 124, "text": "Kartilago pada daun telinga dan epiglotis memiliki elastisitas tinggi karena kaya akan...", "options": ["Elastin", "Hidroksiapatit", "Hemoglobin", "Miosin", "Keratin"], "correct": 0, "explanation": "PEMBAHASAN:\nKartilago elastik kaya serat elastin. PPT memberi contoh aurikula, epiglotis, dan tuba Eustachius."},
-  {"id": 125, "text": "Pasien mengalami gangguan pada sendi yang tidak memungkinkan gerakan bebas dan dihubungkan oleh jaringan ikat fibrosa, seperti sutura tengkorak. Klasifikasi sendi tersebut adalah...", "options": ["Sinartrosis/fibrosa", "Amfiartrosis/kartilaginosa", "Diartrosis/sinovial", "Ball-and-socket", "Pivot"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT membagi sendi menjadi fibrosa dengan mobilitas sangat rendah atau sinartrosis, kartilaginosa dengan gerak terbatas atau amfiartrosis, dan sinovial dengan gerak bebas atau diartrosis."},
-  {"id": 126, "text": "Seorang pasien mengalami cedera pada sendi sinovial. Struktur yang melapisi permukaan tulang dan terutama mengurangi gesekan adalah...", "options": ["Kartilago artikular", "Tendon", "Ligamen luar", "Sumsum kuning", "Periosteum saja"], "correct": 0, "explanation": "PEMBAHASAN:\nKartilago artikular melapisi permukaan tulang pada sendi sinovial, mengurangi gesekan, dan membantu meredam benturan. Cairan sinovial juga melumasi sendi dan memberi nutrisi kepada kartilago."},
-  {"id": 127, "text": "Saat sendi sinovial bergerak, cairan yang membantu pelumasan dan nutrisi kartilago terutama dihasilkan oleh...", "options": ["Membran sinovial", "Osteoklas", "Tendon", "Ligamen", "Osteoblas"], "correct": 0, "explanation": "PEMBAHASAN:\nMembran sinovial menghasilkan cairan sinovial. PPT menjelaskan fungsi cairan ini untuk pelumasan, nutrisi kartilago, dan peredaman tekanan."},
-  {"id": 128, "text": "Atlet mengalami robekan ligamen lutut. Mengapa sendi dapat menjadi tidak stabil?", "options": ["Ligamen menghubungkan tulang dengan tulang dan membatasi gerakan berlebihan", "Ligamen menghasilkan gaya kontraksi utama", "Ligamen menghubungkan neuron dengan otot", "Ligamen membentuk sel darah", "Ligamen menghasilkan cairan sinovial"], "correct": 0, "explanation": "PEMBAHASAN:\nLigamen adalah jaringan penghubung antar tulang yang menjaga stabilitas sendi dan membatasi gerak berlebihan. PPT memberikan contoh ligamen kolateral dan cruciatum pada lutut."},
-  {"id": 129, "text": "Seorang anak mengalami gangguan pembentukan tulang panjang pada lempeng epifisis. Proses pembentukan tulang yang melalui model kartilago disebut...", "options": ["Osifikasi endokondral", "Osifikasi intramembranosa", "Mitosis", "Remodeling saja", "Fibrogenesis"], "correct": 0, "explanation": "PEMBAHASAN:\nOsifikasi endokondral melibatkan model tulang rawan dan penggantiannya dengan tulang sejati, terutama pada tulang panjang dan lempeng epifisis. Osifikasi intramembranosa membentuk tulang pipih langsung dari sel mesenkim."},
-  {"id": 130, "text": "Pembentukan tulang pipih tengkorak secara langsung dari sel mesenkim tanpa model tulang rawan merupakan...", "options": ["Osifikasi intramembranosa", "Osifikasi endokondral", "Resorpsi", "Mineralisasi ulang", "Hematopoiesis"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyatakan osifikasi intramembranosa terjadi langsung dari sel mesenkim dan menjadi mekanisme pembentukan tulang pipih seperti tengkorak."},
-  {"id": 131, "text": "Seorang pasien mengalami kehilangan kepadatan tulang karena keseimbangan remodeling terganggu. Sel yang bertanggung jawab terutama melakukan resorpsi tulang adalah...", "options": ["Osteoklas", "Osteoblas", "Osteosit", "Kondrosit", "Fibroblas"], "correct": 0, "explanation": "PEMBAHASAN:\nOsteoklas merupakan sel besar multinukleus yang melakukan resorpsi tulang menggunakan asam dan enzim. Osteoblas membentuk tulang baru, sementara osteosit memelihara matriks dan merespons tekanan mekanik."},
-  {"id": 132, "text": "Dalam remodeling tulang, setelah fase resorpsi selesai, sel yang mengisi rongga dengan matriks tulang baru adalah...", "options": ["Osteoblas", "Osteoklas", "Osteosit", "Kondrosit", "Eritrosit"], "correct": 0, "explanation": "PEMBAHASAN:\nUrutan remodeling dalam PPT adalah aktivasi → resorpsi oleh osteoklas → pembentukan oleh osteoblas → mineralisasi. Jadi setelah rongga dibuat, osteoblas mengisinya dengan matriks baru."},
-  {"id": 133, "text": "Struktur mikroskopik yang merupakan unit utama tulang kompak dan memiliki lamela konsentris, lakuna, serta kanalikuli disebut...", "options": ["Osteon/sistem Havers", "Fasikulus", "Sarkomer", "Alveolus", "Nefron"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut sistem Havers atau osteon sebagai unit struktural utama tulang kompak. Lakuna berisi osteosit dan kanalikuli menjadi jalur komunikasi antar sel."},
-  {"id": 134, "text": "Seorang pasien memiliki kerusakan tulang yang terutama berada pada struktur padat lapisan luar tulang panjang. Struktur tersebut adalah...", "options": ["Tulang kompak", "Tulang spongiosa", "Sumsum merah", "Kartilago elastik", "Diskus"], "correct": 0, "explanation": "PEMBAHASAN:\nTulang kompak padat dan menyusun lapisan luar tulang, dengan osteon yang rapat. Tulang spongiosa lebih berpori dan berada di bagian dalam."},
-  {"id": 135, "text": "Seorang pasien kehilangan banyak sel darah setelah gangguan sumsum. Lokasi utama hematopoiesis yang sesuai materi adalah...", "options": ["Sumsum tulang merah", "Sumsum kuning saja", "Kartilago elastik", "Tendon", "Periosteum saja"], "correct": 0, "explanation": "PEMBAHASAN:\nSumsum merah bertanggung jawab terhadap hematopoiesis dan menghasilkan eritrosit, leukosit, dan trombosit. Pada dewasa, sumsum merah tetap terdapat pada beberapa tulang seperti sternum, tulang rusuk, vertebra, dan pelvis."},
-  {"id": 136, "text": "Sumsum kuning terutama berfungsi sebagai...", "options": ["Tempat penyimpanan lipid", "Tempat utama produksi hormon tiroid", "Tempat pembentukan cairan sinovial", "Tempat pertukaran gas", "Tempat pencernaan protein"], "correct": 0, "explanation": "PEMBAHASAN:\nSumsum kuning merupakan tempat penyimpanan lemak dan dapat berubah kembali menjadi sumsum merah bila dibutuhkan dalam kondisi tertentu."},
-  {"id": 137, "text": "Seorang pasien mengalami defisiensi vitamin D aktif. Dampak yang paling relevan pada tulang adalah...", "options": ["Absorpsi kalsium usus menurun sehingga mineralisasi dapat terganggu", "Kolagen tipe I langsung menjadi miosin", "Kalsium darah selalu meningkat tanpa regulasi", "Osteoblas tidak pernah dibentuk", "Sumsum kuning berubah menjadi kartilago"], "correct": 0, "explanation": "PEMBAHASAN:\nKalsitriol membantu absorpsi kalsium dari usus. Ketersediaan kalsium yang cukup penting untuk mineralisasi dan kekuatan tulang. Materi menekankan hubungan vitamin D, kalsium, fosfor, protein, dan kolagen tipe I."},
-  {"id": 138, "text": "Pemeriksaan menunjukkan kalsium darah rendah. Hormon yang cenderung meningkat untuk mempertahankan homeostasis kalsium adalah...", "options": ["PTH", "Kalsitonin", "Insulin", "TSH", "ADH"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut kadar kalsium rendah memicu PTH. PTH bekerja pada tulang dan ginjal serta membantu aktivasi vitamin D sehingga absorpsi kalsium usus meningkat."},
-  {"id": 139, "text": "Pasien dengan PTH meningkat mengalami peningkatan ekskresi fosfat ginjal dan reabsorpsi kalsium. Pola tersebut sesuai dengan...", "options": ["Regulasi PTH", "Efek insulin", "Efek kalsitonin saja", "Aktivitas GH", "Aktivitas TSH"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT TM 5 menjelaskan PTH meningkatkan reabsorpsi Ca2+, meningkatkan ekskresi fosfat, dan meningkatkan aktivasi vitamin D. Tujuannya mempertahankan kalsium terionisasi."},
-  {"id": 140, "text": "Pasien merasakan nyeri leher setelah gerakan rotasi. Pemeriksaan menunjukkan masalah pada C2. Struktur yang paling berhubungan dengan rotasi kepala adalah...", "options": ["Aksis", "Atlas", "Sakrum", "Koksigeus", "Vertebra lumbal"], "correct": 0, "explanation": "PEMBAHASAN:\nC2 disebut aksis dan memungkinkan rotasi kepala. Atlas adalah C1 yang menopang tengkorak. Ini termasuk materi anatomi leher pada PPT rangka."},
-  {"id": 141, "text": "Pasien mengalami nyeri saat menekuk dan meluruskan siku. Struktur sendi yang terutama berperan dalam fleksi-ekstensi adalah...", "options": ["Humeroulnar", "Radioulnar saja", "Glenohumeral", "Sakroiliaka", "Tibiotalar"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyatakan fleksi dan ekstensi terjadi pada sendi humeroulnar. Pronasi dan supinasi terutama terjadi pada sendi radioulnar."},
-  {"id": 142, "text": "Atlet dapat menekuk siku tetapi kesulitan memutar telapak tangan ke bawah dan ke atas. Gangguan gerak tersebut paling berkaitan dengan...", "options": ["Sendi radioulnar", "Sendi humeroulnar", "Sendi glenohumeral", "Sendi panggul", "Sendi lutut"], "correct": 0, "explanation": "PEMBAHASAN:\nPronasi dan supinasi terjadi pada sendi radioulnar. Ini merupakan pasangan gerak yang secara khusus ditunjukkan dalam PPT anatomi siku."},
-  {"id": 143, "text": "Pasien mengalami kelemahan abduksi lengan ke samping tubuh karena cedera otot bahu utama. Otot yang paling tepat adalah...", "options": ["Deltoid", "Platysma", "Erector spinae", "Biceps femoris", "Gastrocnemius"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut deltoid membentuk kontur bahu dan bertanggung jawab utama dalam abduksi lengan. Otot lain memiliki fungsi dan lokasi berbeda."},
-  {"id": 144, "text": "Seorang pasien mengalami gangguan musculoskeletal yang menurunkan kemampuan bergerak sehari-hari. Kesimpulan yang paling sesuai dengan PPT adalah...", "options": ["Gangguan dapat melibatkan tulang, otot, dan sendi sekaligus sehingga memengaruhi kualitas gerak", "Hanya saraf yang dapat menyebabkan masalah gerak", "Tulang tidak berperan dalam gerak", "Sendi tidak berhubungan dengan stabilitas", "Otot tidak menghasilkan gaya"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menekankan bahwa gangguan muskuloskeletal mencakup nyeri dan disfungsi otot, tulang, dan sendi. Sistem rangka menjadi pengungkit pasif, sendi menyediakan gerak, dan otot menghasilkan gaya."},
-  {"id": 145, "text": "Seorang mahasiswa membandingkan tiga tipe otot. Pernyataan yang paling tepat adalah...", "options": ["Otot rangka terutama volunter; otot polos dan jantung bekerja involunter", "Semua otot bekerja volunter", "Otot jantung tidak berlurik", "Otot rangka tidak mempunyai sarkomer", "Otot polos hanya terdapat pada tulang"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT membedakan otot rangka, polos, dan jantung berdasarkan ciri serta kontrol. Otot rangka terutama berada di bawah kontrol sadar, sedangkan otot polos dan jantung bekerja tanpa kendali sadar langsung. Otot jantung tetap bergaris dan tersusun dari sarkomer."},
-  {"id": 146, "text": "Organisasi otot rangka yang paling tepat dari struktur terbesar menuju unit kontraktil adalah...", "options": ["Otot utuh → fasikulus → serabut otot → miofibril → sarkomer", "Sarkomer → otot → fasikulus → tendon", "Fasikulus → sarkomer → otot → miofibril", "Tendon → sarkomer → serabut → otot", "Miofibril → otot → fasikulus → tendon"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menekankan hierarki: otot sebagai organ terdiri dari fasikulus; fasikulus terdiri dari serabut otot; serabut berisi miofibril; miofibril tersusun dari sarkomer sebagai unit kontraktil."},
-  {"id": 147, "text": "Seorang atlet mengalami cedera pada struktur yang meneruskan gaya kontraksi otot ke tulang. Struktur tersebut adalah...", "options": ["Tendon", "Sarkomer", "Dendrit", "Osteon", "Endokardium"], "correct": 0, "explanation": "PEMBAHASAN:\nTendon menghubungkan otot dengan tulang dan meneruskan gaya dari otot ke tulang. PPT mengaitkan susunan tendon dengan kemampuan mentransmisikan gaya."},
-  {"id": 148, "text": "Pada otot utuh, jaringan ikat yang membungkus seluruh otot disebut...", "options": ["Epimisium", "Perimisium", "Endomisium", "Sarkolema", "Miosin"], "correct": 0, "explanation": "PEMBAHASAN:\nEpimisium membungkus otot secara keseluruhan, perimisium membungkus fasikulus, dan endomisium mengelilingi satu serabut otot. Ini merupakan bagian anatomi makroskopik dan mikroskopik yang ditekankan PPT."},
-  {"id": 149, "text": "Jaringan ikat yang membungkus satu fasikulus adalah...", "options": ["Perimisium", "Epimisium", "Endomisium", "Tendon", "Fascia saja"], "correct": 0, "explanation": "PEMBAHASAN:\nPerimisium mengorganisasi serabut dalam satu fasikulus. Ketiga lapisan jaringan ikat membantu menata jaringan dan meneruskan gaya."},
-  {"id": 150, "text": "Jaringan ikat yang membungkus satu serabut otot individual adalah...", "options": ["Endomisium", "Perimisium", "Epimisium", "Tendon", "Perikardium"], "correct": 0, "explanation": "PEMBAHASAN:\nEndomisium adalah lapisan paling dekat dengan serabut otot individual. Perbedaan ini penting saat memahami hierarki struktur otot."},
-  {"id": 151, "text": "Pada tingkat mikroskopik, serabut otot mengandung miofibril yang tersusun dari...", "options": ["Sarkomer", "Osteon", "Nefron", "Alveolus", "Lobulus"], "correct": 0, "explanation": "PEMBAHASAN:\nSarkomer merupakan unit kontraktil yang tersusun berulang sepanjang miofibril. Pemendekan sarkomer terjadi karena filamen aktin dan miosin bergeser."},
-  {"id": 152, "text": "Seorang pasien dapat menghasilkan gaya ketika menahan beban tanpa perubahan panjang otot yang berarti. Jenis kontraksi yang paling sesuai adalah...", "options": ["Isometrik", "Konsentrik", "Eksentrik", "Pasif", "Denervasi"], "correct": 0, "explanation": "PEMBAHASAN:\nKontraksi isometrik menghasilkan tegangan tanpa perubahan panjang otot secara keseluruhan. PPT menekankan bahwa kontraksi menghasilkan tegangan, tetapi tidak selalu berarti otot memendek."},
-  {"id": 153, "text": "Saat mengangkat beban, otot memendek sambil menghasilkan gaya. Ini adalah kontraksi...", "options": ["Konsentrik", "Eksentrik", "Isometrik", "Pasif", "Tetanus selalu"], "correct": 0, "explanation": "PEMBAHASAN:\nKontraksi konsentrik membuat otot memendek. Kontraksi eksentrik terjadi saat otot tetap aktif tetapi memanjang, misalnya saat mengendalikan penurunan beban."},
-  {"id": 154, "text": "Saat menurunkan beban secara perlahan, otot tetap aktif tetapi memanjang. Jenis kontraksi tersebut adalah...", "options": ["Eksentrik", "Konsentrik", "Isometrik", "Relaksasi penuh", "Kontraksi refleks"], "correct": 0, "explanation": "PEMBAHASAN:\nPada kontraksi eksentrik, gaya eksternal menyebabkan otot memanjang walaupun aktivitas kontraktil tetap berlangsung. Ini penting untuk kontrol gerak."},
-  {"id": 155, "text": "Relaksasi otot rangka bukan sekadar berhenti berkontraksi. Dalam PPT, proses relaksasi membutuhkan...", "options": ["ATP", "DNA baru", "Oksigen saja tanpa ATP", "Insulin", "PTH"], "correct": 0, "explanation": "PEMBAHASAN:\nATP diperlukan untuk siklus jembatan silang dan pemompaan kembali Ca2+ ke retikulum sarkoplasma. Karena itu relaksasi merupakan proses aktif."},
-  {"id": 156, "text": "Potensial aksi tiba di terminal neuron motorik pada neuromuscular junction. Peristiwa yang memicu pelepasan asetilkolin adalah masuknya...", "options": ["Ca2+", "Cl-", "K+ saja", "Glukosa", "HCO3-"], "correct": 0, "explanation": "PEMBAHASAN:\nDepolarisasi terminal presinaptik membuka kanal Ca2+ berpintu tegangan. Ca2+ yang masuk memicu fusi vesikel dan pelepasan asetilkolin."},
-  {"id": 157, "text": "Asetilkolin pada neuromuscular junction berikatan dengan reseptor...", "options": ["Nikotinik Nm", "Muskarinik M2", "Beta-1", "Reseptor insulin", "JAK-STAT"], "correct": 0, "explanation": "PEMBAHASAN:\nMotor end plate otot rangka menggunakan reseptor asetilkolin nikotinik tipe Nm. Aktivasi membuka kanal kation dan menghasilkan end-plate potential."},
-  {"id": 158, "text": "Jika end-plate potential mencapai ambang, peristiwa berikutnya adalah...", "options": ["Potensial aksi otot terbentuk dan menyebar pada sarkolema", "Semua Ca2+ keluar dari sel", "Miosin langsung menempel tanpa sinyal listrik", "Asetilkolin menjadi ATP", "Sarkomer langsung hancur"], "correct": 0, "explanation": "PEMBAHASAN:\nEnd-plate potential adalah depolarisasi lokal. Jika ambang tercapai, kanal Na+ berpintu tegangan menghasilkan potensial aksi otot yang menyebar sepanjang sarkolema dan masuk ke T-tubulus."},
-  {"id": 159, "text": "Fungsi T-tubulus dalam eksitasi-kontraksi adalah...", "options": ["Membawa perubahan potensial membran ke bagian dalam serabut otot", "Menghasilkan insulin", "Menyimpan glikogen utama", "Membentuk kolagen tendon", "Membuat ATP dari glukosa secara langsung"], "correct": 0, "explanation": "PEMBAHASAN:\nT-tubulus merupakan invaginasi sarkolema yang membawa depolarisasi ke bagian dalam serabut sehingga retikulum sarkoplasma dapat melepaskan Ca2+ secara terkoordinasi."},
-  {"id": 160, "text": "Triad pada otot rangka terdiri dari...", "options": ["Satu T-tubulus dan dua terminal cisternae retikulum sarkoplasma", "Dua sarkomer dan satu tendon", "Satu aktin dan dua miosin", "Dua mitokondria dan satu T-tubulus", "Tiga fasikulus"], "correct": 0, "explanation": "PEMBAHASAN:\nTriad adalah unit struktural eksitasi-kontraksi pada otot rangka: satu T-tubulus diapit dua terminal cisternae retikulum sarkoplasma."},
-  {"id": 161, "text": "Depolarisasi T-tubulus mengaktifkan sensor tegangan yang berinteraksi dengan kanal pelepas Ca2+ pada retikulum sarkoplasma. Pasangan yang tepat adalah...", "options": ["DHPR dan RyR1", "GLUT4 dan PepT1", "TSH dan TRH", "PTH dan CaSR", "SGLT1 dan GLUT2"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan DHPR/CaV1.1 pada T-tubulus berinteraksi dengan ryanodine receptor tipe 1 pada retikulum sarkoplasma untuk memicu pelepasan Ca2+."},
-  {"id": 162, "text": "Ca2+ yang dilepas dari retikulum sarkoplasma berikatan dengan...", "options": ["Troponin C", "Tropomiosin langsung", "Aktin", "Miosin ATPase langsung", "Kolagen"], "correct": 0, "explanation": "PEMBAHASAN:\nCa2+ mengikat troponin C. Perubahan pada kompleks troponin-tropomiosin kemudian membuka akses ke situs pengikatan miosin pada aktin."},
-  {"id": 163, "text": "Pelepasan Ca2+ dari retikulum sarkoplasma menyebabkan tropomiosin bergeser. Akibat langsungnya adalah...", "options": ["Situs aktin menjadi dapat diakses kepala miosin", "Aktin berubah menjadi ATP", "Tendon langsung memendek", "Kalsium keluar dari sel", "Sarkolema menghilang"], "correct": 0, "explanation": "PEMBAHASAN:\nPada keadaan istirahat tropomiosin menghalangi situs pengikatan. Ketika Ca2+ mengikat troponin C, kompleks berubah sehingga situs aktin terbuka untuk pembentukan cross-bridge."},
-  {"id": 164, "text": "Dalam siklus jembatan silang, kepala miosin yang berenergi berikatan dengan...", "options": ["Aktin", "Troponin C", "Tropomiosin", "Kolagen", "Elastin"], "correct": 0, "explanation": "PEMBAHASAN:\nKepala miosin berikatan dengan aktin dan membentuk jembatan silang. Siklus tersebut mengubah energi ATP menjadi kerja mekanik."},
-  {"id": 165, "text": "Mengapa ATP diperlukan untuk melepaskan kepala miosin dari aktin setelah power stroke?", "options": ["ATP berikatan dengan miosin dan menurunkan afinitasnya terhadap aktin", "ATP menghancurkan aktin", "ATP mengubah Ca2+ menjadi Na+", "ATP membuat tendon mengeluarkan hormon", "ATP mengubah miosin menjadi troponin"], "correct": 0, "explanation": "PEMBAHASAN:\nSetelah power stroke, miosin berada dalam keadaan terikat. Pengikatan ATP memungkinkan pelepasan dari aktin. ATP kemudian dihidrolisis untuk mengenergikan kembali kepala miosin."},
-  {"id": 166, "text": "Relaksasi membutuhkan pengambilan kembali Ca2+ oleh pompa...", "options": ["SERCA", "SGLT1", "GLUT5", "RyR1", "HMG-KoA reduktase"], "correct": 0, "explanation": "PEMBAHASAN:\nSERCA adalah Ca2+-ATPase retikulum sarkoplasma. Pompa ini menggunakan ATP untuk mengembalikan Ca2+ ke retikulum sehingga interaksi aktin-miosin berhenti."},
-  {"id": 167, "text": "Jika panjang filamen aktin dan miosin relatif tidak berubah tetapi sarkomer memendek, penjelasan yang paling tepat adalah...", "options": ["Filamen bergeser satu sama lain sehingga tumpang tindih meningkat", "Aktin diubah menjadi miosin", "Miosin dihancurkan", "Garis Z menjauh", "Filamen keluar dari sarkomer"], "correct": 0, "explanation": "PEMBAHASAN:\nModel sliding filament menyatakan filamen tidak memendek; keduanya bergeser sehingga jarak antar garis Z mengecil dan sarkomer memendek. Ini merupakan dasar mekanisme kontraksi."},
-  {"id": 168, "text": "Pasien hipotermia menggigil. Mengapa aktivitas tersebut membantu menghasilkan panas?", "options": ["Kontraksi otot berulang meningkatkan pemakaian energi dan produksi panas", "Kontraksi menghentikan metabolisme", "ATP tidak digunakan saat menggigil", "Aliran darah berhenti total", "Relaksasi total menghasilkan panas lebih banyak"], "correct": 0, "explanation": "PEMBAHASAN:\nOtot menghasilkan panas sebagai salah satu keluaran fungsi. Kontraksi berulang saat menggigil meningkatkan aktivitas metabolik sehingga sebagian energi dilepaskan sebagai panas."},
-  {"id": 169, "text": "Seorang pasien mengalami cedera pada lapisan terdalam dinding jantung yang bersinggungan langsung dengan darah. Lapisan tersebut adalah...", "options": ["Endokardium", "Miokardium", "Epikardium", "Perikardium fibrosum saja", "Pleura"], "correct": 0, "explanation": "PEMBAHASAN:\nEndokardium merupakan lapisan bagian dalam jantung tempat darah mengalir. Miokardium berada di tengah dan merupakan lapisan otot yang paling tebal. Epikardium merupakan lamina viseralis dari perikardium serosum."},
-  {"id": 170, "text": "Seorang pasien mengalami peradangan pada lapisan luar jantung. Salah satu fungsi struktur yang menghasilkan cairan pelumas adalah...", "options": ["Mengurangi gesekan jantung dengan organ di sekitarnya", "Menghasilkan sel darah merah", "Mengatur glukosa", "Menghasilkan cairan empedu", "Menghantarkan impuls ke otot rangka"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan perikardium sebagai membran serosa dengan cairan yang melumasi jantung dan mencegah gesekan dengan organ lain. Miokardium bertugas menghasilkan gaya kontraktil."},
-  {"id": 171, "text": "Darah dari vena kava superior dan inferior masuk terlebih dahulu ke...", "options": ["Atrium kanan", "Atrium kiri", "Ventrikel kanan", "Ventrikel kiri", "Aorta"], "correct": 0, "explanation": "PEMBAHASAN:\nVena kava membawa darah dari tubuh menuju atrium kanan. Dari atrium kanan darah melewati katup trikuspid menuju ventrikel kanan."},
-  {"id": 172, "text": "Katup antara atrium kanan dan ventrikel kanan adalah...", "options": ["Trikuspid", "Mitral", "Semilunar aorta", "Semilunar pulmonal", "Bikuspid kiri"], "correct": 0, "explanation": "PEMBAHASAN:\nKatup trikuspid adalah katup atrioventrikular kanan dan memiliki tiga daun. Katup mitral/bikuspid berada di sisi kiri antara atrium kiri dan ventrikel kiri."},
-  {"id": 173, "text": "Seorang pasien mengalami kelainan katup antara atrium kiri dan ventrikel kiri. Katup yang paling mungkin terkena adalah...", "options": ["Mitral/bikuspid", "Trikuspid", "Pulmonal", "Aorta", "Koroner"], "correct": 0, "explanation": "PEMBAHASAN:\nKatup mitral atau bikuspid terletak di antara atrium kiri dan ventrikel kiri. Fungsinya mencegah aliran balik saat ventrikel kiri berkontraksi."},
-  {"id": 174, "text": "Saat ventrikel kanan berkontraksi, darah menuju paru melewati...", "options": ["Katup semilunaris pulmonal", "Katup mitral", "Katup trikuspid", "Katup semilunaris aorta", "Katup vena kava"], "correct": 0, "explanation": "PEMBAHASAN:\nDarah dari ventrikel kanan keluar melalui katup semilunaris pulmonal menuju trunkus pulmonalis dan arteri pulmonalis kanan serta kiri."},
-  {"id": 175, "text": "Darah teroksigenasi dari paru kembali ke jantung melalui...", "options": ["Vena pulmonalis menuju atrium kiri", "Arteri pulmonalis menuju atrium kanan", "Vena kava menuju atrium kanan", "Aorta menuju ventrikel kiri", "Sinus koroner menuju atrium kiri"], "correct": 0, "explanation": "PEMBAHASAN:\nDalam sirkulasi pulmonalis, darah terdeoksigenasi keluar dari ventrikel kanan menuju paru. Setelah oksigenasi, darah kembali melalui vena pulmonalis menuju atrium kiri. Ini merupakan alasan istilah arteri/vena tidak selalu sama dengan kadar oksigen."},
-  {"id": 176, "text": "Urutan sirkulasi sistemik yang paling tepat adalah...", "options": ["Atrium kiri → ventrikel kiri → aorta → jaringan tubuh → vena kava → atrium kanan", "Atrium kanan → ventrikel kanan → aorta → jaringan → atrium kiri", "Ventrikel kiri → vena kava → jaringan → atrium kanan", "Atrium kiri → ventrikel kanan → arteri pulmonalis → jaringan tubuh", "Ventrikel kanan → aorta → paru → atrium kiri"], "correct": 0, "explanation": "PEMBAHASAN:\nSirkulasi sistemik dimulai dari ventrikel kiri melalui aorta ke seluruh tubuh. Darah kembali melalui vena kava superior/inferior dan masuk ke atrium kanan. Setelah itu diteruskan ke ventrikel kanan untuk sirkulasi pulmonalis."},
-  {"id": 177, "text": "Seorang pasien mengalami sumbatan pembuluh yang memasok miokardium. Sirkulasi yang secara khusus menyuplai jaringan jantung sendiri disebut...", "options": ["Sirkulasi koroner", "Sirkulasi pulmonalis", "Sirkulasi sistemik eksternal", "Sirkulasi portal", "Sirkulasi limfatik"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT membagi peredaran menjadi sirkulasi pulmonalis, sistemik, dan koroner. Sirkulasi koroner memasok jaringan jantung sendiri sehingga miokardium mendapatkan oksigen dan nutrisi."},
-  {"id": 178, "text": "Sumbatan pada arteri koroner kiri paling mungkin berdampak besar pada...", "options": ["Sisi kiri jantung dan sebagian septum", "Kulit tangan saja", "Paru kiri saja", "Hati saja", "Ginjal saja"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyatakan arteri koroner kiri memasok sisi kiri jantung termasuk atrium dan ventrikel kiri serta septum. Cabangnya antara lain sirkumfleks dan desendens anterior kiri."},
-  {"id": 179, "text": "Seorang pasien mengalami penurunan curah jantung akibat aktivitas parasimpatis yang meningkat. Mekanisme persarafan yang paling sesuai adalah...", "options": ["Nervus vagus memberikan pengaruh parasimpatis terutama pada nodus SA dan AV", "Simpatis menurunkan denyut jantung", "Nervus vagus meningkatkan kontraktilitas secara dominan", "Parasimpatis menghasilkan T3", "Parasimpatis menghambat semua darah kembali ke jantung"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan persarafan parasimpatis terutama melalui saraf vagal. Serabut postganglionik menginervasi nodus SA dan AV dan berkontribusi menurunkan aktivitas jantung."},
-  {"id": 180, "text": "Hormon yang juga dapat memengaruhi kecepatan impuls nodus SA menurut PPT adalah...", "options": ["Hormon tiroid dan epinefrin", "Insulin dan PTH saja", "ADH dan oksitosin saja", "Kalsitonin dan MSH", "Somatostatin dan melatonin saja"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT sistem kardiovaskular menyatakan hormon tiroid dan epinefrin yang dibawa darah juga memengaruhi kecepatan impuls nodus SA. Sistem kardiovaskular diatur melalui integrasi saraf dan endokrin."},
-  {"id": 181, "text": "Seorang pasien mengalami gangguan jaringan miokardium. Struktur ini merupakan...", "options": ["Otot jantung yang paling tebal dalam dinding jantung", "Lapisan darah", "Lapisan endotel pembuluh", "Jaringan lemak saja", "Kartilago"], "correct": 0, "explanation": "PEMBAHASAN:\nMiokardium merupakan lapisan otot jantung yang paling tebal. Seratnya bergaris dan tersusun dari sarkomer, dengan satu nukleus sentral, banyak mitokondria, dan mioglobin."},
-  {"id": 182, "text": "Koneksi ujung-ke-ujung antarsel otot jantung yang membantu kontraksi sebagai gelombang disebut...", "options": ["Diskus interkalatus", "Tendon", "Endomisium", "Periosteum", "Neuromuscular junction"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut diskus interkalatus sebagai koneksi ujung-ke-ujung yang memungkinkan serat otot jantung bekerja secara terkoordinasi. Ini berbeda dari neuromuscular junction pada otot rangka."},
-  {"id": 183, "text": "Sel otoritmik jantung berbeda dari sel kontraktil karena...", "options": ["Sel otoritmik menghasilkan aktivitas listrik spontan, sedangkan sel kontraktil terutama melakukan kerja mekanis", "Sel kontraktil membuat semua hormon", "Sel otoritmik tidak mempunyai aktivitas listrik", "Sel kontraktil tidak memiliki sarkomer", "Sel otoritmik hanya berada di pembuluh darah"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT membagi sel jantung menjadi sel kontraktil sekitar 99% yang melakukan kerja mekanis dan sel otoritmik/pacemaker yang memulai dan menghantarkan potensial aksi."},
-  {"id": 184, "text": "Mengapa nodus SA disebut pacemaker utama?", "options": ["Memulai impuls listrik yang mengatur ritme jantung", "Menghasilkan darah", "Mengoksigenasi darah", "Menghasilkan empedu", "Menghentikan kontraksi ventrikel"], "correct": 0, "explanation": "PEMBAHASAN:\nNodus sinoatrial berada di atrium kanan dan menjadi sumber normal impuls listrik. Impuls tersebut menyebar melalui atrium dan mengawali urutan aktivasi jantung."},
-  {"id": 185, "text": "Nodus AV memperlambat penghantaran impuls. Keuntungan fisiologis utama perlambatan tersebut adalah...", "options": ["Memberi waktu ventrikel menyelesaikan pengisian", "Menghentikan sirkulasi paru", "Membuat atrium tidak berkontraksi", "Menutup aorta permanen", "Mengurangi oksigen darah"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyatakan impuls melambat di nodus AV agar ventrikel mempunyai waktu menyelesaikan pengisian sebelum kontraksi ventrikel."},
-  {"id": 186, "text": "Urutan sistem konduksi yang paling sesuai adalah...", "options": ["SA → AV → berkas His → cabang kanan/kiri → Purkinje", "Purkinje → SA → AV → His", "AV → Purkinje → SA → His", "His → SA → AV → Purkinje", "SA → His → AV → Purkinje"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT memberikan urutan dari nodus SA, menuju AV, berkas His, cabang kanan/kiri, kemudian serat Purkinje yang menyebarkan impuls ke miokardium ventrikel."},
-  {"id": 187, "text": "Setelah ventrikel berkontraksi dan ejeksi selesai, katup aorta dan pulmonal menutup dan terdengar suara...", "options": ["Dub", "Lub", "Click fisiologis selalu", "Murmur normal", "Tidak ada suara"], "correct": 0, "explanation": "PEMBAHASAN:\nS1 atau “lub” berkaitan terutama dengan penutupan katup AV. S2 atau “dub” berkaitan dengan penutupan katup semilunaris aorta dan pulmonal."},
-  {"id": 188, "text": "Suara jantung “lub” terutama berkaitan dengan penutupan...", "options": ["Katup trikuspid dan mitral", "Katup aorta dan pulmonal", "Vena kava", "Sinus koroner", "Semua pembuluh darah"], "correct": 0, "explanation": "PEMBAHASAN:\nSaat ventrikel mulai berkontraksi, katup AV menutup untuk mencegah aliran balik ke atrium. Penutupan tersebut menghasilkan bunyi S1 atau “lub”."},
-  {"id": 189, "text": "Seorang pasien memiliki denyut istirahat 120 kali per menit. Dibandingkan rentang yang dicantumkan PPT, nilai tersebut...", "options": ["Lebih tinggi dari rentang istirahat normal 60–100 kali/menit", "Selalu normal", "Selalu merupakan fibrilasi ventrikel", "Menunjukkan bradikardia", "Tidak dapat diukur melalui nadi"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyebut denyut nadi istirahat normal sekitar 60–100 kali per menit. Angka 120 berada di atas rentang tersebut. Penilaian klinis tetap mempertimbangkan konteks pasien."},
-  {"id": 190, "text": "Saat berolahraga, perubahan normal yang paling sesuai dengan materi adalah...", "options": ["Denyut jantung meningkat", "Denyut jantung selalu turun menjadi 40", "Sistem konduksi berhenti", "Semua katup tetap terbuka", "Curah jantung menjadi nol"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menyatakan denyut nadi meningkat saat berolahraga. Ini membantu meningkatkan suplai darah dan oksigen sesuai kebutuhan jaringan."},
-  {"id": 191, "text": "Tekanan sistolik adalah...", "options": ["Tekanan tertinggi arteri saat ventrikel memompa darah", "Tekanan terendah saat jantung terisi", "Tekanan vena saat istirahat", "Tekanan atrium saja", "Tekanan di paru saja"], "correct": 0, "explanation": "PEMBAHASAN:\nTekanan sistolik merupakan tekanan puncak pada arteri ketika ventrikel memompa darah. Tekanan diastolik merupakan tekanan terendah di antara denyut saat jantung mengisi."},
-  {"id": 192, "text": "Tekanan diastolik paling tepat menggambarkan...", "options": ["Tekanan terendah di arteri di antara detak ketika jantung sedang terisi", "Tekanan tertinggi saat ejeksi", "Tekanan di vena kava saja", "Tekanan dalam alveolus", "Tekanan pada atrium ketika ejeksi ventrikel"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT mendefinisikan tekanan diastolik sebagai tekanan terendah di arteri di antara detak jantung ketika jantung mengisi."},
-  {"id": 193, "text": "Seorang pasien mengalami gangguan pada serat Purkinje. Dampak utamanya kemungkinan terjadi pada...", "options": ["Penyebaran impuls ke miokardium ventrikel", "Absorpsi glukosa di usus", "Produksi hormon tiroid", "Pembentukan sumsum tulang", "Pencernaan lipid"], "correct": 0, "explanation": "PEMBAHASAN:\nSerat Purkinje menyebarkan impuls ke miokardium ventrikel sehingga kontraksi ventrikel terkoordinasi. Kerusakannya dapat mengganggu sinkronisasi kontraksi."},
-  {"id": 194, "text": "Pada potensial aksi sel otoritmik yang dijelaskan dalam PPT, fase 0 dikaitkan dengan...", "options": ["Depolarisasi cepat akibat masuknya Na+", "Repolarisasi akibat K+ keluar", "Plateau akibat Ca2+", "Pengosongan atrium", "Relaksasi mekanik total"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menggambarkan fase 0 sebagai depolarisasi cepat dengan masuknya Na+. Kemudian fase 1 terkait keluarnya K+, fase 2 plateau dengan masuknya Ca2+ sementara K+ keluar, dan fase 3 repolarisasi."},
-  {"id": 195, "text": "Fase plateau pada potensial aksi jantung terutama dipertahankan oleh...", "options": ["Masuknya Ca2+ sementara K+ tetap keluar", "Masuknya Cl- saja", "Keluarnya seluruh Ca2+", "Masuknya K+ besar-besaran", "Tidak ada perpindahan ion"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT menjelaskan fase 2 plateau sebagai keadaan saat Ca2+ masuk dan K+ tetap keluar sehingga potensial membran relatif datar dan kontraksi jantung dapat dipertahankan."},
-  {"id": 196, "text": "Fase 3 potensial aksi jantung ditandai dengan...", "options": ["Penghentian aliran Ca2+ lambat dan keluarnya K+ yang menyebabkan repolarisasi", "Masuknya Na+ cepat", "Masuknya Ca2+ terus tanpa K+", "Pembentukan eritrosit", "Pengisian ventrikel secara langsung"], "correct": 0, "explanation": "PEMBAHASAN:\nPada fase 3, aliran Ca2+ berkurang/berhenti sedangkan K+ terus keluar sehingga membran menjadi lebih negatif dan mengalami repolarisasi."},
-  {"id": 197, "text": "Pada fase istirahat, pompa Na+/K+ membantu mengembalikan distribusi ion. Fungsi utamanya adalah...", "options": ["Memindahkan Na+ keluar dan K+ masuk dengan menggunakan ATP", "Memindahkan Na+ masuk dan K+ keluar tanpa energi", "Menghasilkan T3", "Menghasilkan hemoglobin", "Membentuk Ca2+ dari glukosa"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT mengaitkan fase istirahat dengan pemulihan distribusi Na+ dan K+ melalui pompa Na+/K+-ATPase. Pompa ini menggunakan ATP untuk mempertahankan gradien ion."},
-  {"id": 198, "text": "Seorang pasien mengalami perdarahan sehingga volume darah turun. Tubuh perlu mempertahankan perfusi. Integrasi sistem yang paling sesuai berdasarkan materi adalah...", "options": ["Aktivasi saraf simpatis meningkatkan aktivitas jantung dan tonus pembuluh", "Aktivasi parasimpatis selalu meningkatkan curah jantung", "Sistem konduksi berhenti agar darah hemat", "Katup aorta tetap terbuka terus", "Denyut jantung harus turun"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT kardiovaskular menjelaskan simpatis sebagai pengatur penting denyut, kontraktilitas, volume sekuncup, dan curah jantung. Pada keadaan kebutuhan perfusi meningkat, respons simpatis membantu mempertahankan sirkulasi."},
-  {"id": 199, "text": "Seorang pasien mengalami gangguan aliran darah pada kapiler jaringan. Mengapa kapiler penting dibandingkan arteri besar?", "options": ["Kapiler menjadi lokasi utama pertukaran antara darah dan jaringan", "Kapiler menghasilkan hormon tiroid", "Kapiler menjadi pacemaker jantung", "Kapiler menghasilkan empedu", "Kapiler merupakan ruang jantung"], "correct": 0, "explanation": "PEMBAHASAN:\nPPT membedakan arteri, vena, dan kapiler. Kapiler merupakan pembuluh kecil tempat pertukaran oksigen, karbon dioksida, dan zat antara darah dan jaringan."},
-  {"id": 200, "text": "Seorang pasien memiliki gangguan integrasi antara sistem konduksi, katup, otot, dan pembuluh sehingga aliran darah menjadi tidak efektif. Kesimpulan fisiologis yang paling tepat adalah...", "options": ["Fungsi pompa jantung bergantung pada koordinasi aktivitas listrik, kontraksi miokardium, pembukaan-penutupan katup, dan aliran melalui pembuluh", "Jantung hanya bergantung pada katup", "Sistem listrik tidak berhubungan dengan kontraksi", "Pembuluh darah bekerja tanpa hubungan dengan jantung", "Otot jantung tidak membutuhkan oksigen"], "correct": 0, "explanation": "PEMBAHASAN:\nKeseluruhan TM 7 membangun satu rantai: sistem konduksi menghasilkan sinyal listrik; sinyal mengaktifkan miokardium; kontraksi menghasilkan tekanan; katup mengarahkan aliran satu arah; pembuluh mendistribusikan darah dan mengembalikannya ke jantung. Gangguan satu bagian dapat mengganggu efektivitas sistem secara keseluruhan."}
+  {
+    "id": 1,
+    "text": "Seorang perawat merawat pasien lanjut usia yang secara fisik stabil, tetapi terus mengatakan bahwa dirinya takut menjadi beban keluarga. Perawat tidak hanya membantu kebutuhan fisiknya, tetapi juga hadir, mendengarkan, dan berusaha memahami pengalaman pasien sebagai manusia secara utuh. Situasi tersebut paling tepat menunjukkan bahwa caring dalam keperawatan...",
+    "options": ["hanya merupakan tindakan membantu aktivitas sehari-hari", "terutama merupakan tugas dokter dalam proses penyembuhan", "hanya dapat dilakukan apabila pasien mengalami masalah emosional", "merupakan inti praktik keperawatan yang menekankan hubungan interpersonal dan aspek humanistik", "identik dengan pemberian terapi medis berdasarkan diagnosis"],
+    "correct": 3,
+    "explanation": "Caring dalam materi diposisikan sebagai inti keperawatan dan menekankan aspek humanistik dalam asuhan. Caring tidak berhenti pada tindakan fisik, tetapi melibatkan hubungan interpersonal, penghormatan, empati, dan perhatian terhadap pasien sebagai manusia yang utuh. Jadi kasus tersebut paling tepat menggambarkan caring sebagai inti praktik keperawatan."
+  },
+  {
+    "id": 2,
+    "text": "Seorang mahasiswa keperawatan saat praktik melihat pasien kesulitan mengambil keputusan tentang perawatannya. Mahasiswa tersebut tidak memaksakan pilihannya, tetapi membantu pasien memahami kondisi agar pasien dapat menentukan keputusan untuk dirinya sendiri. Konsep yang paling sesuai adalah...",
+    "options": ["menggantikan keputusan pasien demi efisiensi", "mengutamakan tindakan teknis daripada hubungan", "menghilangkan seluruh keterlibatan pasien dalam asuhan", "menghargai otonomi dan pengambilan keputusan pasien", "menyerahkan seluruh keputusan kepada keluarga"],
+    "correct": 3,
+    "explanation": "Materi penerapan caring menekankan otonomi dan pengambilan keputusan, yaitu mendukung individu untuk membuat keputusan terkait kesehatannya. Perawat tidak mengambil alih keputusan secara otomatis. Fokusnya adalah mendukung pasien agar mampu menentukan pilihan secara sadar."
+  },
+  {
+    "id": 3,
+    "text": "Seorang pasien menolak berbicara karena merasa sangat takut terhadap hasil pemeriksaan. Perawat tidak memaksa pasien untuk langsung tenang, tetapi membangun hubungan yang autentik melalui kehadiran, empati, dan komunikasi terapeutik. Pendekatan tersebut paling sesuai dengan gagasan Jean Watson bahwa caring...",
+    "options": ["cukup dilakukan melalui prosedur standar", "tidak membutuhkan hubungan interpersonal", "hanya berkaitan dengan pemenuhan kebutuhan fisiologis", "efektif melalui hubungan interpersonal yang autentik antara perawat dan pasien", "identik dengan intervensi farmakologis"],
+    "correct": 3,
+    "explanation": "Watson menjelaskan caring sebagai 'core' atau inti praktik keperawatan yang efektif ketika dipraktikkan dalam hubungan interpersonal. Dalam kasus ini, hubungan autentik, kehadiran, dan empati merupakan inti pendekatan caring."
+  },
+  {
+    "id": 4,
+    "text": "Seorang perawat mengetahui bahwa keluarganya sedang mengalami masalah pribadi, tetapi ketika bekerja ia tetap memberikan perhatian yang tulus kepada pasien dan tidak membedakan pasien berdasarkan keuntungan pribadi. Sikap tersebut paling dekat dengan faktor karatif Watson berupa...",
+    "options": ["metode pemecahan masalah sistematis", "pembentukan sistem nilai humanistic dan altruistic", "lingkungan psikologis dan sosial", "kekuatan existential phenomenologic", "faith-hope"],
+    "correct": 1,
+    "explanation": "Faktor pertama Watson menekankan pembentukan sistem nilai humanistik dan altruistik. Altruisme berarti kepedulian terhadap orang lain dan menempatkan nilai kemanusiaan dalam tindakan caring. Perawat berusaha menjadi model nilai caring dalam praktik."
+  },
+  {
+    "id": 5,
+    "text": "Seorang pasien dengan penyakit berat merasa putus asa karena hasil terapi belum menunjukkan perubahan yang nyata. Perawat tetap hadir, mendukung keyakinan pasien, serta membantu pasien mempertahankan harapan tanpa memberikan janji palsu. Faktor caring Watson yang paling sesuai adalah...",
+    "options": ["menyediakan lingkungan fisik", "membantu memenuhi kebutuhan manusia", "membangkitkan keyakinan dan harapan", "menggunakan metode pemecahan masalah", "menanamkan kepekaan pada diri dan orang lain"],
+    "correct": 2,
+    "explanation": "Faith-hope dalam teori Watson berhubungan dengan kehadiran perawat dan dukungan terhadap sistem keyakinan serta harapan pasien. Perawat tidak harus menjanjikan kesembuhan, tetapi memberikan ruang agar pasien tetap memiliki harapan dan dukungan dalam menghadapi kondisi yang tidak pasti."
+  },
+  {
+    "id": 6,
+    "text": "Seorang perawat menyadari bahwa dirinya mudah tersinggung ketika menghadapi pasien yang banyak bertanya. Ia kemudian melakukan refleksi terhadap respons emosinya dan berusaha memahami bagaimana perasaannya memengaruhi hubungan dengan pasien. Tindakan tersebut terutama menggambarkan faktor Watson berupa...",
+    "options": ["memenuhi kebutuhan manusia", "mengembangkan hubungan saling percaya", "meningkatkan proses belajar-mengajar", "menanamkan kepekaan pada diri dan orang lain", "kekuatan existential phenomenologic"],
+    "correct": 3,
+    "explanation": "Faktor ketiga Watson adalah menanamkan kepekaan terhadap diri dan orang lain. Perawat perlu mengenali emosi dan respons dirinya agar dapat membangun hubungan transpersonal dengan pasien. Refleksi diri menjadi bagian penting dari perkembangan spiritual dan interpersonal tersebut."
+  },
+  {
+    "id": 7,
+    "text": "Seorang pasien baru masuk ruang rawat. Perawat memperkenalkan diri, menjelaskan perannya, menjaga sikap terbuka, dan secara konsisten menunjukkan bahwa informasi pasien akan dihormati. Setelah beberapa hari, pasien mulai merasa aman dan terbuka. Faktor caring yang paling dominan adalah...",
+    "options": ["membantu memenuhi kebutuhan manusia", "meningkatkan proses belajar mengajar", "menerima perasaan positif dan negatif", "menyediakan lingkungan fisik", "mengembangkan hubungan membantu dan saling percaya"],
+    "correct": 4,
+    "explanation": "Kasus menekankan pembentukan hubungan yang membantu, percaya, apa adanya, dan peduli. Watson menjelaskan bahwa hubungan caring dibangun melalui rasa hormat, kepercayaan, cinta, dan keterhubungan yang tulus. Kepercayaan pasien tidak terbentuk hanya dari satu tindakan, tetapi dari hubungan yang konsisten."
+  },
+  {
+    "id": 8,
+    "text": "Pasien mengatakan, 'Saya takut mati,' lalu menangis. Perawat tidak langsung mengalihkan pembicaraan atau mengatakan 'jangan menangis', tetapi memberikan ruang agar pasien mengungkapkan perasaannya. Tindakan itu paling tepat menggambarkan...",
+    "options": ["metode pemecahan masalah", "faith-hope", "hubungan membantu", "meningkatkan dan menerima ungkapan perasaan positif maupun negatif", "pelayanan kuratif"],
+    "correct": 3,
+    "explanation": "Watson menekankan bahwa perawat perlu hadir dan mendukung ekspresi perasaan positif maupun negatif. Perawat tidak seharusnya langsung menolak emosi pasien. Menerima dan mendengarkan perasaan dapat menjadi bagian dari tindakan healing dan caring."
+  },
+  {
+    "id": 9,
+    "text": "Dalam merawat pasien dengan beberapa masalah keperawatan, perawat menyusun data, menganalisis masalah, menentukan prioritas, memilih intervensi, melaksanakan tindakan, kemudian mengevaluasi hasilnya. Dalam teori caring Watson, proses tersebut paling terkait dengan...",
+    "options": ["penggunaan metode pemecahan masalah secara sistematis untuk pengambilan keputusan", "spiritualitas pasien", "pengembangan nilai altruistik", "penghormatan terhadap budaya", "pemberian terapi medis"],
+    "correct": 0,
+    "explanation": "Faktor keenam Watson menekankan kemampuan menggunakan metode pemecahan masalah secara sistematis untuk pengambilan keputusan. Materi menghubungkan proses keperawatan dengan pengambilan keputusan perawat. Jadi sistematika proses keperawatan bukan berlawanan dengan caring, tetapi menjadi salah satu cara mewujudkannya."
+  },
+  {
+    "id": 10,
+    "text": "Seorang pasien diabetes diminta belajar melakukan perawatan diri. Perawat tidak sekadar memberi ceramah, tetapi mengajak pasien memahami kondisinya, menilai kemampuan pasien, lalu membimbing pasien menemukan cara yang paling mungkin dilakukan secara mandiri. Ini sesuai dengan faktor Watson berupa...",
+    "options": ["membantu kebutuhan manusia", "meningkatkan dan memfasilitasi proses belajar-mengajar interpersonal", "menyediakan lingkungan penyembuhan", "membangun faith-hope", "menyediakan lingkungan fisik"],
+    "correct": 1,
+    "explanation": "Faktor ketujuh Watson menekankan proses belajar-mengajar yang bersifat interpersonal. Pasien dipandang sebagai individu yang dapat menjadi sumber terbaik bagi solusi unik dirinya sendiri. Perawat membantu pasien memahami dan menentukan kebutuhan serta perawatan dirinya."
+  },
+  {
+    "id": 11,
+    "text": "Di ruang rawat, pasien mengeluh terganggu oleh kebisingan, pencahayaan yang tidak nyaman, dan kurangnya privasi. Perawat kemudian memperbaiki kondisi lingkungan agar pasien lebih nyaman dan merasa dihormati. Tindakan ini terutama mencerminkan faktor Watson...",
+    "options": ["meningkatkan dan menerima ungkapan perasaan negatif", "mengembangkan sistem nilai altruistik", "menerima perasaan negatif", "menggunakan proses pemecahan masalah", "menyediakan lingkungan psikologis, fisik, sosial-budaya, dan spiritual yang mendukung"],
+    "correct": 4,
+    "explanation": "Faktor kedelapan Watson menekankan penciptaan lingkungan penyembuhan pada berbagai tingkatan, bukan hanya lingkungan fisik. Kenyamanan, martabat, kedamaian, dan dukungan psikologis menjadi bagian dari lingkungan caring."
+  },
+  {
+    "id": 12,
+    "text": "Seorang perawat membantu pasien memenuhi kebutuhan dasar dengan penuh perhatian, tetapi tetap berusaha menjaga keutuhan pikiran, tubuh, dan jiwa pasien. Fokus utama tindakan ini paling tepat adalah...",
+    "options": ["mengobati penyebab penyakit", "meningkatkan dokumentasi", "memenuhi kebutuhan manusia", "memprioritaskan teknologi", "mengganti seluruh keputusan pasien"],
+    "correct": 2,
+    "explanation": "Faktor kesembilan Watson menekankan bahwa esensi perawatan manusia adalah membantu memenuhi kebutuhan dasar manusia dengan penuh kesadaran. Pemenuhan kebutuhan bukan sekadar tindakan mekanis, tetapi dilakukan dengan caring dan perhatian terhadap keutuhan manusia."
+  },
+  {
+    "id": 13,
+    "text": "Seorang pasien dalam kondisi terminal mengatakan bahwa penyakitnya membuatnya memikirkan kembali arti hidup dan kematian. Perawat tidak menolak pembicaraan tersebut, melainkan memberikan ruang refleksi sesuai keyakinan pasien. Situasi tersebut paling sesuai dengan faktor Watson...",
+    "options": ["faith-hope", "hubungan membantu", "pembelajaran interpersonal", "existential phenomenologic", "kebutuhan fisiologis"],
+    "correct": 3,
+    "explanation": "Faktor kesepuluh Watson membuka perhatian terhadap dimensi spiritual-misterius dan eksistensial dalam kehidupan maupun kematian. Perawat bersikap terbuka terhadap makna yang dirasakan pasien dan memberikan ruang untuk aspek mental atau spiritual."
+  },
+  {
+    "id": 14,
+    "text": "Seorang pasien berasal dari budaya yang memiliki cara berbeda dalam mengekspresikan rasa sakit dan memiliki kebiasaan tertentu dalam perawatan. Perawat mempelajari kebiasaan tersebut dan menyesuaikan asuhan selama tetap sesuai tujuan kesehatan. Teori yang paling sesuai adalah...",
+    "options": ["Theory of Bureaucratic Caring Ray", "Transcultural Care Theory Leininger", "Theory of Caring Swanson", "Theory of Human Caring Watson", "teori sistem terbuka"],
+    "correct": 1,
+    "explanation": "Leininger menempatkan caring sebagai esensi keperawatan dan menekankan bahwa caring bersifat universal, tetapi perilaku caring ditentukan dan terjadi dalam konteks budaya. Jadi pemahaman budaya pasien menjadi elemen penting dalam asuhan."
+  },
+  {
+    "id": 15,
+    "text": "Seorang perawat berusaha mempertahankan hubungan yang peduli dengan pasien melalui komitmen dan tanggung jawab terhadap hubungan tersebut, bukan hanya menyelesaikan prosedur. Konsep ini paling sesuai dengan Swanson yang memandang caring sebagai...",
+    "options": ["proses administratif", "cara mengasuh atau memelihara hubungan dengan orang lain berdasarkan kepekaan, komitmen, dan tanggung jawab", "aktivitas teknologi", "tindakan kuratif dokter", "sistem pembiayaan kesehatan"],
+    "correct": 1,
+    "explanation": "Swanson menggambarkan caring sebagai cara mengasuh atau memelihara hubungan dengan orang lain yang mengarah pada kepekaan perasaan personal dalam suatu komitmen dan tanggung jawab. Jadi hubungan menjadi pusat dari perilaku caring."
+  },
+  {
+    "id": 16,
+    "text": "Di rumah sakit, keputusan perawatan dipengaruhi oleh aturan organisasi, kondisi ekonomi, aspek hukum, teknologi, budaya, pendidikan, dan nilai spiritual. Teori caring yang paling sesuai dengan gambaran tersebut adalah...",
+    "options": ["Watson", "Leininger", "Swanson", "Theory of Bureaucratic Caring Marilyn Anne Ray", "paradigma keperawatan"],
+    "correct": 3,
+    "explanation": "Ray menjelaskan caring sebagai sesuatu yang berada dalam konteks luas. Caring mencakup aspek spiritual-etis, edukatif, fisik, sosial-budaya, legal, teknologi, ekonomi, dan politik. Jadi perawatan dipahami sebagai bagian dari keseluruhan sistem."
+  },
+  {
+    "id": 17,
+    "text": "Dalam sebuah kasus, tindakan dokter berfokus pada penanganan proses penyakit berdasarkan data dan ilmu empiris, sementara perawat mengutamakan hubungan, perhatian, pendampingan, dan pemenuhan kebutuhan pasien. Kesimpulan yang paling tepat adalah...",
+    "options": ["caring dan curing adalah dua hal yang sama", "curing harus menggantikan caring", "caring hanya diperlukan pada pasien psikologis", "perawat hanya boleh melakukan caring tanpa kolaborasi", "caring dan curing perlu dipadukan secara seimbang untuk asuhan optimal"],
+    "correct": 4,
+    "explanation": "Materi membedakan caring dan curing, tetapi tidak menempatkannya sebagai sesuatu yang saling bertentangan. Perawat perlu menguasai kemampuan care dan cure secara seimbang. Curing berorientasi pada pengobatan berbasis ilmu empiris, sedangkan caring merupakan tugas primer perawat dan dapat melibatkan kolaborasi."
+  },
+  {
+    "id": 18,
+    "text": "Seorang perawat bekerja di ruang rawat yang sangat sibuk dan mulai merasa kelelahan emosional. Ia secara rutin melakukan mindfulness, refleksi, serta menjaga keseimbangan dirinya agar tetap mampu memberikan asuhan yang baik. Tindakan tersebut menunjukkan...",
+    "options": ["curing pasien", "delegasi klinis", "pengurangan otonomi pasien", "caring terhadap diri perawat dan perawatan diri", "pelanggaran hubungan profesional"],
+    "correct": 3,
+    "explanation": "Materi penerapan caring menekankan mindfulness dan self-care untuk membantu perawat mengelola stres, mencegah burnout, dan meningkatkan mutu asuhan. Caring tidak hanya diarahkan kepada pasien, tetapi juga terhadap diri perawat."
+  },
+  {
+    "id": 19,
+    "text": "Seorang perawat setiap kali bertemu pasien selalu memulai interaksi dengan mendengarkan, menjaga rasa hormat, dan berusaha memahami pengalaman pasien sebelum menentukan tindakan. Atribut inti caring yang paling jelas terlihat adalah...",
+    "options": ["hubungan, tindakan, sikap, penerimaan, dan variabilitas sebagai atribut inti caring", "hubungan dan tindakan", "curing dan diagnosis", "teknologi dan dokumentasi", "acceptance dan variability"],
+    "correct": 0,
+    "explanation": "Materi menyebut atribut inti caring berupa membangun hubungan, tindakan, sikap, penerimaan, dan variabilitas. Atribut tersebut dapat membantu perawat dalam pengembangan riset, teori, maupun prioritas praktik. Kasus menggambarkan beberapa atribut sekaligus sehingga keseluruhan konsepnya penting diperhatikan."
+  },
+  {
+    "id": 20,
+    "text": "Sebuah rumah sakit menerapkan robot untuk membantu distribusi barang kepada pasien. Perawat tetap memastikan interaksi dengan pasien dilakukan oleh manusia dan robot hanya digunakan untuk mendukung pelayanan. Strategi tersebut sesuai materi caring karena teknologi...",
+    "options": ["harus menggantikan hubungan manusia", "tidak boleh digunakan dalam keperawatan", "hanya boleh digunakan dalam administrasi", "harus mendukung, bukan menggantikan, tindakan caring dan hubungan manusia", "membuat caring tidak lagi diperlukan"],
+    "correct": 3,
+    "explanation": "Materi menekankan bahwa perkembangan teknologi memberikan peluang sekaligus tantangan. Perawat harus menyeimbangkan teknologi dengan pendekatan humanistik agar teknologi mendukung, bukan menggantikan, tindakan caring."
+  },
+  {
+    "id": 21,
+    "text": "Seorang dosen meminta mahasiswa menjelaskan dasar cara pandang yang digunakan perawat ketika menentukan apa yang harus dilihat, dipikirkan, dimaknai, dan dilakukan dalam praktik. Konsep yang paling sesuai adalah...",
+    "options": ["diagnosis medis", "paradigma keperawatan", "protokol administratif", "standar fasilitas", "teknik komunikasi"],
+    "correct": 1,
+    "explanation": "Paradigma keperawatan merupakan cara pandang mendasar terhadap fenomena dalam profesi keperawatan. Paradigma memberi arah terhadap cara melihat, memikirkan, memberi makna, menyikapi, dan memilih tindakan dalam keperawatan."
+  },
+  {
+    "id": 22,
+    "text": "Dalam diskusi kelas, seorang mahasiswa diminta mengelompokkan empat konsep dasar yang menjadi inti cara pandang keperawatan. Kombinasi yang tepat adalah...",
+    "options": ["diagnosis, obat, laboratorium, teknologi", "pasien, dokter, keluarga, rumah sakit", "manusia, keperawatan, kesehatan, lingkungan", "penyakit, gejala, obat, tindakan", "tenaga kesehatan, fasilitas, biaya, regulasi"],
+    "correct": 2,
+    "explanation": "Empat metaparadigma keperawatan adalah manusia, keperawatan, kesehatan, dan lingkungan. Keempatnya menjadi kerangka mendasar dalam memahami disiplin dan praktik keperawatan."
+  },
+  {
+    "id": 23,
+    "text": "Pasien berulang kali mengalami perubahan kondisi ketika lingkungan sosial dan keluarganya berubah. Perawat memahami pasien bukan sebagai objek pasif, tetapi sebagai sistem yang saling memengaruhi dengan lingkungan. Konsep manusia yang paling sesuai adalah...",
+    "options": ["sistem pasif", "sistem tertutup", "sistem statis", "sistem yang hanya dipengaruhi penyakit", "sistem terbuka"],
+    "correct": 4,
+    "explanation": "Dalam paradigma keperawatan, manusia merupakan sistem terbuka yang dapat memengaruhi dan dipengaruhi oleh lingkungan. Pandangan ini membuat perawat tidak hanya fokus pada gejala penyakit, tetapi juga pada interaksi pasien dengan lingkungan."
+  },
+  {
+    "id": 24,
+    "text": "Seorang pasien mengalami perubahan pekerjaan, kemudian menyesuaikan pola tidur, pola makan, dan kebiasaan hidupnya untuk menghadapi perubahan tersebut. Perawat menjelaskan bahwa manusia memiliki kemampuan merespons perubahan. Konsep tersebut adalah...",
+    "options": ["sistem pasif", "sistem mekanis", "sistem statis", "sistem adaptif", "sistem administratif"],
+    "correct": 3,
+    "explanation": "Manusia dipandang sebagai sistem adaptif karena mampu merespons perubahan yang terjadi. Kemampuan beradaptasi menjadi salah satu karakteristik manusia dalam paradigma keperawatan."
+  },
+  {
+    "id": 25,
+    "text": "Seorang pasien dirawat bukan hanya sebagai individu, tetapi juga dipahami dalam hubungan keluarga, interaksi dengan orang lain, dan kehidupan bermasyarakat. Hal tersebut menunjukkan bahwa manusia memiliki dimensi...",
+    "options": ["farmakologis dan terapeutik", "kuratif dan rehabilitatif", "personal, interpersonal, dan sosial", "diagnostik dan preventif", "administratif dan legal"],
+    "correct": 2,
+    "explanation": "Materi menjelaskan manusia sebagai sistem personal, interpersonal, dan sosial. Hal ini berkaitan dengan persepsi, kepribadian, kemampuan berinteraksi, dan kehidupan bermasyarakat."
+  },
+  {
+    "id": 26,
+    "text": "Seorang perawat menyusun asuhan untuk pasien dengan penyakit kronis dan memasukkan aspek fisik, emosi, sosial, serta spiritual. Pendekatan tersebut sesuai dengan konsep kesehatan dalam paradigma karena...",
+    "options": ["kesehatan hanya berarti tidak ada penyakit", "kesehatan hanya ditentukan oleh hasil laboratorium", "kesehatan hanya ditentukan oleh aspek fisik", "kesehatan mencakup aspek fisik, emosi, sosial, dan spiritual", "kesehatan hanya berhubungan dengan lingkungan"],
+    "correct": 3,
+    "explanation": "Dalam paradigma keperawatan, kesehatan tidak sekadar bebas dari penyakit. Kesehatan meliputi aspek fisik, emosi, sosial, dan spiritual sehingga asuhan perlu melihat pasien secara menyeluruh."
+  },
+  {
+    "id": 27,
+    "text": "Dua pasien dengan penyakit yang sama menunjukkan respons berbeda karena tahap perkembangan, pengalaman masa lalu, sosial budaya, harapan terhadap dirinya, dan lingkungan mereka berbeda. Penjelasan yang paling sesuai adalah...",
+    "options": ["penyakit selalu menghasilkan respons yang sama", "kesehatan tidak dipengaruhi faktor selain keturunan", "penyakit selalu menghasilkan respons yang sama", "faktor perkembangan, sosial-kultur, pengalaman masa lalu, harapan, keturunan, lingkungan, dan pelayanan dapat memengaruhi kesehatan", "faktor sosial tidak berhubungan dengan kesehatan"],
+    "correct": 3,
+    "explanation": "Materi menyebut beberapa faktor yang memengaruhi kesehatan, termasuk perkembangan, sosial dan kultur, pengalaman masa lalu, harapan seseorang tentang dirinya, keturunan, lingkungan, dan pelayanan. Karena itu respons pasien tidak selalu sama meskipun penyakitnya sama."
+  },
+  {
+    "id": 28,
+    "text": "Di sebuah wilayah terjadi wabah karena kondisi lingkungan yang kotor dan sanitasi buruk. Dalam paradigma keperawatan, kondisi tersebut paling tepat dipahami sebagai pengaruh...",
+    "options": ["lingkungan psikologis", "lingkungan fisik", "lingkungan interpersonal saja", "faktor genetik", "kebutuhan spiritual"],
+    "correct": 1,
+    "explanation": "Materi menyebut lingkungan fisik seperti wabah dan lingkungan yang kotor sebagai faktor yang dapat menyebabkan perubahan status kesehatan. Lingkungan menjadi salah satu metaparadigma yang perlu dinilai perawat."
+  },
+  {
+    "id": 29,
+    "text": "Pasien merasa terus-menerus cemas karena merasa tidak aman di rumah. Kondisi tersebut paling tepat menggambarkan pengaruh...",
+    "options": ["lingkungan fisik", "lingkungan psikologis", "keturunan", "pelayanan sekunder", "proses diagnostik"],
+    "correct": 1,
+    "explanation": "Lingkungan psikologis mencakup kondisi yang kurang aman, kecemasan, dan ketakutan. Jadi walaupun tidak ada perubahan fisik yang jelas, lingkungan psikologis tetap dapat memengaruhi kesehatan pasien."
+  },
+  {
+    "id": 30,
+    "text": "Di sebuah komunitas, kebiasaan budaya masyarakat ternyata memengaruhi cara mereka memandang sakit dan mencari pelayanan kesehatan. Hal tersebut terutama menunjukkan peran...",
+    "options": ["lingkungan sosial", "lingkungan fisik", "lingkungan biologis saja", "diagnosis keperawatan", "pengkajian fisiologis saja"],
+    "correct": 0,
+    "explanation": "Lingkungan sosial mencakup masyarakat luas dan budaya yang ada. Budaya dapat memengaruhi cara seseorang memahami sehat-sakit, mengambil keputusan, dan menggunakan pelayanan kesehatan."
+  },
+  {
+    "id": 31,
+    "text": "Seorang mahasiswa mengatakan bahwa teori keperawatan dapat dikembangkan tanpa memperhatikan paradigma karena teori berdiri sendiri. Pernyataan tersebut perlu dikoreksi karena...",
+    "options": ["teori hanya digunakan dokter", "paradigma tidak memiliki hubungan dengan teori", "paradigma dan teori tidak boleh digunakan bersamaan", "paradigma memberi arah dasar yang membantu menjelaskan hakekat, tujuan, dan cara kerja keperawatan", "teori hanya digunakan untuk administrasi"],
+    "correct": 3,
+    "explanation": "Materi menjelaskan bahwa paradigma menjadi acuan dan mendasari praktik keperawatan. Para pakar dapat memiliki sudut pandang berbeda, tetapi tetap berada dalam konteks empat metaparadigma. Teori kemudian membantu mengembangkan dan menjelaskan cara pandang tersebut."
+  },
+  {
+    "id": 32,
+    "text": "Seorang perawat menemukan masalah pasien tidak hanya berkaitan dengan penyakit, tetapi juga dengan kemampuan keluarga memberikan dukungan. Ia kemudian memasukkan keluarga dalam rencana asuhan. Ini menunjukkan bahwa manusia sebagai penerima asuhan dapat berupa...",
+    "options": ["hanya pasien rawat inap", "hanya individu", "individu, keluarga, kelompok, dan masyarakat", "hanya keluarga inti", "hanya komunitas"],
+    "correct": 2,
+    "explanation": "Materi menyatakan bahwa manusia sebagai penerima asuhan keperawatan mencakup individu, keluarga, kelompok, dan masyarakat. Karena itu ruang lingkup klien keperawatan tidak terbatas pada individu yang sedang sakit."
+  },
+  {
+    "id": 33,
+    "text": "Sebuah rumah sakit menyusun pelayanan yang menghubungkan promosi kesehatan, pencegahan, diagnosis, perawatan, dan rehabilitasi agar pasien mendapat pelayanan berkelanjutan. Konsep yang diterapkan adalah...",
+    "options": ["pelayanan terpisah-pisah", "pelayanan kuratif saja", "pelayanan spesialistik saja", "pelayanan administratif", "kerangka sistem pelayanan yang terintegrasi"],
+    "correct": 4,
+    "explanation": "Materi menggambarkan sistem pelayanan sebagai kerangka kerja terintegrasi yang mencakup promosi, pencegahan, diagnosis, perawatan, dan rehabilitasi. Semua komponen saling berhubungan untuk mendukung kesehatan optimal."
+  },
+  {
+    "id": 34,
+    "text": "Di suatu daerah, perubahan teknologi dan kondisi ekonomi menyebabkan pola pelayanan kesehatan berubah. Faktor yang paling sesuai dengan materi sebagai faktor yang memengaruhi sistem pelayanan adalah...",
+    "options": ["demografi, teknologi, ekonomi, asuransi, dan kebijakan", "warna seragam dan jenis ruangan", "jumlah tempat tidur saja", "preferensi satu petugas", "usia gedung rumah sakit"],
+    "correct": 0,
+    "explanation": "Materi secara langsung menyebut demografi, teknologi, ekonomi, asuransi, dan kebijakan sebagai faktor yang dapat mempercepat atau menghambat sistem pelayanan kesehatan."
+  },
+  {
+    "id": 35,
+    "text": "Dalam sistem kesehatan Indonesia, pemerintah pusat menyusun kebijakan, standar, dan pengawasan pelayanan kesehatan. Lembaga yang paling sesuai dengan fungsi tersebut adalah...",
+    "options": ["BPJS Kesehatan", "Dinas kesehatan kabupaten", "Kementerian Kesehatan", "rumah sakit swasta", "fasilitas kesehatan primer"],
+    "correct": 2,
+    "explanation": "Materi menjelaskan Kementerian Kesehatan sebagai regulator pusat yang mengatur kebijakan, standar, dan pengawasan pelayanan kesehatan. BPJS mempunyai fungsi utama dalam penyelenggaraan JKN dan pembiayaan."
+  },
+  {
+    "id": 36,
+    "text": "Seorang mahasiswa mempelajari bahwa pemerintah daerah memiliki peran penting dalam penyelenggaraan pelayanan kesehatan sesuai wilayahnya. Hal ini terkait dengan karakter sistem kesehatan Indonesia yang...",
+    "options": ["sepenuhnya tersentralisasi", "tidak memiliki pemerintah daerah", "hanya dijalankan swasta", "menerapkan desentralisasi", "hanya mengandalkan rumah sakit pusat"],
+    "correct": 3,
+    "explanation": "Materi menyebut struktur kesehatan Indonesia bersifat terdesentralisasi dengan keterlibatan Dinas Kesehatan Provinsi serta Kabupaten/Kota. Artinya pemerintah daerah memiliki peran penting dalam pelayanan di wilayah masing-masing."
+  },
+  {
+    "id": 37,
+    "text": "Dalam suatu program kesehatan, dana berasal dari pemerintah dan masyarakat serta skema asuransi. Sumber yang paling sesuai dengan materi adalah...",
+    "options": ["hadiah pasien saja", "APBN, APBD, iuran peserta, pajak, dan premi asuransi", "dana dokter pribadi saja", "sumbangan keluarga saja", "hasil penjualan obat rumah sakit saja"],
+    "correct": 1,
+    "explanation": "Materi pembiayaan kesehatan menyebut APBN, APBD, iuran peserta, pajak, dan premi asuransi. Pengelolaan dana juga harus memperhatikan efisiensi, transparansi, dan akuntabilitas."
+  },
+  {
+    "id": 38,
+    "text": "Perawat puskesmas melakukan promosi kesehatan, imunisasi, deteksi dini, dan menangani penyakit umum serta penyakit kronis stabil. Tingkat pelayanan tersebut adalah...",
+    "options": ["tersier", "sekunder", "primer", "subspesialistik", "rujukan tingkat tinggi"],
+    "correct": 2,
+    "explanation": "Pelayanan primer merupakan garda terdepan dengan fokus promosi dan pencegahan. Setting yang disebut dalam materi antara lain puskesmas, posyandu, dan klinik pratama."
+  },
+  {
+    "id": 39,
+    "text": "Seorang pasien membutuhkan layanan dokter spesialis dasar dan rawat inap karena kondisinya tidak dapat diselesaikan di fasilitas primer. Ia kemudian dirujuk ke rumah sakit tipe C. Tingkat pelayanan yang sesuai adalah...",
+    "options": ["primer", "tersier", "komunitas", "promotif", "sekunder"],
+    "correct": 4,
+    "explanation": "Pelayanan sekunder menangani kondisi yang lebih kompleks daripada pelayanan primer dan mencakup diagnosis lanjut, pelayanan spesialis dasar, serta rawat inap. Dalam materi, setting yang disebut antara lain RS tipe C dan D."
+  },
+  {
+    "id": 40,
+    "text": "Seorang pasien dengan kondisi langka membutuhkan ICU dan tindakan subspesialistik dengan teknologi canggih. Fasilitas yang paling sesuai adalah...",
+    "options": ["posyandu", "puskesmas", "klinik pratama", "pelayanan sekunder sederhana", "pelayanan tersier"],
+    "correct": 4,
+    "explanation": "Pelayanan tersier berfokus pada kasus kritis, langka, atau kompleks dan menyediakan layanan subspesialis serta teknologi canggih. Contohnya ICU, bedah jantung, onkologi, dan transplantasi pada RS tipe A/B atau RS khusus."
+  },
+  {
+    "id": 41,
+    "text": "Pasien dari FKTP dirujuk ke FKTL setelah perawat menilai kebutuhan layanan yang lebih tinggi, memberikan edukasi, dan membantu koordinasi informasi. Peran perawat pada situasi tersebut paling tepat adalah...",
+    "options": ["hanya membuat keputusan pembiayaan", "asesmen, edukasi, dan koordinasi rujukan", "menggantikan fungsi BPJS", "menentukan semua diagnosis medis", "menghapus dokumentasi pasien"],
+    "correct": 1,
+    "explanation": "Materi secara langsung menempatkan asesmen, edukasi, dan koordinasi sebagai peran perawat dalam sistem rujukan. Rujukan dilakukan secara berjenjang sesuai kebutuhan dan tingkat keparahan."
+  },
+  {
+    "id": 42,
+    "text": "Di tingkat pelayanan primer, perawat menemukan kelompok masyarakat rentan yang belum mendapat akses pelayanan. Ia menyuarakan kebutuhan mereka kepada pihak terkait dan membantu koordinasi solusi. Peran yang paling tepat adalah...",
+    "options": ["operator alat diagnostik", "petugas administrasi", "subspesialis klinis", "teknisi laboratorium", "advokat masyarakat"],
+    "correct": 4,
+    "explanation": "Dalam pelayanan primer, perawat dapat berperan sebagai promotor kesehatan, edukator, pemberi asuhan dasar, manajer kasus komunitas, dan advokat masyarakat. Advokasi berarti menyuarakan kebutuhan kesehatan kelompok, khususnya yang rentan."
+  },
+  {
+    "id": 43,
+    "text": "Di rumah sakit sekunder, perawat bekerja bersama dokter dan tenaga kesehatan lain untuk menangani pasien dengan kondisi lebih serius. Peran yang paling tepat adalah...",
+    "options": ["pengawas pembiayaan", "kolaborator interdisipliner", "subspesialis mandiri", "regulator pusat", "penyusun kebijakan nasional"],
+    "correct": 1,
+    "explanation": "Materi pelayanan sekunder menyebut perawat sebagai pemberi asuhan langsung, kolaborator interdisipliner, edukator, dan manajer kasus rumah sakit. Kolaborasi diperlukan karena kasus di tingkat ini lebih kompleks."
+  },
+  {
+    "id": 44,
+    "text": "Seorang perawat ICU tidak hanya memberikan asuhan kritis, tetapi juga menjadi mentor bagi mahasiswa dan perawat lain serta berperan dalam penelitian. Peran tersebut paling sesuai dengan pelayanan...",
+    "options": ["primer", "sekunder", "komunitas", "tersier", "promotif dasar"],
+    "correct": 3,
+    "explanation": "Pada pelayanan tersier, materi menyebut perawat dapat menjadi spesialis klinis, pemberi asuhan kritis, peneliti dan inovator, serta konsultan atau mentor. Kasus menggambarkan beberapa peran tersier sekaligus."
+  },
+  {
+    "id": 45,
+    "text": "Seorang perawat menolak melakukan tindakan yang tidak ia pahami karena menyadari dirinya harus bekerja berdasarkan ilmu, etika, dan hukum. Situasi tersebut paling menunjukkan bahwa profesi keperawatan memiliki dimensi...",
+    "options": ["ekonomi saja", "teknologi saja", "administratif saja", "sosial saja", "disiplin ilmu, etik, hukum, dan pelayanan kepada manusia"],
+    "correct": 4,
+    "explanation": "Materi menyebut dimensi profesi keperawatan mencakup disiplin ilmu, etik, hukum, dan pelayanan kepada manusia. Keempatnya membentuk dasar profesi, sehingga tindakan perawat tidak boleh dipandang sekadar pekerjaan teknis."
+  },
+  {
+    "id": 46,
+    "text": "Seorang perawat tetap belajar, melakukan refleksi atas kesalahan, menguasai ilmu secara mendalam, dan bertanggung jawab terhadap hasil tindakannya. Karakter profesional yang paling lengkap adalah...",
+    "options": ["bekerja cepat tanpa refleksi", "hanya patuh terhadap atasan", "hanya terampil secara teknis", "hanya memiliki pengalaman lama", "komitmen, penguasaan ilmu, tanggung jawab, dan kemampuan berpikir sistematis"],
+    "correct": 4,
+    "explanation": "Materi menyebut ciri profesional: memiliki komitmen, menguasai secara mendalam ilmu yang dimilikinya, bertanggung jawab terhadap hasil pekerjaannya, dan mampu berpikir sistematis melalui refleksi-koreksi."
+  },
+  {
+    "id": 47,
+    "text": "Seorang mahasiswa mengatakan bahwa menjadi perawat cukup dengan memiliki keterampilan prosedural. Dosen membantah karena profesi keperawatan juga mempunyai body of knowledge, pendidikan tinggi, kode etik, EBP, dan pengendalian standar praktik. Kesimpulan paling tepat adalah...",
+    "options": ["keperawatan hanya pekerjaan teknis", "keperawatan tidak memerlukan penelitian", "keperawatan memenuhi karakteristik profesi", "keperawatan tidak membutuhkan pendidikan berkelanjutan", "keperawatan tidak memiliki otonomi praktik"],
+    "correct": 2,
+    "explanation": "Materi menegaskan keperawatan memenuhi kriteria profesi. Ciri tersebut antara lain body of knowledge, pendidikan tinggi dan pembelajaran berkelanjutan, orientasi pelayanan, otonomi praktik, kode etik, standar praktik, akuntabilitas, EBP, penelitian, dan karier seumur hidup."
+  },
+  {
+    "id": 48,
+    "text": "Dalam rapat klinis, perawat menggunakan hasil penelitian yang valid untuk menentukan intervensi yang akan diberikan kepada pasien. Tindakan tersebut paling jelas menunjukkan...",
+    "options": ["patient-centered care", "praktik berbasis bukti", "sekadar pengalaman pribadi", "pengambilan keputusan administratif", "pelayanan tanpa standar"],
+    "correct": 1,
+    "explanation": "Praktik berbasis bukti menggunakan penelitian yang valid sebagai dasar keputusan klinis. Materi keperawatan sebagai profesi menempatkan evidence-based practice dan penelitian sebagai salah satu ciri penting profesi."
+  },
+  {
+    "id": 49,
+    "text": "Seorang perawat mengetahui bahwa pasien memiliki pilihan berbeda dari kebiasaan perawat, tetapi tetap menghormati keputusan pasien selama sesuai kondisi dan aturan yang berlaku. Nilai fundamental yang paling tampak adalah...",
+    "options": ["altruism", "integrity", "caring", "autonomy", "justice"],
+    "correct": 3,
+    "explanation": "Otonomi berarti menghargai hak pasien untuk menentukan perawatan mereka. Materi menjelaskan pasien diberi kebebasan menentukan pilihan perawatan, selama tetap berada dalam kerangka yang sesuai."
+  },
+  {
+    "id": 50,
+    "text": "Dua pasien memiliki latar belakang sosial berbeda tetapi mendapat kesempatan pelayanan yang sama sesuai kebutuhannya. Nilai fundamental yang paling sesuai adalah...",
+    "options": ["dignity", "autonomy", "altruism", "justice", "integrity"],
+    "correct": 3,
+    "explanation": "Keadilan berarti akses pelayanan kesehatan yang setara dan perlakuan yang adil. Materi menekankan bahwa semua orang berhak memperoleh pelayanan kesehatan yang sama tanpa diskriminasi."
+  },
+  {
+    "id": 51,
+    "text": "Seorang perawat menemukan dokumentasi rekannya tidak sesuai fakta. Walaupun tidak ada yang mengawasi, ia tetap memperbaikinya sesuai prosedur karena menganggap kejujuran sebagai prinsip profesi. Sikap tersebut paling menggambarkan...",
+    "options": ["autonomy", "teamwork", "leadership", "integrity", "empowerment"],
+    "correct": 3,
+    "explanation": "Integritas dalam materi ditunjukkan melalui kejujuran, ketulusan, dan konsistensi moral. Perawat tetap berpegang pada prinsip yang benar meskipun tidak sedang diawasi."
+  },
+  {
+    "id": 52,
+    "text": "Seorang perawat mengambil keputusan klinis yang kemudian ditinjau oleh atasan. Ia dapat menjelaskan alasan keputusan, tindakan yang dilakukan, dan dasar etik serta hukumnya. Ini menunjukkan...",
+    "options": ["otonomi", "empati", "altruisme", "fleksibilitas", "akuntabilitas"],
+    "correct": 4,
+    "explanation": "Akuntabilitas berarti bertanggung jawab terhadap tindakan dan keputusan yang diambil. Materi menyebut bahwa semua keputusan perawat harus dapat dipertanggungjawabkan secara etis dan hukum."
+  },
+  {
+    "id": 53,
+    "text": "Rumah sakit mendorong staf melaporkan kejadian nyaris cedera tanpa budaya menyalahkan individu. Tujuan utamanya adalah belajar dari kejadian dan meminimalkan risiko. Ini paling sesuai dengan...",
+    "options": ["budaya hukuman", "kompetisi antarprofesi", "pembatasan komunikasi", "sentralisasi keputusan", "budaya keselamatan pasien"],
+    "correct": 4,
+    "explanation": "Budaya keselamatan pasien bertujuan meminimalkan risiko dan menciptakan lingkungan aman. Materi menegaskan bahwa insiden dapat menjadi peluang belajar, bukan semata-mata alasan untuk menghukum."
+  },
+  {
+    "id": 54,
+    "text": "Seorang mahasiswa sejak awal pendidikan belajar nilai profesi, mengamati teladan dosen dan perawat klinis, lalu menerapkan teori dalam praktik lapangan. Proses tersebut disebut...",
+    "options": ["delegasi", "rujukan", "akreditasi", "supervisi administratif", "sosialisasi profesional"],
+    "correct": 4,
+    "explanation": "Sosialisasi profesional merupakan proses internalisasi nilai, norma, dan peran profesional. Materi menjelaskan bahwa proses ini dimulai sejak masuk pendidikan dan berlanjut sampai praktik klinis."
+  },
+  {
+    "id": 55,
+    "text": "Sebuah rumah sakit mengirim perawat mengikuti workshop dan sertifikasi karena teknologi pelayanan terus berubah. Tujuan utamanya adalah...",
+    "options": ["mengurangi otonomi", "meningkatkan beban kerja", "menambah administrasi", "mempertahankan dan meningkatkan kompetensi", "menggantikan pendidikan formal"],
+    "correct": 3,
+    "explanation": "Pembelajaran berkelanjutan merupakan bagian penting dari profesionalisme. Bentuknya dapat berupa pendidikan formal, workshop, sertifikasi, konferensi, membaca jurnal, riset, dan mentorship."
+  },
+  {
+    "id": 56,
+    "text": "Seorang mahasiswa membandingkan 'standar' dengan 'kompetensi'. Ia menyimpulkan bahwa kompetensi hanya berarti pengetahuan. Kesimpulan tersebut...",
+    "options": ["benar karena kompetensi hanya teori", "benar karena keterampilan tidak dapat dinilai", "benar karena standar tidak berkaitan dengan kompetensi", "salah karena kompetensi merupakan kemampuan terobservasi berupa pengetahuan, keterampilan, dan sikap", "salah karena kompetensi hanya berupa sikap"],
+    "correct": 3,
+    "explanation": "Materi membedakan standar sebagai ukuran atau patokan yang disepakati dengan kompetensi sebagai kemampuan terobservasi berupa pengetahuan, keterampilan, dan sikap dalam menyelesaikan tugas sesuai standar kinerja."
+  },
+  {
+    "id": 57,
+    "text": "Rumah sakit menggunakan standar praktik untuk memastikan pelayanan tetap aman dan konsisten meskipun pasien berpindah unit. Fungsi standar yang paling tepat adalah...",
+    "options": ["membatasi semua keputusan klinis", "menghapus kebutuhan kompetensi", "menghilangkan tanggung jawab perawat", "menggantikan semua kebijakan rumah sakit", "menjamin kualitas, keamanan, etika, dan konsistensi pelayanan"],
+    "correct": 4,
+    "explanation": "Standar diperlukan untuk menjamin kualitas, keamanan, dan etika praktik. Selain itu, standar menjadi dasar evaluasi, perlindungan hukum, dan pengembangan profesi serta membuat pelayanan lebih konsisten."
+  },
+  {
+    "id": 58,
+    "text": "Dalam situasi klinis, perawat menggunakan standar praktik untuk membantu menentukan keputusan dan tindakan yang harus dilakukan. Hal tersebut sesuai dengan tujuan standar sebagai...",
+    "options": ["alat pembiayaan", "pengganti diagnosis", "pengganti pendidikan", "pengganti komunikasi", "kerangka kerja keputusan klinis dan tindakan"],
+    "correct": 4,
+    "explanation": "Salah satu fungsi standar praktik adalah menjadi kerangka kerja dalam keputusan klinis dan tindakan. Standar juga membantu menjamin asuhan aman, etis, berkualitas, serta melindungi publik."
+  },
+  {
+    "id": 59,
+    "text": "Seorang perawat berusaha memberikan pelayanan berdasarkan ilmu terkini, namun tetap menyesuaikan sumber daya yang tersedia tanpa mengorbankan mutu. Area kompetensi yang paling sesuai adalah...",
+    "options": ["praktik legal saja", "pemahaman standar mutu dan adaptasi sumber daya tanpa mengorbankan mutu", "penelitian dasar saja", "pendidikan pasien saja", "pengembangan karier"],
+    "correct": 1,
+    "explanation": "Materi menyebut bahwa perawat harus memahami standar mutu dan mampu beradaptasi dengan ketersediaan sumber daya tanpa mengorbankan mutu pelayanan keperawatan. Ini berhubungan dengan perlindungan klien dan kualitas asuhan."
+  },
+  {
+    "id": 60,
+    "text": "Seorang perawat mengetahui bahwa masalah pasien membutuhkan kolaborasi dengan profesi lain. Ia berkomunikasi dan bekerja bersama profesi terkait untuk meningkatkan mutu pelayanan. Hal tersebut termasuk kompetensi...",
+    "options": ["otonomi absolut", "pelayanan mandiri", "administrasi", "hubungan interprofesional", "dokumentasi pasif"],
+    "correct": 3,
+    "explanation": "Kompetensi pemberian dan manajemen asuhan mencakup penggunaan hubungan interprofesional dalam pelayanan keperawatan/kesehatan. Kolaborasi penting untuk memberikan pelayanan yang efektif dan aman."
+  },
+  {
+    "id": 61,
+    "text": "Dalam pengkajian awal, perawat mengumpulkan data pasien secara sistematis, menyeluruh, singkat, dan berkesinambungan. Menurut standar praktik profesional, tindakan tersebut termasuk...",
+    "options": ["Standar II — diagnosis", "Standar III — perencanaan", "Standar IV — implementasi", "Standar V — evaluasi", "Standar I — pengkajian"],
+    "correct": 4,
+    "explanation": "Standar I adalah pengkajian keperawatan. Tujuannya menetapkan data dasar tentang status kesehatan pasien yang akan digunakan untuk merumuskan masalah dan rencana tindakan."
+  },
+  {
+    "id": 62,
+    "text": "Setelah memperoleh data lengkap, perawat menganalisis data untuk menentukan masalah keperawatan pasien. Tahapan standar yang sedang dilakukan adalah...",
+    "options": ["pengkajian", "implementasi", "evaluasi", "perencanaan", "diagnosis keperawatan"],
+    "correct": 4,
+    "explanation": "Standar II adalah diagnosis keperawatan. Ners menganalisis data hasil pengkajian untuk merumuskan diagnosis yang kemudian menjadi dasar pengembangan rencana intervensi."
+  },
+  {
+    "id": 63,
+    "text": "Perawat telah menentukan diagnosis keperawatan lalu menyusun tujuan dan tindakan untuk mengatasi masalah pasien. Tahap ini adalah...",
+    "options": ["implementasi", "evaluasi", "pengkajian", "perencanaan", "pengumpulan data"],
+    "correct": 3,
+    "explanation": "Standar III adalah perencanaan. Rencana tindakan dibuat untuk mengatasi masalah kesehatan dan meningkatkan kesehatan pasien berdasarkan diagnosis keperawatan."
+  },
+  {
+    "id": 64,
+    "text": "Perawat melaksanakan intervensi yang telah ditetapkan dalam rencana asuhan dan mengikutsertakan pasien dalam tindakan yang diperlukan. Tahap tersebut merupakan...",
+    "options": ["evaluasi", "diagnosis", "pengkajian", "implementasi", "refleksi profesi"],
+    "correct": 3,
+    "explanation": "Standar IV adalah pelaksanaan tindakan atau implementasi. Perawat mengimplementasikan tindakan yang telah diidentifikasi dalam rencana asuhan untuk mencapai tujuan yang telah ditentukan."
+  },
+  {
+    "id": 65,
+    "text": "Setelah intervensi diberikan, kondisi pasien belum mencapai tujuan. Perawat membandingkan perkembangan pasien dengan tujuan, memperbarui data dasar, dan merevisi perencanaan. Hal ini termasuk...",
+    "options": ["pengkajian awal", "diagnosis", "implementasi", "edukasi", "evaluasi"],
+    "correct": 4,
+    "explanation": "Standar V adalah evaluasi. Evaluasi tidak hanya menentukan berhasil atau tidaknya intervensi, tetapi juga dapat menghasilkan revisi data dasar dan perencanaan karena proses keperawatan bersifat dinamis."
+  },
+  {
+    "id": 66,
+    "text": "Seorang perawat mendapat tugas yang berada di luar kompetensi individualnya. Ia menyadari bahwa praktik profesional harus dilakukan dalam batas kemampuan dan ruang lingkup praktik yang diizinkan. Sikap yang paling sesuai adalah...",
+    "options": ["tetap melakukan tindakan untuk menunjukkan keberanian", "bekerja tanpa supervisi", "menolak semua kolaborasi", "menjalankan praktik sesuai batas kompetensi dan scope of practice", "melakukan tindakan tanpa dokumentasi"],
+    "correct": 3,
+    "explanation": "Standar profesi dan ICN menekankan bahwa perawat harus bekerja dalam batas kompetensi individual dan ruang lingkup praktik yang diatur atau diizinkan. Profesionalisme bukan berarti melakukan semua tindakan, tetapi mengetahui batas kompetensi dan menggunakan penilaian profesional."
+  },
+  {
+    "id": 67,
+    "text": "Seorang perawat diminta melakukan praktik keperawatan di unit baru. Ia terlebih dahulu mempelajari peraturan yang berlaku dan memastikan tindakannya sesuai ketentuan hukum. Ini merupakan penerapan...",
+    "options": ["praktik berdasarkan legal", "praktik berdasarkan peka budaya", "caring", "terapi kuratif", "manajemen pembiayaan"],
+    "correct": 0,
+    "explanation": "Praktik keperawatan berdasarkan legal mengharuskan perawat memahami ketentuan peraturan perundang-undangan, melakukan praktik sesuai aturan, dan menunjukkan kesadaran hukum dalam pelayanan."
+  },
+  {
+    "id": 68,
+    "text": "Seorang perawat menghadapi pasien dengan keyakinan budaya yang berbeda terkait cara perawatan. Perawat tidak langsung menganggap kebiasaan pasien salah, tetapi mencari pendekatan yang sesuai budaya untuk meningkatkan mutu asuhan. Hal tersebut menunjukkan...",
+    "options": ["praktik administratif", "praktik kuratif", "praktik mandiri absolut", "praktik peka budaya", "pengurangan otonomi"],
+    "correct": 3,
+    "explanation": "Praktik peka budaya berarti menggunakan pendekatan budaya untuk meningkatkan mutu pelayanan dan mendorong kemandirian masyarakat dengan basis budaya setempat."
+  },
+  {
+    "id": 69,
+    "text": "Perawat menyadari bahwa dirinya tidak sehat dan kondisi tersebut dapat mengganggu pelayanan kepada pasien. Ia mencari bantuan dan melakukan upaya menjaga kesehatan dirinya. Hal ini sesuai dengan prinsip etik bahwa perawat harus...",
+    "options": ["mengutamakan kepentingan pribadi", "menjaga kesehatan diri agar tidak berdampak kepada klien", "berhenti belajar", "menghindari semua pasien", "menyerahkan seluruh tugas kepada orang lain"],
+    "correct": 1,
+    "explanation": "Dalam area etik, perawat memiliki tanggung jawab menjaga kesehatan diri sehingga kondisi tersebut tidak berdampak pada klien. Hal ini juga terkait dengan fitness to practice dan mutu pelayanan."
+  },
+  {
+    "id": 70,
+    "text": "Seorang perawat memperoleh keuntungan pribadi dari keputusan pelayanan untuk pasien tertentu. Keadaan tersebut berpotensi membuat keputusan tidak objektif. Sikap yang paling sesuai dengan standar etik adalah...",
+    "options": ["mempertahankan keuntungan tersebut", "menyembunyikannya", "menghindari konflik kepentingan dengan klien", "meminta pasien membayar", "menyerahkan keputusan tanpa menjelaskan"],
+    "correct": 2,
+    "explanation": "Standar etik mengharuskan perawat menghindari konflik kepentingan dengan klien. Hubungan profesional harus tetap berorientasi pada kepentingan pasien dan mutu pelayanan."
+  },
+  {
+    "id": 71,
+    "text": "Dalam satu unit terjadi masalah kekurangan sumber daya. Perawat menggunakan konsep kepemimpinan dan manajemen untuk mengatur sumber daya manusia, sarana, prasarana, dan finansial agar pelayanan tetap bermutu. Area kompetensi yang paling sesuai adalah...",
+    "options": ["kepemimpinan dan manajemen", "caring spiritual", "diagnosis medis", "pencegahan primer", "hubungan pribadi"],
+    "correct": 0,
+    "explanation": "Area kepemimpinan dan manajemen mencakup pengelolaan asuhan, program kesehatan, fasilitas, SDM, sarana-prasarana, finansial, serta pelayanan yang efektif, efisien, akuntabel, dan terjangkau."
+  },
+  {
+    "id": 72,
+    "text": "Seorang perawat memperoleh hasil penelitian baru tentang intervensi keperawatan. Ia kemudian menggunakan hasil penelitian tersebut untuk meningkatkan mutu asuhan. Hal ini menunjukkan area...",
+    "options": ["pendidikan dan penelitian", "pelayanan primer", "pembiayaan", "lingkungan sosial", "administrasi pasien"],
+    "correct": 0,
+    "explanation": "Area pendidikan dan penelitian meliputi pemahaman peran pendidik klinik, kebutuhan pendidikan dan keterampilan klinik, penelitian sederhana, dan penerapan hasil penelitian untuk meningkatkan mutu asuhan keperawatan."
+  },
+  {
+    "id": 73,
+    "text": "Perawat mengikuti program pengembangan profesi berkelanjutan karena ilmu dan teknologi keperawatan terus berubah. Tujuan utamanya adalah...",
+    "options": ["mengurangi kompetensi", "menghindari teknologi", "menggantikan standar praktik", "menghilangkan evaluasi", "mempertahankan dan meningkatkan kompetensi keperawatan"],
+    "correct": 4,
+    "explanation": "Pengembangan kualitas personal dan profesional menekankan kebutuhan mempertahankan dan meningkatkan kompetensi melalui pengembangan keprofesian berkelanjutan serta mengikuti perkembangan ilmu pengetahuan dan teknologi."
+  },
+  {
+    "id": 74,
+    "text": "Seorang perawat ditugaskan membantu pelayanan keperawatan, tetapi harus memastikan tugas tersebut dilakukan sesuai kompetensi, serta hasilnya tetap dipantau. Prinsip yang paling tepat adalah...",
+    "options": ["delegasi tanpa supervisi", "semua tindakan harus dilakukan sendiri", "tugas tidak perlu dinilai", "supervisi hanya berlaku untuk dokter", "delegasi dan supervisi digunakan dalam pelayanan asuhan keperawatan"],
+    "correct": 4,
+    "explanation": "Dalam kerangka kompetensi perawat, penggunaan delegasi dan supervisi termasuk bagian pemberian dan manajemen asuhan. Delegasi tidak berarti melepaskan tanggung jawab terhadap mutu pelayanan."
+  },
+  {
+    "id": 75,
+    "text": "Dalam pelayanan keperawatan, seseorang bertugas melakukan pengkajian, diagnosis, perencanaan, tindakan, dan evaluasi sesuai peran pemberi asuhan. Peran tersebut termasuk...",
+    "options": ["peneliti saja", "penyuluh saja", "pemberi asuhan keperawatan", "manajer keuangan", "regulator"],
+    "correct": 2,
+    "explanation": "Dalam penyelenggaraan praktik keperawatan, perawat bertugas sebagai pemberi asuhan keperawatan, penyuluh dan konselor, pengelola pelayanan, peneliti, pelaksana tugas berdasarkan pelimpahan wewenang, dan/atau pelaksana tugas dalam keadaan tertentu."
+  },
+  {
+    "id": 76,
+    "text": "Seorang perawat di komunitas melakukan pengkajian keluarga, menetapkan masalah kesehatan masyarakat, merencanakan tindakan, memberdayakan masyarakat, melakukan advokasi, dan mengevaluasi hasil. Kondisi tersebut paling tepat menunjukkan wewenang perawat dalam...",
+    "options": ["pelayanan tersier saja", "penelitian laboratorium", "pembiayaan", "administrasi rumah sakit", "upaya kesehatan masyarakat"],
+    "correct": 4,
+    "explanation": "Materi memuat berbagai kewenangan dalam upaya kesehatan masyarakat, seperti pengkajian keluarga dan kelompok, penetapan masalah, perencanaan dan pelaksanaan tindakan, rujukan, evaluasi, pemberdayaan, advokasi, kemitraan, penyuluhan, serta pengelolaan kasus."
+  },
+  {
+    "id": 77,
+    "text": "Seorang perawat melakukan penelitian menggunakan pasien sebagai objek, tetapi sebelumnya memastikan penelitian memenuhi standar dan etika serta mengikuti ketentuan yang berlaku. Hal ini sesuai dengan prinsip...",
+    "options": ["penelitian bebas tanpa aturan", "penelitian sesuai standar dan etika", "penelitian hanya berdasarkan pengalaman", "penelitian tanpa izin", "penelitian tanpa perlindungan pasien"],
+    "correct": 1,
+    "explanation": "Materi menegaskan bahwa perawat yang berperan sebagai peneliti harus melakukan penelitian sesuai standar dan etika. Penggunaan pasien sebagai objek penelitian juga harus sesuai etika profesi dan ketentuan peraturan perundang-undangan."
+  },
+  {
+    "id": 78,
+    "text": "Seorang dosen klinik meminta mahasiswa menggunakan hasil penelitian untuk memperbaiki tindakan keperawatan yang diberikan. Kompetensi yang sedang dikembangkan terutama adalah...",
+    "options": ["pelayanan kuratif dokter", "administrasi pembiayaan", "pelayanan primer saja", "evidence-informed practice", "social media ethics"],
+    "correct": 3,
+    "explanation": "Pengembangan profesi keperawatan menempatkan evidence-informed/evidence-based practice sebagai bagian penting. Pengetahuan hasil penelitian digunakan untuk meningkatkan mutu keputusan dan pelayanan."
+  },
+  {
+    "id": 79,
+    "text": "Seorang mahasiswa bertanya mengapa ICN Code of Ethics diperlukan apabila setiap negara telah mempunyai hukum masing-masing. Jawaban yang paling tepat adalah...",
+    "options": ["kode etik menggantikan seluruh hukum", "kode etik hanya berlaku bagi dokter", "kode etik menjadi kerangka etis yang dibangun bersama hukum, regulasi, dan standar profesi negara", "kode etik tidak berlaku bagi mahasiswa", "kode etik hanya digunakan ketika terjadi pelanggaran"],
+    "correct": 2,
+    "explanation": "ICN Code of Ethics bukan pengganti hukum. Kode ini menjadi kerangka etis dan harus dibangun bersama hukum, regulasi, serta standar profesi negara yang mengatur praktik keperawatan. Nilai dan kewajiban di dalamnya berlaku pada berbagai peran dan setting."
+  },
+  {
+    "id": 80,
+    "text": "Seorang perawat diminta mengunggah foto pasien ke media sosial pribadi untuk menunjukkan keberhasilan pelayanan. Perawat menolak karena foto tersebut dapat mengungkap identitas dan informasi pribadi pasien. Prinsip utama yang dilindungi adalah...",
+    "options": ["efisiensi", "privacy dan confidentiality", "promosi rumah sakit", "keuntungan ekonomi", "produktivitas"],
+    "correct": 1,
+    "explanation": "ICN menekankan penghormatan terhadap privasi dan kerahasiaan pasien, termasuk saat menggunakan media sosial. Informasi pribadi harus dilindungi, dan penggunaan teknologi tidak boleh mengorbankan hak pasien."
+  },
+  {
+    "id": 81,
+    "text": "Seorang perawat menjelaskan kondisi, pilihan tindakan, dan informasi yang diperlukan dengan bahasa yang mudah dipahami pasien sebelum pasien memberikan persetujuan. Tujuan utama tindakan tersebut adalah...",
+    "options": ["mempercepat tindakan", "menggantikan otonomi", "memaksa persetujuan", "menjaga kepentingan rumah sakit", "informed consent yang didukung informasi yang dapat dipahami"],
+    "correct": 4,
+    "explanation": "ICN menegaskan bahwa pasien dan keluarga perlu memperoleh informasi yang dapat dipahami, akurat, cukup, dan tepat waktu sesuai kebutuhan budaya, bahasa, kognitif, fisik, dan psikologis untuk menjadi dasar persetujuan."
+  },
+  {
+    "id": 82,
+    "text": "Pasien telah memberikan persetujuan menggunakan informasi kesehatannya untuk suatu keperluan tertentu, tetapi kemudian menarik persetujuan tersebut. Sikap perawat yang paling sesuai adalah...",
+    "options": ["tetap menggunakan informasi karena sebelumnya sudah setuju", "mengabaikan keputusan pasien", "membocorkan informasi kepada keluarga", "memindahkan informasi ke media sosial", "menghormati hak pasien untuk menarik persetujuan"],
+    "correct": 4,
+    "explanation": "ICN menekankan hak seseorang untuk memberikan dan menarik persetujuan terhadap akses informasi personal, kesehatan, dan genetik. Hak tersebut merupakan bagian dari penghormatan terhadap self-determination."
+  },
+  {
+    "id": 83,
+    "text": "Seorang perawat menyadari ada anggota tim yang melakukan tindakan yang membahayakan keselamatan pasien. Ia melaporkan risiko tersebut melalui jalur yang sesuai dan membawa fakta yang mendukung. Tindakan ini terutama mencerminkan...",
+    "options": ["konflik pribadi", "persaingan profesional", "pelanggaran etika", "patient advocacy dan keselamatan", "tindakan administratif tanpa tujuan"],
+    "correct": 3,
+    "explanation": "ICN menegaskan bahwa perawat harus mengambil tindakan untuk melindungi individu, keluarga, komunitas, dan populasi ketika kesehatan mereka terancam, termasuk karena rekan kerja, praktik, kebijakan, atau penyalahgunaan teknologi."
+  },
+  {
+    "id": 84,
+    "text": "Seorang perawat melakukan kesalahan hampir mencederai pasien, tetapi segera melaporkan kejadian, berkomunikasi secara terbuka, dan ikut mencari cara agar kejadian serupa tidak terulang. Prinsip yang paling sesuai adalah...",
+    "options": ["menyembunyikan kesalahan", "hukuman terhadap staf", "menghindari dokumentasi", "menyalahkan pasien", "keselamatan pasien dan transparansi"],
+    "correct": 4,
+    "explanation": "ICN menekankan bahwa perawat aktif dalam promosi keselamatan pasien, berbicara ketika keselamatan terancam, mendukung transparansi, dan bekerja dengan pihak lain untuk mengurangi potensi kesalahan."
+  },
+  {
+    "id": 85,
+    "text": "Seorang perawat menerima tawaran hadiah mahal dari keluarga pasien agar memberikan perlakuan khusus. Perawat menolak dan tetap menjaga batas hubungan profesional. Sikap tersebut sesuai dengan prinsip...",
+    "options": ["pembiayaan", "pelayanan promotif", "social media ethics", "professional boundaries dan menghindari konflik kepentingan", "altruism"],
+    "correct": 3,
+    "explanation": "ICN menekankan perlunya hubungan profesional, batas profesional, penilaian profesional, menolak hadiah atau suap, serta menghindari konflik kepentingan. Hal tersebut melindungi pasien maupun integritas profesi."
+  },
+  {
+    "id": 86,
+    "text": "Seorang perawat keberatan secara moral terhadap prosedur tertentu. Namun ia tetap memastikan pasien memperoleh pelayanan yang sesuai kebutuhan melalui tindakan yang tepat dan tidak terlambat. Prinsip yang paling tepat adalah...",
+    "options": ["conscientious objection harus diikuti penghentian pelayanan", "perawat boleh meninggalkan pasien", "seluruh tindakan dapat dihentikan", "keberatan nurani dapat disampaikan, tetapi kesinambungan pelayanan tetap harus dijamin", "pasien harus menerima keputusan perawat"],
+    "correct": 3,
+    "explanation": "ICN mengakui conscientious objection pada kondisi tertentu, tetapi perawat tetap harus memfasilitasi tindakan yang tepat dan tepat waktu agar pasien menerima pelayanan sesuai kebutuhannya. Jadi keberatan nurani tidak berarti meninggalkan pasien."
+  },
+  {
+    "id": 87,
+    "text": "Perawat mengikuti pendidikan berkelanjutan karena menyadari kompetensi harus dipertahankan sepanjang karier. Hal tersebut paling sesuai dengan prinsip ICN bahwa perawat...",
+    "options": ["cukup belajar sekali setelah lulus", "tidak perlu melakukan refleksi", "hanya perlu mengikuti pendidikan jika diminta", "bertanggung jawab pribadi atas praktik etik dan pemeliharaan kompetensi melalui lifelong learning", "tidak perlu memperbarui pengetahuan"],
+    "correct": 3,
+    "explanation": "ICN menempatkan tanggung jawab pribadi dan akuntabilitas etik bersama pemeliharaan kompetensi melalui continuous professional development dan lifelong learning."
+  },
+  {
+    "id": 88,
+    "text": "Seorang perawat merasa kelelahan berat sehingga kemampuan memberikan pelayanan aman menurun. Ia melakukan upaya menjaga kesehatan dan fitness to practice sebelum kondisi memengaruhi pasien. Prinsip yang sesuai adalah...",
+    "options": ["kesehatan perawat tidak terkait keselamatan", "perawat harus menjaga fitness to practice", "perawat wajib bekerja tanpa batas", "pasien harus menerima dampaknya", "kesehatan pribadi tidak relevan"],
+    "correct": 1,
+    "explanation": "Fitness to practice berarti memiliki keterampilan, pengetahuan, kesehatan, dan karakter untuk bekerja secara aman dan efektif. ICN menekankan bahwa perawat perlu menjaga kesehatan dan kesejahteraannya agar tidak mengompromikan keselamatan serta mutu asuhan."
+  },
+  {
+    "id": 89,
+    "text": "Seorang perawat menggunakan rekam medis elektronik. Ia memastikan data diinput akurat, tidak sembarang diubah, dan hanya digunakan sesuai tujuan pelayanan. Prinsip ICN yang paling sesuai adalah...",
+    "options": ["autonomy", "social justice", "global health", "leadership", "data integrity"],
+    "correct": 4,
+    "explanation": "ICN menyatakan perawat bertanggung jawab atas integritas data untuk mendukung dan memfasilitasi standar pelayanan etik. Penggunaan sistem informasi tetap harus melindungi hak, privasi, dan kerahasiaan."
+  },
+  {
+    "id": 90,
+    "text": "Sebuah unit mendorong staf melakukan kerja tim dan menyelesaikan konflik secara terbuka tanpa takut pembalasan. Tujuannya agar kualitas dan keselamatan pelayanan meningkat. Konsep yang paling sesuai adalah...",
+    "options": ["kompetisi", "isolasi profesi", "otonomi absolut", "hukuman otomatis", "shared ethical values dan kolaborasi interprofesional"],
+    "correct": 4,
+    "explanation": "ICN mendorong kolaborasi interprofesional, pengelolaan konflik, nilai etis bersama, dan lingkungan yang terbuka. Ketakutan terhadap pembalasan perlu dikurangi agar staf berani mengemukakan masalah keselamatan."
+  },
+  {
+    "id": 91,
+    "text": "Dalam pengembangan praktik, perawat aktif mencari penelitian, menerapkannya, dan ikut memperbaiki pengetahuan profesional. Peran ini paling sesuai dengan elemen ICN...",
+    "options": ["Nurses and Patients saja", "Nurses and Global Health saja", "Nurses and Practice saja", "nonprofessional activity", "Nurses and the Profession"],
+    "correct": 4,
+    "explanation": "Elemen 'Nurses and the Profession' menekankan kepemimpinan dalam menentukan standar praktik, pengembangan pengetahuan berbasis penelitian, nilai profesi, lingkungan praktik yang positif, serta penerapan penelitian untuk meningkatkan outcome."
+  },
+  {
+    "id": 92,
+    "text": "Dalam sebuah penelitian, perawat tidak hanya mencari hasil ilmiah, tetapi juga memperhatikan pengalaman, kebutuhan, dan nilai pasien ketika menggunakan bukti penelitian. Pendekatan tersebut sesuai dengan definisi...",
+    "options": ["praktik berdasarkan kebiasaan", "tindakan kuratif", "diagnosis medis", "pelayanan administratif", "evidence-informed practice"],
+    "correct": 4,
+    "explanation": "Evidence-informed practice mengintegrasikan bukti penelitian dengan pengalaman klinis, nilai, preferensi, dan keadaan pasien. Jadi bukti ilmiah tidak digunakan secara terpisah dari konteks pasien."
+  },
+  {
+    "id": 93,
+    "text": "Seorang perawat dalam praktik selalu menghormati pasien tanpa memandang budaya, usia, status sosial, atau keyakinan agama. Dasar etis yang paling sesuai adalah...",
+    "options": ["efisiensi", "keuntungan institusi", "produktivitas", "kompetisi", "penghormatan terhadap martabat dan hak manusia"],
+    "correct": 4,
+    "explanation": "ICN menempatkan martabat, kebebasan, nilai manusia, hak asasi, penghormatan, dan non-diskriminasi sebagai bagian fundamental dari praktik keperawatan."
+  },
+  {
+    "id": 94,
+    "text": "Sebuah fasilitas kesehatan ingin menggunakan teknologi baru berbasis kecerdasan buatan. Sebelum diterapkan, perawat menilai dampaknya terhadap keselamatan, martabat, privasi, kerahasiaan, dan hak pasien. Sikap tersebut paling tepat karena...",
+    "options": ["semua teknologi pasti aman", "teknologi tidak perlu dinilai", "teknologi harus selalu menggantikan tenaga manusia", "teknologi hanya menjadi urusan teknisi", "penggunaan teknologi harus kompatibel dengan keselamatan, martabat, privasi, kerahasiaan, dan hak manusia"],
+    "correct": 4,
+    "explanation": "ICN secara eksplisit menekankan bahwa teknologi dan kemajuan ilmiah harus kompatibel dengan keselamatan, martabat, dan hak manusia. Bahkan AI, robot, dan perangkat lain harus mendukung, bukan menggantikan, hubungan manusia."
+  },
+  {
+    "id": 95,
+    "text": "Seorang perawat terlibat dalam program yang bertujuan mengurangi dampak perubahan iklim terhadap kesehatan masyarakat. Keterlibatan ini paling tepat ditempatkan pada elemen...",
+    "options": ["Nurses and Practice", "Nurses and Patients saja", "Nurses and Profession saja", "administrasi", "Nurses and Global Health"],
+    "correct": 4,
+    "explanation": "ICN memasukkan lingkungan, perubahan iklim, keadilan lingkungan, kesehatan populasi, dan kerja sama global dalam elemen Nurses and Global Health."
+  },
+  {
+    "id": 96,
+    "text": "Di sebuah daerah, kelompok miskin mengalami kesulitan memperoleh layanan kesehatan. Perawat mengadvokasi kebijakan agar akses pelayanan lebih adil dan mengurangi kesenjangan kesehatan. Prinsip yang paling sesuai adalah...",
+    "options": ["profit", "kompetisi", "otonomi institusi", "administrasi", "social justice dan equity"],
+    "correct": 4,
+    "explanation": "ICN menekankan advokasi untuk equity dan social justice dalam alokasi sumber daya, akses pelayanan kesehatan, serta layanan sosial-ekonomi. Tujuannya mengurangi ketimpangan dan memastikan hak kesehatan."
+  },
+  {
+    "id": 97,
+    "text": "Sebuah kelompok perawat membuat program edukasi kesehatan melalui media sosial, tetapi mereka memastikan konten yang dipublikasikan tidak melanggar privasi dan tetap sesuai nilai profesi. Tindakan tersebut merupakan...",
+    "options": ["penggunaan media sosial tanpa batas", "pelanggaran confidentiality", "penghapusan hubungan profesional", "aktivitas nonprofesional", "penggunaan teknologi secara etis dan profesional untuk kesehatan"],
+    "correct": 4,
+    "explanation": "ICN mendukung penggunaan media sosial dan teknologi untuk meningkatkan kesehatan populasi selama konsisten dengan nilai profesi, keselamatan, privasi, kerahasiaan, martabat, dan hak manusia."
+  },
+  {
+    "id": 98,
+    "text": "Dalam situasi pandemi, rumah sakit mengalami sumber daya terbatas. Perawat dan pimpinan memetakan risiko, menyusun rencana mitigasi, dan berkoordinasi agar keselamatan pasien dan tenaga kesehatan tetap terjaga. Hal tersebut sesuai dengan peran perawat dalam...",
+    "options": ["administrasi biasa", "pelayanan yang tidak membutuhkan perencanaan", "pengurangan keselamatan", "penghentian praktik etik", "keadaan darurat dan krisis sebagai tanggung jawab bersama perawat dan pemimpin sistem kesehatan"],
+    "correct": 4,
+    "explanation": "ICN menekankan kesiapan menghadapi keadaan darurat, bencana, konflik, epidemi, pandemi, krisis sosial, dan kondisi keterbatasan sumber daya. Keselamatan merupakan tanggung jawab bersama individu dan pimpinan sistem kesehatan."
+  },
+  {
+    "id": 99,
+    "text": "Sebuah organisasi profesi keperawatan mendorong perawat berperan dalam penelitian, pengembangan standar, kebijakan, pendidikan, dan lingkungan praktik yang positif. Ini paling sesuai dengan peran...",
+    "options": ["pasien saja", "keluarga pasien", "laboratorium", "unit farmasi", "National Nurses Associations dan organisasi profesi"],
+    "correct": 4,
+    "explanation": "ICN menempatkan organisasi profesi nasional dalam pengembangan standar, kebijakan, penelitian, pendidikan, kondisi kerja, serta kerja sama nasional dan internasional untuk memperkuat profesi keperawatan."
+  },
+  {
+    "id": 100,
+    "text": "Seorang perawat memandang pelayanan kesehatan bukan hanya sebagai hak individu pasien, tetapi juga sebagai bagian dari tanggung jawab terhadap masyarakat, keadilan, lingkungan, dan kesehatan populasi. Kesimpulan yang paling tepat adalah...",
+    "options": ["keperawatan hanya berfokus pada individu", "keperawatan hanya berfokus pada rumah sakit", "perawat tidak mempunyai peran dalam kebijakan", "perawat tidak berhubungan dengan isu lingkungan", "praktik keperawatan mencakup tanggung jawab terhadap individu, keluarga, komunitas, populasi, profesi, dan global health"],
+    "correct": 4,
+    "explanation": "ICN menggambarkan perawat dalam berbagai lingkup: individu, keluarga, komunitas, populasi, penelitian, praktik klinis, administrasi, pendidikan, dan kebijakan. Perawat juga memiliki tanggung jawab global terkait hak manusia, keadilan, lingkungan, dan kesehatan populasi."
+  }
 ];
