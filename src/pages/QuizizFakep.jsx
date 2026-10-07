@@ -24,9 +24,9 @@ import './firebase';
 const QUIZ_TITLE = 'Latihan Soal';
 const ADMIN_EMAIL = 'aldokraksaan@gmail.com';
 const MODE_CONFIG = {
-  '100-sepele': { name: 'Sepele Mode', count: 100, timeLimit: 100 * 60, maxScore: 1000 },
-  '100-hard': { name: 'Sok Iye Kamu', count: 100, timeLimit: 100 * 60, maxScore: 1000 },
-  '50-unlimited': { name: 'Unlimited Quiz', count: 50, timeLimit: 45 * 60, maxScore: 500 },
+  '100-sepele': { name: 'Sepele Mode 1', count: 100, timeLimit: 100 * 60, maxScore: 1000 },
+  '100-hard': { name: 'Nopal Sepele 1', count: 100, timeLimit: 100 * 60, maxScore: 1000 },
+  '50-unlimited': { name: 'Quiz Part 2', count: 50, timeLimit: 45 * 60, maxScore: 500 },
 };
 const QRIS_IMAGE = '/assets/img/qris.jpg';
 const LS_KEY = 'qz_v5';
@@ -1069,7 +1069,7 @@ export default function QuizizFakep() {
               <div className="qz-modal-box">
                 <h2 className="qz-h2" style={{ textAlign: 'center' }}>🥜 Nopal Sepele Mode</h2>
                 <p style={{ color: 'var(--qz-muted)', fontSize: '0.9rem', textAlign: 'center' }}>
-                  Kasih nama sepele untuk leaderboard kamu! 😄
+                  Kasih nama sepele untuk leaderboard kamu 😄
                 </p>
                 <input
                   type="text"
@@ -1125,7 +1125,7 @@ export default function QuizizFakep() {
           <div className="qz-card qz-card-pad" style={{ marginBottom: '20px' }}>
             <h1 className="qz-h1">Pilih Mode</h1>
             <p style={{ color: 'var(--qz-muted)', marginBottom: '24px' }}>
-              {quizUser.displayName || 'Sobat'}, siap belajar? 💪
+              {quizUser.displayName || 'Sobat'}, Huuuuuuuu 💪
             </p>
 
             <div className="qz-modes">
@@ -1157,7 +1157,7 @@ export default function QuizizFakep() {
           </div>
 
           <div style={{ textAlign: 'center', color: 'var(--qz-muted)', marginTop: '40px', fontSize: '0.85rem' }}>
-            <p>✨ Semangat! Kamu bisa jadi juara! 🚀</p>
+            <p>✨ Sepele Kalo Salah y nub km le 🚀</p>
           </div>
         </div>
       </div>
@@ -1306,7 +1306,7 @@ export default function QuizizFakep() {
             <button className="qz-back-btn" onClick={() => setTab('quiz')}>
               ← Kembali
             </button>
-            <span className="qz-header-title">🏆 Leaderboard</span>
+            <span className="qz-header-title">🏆 Pencet</span>
           </div>
 
           <div className="qz-stats-row">
