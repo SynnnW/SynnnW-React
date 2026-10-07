@@ -16,8 +16,8 @@ import {
   getFirestore, collection, doc, getDoc, setDoc,
   onSnapshot, query, orderBy, limit, serverTimestamp,
 } from 'firebase/firestore';
-import { questions } from '../data/quizQuestions';
-import { questions50 } from '../data/quiz50Questions';
+// ✅ HANYA GUNAKAN 50 QUESTIONS
+import { questions50 as questions } from '../data/quiz50Questions';
 import './firebase'; // pastikan default app sudah di-init
 
 /* ═══════════════════════════════════════════════
@@ -52,18 +52,9 @@ function formatDuration(sec) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
-// ✅ NEW: Helper functions untuk dynamic quiz type — HANYA 50 SOAL
-function getQuestions(qType = '50') {
-  return questions50; // Hanya gunakan 50 soal
-}
-
-function getTotal(qType = '50') {
-  return questions50.length; // Hanya 50 soal
-}
-
-function calcScore(correct, qType = '50') {
-  const total = getTotal(qType);
-  return Math.round((correct / total) * MAX_SCORE);
+// ✅ PURE 50 QUESTIONS - no dual mode
+function calcScore(correct) {
+  return Math.round((correct / questions.length) * MAX_SCORE);
 }
 
 function isNsLeo(name) {
@@ -1094,7 +1085,7 @@ export default function QuizizFakep() {
   const [screen, setScreen] = useState('subjects'); // ✅ NEW: 'subjects' | 'quiz'
   const [tab, setTab] = useState('mulai'); // 'mulai' | 'quiz' | 'ranking'
   const [mode, setMode] = useState('unlimited'); // 'unlimited' | 'hard'
-  const [quizType, setQuizType] = useState('50'); // ✅ NEW: '200' | '50' (soal) — HANYA 50 SOAL
+  // ✅ PURE 50 QUESTIONS - removed quizType state
   const [quizUser, setQuizUser] = useState(null); // dari quizAuth
   const [displayName, setDisplayName] = useState('');
   const [nickname, setNickname] = useState('');
@@ -1268,18 +1259,16 @@ export default function QuizizFakep() {
   // Bug lama: menghitung semua jawaban yang dipilih → stats bar langsung kasih tau benar/salah
   //           sebelum user pencet "Periksa Jawaban" (jawaban bocor lewat stats bar!)
   const correctCount = useMemo(() => {
-    const qs = getQuestions(qType);
     return Object.entries(answers).filter(([idx, sel]) =>
-      checkedSet[idx] && sel === qs[Number(idx)].correct
+      checkedSet[idx] && sel === questions[Number(idx)].correct
     ).length;
-  }, [answers, checkedSet, qType]);
+  }, [answers, checkedSet]);
 
   const wrongCount = useMemo(() => {
-    const qs = getQuestions(qType);
     return Object.entries(answers).filter(([idx, sel]) =>
-      checkedSet[idx] && sel !== qs[Number(idx)].correct
+      checkedSet[idx] && sel !== questions[Number(idx)].correct
     ).length;
-  }, [answers, checkedSet, qType]);
+  }, [answers, checkedSet]);
 
   const currentScore = useMemo(() => calcScore(correctCount), [correctCount]);
 
@@ -1367,9 +1356,8 @@ export default function QuizizFakep() {
       setCheckedSet({}); // ✅ reset checkedSet
       setStartTime(now);
       if (mode === 'hard') {
-        // ✅ NEW: Different timer for 50-soal mode
-        const timerMinutes = quizType === '50' ? LATSOL_50_MINUTES : HARD_MODE_MINUTES;
-        setDeadline(now + timerMinutes * 60 * 1000);
+        // ✅ PURE 50 SOAL - Always 60 minutes
+        setDeadline(now + LATSOL_50_MINUTES * 60 * 1000);
       } else {
         setDeadline(null);
       }
@@ -1387,13 +1375,12 @@ export default function QuizizFakep() {
 
     // Hitung final (answers state mungkin stale saat dipanggil dari timer)
     // Gunakan fungsi pure
-    // ✅ NEW: Use dynamic questions based on quizType
-    const currentQuestions = getQuestions(quizType);
+    // ✅ PURE 50 QUESTIONS
     const finalCorrect = Object.entries(answers).filter(([idx, sel]) =>
-      sel === currentQuestions[Number(idx)].correct
+      sel === questions[Number(idx)].correct
     ).length;
-    const score = calcScore(finalCorrect, quizType);
-    const total = getTotal(quizType);
+    const score = calcScore(finalCorrect);
+    const total = questions.length;
 
     const stat = { correct: finalCorrect, total, score, durationSec, mode };
     setFinalStat(stat);
@@ -1405,7 +1392,7 @@ export default function QuizizFakep() {
     // Simpan ke Firestore
     saveToLeaderboard(stat);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answers, mode, startTime, clearProgress, quizType]);
+  }, [answers, mode, startTime, clearProgress]);
 
   // Expose finishQuiz ke timer via ref agar selalu fresh
   const finishQuizRef = useRef(finishQuiz);
@@ -1511,10 +1498,9 @@ export default function QuizizFakep() {
   };
 
   /* ═══════════ COMPUTED untuk tampilan soal ═══════════ */
-  // ✅ DYNAMIC TOTAL berdasarkan quiz type
-  const TOTAL = getTotal(qType);
-  const currentQuestions = getQuestions(qType);
-  const q = currentQuestions[currentQ];
+  // ✅ PURE 50 QUESTIONS - Locked to quiz50Questions
+  const TOTAL = questions.length;
+  const q = questions[currentQ];
   const selectedOpt   = answers[currentQ];
   const isAnswered    = selectedOpt != null;
   const isChecked     = !!checkedSet[currentQ]; // ✅ per-question check status
@@ -1536,7 +1522,7 @@ export default function QuizizFakep() {
     let cls = 'qz-nav-cell';
     if (i === currentQ) cls += ' qz-nc-active';
     else if (checkedSet[i]) { // ✅ FIX: warnai hanya soal yang sudah diperiksa
-      cls += answers[i] === currentQuestions[i].correct ? ' qz-nc-correct' : ' qz-nc-wrong';
+      cls += answers[i] === questions[i].correct ? ' qz-nc-correct' : ' qz-nc-wrong';
     } else if (answers[i] != null) {
       cls += ' qz-nc-answered'; // dipilih tapi belum diperiksa
     }
@@ -1672,7 +1658,7 @@ export default function QuizizFakep() {
             <div style={{ marginBottom: 20 }}>
               <div className="qz-badge">CBT · KEPERAWATAN</div>
               <h1 className="qz-h1">{QUIZ_TITLE}</h1>
-              <p className="qz-muted">{getTotal(quizType)} soal pilihan ganda · IBD HOTS</p>
+              <p className="qz-muted">50 soal pilihan ganda · IBD HOTS</p>
             </div>
 
             {/* Resume progres */}
@@ -1680,7 +1666,7 @@ export default function QuizizFakep() {
               <div className="qz-resume-card">
                 <h4>📂 Lanjutkan Quiz?</h4>
                 <p>
-                  Kamu punya progres yang belum selesai — soal {(savedProgress.currentQ || 0) + 1} dari {getTotal(quizType)},
+                  Kamu punya progres yang belum selesai — soal {(savedProgress.currentQ || 0) + 1} dari 50,
                   mode {savedProgress.mode === 'hard' ? 'Hard ⏱️' : 'Unlimited'}.
                 </p>
                 <div className="qz-resume-btns">
@@ -1700,7 +1686,11 @@ export default function QuizizFakep() {
               </div>
             )}
 
-            {/* ✅ UPDATED: Hanya 50 soal */}
+            {/* ✅ PURE 50 QUESTIONS ONLY */}
+            <div style={{ marginBottom: 18, padding: 14, backgroundColor: 'var(--qz-surface)', borderRadius: 8 }}>
+              <h4 style={{ color: 'var(--qz-text)', marginBottom: 8, fontSize: '0.9rem' }}>⚡ LATIHAN 50 SOAL</h4>
+              <p style={{ color: 'var(--qz-muted)', fontSize: '0.85rem', margin: 0 }}>60 menit untuk 50 soal pilihan ganda · Uji kecepatan & ketepatan kamu!</p>
+            </div>
 
             {/* Pilih mode */}
             <div className="qz-mode-options">
@@ -1723,8 +1713,8 @@ export default function QuizizFakep() {
                 tabIndex={0}
                 onKeyDown={e => e.key === 'Enter' && setMode('hard')}
               >
-                <h4>🔴 ⚡ LATSOL</h4>
-                <p>Timer {LATSOL_50_MINUTES} menit untuk {getTotal(quizType)} soal. Uji kecepatan dan ketepatan kamu!</p>
+                <h4>🔴 ⚡ LATIHAN SOAL</h4>
+                <p>Timer {LATSOL_50_MINUTES} menit untuk 50 soal. Uji kecepatan dan ketepatan kamu!</p>
               </div>
             </div>
 
@@ -2039,7 +2029,7 @@ export default function QuizizFakep() {
               <span style={{ color: 'var(--qz-muted)' }}>■</span> Belum
             </div>
             <div className="qz-nav-grid">
-              {getQuestions(qType).map((_, i) => (
+              {questions.map((_, i) => (
                 <button
                   key={i}
                   className={getNavCellClass(i)}
