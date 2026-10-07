@@ -1,524 +1,527 @@
 // src/data/quizQuestions50.js
-// 50 Soal LATSOL UTS IBD 2026 — Studi Kasus Tingkat Sulit
+// 40 Soal LATIHAN UTS — Pure Kisi-Kisi (Studi Kasus, Menjebak & Analitis)
+// Format: { id, text, options: [5 string], correct (0-based), explanation }
+// Catatan: nama export tetap `questions50` supaya import di QuizizFakep.jsx tidak perlu diubah
+
 export const questions50 = [
   {
     id: 1,
-    text: "Seorang pasien mengalami gangguan pada sel epitel usus sehingga kemampuan absorpsi nutrisi menurun. Setelah beberapa minggu, pasien mengalami penurunan berat badan dan kelemahan. Berdasarkan tingkat organisasi tubuh manusia, hubungan yang paling tepat untuk menjelaskan kondisi tersebut adalah...",
+    text: "Seorang pasien datang dengan masalah tidak mampu memenuhi kebutuhan dasarnya sendiri. Setelah dikaji, ternyata masalah utama bukan hanya keterbatasan fisik, tetapi juga kurang pengetahuan dan menurunnya motivasi untuk melakukan perawatan diri. Berdasarkan konsep keperawatan dalam materi, respons yang paling tepat adalah...",
     options: [
-      "Organ dapat bekerja normal meskipun jaringan penyusunnya mengalami kerusakan",
-      "Kerusakan sel dapat mengganggu jaringan, organ, hingga fungsi sistem organ",
-      "Sistem organ tidak dipengaruhi oleh perubahan yang terjadi pada tingkat sel",
-      "Jaringan epitel hanya berfungsi sebagai pelindung sehingga tidak berhubungan dengan nutrisi",
-      "Gangguan absorpsi hanya menunjukkan adanya perubahan pada tingkat molekul"
+      "Hanya melakukan tindakan fisik",
+      "Menyerahkan seluruh masalah kepada keluarga",
+      "Hanya memberikan obat",
+      "Menangani ketidakmampuan, ketidaktahuan, dan ketidakmauan sesuai kebutuhan",
+      "Menunggu pasien mampu mandiri tanpa intervensi"
     ],
-    correct: 1,
-    explanation: "PEMBAHASAN:\nTubuh tersusun hierarki: molekul → sel → jaringan → organ → sistem organ. Kerusakan sel epitel usus mengganggu jaringan epitel, fungsi usus sebagai organ, dan akhirnya sistem pencernaan sehingga menyebabkan penurunan berat badan dan kelemahan."
+    correct: 3,
+    explanation: "PEMBAHASAN:\nMateri mendeskripsikan asuhan keperawatan dalam bentuk menghadapi ketidakmampuan terutama pada kebutuhan fisiologis, ketidaktahuan melalui pemberian pengetahuan, dan ketidakmauan melalui motivasi. Jadi kasus tidak boleh hanya dilihat sebagai masalah fisik."
   },
   {
     id: 2,
-    text: "Seorang mahasiswa berdiri tegak dengan kedua telapak tangan menghadap ke depan saat mempelajari posisi anatomi. Dosen kemudian meminta mahasiswa menentukan posisi jantung terhadap tulang belakang. Pernyataan yang tepat adalah...",
+    text: "Saat merawat pasien, seorang perawat mengikuti prinsip ilmiah, tetapi juga memperhatikan cara berkomunikasi, emosi pasien, pengalaman personal, dan hubungan manusiawi. Mengapa pendekatan tersebut sesuai dengan konsep keperawatan sebagai ilmu dan seni?",
     options: [
-      "Jantung berada posterior terhadap tulang belakang",
-      "Jantung berada inferior terhadap tulang belakang",
-      "Jantung berada lateral terhadap tulang belakang",
-      "Jantung berada anterior terhadap tulang belakang",
-      "Jantung berada distal terhadap tulang belakang"
+      "Karena keperawatan hanya bergantung pada pengalaman",
+      "Karena ilmu dan seni memungkinkan teori, praktik, dan nilai kemanusiaan digunakan bersama",
+      "Karena seni menggantikan evidence",
+      "Karena ilmu tidak diperlukan",
+      "Karena perawat bebas bertindak tanpa standar"
     ],
-    correct: 3,
-    explanation: "PEMBAHASAN:\nAnterior berarti berada di depan, posterior berada di belakang. Jantung terletak di depan (anterior) terhadap tulang belakang dalam rongga toraks."
+    correct: 1,
+    explanation: "PEMBAHASAN:\nMateri menegaskan keperawatan dipandang sebagai ilmu dan seni yang dikembangkan atas dasar caring. Ilmu memberi dasar pengetahuan dan praktik, sementara unsur seni tampak pada hubungan manusiawi, sensitivitas, dan cara perawat menghadirkan caring."
   },
   {
     id: 3,
-    text: "Seorang pasien mengalami peningkatan suhu tubuh. Hipotalamus mendeteksi perubahan suhu dan memicu mekanisme untuk mengembalikan suhu tubuh mendekati kondisi normal. Beberapa saat kemudian, respons tersebut berkurang setelah suhu kembali normal. Mekanisme tersebut menunjukkan...",
+    text: "Pasien di ruang rawat mengalami kecemasan karena belum memahami cara perawatan setelah pulang. Perawat menjelaskan kondisi, mengajarkan tindakan perawatan, dan mengevaluasi pemahaman pasien. Peran yang paling dominan adalah...",
     options: [
-      "Umpan balik negatif yang mempertahankan homeostasis",
-      "Umpan balik positif yang memperkuat perubahan awal",
-      "Difusi sederhana untuk mempertahankan suhu tubuh",
-      "Transport aktif yang menghasilkan perubahan suhu",
-      "Mekanisme antagonis tanpa keterlibatan pusat regulasi"
+      "Educator",
+      "Researcher",
+      "Regulator",
+      "Administrator keuangan",
+      "Prescriber"
     ],
     correct: 0,
-    explanation: "PEMBAHASAN:\nUmpan balik negatif mengurangi penyimpangan dari kondisi normal. Ketika suhu meningkat, tubuh merespons untuk menurunkannya hingga mendekati normal. Respon berkurang ketika stimulus awal hilang."
+    explanation: "PEMBAHASAN:\nDalam materi, perawat memiliki peran sebagai educator melalui pendidikan kesehatan kepada klien, keluarga, dan masyarakat. Edukasi bukan hanya memberikan informasi, tetapi membantu pasien memahami dan mengembangkan kemampuan perawatan diri."
   },
   {
     id: 4,
-    text: "Seorang pasien mengalami hipoksia berat akibat gangguan pernapasan. Pemeriksaan menunjukkan penurunan produksi ATP sehingga pompa ion membran tidak mampu bekerja secara optimal. Struktur sel yang paling berkaitan langsung dengan kondisi tersebut adalah...",
+    text: "Seorang perawat menyelesaikan semua tindakan sesuai prosedur, tetapi hampir tidak pernah mendengarkan pasien, tidak menunjukkan empati, dan hanya berfokus pada tugas teknis. Berdasarkan konsep caring, kekurangan utama dalam pelayanan tersebut adalah...",
     options: [
-      "Lisosom",
-      "Ribosom",
-      "Mitokondria",
-      "Aparatus Golgi",
-      "Retikulum endoplasma"
+      "Kurangnya pembiayaan",
+      "Kurangnya diagnosis medis",
+      "Belum hadirnya aspek humanistik dan hubungan interpersonal sebagai inti caring",
+      "Kurangnya teknologi",
+      "Kurangnya promosi kesehatan"
     ],
     correct: 2,
-    explanation: "PEMBAHASAN:\nMitokondria merupakan organel utama penghasil ATP melalui fosforilasi oksidatif. Kekurangan oksigen menghambat produksi ATP di mitokondria."
+    explanation: "PEMBAHASAN:\nCaring merupakan kerangka filosofis dan konseptual yang menekankan aspek humanistik dalam asuhan. Watson juga menempatkan caring sebagai inti praktik yang efektif melalui hubungan interpersonal. Prosedur yang benar tidak otomatis berarti caring sudah optimal."
   },
   {
     id: 5,
-    text: "Seorang pasien mendapatkan obat yang menghambat kerja pompa Na⁺/K⁺-ATPase pada membran sel. Setelah beberapa waktu, gradien ion membran mulai menurun. Perubahan yang paling tepat adalah...",
+    text: "Pasien menunjukkan rasa takut, marah, dan sedih secara bergantian. Perawat tetap hadir, tidak menolak emosi pasien, dan memberikan kesempatan kepada pasien untuk mengungkapkannya. Faktor karatif Watson yang paling tepat adalah...",
     options: [
-      "Natrium intrasel menurun dan kalium intrasel meningkat",
-      "Natrium dan kalium berhenti melakukan perpindahan melalui membran",
-      "Kalium ekstrasel meningkat karena seluruh kalium masuk sel",
-      "Natrium intrasel meningkat dan kalium intrasel menurun",
-      "Potensial membran menjadi lebih negatif karena gradien ion meningkat"
+      "Faith-hope",
+      "Membangun lingkungan",
+      "Meningkatkan dan menerima ungkapan perasaan positif dan negatif",
+      "Pemecahan masalah sistematis",
+      "Membantu kebutuhan manusia"
     ],
-    correct: 3,
-    explanation: "PEMBAHASAN:\nPompa Na⁺/K⁺-ATPase normalnya memindahkan 3 Na⁺ keluar dan 2 K⁺ masuk. Jika terhambat, Na⁺ menumpuk di dalam sel dan K⁺ berkurang di dalam sel."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nFaktor kelima Watson berfokus pada hadir untuk dan mendukung ekspresi perasaan positif maupun negatif. Perawat tidak menghakimi emosi pasien, tetapi menerima dan menghormatinya sebagai bagian dari pengalaman manusia."
   },
   {
     id: 6,
-    text: "Seorang atlet melakukan sprint maksimal selama beberapa detik. Kebutuhan ATP otot meningkat sangat cepat, sedangkan suplai oksigen belum mampu memenuhi kebutuhan energi tersebut. Mekanisme metabolisme yang paling berperan pada kondisi tersebut adalah...",
+    text: "Perawat mendapati bahwa pasien membutuhkan pengetahuan tentang perawatan dirinya. Alih-alih memberikan instruksi satu arah, perawat menilai cara belajar pasien, mendengarkan responsnya, lalu membimbing pasien menemukan cara yang paling sesuai bagi dirinya. Faktor Watson yang paling dominan adalah...",
     options: [
-      "Glikolisis anaerobik dengan pembentukan laktat",
-      "Penghentian seluruh metabolisme mitokondria",
-      "Pemecahan protein sebagai sumber energi utama",
-      "Penghentian penggunaan glukosa oleh sel otot",
-      "Peningkatan sintesis glikogen selama kontraksi"
+      "Lingkungan penyembuhan",
+      "Proses belajar-mengajar interpersonal",
+      "Nilai altruistik",
+      "Existential phenomenologic",
+      "Penerimaan perasaan"
     ],
-    correct: 0,
-    explanation: "PEMBAHASAN:\nPada aktivitas intensitas tinggi, glikolisis anaerobik menyediakan ATP dengan cepat tanpa membutuhkan oksigen secara langsung dan menghasilkan laktat."
+    correct: 1,
+    explanation: "PEMBAHASAN:\nFaktor ketujuh menekankan proses belajar-mengajar yang bersifat interpersonal. Individu dipandang mampu menjadi sumber solusi kreatif bagi dirinya sendiri, sedangkan perawat memfasilitasi proses tersebut."
   },
   {
     id: 7,
-    text: "Seorang pasien mengalami stroke pada area Broca di hemisfer dominan. Pasien masih dapat memahami pembicaraan orang lain, tetapi kesulitan menyusun dan mengucapkan kata-kata. Gangguan tersebut terutama menunjukkan...",
+    text: "Pasien menolak salah satu bentuk perawatan karena tidak sesuai dengan keyakinan budaya keluarganya. Perawat menggali makna tindakan tersebut terlebih dahulu lalu mencari pendekatan yang tetap mendukung kesehatan. Teori yang paling tepat adalah...",
     options: [
-      "Gangguan pemahaman bahasa",
-      "Gangguan keseimbangan tubuh",
-      "Gangguan produksi bahasa",
-      "Gangguan penglihatan",
-      "Gangguan pembentukan refleks"
+      "Watson",
+      "Ray",
+      "Swanson",
+      "Leininger",
+      "Teori sistem tertutup"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nArea Broca berperan dalam produksi bahasa. Kerusakannya menyebabkan afasia ekspresif sehingga pasien sulit berbicara meskipun pemahaman relatif masih baik."
+    correct: 3,
+    explanation: "PEMBAHASAN:\nLeininger menekankan bahwa caring bersifat universal tetapi berlangsung dalam konteks budaya. Perawat perlu memahami konteks budaya pasien untuk meningkatkan mutu asuhan."
   },
   {
     id: 8,
-    text: "Seorang pasien mengalami kesulitan mempertahankan koordinasi gerakan. Ketika diminta menyentuh hidung dengan jari, gerakannya melewati target dan muncul tremor ketika mendekati sasaran. Struktur yang paling mungkin mengalami gangguan adalah...",
+    text: "Dokter berfokus pada pengobatan berdasarkan data dan patofisiologi, sedangkan perawat berfokus pada pendampingan, kebutuhan, hubungan, dan kenyamanan pasien. Seorang mahasiswa menyimpulkan bahwa salah satu harus dipilih. Koreksi yang paling tepat adalah...",
     options: [
-      "Medula oblongata",
-      "Serebelum",
-      "Hipotalamus",
-      "Talamus",
-      "Lobus oksipital"
+      "Curing lebih penting sehingga caring boleh dihilangkan",
+      "Caring hanya untuk perawat baru",
+      "Caring dan curing perlu dipadukan secara seimbang",
+      "Perawat tidak boleh memahami curing",
+      "Dokter hanya melakukan caring"
     ],
-    correct: 1,
-    explanation: "PEMBAHASAN:\nSerebelum berperan dalam koordinasi dan ketepatan gerakan. Gangguannya dapat menyebabkan ataksia, dysmetria, dan intention tremor."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nMateri membedakan fungsi caring dan curing tetapi menegaskan bahwa kemampuan keduanya perlu dipadukan secara seimbang untuk mencapai asuhan optimal."
   },
   {
     id: 9,
-    text: "Seorang pasien tidak menunjukkan refleks patela ketika tendon patela diketuk. Pemeriksa mencurigai gangguan pada lengkung refleks. Komponen yang harus berfungsi agar refleks tersebut terjadi adalah...",
+    text: "Sebuah unit keperawatan menerapkan sistem digital untuk dokumentasi. Perawat kemudian merasa komunikasi tatap muka tidak lagi diperlukan karena semua informasi sudah tersedia di komputer. Berdasarkan materi, masalah utama dari pola pikir tersebut adalah...",
     options: [
-      "Reseptor sensorik, neuron aferen, pusat refleks, neuron eferen, dan efektor",
-      "Hanya korteks serebri dan neuron motorik",
-      "Hanya serebelum dan saraf sensorik",
-      "Hipotalamus, talamus, dan medula spinalis",
-      "Lobus frontal dan saraf kranial"
+      "Teknologi terlalu mahal",
+      "Teknologi tidak boleh digunakan",
+      "Dokumentasi selalu salah",
+      "Teknologi seharusnya mendukung, bukan menggantikan, hubungan humanistik",
+      "Komputer harus menggantikan perawat"
     ],
-    correct: 0,
-    explanation: "PEMBAHASAN:\nLengkung refleks melibatkan reseptor, neuron aferen, pusat integrasi, neuron eferen, dan efektor. Semua komponen ini harus berfungsi normal untuk menghasilkan refleks."
+    correct: 3,
+    explanation: "PEMBAHASAN:\nMateri menegaskan integrasi teknologi harus diseimbangkan dengan pendekatan humanistik. Sistem digital dapat mendukung dokumentasi dan pelayanan, tetapi tidak dikembangkan untuk menggantikan keseluruhan seni caring dan hubungan manusia."
   },
   {
     id: 10,
-    text: "Seorang pasien mengalami cedera pada medula spinalis sehingga impuls dari otak menuju otot tungkai terganggu. Traktus yang terutama membawa impuls motorik volunter dari otak menuju medula spinalis adalah...",
+    text: "Seorang perawat merasa mudah kehilangan kesabaran setelah bekerja dalam kondisi sangat cepat. Ia mulai melakukan mindfulness dan refleksi agar lebih mampu mengatur emosi dan mempertahankan mutu pelayanan. Makna caring pada kasus tersebut adalah...",
     options: [
-      "Traktus spinotalamik",
-      "Kolumna dorsalis",
-      "Traktus kortikospinal",
-      "Traktus vestibulospinal",
-      "Traktus spinocerebellar"
+      "Caring hanya diberikan kepada pasien",
+      "Self-care dapat membantu mengelola stres, mencegah burnout, dan mendukung mutu asuhan",
+      "Self-care tidak berkaitan dengan profesionalisme",
+      "Mindfulness menggantikan semua intervensi",
+      "Perawat harus mengabaikan kondisi emosinya"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nTraktus kortikospinal membawa impuls motorik volunter dari korteks motorik menuju neuron motorik di medula spinalis."
+    correct: 1,
+    explanation: "PEMBAHASAN:\nMateri secara langsung mengaitkan mindfulness dan self-care dengan pengelolaan stres, pencegahan burnout, dan peningkatan mutu asuhan. Perawat juga membutuhkan pemberdayaan agar tetap mampu mempertahankan compassion dalam lingkungan kerja yang cepat."
   },
   {
     id: 11,
-    text: "Seorang pasien tidak mampu menggerakkan otot orbicularis oculi dan mengalami kesulitan menutup mata. Saraf yang kemungkinan mengalami gangguan adalah...",
+    text: "Perawat menerima pasien baru. Ia tidak langsung memilih intervensi, tetapi terlebih dahulu mengumpulkan data menyeluruh, menganalisis data, menetapkan masalah, menyusun rencana, melaksanakan tindakan, dan mengevaluasi hasil. Urutan berpikir tersebut paling sesuai dengan...",
     options: [
-      "Nervus trigeminus",
-      "Nervus optikus",
-      "Nervus okulomotorius",
-      "Nervus fasialis",
-      "Nervus vagus"
+      "Proses keperawatan yang sistematis",
+      "Tindakan spontan",
+      "Curing murni",
+      "Administrasi",
+      "Pelayanan promotif saja"
     ],
-    correct: 3,
-    explanation: "PEMBAHASAN:\nNervus fasialis (CN VII) menginervasi otot ekspresi wajah, termasuk orbicularis oculi yang menutup kelopak mata."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nStandar praktik keperawatan profesional membentuk alur pengkajian, diagnosis, perencanaan, implementasi, dan evaluasi. Proses tersebut menjadi kerangka sistematis untuk pengambilan keputusan dan pemberian asuhan."
   },
   {
     id: 12,
-    text: "Seorang pasien mengalami kehilangan penglihatan pada satu mata setelah cedera kepala. Gangguan terjadi sebelum serabut saraf penglihatan mengalami persilangan. Lokasi lesi paling mungkin adalah...",
+    text: "Dalam suatu kasus, perawat menemukan bahwa rencana lama tidak lagi sesuai karena data pasien berubah. Ia melakukan pengkajian ulang, menyesuaikan data dasar, lalu memperbarui rencana. Prinsip yang paling tepat adalah...",
     options: [
-      "Lobus oksipital",
-      "Traktus optikus",
-      "Chiasma optikum",
-      "Nervus optikus",
-      "Radiasi optik"
+      "Rencana awal tidak boleh diubah",
+      "Evaluasi hanya dilakukan setelah pasien pulang",
+      "Proses keperawatan bersifat dinamis dan dapat memerlukan revisi",
+      "Diagnosis selalu tetap",
+      "Pengkajian cukup dilakukan sekali"
     ],
-    correct: 3,
-    explanation: "PEMBAHASAN:\nLesi nervus optikus sebelum chiasma optikum dapat menyebabkan kehilangan penglihatan pada satu mata."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nStandar V menjelaskan bahwa praktik keperawatan merupakan proses dinamis yang mencakup perubahan data, diagnosis, atau perencanaan. Efektivitas asuhan bergantung pada pengkajian yang berulang."
   },
   {
     id: 13,
-    text: "Seorang pasien mengalami gangguan kemampuan mengatur suhu tubuh, rasa lapar, rasa haus, dan keseimbangan cairan. Struktur yang paling mungkin mengalami kerusakan adalah...",
+    text: "Seorang perawat melakukan pengkajian secara sistematis tetapi tidak menggunakan hasil pengkajian untuk merumuskan diagnosis. Tahap yang belum dijalankan secara optimal adalah...",
     options: [
-      "Hipotalamus",
-      "Serebelum",
-      "Lobus parietal",
-      "Medula spinalis",
-      "Lobus oksipital"
+      "Standar I",
+      "Standar II",
+      "Standar III",
+      "Standar IV",
+      "Standar V"
     ],
-    correct: 0,
-    explanation: "PEMBAHASAN:\nHipotalamus merupakan pusat homeostasis yang mengatur suhu, rasa lapar, rasa haus, keseimbangan cairan, serta fungsi endokrin dan otonom."
+    correct: 1,
+    explanation: "PEMBAHASAN:\nStandar I menghasilkan data dasar. Setelah itu, Standar II mengharuskan perawat menganalisis data untuk merumuskan diagnosis keperawatan. Data tanpa analisis belum menghasilkan diagnosis."
   },
   {
     id: 14,
-    text: "Ketika dokter menyentuhkan kapas perlahan pada kornea pasien, pasien secara otomatis berkedip. Saraf yang membawa informasi sensorik dari kornea menuju pusat refleks adalah...",
+    text: "Seorang perawat dipindahkan ke area praktik baru. Ia mempelajari peraturan yang berlaku, memastikan tindakannya sesuai ketentuan, dan menunjukkan kesadaran hukum selama memberikan pelayanan. Ini merupakan...",
     options: [
-      "Nervus fasialis",
-      "Nervus trigeminus",
-      "Nervus optikus",
-      "Nervus vagus",
-      "Nervus aksesorius"
+      "Praktik berdasarkan legal",
+      "Praktik peka budaya",
+      "Caring",
+      "Pelayanan rehabilitatif",
+      "Edukasi"
     ],
-    correct: 1,
-    explanation: "PEMBAHASAN:\nPada refleks kornea, bagian aferen berasal dari nervus trigeminus (CN V), sedangkan respons motorik dilakukan oleh nervus fasialis (CN VII)."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nMateri standar profesi menyebut tiga unsur praktik legal: memahami ketentuan peraturan perundang-undangan, melakukan praktik profesional sesuai peraturan, dan menunjukkan kesadaran hukum."
   },
   {
     id: 15,
-    text: "Seorang pasien mengalami gastrektomi sebagian dan beberapa tahun kemudian mengalami anemia megaloblastik. Penyerapan vitamin B12 terganggu. Kondisi tersebut terutama berkaitan dengan berkurangnya produksi...",
+    text: "Pasien dari latar budaya tertentu lebih menerima edukasi apabila diberikan melalui pendekatan yang sesuai kebiasaan lokal. Perawat kemudian menggunakan pendekatan tersebut untuk meningkatkan keterlibatan pasien. Tindakan itu paling sesuai dengan...",
     options: [
-      "Pepsin",
-      "Gastrin",
-      "Empedu",
-      "Amilase",
-      "Intrinsic factor"
+      "Praktik peka budaya",
+      "Praktik legal",
+      "Praktik administratif",
+      "Curing",
+      "Supervisi"
     ],
-    correct: 4,
-    explanation: "PEMBAHASAN:\nIntrinsic factor diproduksi oleh sel parietal lambung dan diperlukan agar vitamin B12 dapat diserap di ileum terminal. Gastrektomi mengurangi produksi intrinsic factor."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nPraktik peka budaya menggunakan pendekatan budaya untuk meningkatkan mutu pelayanan keperawatan dan mendorong kemandirian masyarakat berbasis budaya setempat."
   },
   {
     id: 16,
-    text: "Seorang pasien mengalami sumbatan duktus koledokus akibat batu empedu. Pasien mengalami ikterus dan urine menjadi lebih gelap. Perubahan yang paling mungkin terjadi adalah...",
+    text: "Seorang perawat memiliki kemampuan klinis baik, tetapi komunikasinya buruk, tidak bisa bekerja dalam tim, dan tidak mau menerima evaluasi. Berdasarkan konsep standar kinerja profesional, masalahnya adalah...",
     options: [
-      "Penurunan bilirubin terkonjugasi dalam darah",
-      "Peningkatan bilirubin terkonjugasi dalam darah",
-      "Penurunan seluruh produksi empedu di hati",
-      "Peningkatan absorpsi bilirubin melalui kolon",
-      "Penurunan pemecahan hemoglobin oleh eritrosit"
+      "Kompetensi klinis otomatis mencakup semua hal",
+      "Profesionalisme juga menuntut komunikasi, kolaborasi, kepemimpinan, edukasi, dan penelitian",
+      "Komunikasi tidak diperlukan",
+      "Teamwork bukan bagian profesi",
+      "Evaluasi hanya berlaku bagi mahasiswa"
     ],
     correct: 1,
-    explanation: "PEMBAHASAN:\nPada obstruksi saluran empedu, bilirubin terkonjugasi tidak dapat dialirkan normal ke usus sehingga masuk kembali ke sirkulasi dan dapat menyebabkan bilirubinuria."
+    explanation: "PEMBAHASAN:\nPilar kinerja profesional mencakup praktik etis, komunikasi, kolaborasi, kepemimpinan, edukasi, dan penelitian. Jadi profesionalisme tidak dapat dinilai hanya dari satu keterampilan teknis."
   },
   {
     id: 17,
-    text: "Seorang pasien mengalami pankreatitis sehingga produksi enzim pankreas menurun. Setelah makan, pasien mengalami gangguan pencernaan lemak dan tinja tampak berminyak. Enzim yang paling berkaitan adalah...",
+    text: "Seorang pasien meminta agar pemeriksaannya dilakukan dengan menjaga tubuhnya tetap tertutup dan membatasi orang yang tidak berkepentingan masuk ke ruangan. Prinsip yang paling tepat adalah...",
     options: [
-      "Pepsin",
-      "Tripsin",
-      "Lipase",
-      "Laktase",
-      "Enterokinase"
+      "Confidentiality",
+      "Privacy",
+      "Justice",
+      "Leadership",
+      "Accountability"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nLipase pankreas mencerna trigliserida menjadi asam lemak dan monogliserida. Kekurangannya dapat menyebabkan steatorrhea (tinja berminyak)."
+    correct: 1,
+    explanation: "PEMBAHASAN:\nPrivacy merupakan hak untuk terbebas dari gangguan terhadap urusan pribadi, informasi pribadi, atau tubuh fisik. Dalam kasus ini, pasien meminta perlindungan terhadap aspek fisiknya."
   },
   {
     id: 18,
-    text: "Seorang pasien mengonsumsi makanan tinggi lemak. Beberapa saat kemudian, hormon dari duodenum merangsang kontraksi kandung empedu dan meningkatkan sekresi enzim pankreas. Hormon tersebut adalah...",
+    text: "Seorang kerabat pasien yang tidak terlibat dalam perawatan meminta informasi rinci tentang kondisi pasien. Perawat menolak memberikannya karena orang tersebut tidak berkaitan dengan perawatan pasien. Prinsip yang paling tepat adalah...",
     options: [
-      "Gastrin",
-      "Sekretin",
-      "Insulin",
-      "Kolesistokinin",
-      "Glukagon"
+      "Advocacy",
+      "Competence",
+      "Confidentiality",
+      "Leadership",
+      "Fairness"
     ],
-    correct: 3,
-    explanation: "PEMBAHASAN:\nKolesistokinin (CCK) dilepaskan terutama sebagai respons terhadap lemak dan asam amino. CCK merangsang kontraksi kandung empedu dan sekresi enzim pankreas."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nConfidentiality merupakan kewajiban perawat untuk tidak membagikan informasi pasien kepada pihak ketiga yang tidak terkait dengan perawatan. Materi juga menegaskan kewajiban ini dapat memiliki pengecualian tertentu berdasarkan hukum atau regulasi."
   },
   {
     id: 19,
-    text: "Seorang pasien mengalami atrofi vili usus halus. Meskipun makan cukup, berat badan terus menurun. Mekanisme utama yang menjelaskan kondisi tersebut adalah...",
+    text: "Seorang perawat diminta menerima tanggung jawab atas tindakan yang belum dikuasainya. Ia menyadari bahwa mengambil tugas tersebut tanpa kompetensi dapat membahayakan pasien. Tindakan yang paling profesional adalah...",
     options: [
-      "Penurunan luas permukaan absorpsi nutrisi",
-      "Peningkatan produksi asam lambung",
-      "Peningkatan produksi empedu oleh hati",
-      "Peningkatan motilitas esofagus",
-      "Penutupan sfingter anus"
+      "Menerima agar terlihat mampu",
+      "Menjalankan tanpa supervisi",
+      "Bekerja dalam batas kompetensi individual dan scope of practice",
+      "Meminta pasien menyetujui risiko",
+      "Menyembunyikan keterbatasan"
     ],
-    correct: 0,
-    explanation: "PEMBAHASAN:\nVili dan mikrovili memperluas permukaan absorpsi. Atrofi vili mengurangi luas permukaan sehingga absorpsi nutrisi terganggu."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nICN menegaskan perawat harus berpraktik dalam batas kompetensi individual dan regulated/authorised scope of practice. Profesionalisme justru terlihat dari kemampuan mengenali keterbatasan dan menggunakan penilaian profesional saat menerima atau mendelegasikan tanggung jawab."
   },
   {
     id: 20,
-    text: "Seorang pasien mengalami penyakit hati kronis. Kadar albumin plasma menurun dan pasien mengalami edema perifer. Hubungan yang paling tepat adalah...",
+    text: "Seorang perawat memberikan tugas tertentu kepada anggota tim yang kompeten, tetapi kemudian tetap memantau pelaksanaannya dan memastikan hasil sesuai standar. Prinsip yang paling tepat adalah...",
     options: [
-      "Hati menghasilkan insulin yang mempertahankan tekanan osmotik plasma",
-      "Hati menghasilkan pepsin yang mempertahankan cairan intravaskular",
-      "Hati menghasilkan albumin yang membantu mempertahankan tekanan onkotik plasma",
-      "Hati menghasilkan amilase yang mencegah perpindahan cairan",
-      "Hati menghasilkan empedu yang mempertahankan tekanan darah"
+      "Delegasi tanpa kontrol",
+      "Delegasi disertai supervisi",
+      "Semua tugas harus dilakukan sendiri",
+      "Supervisi hanya dilakukan dokter",
+      "Tanggung jawab otomatis hilang setelah tugas diberikan"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nAlbumin merupakan protein plasma utama yang mempertahankan tekanan onkotik. Penurunannya menyebabkan cairan lebih mudah berpindah ke jaringan dan menimbulkan edema."
+    correct: 1,
+    explanation: "PEMBAHASAN:\nKerangka kompetensi perawat memasukkan penggunaan delegasi dan supervisi dalam pelayanan asuhan keperawatan. Delegasi bukan berarti menghilangkan kebutuhan pengawasan dan mutu pelayanan."
   },
   {
     id: 21,
-    text: "Seorang pasien menjalani operasi yang menyebabkan sebagian besar duodenum dilewati oleh makanan. Pencernaan kimiawi dapat berubah karena duodenum merupakan tempat bertemunya makanan dengan sekresi dari...",
+    text: "Dua perawat berada pada posisi yang sama, tetapi salah satunya mampu menunjukkan pengetahuan, keterampilan, dan sikap yang sesuai ketika menyelesaikan tugas klinis. Hal tersebut paling tepat menggambarkan...",
     options: [
-      "Kelenjar ludah dan esofagus",
-      "Hati dan pankreas",
-      "Kolon dan rektum",
-      "Lambung dan kolon",
-      "Appendix dan lambung"
+      "Kompetensi",
+      "Standar sebagai patokan semata",
+      "Kebijakan pembiayaan",
+      "Diagnosis keperawatan",
+      "Caring"
     ],
-    correct: 1,
-    explanation: "PEMBAHASAN:\nDuodenum menerima kimus dari lambung serta empedu dari hati/kandung empedu dan sekresi pankreas. Kedua sekresi ini penting untuk pencernaan lanjutan."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nMateri mendefinisikan kompetensi sebagai kemampuan terobservasi yang terdiri dari pengetahuan, keterampilan, dan sikap untuk menyelesaikan tugas sesuai standar kinerja."
   },
   {
     id: 22,
-    text: "Seorang pasien mengalami gangguan pada ileum terminal sehingga penyerapan vitamin B12 terganggu meskipun produksi intrinsic factor di lambung normal. Hal ini menunjukkan bahwa...",
+    text: "Pasien menginginkan cara tertentu dalam perawatan yang berkaitan dengan nilai budaya. Perawat mengevaluasi apakah pendekatan tersebut dapat diintegrasikan tanpa mengurangi mutu dan keselamatan asuhan. Sikap ini menunjukkan...",
     options: [
-      "Vitamin B12 hanya dapat diserap di lambung",
-      "Intrinsic factor langsung mengubah B12 menjadi energi",
-      "B12 terutama diserap di kolon",
-      "Absorpsi B12 memerlukan interaksi dengan intrinsic factor di ileum terminal",
-      "B12 tidak memerlukan mekanisme khusus untuk diserap"
+      "Penolakan budaya",
+      "Pendekatan peka budaya",
+      "Diskriminasi",
+      "Otonomi perawat",
+      "Pelayanan kuratif"
     ],
-    correct: 3,
-    explanation: "PEMBAHASAN:\nVitamin B12 berikatan dengan intrinsic factor lalu kompleks tersebut diserap terutama di ileum terminal. Kerusakan ileum terminal mengganggu penyerapan meskipun intrinsic factor tersedia."
+    correct: 1,
+    explanation: "PEMBAHASAN:\nPeka budaya bukan berarti menerima semua tindakan tanpa pertimbangan, melainkan menggunakan pendekatan budaya untuk meningkatkan mutu pemberian pelayanan. Perawat tetap mempertimbangkan kualitas pelayanan dan tujuan kesehatan."
   },
   {
     id: 23,
-    text: "Seorang pasien mengalami gangguan tiroid sehingga kadar T3 dan T4 menurun. Hipofisis anterior kemudian meningkatkan sekresi TSH. Mekanisme tersebut merupakan contoh...",
+    text: "Seorang perawat merasa pengetahuannya sudah cukup karena telah lulus pendidikan formal. Ia menolak membaca jurnal atau mengikuti pelatihan. Berdasarkan materi profesionalisme, sikap tersebut...",
     options: [
-      "Umpan balik negatif",
-      "Umpan balik positif",
-      "Antagonisme insulin-glukagon",
-      "Difusi hormon",
-      "Transport aktif hormon"
+      "Benar karena ijazah sudah cukup",
+      "Sesuai prinsip lifelong learning",
+      "Bertentangan dengan pembelajaran berkelanjutan",
+      "Tidak berkaitan dengan profesionalisme",
+      "Menunjukkan akuntabilitas"
     ],
-    correct: 0,
-    explanation: "PEMBAHASAN:\nPada aksis HPT, T3/T4 memberikan umpan balik negatif. Ketika kadarnya turun, stimulasi TRH dan TSH meningkat untuk mengembalikan kadar normal."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nPembelajaran berkelanjutan merupakan kunci adaptasi dan bagian dari profesionalisme. Perawat perlu terus mengikuti perkembangan ilmu, teknologi, workshop, sertifikasi, konferensi, jurnal, riset, dan mentorship."
   },
   {
     id: 24,
-    text: "Seorang pasien mengalami poliuria, polidipsia, dan peningkatan glukosa darah. Hormon yang meningkatkan pengambilan glukosa oleh sel tidak bekerja efektif. Hormon tersebut adalah...",
+    text: "Perawat ingin mengetahui apakah suatu intervensi benar-benar meningkatkan mutu asuhan. Ia merancang penelitian sederhana dan berusaha menggunakan hasil penelitian tersebut dalam praktik. Proses itu sesuai dengan area...",
     options: [
-      "Glukagon",
-      "Kortisol",
-      "Insulin",
-      "Aldosteron",
-      "ADH"
+      "Pengembangan kualitas personal saja",
+      "Pendidikan dan penelitian",
+      "Pelayanan primer",
+      "Administrasi",
+      "Promosi kesehatan saja"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nInsulin membantu menurunkan glukosa darah dengan meningkatkan pengambilan glukosa oleh jaringan dan mendorong penyimpanannya. Defisiensi insulin menyebabkan gejala diabetes melitus."
+    correct: 1,
+    explanation: "PEMBAHASAN:\nArea pendidikan dan penelitian mencakup kemampuan merancang penelitian sederhana dan menerapkan hasil penelitian untuk meningkatkan mutu asuhan keperawatan."
   },
   {
     id: 25,
-    text: "Seorang pasien kehilangan banyak cairan akibat diare berat. Tubuh meningkatkan hormon yang membantu mempertahankan air di ginjal. Hormon tersebut bekerja terutama dengan meningkatkan...",
+    text: "Seorang perawat mengetahui informasi pribadi pasien dari hubungan terapeutik. Temannya yang bukan bagian dari tim meminta cerita tersebut karena penasaran. Perawat menolak menceritakannya. Dasar tindakan tersebut adalah...",
     options: [
-      "Ekskresi natrium di tubulus proksimal",
-      "Reabsorpsi air pada duktus kolektivus",
-      "Sekresi glukosa ke dalam urine",
-      "Filtrasi protein di glomerulus",
-      "Produksi empedu di hati"
+      "Privacy dan confidentiality",
+      "Leadership",
+      "Autonomy perawat",
+      "Efisiensi",
+      "Kompetisi"
     ],
-    correct: 1,
-    explanation: "PEMBAHASAN:\nADH meningkatkan permeabilitas duktus kolektivus terhadap air melalui aquaporin sehingga reabsorpsi air meningkat dan cairan tubuh terpelihara."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nICN maupun standar etik menempatkan privasi dan kerahasiaan sebagai kewajiban perawat. Informasi yang diperoleh karena hubungan terapeutik harus dijaga dan tidak dibagikan kepada pihak yang tidak berkepentingan."
   },
   {
     id: 26,
-    text: "Seorang pasien mengalami kadar kalsium darah rendah. Kelenjar paratiroid meningkatkan sekresi hormon untuk membantu mengembalikan kadar kalsium. Hormon tersebut terutama menyebabkan...",
+    text: "Setelah melakukan tindakan, perawat menemukan bahwa keputusan yang diambil harus dapat dijelaskan dasar etik dan hukumnya. Ia bersedia bertanggung jawab terhadap keputusan tersebut. Konsep yang paling kuat adalah...",
     options: [
-      "Peningkatan ekskresi kalsium dari ginjal",
-      "Penurunan aktivitas osteoklas",
-      "Pengeluaran kalsium melalui feses",
-      "Penyerapan kalsium melalui kulit",
-      "Peningkatan kadar kalsium darah melalui beberapa mekanisme"
+      "Compassion",
+      "Autonomy",
+      "Accountability",
+      "Caring",
+      "Equity"
     ],
-    correct: 4,
-    explanation: "PEMBAHASAN:\nPTH meningkatkan kadar Ca²⁺ darah melalui pengaturan tulang, ginjal, dan aktivasi vitamin D yang meningkatkan absorpsi kalsium usus."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nAkuntabilitas berarti tanggung jawab atas tindakan dan keputusan. Materi menegaskan bahwa keputusan perawat harus dapat dipertanggungjawabkan secara etis dan hukum."
   },
   {
     id: 27,
-    text: "Seorang pasien mengalami stres berat dalam waktu lama. Aktivasi aksis hipotalamus–hipofisis–adrenal meningkatkan hormon yang membantu tubuh menghadapi stres. Urutan yang tepat adalah...",
+    text: "Seorang pasien mengatakan bahwa perawat sebelumnya selalu membuatnya merasa didengar dan dihargai meskipun kondisi ruang sangat sibuk. Hal yang paling mungkin menjelaskan pengalaman tersebut adalah...",
     options: [
-      "Hipotalamus → TSH → tiroid → kortisol",
-      "Hipotalamus → ACTH → adrenal → CRH",
-      "Hipotalamus → CRH → ACTH → korteks adrenal",
-      "Hipofisis → CRH → medula adrenal → insulin",
-      "Hipotalamus → ADH → korteks adrenal → kortisol"
+      "Caring sebagai perilaku profesional yang diwujudkan melalui hubungan, sikap, penerimaan, dan tindakan",
+      "Teknologi yang canggih",
+      "Administrasi yang baik",
+      "Curing semata",
+      "Pengurangan komunikasi"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nPada aksis HPA, hipotalamus menghasilkan CRH, hipofisis anterior menghasilkan ACTH, kemudian korteks adrenal menghasilkan kortisol."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nCaring bukan sekadar sikap “baik”, tetapi diwujudkan melalui perilaku profesional. Materi menempatkan hubungan, tindakan, sikap, penerimaan, dan variabilitas sebagai atribut inti caring dalam praktik."
   },
   {
     id: 28,
-    text: "Seorang pasien mengalami gangguan adrenal sehingga produksi aldosteron menurun. Perubahan yang paling mungkin terjadi adalah...",
+    text: "Perawat telah melakukan intervensi, tetapi tidak membandingkan hasil dengan tujuan yang telah ditetapkan. Masalah utama pada proses keperawatan tersebut adalah...",
     options: [
-      "Peningkatan retensi natrium dan penurunan kalium",
-      "Penurunan reabsorpsi natrium dan peningkatan kehilangan kalium",
-      "Peningkatan reabsorpsi glukosa di tubulus",
-      "Penurunan ekskresi air tanpa perubahan elektrolit",
-      "Peningkatan produksi T3 dan T4"
+      "Pengkajian tidak mungkin dilakukan",
+      "Evaluasi belum optimal",
+      "Diagnosis tidak boleh ada",
+      "Implementasi tidak diperlukan",
+      "Perencanaan tidak berhubungan dengan evaluasi"
     ],
     correct: 1,
-    explanation: "PEMBAHASAN:\nAldosteron meningkatkan reabsorpsi Na⁺ dan sekresi K⁺. Jika menurun, retensi Na⁺ berkurang dan kehilangan K⁺ meningkat."
+    explanation: "PEMBAHASAN:\nEvaluasi digunakan untuk menilai perkembangan kesehatan pasien terhadap tindakan dalam mencapai tujuan. Hasil evaluasi juga dapat menjadi dasar untuk merevisi data dasar dan perencanaan."
   },
   {
     id: 29,
-    text: "Seorang anak mengalami gangguan pertumbuhan tinggi badan akibat produksi growth hormone yang sangat rendah. GH secara normal berperan dalam pertumbuhan melalui stimulasi produksi mediator pertumbuhan terutama di...",
+    text: "Seorang perawat menghadapi situasi yang secara teknis memungkinkan dilakukan, tetapi bertentangan dengan ketentuan hukum dan standar profesi. Tindakan yang paling tepat adalah...",
     options: [
-      "Hati",
-      "Pankreas",
-      "Tiroid",
-      "Ginjal",
-      "Kelenjar paratiroid"
+      "Tetap dilakukan karena secara teknis mampu",
+      "Mengikuti keputusan keluarga tanpa pertimbangan",
+      "Menyesuaikan praktik dengan ketentuan etik dan legal yang berlaku",
+      "Mengutamakan kecepatan pelayanan",
+      "Mengabaikan regulasi"
     ],
-    correct: 0,
-    explanation: "PEMBAHASAN:\nGH merangsang hati menghasilkan IGF-1 yang berperan dalam pertumbuhan tulang dan jaringan. IGF-1 adalah mediator pertumbuhan utama yang dipicu oleh GH."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nPraktik keperawatan profesional harus berjalan dalam kerangka etik dan legal. Kemampuan teknis saja tidak cukup untuk membuat suatu tindakan menjadi layak dilakukan."
   },
   {
     id: 30,
-    text: "Seorang pasien mengalami hipertiroidisme sehingga metabolisme meningkat. Pasien mudah panas, berkeringat, dan berat badan menurun meskipun nafsu makan meningkat. Hormon yang paling berperan adalah...",
+    text: "Perawat melihat adanya ancaman terhadap keselamatan pasien, tetapi khawatir dianggap mengganggu rekan kerja jika melaporkannya. Berdasarkan prinsip profesionalisme, tindakan yang paling tepat adalah...",
     options: [
-      "ADH",
-      "PTH",
-      "Insulin",
-      "T3 dan T4",
-      "Kalsitonin"
+      "Diam agar hubungan tetap baik",
+      "Menunggu sampai terjadi cedera",
+      "Berbicara dan mengambil tindakan untuk melindungi keselamatan pasien",
+      "Menyalahkan pasien",
+      "Menghapus dokumentasi"
     ],
-    correct: 3,
-    explanation: "PEMBAHASAN:\nT3 dan T4 meningkatkan aktivitas metabolisme. Kelebihan hormon tersebut dapat meningkatkan produksi panas dan konsumsi energi sehingga menyebabkan penurunan berat badan."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nICN menyebut perawat aktif dalam promosi keselamatan pasien, harus speak up ketika keselamatan terancam, mendukung transparansi, dan bekerja dengan orang lain untuk mengurangi potensi kesalahan."
   },
   {
     id: 31,
-    text: "Seorang anak mengalami kekurangan vitamin D dalam waktu lama. Pertumbuhan tulang terganggu dan tulang menjadi lebih lunak. Gangguan utama yang terjadi adalah...",
+    text: "Pasien menilai perawat sangat kompeten secara teknis, tetapi mengatakan bahwa dirinya merasa “tidak dianggap sebagai manusia”. Dari perspektif caring, kekurangan paling penting adalah...",
     options: [
-      "Peningkatan pembentukan kolagen tipe II",
-      "Gangguan mineralisasi matriks tulang",
-      "Peningkatan pembentukan osteoklas tanpa gangguan mineral",
-      "Penghentian total aktivitas osteoblas",
-      "Penggantian seluruh tulang oleh jaringan otot"
+      "Kurangnya hubungan interpersonal autentik",
+      "Kurangnya alat medis",
+      "Kurangnya pembiayaan",
+      "Kurangnya spesialisasi",
+      "Kurangnya administrasi"
     ],
-    correct: 1,
-    explanation: "PEMBAHASAN:\nVitamin D penting untuk homeostasis kalsium dan fosfat serta mineralisasi tulang. Kekurangannya pada anak dapat menyebabkan rakhitis dengan gangguan mineralisasi."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nCaring menekankan pendekatan holistik, penghormatan terhadap keunikan pasien, hubungan terapeutik berbasis kepercayaan dan empati, serta hubungan interpersonal yang kuat."
   },
   {
     id: 32,
-    text: "Seorang atlet mengalami cedera pada jaringan yang menghubungkan otot dengan tulang setelah melakukan gerakan eksplosif. Jaringan yang paling mungkin mengalami robekan adalah...",
+    text: "Perawat memprioritaskan kepentingan pasien, menjaga privasi, menghargai keyakinan pasien, dan menunjukkan empati. Kombinasi tersebut paling tepat menggambarkan...",
     options: [
-      "Ligamen",
-      "Kartilago",
-      "Tendon",
-      "Diskus intervertebralis",
-      "Sinovium"
+      "Praktik profesional yang berlandaskan etik",
+      "Praktik kuratif",
+      "Pelayanan administratif",
+      "Kewenangan pembiayaan",
+      "Teknologi kesehatan"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nTendon menghubungkan otot dengan tulang dan meneruskan gaya kontraksi otot untuk menghasilkan gerakan. Tendon rentan robek pada gerakan eksplosif."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nArea etik mencakup penghormatan terhadap latar agama, budaya, sosial, prioritas kepentingan pasien, privasi, kerahasiaan, empati, caring, hubungan profesional, serta perlindungan pasien dari pelayanan yang tidak bermutu."
   },
   {
     id: 33,
-    text: "Seorang pasien mengalami cedera lutut dan kerusakan jaringan yang menghubungkan tulang femur dan tibia untuk menjaga stabilitas sendi. Struktur yang paling mungkin cedera adalah...",
+    text: "Seorang perawat menerima tanggung jawab tambahan karena yakin tugas tersebut sesuai kompetensinya. Ia tetap menilai risiko, batas kewenangan, dan kebutuhan supervisi sebelum bertindak. Hal tersebut mencerminkan...",
     options: [
-      "Tendon",
-      "Ligamen",
-      "Periosteum",
-      "Epimisium",
-      "Endomisium"
+      "Professional judgement",
+      "Improvisasi tanpa standar",
+      "Otonomi absolut",
+      "Penghindaran tanggung jawab",
+      "Ketergantungan total"
     ],
-    correct: 1,
-    explanation: "PEMBAHASAN:\nLigamen menghubungkan tulang dengan tulang dan membantu mempertahankan stabilitas sendi. Ligamen di lutut penting untuk stabilitas."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nICN menekankan penggunaan professional judgement ketika perawat menerima atau mendelegasikan tanggung jawab. Penilaian profesional dilakukan dengan mempertimbangkan kompetensi dan ruang lingkup praktik."
   },
   {
     id: 34,
-    text: "Seorang pasien dengan hiperparatiroidisme mengalami peningkatan resorpsi tulang sehingga kadar kalsium darah meningkat. Sel yang berperan langsung dalam resorpsi tulang adalah...",
+    text: "Rekam medis elektronik membuat akses data lebih cepat. Namun perawat hanya memberikan akses kepada pihak yang berkaitan dengan perawatan dan mengikuti ketentuan yang berlaku. Prinsip yang paling tepat adalah...",
     options: [
-      "Osteoklas",
-      "Osteoblas",
-      "Osteosit",
-      "Kondrosit",
-      "Fibroblas"
+      "Teknologi otomatis menghapus privasi",
+      "Data boleh diakses siapa saja",
+      "Penggunaan teknologi tetap harus melindungi privacy dan confidentiality",
+      "Semua data harus dipublikasikan",
+      "Kecepatan lebih penting daripada hak pasien"
     ],
-    correct: 0,
-    explanation: "PEMBAHASAN:\nOsteoklas melakukan resorpsi tulang dengan memecah matriks tulang dan mineral. Osteoblas sebaliknya melakukan pembentukan tulang baru."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nTeknologi tidak menghapus kewajiban etik. ICN menegaskan penggunaan informasi, rekam kesehatan, sistem pelaporan, media, dan teknologi harus tetap melindungi hak manusia, privasi, dan kerahasiaan."
   },
   {
     id: 35,
-    text: "Seorang pasien mengalami kerusakan diskus intervertebralis sehingga tulang belakang tidak mampu meredam tekanan dengan baik. Komponen penting diskus tersebut adalah...",
+    text: "Perawat menghadapi pasien yang mempunyai pilihan berbeda dengan preferensi perawat. Perawat menahan penilaian pribadi, mendengarkan pasien, lalu membantu pasien memahami pilihan yang tersedia. Sikap ini paling dekat dengan kombinasi...",
     options: [
-      "Kartilago elastis dan tendon",
-      "Kartilago hialin dan ligamen",
-      "Fibrokartilago dan nukleus pulposus",
-      "Tulang kompak dan periosteum",
-      "Otot polos dan jaringan adiposa"
+      "Autonomy dan caring",
+      "Curing dan finance",
+      "Punishment dan control",
+      "Technology dan administration",
+      "Diagnosis dan prescription"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nDiskus intervertebralis tersusun atas annulus fibrosus yang mengandung fibrokartilago dan nukleus pulposus di bagian tengah yang berfungsi meredam tekanan."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nCaring menekankan penghormatan terhadap keunikan pasien, sedangkan autonomy berarti menghargai hak pasien dalam pengambilan keputusan. Kombinasi keduanya mendukung hubungan terapeutik yang bermartabat."
   },
   {
     id: 36,
-    text: "Seorang pasien mengalami patah tulang dan beberapa bulan kemudian tulang terus mengalami pembentukan dan resorpsi untuk menyesuaikan kekuatan terhadap beban. Proses tersebut disebut...",
+    text: "Sebuah unit keperawatan ingin meningkatkan mutu. Mereka tidak hanya mengevaluasi tindakan perawat, tetapi juga menilai masukan, proses, dan luaran pelayanan. Pendekatan tersebut sesuai dengan...",
     options: [
-      "Osifikasi primer",
-      "Hematopoiesis",
-      "Mineralisasi akut",
-      "Remodeling tulang",
-      "Kondrogenesis"
+      "Standar mutu pelayanan keperawatan",
+      "Caring saja",
+      "Administrasi keuangan",
+      "Diagnosis medis",
+      "Terapi kuratif"
     ],
-    correct: 3,
-    explanation: "PEMBAHASAN:\nRemodeling tulang merupakan proses berkelanjutan yang melibatkan resorpsi oleh osteoklas dan pembentukan oleh osteoblas untuk menyesuaikan tulang terhadap beban."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nMateri area praktik profesional menyebut standar mutu mencakup rumusan masukan, proses, dan luaran dalam pemberian pelayanan keperawatan. Hal ini digunakan untuk melindungi klien dan menjaga mutu pelayanan."
   },
   {
     id: 37,
-    text: "Seorang pasien mengalami gangguan pada neuromuscular junction sehingga kontraksi otot rangka menjadi lemah. Pemeriksaan menunjukkan gangguan pada reseptor asetilkolin di membran postsinaptik. Struktur yang paling terdampak adalah...",
+    text: "Seorang perawat aktif mengikuti konferensi, membaca jurnal, mengikuti workshop, melakukan mentorship, dan memperbarui pengetahuannya ketika teknologi berubah. Keseluruhan kegiatan tersebut terutama menunjukkan...",
     options: [
-      "Sarkoplasma",
-      "Motor end plate",
-      "Tendon",
-      "Periosteum",
-      "Endomisium"
+      "Socialization saja",
+      "Continuing professional development",
+      "Delegasi",
+      "Curing",
+      "Rujukan"
     ],
     correct: 1,
-    explanation: "PEMBAHASAN:\nMotor end plate merupakan bagian membran serat otot pada neuromuscular junction yang memiliki reseptor asetilkolin."
+    explanation: "PEMBAHASAN:\nMateri menjelaskan pembelajaran berkelanjutan dapat berbentuk pendidikan formal, workshop, sertifikasi, konferensi, membaca jurnal, riset, dan mentorship. Semua bertujuan meningkatkan dan memperbarui kompetensi."
   },
   {
     id: 38,
-    text: "Seorang pasien mengalami kelainan pada jaringan ikat pembungkus otot. Seluruh otot rangka, bukan setiap serat atau fasikulus secara individual, mengalami gangguan pada lapisan pembungkusnya. Struktur tersebut adalah...",
+    text: "Seorang mahasiswa mengamati perilaku profesional dosennya, kemudian menerapkan nilai tersebut saat praktik klinis. Dalam jangka panjang proses tersebut membantu membentuk...",
     options: [
-      "Endomisium",
-      "Perimisium",
-      "Epimisium",
-      "Sarkolema",
-      "Tendon"
+      "Identitas profesional perawat",
+      "Diagnosis keperawatan",
+      "Sistem pembiayaan",
+      "Pelayanan tersier",
+      "Tindakan kuratif"
     ],
-    correct: 2,
-    explanation: "PEMBAHASAN:\nEpimisium membungkus seluruh otot. Perimisium membungkus fasikulus, dan endomisium membungkus serat otot individual."
+    correct: 0,
+    explanation: "PEMBAHASAN:\nSosialisasi profesional dimulai sejak pendidikan melalui kurikulum, etika, hukum, model peran dosen dan perawat klinis, serta pengalaman praktik. Proses tersebut membentuk identitas profesional perawat."
   },
   {
     id: 39,
-    text: "Seorang atlet melakukan kontraksi otot secara cepat. Terjadi peningkatan Ca²⁺ yang memungkinkan interaksi aktin dan miosin. Ca²⁺ berperan terutama dengan...",
+    text: "Seorang perawat menulis pengalaman klinis di media sosial. Ia tidak menyebut nama pasien, tetapi memuat detail yang sangat spesifik sehingga orang lain dapat mengenali pasien. Kesimpulan paling tepat adalah...",
     options: [
-      "Mengikat troponin sehingga tropomiosin bergeser dan situs aktin terbuka",
-      "Menghancurkan ATP agar otot langsung relaks",
-      "Memisahkan aktin dari miosin tanpa menggunakan energi",
-      "Menghambat pelepasan asetilkolin dari neuron motorik",
-      "Menghentikan depolarisasi membran serat otot"
+      "Aman karena nama tidak ditulis",
+      "Tidak masalah karena akun bersifat pribadi",
+      "Tetap berpotensi melanggar privacy dan confidentiality",
+      "Diperbolehkan selama cerita menarik",
+      "Diperbolehkan jika pasien sudah pulang"
     ],
-    correct: 0,
-    explanation: "PEMBAHASAN:\nCa²⁺ berikatan dengan troponin C dan menyebabkan tropomiosin bergeser. Dengan bergesernya tropomiosin, situs pengikatan miosin pada aktin terbuka sehingga cross-bridge dapat terbentuk."
+    correct: 2,
+    explanation: "PEMBAHASAN:\nPrivasi dan kerahasiaan tidak hanya berkaitan dengan penyebutan nama. Informasi personal yang memungkinkan seseorang dikenali tetap harus dilindungi. ICN juga menegaskan integritas profesi harus dijaga di semua media, termasuk media sosial."
   },
   {
     id: 40,
-    text: "Seorang pasien mengalami kondisi setelah kematian ketika otot menjadi kaku karena ATP tidak lagi tersedia dalam jumlah cukup. Mekanisme yang paling tepat adalah...",
+    text: "Seorang perawat menghadapi pasien yang memiliki kebutuhan fisik, emosional, budaya, dan spiritual. Ia melakukan pengkajian menyeluruh, menjaga privasi, menghormati budaya, menyusun rencana berdasarkan diagnosis keperawatan, melaksanakan intervensi, mengevaluasi hasil, berkolaborasi, dan memastikan semua tindakan sesuai kompetensinya. Gambaran tersebut paling tepat menunjukkan...",
     options: [
-      "Ca²⁺ tidak pernah dilepaskan dari retikulum sarkoplasma",
-      "Aktin tidak dapat membentuk filamen",
-      "Miosin tidak dapat melepaskan diri dari aktin",
-      "Asetilkolin terus diproduksi tanpa batas",
-      "Troponin menghancurkan ATP secara berlebihan"
+      "Satu keterampilan teknis saja",
+      "Caring tanpa standar",
+      "Praktik keperawatan profesional yang mengintegrasikan konsep asuhan, caring, etik, legal, kompetensi, dan evaluasi",
+      "Curing murni",
+      "Tindakan administratif"
     ],
     correct: 2,
-    explanation: "PEMBAHASAN:\nATP diperlukan agar kepala miosin dapat melepaskan diri dari aktin. Ketika ATP tidak tersedia (rigor mortis), cross-bridge tetap melekat sehingga otot tetap tegang."
+    explanation: "PEMBAHASAN:\nIni merupakan integrasi inti kisi-kisi. Praktik profesional perawat tidak berdiri pada satu konsep saja. Pengkajian sampai evaluasi berasal dari standar praktik; caring memberi landasan humanistik; etik menjaga privasi, kerahasiaan, budaya, dan kepentingan pasien; legal membatasi praktik pada aturan; kompetensi memastikan perawat bekerja sesuai kemampuan; dan kolaborasi mendukung mutu pelayanan."
   }
 ];
