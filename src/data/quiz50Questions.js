@@ -1,53 +1,654 @@
-// src/data/quizQuestions50.js - 50 soal LATSOL
+// src/data/quizQuestions50.js
+// 50 Soal LATSOL UTS IBD 2026 — Studi Kasus Tingkat Sulit
 export const questions50 = [
-  {"id": 1, "text": "Seorang mahasiswa diminta menjelaskan mengapa gangguan yang awalnya hanya terjadi pada sekelompok sel dapat akhirnya menurunkan fungsi suatu organ. Urutan tingkat organisasi tubuh manusia dari yang paling sederhana menuju yang paling kompleks adalah...", "options": ["Molekul → jaringan → sel → organ → sistem organ → organisme", "Molekul → sel → jaringan → organ → sistem organ → organisme", "Sel → molekul → jaringan → sistem organ → organ → organisme", "Jaringan → sel → molekul → organ → organisme → sistem organ", "Organ → jaringan → sel → molekul → sistem organ → organisme"], "correct": 0, "explanation": "PEMBAHASAN:\nUrutan yang tepat adalah molekul → sel → jaringan → organ → sistem organ → organisme. Molekul menjadi komponen penyusun sel; sel sejenis membentuk jaringan; beberapa jaringan membentuk organ; beberapa organ bekerja bersama dalam sistem organ; seluruh sistem organ menyusun organisme."},
-  {"id": 2, "text": "Seorang pasien akan diperiksa dan dokter menggunakan istilah anatomi sebagai acuan agar semua tenaga kesehatan memiliki orientasi yang sama. Posisi anatomi standar yang tepat adalah...", "options": ["Berdiri tegak, wajah ke depan, lengan di sisi tubuh, telapak tangan menghadap ke depan", "Berdiri tegak, wajah ke belakang, telapak tangan menghadap ke belakang", "Berbaring telentang dengan kedua telapak tangan menghadap ke bawah", "Berdiri dengan lengan di atas kepala dan telapak tangan menghadap belakang", "Duduk tegak dengan kedua telapak tangan menghadap ke samping"], "correct": 0, "explanation": "PEMBAHASAN:\nPosisi anatomi standar digunakan sebagai acuan seluruh istilah lokasi tubuh: berdiri tegak, wajah menghadap depan, lengan di sisi tubuh, dan telapak tangan menghadap ke depan. Posisi ini penting agar istilah seperti medial, lateral, anterior, posterior, proksimal, dan distal konsisten."},
-  {"id": 3, "text": "Seorang pasien mengalami luka pada lengan. Dokter menyebut luka kedua berada lebih dekat ke bahu dibandingkan luka pertama. Istilah yang paling tepat untuk menggambarkan hubungan lokasi kedua luka tersebut adalah...", "options": ["Distal", "Proksimal", "Lateral", "Posterior", "Superfisial"], "correct": 0, "explanation": "PEMBAHASAN:\nProksimal berarti lebih dekat ke pangkal atau titik perlekatan anggota gerak. Bahu menjadi acuan pangkal lengan, sehingga luka yang lebih dekat ke bahu disebut lebih proksimal. Distal berarti lebih jauh dari pangkal."},
-  {"id": 4, "text": "Seorang pendaki berada di lingkungan yang sangat panas. Suhu tubuh mulai meningkat, kemudian tubuh berkeringat dan pembuluh darah kulit melebar sehingga panas lebih mudah dilepaskan. Rangkaian ini paling tepat menggambarkan...", "options": ["Homeostasis melalui umpan balik negatif", "Homeostasis melalui umpan balik positif", "Kegagalan homeostasis karena tubuh berubah", "Perubahan anatomi permanen", "Respons yang tidak melibatkan pusat kontrol"], "correct": 0, "explanation": "PEMBAHASAN:\nKenaikan suhu merupakan stimulus yang memicu pusat kontrol termoregulasi. Efektor menghasilkan respons yang berlawanan dengan perubahan awal, yaitu meningkatkan pelepasan panas. Karena respons tersebut mengurangi stimulus awal, mekanismenya adalah umpan balik negatif."},
-  {"id": 5, "text": "Kadar glukosa darah seseorang meningkat setelah makan. Pankreas meningkatkan insulin sehingga pengambilan dan penyimpanan glukosa meningkat, kemudian glukosa darah turun kembali menuju rentang normal. Prinsip homeostasis yang ditunjukkan adalah...", "options": ["Umpan balik positif", "Umpan balik negatif", "Difusi sederhana", "Respons refleks spinal", "Adaptasi sensorik"], "correct": 0, "explanation": "PEMBAHASAN:\nPada umpan balik negatif, respons tubuh melawan perubahan awal. Glukosa naik memicu insulin, dan efek insulin membantu menurunkan glukosa kembali ke rentang normal. Ini merupakan contoh homeostasis yang disebut dalam materi TM 1."},
-  {"id": 6, "text": "Seorang pasien mengalami kehilangan banyak cairan karena diare. Tubuh kemudian meningkatkan rasa haus dan mempertahankan cairan agar kondisi internal kembali stabil. Pernyataan yang paling tepat mengenai homeostasis adalah...", "options": ["Homeostasis berarti semua variabel tubuh harus selalu bernilai persis sama", "Homeostasis hanya terjadi saat tubuh sakit", "Homeostasis mempertahankan lingkungan internal dalam rentang yang sesuai meskipun kondisi terus berubah", "Homeostasis hanya dikendalikan oleh satu organ", "Homeostasis menghentikan seluruh perubahan fisiologis"], "correct": 0, "explanation": "PEMBAHASAN:\nHomeostasis bukan berarti tidak ada perubahan sama sekali. Tubuh terus menyesuaikan diri agar kondisi internal tetap berada dalam rentang yang sesuai. Kehilangan cairan memicu berbagai respons pengaturan sehingga keseimbangan cairan dapat dipertahankan."},
-  {"id": 7, "text": "Seorang pasien mengalami perubahan perilaku, kesulitan merencanakan suatu tindakan, dan kelemahan gerak pada satu sisi tubuh. Bagian otak yang paling sesuai dengan pola tersebut adalah...", "options": ["Lobus oksipital", "Lobus temporal", "Lobus frontal", "Serebelum", "Medula spinalis"], "correct": 0, "explanation": "PEMBAHASAN:\nLobus frontal berkaitan dengan fungsi motorik sadar, perencanaan, fungsi eksekutif, dan aspek perilaku. Oksipital lebih dominan pada penglihatan, temporal pada pendengaran dan pemahaman bahasa, sedangkan serebelum terutama koordinasi dan keseimbangan."},
-  {"id": 8, "text": "Pasien dapat mendengar suara tetapi tidak memahami makna bahasa yang didengarnya. Tidak ditemukan gangguan pendengaran perifer. Struktur yang paling mungkin terganggu adalah...", "options": ["Lobus frontal", "Lobus parietal", "Lobus temporal", "Lobus oksipital", "Serebelum"], "correct": 0, "explanation": "PEMBAHASAN:\nLobus temporal berperan dalam pemrosesan pendengaran dan pemahaman bahasa. Karena pasien dapat mendengar tetapi kesulitan memahami makna bahasa, gangguan pengolahan kortikal di lobus temporal lebih sesuai."},
-  {"id": 9, "text": "Seorang pasien berjalan sempoyongan dan sulit mempertahankan keseimbangan, tetapi kekuatan otot dasarnya masih relatif baik. Bagian yang paling mungkin mengalami gangguan adalah...", "options": ["Lobus frontal", "Lobus temporal", "Serebelum", "Medula oblongata", "Talamus"], "correct": 0, "explanation": "PEMBAHASAN:\nSerebelum mengoordinasikan gerakan, menjaga keseimbangan dan postur, serta membantu ketepatan gerakan. Gangguan serebelum dapat menyebabkan ataksia tanpa harus menyebabkan kelemahan otot primer."},
-  {"id": 10, "text": "Seorang pasien mengalami cedera batang otak kemudian menunjukkan gangguan pola napas dan fungsi vital otomatis. Struktur yang paling relevan adalah...", "options": ["Lobus oksipital", "Serebelum", "Medula oblongata", "Lobus parietal", "Korteks sensorik"], "correct": 0, "explanation": "PEMBAHASAN:\nMedula oblongata merupakan bagian batang otak yang berperan pada pengaturan fungsi vital otomatis seperti pernapasan, aktivitas kardiovaskular, dan refleks tertentu. Karena itu cedera di area ini dapat berbahaya bagi fungsi hidup."},
-  {"id": 11, "text": "Pada trauma medula spinalis, dokter menemukan kerusakan pada akar dorsal. Defisit yang paling sesuai adalah...", "options": ["Gangguan sensorik karena jalur aferen masuk melalui akar dorsal", "Gangguan motorik karena semua neuron motorik keluar melalui akar dorsal", "Gangguan kontraksi jantung langsung", "Gangguan sekresi hormon hipofisis", "Gangguan pencernaan karena akar dorsal mengontrol semua enzim"], "correct": 0, "explanation": "PEMBAHASAN:\nAkar dorsal/posterior membawa informasi sensorik menuju medula spinalis sehingga termasuk jalur aferen. Akar ventral/anterior membawa keluaran motorik sehingga kerusakan akar ventral lebih berkaitan dengan defisit motorik."},
-  {"id": 12, "text": "Seorang pasien tidak sengaja menyentuh benda panas dan tangannya ditarik sebelum ia sempat menyadari rasa nyeri secara penuh. Urutan lengkung refleks yang paling tepat adalah...", "options": ["Reseptor → aferen → pusat integrasi → eferen → efektor", "Efektor → aferen → pusat integrasi → reseptor → eferen", "Reseptor → eferen → pusat integrasi → aferen → efektor", "Pusat integrasi → reseptor → aferen → efektor → eferen", "Aferen → reseptor → eferen → pusat integrasi → efektor"], "correct": 0, "explanation": "PEMBAHASAN:\nRefleks dimulai dari reseptor yang mendeteksi stimulus. Informasi masuk melalui neuron aferen menuju pusat integrasi di SSP, kemudian perintah keluar melalui neuron eferen menuju efektor. Proses ini memungkinkan respons protektif berlangsung sangat cepat."},
-  {"id": 13, "text": "Seorang pasien disentuh pada kulit dengan stimulus yang semakin kuat. Dokter menjelaskan bahwa kekuatan stimulus tidak membuat satu potensial aksi menjadi semakin tinggi. Intensitas terutama dikodekan melalui...", "options": ["Penurunan jumlah neuron yang aktif", "Peningkatan frekuensi potensial aksi dan perekrutan reseptor", "Perubahan warna neuron", "Pembesaran fisik akson", "Peningkatan ukuran satu potensial aksi tanpa batas"], "correct": 0, "explanation": "PEMBAHASAN:\nPotensial aksi bersifat all-or-none. Karena itu, peningkatan intensitas stimulus terutama dikodekan melalui peningkatan frekuensi impuls dan jumlah reseptor/neuron yang direkrut, bukan dengan memperbesar amplitudo satu potensial aksi secara terus-menerus."},
-  {"id": 14, "text": "Seorang pasien berada pada keadaan takut mendadak. Pupil melebar, denyut jantung meningkat, dan motilitas saluran cerna menurun. Pada saat yang sama, pemeriksaan pupil menunjukkan jalur saraf kranial yang mengatur respons pupil tetap berfungsi. Sistem saraf yang dominan pada perubahan fisiologis tersebut adalah...", "options": ["Parasimpatis", "Simpatis", "Somatik motorik", "Aferen sensorik", "Serebelar"], "correct": 0, "explanation": "PEMBAHASAN:\nPola pupil melebar, denyut jantung meningkat, dan aktivitas pencernaan menurun merupakan respons simpatis pada keadaan ancaman. Sistem saraf otonom mengatur fungsi organ viseral, sedangkan sistem somatik terutama mengendalikan otot rangka."},
-  {"id": 15, "text": "Seorang pasien mengalami nyeri ulu hati dan hasil pemeriksaan menunjukkan gangguan pada lambung. Dokter mengingatkan bahwa salah satu fungsi utama lambung dalam pencernaan adalah mengaduk makanan dan menyediakan lingkungan asam untuk membantu pencernaan protein. Pernyataan yang paling tepat adalah...", "options": ["Lambung hanya berfungsi menyerap air", "Lambung berperan pada penyimpanan, pengadukan, sekresi asam, dan pencernaan protein awal", "Lambung merupakan tempat utama absorpsi semua nutrisi", "Lambung hanya menghasilkan empedu", "Lambung tidak mempunyai fungsi mekanik"], "correct": 0, "explanation": "PEMBAHASAN:\nLambung berfungsi sebagai tempat penyimpanan sementara, pengadukan, sekresi asam dan faktor lain, serta pencernaan protein tahap awal. Sebagian besar absorpsi nutrisi terjadi di usus halus, bukan lambung."},
-  {"id": 16, "text": "Seorang pasien mengalami insufisiensi pankreas sehingga produksi enzim pencernaan menurun. Kelompok zat yang paling luas akan mengalami gangguan pencernaan adalah...", "options": ["Hanya air dan elektrolit", "Karbohidrat, protein, dan lipid", "Hanya vitamin larut air", "Hanya serat", "Hanya mineral"], "correct": 0, "explanation": "PEMBAHASAN:\nPankreas menghasilkan amilase untuk karbohidrat, berbagai protease untuk protein, dan lipase untuk lipid. Karena itu, gangguan eksokrin pankreas dapat memengaruhi pencernaan ketiga makronutrien tersebut."},
-  {"id": 17, "text": "Seorang pasien mengalami sumbatan aliran empedu dan kemudian tinjanya menjadi berminyak. Mekanisme yang paling tepat adalah...", "options": ["Garam empedu tidak lagi dapat membantu emulsifikasi dan pembentukan misel secara optimal", "Pepsin tidak dapat memecah protein", "SGLT-1 berhenti membawa glukosa", "GLUT-5 berhenti mengangkut fruktosa", "Laktase berhenti memecah laktosa"], "correct": 0, "explanation": "PEMBAHASAN:\nGaram empedu membantu emulsifikasi lipid dan pembentukan misel. Jika alirannya terganggu, pencernaan/absorpsi lipid menurun dan dapat terjadi steatorea atau tinja berminyak."},
-  {"id": 18, "text": "Setelah makan, glukosa di lumen usus perlu masuk ke enterosit. Seorang mahasiswa memilih GLUT-5 karena menganggap semua monosakarida menggunakan transporter yang sama. Koreksi yang paling tepat adalah...", "options": ["Glukosa terutama masuk melalui SGLT-1 bersama Na+, sedangkan fruktosa terutama menggunakan GLUT-5", "Glukosa dan fruktosa sama-sama hanya menggunakan GLUT-4 di apikal", "Glukosa masuk melalui PepT1", "Fruktosa masuk melalui SGLT-1 bersama protein", "Semua monosakarida masuk melalui difusi sederhana tanpa transporter"], "correct": 0, "explanation": "PEMBAHASAN:\nPada membran apikal enterosit, glukosa dan galaktosa masuk melalui SGLT-1 bersama Na+, sedangkan fruktosa menggunakan GLUT-5. Setelah masuk enterosit, monosakarida keluar melalui GLUT-2 pada membran basolateral."},
-  {"id": 19, "text": "Seseorang dengan berat 72 kg memiliki tinggi 1,60 m. Ia datang untuk penilaian status gizi. Rumus IMT yang benar adalah berat badan dibagi kuadrat tinggi badan. Nilai IMT pasien paling mendekati...", "options": ["18,1 kg/m²", "22,5 kg/m²", "28,1 kg/m²", "32,0 kg/m²", "45,0 kg/m²"], "correct": 0, "explanation": "PEMBAHASAN:\nIMT = 72/(1,60²) = 72/2,56 = 28,125 kg/m², sehingga paling dekat dengan 28,1 kg/m². IMT digunakan sebagai salah satu indikator status gizi, bukan satu-satunya penilaian komposisi tubuh."},
-  {"id": 20, "text": "Seorang pasien berpuasa cukup lama. Kadar glukosa darah mulai turun dan tubuh perlu mempertahankan pasokan glukosa untuk jaringan yang bergantung pada glukosa. Urutan metabolik yang paling sesuai adalah...", "options": ["Insulin naik → glikogenesis → glukosa darah turun", "Glukagon naik → glikogenolisis dan kemudian glukoneogenesis", "Insulin naik → lipogenesis → ketogenesis", "Glukagon turun → glikogenesis", "GLUT-5 naik → glukosa dibuat di kolon"], "correct": 0, "explanation": "PEMBAHASAN:\nPada puasa, insulin relatif turun dan glukagon meningkat. Hati terlebih dahulu menggunakan glikogenolisis untuk menjaga glukosa, kemudian glukoneogenesis semakin berperan ketika cadangan glikogen menipis."},
-  {"id": 21, "text": "Seorang pasien mengalami konstipasi kronis. Edukasi difokuskan pada fungsi kolon. Pernyataan yang paling tepat tentang kolon adalah...", "options": ["Kolon terutama menyerap kembali air dan elektrolit serta membentuk dan menyimpan feses", "Kolon merupakan tempat utama produksi insulin", "Kolon merupakan lokasi utama sekresi empedu", "Kolon menyerap semua protein utuh", "Kolon merupakan tempat utama pertukaran gas"], "correct": 0, "explanation": "PEMBAHASAN:\nKolon berperan besar pada reabsorpsi air dan elektrolit, aktivitas mikrobiota, pembentukan serta penyimpanan feses sebelum defekasi. Pencernaan dan absorpsi sebagian besar zat gizi berlangsung terutama di usus halus."},
-  {"id": 22, "text": "Seorang atlet memiliki berat badan 85 kg dan tinggi 1,75 m. Ia mempunyai massa otot tinggi sehingga IMT tampak lebih tinggi. Kesimpulan yang paling tepat adalah...", "options": ["IMT selalu sama dengan persentase lemak tubuh", "IMT dapat digunakan sebagai skrining tetapi tidak membedakan massa lemak dan massa otot", "IMT tidak boleh digunakan pada siapa pun", "IMT hanya mengukur tinggi badan", "IMT hanya berlaku pada anak"], "correct": 0, "explanation": "PEMBAHASAN:\nIMT bermanfaat sebagai indikator awal status berat badan, tetapi tidak memberikan informasi langsung tentang komposisi tubuh. Atlet dengan massa otot tinggi dapat memiliki IMT lebih tinggi tanpa proporsi lemak yang tinggi."},
-  {"id": 23, "text": "Sebuah hormon tidak dapat menembus membran plasma dan setelah berikatan dengan reseptornya justru mengaktifkan protein G. Jalur kerja yang paling sesuai adalah...", "options": ["Reseptor intraseluler langsung pada DNA", "Reseptor membran dengan second messenger", "Masuk ke nukleus tanpa reseptor", "Ikatan langsung dengan ribosom", "Masuk ke mitokondria tanpa reseptor"], "correct": 0, "explanation": "PEMBAHASAN:\nHormon yang larut air umumnya tidak menembus bilayer lipid sehingga bekerja melalui reseptor membran. Reseptor tersebut dapat mengaktifkan second messenger seperti cAMP atau IP3/DAG untuk menghasilkan respons sel."},
-  {"id": 24, "text": "Seorang anak mengalami pertumbuhan linear yang lambat. Dokter mencurigai gangguan sumbu hormon pertumbuhan. Urutan yang paling sesuai adalah...", "options": ["GHRH → GH → IGF-1 → pertumbuhan jaringan/tulang", "TRH → TSH → insulin → pertumbuhan", "ACTH → kortisol → IGF-1 saja", "PTH → kalsitonin → GH", "ADH → aldosteron → IGF-1"], "correct": 0, "explanation": "PEMBAHASAN:\nHipotalamus menghasilkan GHRH yang merangsang hipofisis anterior mengeluarkan GH. GH kemudian merangsang pembentukan IGF-1 yang berperan penting dalam pertumbuhan tulang dan jaringan."},
-  {"id": 25, "text": "Seorang pasien mengalami dehidrasi. Tubuh perlu menurunkan kehilangan air melalui urin. Hormon yang paling langsung membantu mekanisme ini adalah...", "options": ["ADH", "GH", "TSH", "Glukagon", "Kalsitonin"], "correct": 0, "explanation": "PEMBAHASAN:\nADH membantu ginjal meningkatkan reabsorpsi air, sehingga air lebih banyak dipertahankan dan volume urin dapat berkurang. Ini merupakan bagian dari homeostasis keseimbangan cairan."},
-  {"id": 26, "text": "Seorang pasien baru makan makanan tinggi karbohidrat. Glukosa darah meningkat. Sel beta pankreas merespons dengan insulin. Dampak yang paling sesuai adalah...", "options": ["Peningkatan pengambilan glukosa oleh jaringan responsif insulin dan peningkatan penyimpanan glukosa", "Peningkatan glikogenolisis hati", "Peningkatan ketogenesis sebagai respons utama setelah makan", "Penurunan translokasi GLUT-4", "Peningkatan glukoneogenesis sebagai respons utama"], "correct": 0, "explanation": "PEMBAHASAN:\nInsulin dominan pada keadaan kenyang. Insulin meningkatkan pengambilan glukosa pada jaringan seperti otot dan adiposa melalui GLUT-4 serta mendorong penyimpanan glukosa sebagai glikogen."},
-  {"id": 27, "text": "Pasien berpuasa dan kadar glukosa turun. Hormon yang bekerja berlawanan dengan insulin untuk membantu meningkatkan glukosa darah adalah...", "options": ["Glukagon", "Insulin", "Kalsitonin", "ADH", "Estrogen"], "correct": 0, "explanation": "PEMBAHASAN:\nGlukagon dari sel alfa pankreas meningkat pada keadaan glukosa rendah. Hormon ini merangsang glikogenolisis dan glukoneogenesis hati sehingga membantu mempertahankan glukosa darah."},
-  {"id": 28, "text": "Seorang pasien mengalami hipertiroidisme. Keluhan berupa mudah berkeringat, jantung berdebar, dan berat badan menurun. Penjelasan yang paling tepat adalah...", "options": ["T3/T4 meningkatkan aktivitas metabolik dan dapat meningkatkan respons terhadap katekolamin", "T3/T4 selalu menurunkan metabolisme", "T3/T4 hanya bekerja pada tulang", "T3/T4 menghambat produksi panas", "T3/T4 tidak berhubungan dengan metabolisme"], "correct": 0, "explanation": "PEMBAHASAN:\nT3 dan T4 meningkatkan laju metabolisme, konsumsi oksigen, produksi panas, serta sensitivitas terhadap katekolamin. Kelebihan hormon tiroid karena itu dapat menyebabkan hipermetabolisme dan gejala seperti berdebar serta berkeringat."},
-  {"id": 29, "text": "Seorang pasien mengalami hipokalsemia. Respons hormonal yang paling sesuai untuk membantu mempertahankan Ca2+ darah adalah...", "options": ["Peningkatan PTH dan aktivasi vitamin D; kalsitonin bukan respons utama untuk menaikkan Ca2+", "Penurunan PTH dan peningkatan kalsitonin", "Peningkatan insulin saja", "Peningkatan TSH saja", "Peningkatan ADH saja"], "correct": 0, "explanation": "PEMBAHASAN:\nPenurunan Ca2+ merangsang PTH. PTH membantu meningkatkan reabsorpsi Ca2+ di ginjal dan merangsang aktivasi vitamin D sehingga absorpsi Ca2+ usus meningkat. Kalsitonin memiliki efek berlawanan, yaitu cenderung menurunkan Ca2+."},
-  {"id": 30, "text": "Seseorang mengalami kecelakaan dan langsung menunjukkan takikardia, peningkatan tekanan darah, serta pelebaran pupil. Respons cepat tersebut terutama berkaitan dengan...", "options": ["Aktivasi simpatis dan medula adrenal dengan pelepasan katekolamin", "Aktivasi sumbu HPA sebagai satu-satunya respons dalam hitungan detik", "Peningkatan PTH", "Peningkatan insulin", "Penurunan aktivitas simpatis"], "correct": 0, "explanation": "PEMBAHASAN:\nRespons stres cepat berlangsung melalui sistem simpatis dan medula adrenal sehingga katekolamin seperti epinefrin dan norepinefrin meningkat. Sumbu HPA dan kortisol lebih berkaitan dengan respons stres yang berlangsung lebih lama."},
-  {"id": 31, "text": "Seorang pasien mengalami osteoporosis dan dokter menjelaskan bahwa tulang tidak hanya berfungsi sebagai penopang. Kombinasi fungsi yang paling tepat adalah...", "options": ["Menopang, melindungi organ, menjadi alat gerak pasif, hematopoiesis, dan menyimpan mineral", "Menghasilkan empedu, insulin, dan neurotransmiter", "Mengatur ventilasi dan pencernaan", "Menghasilkan semua hormon tubuh", "Menjadi lokasi utama pertukaran gas"], "correct": 0, "explanation": "PEMBAHASAN:\nMateri sistem rangka mencantumkan fungsi mekanik dan fisiologis: menopang tubuh, melindungi organ vital, menjadi alat gerak pasif, hematopoiesis, remodeling/pertumbuhan, serta penyimpanan mineral dan lipid."},
-  {"id": 32, "text": "Dokter meminta mahasiswa membedakan rangka aksial dan apendikular. Pernyataan yang benar adalah...", "options": ["Aksial membentuk sumbu tubuh; apendikular membentuk anggota gerak dan gelangnya", "Aksial hanya terdiri dari lengan dan kaki", "Apendikular hanya terdiri dari tengkorak", "Aksial berjumlah 126 tulang dan apendikular 80 tulang", "Keduanya tidak memiliki hubungan dengan gerak"], "correct": 0, "explanation": "PEMBAHASAN:\nRangka aksial terdiri dari sekitar 80 tulang yang membentuk sumbu tubuh. Rangka apendikular terdiri dari sekitar 126 tulang yang membentuk gelang bahu, anggota gerak atas, gelang panggul, dan anggota gerak bawah."},
-  {"id": 33, "text": "Pasien mengalami cedera lutut pada sendi yang memiliki rongga, kapsul, cairan sinovial, dan kartilago artikular. Klasifikasi sendi tersebut adalah...", "options": ["Sinartrosis fibrosa", "Amfiartrosis kartilaginosa", "Diartrosis sinovial", "Sutura", "Sendi fibrosa tetap"], "correct": 0, "explanation": "PEMBAHASAN:\nSendi sinovial memiliki rongga sinovial, cairan sinovial, kapsul, dan kartilago artikular serta memungkinkan gerakan relatif bebas. Lutut merupakan contoh sendi sinovial."},
-  {"id": 34, "text": "Seorang atlet mengalami robekan pada bantalan di antara korpus vertebra yang tersusun dari pusat lunak dan bagian luar fibrosa. Struktur yang cedera adalah...", "options": ["Diskus intervertebralis", "Kartilago elastik daun telinga", "Ligamen kolateral", "Sumsum kuning", "Periosteum"], "correct": 0, "explanation": "PEMBAHASAN:\nDiskus intervertebralis berada di antara korpus vertebra dan membantu menahan serta mendistribusikan beban. Materi rangka memasukkannya dalam contoh struktur kartilaginosa dan membahas fungsi penahan tekanan."},
-  {"id": 35, "text": "Seorang pasien mengalami nyeri pada simfisis pubis. Jaringan yang sesuai dengan lokasi tersebut adalah...", "options": ["Kartilago fibrosa", "Kartilago elastik", "Kartilago hialin saja", "Tulang kompak", "Tendon"], "correct": 0, "explanation": "PEMBAHASAN:\nSimfisis pubis merupakan contoh persendian kartilaginosa yang mengandung fibrocartilage atau kartilago fibrosa. Jenis ini kuat terhadap tekanan dan juga terdapat pada diskus intervertebralis."},
-  {"id": 36, "text": "Pasien mengalami mikrokerusakan tulang berulang akibat aktivitas. Tubuh melakukan proses yang membongkar tulang lama lalu mengisi rongga dengan tulang baru. Urutan sel yang paling tepat adalah...", "options": ["Osteoklas meresorpsi → osteoblas membentuk → mineralisasi", "Osteoblas meresorpsi → osteoklas membentuk", "Osteosit menghancurkan → kondrosit membentuk", "Kondrosit meresorpsi → osteosit membentuk", "Fibroblas meresorpsi → osteoblas menghilang"], "correct": 0, "explanation": "PEMBAHASAN:\nRemodeling berlangsung melalui aktivasi, resorpsi oleh osteoklas, pembentukan matriks baru oleh osteoblas, lalu mineralisasi. Proses ini penting untuk memperbaiki mikrokerusakan dan menjaga kekuatan tulang."},
-  {"id": 37, "text": "Seorang pasien mengalami gangguan pada otot yang melekat pada tulang dan digunakan untuk gerakan sadar. Jenis otot tersebut adalah...", "options": ["Otot rangka", "Otot polos", "Otot jantung", "Otot viseral otomatis", "Otot kelenjar"], "correct": 0, "explanation": "PEMBAHASAN:\nOtot rangka melekat pada tulang dan terutama digunakan untuk gerak sadar/volunter. Otot polos terdapat pada organ viseral, sedangkan otot jantung terdapat pada miokardium."},
-  {"id": 38, "text": "Pada operasi, dokter menjelaskan lapisan jaringan ikat yang membungkus satu fasikulus otot. Istilah yang tepat adalah...", "options": ["Epimisium", "Perimisium", "Endomisium", "Sarkolema", "Tendon"], "correct": 0, "explanation": "PEMBAHASAN:\nEpimisium membungkus seluruh otot, perimisium membungkus fasikulus, dan endomisium membungkus satu serabut otot. Ketiga lapisan membantu menopang dan meneruskan gaya otot."},
-  {"id": 39, "text": "Sebuah obat menghambat pelepasan neurotransmiter pada neuromuscular junction. Neurotransmiter yang normalnya dilepaskan neuron motorik ke otot rangka adalah...", "options": ["Asetilkolin", "Dopamin", "Serotonin", "Norepinefrin", "Glutamat"], "correct": 0, "explanation": "PEMBAHASAN:\nPada neuromuscular junction otot rangka, neuron motorik melepaskan asetilkolin. Asetilkolin berikatan dengan reseptor nikotinik Nm pada motor end plate untuk menghasilkan depolarisasi otot."},
-  {"id": 40, "text": "Seorang pasien mengalami gangguan sehingga Ca2+ tidak dapat berikatan dengan troponin secara normal. Akibat paling langsung adalah...", "options": ["Situs pengikatan miosin pada aktin tidak terbuka secara optimal sehingga cross-bridge berkurang", "ATP langsung berubah menjadi DNA", "Miosin berubah menjadi kolagen", "Tendon menghasilkan Ca2+", "Sarkomer otomatis memanjang tanpa kontrol"], "correct": 0, "explanation": "PEMBAHASAN:\nCa2+ berikatan dengan troponin C dan menyebabkan tropomiosin bergeser. Jika Ca2+ tidak dapat berikatan dengan troponin, situs pada aktin tetap lebih tertutup sehingga interaksi aktin-miosin berkurang dan kontraksi terganggu."},
-  {"id": 41, "text": "Seorang atlet melakukan gerakan mengangkat beban. Energi diperlukan agar kepala miosin dapat melakukan siklus jembatan silang dan kemudian melepaskan diri dari aktin. Pernyataan yang paling tepat adalah...", "options": ["ATP diperlukan untuk melepaskan kepala miosin dari aktin dan mengenergikan kembali kepala miosin", "ATP hanya diperlukan untuk pembentukan tulang", "ATP hanya digunakan saat saraf menerima stimulus", "ATP mengubah aktin menjadi Ca2+", "ATP tidak diperlukan dalam kontraksi"], "correct": 0, "explanation": "PEMBAHASAN:\nATP berikatan dengan kepala miosin sehingga afinitas terhadap aktin menurun dan kepala miosin lepas. Hidrolisis ATP kemudian mengenergikan kembali kepala miosin. ATP juga dibutuhkan oleh SERCA untuk memompa Ca2+ kembali ke retikulum sarkoplasma saat relaksasi."},
-  {"id": 42, "text": "Seorang pasien mengalami kelelahan otot karena gangguan pada langkah setelah potensial aksi masuk ke T-tubulus. Mekanisme yang seharusnya terjadi setelah depolarisasi T-tubulus adalah...", "options": ["Aktivasi DHPR/CaV1.1 → RyR1 membuka → Ca2+ keluar dari retikulum sarkoplasma → troponin C teraktivasi", "GLUT-5 aktif → glukosa masuk → troponin dihancurkan", "PepT1 aktif → asam amino masuk → aktin menghilang", "PTH meningkat → Ca2+ masuk dari tulang langsung ke aktin", "Insulin aktif → Na+ keluar → miosin berubah menjadi aktin"], "correct": 0, "explanation": "PEMBAHASAN:\nEksitasi pada T-tubulus mengaktifkan sensor tegangan DHPR/CaV1.1 yang berhubungan dengan RyR1 pada retikulum sarkoplasma. RyR1 melepaskan Ca2+, kemudian Ca2+ berikatan dengan troponin C dan memungkinkan interaksi aktin-miosin."},
-  {"id": 43, "text": "Seorang pasien mengalami kerusakan pada lapisan jantung yang langsung bersinggungan dengan darah di dalam ruang jantung. Lapisan tersebut adalah...", "options": ["Endokardium", "Miokardium", "Epikardium", "Perikardium fibrosa", "Pleura"], "correct": 0, "explanation": "PEMBAHASAN:\nEndokardium melapisi bagian dalam ruang jantung. Miokardium merupakan lapisan otot jantung yang menghasilkan gaya kontraksi, sedangkan epikardium merupakan lapisan luar permukaan jantung."},
-  {"id": 44, "text": "Darah dari seluruh tubuh kembali melalui vena kava. Ruang pertama yang menerima darah tersebut adalah...", "options": ["Atrium kanan", "Ventrikel kanan", "Atrium kiri", "Ventrikel kiri", "Aorta"], "correct": 0, "explanation": "PEMBAHASAN:\nVena kava superior dan inferior membawa darah kembali dari sirkulasi sistemik menuju atrium kanan. Dari atrium kanan darah melewati katup trikuspid menuju ventrikel kanan."},
-  {"id": 45, "text": "Seorang pasien mengalami gangguan katup antara atrium kiri dan ventrikel kiri. Katup yang paling tepat adalah...", "options": ["Mitral/bikuspid", "Trikuspid", "Pulmonal", "Aorta", "Vena kava"], "correct": 0, "explanation": "PEMBAHASAN:\nKatup mitral atau bikuspid merupakan katup atrioventrikular kiri. Katup ini mencegah darah mengalir kembali ke atrium kiri ketika ventrikel kiri berkontraksi."},
-  {"id": 46, "text": "Darah miskin oksigen dari ventrikel kanan dipompa menuju paru. Jalur yang paling tepat adalah...", "options": ["Ventrikel kanan → katup pulmonal → arteri pulmonalis → paru", "Ventrikel kanan → katup aorta → aorta → paru", "Atrium kanan → vena pulmonalis → paru", "Ventrikel kiri → arteri pulmonalis → paru", "Atrium kiri → vena kava → paru"], "correct": 0, "explanation": "PEMBAHASAN:\nSirkulasi pulmonalis dimulai dari ventrikel kanan. Darah melewati katup semilunaris pulmonal menuju trunkus/arteri pulmonalis dan kemudian ke paru untuk pertukaran gas."},
-  {"id": 47, "text": "Darah yang telah teroksigenasi di paru kembali ke jantung dan akhirnya akan dipompa ke seluruh tubuh. Urutan ruang jantung yang paling tepat setelah darah masuk dari paru adalah...", "options": ["Vena pulmonalis → atrium kiri → katup mitral → ventrikel kiri → aorta", "Vena pulmonalis → atrium kanan → ventrikel kanan → aorta", "Arteri pulmonalis → atrium kiri → ventrikel kanan → aorta", "Vena kava → atrium kiri → ventrikel kiri → aorta", "Vena pulmonalis → ventrikel kiri langsung tanpa atrium"], "correct": 0, "explanation": "PEMBAHASAN:\nDarah beroksigen dari paru kembali melalui vena pulmonalis ke atrium kiri. Selanjutnya melewati katup mitral ke ventrikel kiri, lalu dipompa melalui katup aorta menuju aorta untuk sirkulasi sistemik."},
-  {"id": 48, "text": "Seorang pasien mengalami gangguan irama karena impuls tidak lagi menyebar secara normal dari pacemaker menuju miokardium ventrikel. Urutan sistem konduksi jantung yang benar adalah...", "options": ["SA → AV → berkas His → cabang berkas → Purkinje", "AV → SA → Purkinje → His", "Purkinje → SA → AV → His", "SA → Purkinje → AV → His", "His → SA → AV → Purkinje"], "correct": 0, "explanation": "PEMBAHASAN:\nImpuls normal dimulai di nodus SA, diteruskan ke nodus AV, kemudian melalui berkas His, cabang berkas kanan dan kiri, dan akhirnya serat Purkinje menyebarkan impuls ke miokardium ventrikel."},
-  {"id": 49, "text": "Seorang mahasiswa ditanya bagaimana menghitung cardiac output. Ia mengetahui frekuensi jantung pasien adalah 80 kali/menit dan stroke volume 70 mL/denyut. Cardiac output pasien adalah...", "options": ["150 mL/menit", "560 mL/menit", "5.600 mL/menit", "56.000 mL/menit", "80 mL/menit"], "correct": 0, "explanation": "PEMBAHASAN:\nCardiac output = heart rate × stroke volume. Jadi 80 denyut/menit × 70 mL/denyut = 5.600 mL/menit atau sekitar 5,6 L/menit."},
-  {"id": 50, "text": "Seorang pasien mengalami kebocoran katup atrioventrikular. Dampak utama yang ingin dicegah oleh katup normal saat ventrikel berkontraksi adalah...", "options": ["Aliran balik darah dari ventrikel ke atrium", "Aliran darah dari atrium ke ventrikel saat diastol", "Aliran darah dari vena ke atrium", "Pertukaran gas di paru", "Pembentukan impuls SA"], "correct": 0, "explanation": "PEMBAHASAN:\nKatup AV, yaitu trikuspid dan mitral, menutup saat ventrikel berkontraksi sehingga darah tidak kembali ke atrium. Katup semilunaris mencegah aliran balik dari arteri ke ventrikel setelah ejeksi."}
+  {
+    id: 1,
+    text: "Seorang pasien mengalami gangguan pada sel epitel usus sehingga kemampuan absorpsi nutrisi menurun. Setelah beberapa minggu, pasien mengalami penurunan berat badan dan kelemahan. Berdasarkan tingkat organisasi tubuh manusia, hubungan yang paling tepat untuk menjelaskan kondisi tersebut adalah...",
+    options: [
+      "Organ dapat bekerja normal meskipun jaringan penyusunnya mengalami kerusakan",
+      "Kerusakan sel dapat mengganggu jaringan, organ, hingga fungsi sistem organ",
+      "Sistem organ tidak dipengaruhi oleh perubahan yang terjadi pada tingkat sel",
+      "Jaringan epitel hanya berfungsi sebagai pelindung sehingga tidak berhubungan dengan nutrisi",
+      "Gangguan absorpsi hanya menunjukkan adanya perubahan pada tingkat molekul"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nTubuh tersusun hierarki: molekul → sel → jaringan → organ → sistem organ. Kerusakan sel epitel usus mengganggu jaringan epitel, fungsi usus sebagai organ, dan akhirnya sistem pencernaan sehingga menyebabkan penurunan berat badan dan kelemahan."
+  },
+  {
+    id: 2,
+    text: "Seorang mahasiswa berdiri tegak dengan kedua telapak tangan menghadap ke depan saat mempelajari posisi anatomi. Dosen kemudian meminta mahasiswa menentukan posisi jantung terhadap tulang belakang. Pernyataan yang tepat adalah...",
+    options: [
+      "Jantung berada posterior terhadap tulang belakang",
+      "Jantung berada inferior terhadap tulang belakang",
+      "Jantung berada lateral terhadap tulang belakang",
+      "Jantung berada anterior terhadap tulang belakang",
+      "Jantung berada distal terhadap tulang belakang"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nAnterior berarti berada di depan, posterior berada di belakang. Jantung terletak di depan (anterior) terhadap tulang belakang dalam rongga toraks."
+  },
+  {
+    id: 3,
+    text: "Seorang pasien mengalami peningkatan suhu tubuh. Hipotalamus mendeteksi perubahan suhu dan memicu mekanisme untuk mengembalikan suhu tubuh mendekati kondisi normal. Beberapa saat kemudian, respons tersebut berkurang setelah suhu kembali normal. Mekanisme tersebut menunjukkan...",
+    options: [
+      "Umpan balik negatif yang mempertahankan homeostasis",
+      "Umpan balik positif yang memperkuat perubahan awal",
+      "Difusi sederhana untuk mempertahankan suhu tubuh",
+      "Transport aktif yang menghasilkan perubahan suhu",
+      "Mekanisme antagonis tanpa keterlibatan pusat regulasi"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nUmpan balik negatif mengurangi penyimpangan dari kondisi normal. Ketika suhu meningkat, tubuh merespons untuk menurunkannya hingga mendekati normal. Respon berkurang ketika stimulus awal hilang."
+  },
+  {
+    id: 4,
+    text: "Seorang pasien mengalami hipoksia berat akibat gangguan pernapasan. Pemeriksaan menunjukkan penurunan produksi ATP sehingga pompa ion membran tidak mampu bekerja secara optimal. Struktur sel yang paling berkaitan langsung dengan kondisi tersebut adalah...",
+    options: [
+      "Lisosom",
+      "Ribosom",
+      "Mitokondria",
+      "Aparatus Golgi",
+      "Retikulum endoplasma"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nMitokondria merupakan organel utama penghasil ATP melalui fosforilasi oksidatif. Kekurangan oksigen menghambat produksi ATP di mitokondria."
+  },
+  {
+    id: 5,
+    text: "Seorang pasien mendapatkan obat yang menghambat kerja pompa Na⁺/K⁺-ATPase pada membran sel. Setelah beberapa waktu, gradien ion membran mulai menurun. Perubahan yang paling tepat adalah...",
+    options: [
+      "Natrium intrasel menurun dan kalium intrasel meningkat",
+      "Natrium dan kalium berhenti melakukan perpindahan melalui membran",
+      "Kalium ekstrasel meningkat karena seluruh kalium masuk sel",
+      "Natrium intrasel meningkat dan kalium intrasel menurun",
+      "Potensial membran menjadi lebih negatif karena gradien ion meningkat"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nPompa Na⁺/K⁺-ATPase normalnya memindahkan 3 Na⁺ keluar dan 2 K⁺ masuk. Jika terhambat, Na⁺ menumpuk di dalam sel dan K⁺ berkurang di dalam sel."
+  },
+  {
+    id: 6,
+    text: "Seorang atlet melakukan sprint maksimal selama beberapa detik. Kebutuhan ATP otot meningkat sangat cepat, sedangkan suplai oksigen belum mampu memenuhi kebutuhan energi tersebut. Mekanisme metabolisme yang paling berperan pada kondisi tersebut adalah...",
+    options: [
+      "Glikolisis anaerobik dengan pembentukan laktat",
+      "Penghentian seluruh metabolisme mitokondria",
+      "Pemecahan protein sebagai sumber energi utama",
+      "Penghentian penggunaan glukosa oleh sel otot",
+      "Peningkatan sintesis glikogen selama kontraksi"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nPada aktivitas intensitas tinggi, glikolisis anaerobik menyediakan ATP dengan cepat tanpa membutuhkan oksigen secara langsung dan menghasilkan laktat."
+  },
+  {
+    id: 7,
+    text: "Seorang pasien mengalami stroke pada area Broca di hemisfer dominan. Pasien masih dapat memahami pembicaraan orang lain, tetapi kesulitan menyusun dan mengucapkan kata-kata. Gangguan tersebut terutama menunjukkan...",
+    options: [
+      "Gangguan pemahaman bahasa",
+      "Gangguan keseimbangan tubuh",
+      "Gangguan produksi bahasa",
+      "Gangguan penglihatan",
+      "Gangguan pembentukan refleks"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nArea Broca berperan dalam produksi bahasa. Kerusakannya menyebabkan afasia ekspresif sehingga pasien sulit berbicara meskipun pemahaman relatif masih baik."
+  },
+  {
+    id: 8,
+    text: "Seorang pasien mengalami kesulitan mempertahankan koordinasi gerakan. Ketika diminta menyentuh hidung dengan jari, gerakannya melewati target dan muncul tremor ketika mendekati sasaran. Struktur yang paling mungkin mengalami gangguan adalah...",
+    options: [
+      "Medula oblongata",
+      "Serebelum",
+      "Hipotalamus",
+      "Talamus",
+      "Lobus oksipital"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nSerebelum berperan dalam koordinasi dan ketepatan gerakan. Gangguannya dapat menyebabkan ataksia, dysmetria, dan intention tremor."
+  },
+  {
+    id: 9,
+    text: "Seorang pasien tidak menunjukkan refleks patela ketika tendon patela diketuk. Pemeriksa mencurigai gangguan pada lengkung refleks. Komponen yang harus berfungsi agar refleks tersebut terjadi adalah...",
+    options: [
+      "Reseptor sensorik, neuron aferen, pusat refleks, neuron eferen, dan efektor",
+      "Hanya korteks serebri dan neuron motorik",
+      "Hanya serebelum dan saraf sensorik",
+      "Hipotalamus, talamus, dan medula spinalis",
+      "Lobus frontal dan saraf kranial"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nLengkung refleks melibatkan reseptor, neuron aferen, pusat integrasi, neuron eferen, dan efektor. Semua komponen ini harus berfungsi normal untuk menghasilkan refleks."
+  },
+  {
+    id: 10,
+    text: "Seorang pasien mengalami cedera pada medula spinalis sehingga impuls dari otak menuju otot tungkai terganggu. Traktus yang terutama membawa impuls motorik volunter dari otak menuju medula spinalis adalah...",
+    options: [
+      "Traktus spinotalamik",
+      "Kolumna dorsalis",
+      "Traktus kortikospinal",
+      "Traktus vestibulospinal",
+      "Traktus spinocerebellar"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nTraktus kortikospinal membawa impuls motorik volunter dari korteks motorik menuju neuron motorik di medula spinalis."
+  },
+  {
+    id: 11,
+    text: "Seorang pasien tidak mampu menggerakkan otot orbicularis oculi dan mengalami kesulitan menutup mata. Saraf yang kemungkinan mengalami gangguan adalah...",
+    options: [
+      "Nervus trigeminus",
+      "Nervus optikus",
+      "Nervus okulomotorius",
+      "Nervus fasialis",
+      "Nervus vagus"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nNervus fasialis (CN VII) menginervasi otot ekspresi wajah, termasuk orbicularis oculi yang menutup kelopak mata."
+  },
+  {
+    id: 12,
+    text: "Seorang pasien mengalami kehilangan penglihatan pada satu mata setelah cedera kepala. Gangguan terjadi sebelum serabut saraf penglihatan mengalami persilangan. Lokasi lesi paling mungkin adalah...",
+    options: [
+      "Lobus oksipital",
+      "Traktus optikus",
+      "Chiasma optikum",
+      "Nervus optikus",
+      "Radiasi optik"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nLesi nervus optikus sebelum chiasma optikum dapat menyebabkan kehilangan penglihatan pada satu mata."
+  },
+  {
+    id: 13,
+    text: "Seorang pasien mengalami gangguan kemampuan mengatur suhu tubuh, rasa lapar, rasa haus, dan keseimbangan cairan. Struktur yang paling mungkin mengalami kerusakan adalah...",
+    options: [
+      "Hipotalamus",
+      "Serebelum",
+      "Lobus parietal",
+      "Medula spinalis",
+      "Lobus oksipital"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nHipotalamus merupakan pusat homeostasis yang mengatur suhu, rasa lapar, rasa haus, keseimbangan cairan, serta fungsi endokrin dan otonom."
+  },
+  {
+    id: 14,
+    text: "Ketika dokter menyentuhkan kapas perlahan pada kornea pasien, pasien secara otomatis berkedip. Saraf yang membawa informasi sensorik dari kornea menuju pusat refleks adalah...",
+    options: [
+      "Nervus fasialis",
+      "Nervus trigeminus",
+      "Nervus optikus",
+      "Nervus vagus",
+      "Nervus aksesorius"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nPada refleks kornea, bagian aferen berasal dari nervus trigeminus (CN V), sedangkan respons motorik dilakukan oleh nervus fasialis (CN VII)."
+  },
+  {
+    id: 15,
+    text: "Seorang pasien mengalami gastrektomi sebagian dan beberapa tahun kemudian mengalami anemia megaloblastik. Penyerapan vitamin B12 terganggu. Kondisi tersebut terutama berkaitan dengan berkurangnya produksi...",
+    options: [
+      "Pepsin",
+      "Gastrin",
+      "Empedu",
+      "Amilase",
+      "Intrinsic factor"
+    ],
+    correct: 4,
+    explanation: "PEMBAHASAN:\nIntrinsic factor diproduksi oleh sel parietal lambung dan diperlukan agar vitamin B12 dapat diserap di ileum terminal. Gastrektomi mengurangi produksi intrinsic factor."
+  },
+  {
+    id: 16,
+    text: "Seorang pasien mengalami sumbatan duktus koledokus akibat batu empedu. Pasien mengalami ikterus dan urine menjadi lebih gelap. Perubahan yang paling mungkin terjadi adalah...",
+    options: [
+      "Penurunan bilirubin terkonjugasi dalam darah",
+      "Peningkatan bilirubin terkonjugasi dalam darah",
+      "Penurunan seluruh produksi empedu di hati",
+      "Peningkatan absorpsi bilirubin melalui kolon",
+      "Penurunan pemecahan hemoglobin oleh eritrosit"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nPada obstruksi saluran empedu, bilirubin terkonjugasi tidak dapat dialirkan normal ke usus sehingga masuk kembali ke sirkulasi dan dapat menyebabkan bilirubinuria."
+  },
+  {
+    id: 17,
+    text: "Seorang pasien mengalami pankreatitis sehingga produksi enzim pankreas menurun. Setelah makan, pasien mengalami gangguan pencernaan lemak dan tinja tampak berminyak. Enzim yang paling berkaitan adalah...",
+    options: [
+      "Pepsin",
+      "Tripsin",
+      "Lipase",
+      "Laktase",
+      "Enterokinase"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nLipase pankreas mencerna trigliserida menjadi asam lemak dan monogliserida. Kekurangannya dapat menyebabkan steatorrhea (tinja berminyak)."
+  },
+  {
+    id: 18,
+    text: "Seorang pasien mengonsumsi makanan tinggi lemak. Beberapa saat kemudian, hormon dari duodenum merangsang kontraksi kandung empedu dan meningkatkan sekresi enzim pankreas. Hormon tersebut adalah...",
+    options: [
+      "Gastrin",
+      "Sekretin",
+      "Insulin",
+      "Kolesistokinin",
+      "Glukagon"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nKolesistokinin (CCK) dilepaskan terutama sebagai respons terhadap lemak dan asam amino. CCK merangsang kontraksi kandung empedu dan sekresi enzim pankreas."
+  },
+  {
+    id: 19,
+    text: "Seorang pasien mengalami atrofi vili usus halus. Meskipun makan cukup, berat badan terus menurun. Mekanisme utama yang menjelaskan kondisi tersebut adalah...",
+    options: [
+      "Penurunan luas permukaan absorpsi nutrisi",
+      "Peningkatan produksi asam lambung",
+      "Peningkatan produksi empedu oleh hati",
+      "Peningkatan motilitas esofagus",
+      "Penutupan sfingter anus"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nVili dan mikrovili memperluas permukaan absorpsi. Atrofi vili mengurangi luas permukaan sehingga absorpsi nutrisi terganggu."
+  },
+  {
+    id: 20,
+    text: "Seorang pasien mengalami penyakit hati kronis. Kadar albumin plasma menurun dan pasien mengalami edema perifer. Hubungan yang paling tepat adalah...",
+    options: [
+      "Hati menghasilkan insulin yang mempertahankan tekanan osmotik plasma",
+      "Hati menghasilkan pepsin yang mempertahankan cairan intravaskular",
+      "Hati menghasilkan albumin yang membantu mempertahankan tekanan onkotik plasma",
+      "Hati menghasilkan amilase yang mencegah perpindahan cairan",
+      "Hati menghasilkan empedu yang mempertahankan tekanan darah"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nAlbumin merupakan protein plasma utama yang mempertahankan tekanan onkotik. Penurunannya menyebabkan cairan lebih mudah berpindah ke jaringan dan menimbulkan edema."
+  },
+  {
+    id: 21,
+    text: "Seorang pasien menjalani operasi yang menyebabkan sebagian besar duodenum dilewati oleh makanan. Pencernaan kimiawi dapat berubah karena duodenum merupakan tempat bertemunya makanan dengan sekresi dari...",
+    options: [
+      "Kelenjar ludah dan esofagus",
+      "Hati dan pankreas",
+      "Kolon dan rektum",
+      "Lambung dan kolon",
+      "Appendix dan lambung"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nDuodenum menerima kimus dari lambung serta empedu dari hati/kandung empedu dan sekresi pankreas. Kedua sekresi ini penting untuk pencernaan lanjutan."
+  },
+  {
+    id: 22,
+    text: "Seorang pasien mengalami gangguan pada ileum terminal sehingga penyerapan vitamin B12 terganggu meskipun produksi intrinsic factor di lambung normal. Hal ini menunjukkan bahwa...",
+    options: [
+      "Vitamin B12 hanya dapat diserap di lambung",
+      "Intrinsic factor langsung mengubah B12 menjadi energi",
+      "B12 terutama diserap di kolon",
+      "Absorpsi B12 memerlukan interaksi dengan intrinsic factor di ileum terminal",
+      "B12 tidak memerlukan mekanisme khusus untuk diserap"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nVitamin B12 berikatan dengan intrinsic factor lalu kompleks tersebut diserap terutama di ileum terminal. Kerusakan ileum terminal mengganggu penyerapan meskipun intrinsic factor tersedia."
+  },
+  {
+    id: 23,
+    text: "Seorang pasien mengalami gangguan tiroid sehingga kadar T3 dan T4 menurun. Hipofisis anterior kemudian meningkatkan sekresi TSH. Mekanisme tersebut merupakan contoh...",
+    options: [
+      "Umpan balik negatif",
+      "Umpan balik positif",
+      "Antagonisme insulin-glukagon",
+      "Difusi hormon",
+      "Transport aktif hormon"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nPada aksis HPT, T3/T4 memberikan umpan balik negatif. Ketika kadarnya turun, stimulasi TRH dan TSH meningkat untuk mengembalikan kadar normal."
+  },
+  {
+    id: 24,
+    text: "Seorang pasien mengalami poliuria, polidipsia, dan peningkatan glukosa darah. Hormon yang meningkatkan pengambilan glukosa oleh sel tidak bekerja efektif. Hormon tersebut adalah...",
+    options: [
+      "Glukagon",
+      "Kortisol",
+      "Insulin",
+      "Aldosteron",
+      "ADH"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nInsulin membantu menurunkan glukosa darah dengan meningkatkan pengambilan glukosa oleh jaringan dan mendorong penyimpanannya. Defisiensi insulin menyebabkan gejala diabetes melitus."
+  },
+  {
+    id: 25,
+    text: "Seorang pasien kehilangan banyak cairan akibat diare berat. Tubuh meningkatkan hormon yang membantu mempertahankan air di ginjal. Hormon tersebut bekerja terutama dengan meningkatkan...",
+    options: [
+      "Ekskresi natrium di tubulus proksimal",
+      "Reabsorpsi air pada duktus kolektivus",
+      "Sekresi glukosa ke dalam urine",
+      "Filtrasi protein di glomerulus",
+      "Produksi empedu di hati"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nADH meningkatkan permeabilitas duktus kolektivus terhadap air melalui aquaporin sehingga reabsorpsi air meningkat dan cairan tubuh terpelihara."
+  },
+  {
+    id: 26,
+    text: "Seorang pasien mengalami kadar kalsium darah rendah. Kelenjar paratiroid meningkatkan sekresi hormon untuk membantu mengembalikan kadar kalsium. Hormon tersebut terutama menyebabkan...",
+    options: [
+      "Peningkatan ekskresi kalsium dari ginjal",
+      "Penurunan aktivitas osteoklas",
+      "Pengeluaran kalsium melalui feses",
+      "Penyerapan kalsium melalui kulit",
+      "Peningkatan kadar kalsium darah melalui beberapa mekanisme"
+    ],
+    correct: 4,
+    explanation: "PEMBAHASAN:\nPTH meningkatkan kadar Ca²⁺ darah melalui pengaturan tulang, ginjal, dan aktivasi vitamin D yang meningkatkan absorpsi kalsium usus."
+  },
+  {
+    id: 27,
+    text: "Seorang pasien mengalami stres berat dalam waktu lama. Aktivasi aksis hipotalamus–hipofisis–adrenal meningkatkan hormon yang membantu tubuh menghadapi stres. Urutan yang tepat adalah...",
+    options: [
+      "Hipotalamus → TSH → tiroid → kortisol",
+      "Hipotalamus → ACTH → adrenal → CRH",
+      "Hipotalamus → CRH → ACTH → korteks adrenal",
+      "Hipofisis → CRH → medula adrenal → insulin",
+      "Hipotalamus → ADH → korteks adrenal → kortisol"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nPada aksis HPA, hipotalamus menghasilkan CRH, hipofisis anterior menghasilkan ACTH, kemudian korteks adrenal menghasilkan kortisol."
+  },
+  {
+    id: 28,
+    text: "Seorang pasien mengalami gangguan adrenal sehingga produksi aldosteron menurun. Perubahan yang paling mungkin terjadi adalah...",
+    options: [
+      "Peningkatan retensi natrium dan penurunan kalium",
+      "Penurunan reabsorpsi natrium dan peningkatan kehilangan kalium",
+      "Peningkatan reabsorpsi glukosa di tubulus",
+      "Penurunan ekskresi air tanpa perubahan elektrolit",
+      "Peningkatan produksi T3 dan T4"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nAldosteron meningkatkan reabsorpsi Na⁺ dan sekresi K⁺. Jika menurun, retensi Na⁺ berkurang dan kehilangan K⁺ meningkat."
+  },
+  {
+    id: 29,
+    text: "Seorang anak mengalami gangguan pertumbuhan tinggi badan akibat produksi growth hormone yang sangat rendah. GH secara normal berperan dalam pertumbuhan melalui stimulasi produksi mediator pertumbuhan terutama di...",
+    options: [
+      "Hati",
+      "Pankreas",
+      "Tiroid",
+      "Ginjal",
+      "Kelenjar paratiroid"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nGH merangsang hati menghasilkan IGF-1 yang berperan dalam pertumbuhan tulang dan jaringan. IGF-1 adalah mediator pertumbuhan utama yang dipicu oleh GH."
+  },
+  {
+    id: 30,
+    text: "Seorang pasien mengalami hipertiroidisme sehingga metabolisme meningkat. Pasien mudah panas, berkeringat, dan berat badan menurun meskipun nafsu makan meningkat. Hormon yang paling berperan adalah...",
+    options: [
+      "ADH",
+      "PTH",
+      "Insulin",
+      "T3 dan T4",
+      "Kalsitonin"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nT3 dan T4 meningkatkan aktivitas metabolisme. Kelebihan hormon tersebut dapat meningkatkan produksi panas dan konsumsi energi sehingga menyebabkan penurunan berat badan."
+  },
+  {
+    id: 31,
+    text: "Seorang anak mengalami kekurangan vitamin D dalam waktu lama. Pertumbuhan tulang terganggu dan tulang menjadi lebih lunak. Gangguan utama yang terjadi adalah...",
+    options: [
+      "Peningkatan pembentukan kolagen tipe II",
+      "Gangguan mineralisasi matriks tulang",
+      "Peningkatan pembentukan osteoklas tanpa gangguan mineral",
+      "Penghentian total aktivitas osteoblas",
+      "Penggantian seluruh tulang oleh jaringan otot"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nVitamin D penting untuk homeostasis kalsium dan fosfat serta mineralisasi tulang. Kekurangannya pada anak dapat menyebabkan rakhitis dengan gangguan mineralisasi."
+  },
+  {
+    id: 32,
+    text: "Seorang atlet mengalami cedera pada jaringan yang menghubungkan otot dengan tulang setelah melakukan gerakan eksplosif. Jaringan yang paling mungkin mengalami robekan adalah...",
+    options: [
+      "Ligamen",
+      "Kartilago",
+      "Tendon",
+      "Diskus intervertebralis",
+      "Sinovium"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nTendon menghubungkan otot dengan tulang dan meneruskan gaya kontraksi otot untuk menghasilkan gerakan. Tendon rentan robek pada gerakan eksplosif."
+  },
+  {
+    id: 33,
+    text: "Seorang pasien mengalami cedera lutut dan kerusakan jaringan yang menghubungkan tulang femur dan tibia untuk menjaga stabilitas sendi. Struktur yang paling mungkin cedera adalah...",
+    options: [
+      "Tendon",
+      "Ligamen",
+      "Periosteum",
+      "Epimisium",
+      "Endomisium"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nLigamen menghubungkan tulang dengan tulang dan membantu mempertahankan stabilitas sendi. Ligamen di lutut penting untuk stabilitas."
+  },
+  {
+    id: 34,
+    text: "Seorang pasien dengan hiperparatiroidisme mengalami peningkatan resorpsi tulang sehingga kadar kalsium darah meningkat. Sel yang berperan langsung dalam resorpsi tulang adalah...",
+    options: [
+      "Osteoklas",
+      "Osteoblas",
+      "Osteosit",
+      "Kondrosit",
+      "Fibroblas"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nOsteoklas melakukan resorpsi tulang dengan memecah matriks tulang dan mineral. Osteoblas sebaliknya melakukan pembentukan tulang baru."
+  },
+  {
+    id: 35,
+    text: "Seorang pasien mengalami kerusakan diskus intervertebralis sehingga tulang belakang tidak mampu meredam tekanan dengan baik. Komponen penting diskus tersebut adalah...",
+    options: [
+      "Kartilago elastis dan tendon",
+      "Kartilago hialin dan ligamen",
+      "Fibrokartilago dan nukleus pulposus",
+      "Tulang kompak dan periosteum",
+      "Otot polos dan jaringan adiposa"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nDiskus intervertebralis tersusun atas annulus fibrosus yang mengandung fibrokartilago dan nukleus pulposus di bagian tengah yang berfungsi meredam tekanan."
+  },
+  {
+    id: 36,
+    text: "Seorang pasien mengalami patah tulang dan beberapa bulan kemudian tulang terus mengalami pembentukan dan resorpsi untuk menyesuaikan kekuatan terhadap beban. Proses tersebut disebut...",
+    options: [
+      "Osifikasi primer",
+      "Hematopoiesis",
+      "Mineralisasi akut",
+      "Remodeling tulang",
+      "Kondrogenesis"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nRemodeling tulang merupakan proses berkelanjutan yang melibatkan resorpsi oleh osteoklas dan pembentukan oleh osteoblas untuk menyesuaikan tulang terhadap beban."
+  },
+  {
+    id: 37,
+    text: "Seorang pasien mengalami gangguan pada neuromuscular junction sehingga kontraksi otot rangka menjadi lemah. Pemeriksaan menunjukkan gangguan pada reseptor asetilkolin di membran postsinaptik. Struktur yang paling terdampak adalah...",
+    options: [
+      "Sarkoplasma",
+      "Motor end plate",
+      "Tendon",
+      "Periosteum",
+      "Endomisium"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nMotor end plate merupakan bagian membran serat otot pada neuromuscular junction yang memiliki reseptor asetilkolin."
+  },
+  {
+    id: 38,
+    text: "Seorang pasien mengalami kelainan pada jaringan ikat pembungkus otot. Seluruh otot rangka, bukan setiap serat atau fasikulus secara individual, mengalami gangguan pada lapisan pembungkusnya. Struktur tersebut adalah...",
+    options: [
+      "Endomisium",
+      "Perimisium",
+      "Epimisium",
+      "Sarkolema",
+      "Tendon"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nEpimisium membungkus seluruh otot. Perimisium membungkus fasikulus, dan endomisium membungkus serat otot individual."
+  },
+  {
+    id: 39,
+    text: "Seorang atlet melakukan kontraksi otot secara cepat. Terjadi peningkatan Ca²⁺ yang memungkinkan interaksi aktin dan miosin. Ca²⁺ berperan terutama dengan...",
+    options: [
+      "Mengikat troponin sehingga tropomiosin bergeser dan situs aktin terbuka",
+      "Menghancurkan ATP agar otot langsung relaks",
+      "Memisahkan aktin dari miosin tanpa menggunakan energi",
+      "Menghambat pelepasan asetilkolin dari neuron motorik",
+      "Menghentikan depolarisasi membran serat otot"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nCa²⁺ berikatan dengan troponin C dan menyebabkan tropomiosin bergeser. Dengan bergesernya tropomiosin, situs pengikatan miosin pada aktin terbuka sehingga cross-bridge dapat terbentuk."
+  },
+  {
+    id: 40,
+    text: "Seorang pasien mengalami kondisi setelah kematian ketika otot menjadi kaku karena ATP tidak lagi tersedia dalam jumlah cukup. Mekanisme yang paling tepat adalah...",
+    options: [
+      "Ca²⁺ tidak pernah dilepaskan dari retikulum sarkoplasma",
+      "Aktin tidak dapat membentuk filamen",
+      "Miosin tidak dapat melepaskan diri dari aktin",
+      "Asetilkolin terus diproduksi tanpa batas",
+      "Troponin menghancurkan ATP secara berlebihan"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nATP diperlukan agar kepala miosin dapat melepaskan diri dari aktin. Ketika ATP tidak tersedia (rigor mortis), cross-bridge tetap melekat sehingga otot tetap tegang."
+  },
+  {
+    id: 41,
+    text: "Seorang pasien mengalami gangguan produksi energi mitokondria pada sel otot. Pasien mampu melakukan aktivitas ringan, tetapi cepat lelah ketika aktivitas meningkat. Penyebab utamanya adalah...",
+    options: [
+      "Otot tidak memiliki sistem ATP",
+      "Kebutuhan ATP meningkat tetapi produksi energi tidak mampu mengikuti kebutuhan",
+      "Aktin berubah menjadi jaringan ikat",
+      "Kalsium tidak terdapat dalam serat otot",
+      "Semua kontraksi otot berlangsung tanpa energi"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nKontraksi dan relaksasi membutuhkan ATP. Gangguan mitokondria membuat produksi energi tidak mampu memenuhi peningkatan kebutuhan saat aktivitas meningkat."
+  },
+  {
+    id: 42,
+    text: "Seorang pasien mengalami penyakit yang menyebabkan antibodi menyerang reseptor asetilkolin. Kelemahan otot semakin jelas setelah aktivitas berulang. Mekanisme yang paling tepat adalah...",
+    options: [
+      "Jumlah reseptor asetilkolin pada postsinaps berkurang sehingga transmisi neuromuskular terganggu",
+      "Produksi ATP meningkat terlalu tinggi sehingga otot kehilangan kemampuan berkontraksi",
+      "Jumlah kalsium darah meningkat sehingga otot selalu berkontraksi",
+      "Asetilkolin tidak pernah dilepaskan dari neuron sensorik",
+      "Aktin mengalami penghancuran langsung oleh antibodi"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nPada myasthenia gravis, antibodi menyerang reseptor asetilkolin sehingga transmisi pada neuromuscular junction menjadi tidak efektif. Kelemahan meningkat setelah aktivitas berulang."
+  },
+  {
+    id: 43,
+    text: "Seorang pasien mengalami gangguan pada nodus sinoatrial sehingga impuls listrik normal untuk memulai denyut jantung berkurang. Struktur tersebut secara fisiologis berfungsi sebagai...",
+    options: [
+      "Katup antara atrium dan ventrikel",
+      "Pacemaker utama jantung",
+      "Jalur terakhir menuju otot ventrikel",
+      "Penghubung langsung antara aorta dan arteri pulmonalis",
+      "Tempat utama pertukaran oksigen"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nNodus SA merupakan pacemaker utama jantung dan menghasilkan impuls spontan yang memulai depolarisasi atrium."
+  },
+  {
+    id: 44,
+    text: "Seorang pasien mengalami gangguan pada nodus AV. Bagian tersebut normalnya memperlambat penghantaran impuls sebelum diteruskan ke ventrikel. Fungsi perlambatan tersebut penting agar...",
+    options: [
+      "Ventrikel berkontraksi sebelum atrium",
+      "Darah langsung masuk ke arteri pulmonalis",
+      "Atrium memiliki waktu untuk mengosongkan darah ke ventrikel",
+      "Katup aorta tetap terbuka sepanjang siklus",
+      "Darah tidak dapat memasuki ventrikel"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nPerlambatan di nodus AV memberi waktu bagi atrium berkontraksi dan mengisi ventrikel sebelum ventrikel mengalami depolarisasi."
+  },
+  {
+    id: 45,
+    text: "Seorang pasien mengalami kerusakan katup yang berada antara atrium kiri dan ventrikel kiri. Saat ventrikel berkontraksi, sebagian darah kembali menuju atrium kiri. Katup yang mengalami gangguan adalah...",
+    options: [
+      "Katup trikuspid",
+      "Katup pulmonal",
+      "Katup aorta",
+      "Katup mitral",
+      "Katup semilunaris pulmonal"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nKatup mitral atau bikuspid berada antara atrium kiri dan ventrikel kiri serta mencegah aliran balik saat ventrikel berkontraksi."
+  },
+  {
+    id: 46,
+    text: "Seorang pasien mengalami stenosis katup aorta. Ventrikel kiri harus menghasilkan tekanan lebih tinggi agar darah melewati katup yang menyempit. Dalam jangka panjang, adaptasi yang paling mungkin adalah...",
+    options: [
+      "Hipertrofi ventrikel kiri",
+      "Atrofi ventrikel kiri",
+      "Pelebaran atrium kanan sebagai respons utama",
+      "Penurunan massa miokard progresif",
+      "Pelebaran arteri pulmonalis sebagai mekanisme utama"
+    ],
+    correct: 0,
+    explanation: "PEMBAHASAN:\nStenosis aorta meningkatkan afterload ventrikel kiri. Beban tekanan kronis mendorong hipertrofi ventrikel kiri sebagai adaptasi jantung."
+  },
+  {
+    id: 47,
+    text: "Seorang pasien mengalami gagal jantung kiri sehingga darah menumpuk di belakang ventrikel kiri. Pasien mengalami sesak akibat cairan masuk ke jaringan paru. Urutan mekanisme paling tepat adalah...",
+    options: [
+      "Gagal LV → tekanan LA turun → tekanan kapiler paru turun → edema",
+      "Gagal LV → tekanan LA naik → tekanan vena pulmonalis naik → edema paru",
+      "Gagal LV → tekanan arteri pulmonalis turun → edema",
+      "Gagal LV → tekanan atrium kanan naik → edema paru secara langsung",
+      "Gagal LV → tekanan vena sistemik turun → cairan masuk alveolus"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nGagal ventrikel kiri meningkatkan tekanan atrium kiri dan vena pulmonalis. Tekanan hidrostatik kapiler paru meningkat sehingga cairan masuk ke interstisium/alveolus."
+  },
+  {
+    id: 48,
+    text: "Seorang pasien mengalami efusi perikardium dalam jumlah besar. Tekanan rongga perikardium meningkat dan jantung sulit mengembang selama pengisian. Akibat utama kondisi tersebut adalah...",
+    options: [
+      "Peningkatan pengisian ventrikel dan cardiac output",
+      "Penurunan pengisian ventrikel sehingga stroke volume dan cardiac output menurun",
+      "Peningkatan kontraksi atrium kanan tanpa perubahan ventrikel",
+      "Peningkatan tekanan pengisian tanpa gangguan volume sekuncup",
+      "Peningkatan aliran darah ke ventrikel akibat kompresi perikardium"
+    ],
+    correct: 1,
+    explanation: "PEMBAHASAN:\nPada cardiac tamponade, tekanan eksternal pada jantung menghambat pengisian ventrikel saat diastol sehingga stroke volume dan cardiac output menurun."
+  },
+  {
+    id: 49,
+    text: "Seorang pasien mengalami stenosis mitral kronis. Darah sulit berpindah dari atrium kiri menuju ventrikel kiri sehingga tekanan atrium kiri meningkat. Jika berlangsung lama, komplikasi pada sirkulasi paru yang paling mungkin adalah...",
+    options: [
+      "Hipotensi vena pulmonalis",
+      "Penurunan tekanan kapiler paru",
+      "Hipertensi pulmonal akibat peningkatan tekanan balik",
+      "Penurunan tekanan atrium kiri",
+      "Penurunan beban ventrikel kanan"
+    ],
+    correct: 2,
+    explanation: "PEMBAHASAN:\nStenosis mitral meningkatkan tekanan atrium kiri yang diteruskan ke vena dan kapiler pulmonal. Dalam jangka panjang dapat terjadi hipertensi pulmonal."
+  },
+  {
+    id: 50,
+    text: "Seorang pasien memiliki hipertensi yang tidak terkontrol selama bertahun-tahun. Ekokardiografi menunjukkan dinding ventrikel kiri menebal, tetapi fraksi ejeksi masih relatif normal. Pasien kemudian mengalami gangguan pengisian ventrikel. Mekanisme yang paling tepat adalah...",
+    options: [
+      "Hipertrofi membuat ventrikel semakin elastis sehingga pengisian meningkat",
+      "Hipertrofi menyebabkan compliance meningkat dan tekanan diastolik turun",
+      "Hipertensi hanya memengaruhi atrium dan tidak memengaruhi ventrikel",
+      "Hipertrofi dan fibrosis meningkatkan kekakuan ventrikel sehingga relaksasi dan pengisian terganggu",
+      "Hipertrofi selalu menyebabkan fraksi ejeksi menjadi nol"
+    ],
+    correct: 3,
+    explanation: "PEMBAHASAN:\nHipertensi kronis meningkatkan beban tekanan ventrikel kiri. Hipertrofi dan fibrosis dapat meningkatkan kekakuan ventrikel sehingga compliance dan pengisian diastolik menurun."
+  }
 ];
