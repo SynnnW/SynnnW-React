@@ -17,7 +17,7 @@ import {
   onSnapshot, query, orderBy, limit, serverTimestamp,
 } from 'firebase/firestore';
 import { questions } from '../data/quizQuestions';
-import { questions50 } from '../data/src/data/quizQuestions50';
+import { questions50 } from '../data/quiz50Questions';
 import './firebase'; // pastikan default app sudah di-init
 
 /* ═══════════════════════════════════════════════
