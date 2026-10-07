@@ -25,7 +25,9 @@ const MODE_CONFIG = {
 const QRIS_IMAGE = '/assets/img/qris.jpg';
 const LS_KEY = 'qz_v5';
 const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E'];
-const PINNED = { name: 'Ns Leo', email: 'nsleo@official', score: 'Perfect 🎉' };
+
+// Medal emojis untuk ranking
+const MEDALS = ['🥇', '🥈', '🥉', '⭐', '✨'];
 
 const quizApp = getApps().find(a => a.name === 'quiz') || initializeApp(getApp().options, 'quiz');
 const quizAuth = getAuth(quizApp);
@@ -38,10 +40,10 @@ const isAdmin = (email) => email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
 
 const CSS = `
 .qz-root { 
-  --qz-bg:#0a0a0e; --qz-surface:rgba(255,255,255,.05); 
-  --qz-border:rgba(255,255,255,.1); --qz-text:#f5f5f7; 
-  --qz-primary:#8b7bff; --qz-primary2:#5eead4; 
-  --qz-success:#34d399; --qz-danger:#fb7185; --qz-radius:16px;
+  --qz-bg:#050509; --qz-surface:rgba(255,255,255,.06); 
+  --qz-border:rgba(255,255,255,.12); --qz-text:#ffffff; 
+  --qz-text-secondary:#e0e0e0; --qz-primary:#a78bfa; --qz-primary2:#5eead4; 
+  --qz-success:#10b981; --qz-danger:#ef4444; --qz-radius:16px;
   font-family:'Inter',system-ui,sans-serif; background:var(--qz-bg); 
   color:var(--qz-text); min-height:100dvh; overflow-x:hidden;
 }
@@ -50,100 +52,118 @@ const CSS = `
   content:''; position:fixed; z-index:0; pointer-events:none; 
   width:500px; height:500px; border-radius:50%; filter:blur(120px); 
 }
-.qz-root::before { background:var(--qz-primary); top:-150px; left:-120px; opacity:.12; }
-.qz-root::after { background:var(--qz-primary2); bottom:-180px; right:-120px; opacity:.08; }
+.qz-root::before { background:var(--qz-primary); top:-150px; left:-120px; opacity:.15; }
+.qz-root::after { background:var(--qz-primary2); bottom:-180px; right:-120px; opacity:.1; }
 
 .qz-wrap { max-width:640px; margin:0 auto; padding:0 20px 120px; position:relative; z-index:1; }
 
 .qz-header { display:flex; align-items:center; gap:14px; padding:20px 0 16px; 
   border-bottom:1px solid var(--qz-border); margin-bottom:24px; position:sticky; top:0; 
-  background:var(--qz-bg); z-index:20; }
+  background:rgba(5,5,9,.9); backdrop-filter:blur(10px); z-index:20; }
 
-.qz-title { flex:1; font-size:1.05rem; font-weight:700; }
+.qz-title { flex:1; font-size:1.05rem; font-weight:700; color:var(--qz-text); }
 .qz-back { background:none; border:1.5px solid var(--qz-border); color:var(--qz-text); 
-  padding:9px 16px; border-radius:11px; cursor:pointer; transition:all .25s; }
+  padding:9px 16px; border-radius:11px; cursor:pointer; transition:all .25s; font-weight:600; }
 .qz-back:hover { color:var(--qz-primary); border-color:var(--qz-primary); }
 
 .qz-card { background:var(--qz-surface); border:1px solid var(--qz-border); 
-  border-radius:var(--qz-radius); padding:24px; margin-bottom:20px; }
+  border-radius:var(--qz-radius); padding:24px; margin-bottom:20px; backdrop-filter:blur(10px); }
 
 .qz-h1 { font-size:clamp(1.8rem,6vw,2.8rem); font-weight:800; 
   background:linear-gradient(120deg,#fff 25%,var(--qz-primary) 100%); 
   -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:12px; }
 
-.qz-h2 { font-size:1.6rem; font-weight:700; margin-bottom:20px; }
+.qz-h2 { font-size:1.6rem; font-weight:700; margin-bottom:20px; color:var(--qz-text); }
 
 .qz-modes { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .qz-mode-btn { padding:20px; background:var(--qz-surface); border:1.5px solid var(--qz-border); 
   border-radius:12px; cursor:pointer; transition:all .25s; text-align:center; color:var(--qz-text); }
-.qz-mode-btn:hover { border-color:var(--qz-primary); background:rgba(139,123,255,.05); }
-.qz-mode-btn .label { font-size:.9rem; font-weight:600; display:block; margin-bottom:8px; }
-.qz-mode-btn .desc { font-size:.8rem; color:#8d8d99; }
+.qz-mode-btn:hover { border-color:var(--qz-primary); background:rgba(167,139,250,.08); }
+.qz-mode-btn .label { font-size:.9rem; font-weight:700; display:block; margin-bottom:8px; color:var(--qz-text); }
+.qz-mode-btn .desc { font-size:.8rem; color:var(--qz-text-secondary); }
 
 .qz-btn { width:100%; padding:14px; border:none; border-radius:12px; cursor:pointer; 
   font:600 .95rem 'Inter',system-ui; transition:all .25s; margin-top:12px; }
-.qz-btn-primary { background:linear-gradient(135deg,#8b7bff,#6d5df0); color:#fff; }
-.qz-btn-primary:not(:disabled):hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(139,123,255,.35); }
+.qz-btn-primary { background:linear-gradient(135deg,#a78bfa,#7c5cdb); color:#fff; }
+.qz-btn-primary:not(:disabled):hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(167,139,250,.4); }
 .qz-btn-secondary { background:var(--qz-surface); border:1.5px solid var(--qz-border); color:var(--qz-text); }
-.qz-btn-secondary:hover { border-color:var(--qz-primary); }
+.qz-btn-secondary:hover { border-color:var(--qz-primary); background:rgba(167,139,250,.05); }
 
 .qz-sticky-bar { position:fixed; top:80px; right:20px; display:flex; gap:8px; z-index:19; }
 .qz-stat { background:var(--qz-surface); border:1px solid var(--qz-border); 
-  padding:8px 12px; border-radius:8px; font-size:.85rem; font-weight:700; }
-.qz-stat-timer.danger { color:#fb7185; }
+  padding:8px 12px; border-radius:8px; font-size:.85rem; font-weight:700; color:var(--qz-text); backdrop-filter:blur(10px); }
+.qz-stat-timer.danger { color:#ef4444; }
 
-.qz-q-text { font-size:1.1rem; font-weight:600; margin:24px 0 16px; line-height:1.6; }
+.qz-q-text { font-size:1.1rem; font-weight:600; margin:24px 0 16px; line-height:1.6; color:var(--qz-text); }
 .qz-options { display:flex; flex-direction:column; gap:10px; }
 .qz-option { width:100%; padding:14px 16px; background:var(--qz-surface); border:1.5px solid var(--qz-border); 
-  border-radius:10px; text-align:left; cursor:pointer; transition:all .25s; }
-.qz-option:hover { border-color:var(--qz-primary); background:rgba(139,123,255,.05); }
-.qz-option.selected { border-color:var(--qz-primary); background:rgba(139,123,255,.1); }
-.qz-option.correct { border-color:#34d399; background:rgba(52,211,153,.1); }
-.qz-option.wrong { border-color:#fb7185; background:rgba(251,113,133,.1); }
+  border-radius:10px; text-align:left; cursor:pointer; transition:all .25s; color:var(--qz-text); }
+.qz-option:hover { border-color:var(--qz-primary); background:rgba(167,139,250,.08); }
+.qz-option.selected { border-color:var(--qz-primary); background:rgba(167,139,250,.15); }
+.qz-option.correct { border-color:#10b981; background:rgba(16,185,129,.12); }
+.qz-option.wrong { border-color:#ef4444; background:rgba(239,68,68,.12); }
 
 .qz-feedback { padding:14px; border-radius:10px; margin-top:16px; font-size:.9rem; }
-.qz-feedback.ok { background:rgba(52,211,153,.1); border:1px solid #34d399; color:#34d399; }
-.qz-feedback.err { background:rgba(251,113,133,.1); border:1px solid #fb7185; color:#fb7185; }
+.qz-feedback.ok { background:rgba(16,185,129,.12); border:1px solid #10b981; color:#10b981; }
+.qz-feedback.err { background:rgba(239,68,68,.12); border:1px solid #ef4444; color:#ef4444; }
 
 .qz-prog-bar { width:100%; height:6px; background:var(--qz-border); border-radius:999px; 
   overflow:hidden; margin:20px 0; }
-.qz-prog-fill { height:100%; background:linear-gradient(90deg,#8b7bff,#5eead4); transition:width .3s; }
+.qz-prog-fill { height:100%; background:linear-gradient(90deg,#a78bfa,#5eead4); transition:width .3s; }
 
 .qz-nav-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(36px,1fr)); gap:6px; }
 .qz-nav-cell { padding:8px; background:var(--qz-surface); border:1px solid var(--qz-border); 
-  border-radius:6px; cursor:pointer; font-size:.75rem; font-weight:600; transition:all .2s; }
-.qz-nav-cell.ok { background:#34d399; color:#fff; border-color:#34d399; }
-.qz-nav-cell.err { background:#fb7185; color:#fff; border-color:#fb7185; }
+  border-radius:6px; cursor:pointer; font-size:.75rem; font-weight:600; transition:all .2s; color:var(--qz-text); }
+.qz-nav-cell.ok { background:#10b981; color:#fff; border-color:#10b981; }
+.qz-nav-cell.err { background:#ef4444; color:#fff; border-color:#ef4444; }
+
+/* RANKING STYLES - IMPROVED */
+.qz-lb-container { display:flex; gap:12px; margin-bottom:20px; overflow-x:auto; padding-bottom:8px; }
+.qz-lb-top-3 { flex:0 0 auto; width:calc(50% - 6px); }
+.qz-lb-top-card { background:var(--qz-surface); border:1px solid var(--qz-border); border-radius:12px; padding:16px; text-align:center; }
+.qz-lb-top-card.gold { background:linear-gradient(135deg,rgba(253,230,138,.12),rgba(245,158,11,.08)); border-color:rgba(245,158,11,.3); }
+.qz-lb-top-card.silver { background:linear-gradient(135deg,rgba(229,231,235,.08),rgba(191,193,201,.06)); border-color:rgba(191,193,201,.2); }
+.qz-lb-top-card.bronze { background:linear-gradient(135deg,rgba(228,127,86,.1),rgba(196,97,60,.06)); border-color:rgba(196,97,60,.25); }
+
+.qz-lb-medal { font-size:2rem; margin-bottom:8px; }
+.qz-lb-top-name { font-weight:700; font-size:.95rem; margin-bottom:4px; color:var(--qz-text); }
+.qz-lb-top-score { font-size:1.5rem; font-weight:800; background:linear-gradient(135deg,var(--qz-primary),var(--qz-primary2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.qz-lb-top-meta { font-size:.75rem; color:var(--qz-text-secondary); margin-top:4px; }
 
 .qz-lb-row { display:flex; align-items:center; gap:12px; padding:16px 14px; 
-  border-bottom:1px solid var(--qz-border); }
-.qz-lb-rank { width:28px; height:28px; display:flex; align-items:center; justify-content:center; 
-  background:var(--qz-surface); border-radius:6px; font-weight:800; font-size:.8rem; }
-.qz-lb-avatar { width:40px; height:40px; border-radius:8px; background:var(--qz-primary); 
-  display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; }
+  border-bottom:1px solid var(--qz-border); transition:all .2s; }
+.qz-lb-row:hover { background:rgba(167,139,250,.04); }
+.qz-lb-rank { width:40px; height:40px; display:flex; align-items:center; justify-content:center; 
+  background:var(--qz-surface); border-radius:8px; font-weight:800; font-size:.95rem; color:var(--qz-primary); }
+.qz-lb-avatar { width:48px; height:48px; border-radius:10px; background:linear-gradient(135deg,var(--qz-primary),var(--qz-primary2)); 
+  display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.9rem; }
 .qz-lb-info { flex:1; }
-.qz-lb-name { font-weight:700; margin-bottom:2px; }
-.qz-lb-meta { font-size:.8rem; color:#8d8d99; }
-.qz-lb-score { font-size:1.3rem; font-weight:800; color:var(--qz-primary); }
+.qz-lb-name { font-weight:700; margin-bottom:4px; color:var(--qz-text); }
+.qz-lb-meta { font-size:.8rem; color:var(--qz-text-secondary); }
+.qz-lb-score { font-size:1.3rem; font-weight:800; color:var(--qz-primary); min-width:60px; text-align:right; }
+.qz-lb-delete { background:none; border:none; color:#ef4444; cursor:pointer; font-size:1.1rem; transition:all .2s; padding:4px; }
+.qz-lb-delete:hover { transform:scale(1.2); }
 
 .qz-result { text-align:center; }
 .qz-result-emoji { font-size:3rem; margin-bottom:16px; }
-.qz-result-score { font-size:2.4rem; font-weight:800; color:var(--qz-primary); margin:16px 0; }
+.qz-result-score { font-size:2.4rem; font-weight:800; background:linear-gradient(135deg,var(--qz-primary),var(--qz-primary2)); -webkit-background-clip:text; background-clip:text; color:transparent; margin:16px 0; }
 .qz-result-details { background:var(--qz-surface); border:1px solid var(--qz-border); 
   border-radius:12px; padding:16px; margin:20px 0; }
-.qz-result-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--qz-border); }
+.qz-result-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--qz-border); color:var(--qz-text); }
 .qz-result-row:last-child { border-bottom:none; }
 
-.qz-qris { margin:20px 0; text-align:center; }
-.qz-qris img { max-width:200px; border-radius:8px; }
-.qz-motivation { text-align:center; color:#8d8d99; font-size:.95rem; margin:16px 0; font-style:italic; }
+.qz-qris-section { background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(94,234,212,.05)); border:1px solid var(--qz-border); border-radius:12px; padding:20px; margin:20px 0; text-align:center; }
+.qz-qris-title { font-weight:700; font-size:.95rem; color:var(--qz-text); margin-bottom:12px; }
+.qz-qris img { max-width:220px; border-radius:8px; border:2px solid var(--qz-border); }
+.qz-qris-text { font-size:.8rem; color:var(--qz-text-secondary); margin-top:12px; }
+.qz-motivation { text-align:center; color:var(--qz-text-secondary); font-size:.95rem; margin:16px 0; font-style:italic; }
 
-.qz-modal { position:fixed; inset:0; background:rgba(0,0,0,.7); display:flex; 
+.qz-modal { position:fixed; inset:0; background:rgba(0,0,0,.85); backdrop-filter:blur(4px); display:flex; 
   align-items:center; justify-content:center; z-index:999; }
 .qz-modal-box { background:var(--qz-bg); border:1px solid var(--qz-border); 
   border-radius:var(--qz-radius); padding:24px; max-width:500px; margin:20px; max-height:80vh; overflow-y:auto; }
 
-.qz-empty { text-align:center; padding:40px 20px; color:#8d8d99; }
+.qz-empty { text-align:center; padding:40px 20px; color:var(--qz-text-secondary); }
 
 @keyframes qzFade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 .qz-animate { animation:qzFade .4s ease; }
@@ -151,6 +171,7 @@ const CSS = `
 @media (max-width:640px) {
   .qz-modes { grid-template-columns:1fr; }
   .qz-sticky-bar { top:auto; bottom:100px; right:10px; flex-direction:column; }
+  .qz-lb-container { margin-left:-20px; margin-right:-20px; padding-left:20px; padding-right:20px; }
 }
 `;
 
@@ -170,6 +191,7 @@ export default function Quizziz() {
   const [lbLoading, setLbLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState('');
   const [showNav, setShowNav] = useState(false);
+  const [showQrisModal, setShowQrisModal] = useState(false);
 
   // Determine questions based on mode
   const QUESTIONS = useMemo(() => {
@@ -310,6 +332,7 @@ export default function Quizziz() {
 
   const deleteScore = async (id) => {
     if (!isAdmin(user?.email)) return;
+    if (!confirm('Yakin hapus entry ini? 🗑️')) return;
     try {
       const col = lbTab === '100' ? 'leaderboard100' : 'leaderboard40';
       await deleteDoc(doc(quizDb, col, id));
@@ -345,13 +368,13 @@ export default function Quizziz() {
         <div className="qz-wrap">
           <div className="qz-card" style={{ textAlign: 'center', marginTop: '60px' }}>
             <h1 className="qz-h1">{QUIZ_TITLE}</h1>
-            <p style={{ color: '#8d8d99', marginBottom: '20px' }}>Silakan login untuk mulai</p>
+            <p style={{ color: 'var(--qz-text-secondary)', marginBottom: '20px' }}>Silakan login untuk mulai belajar</p>
             <button className="qz-btn qz-btn-primary" onClick={() => signInWithPopup(quizAuth, new GoogleAuthProvider()).catch(console.error)}>
               🔐 Login dengan Google
             </button>
           </div>
-          <div style={{ textAlign: 'center', marginTop: '40px', color: '#8d8d99', fontSize: '.9rem' }}>
-            <p>📌 Built with <strong>Ns Leo</strong></p>
+          <div style={{ textAlign: 'center', marginTop: '40px', color: 'var(--qz-text-secondary)', fontSize: '.9rem' }}>
+            <p>💪 Belajar Bersama | Raih Ranking Terbaik</p>
           </div>
         </div>
       </div>
@@ -363,31 +386,45 @@ export default function Quizziz() {
       <div className="qz-root">
         <style>{CSS}</style>
         <div className="qz-wrap">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', marginTop: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', marginTop: '20px' }}>
             <h1 className="qz-h1">{QUIZ_TITLE}</h1>
             <button className="qz-back" onClick={() => signOut(quizAuth)}>Logout</button>
           </div>
+          
+          {/* QRIS Section */}
+          <div className="qz-qris-section">
+            <div className="qz-qris-title">☕ Support Quiz Development</div>
+            <img src={QRIS_IMAGE} alt="QRIS Payment" style={{ maxWidth: '150px', borderRadius: '8px' }} />
+            <div className="qz-qris-text">Bantu kami tambah soal & fitur baru 💪</div>
+          </div>
 
           <div className="qz-card">
-            <h2 className="qz-h2">Pilih Mode</h2>
+            <h2 className="qz-h2">Pilih Mode Latihan</h2>
             <div className="qz-modes">
               <div className="qz-mode-btn" onClick={() => handleModeSelect('100-sepele')}>
                 <span className="label">📚 Sepele Mode</span>
                 <span className="desc">100 soal • 100 min</span>
               </div>
               <div className="qz-mode-btn" onClick={() => handleModeSelect('100-hard')}>
-                <span className="label">🔴 nopal Sepele Mode</span>
+                <span className="label">🔴 Hard Mode</span>
                 <span className="desc">100 soal • 100 min</span>
               </div>
               <div className="qz-mode-btn" onClick={() => handleModeSelect('40-unlimited')}>
-                <span className="label">⚡ Unlimited Quiz</span>
+                <span className="label">⚡ Express Mode</span>
                 <span className="desc">40 soal • 45 min</span>
               </div>
             </div>
           </div>
 
-          <div style={{ textAlign: 'center', color: '#8d8d99', marginTop: '40px', fontSize: '.9rem' }}>
-            <p>📌 <strong>Ns Leo</strong> | Bahan Belajar Berkualitas</p>
+          <div className="qz-card">
+            <button className="qz-btn qz-btn-primary" onClick={() => { setMode('100-sepele'); setPage('ranking'); }} style={{ marginTop: 0 }}>
+              🏆 Lihat Ranking
+            </button>
+          </div>
+
+          <div style={{ textAlign: 'center', color: 'var(--qz-text-secondary)', marginTop: '40px', fontSize: '.85rem', marginBottom: '40px' }}>
+            <p>Hallo <strong>{user.displayName || 'Learner'}</strong> 👋</p>
+            <p style={{ marginTop: '8px' }}>✨ Raih skor tertinggi dan buktikan kemampuanmu!</p>
           </div>
         </div>
       </div>
@@ -398,7 +435,8 @@ export default function Quizziz() {
     const q = QUESTIONS[currentQ];
     const isAnswered = answers[currentQ] != null;
     const isChecked = checked.has(currentQ);
-    const isCorrect = isAnswered && answers[currentQ] === q.correct;
+    const isCorrect = isChecked && answers[currentQ] === q.correct;
+    const progress = ((currentQ + 1) / TOTAL) * 100;
 
     return (
       <div className="qz-root">
@@ -406,56 +444,73 @@ export default function Quizziz() {
         <div className="qz-wrap">
           <div className="qz-header">
             <button className="qz-back" onClick={backToMenu}>←</button>
-            <span className="qz-title">{modeConfig.name}</span>
+            <span className="qz-title">{currentQ + 1} / {TOTAL}</span>
           </div>
 
           <div className="qz-sticky-bar">
-            <div className="qz-stat qz-stat-timer" style={{ color: timeLeft < 300 ? '#fb7185' : 'inherit' }}>⏱️ {fmt(timeLeft)}</div>
-            <div className="qz-stat">✅ {[...checked].filter(i => answers[i] === QUESTIONS[i].correct).length}</div>
-            <div className="qz-stat">❌ {[...checked].filter(i => answers[i] !== QUESTIONS[i].correct).length}</div>
+            <div className="qz-stat">⏱️ {fmt(timeLeft)}</div>
+            <div className="qz-stat">✓ {checked.size}</div>
+            <div className="qz-stat" style={{ color: 'var(--qz-primary)' }}>⭐ {currentScore}</div>
           </div>
 
           <div className="qz-prog-bar">
-            <div className="qz-prog-fill" style={{ width: `${((currentQ + 1) / TOTAL) * 100}%` }} />
+            <div className="qz-prog-fill" style={{ width: `${progress}%` }}></div>
           </div>
-          <div style={{ textAlign: 'center', fontSize: '.9rem', color: '#8d8d99', marginBottom: '16px' }}>Soal {currentQ + 1} / {TOTAL}</div>
 
           <div className="qz-card">
+            <div style={{ fontSize: '.85rem', color: 'var(--qz-text-secondary)', marginBottom: '12px' }}>
+              Pertanyaan {currentQ + 1}
+            </div>
             <div className="qz-q-text">{q.text}</div>
+
             <div className="qz-options">
-              {q.options.map((opt, i) => (
-                <button
-                  key={i}
-                  className={`qz-option ${answers[currentQ] === i ? 'selected' : ''} ${
-                    isChecked && i === q.correct ? 'correct' : ''
-                  } ${isChecked && answers[currentQ] === i && !isCorrect ? 'wrong' : ''}`}
-                  onClick={() => selectAnswer(i)}
-                  disabled={isChecked}
-                >
-                  <strong>{OPTION_LABELS[i]}.</strong> {opt}
-                </button>
-              ))}
+              {q.options.map((opt, i) => {
+                let cls = 'qz-option';
+                if (isAnswered && i === answers[currentQ]) cls += ' selected';
+                if (isChecked) {
+                  if (i === q.correct) cls += ' correct';
+                  else if (i === answers[currentQ] && answers[currentQ] !== q.correct) cls += ' wrong';
+                }
+                return (
+                  <button
+                    key={i}
+                    className={cls}
+                    onClick={() => !isChecked && selectAnswer(i)}
+                    disabled={isChecked}
+                  >
+                    <strong>{OPTION_LABELS[i]}.</strong> {opt}
+                  </button>
+                );
+              })}
             </div>
 
             {isChecked && (
               <div className={`qz-feedback ${isCorrect ? 'ok' : 'err'}`}>
-                <strong>{isCorrect ? '✅ Benar!' : '❌ Salah'}</strong>
-                {!isCorrect && <div style={{ marginTop: '8px' }}>Jawaban: <strong>{OPTION_LABELS[q.correct]}. {q.options[q.correct]}</strong></div>}
-                <div style={{ marginTop: '8px' }}>{q.explanation}</div>
+                {isCorrect ? '✅ Benar! Bagus sekali.' : '❌ Salah. Lihat penjelasan:'} <br />
+                <small style={{ marginTop: '8px', display: 'block' }}>{q.explanation}</small>
               </div>
             )}
 
             <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              <button className="qz-btn qz-btn-secondary" onClick={goPrev} disabled={currentQ === 0}>← Kembali</button>
-              {!isChecked ? (
-                <button className="qz-btn qz-btn-primary" onClick={checkAnswer} disabled={!isAnswered}>Periksa</button>
-              ) : (
-                <button className="qz-btn qz-btn-primary" onClick={goNext}>{currentQ < TOTAL - 1 ? 'Lanjut →' : '🏁 Selesai'}</button>
+              <button className="qz-btn qz-btn-secondary" onClick={goPrev} style={{ flex: 1 }}>← Sebelumnya</button>
+              {!isChecked && (
+                <button className="qz-btn qz-btn-primary" onClick={checkAnswer} style={{ flex: 1 }} disabled={!isAnswered}>
+                  ✓ Cek
+                </button>
+              )}
+              {isChecked && (
+                <button className="qz-btn qz-btn-primary" onClick={goNext} style={{ flex: 1 }}>
+                  {currentQ === TOTAL - 1 ? '🏁 Selesai' : 'Selanjutnya →'}
+                </button>
               )}
             </div>
 
-            <button style={{ fontSize: '.85rem', marginTop: '12px', width: '100%', padding: '8px', background: 'var(--qz-surface)', border: '1px solid var(--qz-border)', borderRadius: '8px', color: 'var(--qz-text)', cursor: 'pointer' }} onClick={() => setShowNav(true)}>
-              📋 {[...checked].length}/{TOTAL}
+            <button 
+              className="qz-btn qz-btn-secondary"
+              onClick={() => setShowNav(true)}
+              style={{ marginTop: '8px', background: 'rgba(167,139,250,.08)' }}
+            >
+              🧭 Navigator Soal
             </button>
           </div>
         </div>
@@ -464,11 +519,11 @@ export default function Quizziz() {
         {showNav && createPortal(
           <div className="qz-modal" onClick={() => setShowNav(false)}>
             <div className="qz-modal-box">
-              <h3 style={{ marginBottom: '16px', fontSize: '1rem', fontWeight: '700' }}>Navigator Soal</h3>
-              <div style={{ fontSize: '.85rem', color: '#8d8d99', marginBottom: '14px' }}>
-                <span style={{ color: '#34d399' }}>■</span> Benar &nbsp;
-                <span style={{ color: '#fb7185' }}>■</span> Salah &nbsp;
-                <span style={{ color: '#8d8d99' }}>■</span> Belum
+              <h3 style={{ marginBottom: '16px', fontSize: '1rem', fontWeight: '700', color: 'var(--qz-text)' }}>Navigator Soal</h3>
+              <div style={{ fontSize: '.85rem', color: 'var(--qz-text-secondary)', marginBottom: '14px' }}>
+                <span style={{ color: '#10b981' }}>■</span> Benar &nbsp;
+                <span style={{ color: '#ef4444' }}>■</span> Salah &nbsp;
+                <span style={{ color: 'var(--qz-text-secondary)' }}>■</span> Belum
               </div>
               <div className="qz-nav-grid">
                 {QUESTIONS.map((_, i) => {
@@ -505,7 +560,7 @@ export default function Quizziz() {
           <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
             {['100', '40'].map(m => (
               <button key={m} onClick={() => setLbTab(m)} style={{
-                flex: 1, padding: '10px', background: lbTab === m ? 'var(--qz-primary)' : 'var(--qz-surface)',
+                flex: 1, padding: '10px', background: lbTab === m ? 'linear-gradient(135deg,#a78bfa,#7c5cdb)' : 'var(--qz-surface)',
                 border: '1px solid var(--qz-border)', borderRadius: '8px', color: '#fff', cursor: 'pointer', fontWeight: '600'
               }}>
                 {m === '100' ? '📚 100 Soal' : '⚡ 40 Soal'}
@@ -514,23 +569,45 @@ export default function Quizziz() {
           </div>
 
           <div className="qz-card">
-            {/* Pinned Top */}
-            <div className="qz-lb-row" style={{ background: 'rgba(253,230,138,.08)', borderRadius: '8px', marginBottom: '12px' }}>
-              <div className="qz-lb-rank" style={{ background: 'linear-gradient(135deg,#fde68a,#f59e0b)', color: '#1f1a00', fontWeight: '800' }}>👑</div>
-              <div className="qz-lb-avatar" style={{ background: 'linear-gradient(135deg,#fde68a,#f59e0b)', color: '#1f1a00' }}>NS</div>
-              <div className="qz-lb-info">
-                <div className="qz-lb-name">{PINNED.name}</div>
-                <div className="qz-lb-meta">{PINNED.score}</div>
+            {/* Top 3 Podium */}
+            {lbData.slice(0, 3).length > 0 && (
+              <div className="qz-lb-container">
+                {/* Gold - 1st Place */}
+                {lbData[0] && (
+                  <div className="qz-lb-top-3 qz-lb-top-card gold">
+                    <div className="qz-lb-medal">🥇</div>
+                    <div className="qz-lb-top-name">{lbData[0].name}</div>
+                    <div className="qz-lb-top-score">{lbData[0].score}</div>
+                    <div className="qz-lb-top-meta">{lbData[0].correct}/{lbData[0].total} ✓</div>
+                  </div>
+                )}
+                
+                {/* Silver - 2nd Place */}
+                {lbData[1] && (
+                  <div className="qz-lb-top-3 qz-lb-top-card silver">
+                    <div className="qz-lb-medal">🥈</div>
+                    <div className="qz-lb-top-name">{lbData[1].name}</div>
+                    <div className="qz-lb-top-score">{lbData[1].score}</div>
+                    <div className="qz-lb-top-meta">{lbData[1].correct}/{lbData[1].total} ✓</div>
+                  </div>
+                )}
               </div>
-            </div>
+            )}
 
-            {lbLoading && <div className="qz-empty">Memuat...</div>}
+            {/* Rest of Rankings */}
+            {lbLoading && <div className="qz-empty">Memuat ranking...</div>}
             {!lbLoading && lbData.length === 0 && <div className="qz-empty">Belum ada peserta 🚀</div>}
 
-            {lbData.map((row, i) => (
+            {lbData.slice(2).map((row, i) => (
               <div key={row.id} className="qz-lb-row">
-                <div className="qz-lb-rank">{i + 2}</div>
-                <div className="qz-lb-avatar">{row.photoURL ? <img src={row.photoURL} alt="" style={{ width: '100%', height: '100%', borderRadius: '8px' }} /> : row.name.slice(0, 2).toUpperCase()}</div>
+                <div className="qz-lb-rank">#{i + 3}</div>
+                <div className="qz-lb-avatar">
+                  {row.photoURL ? (
+                    <img src={row.photoURL} alt="" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} />
+                  ) : (
+                    row.name.slice(0, 2).toUpperCase()
+                  )}
+                </div>
                 <div className="qz-lb-info">
                   <div className="qz-lb-name">{row.name}</div>
                   <div className="qz-lb-meta">{row.correct}/{row.total} benar</div>
@@ -538,15 +615,21 @@ export default function Quizziz() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <div className="qz-lb-score">{row.score}</div>
                   {isAdmin(user?.email) && (
-                    <button onClick={() => deleteScore(row.id)} style={{ background: 'none', border: 'none', color: '#fb7185', cursor: 'pointer', fontSize: '1.2rem' }}>🗑️</button>
+                    <button onClick={() => deleteScore(row.id)} className="qz-lb-delete" title="Hapus entry">🗑️</button>
                   )}
                 </div>
               </div>
             ))}
           </div>
 
-          <div style={{ textAlign: 'center', color: '#8d8d99', marginTop: '40px', fontSize: '.9rem' }}>
-            <p>📌 <strong>Ns Leo</strong> | Always Supporting Your Learning</p>
+          <div className="qz-card">
+            <button className="qz-btn qz-btn-primary" onClick={() => setPage('menu')} style={{ marginTop: 0 }}>
+              🎯 Kembali ke Menu
+            </button>
+          </div>
+
+          <div style={{ textAlign: 'center', color: 'var(--qz-text-secondary)', marginTop: '40px', fontSize: '.85rem', marginBottom: '40px' }}>
+            <p>🎊 Terus belajar dan raih posisi teratas!</p>
           </div>
         </div>
       </div>
@@ -563,49 +646,50 @@ export default function Quizziz() {
               {finalStat.correct / TOTAL >= 0.8 ? '🎉' : finalStat.correct / TOTAL >= 0.6 ? '💪' : '📖'}
             </div>
             <h2 className="qz-h2">
-              {finalStat.correct / TOTAL >= 0.8 ? 'Luar Biasa!' : finalStat.correct / TOTAL >= 0.6 ? 'Bagus!' : 'Terus Belajar!'}
+              {finalStat.correct / TOTAL >= 0.8 ? 'Luar Biasa! 🌟' : finalStat.correct / TOTAL >= 0.6 ? 'Bagus! 💪' : 'Terus Belajar! 📚'}
             </h2>
             <div className="qz-result-score">{finalStat.score}</div>
-            <p style={{ color: '#8d8d99', fontSize: '.9rem', marginBottom: '20px' }}>dari {MAX_SCORE} poin</p>
+            <p style={{ color: 'var(--qz-text-secondary)', fontSize: '.9rem', marginBottom: '20px' }}>dari {MAX_SCORE} poin</p>
 
             <div className="qz-result-details">
               <div className="qz-result-row">
-                <span>Benar</span>
+                <span>✓ Benar</span>
                 <span><strong>{finalStat.correct} / {TOTAL}</strong></span>
               </div>
               <div className="qz-result-row">
-                <span>Salah</span>
+                <span>✗ Salah</span>
                 <span><strong>{TOTAL - finalStat.correct}</strong></span>
               </div>
               <div className="qz-result-row">
-                <span>Akurasi</span>
+                <span>📊 Akurasi</span>
                 <span><strong>{Math.round((finalStat.correct / TOTAL) * 100)}%</strong></span>
               </div>
               <div className="qz-result-row">
-                <span>Status Simpan</span>
+                <span>💾 Status</span>
                 <span>{saveStatus === 'saving' ? '⏳ Menyimpan...' : saveStatus === 'saved' ? '✅ Tersimpan' : saveStatus === 'notbest' ? '📊 Bukan terbaik' : '—'}</span>
               </div>
             </div>
 
-            {/* QRIS & Motivation */}
             <div className="qz-motivation">
-              💡 Terima kasih sudah belajar! Jangan lupa minum air putih & istirahat dengan cukup.
+              💡 Terima kasih sudah belajar! Jangan lupa istirahat & minum air putih 💧
             </div>
-            <div className="qz-qris">
-              <p style={{ fontSize: '.8rem', color: '#8d8d99', marginBottom: '10px' }}>Dukung untuk soal lebih banyak:</p>
-              <img src={QRIS_IMAGE} alt="QRIS" style={{ maxWidth: '180px', borderRadius: '8px', border: '2px solid var(--qz-border)' }} />
-              <p style={{ fontSize: '.75rem', color: '#8d8d99', marginTop: '8px' }}>"Setiap dukungan berarti untuk lebih baik 🙏"</p>
+
+            {/* QRIS & Donation */}
+            <div className="qz-qris-section">
+              <div className="qz-qris-title">☕ Bantu Kami Berkembang</div>
+              <img src={QRIS_IMAGE} alt="QRIS" />
+              <div className="qz-qris-text">Support = Soal & Fitur Lebih Banyak 🎯</div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '24px' }}>
-              <button className="qz-btn qz-btn-secondary" onClick={() => { setShowResult(false); setPage('ranking'); }}>🏆 Lihat Ranking</button>
-              <button className="qz-btn qz-btn-primary" onClick={restartQuiz}>🔄 Coba Lagi</button>
-              <button className="qz-btn qz-btn-secondary" onClick={backToMenu}>🏠 Kembali ke Menu</button>
+              <button className="qz-btn qz-btn-primary" onClick={() => { setShowResult(false); setPage('ranking'); }}>🏆 Lihat Ranking</button>
+              <button className="qz-btn qz-btn-secondary" onClick={restartQuiz}>🔄 Coba Lagi</button>
+              <button className="qz-btn qz-btn-secondary" onClick={backToMenu}>🏠 Kembali Menu</button>
             </div>
           </div>
 
-          <div style={{ textAlign: 'center', color: '#8d8d99', marginTop: '40px', fontSize: '.9rem', marginBottom: '40px' }}>
-            <p>📌 <strong>Ns Leo</strong> | Semangat Terus! 💪</p>
+          <div style={{ textAlign: 'center', color: 'var(--qz-text-secondary)', marginTop: '40px', fontSize: '.85rem', marginBottom: '40px' }}>
+            <p>✨ Semangat terus belajar! Kamu bisa!</p>
           </div>
         </div>
       </div>
