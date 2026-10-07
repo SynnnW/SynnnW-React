@@ -52,16 +52,16 @@ function formatDuration(sec) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
-// ✅ NEW: Helper functions untuk dynamic quiz type
-function getQuestions(qType = '200') {
-  return qType === '50' ? questions50 : questions;
+// ✅ NEW: Helper functions untuk dynamic quiz type — HANYA 50 SOAL
+function getQuestions(qType = '50') {
+  return questions50; // Hanya gunakan 50 soal
 }
 
-function getTotal(qType = '200') {
-  return qType === '50' ? questions50.length : questions.length;
+function getTotal(qType = '50') {
+  return questions50.length; // Hanya 50 soal
 }
 
-function calcScore(correct, qType = '200') {
+function calcScore(correct, qType = '50') {
   const total = getTotal(qType);
   return Math.round((correct / total) * MAX_SCORE);
 }
@@ -1094,7 +1094,7 @@ export default function QuizizFakep() {
   const [screen, setScreen] = useState('subjects'); // ✅ NEW: 'subjects' | 'quiz'
   const [tab, setTab] = useState('mulai'); // 'mulai' | 'quiz' | 'ranking'
   const [mode, setMode] = useState('unlimited'); // 'unlimited' | 'hard'
-  const [quizType, setQuizType] = useState('200'); // ✅ NEW: '200' | '50' (soal)
+  const [quizType, setQuizType] = useState('50'); // ✅ NEW: '200' | '50' (soal) — HANYA 50 SOAL
   const [quizUser, setQuizUser] = useState(null); // dari quizAuth
   const [displayName, setDisplayName] = useState('');
   const [nickname, setNickname] = useState('');
@@ -1700,28 +1700,7 @@ export default function QuizizFakep() {
               </div>
             )}
 
-            {/* ✅ NEW: Pilih jenis quiz */}
-            <div style={{ marginBottom: 18 }}>
-              <h4 style={{ color: 'var(--qz-text)', marginBottom: 10, fontSize: '0.9rem' }}>📋 Pilih Jenis Quiz</h4>
-              <div className="qz-type-options">
-                <button
-                  className={`qz-type-btn${quizType === '200' ? ' qz-active-type' : ''}`}
-                  onClick={() => setQuizType('200')}
-                >
-                  <div style={{ fontSize: '1.3rem', marginBottom: 4 }}>📚</div>
-                  <div>200 Soal</div>
-                  <div className="qz-type-label">100 menit</div>
-                </button>
-                <button
-                  className={`qz-type-btn${quizType === '50' ? ' qz-active-type' : ''}`}
-                  onClick={() => setQuizType('50')}
-                >
-                  <div style={{ fontSize: '1.3rem', marginBottom: 4 }}>⚡</div>
-                  <div>50 Soal</div>
-                  <div className="qz-type-label">60 menit</div>
-                </button>
-              </div>
-            </div>
+            {/* ✅ UPDATED: Hanya 50 soal */}
 
             {/* Pilih mode */}
             <div className="qz-mode-options">
@@ -1744,8 +1723,8 @@ export default function QuizizFakep() {
                 tabIndex={0}
                 onKeyDown={e => e.key === 'Enter' && setMode('hard')}
               >
-                <h4>🔴 {quizType === '50' ? '⚡ LATSOL' : 'IBD SEPELE'}</h4>
-                <p>Timer {quizType === '50' ? LATSOL_50_MINUTES : HARD_MODE_MINUTES} menit untuk {getTotal(quizType)} soal. Uji kecepatan dan ketepatan kamu!</p>
+                <h4>🔴 ⚡ LATSOL</h4>
+                <p>Timer {LATSOL_50_MINUTES} menit untuk {getTotal(quizType)} soal. Uji kecepatan dan ketepatan kamu!</p>
               </div>
             </div>
 
