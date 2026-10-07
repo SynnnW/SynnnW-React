@@ -26,7 +26,7 @@ const ADMIN_EMAIL = 'aldokraksaan@gmail.com';
 const MODE_CONFIG = {
   '100-sepele': { name: 'Sepele Mode 1', count: 100, timeLimit: 100 * 60, maxScore: 1000 },
   '100-hard': { name: 'Nopal Sepele 1', count: 100, timeLimit: 100 * 60, maxScore: 1000 },
-  '50-unlimited': { name: 'Quiz Part 2', count: 50, timeLimit: 45 * 60, maxScore: 500 },
+  '50-unlimited': { name: 'Quiz Part 2', count: 40, timeLimit: 45 * 60, maxScore: 500 },
 };
 const QRIS_IMAGE = '/assets/img/qris.jpg';
 const LS_KEY = 'qz_v5';
