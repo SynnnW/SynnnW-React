@@ -592,6 +592,134 @@ export const questions = [
     explanation: "Ini contoh system thinking. Materi menunjukkan bahwa masalah kesehatan tidak boleh disederhanakan sebagai \"pasien tidak patuh\"; ada hambatan transportasi, biaya, jam pelayanan, tenaga, obat, health literacy, dan dukungan keluarga. PHC menjadi titik penting untuk memperbaiki akses, kesinambungan, edukasi, koordinasi, dan rujukan."
   },
 
+  // Soal KesGlob 42–50 (melengkapi paket simulasi 50 soal)
+
+  {
+    id: 42,
+    text: "Sebuah negara memiliki banyak penduduk usia produktif, tetapi pendidikan rendah dan pekerjaan formal terbatas.\n\nMengapa kondisi tersebut belum tentu otomatis menghasilkan keuntungan bonus demografi?",
+    options: [
+      "Bonus demografi hanya ditentukan oleh jumlah lansia",
+      "Bonus demografi tidak membutuhkan lapangan kerja",
+      "Penduduk produktif selalu menjadi beban",
+      "Tanpa pekerjaan, pendidikan, dan produktivitas, dominasi usia produktif dapat menjadi beban sosial",
+      "Bonus demografi hanya terjadi ketika dependency ratio >80%"
+    ],
+    correctIndex: 3,
+    explanation: "Materi menyebut bonus demografi sebagai peluang yang membutuhkan lapangan kerja, pendidikan, produktivitas, dan kebijakan pendukung. Tanpa itu, peluang dapat berubah menjadi masalah."
+  },
+
+  {
+    id: 43,
+    text: "Keluarga miskin mengalami sanitasi buruk dan penyakit berulang. Setiap kali ada anggota keluarga sakit, pendapatan menurun karena biaya pengobatan dan kehilangan waktu kerja.\n\nIntervensi yang paling strategis adalah...",
+    options: [
+      "Hanya menambah tempat tidur rumah sakit",
+      "Memutus rantai kemiskinan melalui perbaikan determinan sosial, pencegahan, dan akses layanan",
+      "Mengurangi program sanitasi",
+      "Fokus hanya pada diagnosis laboratorium",
+      "Menunggu sampai penyakit berat"
+    ],
+    correctIndex: 1,
+    explanation: "Poverty-health trap harus ditangani secara sistemik karena akar dan dampaknya berada pada kondisi sosial, ekonomi, lingkungan, dan akses kesehatan."
+  },
+
+  {
+    id: 44,
+    text: "Suatu masalah kesehatan terjadi lintas negara, dipengaruhi epidemiologi, ekonomi, budaya, demografi, dan kebijakan serta membutuhkan kerja sama internasional.\n\nKonsep yang paling komprehensif adalah...",
+    options: [
+      "Clinical medicine",
+      "Primary care",
+      "Health insurance",
+      "Global health",
+      "Disease registry"
+    ],
+    correctIndex: 3,
+    explanation: "Global health dalam materi tidak hanya soal penyakit, tetapi juga interaksi faktor kesehatan dengan ekonomi, sosial, budaya, demografi, dan kerja sama transnasional."
+  },
+
+  {
+    id: 45,
+    text: "Sebuah negara mengalami peningkatan risiko penyakit yang menyebar lintas batas. Negara-negara terkait memerlukan kerangka bersama agar dapat mencegah, mendeteksi, dan merespons ancaman tersebut.\n\nInstrumen global yang paling relevan adalah...",
+    options: [
+      "SDG3",
+      "International Health Regulations",
+      "GERMAS",
+      "PATUH",
+      "Dependency ratio"
+    ],
+    correctIndex: 1,
+    explanation: "IHR merupakan kerangka internasional untuk membantu negara mencegah dan merespons penyebaran penyakit lintas batas."
+  },
+
+  {
+    id: 46,
+    text: "Suatu penyakit ditularkan melalui organisme perantara yang membawa agen dari satu host ke host lain.\n\nMode penularan yang paling sesuai adalah...",
+    options: [
+      "Contact",
+      "Droplet",
+      "Vector-borne",
+      "Vehicle-borne",
+      "Airborne"
+    ],
+    correctIndex: 2,
+    explanation: "Vector transmission melibatkan perantara seperti nyamuk atau arthropoda lain."
+  },
+
+  {
+    id: 47,
+    text: "Dalam situasi wabah, rumah sakit tetap harus melayani pasien hipertensi dan diabetes yang rutin membutuhkan obat.\n\nPrinsip yang paling tepat adalah...",
+    options: [
+      "Menjaga continuity of essential health services",
+      "Menghentikan seluruh layanan noninfeksi",
+      "Hanya menangani kasus wabah",
+      "Menghentikan pemberian obat kronis",
+      "Menutup puskesmas"
+    ],
+    correctIndex: 0,
+    explanation: "Materi menekankan bahwa continuity of essential services harus tetap dijaga selama outbreak agar pasien dengan kebutuhan rutin tidak terabaikan."
+  },
+
+  {
+    id: 48,
+    text: "Puskesmas mengumpulkan data harian, membandingkan dengan kondisi sebelumnya, menafsirkan kecenderungan, dan menggunakan hasilnya untuk mengubah tindakan.\n\nProses tersebut merupakan contoh...",
+    options: [
+      "Health financing",
+      "Surveillance loop",
+      "Equity",
+      "Primary prevention",
+      "Social model"
+    ],
+    correctIndex: 1,
+    explanation: "Surveillance merupakan proses berkelanjutan dari pengumpulan data sampai penggunaan informasi untuk tindakan."
+  },
+
+  {
+    id: 49,
+    text: "Sebuah penelitian stroke menunjukkan direct cost mendominasi total biaya dan sebagian besar direct medical cost berasal dari hospitalisasi. Selain itu, pasien kehilangan penghasilan selama sakit.\n\nKesimpulan paling lengkap adalah...",
+    options: [
+      "Stroke menimbulkan direct dan indirect economic burden",
+      "Biaya stroke hanya berasal dari obat",
+      "Indirect cost tidak penting",
+      "Hospitalisasi tidak terkait beban ekonomi",
+      "Kehilangan produktivitas bukan bagian beban penyakit"
+    ],
+    correctIndex: 0,
+    explanation: "Direct cost mencakup biaya medis dan nonmedis, sedangkan indirect cost mencakup kehilangan produktivitas, pendapatan, dan waktu. Keduanya membentuk economic burden stroke."
+  },
+
+  {
+    id: 50,
+    text: "Pemantauan global menunjukkan kemajuan service coverage UHC melambat dan beban pengeluaran kesehatan dari kantong sendiri tetap tinggi.\n\nMakna kebijakan yang paling tepat adalah...",
+    options: [
+      "UHC tidak lagi diperlukan",
+      "Sistem cukup fokus pada rumah sakit",
+      "Semua pengeluaran kesehatan harus nol",
+      "Kartu jaminan harus menjadi satu-satunya indikator",
+      "Investasi pada primary care, data, mutu layanan, dan perlindungan finansial tetap diperlukan"
+    ],
+    correctIndex: 4,
+    explanation: "Materi menunjukkan progres UHC belum sesuai target sehingga diperlukan investasi berkelanjutan pada sistem dasar, data, layanan, dan perlindungan finansial."
+  },
+
   // ════════════════════════════════════════════════
   // SIMULASI — FALSAFAH & TEORI KEPERAWATAN 50 SOAL (Index 50-99)
   // ════════════════════════════════════════════════
