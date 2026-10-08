@@ -147,20 +147,26 @@ const shuffleArray = (arr) => {
   return a;
 };
 
-/** Ambil soal berdasar mata pelajaran + tipe, map correctIndex → correct */
+/** Ambil soal berdasar mata pelajaran + tipe, map correctIndex → correct
+ *  Filter by ID range (bukan slice by index) agar KesGlob dan FTK tidak pernah tercampur
+ *  100soal.js: KesGlob id 1-100 · FTK id 101-200
+ *  50soal.js:  KesGlob id 1-50  · FTK id 51-100
+ */
 const getQs = (subject, type) => {
   try {
     const mapQ = (q) => ({ ...q, correct: q.correctIndex });
     if (type === '100') {
       const src = Array.isArray(allQ100) ? allQ100 : [];
-      // KesGlob: index 0-99 · FTK: index 100-199
-      const off = subject === 'kesglob' ? 0 : 100;
-      return src.slice(off, off + 100).map(mapQ);
+      if (subject === 'kesglob') {
+        return src.filter(q => q.id >= 1 && q.id <= 100).map(mapQ);
+      }
+      return src.filter(q => q.id >= 101 && q.id <= 200).map(mapQ);
     }
     const src = Array.isArray(allQ50) ? allQ50 : [];
-    // KesGlob: index 0-49 · FTK: index 50-99
-    const off = subject === 'kesglob' ? 0 : 50;
-    return src.slice(off, off + 50).map(mapQ);
+    if (subject === 'kesglob') {
+      return src.filter(q => q.id >= 1 && q.id <= 50).map(mapQ);
+    }
+    return src.filter(q => q.id >= 51 && q.id <= 100).map(mapQ);
   } catch { return []; }
 };
 
@@ -549,6 +555,39 @@ const CSS = `
 /* ════ QRIS HINT (last question) ════ */
 .qz-last-q-hint { margin-top:16px; padding:12px 16px; background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.2); border-radius:12px; text-align:center; animation:qz-fade-up 0.3s ease; }
 .qz-last-q-hint p { color:var(--qz-muted); font-size:0.82rem; margin:0 0 8px; }
+
+/* ════ REFLEKSI SOAL ════ */
+.qz-refleksi-banner {
+  background:linear-gradient(135deg,rgba(251,113,133,0.12),rgba(251,191,36,0.08));
+  border:1px solid rgba(251,113,133,0.4); border-radius:var(--qz-radius);
+  padding:20px; margin-bottom:20px; animation:qz-fade-up 0.4s ease;
+}
+.qz-refleksi-banner h3 { font-family:var(--qz-font-display); color:var(--qz-danger); font-size:1.1rem; margin-bottom:8px; }
+.qz-refleksi-banner p { color:var(--qz-muted); font-size:0.88rem; line-height:1.6; margin-bottom:14px; }
+.qz-refleksi-warning {
+  background:rgba(251,191,36,0.08); border:1px solid rgba(251,191,36,0.3);
+  border-radius:10px; padding:10px 14px; font-size:0.82rem; color:var(--qz-warning);
+  margin-bottom:14px; display:flex; align-items:center; gap:8px;
+}
+.qz-refleksi-mode-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(251,113,133,0.12); border:1px solid rgba(251,113,133,0.4);
+  color:var(--qz-danger); font-size:0.72rem; font-weight:700;
+  padding:4px 12px; border-radius:999px; letter-spacing:0.1em;
+  margin-bottom:16px;
+}
+.qz-refleksi-header {
+  display:flex; align-items:center; gap:10px; margin-bottom:12px;
+}
+.qz-refleksi-counter {
+  font-size:0.78rem; color:var(--qz-muted); margin-left:auto;
+}
+.qz-refleksi-progress {
+  height:3px; background:rgba(251,113,133,0.15); border-radius:999px; margin-bottom:20px; overflow:hidden;
+}
+.qz-refleksi-progress-fill {
+  height:100%; background:var(--qz-danger); border-radius:999px; transition:width 0.3s ease;
+}
 `;
 
 /* ════════════════════════════════════════════════════
@@ -588,6 +627,14 @@ export default function QuizizFakep() {
   const timerRef    = useRef(null);
   const deadlineRef = useRef(null);   // mirror deadline state (bisa dibaca di closure)
   const pauseTimeRef = useRef(null);  // timestamp saat tab disembunyikan
+
+  /* ── Refleksi Soal ── */
+  const [refleksiQueue, setRefleksiQueue]     = useState([]); // indeks soal salah yang perlu direfleksi
+  const [refleksiActive, setRefleksiActive]   = useState(false); // sedang di mode refleksi
+  const [refleksiDone, setRefleksiDone]       = useState({}); // { [origIdx]: 'benar'|'salah' }
+  const [refleksiShown, setRefleksiShown]     = useState({}); // checkpoint sudah ditampilkan: { mid: bool, end: bool }
+  const [showRefleksiBanner, setShowRefleksiBanner] = useState(false); // banner masuk mode refleksi
+  const REFLEKSI_PENALTY = 100; // pengurangan skor per soal refleksi yang salah lagi
 
   /* ── Modal & UI ── */
   const [showResult, setShowResult] = useState(false);
@@ -839,8 +886,8 @@ export default function QuizizFakep() {
         }
       }
     } catch { /* ignore */ }
-    // Jika tidak ada saved order → acak soal baru (berbeda tiap device/sesi)
-    if (!finalQs) finalQs = shuffleArray(qs);
+    // Jika tidak ada saved order → gunakan urutan asli soal (tidak diacak)
+    if (!finalQs) finalQs = qs;
     setSelectedType(typeKey);
     setActiveQuestions(finalQs);
     // Reset semua quiz state
@@ -914,13 +961,18 @@ export default function QuizizFakep() {
     const finalCorrect = Object.entries(answers).filter(([idx, sel]) =>
       sel === activeQuestions[Number(idx)]?.correct
     ).length;
-    const score = calcScore(finalCorrect, TOTAL);
-    const stat = { correct: finalCorrect, total: TOTAL, score, durationSec, mode };
+    const baseScore = calcScore(finalCorrect, TOTAL);
+    // Hitung penalti refleksi: soal refleksi yang masih salah
+    const refleksiPenalty = Object.values(refleksiDone).filter(v => v === 'salah').length * REFLEKSI_PENALTY;
+    const score = Math.max(0, baseScore - refleksiPenalty);
+    const stat = { correct: finalCorrect, total: TOTAL, score, durationSec, mode, refleksiPenalty };
     setFinalStat(stat);
     setShowResult(true);
     setQuizStarted(false);
     setIsPaused(false);
     pauseTimeRef.current = null;
+    setRefleksiActive(false);
+    setShowRefleksiBanner(false);
     clearProgress();
     setSavedProgress(null);
     // Personal best
@@ -929,7 +981,7 @@ export default function QuizizFakep() {
     if (newBest) setPersonalBest({ ...stat, date: new Date().toLocaleDateString('id-ID') });
     saveToLeaderboard(stat);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answers, mode, startTime, TOTAL, activeQuestions, clearProgress, selectedSubject, selectedType]);
+  }, [answers, mode, startTime, TOTAL, activeQuestions, clearProgress, selectedSubject, selectedType, refleksiDone]);
 
   const finishQuizRef = useRef(finishQuiz);
   useEffect(() => { finishQuizRef.current = finishQuiz; }, [finishQuiz]);
@@ -972,18 +1024,70 @@ export default function QuizizFakep() {
   };
 
   const goToQ = (idx) => { setCurrentQ(idx); setShowNav(false); };
-  const goNext = () => { currentQ < TOTAL - 1 ? goToQ(currentQ + 1) : finishQuizRef.current(false); };
   const goPrev = () => { if (currentQ > 0) goToQ(currentQ - 1); };
+
+  // ── Refleksi: cek apakah harus masuk mode refleksi di checkpoint ──
+  const checkRefleksiCheckpoint = useCallback((nextIdx, curAnswers, curCheckedSet) => {
+    const mid = Math.floor(TOTAL / 2);
+    const endThreshold = Math.floor(TOTAL * 0.85); // 85% soal sudah dijawab
+
+    // Kumpulkan soal yang salah dari soal 0 s/d nextIdx-1
+    const wrongIdxs = [];
+    for (let i = 0; i < nextIdx; i++) {
+      if (curCheckedSet[i] && curAnswers[i] !== activeQuestions[i]?.correct) {
+        wrongIdxs.push(i);
+      }
+    }
+    if (wrongIdxs.length === 0) return false;
+
+    // Checkpoint tengah: tepat saat mau masuk soal mid, belum pernah show
+    if (nextIdx === mid && !refleksiShown.mid) {
+      setRefleksiShown(prev => ({ ...prev, mid: true }));
+      setRefleksiQueue(wrongIdxs);
+      setRefleksiActive(true);
+      setShowRefleksiBanner(true);
+      return true;
+    }
+    // Checkpoint akhir: saat mau masuk soal endThreshold, belum pernah show
+    if (nextIdx === endThreshold && !refleksiShown.end) {
+      setRefleksiShown(prev => ({ ...prev, end: true }));
+      // hanya soal yang belum pernah direfleksi
+      const newWrong = wrongIdxs.filter(i => !refleksiDone[i]);
+      if (newWrong.length === 0) return false;
+      setRefleksiQueue(newWrong);
+      setRefleksiActive(true);
+      setShowRefleksiBanner(true);
+      return true;
+    }
+    return false;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [TOTAL, activeQuestions, refleksiShown, refleksiDone]);
+
+  const goNext = useCallback(() => {
+    const nextIdx = currentQ + 1;
+    if (nextIdx >= TOTAL) {
+      finishQuizRef.current(false);
+      return;
+    }
+    // Cek checkpoint refleksi
+    const triggered = checkRefleksiCheckpoint(nextIdx, answers, checkedSet);
+    if (!triggered) goToQ(nextIdx);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQ, TOTAL, answers, checkedSet, checkRefleksiCheckpoint]);
 
   const restartQuiz = () => {
     setShowResult(false); setFinalStat(null); setSaveStatus(''); setCheckedSet({}); setIsNewBest(false);
     setIsPaused(false); pauseTimeRef.current = null;
+    setRefleksiQueue([]); setRefleksiActive(false); setRefleksiDone({});
+    setRefleksiShown({}); setShowRefleksiBanner(false);
     startQuiz(null);
   };
 
   const backToMenu = () => {
     setShowResult(false); setFinalStat(null); setSaveStatus('');
     setQuizStarted(false); setCheckedSet({}); setIsNewBest(false);
+    setRefleksiQueue([]); setRefleksiActive(false); setRefleksiDone({});
+    setRefleksiShown({}); setShowRefleksiBanner(false);
     setTab('mulai');
   };
 
@@ -1407,6 +1511,7 @@ export default function QuizizFakep() {
                 <li>Klik <strong>"Periksa Jawaban"</strong> untuk melihat hasil & penjelasan</li>
                 <li>Jawaban <strong>terkunci</strong> setelah diperiksa — tidak bisa diubah</li>
                 <li>Gunakan tombol navigator soal (📋) untuk loncat ke soal lain</li>
+                <li>🔁 <strong>Refleksi Soal:</strong> di pertengahan &amp; menjelang akhir, soal yang kamu jawab salah akan muncul lagi. Jawab benar = tidak kena penalti. Jawab salah lagi = skor dikurangi {REFLEKSI_PENALTY} poin!</li>
                 <li>Skor terbaikmu tersimpan otomatis di leaderboard</li>
                 <li>Login Google = data ingatan bertahan permanen ☁️</li>
                 <li>Anonim = data tersimpan di cache browser 🖥️</li>
@@ -1435,6 +1540,158 @@ export default function QuizizFakep() {
               <div className="qz-empty">
                 <p>Quiz selesai! Lihat hasil di popup atau mulai lagi.</p>
               </div>
+            ) : showRefleksiBanner ? (
+              /* ── REFLEKSI BANNER (checkpoint masuk mode refleksi) ── */
+              <div className="qz-refleksi-banner" role="alert" aria-live="assertive">
+                <h3>🔁 Waktu Refleksi Soal!</h3>
+                <p>
+                  Sebelum lanjut, kamu perlu mengulang <strong>{refleksiQueue.length} soal</strong> yang tadi kamu jawab salah.
+                  Ini kesempatan untuk memahami materinya lebih dalam!
+                </p>
+                <div className="qz-refleksi-warning">
+                  ⚠️ Jika kamu <strong>masih salah</strong> saat refleksi, skor akan dikurangi <strong>{REFLEKSI_PENALTY} poin</strong> per soal.
+                </div>
+                <p style={{ fontSize: '0.82rem', color: 'var(--qz-muted)', marginBottom: 16 }}>
+                  Jawab dengan benar untuk lanjut ke soal berikutnya tanpa penalti skor. Kalau salah lagi, soal tetap bisa dilanjutkan tapi skor berkurang.
+                </p>
+                <button
+                  className="qz-btn qz-btn-primary"
+                  onClick={() => {
+                    setShowRefleksiBanner(false);
+                    // Tidak perlu set currentQ karena refleksi punya state sendiri
+                  }}
+                >
+                  🔁 Mulai Refleksi ({refleksiQueue.length} Soal)
+                </button>
+              </div>
+            ) : refleksiActive && refleksiQueue.length > 0 ? (
+              /* ── MODE REFLEKSI ── */
+              (() => {
+                const refleksiIdx    = refleksiQueue[0];
+                const refleksiQ      = activeQuestions[refleksiIdx];
+                const refleksiSelKey = `ref_${refleksiIdx}`;
+                const refleksiSel    = answers[refleksiSelKey];
+                const refleksiChkKey = `ref_${refleksiIdx}`;
+                const refleksiChk    = !!checkedSet[refleksiChkKey];
+                const refleksiCorrect = refleksiSel != null && refleksiSel === refleksiQ?.correct;
+                const doneCount      = Object.keys(refleksiDone).length;
+                const totalInSet     = doneCount + refleksiQueue.length;
+                const progress       = totalInSet > 0 ? (doneCount / totalInSet) * 100 : 0;
+
+                const handleRefleksiSelect = (optIdx) => {
+                  if (refleksiChk) return;
+                  setAnswers(prev => ({ ...prev, [refleksiSelKey]: optIdx }));
+                };
+                const handleRefleksiCheck = () => {
+                  if (refleksiSel == null) return;
+                  setCheckedSet(prev => ({ ...prev, [refleksiChkKey]: true }));
+                };
+                const handleRefleksiNext = () => {
+                  // Catat hasil refleksi
+                  const hasil = refleksiCorrect ? 'benar' : 'salah';
+                  setRefleksiDone(prev => ({ ...prev, [refleksiIdx]: hasil }));
+                  const newQueue = refleksiQueue.slice(1);
+                  if (newQueue.length === 0) {
+                    // Refleksi selesai → lanjutkan quiz dari soal berikutnya
+                    setRefleksiActive(false);
+                    setRefleksiQueue([]);
+                    goToQ(currentQ); // currentQ masih di checkpoint, lanjut ke next
+                  } else {
+                    setRefleksiQueue(newQueue);
+                    // Bersihkan answer+checked untuk soal refleksi berikutnya
+                    const nextKey = `ref_${newQueue[0]}`;
+                    setAnswers(prev => { const n = { ...prev }; delete n[nextKey]; return n; });
+                    setCheckedSet(prev => { const n = { ...prev }; delete n[nextKey]; return n; });
+                  }
+                };
+
+                return (
+                  <>
+                    <div className="qz-refleksi-mode-badge">🔁 MODE REFLEKSI</div>
+                    <div className="qz-refleksi-progress">
+                      <div className="qz-refleksi-progress-fill" style={{ width: `${progress}%` }} />
+                    </div>
+                    <div className="qz-refleksi-header">
+                      <span style={{ fontSize: '0.82rem', color: 'var(--qz-danger)', fontWeight: 700 }}>
+                        Soal Refleksi {doneCount + 1} dari {doneCount + refleksiQueue.length}
+                      </span>
+                      <span className="qz-refleksi-counter">
+                        Penalti aktif: -{Object.values(refleksiDone).filter(v => v === 'salah').length * REFLEKSI_PENALTY} poin
+                      </span>
+                    </div>
+
+                    {/* Sticky bar */}
+                    <div className="qz-sticky-bar" aria-label="Statistik quiz">
+                      {mode === 'hard' && (
+                        <div className={`qz-stat-pill ${isPaused ? 'qz-timer qz-timer-paused' : timerClass}`} aria-live="polite">
+                          <span>{isPaused ? '⏸' : formatDuration(timeLeft)}</span>
+                          {isPaused ? '💤' : '⏱️'}
+                        </div>
+                      )}
+                      <div className="qz-stat-pill qz-correct"><span>{correctCount}</span>✅</div>
+                      <div className="qz-stat-pill qz-wrong"><span>{wrongCount}</span>❌</div>
+                      <div className="qz-stat-pill qz-score"><span>{currentScore}</span>⭐</div>
+                    </div>
+
+                    <div className="qz-q-text">{refleksiQ?.text}</div>
+
+                    <div className="qz-options" role="group" aria-label="Pilihan jawaban refleksi">
+                      {refleksiQ?.options.map((opt, i) => {
+                        let cls = 'qz-option';
+                        if (refleksiChk) {
+                          cls += ' qz-locked';
+                          if (i === refleksiQ.correct) cls += ' qz-correct';
+                          else if (i === refleksiSel) cls += ' qz-incorrect';
+                        } else if (i === refleksiSel) cls += ' qz-sel';
+                        return (
+                          <button
+                            key={i}
+                            className={cls}
+                            onClick={() => handleRefleksiSelect(i)}
+                            aria-pressed={refleksiSel === i}
+                            aria-label={`Opsi ${OPTION_LABELS[i]}: ${opt}`}
+                          >
+                            <span className="qz-option-label">{OPTION_LABELS[i]}</span>
+                            <span>{opt}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {refleksiChk && (
+                      <div className={`qz-feedback ${refleksiCorrect ? 'qz-fb-correct' : 'qz-fb-incorrect'}`} aria-live="polite">
+                        <h4>
+                          {refleksiCorrect
+                            ? '✅ Benar! Tidak ada penalti.'
+                            : `❌ Masih Salah — Skor dikurangi ${REFLEKSI_PENALTY} poin`
+                          }
+                        </h4>
+                        {!refleksiCorrect && (
+                          <p>Jawaban yang benar: <strong>{OPTION_LABELS[refleksiQ.correct]}. {refleksiQ?.options[refleksiQ.correct]}</strong></p>
+                        )}
+                        <p>{refleksiQ?.explanation}</p>
+                      </div>
+                    )}
+
+                    <div className="qz-nav-btns">
+                      <div />
+                      {!refleksiChk ? (
+                        <button
+                          className="qz-btn qz-btn-primary"
+                          onClick={handleRefleksiCheck}
+                          disabled={refleksiSel == null}
+                        >
+                          Periksa Jawaban
+                        </button>
+                      ) : (
+                        <button className="qz-btn qz-btn-success" onClick={handleRefleksiNext}>
+                          {refleksiQueue.length === 1 ? '✅ Selesai Refleksi' : 'Soal Refleksi Berikutnya →'}
+                        </button>
+                      )}
+                    </div>
+                  </>
+                );
+              })()
             ) : q ? (
               <>
                 {/* Banner timer dijeda */}
@@ -1691,6 +1948,9 @@ export default function QuizizFakep() {
               <div className="qz-result-row"><span>Salah</span><span>{TOTAL - finalStat.correct}</span></div>
               <div className="qz-result-row"><span>Waktu</span><span>{formatDuration(finalStat.durationSec)}</span></div>
               <div className="qz-result-row"><span>Mode</span><span>{finalStat.mode === 'hard' ? '🔴 Timed Mode' : '🟢 Unlimited'}</span></div>
+              {finalStat.refleksiPenalty > 0 && (
+                <div className="qz-result-row"><span>Penalti Refleksi</span><span style={{ color: 'var(--qz-danger)' }}>-{finalStat.refleksiPenalty} poin</span></div>
+              )}
               <div className="qz-result-row">
                 <span>Status ranking</span>
                 <span>
