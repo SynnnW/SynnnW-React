@@ -718,6 +718,708 @@ export const questions = [
     explanation: "WHO = siapa/kelompok sasaran, WHAT = masalah/komplikasi, WHY = determinan dan akar masalah, WHAT NEXT = rencana tindakan."
   },
 
+  // Soal KesGlob 51–100 (Three Delays, Life Course, PTM, AMR, NTD, PHC/UHC lanjutan)
+
+  {
+    id: 51,
+    text: "Seorang ibu hamil mengalami tanda bahaya, tetapi keluarga lambat menyadari bahwa kondisi tersebut membutuhkan pertolongan segera.\n\nDalam Three Delays Model, peristiwa tersebut termasuk...",
+    options: [
+      "Delay 3",
+      "Delay 2",
+      "Keterlambatan administratif",
+      "Keterlambatan diagnosis laboratorium",
+      "Delay 1"
+    ],
+    correctIndex: 4,
+    explanation: "Delay 1 adalah keterlambatan mengenali bahaya dan mengambil keputusan mencari pertolongan."
+  },
+
+  {
+    id: 52,
+    text: "Seorang perempuan di daerah terpencil sudah menyadari kehamilannya berisiko, tetapi suaminya yang mengontrol keputusan finansial tidak segera menyetujui perjalanan ke fasilitas kesehatan.\n\nHambatan tersebut paling menggambarkan...",
+    options: [
+      "Delay 3",
+      "Delay 2",
+      "Delay 1",
+      "Clinical failure",
+      "Service coverage"
+    ],
+    correctIndex: 2,
+    explanation: "Ketika masalahnya adalah keterlambatan dalam mengambil keputusan atau memperoleh izin untuk mencari pelayanan, itu termasuk Delay 1 dan dapat dipengaruhi gender serta kekuasaan dalam keluarga."
+  },
+
+  {
+    id: 53,
+    text: "Seorang remaja mengalami perubahan biologis, tekanan psikososial, pola makan buruk, dan mulai melakukan perilaku berisiko.\n\nMengapa fase remaja penting dalam pendekatan life-course?",
+    options: [
+      "Hanya karena tinggi badan bertambah",
+      "Karena paparan pada fase ini dapat memengaruhi kesehatan saat dewasa",
+      "Karena semua penyakit kronis dimulai pada masa remaja",
+      "Karena UHH hanya dihitung dari masa remaja",
+      "Karena kelompok ini tidak membutuhkan promosi kesehatan"
+    ],
+    correctIndex: 1,
+    explanation: "Pubertas merupakan critical period. Perilaku, kesehatan mental, dan faktor risiko pada masa remaja dapat memengaruhi penyakit dan perilaku kesehatan di masa dewasa."
+  },
+
+  {
+    id: 54,
+    text: "Seorang lansia secara bersamaan memiliki hipertensi dan diabetes serta membutuhkan pemantauan beberapa obat.\n\nIstilah yang paling sesuai adalah...",
+    options: [
+      "Multimorbidity",
+      "Comorbidity-free state",
+      "Acute outbreak",
+      "Health disparity",
+      "Primary prevention"
+    ],
+    correctIndex: 0,
+    explanation: "Multimorbidity didefinisikan sebagai adanya dua atau lebih kondisi kesehatan pada satu orang secara bersamaan."
+  },
+
+  {
+    id: 55,
+    text: "Seorang pengguna kursi roda sebenarnya mampu menjalankan banyak aktivitas, tetapi tidak dapat memasuki gedung publik karena tidak tersedia ramp dan aksesibilitas.\n\nMenurut social model of disability, masalah utama bukan semata-mata kondisi individu, melainkan...",
+    options: [
+      "Rendahnya kepatuhan",
+      "Hambatan lingkungan dan sosial",
+      "Kurangnya obat",
+      "Ketidakmampuan keluarga",
+      "Diagnosis klinis semata"
+    ],
+    correctIndex: 1,
+    explanation: "Social model memandang disabilitas sebagai hasil interaksi kondisi individu dengan hambatan lingkungan dan sosial, sehingga aksesibilitas dan penghilangan stigma menjadi penting."
+  },
+
+  {
+    id: 56,
+    text: "Dua pasien membutuhkan pelayanan yang berbeda karena tingkat kebutuhan dan hambatannya berbeda. Petugas tidak memberikan intervensi identik kepada keduanya, tetapi menyesuaikannya dengan kebutuhan masing-masing.\n\nPrinsip tersebut merupakan...",
+    options: [
+      "Equality",
+      "Standardisasi",
+      "Uniformity",
+      "Equity",
+      "Universality"
+    ],
+    correctIndex: 3,
+    explanation: "Equality berarti semua diperlakukan sama, sedangkan equity berarti dukungan disesuaikan dengan kebutuhan dan hambatan agar hasil kesehatan lebih adil."
+  },
+
+  {
+    id: 57,
+    text: "Sebuah keluarga miskin tidak mampu memperbaiki sanitasi, kemudian lebih sering mengalami penyakit. Biaya berobat dan kehilangan pendapatan membuat keluarga semakin miskin.\n\nFenomena tersebut menggambarkan...",
+    options: [
+      "Social gradient",
+      "Poverty-health trap",
+      "Health promotion",
+      "Primary prevention",
+      "Population coverage"
+    ],
+    correctIndex: 1,
+    explanation: "Materi menggambarkan hubungan dua arah: kemiskinan meningkatkan risiko sakit, sementara sakit menambah biaya dan kehilangan pendapatan sehingga memperburuk kemiskinan."
+  },
+
+  {
+    id: 58,
+    text: "Seorang anak mendapat nutrisi baik sejak masa kehamilan hingga usia dua tahun, kemudian memasuki masa pubertas.\n\nDalam pendekatan life-course, kedua periode tersebut penting karena...",
+    options: [
+      "1000 HPK dan pubertas merupakan critical periods",
+      "Keduanya hanya berhubungan dengan pertumbuhan tulang",
+      "Hanya pubertas yang memengaruhi kesehatan dewasa",
+      "1000 HPK tidak berpengaruh terhadap kesehatan jangka panjang",
+      "Keduanya merupakan masa tanpa risiko"
+    ],
+    correctIndex: 0,
+    explanation: "Materi menyebut 1000 HPK dan pubertas sebagai fase dengan sensitivitas tinggi terhadap paparan kesehatan dan sosial."
+  },
+
+  {
+    id: 59,
+    text: "Bayi usia 8 bulan mulai mendapatkan makanan pendamping, tetapi keluarganya tidak memberikan perhatian terhadap asupan zat besi.\n\nRisiko yang paling sesuai dengan materi adalah...",
+    options: [
+      "Hipertensi primer",
+      "Arthritis",
+      "Penyakit hati kronis",
+      "Anemia defisiensi besi dan gangguan perkembangan",
+      "Stroke"
+    ],
+    correctIndex: 3,
+    explanation: "Pada usia 6–12 bulan, kebutuhan zat besi meningkat; kekurangannya dikaitkan dengan anemia serta gangguan perkembangan."
+  },
+
+  {
+    id: 60,
+    text: "Anak usia 18 bulan mengalami kurang gizi sekaligus minim stimulasi dan mengalami hambatan pertumbuhan.\n\nMenurut materi life-course, dampak yang paling dikhawatirkan adalah...",
+    options: [
+      "Peningkatan tinggi badan",
+      "Stunting dengan dampak jangka panjang terhadap perkembangan",
+      "Peningkatan UHH",
+      "Penurunan dependency ratio",
+      "Peningkatan service coverage"
+    ],
+    correctIndex: 1,
+    explanation: "Materi mengaitkan usia 12–24 bulan dengan perkembangan bahasa dan motorik. Gizi buruk dan stimulasi yang kurang dapat berkontribusi pada stunting dan gangguan perkembangan yang menetap."
+  },
+
+  {
+    id: 61,
+    text: "Sebuah penyakit berkembang perlahan, tidak ditularkan antarorang, dan berkaitan dengan kombinasi faktor genetik, fisiologis, perilaku, dan lingkungan.\n\nKlasifikasi yang paling tepat adalah...",
+    options: [
+      "Penyakit tidak menular",
+      "Penyakit menular",
+      "Outbreak disease",
+      "Zoonosis akut",
+      "Emerging infection"
+    ],
+    correctIndex: 0,
+    explanation: "PTM bersifat noncommunicable dan umumnya kronis dengan penyebab multifaktor."
+  },
+
+  {
+    id: 62,
+    text: "Sebuah program nasional memprioritaskan penyakit jantung dan stroke, kanker, diabetes, serta penyakit pernapasan kronis.\n\nKeempatnya merupakan kelompok utama...",
+    options: [
+      "Penyakit tropis terabaikan",
+      "Infeksi emerging",
+      "Penyakit tidak menular utama",
+      "Penyakit akibat vektor",
+      "Penyakit zoonosis"
+    ],
+    correctIndex: 2,
+    explanation: "Materi menempatkan cardiovascular disease, cancer, diabetes, dan chronic respiratory disease sebagai kelompok utama PTM."
+  },
+
+  {
+    id: 63,
+    text: "Puskesmas membuat intervensi yang menggabungkan berhenti merokok, aktivitas fisik, pola makan seimbang, pemeriksaan tekanan darah dan gula darah, serta pengendalian stres.\n\nPendekatan ini paling sesuai dengan...",
+    options: [
+      "Pencegahan PTM",
+      "Surveilans wabah",
+      "Pengendalian NTD",
+      "Pengobatan kuratif tersier saja",
+      "Outbreak response"
+    ],
+    correctIndex: 0,
+    explanation: "Pencegahan PTM dalam materi berfokus pada perilaku sehat, pengendalian faktor risiko, dan deteksi dini melalui screening."
+  },
+
+  {
+    id: 64,
+    text: "Seorang dewasa melakukan pengukuran tekanan darah dan memperoleh 146/92 mmHg secara berulang.\n\nBerdasarkan ambang dalam materi, kondisi tersebut memenuhi definisi...",
+    options: [
+      "Hipotensi",
+      "Normal",
+      "Prehipertensi",
+      "Hipertensi",
+      "Anemia"
+    ],
+    correctIndex: 3,
+    explanation: "Materi menggunakan ambang tekanan sistolik ≥140 mmHg dan/atau diastolik ≥90 mmHg untuk hipertensi."
+  },
+
+  {
+    id: 65,
+    text: "Seorang pasien hipertensi berhenti minum obat karena tidak merasakan sakit atau keluhan apa pun.\n\nPenilaian yang paling tepat adalah...",
+    options: [
+      "Keputusan tersebut aman karena hipertensi selalu bergejala",
+      "Obat hanya dibutuhkan saat sakit kepala",
+      "Hipertensi tidak menyebabkan komplikasi",
+      "Ketiadaan gejala tidak berarti tekanan darah terkendali",
+      "Terapi cukup saat tekanan darah sangat tinggi"
+    ],
+    correctIndex: 3,
+    explanation: "Hipertensi sering tidak menimbulkan gejala spesifik. Tekanan yang tidak terkontrol tetap dapat menyebabkan stroke, penyakit jantung, gangguan ginjal, dan komplikasi lain."
+  },
+
+  {
+    id: 66,
+    text: "Petugas mengajarkan pasien mengukur tekanan darah di rumah: duduk tenang, menggunakan manset tervalidasi di lengan atas, melakukan pengukuran berulang, dan memantau secara teratur.\n\nPendekatan tersebut sesuai dengan prinsip...",
+    options: [
+      "PATUH",
+      "5A",
+      "DALY",
+      "Three Delays",
+      "CERAMAH"
+    ],
+    correctIndex: 4,
+    explanation: "CERAMAH pada materi menjelaskan teknik pengukuran tekanan darah di rumah, termasuk posisi rileks dan pengukuran berulang."
+  },
+
+  {
+    id: 67,
+    text: "Di antara berikut, faktor manakah yang termasuk faktor risiko hipertensi yang dapat dimodifikasi?",
+    options: [
+      "Usia",
+      "Jenis kelamin",
+      "Riwayat keluarga",
+      "Faktor genetik",
+      "Obesitas"
+    ],
+    correctIndex: 4,
+    explanation: "Usia, jenis kelamin, dan riwayat keluarga merupakan faktor yang tidak dapat diubah, sedangkan obesitas, konsumsi garam, merokok, kurang aktivitas, dan stres merupakan faktor yang dapat dimodifikasi."
+  },
+
+  {
+    id: 68,
+    text: "Seorang pasien penyakit jantung koroner diberi pesan untuk memeriksa kesehatan secara rutin, mengatasi penyakit secara teratur, menjaga pola makan, melakukan aktivitas aman, dan menghindari rokok.\n\nKerangka edukasi tersebut adalah...",
+    options: [
+      "CERAMAH",
+      "GERMAS",
+      "5A",
+      "PATUH",
+      "PBL"
+    ],
+    correctIndex: 3,
+    explanation: "PATUH merupakan mnemonic dalam materi untuk pengendalian penyakit kardiovaskular."
+  },
+
+  {
+    id: 69,
+    text: "Pasien mengeluh sering haus, sering buang air kecil, mudah lelah, dan mengalami penyembuhan luka yang lambat.\n\nGambaran tersebut paling sesuai dengan...",
+    options: [
+      "Hipertensi",
+      "Arthritis",
+      "Gangguan tidur",
+      "Penyakit hati",
+      "Diabetes"
+    ],
+    correctIndex: 4,
+    explanation: "Gejala seperti rasa haus berlebih, sering berkemih, lelah, dan penyembuhan luka lambat tercantum sebagai gambaran diabetes dalam materi."
+  },
+
+  {
+    id: 70,
+    text: "Seorang pekerja terpapar asap rokok, asap biomassa, dan memiliki aktivitas fisik rendah. Dalam jangka panjang ia mengalami gejala sesak dan batuk kronis.\n\nFaktor tersebut paling berhubungan dengan kelompok...",
+    options: [
+      "Diabetes",
+      "Chronic respiratory disease",
+      "Congenital disorder",
+      "Arthritis",
+      "Thalassemia"
+    ],
+    correctIndex: 1,
+    explanation: "Paparan asap rokok, asap lingkungan, bahan bakar biomassa, aktivitas tidak sehat, dan obesitas merupakan faktor yang disebut dalam chronic respiratory disease."
+  },
+
+  {
+    id: 71,
+    text: "Pasien mengalami penyempitan pembuluh koroner sehingga aliran darah dan oksigen ke miokardium berkurang.\n\nMekanisme tersebut paling sesuai dengan...",
+    options: [
+      "Coronary heart disease",
+      "Diabetes",
+      "Liver disease",
+      "Arthritis",
+      "IBD"
+    ],
+    correctIndex: 0,
+    explanation: "Penyakit jantung koroner berkaitan dengan penyempitan atau penyumbatan arteri koroner yang menyebabkan iskemia miokardium."
+  },
+
+  {
+    id: 72,
+    text: "Dalam edukasi berhenti merokok, petugas menjelaskan adanya zat nikotin, karbon monoksida, dan tar.\n\nPernyataan yang paling tepat adalah...",
+    options: [
+      "Seluruh komponen tersebut hanya menimbulkan gangguan pencernaan",
+      "Nikotin bersifat adiktif, karbon monoksida mengganggu transport oksigen, dan tar berhubungan dengan zat karsinogenik",
+      "Semua zat tersebut hanya menyebabkan batuk",
+      "Karbon monoksida tidak memengaruhi sistem kardiovaskular",
+      "Tar tidak berkaitan dengan kanker"
+    ],
+    correctIndex: 1,
+    explanation: "Materi menguraikan fungsi toksik ketiga komponen tersebut secara khusus dan mengaitkannya dengan dampak kesehatan."
+  },
+
+  {
+    id: 73,
+    text: "Sebuah rumah sudah bebas dari aktivitas merokok di dalam ruangan, tetapi anggota keluarga tetap terpapar residu asap yang menempel pada pakaian, rambut, atau permukaan benda.\n\nSituasi tersebut paling sesuai dengan...",
+    options: [
+      "Primary exposure",
+      "Occupational asthma",
+      "Active smoking",
+      "Thirdhand smoke",
+      "Second disease"
+    ],
+    correctIndex: 3,
+    explanation: "Thirdhand smoke merupakan residu asap tembakau yang tertinggal pada pakaian, rambut, permukaan, dan lingkungan."
+  },
+
+  {
+    id: 74,
+    text: "Menurut materi PTM, rekomendasi aktivitas fisik minimum yang digunakan dalam pencegahan adalah...",
+    options: [
+      "Sekitar 30 menit per hari selama 3–5 kali per minggu",
+      "5 menit sekali seminggu",
+      "60 menit sekali sebulan",
+      "15 menit setiap dua minggu",
+      "Hanya aktivitas olahraga kompetitif"
+    ],
+    correctIndex: 0,
+    explanation: "Materi menyebut aktivitas fisik minimum sekitar 30 menit per hari, 3–5 kali per minggu."
+  },
+
+  {
+    id: 75,
+    text: "Sebuah keluarga ingin menerapkan pembagian piring sehat berdasarkan materi. Mereka menambah porsi sayur dan buah dibanding sebelumnya.\n\nKomposisi yang paling sesuai adalah...",
+    options: [
+      "Sayur 1/6 dan buah 1/3",
+      "Sayur dan buah hanya sebagai garnish",
+      "Sayur sekitar 1/3 piring dan buah sekitar 1/6 piring",
+      "Buah seluruh piring",
+      "Sayur hanya dikonsumsi saat makan malam"
+    ],
+    correctIndex: 2,
+    explanation: "Materi memberi panduan sayuran sekitar sepertiga piring dan buah sekitar seperenam piring."
+  },
+
+  {
+    id: 76,
+    text: "Remaja mengalami insomnia karena penggunaan perangkat hingga larut malam. Ia juga memiliki jadwal tidur tidak teratur.\n\nIntervensi yang paling sesuai dengan materi adalah...",
+    options: [
+      "Memperbaiki sleep schedule, relaksasi, mengurangi penggunaan perangkat sebelum tidur, dan aktivitas fisik",
+      "Memperpanjang penggunaan gawai agar cepat mengantuk",
+      "Mengonsumsi makanan berat sebelum tidur",
+      "Tidur siang sepanjang sore",
+      "Mengabaikan gangguan tidur"
+    ],
+    correctIndex: 0,
+    explanation: "Sleep hygiene yang baik meliputi jadwal tidur teratur, relaksasi, membatasi perangkat, dan kebiasaan hidup sehat."
+  },
+
+  {
+    id: 77,
+    text: "Sebuah komunitas mempunyai prevalensi perokok tinggi dan paparan bahan kimia lingkungan. Program pencegahan kanker disusun.\n\nStrategi yang paling tepat sesuai materi adalah...",
+    options: [
+      "Meningkatkan konsumsi obat tanpa indikasi",
+      "Hanya menyediakan layanan rawat inap",
+      "Menghentikan semua kegiatan screening",
+      "Mengurangi rokok dan paparan toksin serta memperhatikan nutrisi dan screening",
+      "Menunggu pasien menunjukkan gejala berat"
+    ],
+    correctIndex: 3,
+    explanation: "Materi menekankan berhenti merokok, mengurangi paparan toksin lingkungan, pola makan sehat, dan screening sebagai langkah pencegahan kanker."
+  },
+
+  {
+    id: 78,
+    text: "Pasien mengalami hipertensi, mual, pembengkakan, nafsu makan menurun, dan kram.\n\nOrgan yang paling perlu dicurigai mengalami gangguan adalah...",
+    options: [
+      "Paru",
+      "Otak",
+      "Pankreas",
+      "Ginjal",
+      "Telinga"
+    ],
+    correctIndex: 3,
+    explanation: "Gejala seperti hipertensi, edema, mual, penurunan nafsu makan, dan kram tercantum pada gambaran penyakit ginjal."
+  },
+
+  {
+    id: 79,
+    text: "Seorang pasien memiliki faktor risiko penyakit hati dan ingin melakukan pencegahan.\n\nPilihan yang paling sesuai dengan materi adalah...",
+    options: [
+      "Meningkatkan konsumsi alkohol",
+      "Menghindari semua vaksin",
+      "Menggunakan obat tanpa memperhatikan dosis",
+      "Mengurangi aktivitas fisik",
+      "Menjaga berat badan, memperhatikan penggunaan obat, dan melakukan pencegahan sesuai faktor penyebab"
+    ],
+    correctIndex: 4,
+    explanation: "Pencegahan penyakit hati dalam materi mencakup gaya hidup sehat, menghindari alkohol, vaksinasi, dan penggunaan obat secara hati-hati."
+  },
+
+  {
+    id: 80,
+    text: "Data nasional menunjukkan prevalensi obesitas meningkat dari sekitar 8% menjadi 21,8% dalam periode yang tercantum di materi.\n\nMakna utama data tersebut adalah...",
+    options: [
+      "Obesitas hanya menjadi masalah usia tua",
+      "Obesitas bukan masalah kesehatan masyarakat",
+      "Obesitas hanya ditentukan genetik",
+      "Obesitas pasti akan turun tanpa intervensi",
+      "Obesitas merupakan masalah PTM yang meningkat dan memerlukan strategi multifaktor"
+    ],
+    correctIndex: 4,
+    explanation: "Materi menunjukkan peningkatan obesitas yang besar dan menjelaskannya sebagai kondisi kronis kompleks yang berkaitan dengan diet, aktivitas, stres, tidur, penyakit, obat, dan faktor lainnya."
+  },
+
+  {
+    id: 81,
+    text: "Pasien mengatakan, \"Tubuh saya sudah kebal terhadap antibiotik karena obatnya sudah tidak ampuh.\"\n\nPernyataan yang paling tepat adalah...",
+    options: [
+      "Tubuh manusia memang menjadi resisten terhadap antibiotik",
+      "Semua virus otomatis kebal terhadap antibiotik",
+      "Resistensi hanya muncul karena usia",
+      "Mikroorganisme dapat menjadi resisten sehingga antimikroba yang sebelumnya efektif tidak lagi bekerja",
+      "Antibiotik selalu bekerja terhadap semua jenis mikroorganisme"
+    ],
+    correctIndex: 3,
+    explanation: "AMR terjadi ketika mikroorganisme—seperti bakteri, virus, fungi, atau parasit—tidak lagi responsif terhadap antimikroba yang sebelumnya efektif."
+  },
+
+  {
+    id: 82,
+    text: "Seorang pasien terkena influenza dan meminta antibiotik karena menganggap semua infeksi memerlukan antibiotik.\n\nRespons paling tepat adalah...",
+    options: [
+      "Antibiotik selalu diperlukan saat demam",
+      "Antibiotik diberikan untuk semua penyakit pernapasan",
+      "Antibiotik digunakan agar gejala hilang lebih cepat pada semua infeksi",
+      "Antibiotik diberikan jika pasien memintanya",
+      "Antibiotik ditujukan terutama untuk bakteri, sehingga penggunaannya pada penyakit virus seperti influenza tidak tepat"
+    ],
+    correctIndex: 4,
+    explanation: "Materi membedakan antibiotik untuk bakteri, antivirus untuk virus, antifungi untuk jamur, dan antiparasit untuk parasit."
+  },
+
+  {
+    id: 83,
+    text: "Sebuah bakteri memproduksi enzim yang menonaktifkan obat antimikroba sehingga obat tersebut tidak lagi efektif.\n\nMekanisme resistensi yang dimaksud adalah...",
+    options: [
+      "Perubahan target",
+      "Enzymatic inactivation",
+      "Peningkatan absorpsi obat",
+      "Peningkatan sensitivitas",
+      "Aktivasi sistem imun"
+    ],
+    correctIndex: 1,
+    explanation: "Enzymatic inactivation, misalnya melalui beta-lactamase, merupakan salah satu mekanisme resistensi yang disebut dalam materi."
+  },
+
+  {
+    id: 84,
+    text: "Sebuah rumah sakit menemukan banyak kasus organisme resisten. Audit menunjukkan penggunaan antibiotik berulang, rawat inap lama, dan kepatuhan hand hygiene yang rendah.\n\nInterpretasi paling tepat adalah...",
+    options: [
+      "Terdapat faktor risiko pasien dan fasilitas yang dapat meningkatkan AMR",
+      "AMR hanya dipengaruhi genetika pasien",
+      "Hand hygiene tidak berkaitan dengan AMR",
+      "Lama rawat tidak berpengaruh",
+      "Penggunaan antibiotik berulang justru selalu mencegah resistensi"
+    ],
+    correctIndex: 0,
+    explanation: "Materi menyebut penggunaan antibiotik berulang, hospitalisasi lama, serta buruknya hand hygiene dan IPC sebagai faktor yang meningkatkan risiko AMR."
+  },
+
+  {
+    id: 85,
+    text: "Rumah sakit ingin menekan AMR. Mereka memperbaiki ketepatan diagnosis, penggunaan antibiotik, pencegahan infeksi, dan edukasi.\n\nStrategi tersebut paling tepat karena...",
+    options: [
+      "Pengendalian AMR membutuhkan stewardship, IPC, diagnosis yang tepat, dan edukasi",
+      "AMR cukup ditangani dengan antibiotik generasi baru",
+      "AMR hanya masalah laboratorium",
+      "Pendidikan masyarakat tidak diperlukan",
+      "Isolasi tidak berhubungan dengan penyebaran organisme resisten"
+    ],
+    correctIndex: 0,
+    explanation: "Materi menekankan empat pilar penting: antimicrobial stewardship, infection prevention and control, diagnosis akurat, dan edukasi publik."
+  },
+
+  {
+    id: 86,
+    text: "Sebuah penyakit disebut \"neglected\" bukan karena gejalanya selalu ringan, tetapi karena secara tidak proporsional memengaruhi komunitas miskin, terpencil, dan memiliki sanitasi buruk.\n\nDefinisi yang paling tepat adalah...",
+    options: [
+      "Penyakit yang pasti tidak menular",
+      "Neglected tropical disease",
+      "Penyakit yang hanya muncul pada negara tropis",
+      "Penyakit yang selalu tanpa gejala",
+      "Penyakit yang hanya ditularkan nyamuk"
+    ],
+    correctIndex: 1,
+    explanation: "NTD disebut neglected karena ketimpangan sosial, ekonomi, geografis, sanitasi, dan lemahnya akses serta representasi politik, bukan karena penyakitnya ringan."
+  },
+
+  {
+    id: 87,
+    text: "Materi Indonesia menyebut sekitar puluhan juta penduduk terdampak dan sejumlah penyakit NTD endemik nasional.\n\nPernyataan yang paling tepat adalah...",
+    options: [
+      "Indonesia bebas dari NTD",
+      "Hanya ada satu NTD endemik",
+      "Sekitar 80 juta penduduk dan 11 dari 21 jenis NTD global yang tercantum mengalami endemisitas",
+      "Semua NTD Indonesia berasal dari hewan",
+      "NTD hanya terjadi di perkotaan"
+    ],
+    correctIndex: 2,
+    explanation: "Materi menyebut sekitar 80 juta penduduk Indonesia dan 11 dari 21 tipe NTD global yang tercantum sebagai endemik."
+  },
+
+  {
+    id: 88,
+    text: "Sebuah kabupaten menerima sertifikat eliminasi penyakit tertentu. Pemerintah kemudian menghentikan seluruh surveilans karena menganggap penyakit tersebut sudah tidak mungkin muncul lagi.\n\nPenilaian yang benar adalah...",
+    options: [
+      "Keputusan tersebut tepat karena eliminasi berarti penghapusan seluruh risiko",
+      "Surveilans hanya diperlukan sebelum eliminasi",
+      "Setelah eliminasi, surveilans tetap diperlukan",
+      "Eliminasi berarti tidak perlu kolaborasi lintas sektor",
+      "Sertifikat eliminasi berarti semua faktor risiko hilang"
+    ],
+    correctIndex: 2,
+    explanation: "Materi secara tegas menekankan bahwa eliminasi bukan berarti akhir. Mobilitas, lingkungan, urbanisasi, perubahan iklim, dan kesenjangan akses tetap dapat menjadi ancaman."
+  },
+
+  {
+    id: 89,
+    text: "Sebuah sekolah berada di daerah dengan prevalensi soil-transmitted helminths tinggi. Program yang paling sesuai adalah...",
+    options: [
+      "Sanitasi, air bersih, cuci tangan, penggunaan jamban, dan deworming berkala",
+      "Hanya pembangunan rumah sakit",
+      "Vaksinasi influenza sebagai intervensi utama",
+      "Pembatasan kegiatan sekolah",
+      "Hanya pemberian analgesik"
+    ],
+    correctIndex: 0,
+    explanation: "Pengendalian cacing tanah dalam materi menekankan WASH, sanitasi, kebersihan tangan, jamban, dan pemberian obat cacing berkala di sekolah."
+  },
+
+  {
+    id: 90,
+    text: "Sebuah pemerintah melihat NTD hanya sebagai persoalan angka kasus dan ingin mengabaikan stigma, produktivitas, kemiskinan, serta ketimpangan.\n\nPendekatan yang paling sesuai dengan materi justru adalah...",
+    options: [
+      "NTD hanya dinilai dengan mortality",
+      "NTD hanya berkaitan dengan parasit",
+      "Pengendalian NTD harus dipahami sebagai isu health equity sekaligus epidemiologi",
+      "Stigma tidak termasuk masalah kesehatan",
+      "Faktor sosial tidak relevan"
+    ],
+    correctIndex: 2,
+    explanation: "Materi menekankan bahwa pengendalian NTD merupakan persoalan equity karena berkaitan dengan disabilitas, stigma, produktivitas, biaya keluarga, dan ketimpangan."
+  },
+
+  {
+    id: 91,
+    text: "Petugas melakukan tracing terhadap sumber penyakit dengan urutan: agen, reservoir, portal keluar, cara penularan, portal masuk, kemudian host rentan.\n\nKonsep yang sedang diterapkan adalah...",
+    options: [
+      "Social gradient",
+      "Dependency ratio",
+      "Health financing",
+      "Five building blocks",
+      "Chain of infection"
+    ],
+    correctIndex: 4,
+    explanation: "Materi menyajikan enam mata rantai penularan tersebut dalam chain of infection."
+  },
+
+  {
+    id: 92,
+    text: "Puskesmas mengumpulkan data kasus, menganalisisnya, menafsirkan hasil, lalu menggunakan informasi tersebut untuk menentukan tindakan.\n\nUrutan tersebut menunjukkan fungsi...",
+    options: [
+      "Rehabilitasi",
+      "Surveillance",
+      "Financing",
+      "Referral",
+      "Staffing"
+    ],
+    correctIndex: 1,
+    explanation: "Siklus surveilans dalam materi adalah collect → analyze → interpret → use for action."
+  },
+
+  {
+    id: 93,
+    text: "Pada saat terjadi wabah, petugas menyampaikan informasi secara cepat, jelas, konsisten, berbasis bukti, namun tetap transparan mengenai ketidakpastian.\n\nPrinsip tersebut merupakan...",
+    options: [
+      "Equity",
+      "Primary care",
+      "DALY",
+      "Risk communication",
+      "Dependency ratio"
+    ],
+    correctIndex: 3,
+    explanation: "Risk communication harus cepat, jelas, konsisten, evidence-based, transparan terhadap ketidakpastian, sensitif budaya, serta membantu mengurangi misinformation dan stigma."
+  },
+
+  {
+    id: 94,
+    text: "Suatu penyakit baru atau penyakit lama menunjukkan peningkatan kasus dan penyebaran geografis secara cepat. Pada saat bersamaan, kelompok anak kecil dan lansia menjadi lebih berisiko mengalami penyakit berat.\n\nKarakteristik tersebut paling sesuai dengan pembahasan...",
+    options: [
+      "UHC",
+      "Emerging/re-emerging disease",
+      "Social gradient",
+      "Disability model",
+      "Dependency ratio"
+    ],
+    correctIndex: 1,
+    explanation: "Emerging disease adalah penyakit yang baru muncul atau meningkat cepat dalam kasus/geografi; re-emerging adalah penyakit lama yang kembali meningkat setelah sebelumnya menurun atau terkendali."
+  },
+
+  {
+    id: 95,
+    text: "Sebuah wilayah mengalami peningkatan penyakit yang diduga berhubungan dengan interaksi manusia, hewan, dan perubahan lingkungan. Tim kesehatan menggandeng sektor pertanian dan kesehatan hewan.\n\nPendekatan yang paling tepat adalah...",
+    options: [
+      "One Health",
+      "Equality",
+      "DALY",
+      "GERMAS",
+      "PATUH"
+    ],
+    correctIndex: 0,
+    explanation: "One Health memandang keterkaitan kesehatan manusia, hewan, pangan, dan lingkungan sehingga membutuhkan kolaborasi lintas sektor."
+  },
+
+  {
+    id: 96,
+    text: "Sebuah sistem kesehatan dinilai dari pelayanan, tenaga kesehatan, informasi kesehatan, obat/teknologi, pembiayaan, dan kepemimpinan/tata kelola.\n\nKerangka yang digunakan adalah...",
+    options: [
+      "Three Delays Model",
+      "5A",
+      "CERDIK",
+      "PATUH",
+      "WHO Six Building Blocks"
+    ],
+    correctIndex: 4,
+    explanation: "Enam building blocks WHO adalah service delivery, health workforce, health information, medicines/technology, health financing, serta leadership/governance."
+  },
+
+  {
+    id: 97,
+    text: "Mahasiswa menyamakan primary care dengan primary health care.\n\nPernyataan yang paling tepat untuk membedakan keduanya adalah...",
+    options: [
+      "Primary care selalu mencakup kebijakan nasional",
+      "Primary care cenderung berfokus pada kontak klinis pertama, sedangkan PHC lebih luas sebagai pendekatan sistem dan masyarakat",
+      "PHC hanya berupa layanan rumah sakit",
+      "Primary care tidak berhubungan dengan individu",
+      "Keduanya merupakan istilah yang sepenuhnya identik"
+    ],
+    correctIndex: 1,
+    explanation: "Primary care menekankan layanan klinis kontak pertama, sedangkan PHC lebih luas, mencakup individu, populasi, promotif hingga palliative, kebijakan, multisektor, dan pemberdayaan masyarakat."
+  },
+
+  {
+    id: 98,
+    text: "Sebuah fasilitas tersedia secara fisik, tetapi berada jauh dari rumah pasien. Masyarakat tidak mudah mencapainya karena masalah transportasi.\n\nDimensi akses 5A yang paling bermasalah adalah...",
+    options: [
+      "Acceptability",
+      "Availability",
+      "Accessibility",
+      "Affordability",
+      "Quality"
+    ],
+    correctIndex: 2,
+    explanation: "Accessibility berkaitan dengan kemampuan masyarakat mencapai fasilitas secara fisik."
+  },
+
+  {
+    id: 99,
+    text: "Pemerintah mengevaluasi UHC dengan melihat jumlah penduduk yang tercakup, jenis pelayanan yang efektif tersedia, serta beban biaya yang harus ditanggung.\n\nKerangka tersebut menilai...",
+    options: [
+      "Workforce, financing, referral",
+      "Prevalence, mortality, incidence",
+      "Equity, equality, stigma",
+      "Primary, secondary, tertiary",
+      "Population, service coverage, financial protection"
+    ],
+    correctIndex: 4,
+    explanation: "Tiga dimensi UHC adalah cakupan populasi, cakupan pelayanan, dan perlindungan finansial."
+  },
+
+  {
+    id: 100,
+    text: "Sebanyak 95% penduduk sebuah wilayah telah memiliki jaminan kesehatan. Namun puskesmas sangat jauh, tenaga terbatas, obat sering kosong, dan biaya perjalanan tinggi.\n\nKesimpulan paling tepat adalah...",
+    options: [
+      "Coverage kartu belum berarti effective UHC telah tercapai",
+      "UHC sudah pasti sempurna karena cakupan >90%",
+      "Masalah hanya terletak pada kepatuhan pasien",
+      "Kualitas pelayanan tidak terkait UHC",
+      "Akses geografis tidak termasuk komponen UHC"
+    ],
+    correctIndex: 0,
+    explanation: "Materi menekankan bahwa coverage bukan sekadar kepemilikan kartu. UHC juga membutuhkan ketersediaan layanan, tenaga, obat, akses fisik, mutu, affordability, dan equity."
+  },
+
   // ════════════════════════════════════════════════
   // FALSAFAH & TEORI KEPERAWATAN — 100 SOAL (Index 100-199)
   // ════════════════════════════════════════════════
