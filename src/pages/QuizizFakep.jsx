@@ -34,7 +34,6 @@ const MAX_SCORE         = 2000;
 const HARD_MODE_MINUTES = 100;
 const PINNED_TOP        = { name: 'Ns Leo', score: 2000 };
 const QRIS_IMAGE        = '/assets/img/qris.jpg';
-const TRAKTEER_URL      = 'https://trakteer.id/aldokraksaan'; // sesuaikan URL trakteer
 const LS_NICK           = 'qz_nickname';
 
 // ── Konfigurasi Mata Pelajaran ──
@@ -48,6 +47,8 @@ const SUBJECTS = [
     color: '#10b981',
     gradient: 'linear-gradient(135deg,#10b981,#34d399)',
     desc: 'Epidemiologi, SDGs, sistem kesehatan dunia & isu kesehatan global',
+    materiLabel: '📊 Link PPT Materi',
+    materiUrl: 'https://drive.google.com/drive/folders/1BhECsi2o8spsa_Wbgb9K0p1RJJjUjgKb',
   },
   {
     key: 'ftk',
@@ -58,6 +59,8 @@ const SUBJECTS = [
     color: '#8b7bff',
     gradient: 'linear-gradient(135deg,#8b7bff,#5eead4)',
     desc: 'Paradigma keperawatan, teori-teori keperawatan & konsep dasar profesi',
+    materiLabel: '📚 Link Buku Materi',
+    materiUrl: 'https://drive.google.com/drive/folders/1eIeKFaEAaFrhJqTpPZsWxoUSq42TmUQx',
   },
   {
     key: 'eng',
@@ -68,6 +71,8 @@ const SUBJECTS = [
     color: '#6b7280',
     gradient: 'linear-gradient(135deg,#6b7280,#9ca3af)',
     desc: 'Medical English & terminologi keperawatan internasional',
+    materiLabel: null,
+    materiUrl: null,
   },
 ];
 
@@ -132,19 +137,30 @@ const checkIsAdmin = (user) =>
 const getLbKey = (subject, type) =>
   subject && type ? `lb_${subject}_${type === '100' ? 'p100' : 'l50'}` : null;
 
-/** Ambil soal berdasar mata pelajaran + tipe */
+/** Fisher-Yates shuffle (returns new array) */
+const shuffleArray = (arr) => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
+/** Ambil soal berdasar mata pelajaran + tipe, map correctIndex → correct */
 const getQs = (subject, type) => {
   try {
+    const mapQ = (q) => ({ ...q, correct: q.correctIndex });
     if (type === '100') {
       const src = Array.isArray(allQ100) ? allQ100 : [];
       // KesGlob: index 0-99 · FTK: index 100-199
       const off = subject === 'kesglob' ? 0 : 100;
-      return src.slice(off, off + 100);
+      return src.slice(off, off + 100).map(mapQ);
     }
     const src = Array.isArray(allQ50) ? allQ50 : [];
     // KesGlob: index 0-49 · FTK: index 50-99
     const off = subject === 'kesglob' ? 0 : 50;
-    return src.slice(off, off + 50);
+    return src.slice(off, off + 50).map(mapQ);
   } catch { return []; }
 };
 
@@ -354,6 +370,8 @@ const CSS = `
 .qz-stat-pill.qz-score span { background:linear-gradient(120deg,var(--qz-primary),var(--qz-primary2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
 .qz-stat-pill.qz-timer-warn span { color:var(--qz-warning); }
 .qz-stat-pill.qz-timer-danger span { color:var(--qz-danger); animation:qz-pulse 1s ease-in-out infinite; }
+.qz-stat-pill.qz-timer-paused span { color:var(--qz-muted); }
+.qz-paused-banner { background:rgba(139,123,255,0.1); border:1px solid rgba(139,123,255,0.3); color:var(--qz-primary); border-radius:10px; padding:9px 14px; font-size:0.83rem; font-weight:600; text-align:center; margin-bottom:10px; animation:qz-fade-up 0.3s ease; }
 
 /* ── Progress bar ── */
 .qz-progress-bar { background:var(--qz-surface2); height:5px; border-radius:999px; margin-bottom:14px; overflow:hidden; }
@@ -524,6 +542,10 @@ const CSS = `
 .qz-trakteer-btn { display:inline-flex; align-items:center; gap:6px; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); color:#fbbf24; border-radius:10px; padding:8px 18px; font:600 0.82rem var(--qz-font); cursor:pointer; text-decoration:none; transition:all 0.2s; }
 .qz-trakteer-btn:hover { background:rgba(251,191,36,0.18); transform:translateY(-1px); }
 
+/* ════ MATERI LINK ════ */
+.qz-materi-link { display:flex; align-items:center; gap:12px; background:var(--qz-surface); border:1px solid var(--qz-border); border-radius:13px; padding:14px 16px; margin-bottom:10px; text-decoration:none; transition:all 0.2s; }
+.qz-materi-link:hover { border-color:rgba(139,123,255,0.5); background:rgba(139,123,255,0.07); transform:translateX(3px); }
+
 /* ════ QRIS HINT (last question) ════ */
 .qz-last-q-hint { margin-top:16px; padding:12px 16px; background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.2); border-radius:12px; text-align:center; animation:qz-fade-up 0.3s ease; }
 .qz-last-q-hint p { color:var(--qz-muted); font-size:0.82rem; margin:0 0 8px; }
@@ -562,7 +584,10 @@ export default function QuizizFakep() {
   const [deadline, setDeadline]   = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [timeLeft, setTimeLeft]   = useState(null);
-  const timerRef = useRef(null);
+  const [isPaused, setIsPaused]   = useState(false); // timer dijeda saat tab tersembunyi
+  const timerRef    = useRef(null);
+  const deadlineRef = useRef(null);   // mirror deadline state (bisa dibaca di closure)
+  const pauseTimeRef = useRef(null);  // timestamp saat tab disembunyikan
 
   /* ── Modal & UI ── */
   const [showResult, setShowResult] = useState(false);
@@ -639,28 +664,75 @@ export default function QuizizFakep() {
     } catch { setSavedProgress(null); }
   }, [screen, selectedSubject, selectedType]);
 
-  // Autosave progress
+  // Autosave progress (termasuk isPaused agar saat browser ditutup saat jeda, deadline bisa dipulihkan)
   useEffect(() => {
     if (!quizStarted || !selectedSubject || !selectedType) return;
     try {
       localStorage.setItem(
         lsProgKey(selectedSubject, selectedType),
-        JSON.stringify({ answers, currentQ, mode, deadline, startTime, checkedSet })
+        JSON.stringify({
+          answers, currentQ, mode, deadline, startTime, checkedSet,
+          questionIds: activeQuestions.map(q => q.id),
+          pausedAt: isPaused ? pauseTimeRef.current : null,
+        })
       );
     } catch { /* ignore */ }
-  }, [answers, currentQ, mode, deadline, startTime, quizStarted, checkedSet, selectedSubject, selectedType]);
+  }, [answers, currentQ, mode, deadline, startTime, quizStarted, checkedSet, selectedSubject, selectedType, isPaused]);
 
-  // Timer (hard mode)
+  // Sinkronisasi deadlineRef ← deadline state (agar bisa dibaca di dalam closure timer)
+  useEffect(() => { deadlineRef.current = deadline; }, [deadline]);
+
+  // Peringatan sebelum menutup/refresh halaman saat quiz aktif
+  useEffect(() => {
+    if (!quizStarted) return;
+    const onBeforeUnload = (e) => {
+      e.preventDefault();
+      return (e.returnValue = ''); // browser menampilkan dialog konfirmasi bawaan
+    };
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [quizStarted]);
+
+  // Timer (hard mode) — dengan pause otomatis saat tab/browser tersembunyi
   useEffect(() => {
     if (mode !== 'hard' || !quizStarted || !deadline) return;
+
     const tick = () => {
-      const left = Math.max(0, Math.round((deadline - Date.now()) / 1000));
+      const d = deadlineRef.current;
+      if (!d) return;
+      const left = Math.max(0, Math.round((d - Date.now()) / 1000));
       setTimeLeft(left);
       if (left <= 0) finishQuizRef.current(true);
     };
+
+    const startInterval = () => {
+      clearInterval(timerRef.current);
+      timerRef.current = setInterval(tick, 1000);
+    };
+
+    const onVisi = () => {
+      if (document.visibilityState === 'hidden') {
+        // ── PAUSE: catat waktu mulai dijeda ──
+        clearInterval(timerRef.current);
+        pauseTimeRef.current = Date.now();
+        setIsPaused(true);
+      } else {
+        // ── RESUME: tambahkan durasi jeda ke deadline ──
+        if (pauseTimeRef.current !== null) {
+          const elapsed = Date.now() - pauseTimeRef.current;
+          const newDl = (deadlineRef.current || 0) + elapsed;
+          deadlineRef.current = newDl;
+          setDeadline(newDl);          // trigger autosave lewat effect
+          pauseTimeRef.current = null;
+        }
+        setIsPaused(false);
+        startInterval();
+        tick();
+      }
+    };
+
     tick();
-    timerRef.current = setInterval(tick, 1000);
-    const onVisi = () => { if (document.visibilityState === 'visible') tick(); };
+    startInterval();
     document.addEventListener('visibilitychange', onVisi);
     return () => {
       clearInterval(timerRef.current);
@@ -754,8 +826,23 @@ export default function QuizizFakep() {
 
   const handleSelectType = (typeKey) => {
     const qs = getQs(selectedSubject, typeKey);
+    // Cek apakah ada progress tersimpan dengan urutan soal
+    let finalQs = null;
+    try {
+      const raw = localStorage.getItem(lsProgKey(selectedSubject, typeKey));
+      if (raw) {
+        const saved = JSON.parse(raw);
+        if (saved.questionIds && saved.questionIds.length === qs.length) {
+          const idMap = Object.fromEntries(qs.map(q => [q.id, q]));
+          const restored = saved.questionIds.map(id => idMap[id]).filter(Boolean);
+          if (restored.length === qs.length) finalQs = restored; // pulihkan urutan tersimpan
+        }
+      }
+    } catch { /* ignore */ }
+    // Jika tidak ada saved order → acak soal baru (berbeda tiap device/sesi)
+    if (!finalQs) finalQs = shuffleArray(qs);
     setSelectedType(typeKey);
-    setActiveQuestions(qs);
+    setActiveQuestions(finalQs);
     // Reset semua quiz state
     setQuizStarted(false); setAnswers({}); setCurrentQ(0); setCheckedSet({});
     setShowResult(false); setFinalStat(null); setSaveStatus('');
@@ -794,12 +881,19 @@ export default function QuizizFakep() {
   /* ─────── QUIZ HANDLERS ─────── */
   const startQuiz = (resumeData) => {
     if (resumeData) {
+      // Jika browser ditutup saat timer sedang dijeda, tambahkan waktu yang terlewat ke deadline
+      let adj = resumeData.deadline || null;
+      if (resumeData.mode === 'hard' && adj && resumeData.pausedAt) {
+        const elapsed = Date.now() - resumeData.pausedAt;
+        adj = adj + elapsed;
+      }
       setAnswers(resumeData.answers || {});
       setCurrentQ(resumeData.currentQ || 0);
       setMode(resumeData.mode || 'unlimited');
-      setDeadline(resumeData.deadline || null);
+      setDeadline(adj);
       setStartTime(resumeData.startTime || Date.now());
       setCheckedSet(resumeData.checkedSet || {});
+      setIsPaused(false);
     } else {
       const now = Date.now();
       setAnswers({}); setCurrentQ(0); setCheckedSet({});
@@ -825,6 +919,8 @@ export default function QuizizFakep() {
     setFinalStat(stat);
     setShowResult(true);
     setQuizStarted(false);
+    setIsPaused(false);
+    pauseTimeRef.current = null;
     clearProgress();
     setSavedProgress(null);
     // Personal best
@@ -881,6 +977,7 @@ export default function QuizizFakep() {
 
   const restartQuiz = () => {
     setShowResult(false); setFinalStat(null); setSaveStatus(''); setCheckedSet({}); setIsNewBest(false);
+    setIsPaused(false); pauseTimeRef.current = null;
     startQuiz(null);
   };
 
@@ -1005,21 +1102,48 @@ export default function QuizizFakep() {
             </div>
           ))}
 
-          {/* AI Footer + Trakteer */}
+          {/* Link Materi */}
+          <div className="qz-section-label" style={{ marginTop: 28 }}>📚 Link Materi Belajar</div>
+          {SUBJECTS.filter(s => s.available && s.materiUrl).map(s => (
+            <a
+              key={s.key}
+              href={s.materiUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="qz-materi-link"
+            >
+              <div className="qz-subj-icon" style={{ background: s.gradient, width: 40, height: 40, fontSize: '1.2rem', borderRadius: 10 }}>
+                {s.icon}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--qz-text)', marginBottom: 2 }}>{s.abbr}</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--qz-muted)' }}>{s.materiLabel}</div>
+              </div>
+              <span style={{ color: 'var(--qz-primary)', fontSize: '0.82rem', fontWeight: 600 }}>Buka →</span>
+            </a>
+          ))}
+
+          {/* Donasi QRIS */}
           <div className="qz-ai-footer">
             🤖 Dibuat dengan bantuan AI:<br />
             <strong style={{ color: 'rgba(141,141,153,0.7)' }}>ChatGPT · Claude AI CLI · Gemini CLI</strong><br /><br />
             ☕ Kalau quiz ini membantu belajarmu, boleh traktir ya!<br />
-            <a
-              href={TRAKTEER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
               className="qz-trakteer-btn"
-              style={{ marginTop: 10, display: 'inline-flex' }}
+              style={{ marginTop: 10, border: 'none', cursor: 'pointer' }}
+              onClick={() => setQrisLarge(true)}
             >
               ☕ Trakteer Kami
-            </a>
+            </button>
           </div>
+
+          {/* QRIS fullscreen (untuk subjects screen) */}
+          {qrisLarge && createPortal(
+            <div className="qz-qris-full" onClick={() => setQrisLarge(false)} role="dialog" aria-label="QRIS diperbesar" aria-modal="true">
+              <img src={QRIS_IMAGE} alt="QRIS" />
+            </div>,
+            document.body
+          )}
         </div>
       </div>
     );
@@ -1084,6 +1208,26 @@ export default function QuizizFakep() {
               💡 <strong style={{ color: 'var(--qz-text)' }}>Tips:</strong> Mulai dari <em>Bahan Pembelajaran</em> untuk memahami materi, lalu uji diri dengan <em>Latihan Soal</em>. Ranking tersimpan <em>terpisah</em> untuk masing-masing tipe!
             </p>
           </div>
+
+          {/* Link Materi untuk mapel ini */}
+          {subj?.materiUrl && (
+            <a
+              href={subj.materiUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="qz-materi-link"
+              style={{ marginTop: 16 }}
+            >
+              <div className="qz-subj-icon" style={{ background: subj.gradient, width: 40, height: 40, fontSize: '1.2rem', borderRadius: 10 }}>
+                {subj.icon}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--qz-text)', marginBottom: 2 }}>{subj.abbr}</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--qz-muted)' }}>{subj.materiLabel}</div>
+              </div>
+              <span style={{ color: 'var(--qz-primary)', fontSize: '0.82rem', fontWeight: 600 }}>Buka →</span>
+            </a>
+          )}
 
           <div className="qz-ai-footer" style={{ marginTop: 20 }}>
             🤖 ChatGPT · Claude AI CLI · Gemini CLI
@@ -1293,11 +1437,19 @@ export default function QuizizFakep() {
               </div>
             ) : q ? (
               <>
+                {/* Banner timer dijeda */}
+                {mode === 'hard' && isPaused && (
+                  <div className="qz-paused-banner" aria-live="polite">
+                    ⏸ Timer dijeda — kembali ke tab ini untuk melanjutkan
+                  </div>
+                )}
+
                 {/* Sticky bar */}
                 <div className="qz-sticky-bar" aria-label="Statistik quiz">
                   {mode === 'hard' && (
-                    <div className={`qz-stat-pill ${timerClass}`} aria-live="polite">
-                      <span>{formatDuration(timeLeft)}</span>⏱️
+                    <div className={`qz-stat-pill ${isPaused ? 'qz-timer qz-timer-paused' : timerClass}`} aria-live="polite">
+                      <span>{isPaused ? '⏸' : formatDuration(timeLeft)}</span>
+                      {isPaused ? '💤' : '⏱️'}
                     </div>
                   )}
                   <div className="qz-stat-pill qz-correct"><span>{correctCount}</span>✅</div>
@@ -1345,9 +1497,9 @@ export default function QuizizFakep() {
                 {currentQ === TOTAL - 1 && isChecked && !qrisError && (
                   <div className="qz-last-q-hint">
                     <p>🎉 Soal terakhir! Kalau quiz ini membantu belajarmu, boleh traktir ya 🙏</p>
-                    <a href={TRAKTEER_URL} target="_blank" rel="noopener noreferrer" className="qz-trakteer-btn">
+                    <button className="qz-trakteer-btn" style={{ border: 'none', cursor: 'pointer' }} onClick={() => setQrisLarge(true)}>
                       ☕ Trakteer Kami
-                    </a>
+                    </button>
                   </div>
                 )}
 
@@ -1566,9 +1718,9 @@ export default function QuizizFakep() {
                   <a href={QRIS_IMAGE} download="qris-quiz-keperawatan.jpg" className="qz-btn qz-btn-secondary qz-btn-inline qz-btn-sm">
                     💾 Simpan QRIS
                   </a>
-                  <a href={TRAKTEER_URL} target="_blank" rel="noopener noreferrer" className="qz-trakteer-btn">
+                  <button className="qz-trakteer-btn" style={{ border: 'none', cursor: 'pointer' }} onClick={() => setQrisLarge(true)}>
                     ☕ Trakteer
-                  </a>
+                  </button>
                 </div>
               </div>
             )}
