@@ -22,6 +22,7 @@ import {
   onSnapshot, query, orderBy, limit, serverTimestamp,
   getDocs, writeBatch,
 } from 'firebase/firestore';
+import CloudeeBubble from '../components/CloudeeBubble';
 import { questions as allQ100 } from '../data/100soal';
 import { questions as allQ50 } from '../data/50soal';
 import './firebase'; // pastikan default Firebase app sudah init
@@ -615,6 +616,7 @@ export default function QuizizFakep() {
   const [tab, setTab]               = useState('mulai');
   const [mode, setMode]             = useState('unlimited');
   const [quizStarted, setQuizStarted] = useState(false);
+  const [cloudeeState, setCloudeeState] = useState('idle');
   const [answers, setAnswers]         = useState({});
   const [currentQ, setCurrentQ]       = useState(0);
   const [checkedSet, setCheckedSet]   = useState({}); // { [idx]: true } hanya setelah "Periksa"
@@ -842,6 +844,8 @@ export default function QuizizFakep() {
     }
     try {
       await signInWithPopup(quizAuth, new GoogleAuthProvider());
+      setCloudeeState('login-google');
+      setTimeout(() => setCloudeeState('idle'), 5500);
     } catch (err) {
       const msgs = {
         'auth/popup-closed-by-user': 'Popup ditutup sebelum selesai. Coba lagi.',
@@ -863,6 +867,8 @@ export default function QuizizFakep() {
       localStorage.setItem(LS_NICK, name);
       setDisplayName(name);
       setQuizUser({ ...cred.user, _nickname: name });
+      setCloudeeState('login-anon');
+      setTimeout(() => setCloudeeState('idle'), 5500);
     } catch (err) { setAuthAlert('Gagal masuk anonim: ' + err.message); setAuthErrType('err'); }
   };
 
@@ -966,6 +972,8 @@ export default function QuizizFakep() {
     const refleksiPenalty = Object.values(refleksiDone).filter(v => v === 'salah').length * REFLEKSI_PENALTY;
     const score = Math.max(0, baseScore - refleksiPenalty);
     const stat = { correct: finalCorrect, total: TOTAL, score, durationSec, mode, refleksiPenalty };
+    const finState = score >= 1600 ? 'finished-good' : score >= 800 ? 'finished-mid' : 'finished-bad';
+    setCloudeeState(finState);
     setFinalStat(stat);
     setShowResult(true);
     setQuizStarted(false);
@@ -1020,6 +1028,9 @@ export default function QuizizFakep() {
 
   const checkAnswer = () => {
     if (answers[currentQ] == null) return;
+    const isCorrect = answers[currentQ] === activeQuestions[currentQ]?.correct;
+    setCloudeeState(isCorrect ? 'correct' : 'wrong');
+    setTimeout(() => setCloudeeState('idle'), 5500);
     setCheckedSet(prev => ({ ...prev, [currentQ]: true }));
   };
 
@@ -2005,6 +2016,9 @@ export default function QuizizFakep() {
         </div>,
         document.body
       )}
+
+      {/* Cloudee Mascot */}
+      <CloudeeBubble quizState={cloudeeState} timeLeft={timeLeft} />
 
       {/* QRIS fullscreen */}
       {qrisLarge && createPortal(
