@@ -1245,19 +1245,11 @@ export default function QuizizFakep() {
           {/* Donasi QRIS */}
           <div className="qz-ai-footer">
             🤖 Dibuat dengan bantuan AI:<br />
-            <strong style={{ color: 'rgba(141,141,153,0.7)' }}>ChatGPT · Claude AI CLI · Gemini CLI</strong><br /><br />
-            ☕ Kalau quiz ini membantu belajarmu, boleh traktir ya!<br />
-            <button
-              className="qz-trakteer-btn"
-              style={{ marginTop: 10, border: 'none', cursor: 'pointer' }}
-              onClick={() => setQrisLarge(true)}
-            >
-              ☕ Trakteer Kami
-            </button>
+            <strong style={{ color: 'rgba(141,141,153,0.7)' }}>ChatGPT · Claude AI CLI · Gemini CLI</strong>
           </div>
 
           {/* Komentar umum — YouTube style */}
-          <div style={{ marginTop: 28, padding: '0 4px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 8 }}>
+          <div style={{ marginTop: 28, borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 8 }}>
             <SubjectComments
               subjectKey="general"
               user={quizUser}
@@ -1267,7 +1259,7 @@ export default function QuizizFakep() {
           </div>
 
           {/* Saran Website */}
-          <SaranWebsite />
+          <SaranWebsite user={quizUser} />
 
           {/* QRIS fullscreen (untuk subjects screen) */}
           {qrisLarge && createPortal(
