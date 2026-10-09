@@ -20,12 +20,13 @@ import {
 import {
   getFirestore, collection, doc, getDoc, setDoc,
   onSnapshot, query, orderBy, limit, serverTimestamp,
-  getDocs, writeBatch,
+  getDocs, writeBatch, addDoc,
 } from 'firebase/firestore';
-import CloudeeBubble from '../components/CloudeeBubble';
 import { questions as allQ100 } from '../data/100soal';
 import { questions as allQ50 } from '../data/50soal';
 import './firebase'; // pastikan default Firebase app sudah init
+import SubjectComments from '../components/SubjectComments';
+import SaranWebsite from '../components/SaranWebsite';
 
 /* ════════════════════════════════════════════════════
    CONSTANTS
@@ -594,6 +595,18 @@ const CSS = `
 /* ════════════════════════════════════════════════════
    MAIN COMPONENT
 ════════════════════════════════════════════════════ */
+
+/* ── Saran belajar berdasarkan skor ── */
+function getSuggestion(pct, subjectName) {
+  const n = subjectName || 'materi ini';
+  if (pct >= 90) return `Luar biasa! Kamu sangat menguasai ${n}. Pertahankan dan bantu teman-teman ya! 🔥`;
+  if (pct >= 80) return `Bagus sekali! Sedikit lagi sempurna. Review soal yang salah, kamu siap UKOM! 💪`;
+  if (pct >= 70) return `Lumayan! Fokus pada konsep yang masih lemah di ${n}, terutama soal HOTS.`;
+  if (pct >= 60) return `Cukup, tapi masih perlu latihan. Ulangi PPT dosen dan baca referensi tambahan.`;
+  if (pct >= 40) return `Masih perlu banyak belajar. Prioritas baca materi ${n} dari awal sebelum quiz lagi.`;
+  return `Jangan menyerah! Mulai dari baca PPT dosen pelan-pelan, pahami konsep dasar ${n} dulu. Semangat! 📖`;
+}
+
 export default function QuizizFakep() {
   const navigate = useNavigate();
 
@@ -616,7 +629,6 @@ export default function QuizizFakep() {
   const [tab, setTab]               = useState('mulai');
   const [mode, setMode]             = useState('unlimited');
   const [quizStarted, setQuizStarted] = useState(false);
-  const [cloudeeState, setCloudeeState] = useState('idle');
   const [answers, setAnswers]         = useState({});
   const [currentQ, setCurrentQ]       = useState(0);
   const [checkedSet, setCheckedSet]   = useState({}); // { [idx]: true } hanya setelah "Periksa"
@@ -844,8 +856,6 @@ export default function QuizizFakep() {
     }
     try {
       await signInWithPopup(quizAuth, new GoogleAuthProvider());
-      setCloudeeState('login-google');
-      setTimeout(() => setCloudeeState('idle'), 5500);
     } catch (err) {
       const msgs = {
         'auth/popup-closed-by-user': 'Popup ditutup sebelum selesai. Coba lagi.',
@@ -867,8 +877,6 @@ export default function QuizizFakep() {
       localStorage.setItem(LS_NICK, name);
       setDisplayName(name);
       setQuizUser({ ...cred.user, _nickname: name });
-      setCloudeeState('login-anon');
-      setTimeout(() => setCloudeeState('idle'), 5500);
     } catch (err) { setAuthAlert('Gagal masuk anonim: ' + err.message); setAuthErrType('err'); }
   };
 
@@ -972,8 +980,6 @@ export default function QuizizFakep() {
     const refleksiPenalty = Object.values(refleksiDone).filter(v => v === 'salah').length * REFLEKSI_PENALTY;
     const score = Math.max(0, baseScore - refleksiPenalty);
     const stat = { correct: finalCorrect, total: TOTAL, score, durationSec, mode, refleksiPenalty };
-    const finState = score >= 1600 ? 'finished-good' : score >= 800 ? 'finished-mid' : 'finished-bad';
-    setCloudeeState(finState);
     setFinalStat(stat);
     setShowResult(true);
     setQuizStarted(false);
@@ -1028,9 +1034,6 @@ export default function QuizizFakep() {
 
   const checkAnswer = () => {
     if (answers[currentQ] == null) return;
-    const isCorrect = answers[currentQ] === activeQuestions[currentQ]?.correct;
-    setCloudeeState(isCorrect ? 'correct' : 'wrong');
-    setTimeout(() => setCloudeeState('idle'), 5500);
     setCheckedSet(prev => ({ ...prev, [currentQ]: true }));
   };
 
@@ -1154,6 +1157,7 @@ export default function QuizizFakep() {
   /* ════════════════════════════════════════════════════
      SCREEN 1: PILIH MATA PELAJARAN
   ════════════════════════════════════════════════════ */
+
   if (screen === 'subjects') {
     return (
       <div className="qz-root">
@@ -1251,6 +1255,19 @@ export default function QuizizFakep() {
               ☕ Trakteer Kami
             </button>
           </div>
+
+          {/* Komentar umum — YouTube style */}
+          <div style={{ marginTop: 28, padding: '0 4px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 8 }}>
+            <SubjectComments
+              subjectKey="general"
+              user={quizUser}
+              youtubeStyle={true}
+              maxPreview={3}
+            />
+          </div>
+
+          {/* Saran Website */}
+          <SaranWebsite />
 
           {/* QRIS fullscreen (untuk subjects screen) */}
           {qrisLarge && createPortal(
@@ -1791,6 +1808,11 @@ export default function QuizizFakep() {
                 <button className="qz-nav-toggle" onClick={() => setShowNav(true)} aria-label="Buka navigator soal">
                   📋 {Object.keys(answers).length}/{TOTAL}
                 </button>
+
+                {/* Komentar per matkul */}
+                <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+                  <SubjectComments subjectKey={selectedSubject} user={quizUser} />
+                </div>
               </>
             ) : null}
           </div>
@@ -1949,29 +1971,44 @@ export default function QuizizFakep() {
               </div>
             )}
 
-            <div className="qz-result-score">{finalStat.score}</div>
-            <p className="qz-muted" style={{ marginBottom: 16 }}>dari {MAX_SCORE} poin maksimal</p>
-
-            <div className="qz-result-details">
-              <div className="qz-result-row"><span>Mata Pelajaran</span><span>{subjectInfo?.icon} {subjectInfo?.abbr}</span></div>
-              <div className="qz-result-row"><span>Tipe Soal</span><span>{typeInfo?.label}</span></div>
-              <div className="qz-result-row"><span>Benar</span><span>{finalStat.correct} / {TOTAL}</span></div>
-              <div className="qz-result-row"><span>Salah</span><span>{TOTAL - finalStat.correct}</span></div>
-              <div className="qz-result-row"><span>Waktu</span><span>{formatDuration(finalStat.durationSec)}</span></div>
-              <div className="qz-result-row"><span>Mode</span><span>{finalStat.mode === 'hard' ? '🔴 Timed Mode' : '🟢 Unlimited'}</span></div>
-              {finalStat.refleksiPenalty > 0 && (
-                <div className="qz-result-row"><span>Penalti Refleksi</span><span style={{ color: 'var(--qz-danger)' }}>-{finalStat.refleksiPenalty} poin</span></div>
-              )}
-              <div className="qz-result-row">
-                <span>Status ranking</span>
-                <span>
-                  {saveStatus === 'saving'  && '⏳ Menyimpan...'}
-                  {saveStatus === 'saved'   && '✅ Tersimpan di ranking'}
-                  {saveStatus === 'notbest' && `📊 Skor terbaikmu: ${finalStat.score}`}
-                  {saveStatus === ''        && '—'}
-                </span>
-              </div>
-            </div>
+            {/* Saran belajar */}
+            {finalStat && (() => {
+              const pct  = Math.round((finalStat.correct / TOTAL) * 100);
+              const sugg = getSuggestion(pct, subjectInfo?.name);
+              return (
+                <div style={{ background: 'rgba(139,123,255,0.08)', border: '1px solid rgba(139,123,255,0.2)',
+                  borderRadius: 12, padding: '14px 16px', margin: '16px 0', textAlign: 'left' }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#b0a4ff', marginBottom: 6 }}>
+                    💡 Saran Belajar
+                  </div>
+                  <div style={{ fontSize: '0.83rem', color: '#c9c9d2', lineHeight: 1.6 }}>{sugg}</div>
+                  <div style={{ marginTop: 12 }}>
+                    {!tgSent ? (
+                      <button
+                        onClick={sendToTelegram}
+                        disabled={tgLoading}
+                        style={{ background: 'rgba(0,136,204,0.15)', border: '1px solid rgba(0,136,204,0.35)',
+                          color: '#5bc8f5', borderRadius: 8, padding: '7px 14px', cursor: 'pointer',
+                          fontSize: '0.8rem', fontWeight: 600, opacity: tgLoading ? 0.6 : 1 }}
+                      >
+                        {tgLoading ? '⏳ Mengirim...' : '📨 Kirim Hasil ke Telegram'}
+                      </button>
+                    ) : (
+                      <a
+                        href="https://trakteer.id/synnnw"
+                        target="_blank" rel="noopener noreferrer"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 6,
+                          background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.35)',
+                          color: '#fbbf24', borderRadius: 8, padding: '7px 14px',
+                          fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none' }}
+                      >
+                        ☕ Support di Trakteer
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Donasi QRIS + Trakteer */}
             {!qrisError && (
@@ -2016,9 +2053,6 @@ export default function QuizizFakep() {
         </div>,
         document.body
       )}
-
-      {/* Cloudee Mascot */}
-      <CloudeeBubble quizState={cloudeeState} timeLeft={timeLeft} />
 
       {/* QRIS fullscreen */}
       {qrisLarge && createPortal(
