@@ -27,6 +27,7 @@ import { questions as allQ50 } from '../data/50soal';
 import './firebase'; // pastikan default Firebase app sudah init
 import SubjectComments from '../components/SubjectComments';
 import SaranWebsite from '../components/SaranWebsite';
+import CloudeeBubble from '../components/CloudeeBubble';
 
 /* ════════════════════════════════════════════════════
    CONSTANTS
@@ -637,6 +638,7 @@ export default function QuizizFakep() {
   const [deadline, setDeadline]   = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [timeLeft, setTimeLeft]   = useState(null);
+  const [cloudeeState, setCloudeeState] = useState('idle'); // untuk maskot CloudeeBubble
   const [isPaused, setIsPaused]   = useState(false); // timer dijeda saat tab tersembunyi
   const timerRef    = useRef(null);
   const deadlineRef = useRef(null);   // mirror deadline state (bisa dibaca di closure)
@@ -856,6 +858,7 @@ export default function QuizizFakep() {
     }
     try {
       await signInWithPopup(quizAuth, new GoogleAuthProvider());
+      setCloudeeState('login-google'); setTimeout(() => setCloudeeState('idle'), 6000);
     } catch (err) {
       const msgs = {
         'auth/popup-closed-by-user': 'Popup ditutup sebelum selesai. Coba lagi.',
@@ -877,6 +880,7 @@ export default function QuizizFakep() {
       localStorage.setItem(LS_NICK, name);
       setDisplayName(name);
       setQuizUser({ ...cred.user, _nickname: name });
+      setCloudeeState('login-anon'); setTimeout(() => setCloudeeState('idle'), 6000);
     } catch (err) { setAuthAlert('Gagal masuk anonim: ' + err.message); setAuthErrType('err'); }
   };
 
@@ -992,6 +996,11 @@ export default function QuizizFakep() {
     // Personal best
     const newBest = updateBest(selectedSubject, selectedType, stat);
     setIsNewBest(newBest);
+    // Trigger maskot sesuai hasil
+    const pctFinal = Math.round((finalCorrect / TOTAL) * 100);
+    const finState = pctFinal >= 70 ? 'finished-good' : pctFinal >= 40 ? 'finished-mid' : 'finished-bad';
+    setCloudeeState(finState);
+    setTimeout(() => setCloudeeState('idle'), 9000);
     if (newBest) setPersonalBest({ ...stat, date: new Date().toLocaleDateString('id-ID') });
     saveToLeaderboard(stat);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1035,6 +1044,10 @@ export default function QuizizFakep() {
   const checkAnswer = () => {
     if (answers[currentQ] == null) return;
     setCheckedSet(prev => ({ ...prev, [currentQ]: true }));
+    // Trigger maskot
+    const isRight = answers[currentQ] === activeQuestions[currentQ]?.correct;
+    setCloudeeState(isRight ? 'correct' : 'wrong');
+    setTimeout(() => setCloudeeState('idle'), 6000);
   };
 
   const goToQ = (idx) => { setCurrentQ(idx); setShowNav(false); };
@@ -1066,7 +1079,9 @@ export default function QuizizFakep() {
     if (nextIdx === endThreshold && !refleksiShown.end) {
       setRefleksiShown(prev => ({ ...prev, end: true }));
       // hanya soal yang belum pernah direfleksi
-      const newWrong = wrongIdxs.filter(i => !refleksiDone[i]);
+      // Hanya tampilkan soal yang BELUM benar di refleksi sebelumnya
+      // (soal yang sudah benar di pengulangan pertama tidak ditampilkan lagi)
+      const newWrong = wrongIdxs.filter(i => refleksiDone[i] !== 'benar');
       if (newWrong.length === 0) return false;
       setRefleksiQueue(newWrong);
       setRefleksiActive(true);
@@ -2053,6 +2068,9 @@ export default function QuizizFakep() {
         </div>,
         document.body
       )}
+
+      {/* Cloudee — maskot interaktif: muncul di semua screen */}
+      <CloudeeBubble quizState={cloudeeState} timeLeft={timeLeft} />
     </div>
   );
 }
