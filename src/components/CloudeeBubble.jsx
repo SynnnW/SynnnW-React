@@ -278,15 +278,15 @@ const DISPLAYS = {
    CLICK REACTIONS — diklik berurutan makin parah wkwk
 ════════════════════════════════════════════════════════════ */
 const CLICK_REACTIONS = [
-  { display: { kind: 'animation',  key: 'angry' },        msg: 'Eh, jangan diklik! Fokus! 😤' },
+  { display: { kind: 'animation',  key: 'angry' },        msg: 'Dncok! 😤' },
   { display: { kind: 'expression', key: 'angry-brows' },  msg: 'MASIH diklik juga?! 😤' },
-  { display: { kind: 'expression', key: 'angry-right' },  msg: 'OKE! KAMU NGAJAK BERANTEM?!' },
-  { display: { kind: 'expression', key: 'angry-left' },   msg: 'Aku catat ini ya. Aku CATAT.' },
-  { display: { kind: 'animation',  key: 'playful' },      msg: 'Hahaha kamu iseng banget 😭' },
-  { display: { kind: 'animation',  key: 'scared' },       msg: 'TOLONG! STOP! BANTUU! 😭' },
-  { display: { kind: 'animation',  key: 'sad' },          msg: 'Aku udah nyerah... kamu menang 😭' },
-  { display: { kind: 'expression', key: 'drowsy-closed' },msg: 'Aku pura-pura tidur deh...' },
-  { display: { kind: 'animation',  key: 'sleeping' },     msg: 'Zzzzzz... (aku mogok diklik)' },
+  { display: { kind: 'expression', key: 'angry-right' },  msg: 'Fokus DEKKK!!' },
+  { display: { kind: 'expression', key: 'angry-left' },   msg: 'TM DPN MAJU KM DEK!!.' },
+  { display: { kind: 'animation',  key: 'playful' },      msg: 'HOOOO SI ANYG 😭' },
+  { display: { kind: 'animation',  key: 'scared' },       msg: 'Titut Capek ' },
+  { display: { kind: 'animation',  key: 'sad' },          msg: 'Emm Iya² aku nyerah 😭' },
+  { display: { kind: 'expression', key: 'drowsy-closed' },msg: 'Titut Sebel' },
+  { display: { kind: 'animation',  key: 'sleeping' },     msg: 'Iwak Tempe' },
 ];
 
 /* ════════════════════════════════════════════════════════════
