@@ -235,7 +235,7 @@ const DISPLAYS = {
    CLICK REACTIONS — diklik berurutan makin parah wkwk
 ════════════════════════════════════════════════════════════ */
 const CLICK_REACTIONS = [
-  { display: { kind: 'animation',  key: 'angry' },        msg: "Dancok! 😤' },
+  { display: { kind: 'animation',  key: 'angry' },        msg: 'Dancok! 😤' },
   { display: { kind: 'expression', key: 'angry-brows' },  msg: 'MASIH diklik juga?! 😤' },
   { display: { kind: 'expression', key: 'angry-right' },  msg: 'Fokus DEKKK!!' },
   { display: { kind: 'expression', key: 'angry-left' },   msg: 'TM DPN MAJU KM DEK!!.' },
