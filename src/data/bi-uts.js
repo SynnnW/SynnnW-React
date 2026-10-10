@@ -1,0 +1,603 @@
+// src/data/bi-uts.js — Soal Simulasi UTS Bahasa Inggris (50 soal, versi sulit)
+export const utsQuestions = [
+  {
+    id: 1,
+    text: "By the time researchers ______ their fieldwork in the village next month, they will have interviewed over 200 farming families about pesticide-related illnesses.",
+    options: [
+    "finished",
+    "finish",
+    "had finished",
+    "will finish"
+    ],
+    correctIndex: 1,
+    explanation: "Dalam time clause ('by the time'), meskipun konteksnya masa depan, kita tetap pakai Present Simple ('finish'), bukan 'will finish'. Klausa utamanya baru pakai Future Perfect ('will have interviewed').",
+  },
+  {
+    id: 2,
+    text: "Each of the community health posts in this sub-district ______ equipped with basic first aid supplies, but none of them ______ a resident doctor.",
+    options: [
+    "is / have",
+    "are / have",
+    "is / has",
+    "are / has"
+    ],
+    correctIndex: 2,
+    explanation: "'Each of' dan 'none of' dalam konteks ini dianggap tunggal (fokus pada setiap unit secara individu), sehingga keduanya memakai kata kerja tunggal: 'is' dan 'has'.",
+  },
+  {
+    id: 3,
+    text: "Had the clinic invested in a backup generator earlier, the vaccines ______ spoiled during last week's long power outage.",
+    options: [
+    "would not have been",
+    "will not be",
+    "would not be",
+    "are not"
+    ],
+    correctIndex: 0,
+    explanation: "Ini adalah Third Conditional dengan inversi ('Had the clinic invested...' = 'If the clinic had invested...'). Klausa utama memakai 'would not have been + V3'.",
+  },
+  {
+    id: 4,
+    text: "The committee requires that every volunteer ______ a short training session before joining the rural outreach program, and it insists that the schedule ______ strictly followed.",
+    options: [
+    "attends / is",
+    "attended / was",
+    "attend / be",
+    "will attend / will be"
+    ],
+    correctIndex: 2,
+    explanation: "Setelah 'requires that' dan 'insists that' (subjunctive mood), kata kerja memakai bentuk dasar tanpa -s: 'attend', dan untuk passive, bentuknya 'be followed', bukan 'is followed'.",
+  },
+  {
+    id: 5,
+    text: "Not only ______ the new policy reduce paperwork for nurses, but it also ______ more time for direct patient care.",
+    options: [
+    "do / allows",
+    "does / allows",
+    "does / allow",
+    "did / has"
+    ],
+    correctIndex: 1,
+    explanation: "Setelah 'Not only' di awal kalimat, susunannya menjadi 'does + subject + V1', jadi bagian pertama memakai 'does reduce'. Di bagian kedua, subjek 'it' membutuhkan 'allows'. Jawabannya 'does / allows'.",
+  },
+  {
+    id: 6,
+    text: "The number of wearable devices used by elderly patients to monitor their heart rate ______ risen sharply, while the number of trained technicians who can repair them ______ remained low.",
+    options: [
+    "has / have",
+    "have / have",
+    "have / has",
+    "has / has"
+    ],
+    correctIndex: 3,
+    explanation: "Kedua subjek inti adalah 'the number of...' yang selalu dianggap tunggal, sehingga keduanya memakai 'has'.",
+  },
+  {
+    id: 7,
+    text: "Despite ______ aware of the health risks, many farmers continue to work without protective equipment, mainly because they cannot afford ______ it.",
+    options: [
+    "be / buying",
+    "to be / buy",
+    "being / buying",
+    "being / to buy"
+    ],
+    correctIndex: 3,
+    explanation: "Setelah 'despite' (preposisi), kita pakai gerund: 'being aware'. Sedangkan setelah 'afford', kita pakai to-infinitive: 'to buy'.",
+  },
+  {
+    id: 8,
+    text: "If hospital staff ______ properly trained in using the new AI diagnostic system, fewer misdiagnoses ______ occurred over the past year.",
+    options: [
+    "are / will",
+    "had been / would have",
+    "had been / would be",
+    "were / would"
+    ],
+    correctIndex: 1,
+    explanation: "Ini Third Conditional: if-clause pakai Past Perfect ('had been trained'), klausa utama pakai 'would have + V3' ('would have occurred').",
+  },
+  {
+    id: 9,
+    text: "The data ______ collected from rural clinics suggest that patients who ______ regular check-ups are more likely to have chronic illnesses detected early.",
+    options: [
+    "that have been / have",
+    "that was / have",
+    "which is / has",
+    "that is / has"
+    ],
+    correctIndex: 0,
+    explanation: "Dalam bahasa Inggris akademik, 'data' bisa diperlakukan sebagai bentuk jamak. Karena itu, bentuk yang dipakai di sini adalah 'that have been collected'. Subjek 'patients' juga jamak, jadi gunakan 'have'.",
+  },
+  {
+    id: 10,
+    text: "It is the lack of clean water, rather than the shortage of medicine, that ______ the main cause of disease outbreaks in this region.",
+    options: [
+    "have been",
+    "are",
+    "is",
+    "were"
+    ],
+    correctIndex: 2,
+    explanation: "Pola 'It is...that' (cleft sentence) menekankan 'the lack of clean water' sebagai subjek tunggal, sehingga kata kerjanya 'is'.",
+  },
+  {
+    id: 11,
+    text: "Should the outbreak ______ worse, the regional health office ______ additional medical teams to the affected villages immediately.",
+    options: [
+    "got / would send",
+    "gets / sends",
+    "getting / sending",
+    "get / will send"
+    ],
+    correctIndex: 3,
+    explanation: "Ini bentuk inversi dari First Conditional: 'Should + S + V1' (= 'If the outbreak gets worse'), klausa utama tetap 'will + V1' ('will send').",
+  },
+  {
+    id: 12,
+    text: "The more frequently farmers ______ exposed to pesticides without protection, the higher their risk of developing respiratory problems ______.",
+    options: [
+    "were / became",
+    "are / becomes",
+    "are / become",
+    "is / become"
+    ],
+    correctIndex: 1,
+    explanation: "Subjek pertama, 'farmers', jamak sehingga memakai 'are'. Di bagian kedua, subjek intinya adalah 'their risk' yang tunggal, jadi kata kerjanya 'becomes'. Jawaban yang tepat adalah 'are / becomes'.",
+  },
+  {
+    id: 13,
+    text: "Rarely ______ a rural health post equipped with the same technology as a city hospital, which is why telemedicine has become essential.",
+    options: [
+    "is",
+    "a rural health post is",
+    "has",
+    "does"
+    ],
+    correctIndex: 0,
+    explanation: "'Rarely' di awal kalimat memicu inversi: 'Rarely is a rural health post equipped...' (bentuk inversi dari 'A rural health post is rarely equipped...').",
+  },
+  {
+    id: 14,
+    text: "The researcher whom the university ______ to lead the agronursing project has already published several studies on farmworkers' health.",
+    options: [
+    "chose",
+    "had been choosing",
+    "was chosen",
+    "choosing"
+    ],
+    correctIndex: 0,
+    explanation: "'Whom' di sini berfungsi sebagai objek dari klausa 'the university chose', sehingga memakai Simple Past aktif: 'chose'.",
+  },
+  {
+    id: 15,
+    text: "Given that misinformation about vaccines spreads faster online, nurses are now trained not only to treat patients but also ______ clear, evidence-based health information.",
+    options: [
+    "communicating",
+    "communicated",
+    "to communicate",
+    "communicate"
+    ],
+    correctIndex: 2,
+    explanation: "Pola paralel 'not only to treat...but also to communicate' membutuhkan to-infinitive agar sejajar dengan 'to treat'. ################################################################ # BAGIAN B — VOCABULARY (15 Soal, makna kata dalam konteks kalimat) ################################################################",
+  },
+  {
+    id: 16,
+    text: "In the sentence 'The clinic's outreach program targets vulnerable populations in remote areas,' the word 'targets' most likely means ______.",
+    options: [
+    "sells products to",
+    "attacks physically",
+    "focuses on or is intended for",
+    "ignores completely"
+    ],
+    correctIndex: 2,
+    explanation: "Dalam kalimat ini, 'targets' berarti menyasar atau berfokus pada kelompok tertentu. Kata itu tidak berarti menyerang secara fisik.",
+  },
+  {
+    id: 17,
+    text: "Choose the word that is closest in meaning to 'contaminated' in: 'The well water in the village was found to be contaminated after the flood.'",
+    options: [
+    "very cold",
+    "polluted and unsafe",
+    "perfectly clean",
+    "expensive to access"
+    ],
+    correctIndex: 1,
+    explanation: "'Contaminated' artinya tercemar/tidak aman untuk digunakan, biasanya akibat zat berbahaya yang masuk ke dalamnya.",
+  },
+  {
+    id: 18,
+    text: "'The hospital adopted a proactive approach to prevent infection outbreaks.' The word 'proactive' is closest in meaning to ______.",
+    options: [
+    "delaying decisions as long as possible",
+    "ignoring potential risks",
+    "reacting only after a problem happens",
+    "acting in advance to prevent problems"
+    ],
+    correctIndex: 3,
+    explanation: "'Proactive' artinya bertindak lebih dulu untuk mencegah masalah, berlawanan dengan 'reactive' yang baru bertindak setelah masalah terjadi.",
+  },
+  {
+    id: 19,
+    text: "Which word best completes the sentence: 'Due to limited funding, the rural clinic had to ______ its outreach services to only two villages this year.'",
+    options: [
+    "donate",
+    "celebrate",
+    "scale down",
+    "expand"
+    ],
+    correctIndex: 2,
+    explanation: "'Scale down' berarti mengurangi skala/cakupan suatu kegiatan, sesuai dengan kalimatnya keterbatasan dana.",
+  },
+  {
+    id: 20,
+    text: "'Farmers who are resilient tend to recover faster after a failed harvest.' The word 'resilient' most likely means ______.",
+    options: [
+    "unable to adapt to change",
+    "able to recover quickly from difficulties",
+    "always angry and frustrated",
+    "dependent on others for everything"
+    ],
+    correctIndex: 1,
+    explanation: "'Resilient' artinya tangguh/mampu bangkit kembali dari kesulitan dengan cepat.",
+  },
+  {
+    id: 21,
+    text: "In 'The new regulation aims to mitigate the health risks faced by agricultural workers,' the word 'mitigate' is closest in meaning to ______.",
+    options: [
+    "reduce the severity of",
+    "increase significantly",
+    "ignore on purpose",
+    "completely eliminate without effort"
+    ],
+    correctIndex: 0,
+    explanation: "'Mitigate' artinya meringankan atau mengurangi tingkat keparahan suatu risiko, bukan menghilangkannya sepenuhnya secara instan.",
+  },
+  {
+    id: 22,
+    text: "Choose the best synonym for 'meticulous' in: 'The nurse was meticulous when documenting each patient's medical history.'",
+    options: [
+    "careful and detail-oriented",
+    "loud and talkative",
+    "impatient and rude",
+    "careless and rushed"
+    ],
+    correctIndex: 0,
+    explanation: "'Meticulous' artinya sangat teliti dan memperhatikan detail, sesuai konteks dokumentasi rekam medis yang akurat.",
+  },
+  {
+    id: 23,
+    text: "'The village's reliance on a single water source makes it vulnerable during the dry season.' The word 'reliance' is closest in meaning to ______.",
+    options: [
+    "celebration",
+    "donation",
+    "rejection",
+    "dependence"
+    ],
+    correctIndex: 3,
+    explanation: "'Reliance' artinya ketergantungan pada sesuatu, dalam konteks ini ketergantungan desa pada satu sumber air.",
+  },
+  {
+    id: 24,
+    text: "Which option best completes: 'Although the new app is useful, some elderly patients find it difficult to ______ because the interface is too complicated.'",
+    options: [
+    "sanitize",
+    "diagnose",
+    "navigate",
+    "donate"
+    ],
+    correctIndex: 2,
+    explanation: "'Navigate' dalam konteks ini berarti mengoperasikan/menjelajahi sebuah aplikasi atau sistem digital.",
+  },
+  {
+    id: 25,
+    text: "'The hospital's emergency response was swift and well-coordinated.' The word 'swift' is closest in meaning to ______.",
+    options: [
+    "fast",
+    "expensive",
+    "confusing",
+    "slow"
+    ],
+    correctIndex: 0,
+    explanation: "'Swift' artinya cepat/sigap, menggambarkan respons tanggap darurat yang dilakukan dengan segera.",
+  },
+  {
+    id: 26,
+    text: "In the context of environmental health, which word best completes: 'Improper waste disposal can ______ nearby water sources, putting entire communities at risk.'",
+    options: [
+    "contaminate",
+    "accelerate",
+    "donate",
+    "sanitize"
+    ],
+    correctIndex: 0,
+    explanation: "'Contaminate' artinya mencemari, sesuai dengan kalimatnya pembuangan sampah yang tidak tepat mencemari sumber air.",
+  },
+  {
+    id: 27,
+    text: "'Despite initial skepticism, most staff eventually embraced the new digital record system.' The word 'embraced' is closest in meaning to ______.",
+    options: [
+    "rejected completely",
+    "accepted willingly",
+    "ignored entirely",
+    "feared greatly"
+    ],
+    correctIndex: 1,
+    explanation: "'Embrace' dalam konteks ini berarti menerima dengan terbuka/antusias, berlawanan dengan menolak atau mengabaikan.",
+  },
+  {
+    id: 28,
+    text: "Choose the word that best fits: 'The health ministry launched a campaign to ______ public awareness about the dangers of unregulated pesticide use.'",
+    options: [
+    "delay",
+    "raise",
+    "cancel",
+    "lower"
+    ],
+    correctIndex: 1,
+    explanation: "'Raise awareness' adalah kolokasi umum yang berarti meningkatkan kesadaran masyarakat tentang suatu isu.",
+  },
+  {
+    id: 29,
+    text: "'The symptoms were so subtle that the early signs of the illness were easily overlooked.' The word 'subtle' is closest in meaning to ______.",
+    options: [
+    "extremely painful",
+    "very loud and clear",
+    "not obvious; hard to notice",
+    "always fatal"
+    ],
+    correctIndex: 2,
+    explanation: "'Subtle' artinya halus/tidak kentara, sehingga sering kali sulit dikenali tanpa pemeriksaan yang teliti.",
+  },
+  {
+    id: 30,
+    text: "In 'The clinic's limited budget constrained its ability to hire more staff,' the word 'constrained' is closest in meaning to ______.",
+    options: [
+    "expanded greatly",
+    "celebrated publicly",
+    "encouraged strongly",
+    "restricted or limited"
+    ],
+    correctIndex: 3,
+    explanation: "'Constrain' artinya membatasi, menunjukkan anggaran terbatas membatasi kemampuan klinik untuk merekrut lebih banyak staf. ################################################################ # BAGIAN C — READING (20 Soal: 2 Long Text + 1 Short Text) ################################################################ ---------------------------------------------------------------- TEKS UTS 1 (Long Text) — Climate Change and Agricultural Health Risks ---------------------------------------------------------------- In recent years, agricultural communities across Indonesia, including several districts near Jember, have begun to experience the direct consequences of climate change on both crop production and human health. Erratic rainfall patterns have made it increasingly difficult for farmers to predict planting and harvesting seasons, often resulting in reduced yields and financial instability. This instability does not only affect income; it also has measurable effects on nutrition, as families with lower income tend to reduce the quality and variety of food they consume. Beyond nutritional concerns, rising temperatures have contributed to longer and more intense dry seasons, which in turn increase the concentration of airborne dust and agricultural chemicals in the air. Respiratory illnesses, including chronic bronchitis and asthma, have reportedly increased among farmworkers during these extended dry periods. At the same time, unpredictable heavy rainfall during the wet season has led to flash floods in several low-lying farming areas, contaminating local water sources with agricultural runoff and increasing the risk of waterborne diseases such as diarrhea and typhoid. Local health authorities have responded by training community health workers to recognize early signs of climate-related illnesses and to provide basic health education to farming families. These workers also distribute water purification tablets during flood season and monitor air quality indicators during prolonged dry spells. However, many health workers report that their resources remain insufficient compared to the scale of the problem, particularly as climate patterns continue to become more extreme and less predictable each year. Experts argue that addressing these health challenges requires a combination of immediate medical response and long-term structural change, such as improving irrigation infrastructure, diversifying crops to be more climate-resilient, and expanding access to clean water in vulnerable farming regions. Without such long-term investment, they warn, the health burden on agricultural communities is likely to continue growing alongside the worsening effects of climate change. Pertanyaan untuk teks di atas:",
+  },
+  {
+    id: 31,
+    text: "What is the main idea of this passage?",
+    options: [
+    "Climate change only affects farmers' income, not their health",
+    "Climate change is creating interconnected nutritional, respiratory, and waterborne health risks for farming communities",
+    "Farmers in Jember no longer grow crops due to climate change",
+    "Health workers have completely solved the problem of climate-related illness"
+    ],
+    correctIndex: 1,
+    explanation: "Teks membahas berbagai dampak kesehatan akibat perubahan iklim pada komunitas pertanian, mencakup gizi, pernapasan, dan penyakit akibat air, bukan hanya satu aspek saja.",
+  },
+  {
+    id: 32,
+    text: "According to paragraph 1, how does unpredictable rainfall affect farming families' nutrition?",
+    options: [
+    "It has no effect on nutrition at all",
+    "Lower income from reduced yields leads families to reduce food quality and variety",
+    "It only affects nutrition in urban areas",
+    "It improves nutrition because families grow more food"
+    ],
+    correctIndex: 1,
+    explanation: "Paragraf 1 menjelaskan ketidakstabilan finansial akibat hasil panen berkurang berdampak pada penurunan kualitas dan variasi makanan keluarga.",
+  },
+  {
+    id: 33,
+    text: "The word 'erratic' in paragraph 1 is closest in meaning to ______.",
+    options: [
+    "extremely heavy",
+    "very rare",
+    "perfectly consistent",
+    "unpredictable and irregular"
+    ],
+    correctIndex: 3,
+    explanation: "'Erratic' artinya tidak menentu/tidak teratur, sesuai konteks pola hujan yang sulit diprediksi.",
+  },
+  {
+    id: 34,
+    text: "According to paragraph 2, what respiratory illnesses have reportedly increased among farmworkers?",
+    options: [
+    "Diabetes and hypertension",
+    "Skin cancer and sunburn",
+    "Chronic bronchitis and asthma",
+    "Malaria and typhoid"
+    ],
+    correctIndex: 2,
+    explanation: "Paragraf 2 menyebut dengan jelas 'chronic bronchitis and asthma' sebagai penyakit pernapasan yang meningkat.",
+  },
+  {
+    id: 35,
+    text: "The word 'insufficient' in paragraph 3 is closest in meaning to ______.",
+    options: [
+    "completely unavailable",
+    "not enough",
+    "more than enough",
+    "extremely expensive"
+    ],
+    correctIndex: 1,
+    explanation: "'Insufficient' artinya tidak mencukupi, menggambarkan keterbatasan sumber daya dibanding skala masalah yang dihadapi petugas kesehatan.",
+  },
+  {
+    id: 36,
+    text: "According to paragraph 3, what are two actions community health workers take during flood season and dry spells respectively?",
+    options: [
+    "Building new hospitals during floods, and planting trees during dry spells",
+    "Selling crops during floods, and buying crops during dry spells",
+    "Distributing water purification tablets during floods, and monitoring air quality during dry spells",
+    "Closing clinics during floods, and opening schools during dry spells"
+    ],
+    correctIndex: 2,
+    explanation: "Paragraf 3 menyebut dengan jelas dua tindakan berbeda: pembagian tablet pemurni air saat banjir, dan pemantauan kualitas udara saat musim kering panjang.",
+  },
+  {
+    id: 37,
+    text: "What long-term solutions do experts suggest in the last paragraph?",
+    options: [
+    "Increasing the price of farming chemicals",
+    "Improving irrigation infrastructure, diversifying crops, and expanding access to clean water",
+    "Banning all agricultural activities",
+    "Relocating all farmers to the city"
+    ],
+    correctIndex: 1,
+    explanation: "Paragraf terakhir menjelaskan solusi jangka panjang berupa perbaikan infrastruktur irigasi, diversifikasi tanaman tahan iklim, dan perluasan akses air bersih.",
+  },
+  {
+    id: 38,
+    text: "What can be inferred from the passage about the relationship between climate change and public health in farming regions?",
+    options: [
+    "They are completely unrelated issues",
+    "Climate change only matters for farmers' crops, not their health",
+    "They are closely interconnected, requiring both immediate and long-term responses",
+    "Public health problems in farming regions are unrelated to rainfall patterns"
+    ],
+    correctIndex: 2,
+    explanation: "Keseluruhan teks menunjukkan keterkaitan erat antara perubahan iklim dan kesehatan masyarakat pertanian, serta perlunya respons jangka pendek dan panjang secara bersamaan. ---------------------------------------------------------------- TEKS UTS 2 (Long Text) — Balancing Technology and Human Touch in Modern Nursing ---------------------------------------------------------------- As digital health technologies become more widespread, nursing education programs are facing a new challenge: how to prepare students for a profession that is both increasingly data-driven and fundamentally rooted in human connection. On one hand, nursing students today must become comfortable using electronic health records, remote monitoring devices, and AI-assisted diagnostic tools. On the other hand, the core values of nursing, empathy, communication, and compassionate care, remain unchanged regardless of how advanced the technology becomes. Some nursing educators worry that an excessive focus on technical training could come at the expense of interpersonal skills. They point out that patients, especially those from rural or elderly populations who may be less familiar with digital tools, still place enormous value on being listened to and understood by a real person. A nurse who is highly skilled at operating complex machinery but struggles to communicate warmly with patients may, in some cases, provide a lower quality of care overall. To address this concern, several nursing programs, including some in East Java, have begun integrating communication skills training directly alongside technology-focused coursework. Students practice simulated patient interactions that combine both elements: for example, a scenario in which a student nurse must explain the results of a digital health screening to an anxious patient in simple, reassuring language, rather than relying on technical jargon that the patient may not understand. Ultimately, most experts agree that technology and human connection are not opposing forces but complementary tools. When used correctly, digital systems can free up more time for nurses to spend with patients directly, rather than replacing that time altogether. The goal, therefore, is not to choose between technology and compassion, but to train a generation of nurses who can skillfully combine both. Pertanyaan untuk teks di atas:",
+  },
+  {
+    id: 39,
+    text: "What is the main idea of this passage?",
+    options: [
+    "Nursing education must balance technical digital skills with human-centered communication skills",
+    "Technology has completely replaced the need for communication skills in nursing",
+    "Nursing schools in East Java have stopped teaching technology",
+    "Rural patients refuse to use any digital health tools"
+    ],
+    correctIndex: 0,
+    explanation: "Teks ini membahas tantangan menyeimbangkan pelatihan teknologi digital dengan keterampilan komunikasi manusiawi dalam pendidikan keperawatan.",
+  },
+  {
+    id: 40,
+    text: "According to paragraph 1, what core values of nursing remain unchanged despite advancing technology?",
+    options: [
+    "Empathy, communication, and compassionate care",
+    "Speed, efficiency, and automation",
+    "Profit, competition, and marketing",
+    "Data analysis, coding, and programming"
+    ],
+    correctIndex: 0,
+    explanation: "Paragraf 1 menyebutkan nilai inti keperawatan yang tidak berubah adalah empati, komunikasi, dan perawatan penuh kasih.",
+  },
+  {
+    id: 41,
+    text: "The word 'at the expense of' in paragraph 2 most likely means ______.",
+    options: [
+    "being paid for by something else",
+    "providing extra benefit to something else",
+    "happening at exactly the same time without conflict",
+    "causing harm or loss to something else"
+    ],
+    correctIndex: 3,
+    explanation: "'At the expense of' artinya mengorbankan sesuatu demi hal lain, dalam konteks ini kekhawatiran bahwa fokus teknis dapat mengorbankan keterampilan interpersonal.",
+  },
+  {
+    id: 42,
+    text: "According to paragraph 2, which patients are specifically mentioned as valuing being listened to by a real person?",
+    options: [
+    "Only patients who work in technology",
+    "Rural or elderly populations less familiar with digital tools",
+    "Only wealthy urban patients",
+    "Only pediatric patients"
+    ],
+    correctIndex: 1,
+    explanation: "Paragraf 2 menyebut dengan jelas pasien dari populasi pedesaan atau lansia yang kurang familiar dengan alat digital.",
+  },
+  {
+    id: 43,
+    text: "Based on paragraph 3, what is an example of combined training mentioned in the text?",
+    options: [
+    "Having students manage hospital finances",
+    "Teaching students to code mobile applications",
+    "Training students to repair medical equipment",
+    "Explaining digital screening results to an anxious patient in simple language"
+    ],
+    correctIndex: 3,
+    explanation: "Paragraf 3 memberi contoh skenario simulasi: menjelaskan hasil skrining digital kepada pasien yang cemas dengan bahasa sederhana dan menenangkan.",
+  },
+  {
+    id: 44,
+    text: "The word 'jargon' in paragraph 3 is closest in meaning to ______.",
+    options: [
+    "a formal written report",
+    "simple everyday language",
+    "a type of medical equipment",
+    "specialized technical language that may be hard for non-experts to understand"
+    ],
+    correctIndex: 3,
+    explanation: "'Jargon' artinya istilah teknis khusus suatu bidang yang sulit dipahami orang awam, sesuai konteks penjelasan hasil skrining ke pasien.",
+  },
+  {
+    id: 45,
+    text: "According to the last paragraph, how do most experts view the relationship between technology and human connection in nursing?",
+    options: [
+    "As irrelevant to each other",
+    "As something only wealthy hospitals can combine",
+    "As complementary tools that work together, not opposing forces",
+    "As two things that can never work together"
+    ],
+    correctIndex: 2,
+    explanation: "Di paragraf terakhir, dijelaskan bahwa sebagian besar ahli memandang teknologi dan koneksi manusiawi sebagai alat yang saling melengkapi, bukan saling bertentangan.",
+  },
+  {
+    id: 46,
+    text: "What can be inferred as the overall goal of integrating communication training with technology training in nursing programs?",
+    options: [
+    "To make nursing education focus only on technology",
+    "To reduce the number of nursing students who graduate",
+    "To eventually remove all human interaction from nursing care",
+    "To train nurses who can skillfully combine both technical skill and compassionate care"
+    ],
+    correctIndex: 3,
+    explanation: "Kesimpulan teks menyatakan tujuan akhirnya adalah melatih generasi perawat yang mampu menggabungkan keterampilan teknis dan kasih sayang secara seimbang. ---------------------------------------------------------------- TEKS UTS 3 (Short Text) — Clinic Memo ---------------------------------------------------------------- INTERNAL MEMO To: All Nursing Staff, Sukorambi Community Health Post Subject: Temporary Change in Patient Intake Procedure Starting next Monday, all patients must complete a digital pre-screening form on the tablet provided at the front desk before seeing a nurse. This change is intended to reduce waiting times and allow nurses to review basic patient information in advance. Staff members are requested to assist elderly patients or those unfamiliar with digital devices in completing the form. Please direct any questions or technical issues to the head nurse before the end of this week. Pertanyaan untuk teks di atas:",
+  },
+  {
+    id: 47,
+    text: "What is the main purpose of this memo?",
+    options: [
+    "To inform staff about a new digital pre-screening procedure for patients",
+    "To announce the closing of the clinic",
+    "To request more funding from the government",
+    "To invite staff to a training workshop abroad"
+    ],
+    correctIndex: 0,
+    explanation: "Memo ini menginformasikan perubahan prosedur penerimaan pasien, yaitu pengisian formulir pra-skrining digital.",
+  },
+  {
+    id: 48,
+    text: "According to the memo, what are staff members asked to do for elderly patients?",
+    options: [
+    "Charge them an extra fee",
+    "Send them to a different clinic",
+    "Assist them in completing the digital form",
+    "Refuse to serve them until they learn to use tablets"
+    ],
+    correctIndex: 2,
+    explanation: "Memo secara jelas meminta staf membantu pasien lansia atau yang belum familiar dengan perangkat digital.",
+  },
+  {
+    id: 49,
+    text: "The word 'intake' in the subject line most likely refers to ______.",
+    options: [
+    "the process of receiving and registering patients",
+    "a medical surgery procedure",
+    "a financial report",
+    "a type of medication"
+    ],
+    correctIndex: 0,
+    explanation: "'Patient intake procedure' artinya prosedur penerimaan/pendaftaran pasien saat pertama datang ke klinik.",
+  },
+  {
+    id: 50,
+    text: "Who should staff contact if there are technical issues with the form?",
+    options: [
+    "The head nurse",
+    "The patient's family",
+    "The regional hospital director",
+    "The village head"
+    ],
+    correctIndex: 0,
+    explanation: "Memo menyebutkan pertanyaan atau kendala teknis harus disampaikan kepada 'the head nurse'. ================================================================ TOTAL SOAL DI FILE INI: 50 (sesuai kisi-kisi: 50 soal / 60 menit) Gunakan hasilnya untuk melihat bagian grammar, vocabulary, atau reading yang masih perlu diulang. ================================================================",
+  }
+];
