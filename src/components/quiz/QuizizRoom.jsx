@@ -75,15 +75,14 @@ const pickQuestions = (subject, count) => {
   } else if (subject === 'ftk') {
     pool = allQ100.filter(q => q.id >= 101 && q.id <= 200).map(mapQ);
   } else {
-    // eng — gabungkan grammar + vocabulary + reading
-    const all = [
-      ...grammarQuestions,
-      ...vocabularyQuestions,
-      ...readingQuestions,
-    ];
-    pool = all.map((q, i) => ({ id: i + 1, text: q.text, options: q.options, correct: q.correctIndex }));
+    // eng — grammar + vocabulary diacak, reading TIDAK diacak (terikat teks bacaan/passage)
+    const gQ = grammarQuestions.map((q, i) => ({ id: i + 1,   text: q.text, options: q.options, correct: q.correctIndex }));
+    const vQ = vocabularyQuestions.map((q, i) => ({ id: i + 51,  text: q.text, options: q.options, correct: q.correctIndex }));
+    const rQ = readingQuestions.map((q, i) => ({ id: i + 101, text: q.text, options: q.options, correct: q.correctIndex }));
+    pool = [...shuffle(gQ), ...shuffle(vQ), ...rQ]; // reading di akhir, urutan asli
   }
-  return shuffle(pool).slice(0, Math.min(count, pool.length));
+  // TIDAK lagi shuffle(pool) total — reading sudah sengaja di akhir urut
+  return pool.slice(0, Math.min(count, pool.length));
 };
 
 /** Rekonstruksi soal dari array questionIds (subset dari allQ100) */
@@ -327,6 +326,24 @@ const CSS = `
   font-family: inherit; transition: all 0.2s;
 }
 .mp-next-btn:hover { background: rgba(139,123,255,0.3); }
+/* QRIS */
+.mp-qris-box {
+  background: rgba(139,123,255,0.06); border: 1px solid rgba(139,123,255,0.2);
+  border-radius: 14px; padding: 16px; margin: 16px 0; text-align: center;
+}
+.mp-qris-title { font-size: 0.88rem; font-weight: 700; color: #c0b4ff; margin-bottom: 4px; }
+.mp-qris-desc  { font-size: 0.75rem; color: #8888a0; line-height: 1.55; margin-bottom: 12px; }
+.mp-qris-img   {
+  width: 160px; max-width: 100%; border-radius: 10px; cursor: pointer;
+  transition: transform 0.2s; display: block; margin: 0 auto 10px;
+}
+.mp-qris-img:hover { transform: scale(1.04); }
+.mp-qris-full {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 99999; cursor: zoom-out; padding: 20px;
+}
+.mp-qris-full img { max-width: 90%; max-height: 90dvh; border-radius: 16px; }
 /* Waiting & Results */
 .mp-waiting { text-align: center; padding: 24px 0; }
 .mp-spin {
@@ -480,6 +497,7 @@ export default function MultiplayerRoom({ user, onClose }) {
   const [leaderboard, setLeaderboard] = useState([]);
   const [submitted,   setSubmitted]   = useState(false);
   const [myScore,     setMyScore]     = useState(null); // skor lokal setelah submit
+  const [qrisLarge,   setQrisLarge]   = useState(false);
 
   /* ─ Refs ─ */
   const unsubRef  = useRef(null);
@@ -489,16 +507,34 @@ export default function MultiplayerRoom({ user, onClose }) {
   // Sinkronkan screenRef setiap kali screen berubah
   useEffect(() => { screenRef.current = screen; }, [screen]);
 
-  /* ─── Cleanup on unmount ─────────────────── */
+  /* ─── Cleanup on unmount ([] = hanya saat unmount, bukan tiap roomCode berubah) ─── */
+  // PENTING: jangan taruh [roomCode] di sini!
+  // Kalau deps-nya [roomCode], React akan jalankan cleanup tiap roomCode berubah
+  // dan membunuh listener onSnapshot yang baru saja di-setup oleh useEffect([roomCode]).
+  // Solusi: gunakan ref untuk baca state/callback terkini dari dalam closure stale.
+  const roomCodeRef      = useRef('');
+  const removePlayerRef  = useRef(null);
+  useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
+  useEffect(() => { removePlayerRef.current = removePlayer; }, [removePlayer]);
+
   useEffect(() => {
     return () => {
       unsubRef.current?.();
       clearInterval(timerRef.current);
-      // Kalau bukan host dan masih di lobby/quiz, hapus diri dari players
-      if (roomCode && user && screenRef.current !== 'results') {
-        removePlayer();
+      if (roomCodeRef.current && user && screenRef.current !== 'results') {
+        removePlayerRef.current?.();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // hanya unmount
+
+  /* ─── Auto-subscribe saat roomCode di-set (SETELAH render, aman dari cleanup) ─── */
+  // Ini menggantikan panggilan subscribeRoom(code) di dalam handleJoin/handleCreate.
+  // Dengan memindahkan ke useEffect, listener baru di-setup SETELAH cleanup lama selesai,
+  // sehingga snapshot tidak langsung mati saat roomCode pertama kali berubah.
+  useEffect(() => {
+    if (!roomCode) return;
+    subscribeRoom(roomCode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomCode]);
 
@@ -593,7 +629,7 @@ export default function MultiplayerRoom({ user, onClose }) {
       setRoomCode(code);
       setIsHost(true);
       setRoomData(payload);
-      subscribeRoom(code);
+      // subscribeRoom dipanggil otomatis oleh useEffect([roomCode])
       setScreen('lobby');
     } catch (e) { setError('Gagal membuat room: ' + e.message); }
     setLoading(false);
@@ -624,7 +660,7 @@ export default function MultiplayerRoom({ user, onClose }) {
       }
       setRoomCode(code);
       setIsHost(false);
-      subscribeRoom(code);
+      // subscribeRoom dipanggil otomatis oleh useEffect([roomCode])
       setScreen('lobby');
     } catch (e) { setError('Gagal bergabung: ' + e.message); }
     setLoading(false);
@@ -1199,6 +1235,23 @@ export default function MultiplayerRoom({ user, onClose }) {
             💡 Skor = (Benar/Total × 2000) + Bonus Kecepatan (max +500)
           </div>
 
+          {/* ── QRIS Donasi ── */}
+          <div className="mp-qris-box">
+            <div className="mp-qris-title">🙏 Quiz ini gratis, traktir boleh</div>
+            <div className="mp-qris-desc">
+              Kalau quiz ini bermanfaat buat belajarmu, boleh banget traktir lewat QRIS di bawah.
+              Berapa pun sangat berarti! ☕
+            </div>
+            <img
+              src="/assets/img/qris.jpg"
+              alt="QRIS donasi"
+              className="mp-qris-img"
+              onClick={() => setQrisLarge(true)}
+              title="Klik untuk perbesar"
+            />
+            <div style={{ fontSize: '0.7rem', color: '#6666a0' }}>Klik gambar untuk perbesar · scan lalu transfer nominal bebas</div>
+          </div>
+
           <div className="mp-stack" style={{ marginTop: 20 }}>
             <button className="mp-btn mp-btn-primary" onClick={() => {
               setScreen('home'); setRoomCode(''); setRoomData(null);
@@ -1211,6 +1264,13 @@ export default function MultiplayerRoom({ user, onClose }) {
               ✕ Tutup
             </button>
           </div>
+
+          {/* QRIS fullscreen zoom */}
+          {qrisLarge && (
+            <div className="mp-qris-full" onClick={() => setQrisLarge(false)}>
+              <img src="/assets/img/qris.jpg" alt="QRIS diperbesar" />
+            </div>
+          )}
         </div>
       </div>
     );
