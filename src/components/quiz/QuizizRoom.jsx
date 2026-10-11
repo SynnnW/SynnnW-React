@@ -15,8 +15,7 @@ import {
   getFirestore, doc, setDoc, getDoc, updateDoc,
   arrayUnion, onSnapshot, serverTimestamp,
 } from 'firebase/firestore';
-import { getApp, getApps, initializeApp } from 'firebase/app';
-import { getApp as getDefaultApp } from 'firebase/app';
+import { getApp as getDefaultApp, getApps, initializeApp } from 'firebase/app';
 import { questions as allQ100 } from '../../data/100soal';
 import { grammarQuestions }    from '../../data/bi-grammar';
 import { vocabularyQuestions } from '../../data/bi-vocabulary';
@@ -72,20 +71,55 @@ const pickQuestions = (subject, count) => {
   let pool;
   if (subject === 'kesglob') {
     pool = allQ100.filter(q => q.id >= 1 && q.id <= 100).map(mapQ);
+    return shuffle(pool).slice(0, Math.min(count, pool.length));
   } else if (subject === 'ftk') {
     pool = allQ100.filter(q => q.id >= 101 && q.id <= 200).map(mapQ);
+    return shuffle(pool).slice(0, Math.min(count, pool.length));
   } else {
-    // eng — grammar + vocabulary diacak, reading TIDAK diacak (terikat teks bacaan/passage)
-    const gQ = grammarQuestions.map((q, i) => ({ id: i + 1,   text: q.text, options: q.options, correct: q.correctIndex }));
-    const vQ = vocabularyQuestions.map((q, i) => ({ id: i + 51,  text: q.text, options: q.options, correct: q.correctIndex }));
-    const rQ = readingQuestions.map((q, i) => ({ id: i + 101, text: q.text, options: q.options, correct: q.correctIndex }));
-    pool = [...shuffle(gQ), ...shuffle(vQ), ...rQ]; // reading di akhir, urutan asli
+    // eng — grammar + vocabulary di-shuffle, reading TIDAK di-shuffle (dijaga per passage group)
+    const GRAMMAR_COUNT  = grammarQuestions.length;    // 50
+    const TOTAL_NON_READ = GRAMMAR_COUNT + VOCAB_COUNT;
+
+    // Beri ID konsisten: grammar 1-50, vocab 51-100, reading 101-150
+    const grammarPool  = grammarQuestions.map((q, i) => ({
+      id: i + 1,
+      text: q.text, options: q.options, correct: q.correctIndex, passage: null,
+    }));
+    const vocabPool = vocabularyQuestions.map((q, i) => ({
+      id: GRAMMAR_COUNT + i + 1,
+      text: q.text, options: q.options, correct: q.correctIndex, passage: null,
+    }));
+    // Reading: pertahankan urutan dalam satu passage (group), tapi acak urutan antar group
+    const readingGroupMap = {};
+    readingQuestions.forEach((q, i) => {
+      const key = q.passage; // gunakan teks passage sebagai kunci grup
+      if (!readingGroupMap[key]) readingGroupMap[key] = [];
+      readingGroupMap[key].push({
+        id: TOTAL_NON_READ + i + 1,
+        text: q.text, options: q.options, correct: q.correctIndex, passage: q.passage,
+      });
+    });
+    // Acak urutan passage group, tapi pertahankan urutan soal dalam tiap group
+    const readingPool = shuffle(Object.values(readingGroupMap)).flat();
+
+    // Alokasi proporsional: 1/3 grammar, 1/3 vocab, 1/3 reading
+    const readCount  = Math.round(count / 3);
+    const nonRdCount = count - readCount;
+    const gramCount  = Math.floor(nonRdCount / 2);
+    const vocCount   = nonRdCount - gramCount;
+
+    const shuffledGrammar = shuffle(grammarPool);
+    const shuffledVocab   = shuffle(vocabPool);
+
+    return [
+      ...shuffledGrammar.slice(0, Math.min(gramCount, grammarPool.length)),
+      ...shuffledVocab.slice(0, Math.min(vocCount, vocabPool.length)),
+      ...readingPool.slice(0, Math.min(readCount, readingPool.length)),
+    ].slice(0, count);
   }
-  // TIDAK lagi shuffle(pool) total — reading sudah sengaja di akhir urut
-  return pool.slice(0, Math.min(count, pool.length));
 };
 
-/** Rekonstruksi soal dari array questionIds (subset dari allQ100) */
+/** Rekonstruksi soal dari array questionIds */
 const getQsByIds = (subject, ids) => {
   const mapQ = q => ({ id: q.id, text: q.text, options: q.options, correct: q.correctIndex });
   let pool;
@@ -94,13 +128,29 @@ const getQsByIds = (subject, ids) => {
   } else if (subject === 'ftk') {
     pool = allQ100.filter(q => q.id >= 101 && q.id <= 200).map(mapQ);
   } else {
-    const all = [...grammarQuestions, ...vocabularyQuestions, ...readingQuestions];
-    pool = all.map((q, i) => ({ id: i + 1, text: q.text, options: q.options, correct: q.correctIndex }));
+    // Bangun pool dengan ID yang sama persis seperti pickQuestions
+    const GRAMMAR_COUNT  = grammarQuestions.length;
+    const VOCAB_COUNT    = vocabularyQuestions.length;
+    const TOTAL_NON_READ = GRAMMAR_COUNT + VOCAB_COUNT;
+    const grammarPool = grammarQuestions.map((q, i) => ({
+      id: i + 1,
+      text: q.text, options: q.options, correct: q.correctIndex, passage: null,
+    }));
+    const vocabPool = vocabularyQuestions.map((q, i) => ({
+      id: GRAMMAR_COUNT + i + 1,
+      text: q.text, options: q.options, correct: q.correctIndex, passage: null,
+    }));
+    const readingPool = readingQuestions.map((q, i) => ({
+      id: TOTAL_NON_READ + i + 1,
+      text: q.text, options: q.options, correct: q.correctIndex, passage: q.passage,
+    }));
+    pool = [...grammarPool, ...vocabPool, ...readingPool];
   }
   return ids.map(id => pool.find(q => q.id === id)).filter(Boolean);
 };
 
 const calcScore = (correct, total, timesArr) => {
+  if (!total) return 0;
   const base = Math.round((correct / total) * 2000);
   const avgTime = timesArr.length ? timesArr.reduce((a, b) => a + b, 0) / timesArr.length : QTIME_DEFAULT;
   const speedBonus = Math.round(Math.max(0, 500 - avgTime * 15));
@@ -326,24 +376,6 @@ const CSS = `
   font-family: inherit; transition: all 0.2s;
 }
 .mp-next-btn:hover { background: rgba(139,123,255,0.3); }
-/* QRIS */
-.mp-qris-box {
-  background: rgba(139,123,255,0.06); border: 1px solid rgba(139,123,255,0.2);
-  border-radius: 14px; padding: 16px; margin: 16px 0; text-align: center;
-}
-.mp-qris-title { font-size: 0.88rem; font-weight: 700; color: #c0b4ff; margin-bottom: 4px; }
-.mp-qris-desc  { font-size: 0.75rem; color: #8888a0; line-height: 1.55; margin-bottom: 12px; }
-.mp-qris-img   {
-  width: 160px; max-width: 100%; border-radius: 10px; cursor: pointer;
-  transition: transform 0.2s; display: block; margin: 0 auto 10px;
-}
-.mp-qris-img:hover { transform: scale(1.04); }
-.mp-qris-full {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 99999; cursor: zoom-out; padding: 20px;
-}
-.mp-qris-full img { max-width: 90%; max-height: 90dvh; border-radius: 16px; }
 /* Waiting & Results */
 .mp-waiting { text-align: center; padding: 24px 0; }
 .mp-spin {
@@ -395,6 +427,33 @@ const CSS = `
 .mp-chip.active { background: rgba(139,123,255,0.2); border-color: rgba(139,123,255,0.55); color: #c0b4ff; }
 /* Section spacing */
 .mp-section { margin-bottom: 20px; }
+/* Passage teks untuk soal Reading */
+.mp-passage {
+  background: rgba(94,234,212,0.06); border: 1px solid rgba(94,234,212,0.18);
+  border-radius: 10px; padding: 14px; margin-bottom: 14px;
+  max-height: 200px; overflow-y: auto;
+}
+.mp-passage::-webkit-scrollbar { width: 4px; }
+.mp-passage::-webkit-scrollbar-thumb { background: rgba(94,234,212,0.3); border-radius: 2px; }
+.mp-passage-label {
+  font-size: 0.68rem; font-weight: 800; color: #5eead4;
+  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;
+}
+.mp-passage-text {
+  font-size: 0.82rem; color: #c8c8dc; line-height: 1.7; white-space: pre-wrap;
+}
+/* QRIS */
+.mp-qris-box {
+  margin-top: 20px; padding: 16px; text-align: center;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+}
+.mp-qris-title { font-size: 0.88rem; font-weight: 700; color: #e0e0ea; margin-bottom: 4px; }
+.mp-qris-sub   { font-size: 0.75rem; color: #8888a0; margin-bottom: 12px; }
+.mp-qris-img   {
+  width: 180px; height: 180px; object-fit: contain;
+  border-radius: 10px; border: 2px solid rgba(255,255,255,0.1);
+}
 @media (max-width: 500px) {
   .mp-card { padding: 20px 16px; }
   .mp-room-code { font-size: 2rem; letter-spacing: 0.25em; }
@@ -497,44 +556,26 @@ export default function MultiplayerRoom({ user, onClose }) {
   const [leaderboard, setLeaderboard] = useState([]);
   const [submitted,   setSubmitted]   = useState(false);
   const [myScore,     setMyScore]     = useState(null); // skor lokal setelah submit
-  const [qrisLarge,   setQrisLarge]   = useState(false);
 
   /* ─ Refs ─ */
-  const unsubRef  = useRef(null);
-  const timerRef  = useRef(null);
-  const screenRef = useRef(screen); // selalu mengikuti nilai screen terbaru
+  const unsubRef      = useRef(null);
+  const timerRef      = useRef(null);
+  const screenRef     = useRef(screen); // selalu mengikuti nilai screen terbaru
+  const submittedRef  = useRef(false);  // guard double-submit
 
   // Sinkronkan screenRef setiap kali screen berubah
   useEffect(() => { screenRef.current = screen; }, [screen]);
 
-  /* ─── Cleanup on unmount ([] = hanya saat unmount, bukan tiap roomCode berubah) ─── */
-  // PENTING: jangan taruh [roomCode] di sini!
-  // Kalau deps-nya [roomCode], React akan jalankan cleanup tiap roomCode berubah
-  // dan membunuh listener onSnapshot yang baru saja di-setup oleh useEffect([roomCode]).
-  // Solusi: gunakan ref untuk baca state/callback terkini dari dalam closure stale.
-  const roomCodeRef      = useRef('');
-  const removePlayerRef  = useRef(null);
-  useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
-  useEffect(() => { removePlayerRef.current = removePlayer; }, [removePlayer]);
-
+  /* ─── Cleanup on unmount ─────────────────── */
   useEffect(() => {
     return () => {
       unsubRef.current?.();
       clearInterval(timerRef.current);
-      if (roomCodeRef.current && user && screenRef.current !== 'results') {
-        removePlayerRef.current?.();
+      // Kalau bukan host dan masih di lobby/quiz, hapus diri dari players
+      if (roomCode && user && screenRef.current !== 'results') {
+        removePlayer();
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // hanya unmount
-
-  /* ─── Auto-subscribe saat roomCode di-set (SETELAH render, aman dari cleanup) ─── */
-  // Ini menggantikan panggilan subscribeRoom(code) di dalam handleJoin/handleCreate.
-  // Dengan memindahkan ke useEffect, listener baru di-setup SETELAH cleanup lama selesai,
-  // sehingga snapshot tidak langsung mati saat roomCode pertama kali berubah.
-  useEffect(() => {
-    if (!roomCode) return;
-    subscribeRoom(roomCode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomCode]);
 
@@ -578,8 +619,8 @@ export default function MultiplayerRoom({ user, onClose }) {
       if (!snap.exists()) { setError('Room sudah ditutup.'); setScreen('home'); return; }
       const data = { id: snap.id, ...snap.data() };
       setRoomData(data);
-      // Gunakan screenRef.current agar tidak stale (bukan screen dari closure)
-      if (data.status === 'playing' && screenRef.current === 'lobby') {
+      // startLocalQuiz sendiri yang guard layar (quiz/waiting/results → skip)
+      if (data.status === 'playing') {
         startLocalQuiz(data);
       }
       // Kalau semua sudah submit → tampilkan results
@@ -597,7 +638,12 @@ export default function MultiplayerRoom({ user, onClose }) {
     const scores = data.scores || {};
     return Object.entries(scores)
       .map(([uid, s]) => ({ uid, ...s }))
-      .sort((a, b) => b.score - a.score);
+      .sort((a, b) => {
+        const scoreDiff = (b.score ?? 0) - (a.score ?? 0);
+        if (scoreDiff !== 0) return scoreDiff;
+        // Tiebreaker: waktu rata-rata lebih cepat = lebih tinggi
+        return (a.avgTime ?? 999) - (b.avgTime ?? 999);
+      });
   };
 
   /* ─── Create Room ─────────────────────────── */
@@ -629,7 +675,7 @@ export default function MultiplayerRoom({ user, onClose }) {
       setRoomCode(code);
       setIsHost(true);
       setRoomData(payload);
-      // subscribeRoom dipanggil otomatis oleh useEffect([roomCode])
+      subscribeRoom(code);
       setScreen('lobby');
     } catch (e) { setError('Gagal membuat room: ' + e.message); }
     setLoading(false);
@@ -660,7 +706,7 @@ export default function MultiplayerRoom({ user, onClose }) {
       }
       setRoomCode(code);
       setIsHost(false);
-      // subscribeRoom dipanggil otomatis oleh useEffect([roomCode])
+      subscribeRoom(code);
       setScreen('lobby');
     } catch (e) { setError('Gagal bergabung: ' + e.message); }
     setLoading(false);
@@ -685,8 +731,12 @@ export default function MultiplayerRoom({ user, onClose }) {
 
   /* ─── Start local quiz (called from snapshot) ─ */
   const startLocalQuiz = useCallback((data) => {
+    // Guard: jangan mulai ulang kalau sudah di quiz / waiting / results
+    if (['quiz', 'waiting', 'results'].includes(screenRef.current)) return;
     unsubRef.current?.(); // stop lobby listener
+    submittedRef.current = false; // reset guard submit
     const qs = getQsByIds(data.subject, data.questionIds || []);
+    if (!qs.length) return; // soal belum siap, abaikan
     setQuestions(qs);
     setCurrentQ(0);
     setSelected(null);
@@ -760,6 +810,10 @@ export default function MultiplayerRoom({ user, onClose }) {
 
   /* ─── Submit score (ONE write per player) ─── */
   const submitScore = useCallback(async (ans) => {
+    // Guard: cegah double-submit (ranking bug)
+    if (submittedRef.current) return;
+    submittedRef.current = true;
+
     const correct = ans.filter(a => a.correct).length;
     const total   = ans.length;
     const times   = ans.map(a => a.time);
@@ -774,15 +828,19 @@ export default function MultiplayerRoom({ user, onClose }) {
         [`scores.${user.uid}`]: payload,
       });
       // Cek apakah semua pemain sudah submit → update status finished
-      // (baca ulang setelah write selesai — jadi count sudah akurat)
-      const freshSnap = await getDoc(doc(db, COL, roomCode));
-      if (freshSnap.exists()) {
-        const freshData = freshSnap.data();
+      // Retry sekali untuk tangani race condition submit simultan
+      let freshData = null;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const freshSnap = await getDoc(doc(db, COL, roomCode));
+        if (!freshSnap.exists()) break;
+        freshData = freshSnap.data();
         const submittedCount = Object.keys(freshData.scores || {}).length;
         const playerCount    = (freshData.players || []).length;
         if (submittedCount >= playerCount) {
           await updateDoc(doc(db, COL, roomCode), { status: 'finished' });
+          break;
         }
+        if (attempt === 0) await new Promise(r => setTimeout(r, 800));
       }
       // Subscribe untuk dapat notifikasi saat semua selesai
       subscribeResults();
@@ -1112,6 +1170,14 @@ export default function MultiplayerRoom({ user, onClose }) {
             <div className="mp-progress-fill" style={{ width: `${(timeLeft / qTime) * 100}%` }} />
           </div>
 
+          {/* Passage teks (khusus soal Reading) */}
+          {q.passage && (
+            <div className="mp-passage">
+              <div className="mp-passage-label">📖 Bacaan</div>
+              <div className="mp-passage-text">{q.passage}</div>
+            </div>
+          )}
+
           {/* Question */}
           <div className="mp-q-text">{q.text}</div>
 
@@ -1235,25 +1301,21 @@ export default function MultiplayerRoom({ user, onClose }) {
             💡 Skor = (Benar/Total × 2000) + Bonus Kecepatan (max +500)
           </div>
 
-          {/* ── QRIS Donasi ── */}
+          {/* QRIS */}
           <div className="mp-qris-box">
-            <div className="mp-qris-title">🙏 Quiz ini gratis, traktir boleh</div>
-            <div className="mp-qris-desc">
-              Kalau quiz ini bermanfaat buat belajarmu, boleh banget traktir lewat QRIS di bawah.
-              Berapa pun sangat berarti! ☕
-            </div>
+            <div className="mp-qris-title">☕ Dukung pengembangan kuis ini</div>
+            <div className="mp-qris-sub">Scan QRIS untuk donasi — semua nominal diterima!</div>
             <img
               src="/assets/img/qris.jpg"
-              alt="QRIS donasi"
+              alt="QRIS Donasi"
               className="mp-qris-img"
-              onClick={() => setQrisLarge(true)}
-              title="Klik untuk perbesar"
+              onError={e => { e.currentTarget.style.display = 'none'; }}
             />
-            <div style={{ fontSize: '0.7rem', color: '#6666a0' }}>Klik gambar untuk perbesar · scan lalu transfer nominal bebas</div>
           </div>
 
           <div className="mp-stack" style={{ marginTop: 20 }}>
             <button className="mp-btn mp-btn-primary" onClick={() => {
+              submittedRef.current = false;
               setScreen('home'); setRoomCode(''); setRoomData(null);
               setIsHost(false); setLeaderboard([]); setSubmitted(false);
               setAnswers([]); setQuestions([]);
@@ -1264,13 +1326,6 @@ export default function MultiplayerRoom({ user, onClose }) {
               ✕ Tutup
             </button>
           </div>
-
-          {/* QRIS fullscreen zoom */}
-          {qrisLarge && (
-            <div className="mp-qris-full" onClick={() => setQrisLarge(false)}>
-              <img src="/assets/img/qris.jpg" alt="QRIS diperbesar" />
-            </div>
-          )}
         </div>
       </div>
     );
