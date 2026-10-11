@@ -77,10 +77,10 @@ const pickQuestions = (subject, count) => {
     return shuffle(pool).slice(0, Math.min(count, pool.length));
   } else {
     // eng — grammar + vocabulary di-shuffle, reading TIDAK di-shuffle (dijaga per passage group)
-    const GRAMMAR_COUNT  = grammarQuestions.length;    // 50
-    const TOTAL_NON_READ = GRAMMAR_COUNT + VOCAB_COUNT;
-
     // Beri ID konsisten: grammar 1-50, vocab 51-100, reading 101-150
+    const GRAMMAR_COUNT  = grammarQuestions.length;     // 50
+    const VOCAB_COUNT    = vocabularyQuestions.length;  // 50
+    const TOTAL_NON_READ = GRAMMAR_COUNT + VOCAB_COUNT; // 100
     const grammarPool  = grammarQuestions.map((q, i) => ({
       id: i + 1,
       text: q.text, options: q.options, correct: q.correctIndex, passage: null,
