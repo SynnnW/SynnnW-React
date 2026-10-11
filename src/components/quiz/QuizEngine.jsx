@@ -20,7 +20,7 @@ import {
 import {
   getFirestore, collection, doc, getDoc, setDoc,
   onSnapshot, query, orderBy, limit, serverTimestamp,
-  getDocs, writeBatch, addDoc,
+  getDocs, writeBatch, addDoc, increment,
 } from 'firebase/firestore';
 import { questions as allQ100 } from '../../data/100soal';
 import { questions as allQ50 } from '../../data/50soal';
@@ -698,6 +698,11 @@ export default function QuizEngine({
   /* ── Admin ── */
   const [adminStatus, setAdminStatus] = useState(''); // '' | 'resetting' | 'done' | 'err:...'
 
+  /* ── Telegram & Community Stats ── */
+  const [tgSent, setTgSent]               = useState(false);
+  const [tgLoading, setTgLoading]         = useState(false);
+  const [communityStats, setCommunityStats] = useState(null);
+
   /* ─────── DERIVED ─────── */
   const TOTAL         = activeQuestions.length;
   const lbCollection  = useMemo(() => getLbKey(selectedSubject, selectedType), [selectedSubject, selectedType]);
@@ -1034,6 +1039,14 @@ export default function QuizEngine({
     setCloudeeState(finState);
     setTimeout(() => setCloudeeState('idle'), 9000);
     if (newBest) setPersonalBest({ ...stat, date: new Date().toLocaleDateString('id-ID') });
+    // Kumpulkan soal yang salah (proses di device, upload sekali di akhir)
+    const wrongQIds = Object.entries(answers)
+      .filter(([idx, sel]) => sel !== activeQuestions[Number(idx)]?.correct)
+      .map(([idx]) => activeQuestions[Number(idx)]?.id)
+      .filter(id => id != null);
+    setCommunityStats(null); // reset dulu
+    saveCommunityStats(answers, wrongQIds);
+    setTimeout(fetchCommunityStats, 2000); // baca setelah tulis selesai
     saveToLeaderboard(stat);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answers, mode, startTime, TOTAL, activeQuestions, clearProgress, selectedSubject, selectedType, refleksiDone]);
@@ -1066,6 +1079,64 @@ export default function QuizEngine({
       await setDoc(docRef, payload);
       setSaveStatus('saved');
     } catch { setSaveStatus(''); }
+  };
+
+  /* ─────── TELEGRAM ─────── */
+  const sendToTelegram = async () => {
+    if (!finalStat || tgLoading || tgSent) return;
+    setTgLoading(true);
+    try {
+      const pct  = Math.round((finalStat.correct / TOTAL) * 100);
+      const sugg = getSuggestion(pct, subjectInfo?.name);
+      const body = {
+        nickname:   displayName || 'Anonim',
+        subject:    `${subjectInfo?.name} · ${typeInfo?.label}`,
+        score:      finalStat.score,
+        maxScore:   MAX_SCORE,
+        correct:    finalStat.correct,
+        total:      TOTAL,
+        duration:   formatDuration(finalStat.durationSec),
+        mode:       finalStat.mode,
+        suggestion: sugg,
+      };
+      const res  = await fetch('/api/send-telegram', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (data.ok) setTgSent(true);
+    } catch (e) { console.warn('[TG]', e); }
+    setTgLoading(false);
+  };
+
+  /* ─────── COMMUNITY WRONG STATS ─────── */
+  /** Simpan soal yang salah ke Firestore (satu kali tulis di akhir quiz, ringan) */
+  const saveCommunityStats = async (finalAnswers, wrongQIds) => {
+    if (!lbCollection) return;
+    try {
+      const ref    = doc(quizDb, 'qzCommunityWrong', lbCollection);
+      const update = { ts: increment(1) }; // ts = total sessions
+      // Hitung berapa kali tiap soal dijawab & berapa kali salah
+      Object.keys(finalAnswers).forEach(idx => {
+        const qId = activeQuestions[Number(idx)]?.id;
+        if (qId == null) return;
+        update[`tc.q${qId}`] = increment(1); // tc = total count per soal
+      });
+      wrongQIds.forEach(qId => {
+        update[`wc.q${qId}`] = increment(1); // wc = wrong count per soal
+      });
+      await setDoc(ref, update, { merge: true });
+    } catch (e) { console.warn('[CommunityStats]', e); }
+  };
+
+  /** Ambil statistik komunitas untuk ditampilkan di hasil */
+  const fetchCommunityStats = async () => {
+    if (!lbCollection) return;
+    try {
+      const snap = await getDoc(doc(quizDb, 'qzCommunityWrong', lbCollection));
+      if (snap.exists()) setCommunityStats(snap.data());
+    } catch { /* silent */ }
   };
 
   const selectAnswer = (optIdx) => {
@@ -1141,6 +1212,7 @@ export default function QuizEngine({
     setIsPaused(false); pauseTimeRef.current = null;
     setRefleksiQueue([]); setRefleksiActive(false); setRefleksiDone({});
     setRefleksiShown({}); setShowRefleksiBanner(false);
+    setTgSent(false); setTgLoading(false); setCommunityStats(null);
     startQuiz(null);
   };
 
@@ -1149,6 +1221,7 @@ export default function QuizEngine({
     setQuizStarted(false); setCheckedSet({}); setIsNewBest(false);
     setRefleksiQueue([]); setRefleksiActive(false); setRefleksiDone({});
     setRefleksiShown({}); setShowRefleksiBanner(false);
+    setTgSent(false); setTgLoading(false); setCommunityStats(null);
     setTab('mulai');
   };
 
@@ -2068,6 +2141,21 @@ export default function QuizEngine({
               {finalStat.correct / TOTAL >= 0.8 ? 'Luar Biasa!' : finalStat.correct / TOTAL >= 0.6 ? 'Bagus!' : 'Terus Belajar!'}
             </h2>
 
+            {/* Skor utama */}
+            <div className="qz-result-score">{finalStat.score}</div>
+            <div className="qz-result-details">
+              <div className="qz-result-row"><span>✅ Benar</span><span>{finalStat.correct} / {TOTAL}</span></div>
+              <div className="qz-result-row"><span>❌ Salah</span><span>{TOTAL - finalStat.correct} soal</span></div>
+              <div className="qz-result-row"><span>⏱️ Durasi</span><span>{formatDuration(finalStat.durationSec)}</span></div>
+              <div className="qz-result-row"><span>🎮 Mode</span><span>{finalStat.mode === 'hard' ? '🔴 Timed' : '🟢 Unlimited'}</span></div>
+              {finalStat.refleksiPenalty > 0 && (
+                <div className="qz-result-row"><span>🔁 Penalti Refleksi</span><span>−{finalStat.refleksiPenalty} poin</span></div>
+              )}
+            </div>
+
+            {saveStatus === 'saved'    && <div className="qz-alert qz-alert-info">✅ Skormu berhasil disimpan ke leaderboard!</div>}
+            {saveStatus === 'notbest' && <div className="qz-alert qz-alert-warn">⚠️ Skor ini tidak lebih baik dari rekormu sebelumnya.</div>}
+
             {isNewBest && (
               <div className="qz-new-best">
                 🏅 Rekor baru! Skor tertinggimu untuk {subjectInfo?.abbr} · {typeInfo?.label}
@@ -2135,6 +2223,60 @@ export default function QuizEngine({
                 </div>
               </div>
             )}
+
+            {/* ── Community Wrong Stats ── */}
+            {finalStat && (() => {
+              // Soal yang salah di sesi ini
+              const myWrongQIds = Object.entries(answers)
+                .filter(([idx, sel]) => sel !== activeQuestions[Number(idx)]?.correct)
+                .map(([idx]) => activeQuestions[Number(idx)]?.id)
+                .filter(id => id != null);
+              if (myWrongQIds.length === 0 || !communityStats) return null;
+              const totalSessions = communityStats.ts || 1;
+              const topWrong = myWrongQIds
+                .map(qId => ({
+                  qId,
+                  pct: Math.round(((communityStats.wc?.[`q${qId}`] || 0) / totalSessions) * 100),
+                }))
+                .filter(x => x.pct > 0)
+                .sort((a, b) => b.pct - a.pct)
+                .slice(0, 5);
+              if (topWrong.length === 0) return null;
+              return (
+                <div style={{
+                  background: 'rgba(251,113,133,0.06)', border: '1px solid rgba(251,113,133,0.25)',
+                  borderRadius: 12, padding: '14px 16px', margin: '12px 0', textAlign: 'left',
+                }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#f87185', marginBottom: 10 }}>
+                    📊 Soal yang Banyak Salah (Kamu & Teman)
+                  </div>
+                  {topWrong.map(({ qId, pct }) => {
+                    const q = activeQuestions.find(x => x.id === qId);
+                    return (
+                      <div key={qId} style={{
+                        display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8,
+                        fontSize: '0.8rem', color: '#c9c9d2',
+                      }}>
+                        <div style={{
+                          background: pct >= 60 ? 'rgba(251,113,133,0.2)' : 'rgba(251,191,36,0.15)',
+                          border: `1px solid ${pct >= 60 ? 'rgba(251,113,133,0.4)' : 'rgba(251,191,36,0.3)'}`,
+                          borderRadius: 6, padding: '2px 8px', flexShrink: 0,
+                          fontWeight: 700, color: pct >= 60 ? '#f87185' : '#fbbf24', fontSize: '0.75rem',
+                        }}>
+                          {pct}% salah
+                        </div>
+                        <div style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {q ? `Soal #${qId}: ${q.text?.slice(0, 60)}…` : `Soal #${qId}`}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div style={{ fontSize: '0.73rem', color: 'rgba(141,141,153,0.55)', marginTop: 8 }}>
+                    Berdasarkan {totalSessions} sesi quiz — kamu tidak sendirian! 💪
+                  </div>
+                </div>
+              );
+            })()}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
               <button className="qz-btn qz-btn-secondary" onClick={() => { setShowResult(false); setTab('ranking'); }}>
