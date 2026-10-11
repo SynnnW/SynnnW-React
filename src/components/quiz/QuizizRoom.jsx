@@ -36,9 +36,8 @@ const getDb = () => {
 /* ════════════════════════════════════════════════
    CONSTANTS & CONFIG
 ════════════════════════════════════════════════ */
-const COL        = 'quizRooms';
+const COL = 'quizRooms';
 const QTIME_DEFAULT = 20; // detik per soal
-const QRIS_IMAGE = '/assets/img/qris.jpg';
 
 const SUBJECTS = [
   { key: 'kesglob', label: '🌍 Kesehatan Global',              color: '#10b981', desc: 'Epidemiologi, SDGs & sistem kesehatan dunia' },
@@ -481,7 +480,6 @@ export default function MultiplayerRoom({ user, onClose }) {
   const [leaderboard, setLeaderboard] = useState([]);
   const [submitted,   setSubmitted]   = useState(false);
   const [myScore,     setMyScore]     = useState(null); // skor lokal setelah submit
-  const [qrisLarge,   setQrisLarge]   = useState(false);
 
   /* ─ Refs ─ */
   const unsubRef  = useRef(null);
@@ -504,7 +502,24 @@ export default function MultiplayerRoom({ user, onClose }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomCode]);
 
-
+  /* ─── Lobby: refresh otomatis setiap 5 detik sebagai fallback ─── */
+  useEffect(() => {
+    if (screen !== 'lobby' || !roomCode) return;
+    const pollId = setInterval(async () => {
+      try {
+        const snap = await getDoc(doc(db, COL, roomCode));
+        if (!snap.exists()) return;
+        const data = { id: snap.id, ...snap.data() };
+        setRoomData(data);
+        if (data.status === 'playing') {
+          clearInterval(pollId);
+          startLocalQuiz(data);
+        }
+      } catch { /* silent */ }
+    }, 5000);
+    return () => clearInterval(pollId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen, roomCode]);
 
   /* ─── Remove self from players ─────────────── */
   const removePlayer = useCallback(async () => {
@@ -519,33 +534,27 @@ export default function MultiplayerRoom({ user, onClose }) {
     } catch { /* silent */ }
   }, [db, roomCode, user]);
 
-  /* ─── onSnapshot: hanya update roomData, transisi screen diurus useEffect di bawah ─── */
+  /* ─── onSnapshot: Lobby ──────────────────── */
   const subscribeRoom = useCallback((code) => {
     unsubRef.current?.();
     const ref = doc(db, COL, code);
     unsubRef.current = onSnapshot(ref, snap => {
       if (!snap.exists()) { setError('Room sudah ditutup.'); setScreen('home'); return; }
       const data = { id: snap.id, ...snap.data() };
-      setRoomData(data); // hanya set state — transisi diurus useEffect terpisah
+      setRoomData(data);
+      // Gunakan screenRef.current agar tidak stale (bukan screen dari closure)
+      if (data.status === 'playing' && screenRef.current === 'lobby') {
+        startLocalQuiz(data);
+      }
+      // Kalau semua sudah submit → tampilkan results
+      if (data.status === 'finished') {
+        const lb = buildLeaderboard(data);
+        setLeaderboard(lb);
+        setScreen('results');
+        unsubRef.current?.();
+      }
     }, err => { console.warn('[MP] snapshot error:', err); });
-  }, [db]);
-
-  /* ─── Transisi screen berdasarkan roomData.status (React-idiomatic, bebas stale closure) ─── */
-  useEffect(() => {
-    if (!roomData) return;
-    // Lobby → Quiz: saat host klik Mulai
-    if (roomData.status === 'playing' && screen === 'lobby') {
-      startLocalQuiz(roomData);
-    }
-    // Waiting → Results: saat semua pemain sudah submit
-    if (roomData.status === 'finished' && screen !== 'results') {
-      const lb = buildLeaderboard(roomData);
-      setLeaderboard(lb);
-      setScreen('results');
-      unsubRef.current?.();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomData?.status, roomData?.scores]);
+  }, [db]); // screen dihapus dari deps — gunakan screenRef.current
 
   /* ─── Build leaderboard from scores map ─────── */
   const buildLeaderboard = (data) => {
@@ -1190,44 +1199,11 @@ export default function MultiplayerRoom({ user, onClose }) {
             💡 Skor = (Benar/Total × 2000) + Bonus Kecepatan (max +500)
           </div>
 
-          {/* ── QRIS Donasi ── */}
-          <div style={{
-            background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.25)',
-            borderRadius: 14, padding: '18px 16px', margin: '16px 0', textAlign: 'center',
-          }}>
-            <div style={{ fontWeight: 700, color: '#e0e0ea', marginBottom: 6, fontSize: '0.92rem' }}>
-              ☕ Dukung Quiz Ini
-            </div>
-            <p style={{ color: '#8888a0', fontSize: '0.78rem', lineHeight: 1.55, marginBottom: 14, margin: '0 0 14px' }}>
-              Kalau sesi multiplayer ini seru & bermanfaat, boleh banget traktir via QRIS 🙏
-            </p>
-            <img
-              src={QRIS_IMAGE}
-              alt="QRIS donasi"
-              style={{ width: 160, maxWidth: '100%', borderRadius: 12, cursor: 'zoom-in', display: 'block', margin: '0 auto' }}
-              onClick={() => setQrisLarge(true)}
-              onError={e => { e.currentTarget.style.display = 'none'; }}
-            />
-            <div style={{ marginTop: 10, fontSize: '0.72rem', color: 'rgba(140,140,160,0.5)' }}>
-              Tap gambar untuk perbesar
-            </div>
-          </div>
-
-          {/* QRIS fullscreen */}
-          {qrisLarge && (
-            <div
-              style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99999, cursor: 'zoom-out', padding: 20 }}
-              onClick={() => setQrisLarge(false)}
-            >
-              <img src={QRIS_IMAGE} alt="QRIS diperbesar" style={{ maxWidth: '100%', maxHeight: '90dvh', borderRadius: 16 }} />
-            </div>
-          )}
-
           <div className="mp-stack" style={{ marginTop: 20 }}>
             <button className="mp-btn mp-btn-primary" onClick={() => {
               setScreen('home'); setRoomCode(''); setRoomData(null);
               setIsHost(false); setLeaderboard([]); setSubmitted(false);
-              setAnswers([]); setQuestions([]); setMyScore(null); setQrisLarge(false);
+              setAnswers([]); setQuestions([]);
             }}>
               🔄 Main Lagi
             </button>
