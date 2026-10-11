@@ -138,9 +138,16 @@ const isNsLeo = (name) => /ns\W*leo/i.test(name);
 const checkIsAdmin = (user) =>
   !!(user && !user.isAnonymous && user.email === ADMIN_EMAIL);
 
-/** Nama koleksi Firestore untuk leaderboard */
-const getLbKey = (subject, type) =>
-  subject && type ? `lb_${subject}_${type === '100' ? 'p100' : 'l50'}` : null;
+/** Nama koleksi Firestore untuk leaderboard
+ *  - Keperawatan: lb_kesglob_p100 / lb_kesglob_l50 / lb_ftk_p100 / lb_ftk_l50
+ *  - Bahasa Inggris: setiap tipe soal punya koleksi sendiri
+ *    (grammar/vocabulary/reading/semua/uts tidak bisa dicampur rankingnya)
+ */
+const getLbKey = (subject, type) => {
+  if (!subject || !type) return null;
+  if (subject === 'eng') return `lb_eng_${type}`; // lb_eng_grammar, lb_eng_vocabulary, dsb.
+  return `lb_${subject}_${type === '100' ? 'p100' : 'l50'}`;
+};
 
 /** Fisher-Yates shuffle (returns new array) */
 const shuffleArray = (arr) => {
