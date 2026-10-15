@@ -1,0 +1,37 @@
+// src/data/quiziz/ftk/bab06/materi.js
+// Diambil apa adanya dari buku ners (Materi FTK Bab 6, file docx yang
+// diupload user — judul internal file-nya "Konsep Dasar Keperawatan" tapi
+// ISINYA falsafah & teori keperawatan, jadi ditempatkan di FTK sesuai yang
+// diminta, bukan di KDK). Tidak ada penambahan konten di luar yang tertulis
+// di buku.
+export const title = "TEORI KEPERAWATAN VIRGINIA HENDERSON";
+
+export const blocks = [
+  { type: 'heading', text: "Capaian Pembelajaran Bab" },
+  { type: 'list', items: ["Menjelaskan riwayat dan kontribusi Virginia Henderson.","Menguraikan empat belas kebutuhan dasar manusia.","Menganalisis konsep kemandirian dan bantuan keperawatan.","Menerapkan teori Henderson pada pengkajian dan perencanaan."] },
+  { type: 'heading', text: "Pendahuluan" },
+  { type: 'paragraph', text: "Virginia Henderson menjelaskan keperawatan melalui bantuan kepada individu dalam melakukan aktivitas yang mendukung kesehatan, pemulihan, atau kematian damai. Bantuan diberikan pada hal yang akan dilakukan individu sendiri bila memiliki kekuatan, kemauan, atau pengetahuan yang cukup." },
+  { type: 'paragraph', text: "Pusat teori Henderson adalah kemandirian. Namun, kemandirian tidak berarti pasien harus melakukan semuanya sendiri. Kemandirian berarti kapasitas mengambil bagian sesuai kemampuan, memahami pilihan, dan memperoleh bantuan yang tepat." },
+  { type: 'paragraph', text: "Empat belas kebutuhan dasar memberi struktur pengkajian. Kerangka ini mudah dipahami, tetapi tidak boleh digunakan sebagai daftar centang mekanis. Setiap kebutuhan saling memengaruhi dan harus dibaca dalam konteks tujuan pasien." },
+  { type: 'heading', text: "Latar Belakang Kehidupan dan Prestasi Virginia Henderson" },
+  { type: 'paragraph', text: "Henderson lahir pada tahun 1897 dan menjadi perawat, peneliti, pendidik, penulis, dan peneliti. Kontribusinya mencakup definisi keperawatan yang berusaha menjelaskan fungsi unik keperawatan. Ia menekankan bahwa perawat perlu memahami pasien, bukan hanya tugas. Ia bekerja sama dengan profesi lain untuk memajukan keperawatan." },
+  { type: 'paragraph', text: "Kontribusi Henderson juga mencakup pengembangan indeks literatur keperawatan yang luas. Upaya dokumentasi tersebut memperkuat akses terhadap pengetahuan ilmiah dan memperkuat keperawatan sebagai disiplin ilmiah yang mandiri." },
+  { type: 'heading', text: "Sumber Teoritis dalam Pengembangan Teori" },
+  { type: 'paragraph', text: "Henderson dipengaruhi fisiologi, psikologi, kebutuhan manusia, dan pengalaman klinis. Ia menggabungkan pandangan biologis dengan pengalaman manusia untuk menjadi holistik. Konsep kekuatan, kemauan, dan pengetahuan menjadi inti teorinya." },
+  { type: 'paragraph', text: "Defisit kekuatan dapat muncul karena motivasi, depresi, atau kekurangan fisik. Defisit pengetahuan terjadi ketika informasi tidak tersedia atau tidak dipahami. Perawat dapat berperan sebagai pengganti, penolong, atau mitra. Peran berubah sesuai kondisi pasien." },
+  { type: 'heading', text: "Asumsi Utama dan 14 Kebutuhan Dasar" },
+  { type: 'paragraph', text: "Kemandirian berarti kemampuan pada setiap kebutuhan. Bantuan tidak tetap; tujuan keperawatan tetap dipertimbangkan. Kematian damai termasuk tujuan keperawatan. Kemandirian tidak hanya fisik tetapi mencakup makan, bergerak, belajar, bekerja, bermain, dan belajar. Masalah bersifat dinamis." },
+  { type: 'heading', text: "14 Kebutuhan Dasar Menurut Virginia Henderson:" },
+  { type: 'list', items: ["Bernapas dengan normal: Kemampuan untuk bernapas secara normal, batuk efektif, dan mempertahankan jalan napas tetap bersih.","Makan dan minum yang cukup: Kemampuan untuk memilih makanan dan minuman yang sesuai, mengkonsumsi, dan menikmati makanan serta minuman yang dibutuhkan tubuh.","Eliminasi: Kemampuan untuk mempertahankan eliminasi urine dan feses yang normal.","Bergerak dan menjaga postur tubuh: Kemampuan untuk bergerak, mempertahankan postur tubuh yang baik, dan melakukan aktivitas fisik.","Tidur dan istirahat yang cukup: Kemampuan untuk tidur, beristirahat, dan relaksasi sesuai kebutuhan tubuh.","Berpakaian dan berpakaian yang tepat: Kemampuan untuk memilih pakaian yang sesuai, berpakaian, dan melepas pakaian.","Suhu tubuh dalam batas normal: Kemampuan untuk mempertahankan suhu tubuh dalam batas normal dengan menyesuaikan pakaian dan lingkungan.","Kebersihan diri dan penampilan rapi: Kemampuan untuk menjaga kebersihan tubuh, kulit, rambut, dan penampilan diri.","Menghindari bahaya dan melindungi diri: Kemampuan untuk menghindari bahaya, mencegah kecelakaan, dan melindungi diri dari bahaya lingkungan.","Berkomunikasi dengan orang lain: Kemampuan untuk berkomunikasi, mengekspresikan kebutuhan, perasaan, opini, dan pikiran.","Beribadah sesuai dengan keyakinan: Kemampuan untuk beribadah, sesuai dengan agama, kepercayaan, dan nilai-nilai yang dianut.","Bekerja dan merasa bermanfaat: Kemampuan untuk bekerja, merasa berguna, dan terlibat dalam kegiatan yang memberikan kepuasan.","Bermain dan rekreasi: Kemampuan untuk menikmati waktu luang, bermain, dan berpartisipasi dalam kegiatan rekreasi.","Belajar dan memuaskan rasa ingin tahu: Kemampuan untuk belajar, menemukan pengetahuan baru, dan memuaskan rasa ingin tahu."] },
+  { type: 'paragraph', text: "\"Perawat membantu individu untuk melakukan hal-hal yang akan dilakukan sendiri jika ia memiliki kekuatan, kemauan, atau pengetahuan yang diperlukan.\" — Virginia Henderson —" },
+  { type: 'heading', text: "Aplikasi dan Pengaruh dalam Keperawatan" },
+  { type: 'paragraph', text: "Pengkajian dapat disusun berdasarkan empat belas kebutuhan. Data subjektif dan objektif dikumpulkan. Perawat menilai apa yang dapat dilakukan pasien, hambatan, sumber daya, dan bantuan yang dibutuhkan." },
+  { type: 'paragraph', text: "Perencanaan berfokus pada peningkatan kemampuan. Contohnya, pasien stroke dilatih makan aman, berpakaian, dan berpindah. Target dipecah menjadi langkah kecil. Keluarga diajarkan membantu tanpa mengambil alih seluruh aktivitas." },
+  { type: 'paragraph', text: "Di komunitas, kebutuhan belajar dan menghindari bahaya sangat penting. Petani dengan hipertensi memerlukan pengetahuan obat, hidrasi, jadwal istirahat, dan tanda bahaya. Rencana perlu menyesuaikan musim kerja serta akses layanan." },
+  { type: 'paragraph', text: "Dokumentasi hendaknya menunjukkan perubahan tingkat bantuan. Catatan \"dibantu mandi\" kurang informatif. Catatan lebih baik menjelaskan bagian yang mampu dilakukan, alat bantu, toleransi aktivitas, dan rencana peningkatan." },
+  { type: 'heading', text: "Adaptasi Budaya" },
+  { type: 'paragraph', text: "Konsep kemandirian dapat dibaca secara individualistik. Dalam budaya kekeluargaan, saling bergantung dapat menjadi kekuatan. Tujuan bukan memisahkan pasien dari keluarga, tetapi mengoptimalkan kemampuan dan pilihan dalam relasi yang sehat." },
+  { type: 'paragraph', text: "Empat belas kebutuhan cukup luas, tetapi isu modern seperti literasi digital, keamanan data, dan akses teknologi perlu dimasukkan dalam kebutuhan belajar, komunikasi, dan menghindari bahaya." },
+];
+
+export const ringkasan = ["Henderson mendefinisikan keperawatan sebagai bantuan menuju kemandirian.","Empat belas kebutuhan dasar bersifat saling berhubungan.","Bantuan didasarkan pada kekuatan, kemauan, dan pengetahuan.","Peran perawat dapat menjadi pengganti, penolong, atau mitra.","Kemandirian perlu ditafsirkan sesuai budaya dan kondisi."];
