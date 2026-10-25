@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { to: '/about',     label: 'About',   key: 'about',   dropdownKey: 'about'   },
   { to: '/journal',   label: 'Journal', key: 'journal', dropdownKey: null      },
   { to: '/price-list', label: 'Price', key: 'price', dropdownKey: null       },
+  { to: '/quiziz',    label: 'Quiziz',  key: 'quiziz',  dropdownKey: null      },
 ];
 
 const DROPDOWN_ITEMS = {
@@ -451,21 +452,6 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
             </div>
           ))}
 
-          {/* Keuangan — hanya muncul saat login */}
-          {user && (
-            <>
-              <div className="nv-divider" aria-hidden="true" />
-              <Link
-                to="/admin-dashboard?tab=pengeluaran"
-                className={`nv-link${isActive('/pengeluaran') ? ' nv-active' : ''}`}
-                role="menuitem"
-                title="Pengeluaran Pribadi"
-              >
-                💰
-              </Link>
-            </>
-          )}
-
           {/* Divider */}
           <div className="nv-divider" aria-hidden="true" />
 
@@ -581,17 +567,6 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
                 )}
               </div>
             ))}
-
-            {/* Keuangan — hanya saat login */}
-            {user && (
-              <Link
-                to="/admin-dashboard?tab=pengeluaran"
-                className={`nv-drawer-link${isActive('/pengeluaran') ? ' nv-active' : ''}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                Keuangan
-              </Link>
-            )}
 
             {/* Divider */}
             <div className="nv-drawer-divider" aria-hidden="true" />
