@@ -184,21 +184,6 @@ export default function FloatingUtils() {
 
   return (
     <>
-      {/* WhatsApp Button — kiri bawah, selalu visible */}
-      <div className="fu-container fu-wa">
-        <a
-          href="https://wa.me/6281252790018"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="fu-btn wa-btn"
-          data-tip="Chat WhatsApp"
-          aria-label="Contact via WhatsApp"
-          title="Chat WhatsApp"
-        >
-          <i className="fa-brands fa-whatsapp" />
-        </a>
-      </div>
-
       {/* Back to Top Button — kanan bawah, visible after scroll 400px */}
       <div className="fu-container fu-top">
         <button
