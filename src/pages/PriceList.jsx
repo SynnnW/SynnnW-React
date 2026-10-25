@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth, db } from '@/supabaseClient';
 import { onAuthStateChanged } from '@/lib/authCompat';
 import { collection, onSnapshot } from '@/lib/firestoreCompat';
+import { Reveal, Arrow } from '../components/BentoKit';
 
 const CSS = `
 /* ── Reveal ── */
@@ -449,6 +450,37 @@ const CSS = `
 }
 .pl-compliance-disclaimer i { color: var(--accent3); margin-right: 8px; font-size: 0.75rem; }
 .pl-compliance-disclaimer strong { color: var(--text); font-weight: 700; }
+
+/* ══════ BENTO OVERRIDE (redesign) ══════ */
+.pl-page.bn { padding: 112px var(--bn-pad) 90px; background: transparent; }
+.pl-bn .pl-hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.pl-bn .pl-hero-pill { background: var(--glass2); border: 1px solid var(--border2); }
+.pl-bn .pl-hot-btn { color: #fff; border-color: rgba(255,255,255,0.55); align-self: flex-start; position: relative; z-index: 1; }
+.pl-bn .pl-hot-btn:hover { background: rgba(255,255,255,0.18); border-color: #fff; }
+.pl-bn .pl-currency-bar { padding: 14px 24px; border: 1px solid var(--border2); border-radius: 22px; }
+.pl-bn .pl-notice { padding: 14px 24px; border: 1px solid rgba(139,92,246,0.22); border-radius: 22px; }
+.pl-bn .pl-body { padding: 0; gap: clamp(48px, 7vw, 84px); }
+.pl-bn .pl-section { gap: 24px; }
+.pl-bn .pl-section-icon { width: 46px; height: 46px; border-radius: 14px; background: var(--glass2); border: 1px solid var(--border2); color: var(--accent2); font-size: 1.05rem; }
+.pl-bn .pl-section-title { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.025em; }
+.pl-bn .pl-section-sub { font-size: 0.86rem; }
+.pl-bn .pl-grid { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: var(--bn-gap); }
+.pl-bn .pl-card { border-radius: 28px; border: 1px solid var(--border2); background: var(--glass); }
+.pl-bn .pl-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: 0 22px 54px -18px rgba(139,92,246,0.4); }
+.pl-bn .pl-card-soon:hover { transform: none; box-shadow: none; }
+.pl-bn .pl-card-badges { padding: 18px 18px 0; }
+.pl-bn .pl-card-body { padding: 14px 20px 18px; }
+.pl-bn .pl-card-icon-wrap { width: 48px; height: 48px; border-radius: 16px; color: var(--accent2); }
+.pl-bn .pl-card-name { font-size: 1.02rem; font-weight: 500; letter-spacing: -0.01em; }
+.pl-bn .pl-card-short { font-size: 0.78rem; }
+.pl-bn .pl-card-price { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; }
+.pl-bn .pl-card-actions { padding: 14px 20px 20px; }
+.pl-bn .pl-btn-add, .pl-bn .pl-btn-notify, .pl-bn .pl-btn-discuss, .pl-bn .pl-qty-control, .pl-bn .pl-btn-full { border-radius: 99px; }
+.pl-bn .pl-btn-add:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pl-bn .pl-addon-card { border-radius: 18px; }
+.pl-bn .pl-compliance-disclaimer { max-width: 1180px; margin: 40px auto 0; border: 1px solid var(--border2); border-radius: 22px; padding: 22px 28px; }
+@media (max-width: 1024px) { .pl-bn .pl-currency-bar, .pl-bn .pl-notice { padding: 12px 20px; } }
+@media (max-width: 640px) { .pl-page.bn { padding-top: 96px; } .pl-bn .pl-grid { grid-template-columns: 1fr; } }
 `;
 
 
@@ -974,16 +1006,7 @@ export default function PriceList({ t = {} }) {
     <>
       <style>{CSS}</style>
 
-      <div className="pl-page">
-
-        {/* ══════ LOGIN / DASHBOARD FAB (Prompt 5 — Bagian 1) ══════ */}
-        <button
-          className="pl-login-fab"
-          onClick={() => navigate(currentUser ? '/Dashboard' : '/login')}
-        >
-          <i className={`fa-solid ${currentUser ? 'fa-gauge' : 'fa-right-to-bracket'}`} />
-          <span>{currentUser ? 'Dashboard →' : 'Masuk / Daftar →'}</span>
-        </button>
+      <div className="pl-page bn pl-bn">
 
         {/* ══════ FLOATING CART BUTTON ══════ */}
         {cartCount > 0 && (
@@ -994,29 +1017,39 @@ export default function PriceList({ t = {} }) {
           </button>
         )}
 
-        {/* ══════ HERO ══════ */}
-        <div className="pl-hero">
-          <div className="pl-orb pl-orb1" /><div className="pl-orb pl-orb2" /><div className="pl-orb pl-orb3" />
-          <div className="pl-hero-inner">
-            <span ref={r} className="pl-page-label reveal">{t.plPageLabel}</span>
-            <h1 ref={r} className="pl-hero-title reveal rv-d1">
-              <span>{t.plHeroTitle}</span><br />
-              <em>{t.plHeroTitleEm}</em>
+        <div className="bn-wrap pl-wrap">
+        {/* ══════ HERO (bento) ══════ */}
+        <div className="bn-grid">
+          <Reveal className="bn-card bn-hello bn-span-4">
+            <span className="bn-kicker">{t.plPageLabel}</span>
+            <h1 className="bn-title">
+              {t.plHeroTitle} <span>{t.plHeroTitleEm}</span>
             </h1>
-            <p ref={r} className="pl-hero-sub reveal rv-d2">
-              Pilih layanan, tap buat lihat detail, tambah ke wishlist atau langsung pesan.<br />
-              {t.plHeroSub}
+            <p className="bn-lead">
+              Pilih layanan, tap buat lihat detail, tambah ke wishlist atau langsung pesan. {t.plHeroSub}
             </p>
-            <div ref={r} className="pl-hero-pills reveal rv-d3">
+            <div className="pl-hero-pills">
               <span className="pl-hero-pill"><i className="fa-solid fa-tag" /> {t.plPillTransparent}</span>
               <span className="pl-hero-pill"><i className="fa-solid fa-rotate" /> {t.plPillRevisi}</span>
               <span className="pl-hero-pill"><i className="fa-solid fa-shield-halved" /> {t.plPillFile}</span>
             </div>
-          </div>
-          <div ref={r} className="pl-scroll-hint reveal rv-d4">
-            <span>{t.plScrollHint}</span>
-            <i className="fa-solid fa-arrow-down" />
-          </div>
+          </Reveal>
+
+          <Reveal className="bn-card bn-hot bn-span-2" delay={0.08}>
+            <span className="bn-kicker" style={{ color: 'rgba(255,255,255,.85)' }}>
+              {CATEGORIES.length} kategori
+            </span>
+            <div>
+              <div className="bn-big">{CATEGORIES.reduce((n, c) => n + c.items.length, 0)}</div>
+              <small>layanan di daftar</small>
+            </div>
+            <button
+              className="bn-btn pl-hot-btn"
+              onClick={() => navigate(currentUser ? '/Dashboard' : '/login')}
+            >
+              {currentUser ? 'Dashboard' : 'Masuk / Daftar'} <Arrow />
+            </button>
+          </Reveal>
         </div>
 
         {/* ══════ CURRENCY TOGGLE BAR ══════ */}
@@ -1213,6 +1246,8 @@ export default function PriceList({ t = {} }) {
               )}
             </section>
           ))}
+        </div>
+
         </div>
 
         {/* ══════ DETAIL BOTTOM SHEET ══════ */}
