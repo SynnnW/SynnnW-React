@@ -728,6 +728,51 @@ const CSS = `
   background: var(--gborder);
   border-radius: 10px;
 }
+
+/* ══════ BENTO OVERRIDE (redesign) ══════ */
+.auth-page {
+  background:
+    repeating-linear-gradient(118deg, transparent 0 54px, rgba(255,255,255,0.045) 54px 55px),
+    radial-gradient(60% 40% at 85% 0%, rgba(139,92,246,0.24), transparent 70%),
+    radial-gradient(50% 36% at 0% 70%, rgba(236,72,153,0.12), transparent 70%),
+    #070709;
+}
+.auth-page::before, .auth-page::after { display: none; }
+.auth-sidebar { background: transparent; border-right: 0; padding: 44px clamp(20px, 3vw, 44px) 44px clamp(20px, 4vw, 64px); gap: 22px; overflow-x: hidden; }
+.auth-logo { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 1.3rem; letter-spacing: -0.02em; }
+.auth-logo-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gborder2); }
+.auth-sidebar-label { color: var(--text-dim); letter-spacing: 0.2em; }
+.auth-feed { gap: 28px; padding: 6px 4px 4px; }
+.auth-feed-item { position: relative; display: block; padding: 0; aspect-ratio: 16 / 10; border-radius: 26px; overflow: visible; isolation: isolate; transition: none; }
+.auth-feed-item:hover { transform: none; }
+.auth-feed-glow { position: absolute; inset: -18px; z-index: -1; border-radius: 42px; background-size: cover; background-position: center; filter: blur(26px) saturate(1.5); opacity: 0.4; transition: opacity 0.5s; }
+.auth-feed-item:hover .auth-feed-glow, .auth-feed-item:focus-visible .auth-feed-glow { opacity: 0.8; }
+.auth-feed-item-img { position: absolute; inset: 0; width: auto; height: auto; border-radius: 26px; border: 1px solid rgba(255,255,255,0.13); background: #0b0b13; }
+.auth-feed-item-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,6,12,0.05) 30%, rgba(5,6,12,0.92) 100%); }
+.auth-feed-item-img.is-png img, .auth-feed-item-img.is-cover img { object-fit: cover; transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+.auth-feed-item:hover .auth-feed-item-img img { transform: scale(1.06); }
+.auth-feed-item-text { position: absolute; left: 22px; right: 22px; bottom: 18px; z-index: 2; gap: 5px; }
+.auth-feed-item-label { color: rgba(255,255,255,0.68); font-size: 0.6rem; }
+.auth-feed-item-title { font-size: 1.1rem; font-weight: 500; letter-spacing: -0.015em; }
+.auth-feed-item-desc { white-space: normal; color: rgba(255,255,255,0.7); }
+.auth-card { border-radius: 32px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 30px 80px -34px rgba(139,92,246,0.55); }
+.auth-title { font-family: 'Outfit', sans-serif; font-weight: 500; letter-spacing: -0.03em; font-size: 2.4rem; }
+.auth-tabs { padding: 4px; gap: 4px; border: 1px solid rgba(255,255,255,0.1); border-radius: 99px; background: rgba(255,255,255,0.05); }
+.auth-tab { border-bottom: 0; border-radius: 99px; padding: 11px; }
+.auth-tab.active { border-bottom: 0; background: #fff; color: #111; }
+.auth-input, .auth-phone-select { border-radius: 16px; border-color: rgba(255,255,255,0.12); }
+.auth-btn { border-radius: 99px; }
+@media (min-width: 769px) {
+  .auth-right { align-items: flex-start; }
+  .auth-card { position: sticky; top: 96px; }
+}
+@media (max-width: 768px) {
+  .auth-sidebar { max-height: none; padding: 20px 16px 8px; border-bottom: 0; overflow-x: hidden; }
+  .auth-feed { flex-direction: row; overflow-x: auto; gap: 18px; padding: 8px 4px 14px; scrollbar-width: none; }
+  .auth-feed::-webkit-scrollbar { display: none; }
+  .auth-feed-item { flex: 0 0 260px; width: 260px; }
+  .auth-title { font-size: 1.9rem; }
+}
 `;
 
 // ═════════════════════════════════════════════════════════════
@@ -741,8 +786,8 @@ const FEED_ITEMS = [
     title: 'Ruang Kepala',
     description: 'Film Festival Cendana 2025 — SMAN 1 Kraksaan',
     icon: 'fa-film',
-    image: '/assets/img/1.png',
-    isPng: true,
+    image: '/assets/thumbs/kepala.webp',
+    isPng: false,
     link: '/works/ruang-kepala-2024',
   },
   {
@@ -752,7 +797,7 @@ const FEED_ITEMS = [
     title: 'Suara Sumbang Angin Utara',
     description: 'Film Festival Cendana 2025 — Probolinggo',
     icon: 'fa-award',
-    image: '/assets/img/livestream.png',
+    image: '/assets/thumbs/sumbang.webp',
     isPng: false,
     link: '/works/suara-sumbang-angin-utara-2025',
   },
@@ -763,8 +808,8 @@ const FEED_ITEMS = [
     title: 'Interactive Birthday Gift',
     description: 'HTML/CSS/JS · AI Integration · Mini Games',
     icon: 'fa-code',
-    image: '/assets/img/2.png',
-    isPng: true,
+    image: '/assets/thumbs/image.webp',
+    isPng: false,
     link: '/works/birthday-gift',
   },
 ];
@@ -856,7 +901,8 @@ const FeedCard = memo(({ item, navigate }) => {
       title={item.title}
       type="button"
     >
-      {/* Image: left side */}
+      <span className="auth-feed-glow" style={{ backgroundImage: `url(${item.image})` }} />
+      {/* Image */}
       <div className={`auth-feed-item-img ${item.isPng ? 'is-png' : 'is-cover'}`}>
         <img
           src={item.image}
@@ -1107,7 +1153,7 @@ export default function AuthLogin() {
       {/* ── LEFT SIDEBAR: Portfolio Feed (Horizontal) ── */}
       <div className="auth-sidebar">
         <div className="auth-logo">
-          <i className="fa-solid fa-sparkles" />
+          <img className="auth-logo-img" src="/assets/img/favicon.png" alt="" />
           SynnnW
         </div>
 
