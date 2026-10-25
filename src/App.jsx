@@ -62,7 +62,6 @@ const WorkDetail27 = lazy(() => import('./pages/WorkDetail27'));
 
 /* ── 404 & Pengeluaran ── */
 const NotFound    = lazy(() => import('./pages/NotFound'));
-const Pengeluaran = lazy(() => import('./pages/Pengeluaran'));
 
 /* ── Quiz pages — fullscreen, tidak ada di navbar ──
  *  Untuk menambah quiz baru:
@@ -208,7 +207,7 @@ function Layout({ user }) {
                 <Route path="/journal/karya1" element={<JournalKarya1 t={t} lang={lang} toggleLang={toggleLang} />} />
 
                 {/* ── PENGELUARAN PRIBADI ── */}
-                <Route path="/pengeluaran" element={<Pengeluaran />} />
+                <Route path="/pengeluaran" element={<Navigate to="/admin-dashboard?tab=pengeluaran" replace />} />
 
                 {/* ── UTILITY ── */}
                 <Route path="/preview-logo" element={<PreviewLogo t={t} lang={lang} toggleLang={toggleLang} />} />

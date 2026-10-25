@@ -1,16 +1,12 @@
 // src/pages/Pengeluaran.jsx
-// Personal Expense Tracker — SynnnW Studio
-// Route: /pengeluaran (protected, butuh login)
+// Pengeluaran Bulanan — sekarang jadi TAB di Admin Dashboard (bukan halaman terpisah).
+// Data langsung ke Supabase:
+//   • transaksi → tabel `pengeluaran` (nama=keterangan, jumlah, kategori, data.{date,month})
+//   • budget    → tabel `settings`, id `pengeluaran-budget-YYYY-MM`, data.amount
+// Dua tabel itu dilindungi RLS is_admin(), jadi cuma akun admin yang bisa baca/tulis.
 
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth, db, provider } from '@/supabaseClient';
-import {
-  collection, query, where, onSnapshot,
-  addDoc, deleteDoc, doc, setDoc, getDoc,
-  serverTimestamp, orderBy,
-} from '@/lib/firestoreCompat';
-import { onAuthStateChanged, signInWithPopup } from '@/lib/authCompat';
+import { supabase } from '@/supabaseClient';
 
 /* ══════════════════════════════════════════════════════
    CATEGORIES
@@ -223,6 +219,19 @@ const CSS = `
   .pe-modal { padding:28px 20px; border-radius:20px; }
   .pe-header { padding:32px 0 24px; }
 }
+/* ── Embedded di Admin Dashboard ── */
+.pe-embed { position:relative; min-width:0; }
+.pe-embed .pe-header { padding:0 0 22px; }
+.pe-embed .pe-fab { right:24px; }
+.pe-loaderr { padding:14px 18px; border-radius:14px; margin-bottom:18px; font-size:.8rem; color:#f87171; background:rgba(239,68,68,.07); border:1px solid rgba(239,68,68,.3); }
+@media(max-width:900px){
+  .pe-embed .pe-fab { bottom:calc(22px + env(safe-area-inset-bottom,0px)); }
+  .pe-stats-row { gap:10px; }
+  .pe-stat-box { min-width:0; flex:1 1 calc(50% - 10px); }
+  .pe-bc-top .pe-set-btn { width:100%; justify-content:center; }
+  .pe-month-lbl { min-width:0; }
+  .pe-exp-del { opacity:1; }
+}
 [data-theme="light"] .pe-input { background:rgba(0,0,0,.03);border-color:rgba(90,90,160,.15); }
 [data-theme="light"] .pe-input:focus { background:rgba(124,58,237,.04);border-color:rgba(124,58,237,.35); }
 [data-theme="light"] .pe-stat-box { background:rgba(0,0,0,.03);border-color:rgba(90,90,160,.12); }
@@ -235,9 +244,7 @@ const CSS = `
    COMPONENT
 ══════════════════════════════════════════════════════ */
 export default function Pengeluaran() {
-  /* ── Auth ── */
-  const [user, setUser]               = useState(undefined); // undefined = masih loading
-  const [loginLoading, setLoginLoading] = useState(false);
+  const [loadErr, setLoadErr] = useState('');
 
   /* ── Data ── */
   const [expenses, setExpenses]     = useState([]);
@@ -274,39 +281,40 @@ export default function Pengeluaran() {
     return () => document.getElementById('pe-styles')?.remove();
   }, []);
 
-  /* ── Auth listener ── */
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, u => setUser(u));
-    return () => unsub();
-  }, []);
+  /* ── Load data dari Supabase ── */
+  const loadExpenses = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('pengeluaran')
+      .select('id, nama, jumlah, kategori, data, created_at')
+      .eq('data->>month', currentMonth)
+      .order('created_at', { ascending: false });
+    if (error) { console.error('[Pengeluaran] load:', error); setLoadErr(error.message); setExpenses([]); return; }
+    setLoadErr('');
+    setExpenses((data || []).map(r => ({
+      id: r.id,
+      amount: Number(r.jumlah) || 0,
+      category: r.kategori,
+      description: r.nama || '',
+      date: r.data?.date || String(r.created_at || '').slice(0, 10),
+    })));
+  }, [currentMonth]);
 
-  /* ── Load data dari Firestore ── */
   useEffect(() => {
-    if (!user) { setDataLoading(false); return; }
+    let alive = true;
     setDataLoading(true);
-
-    // Budget untuk bulan ini
-    getDoc(doc(db, 'pengeluaran', user.uid, 'budget', currentMonth))
-      .then(snap => {
-        const val = snap.exists() ? (snap.data().amount || 0) : 0;
-        setBudget(val);
-        setBudgetInput(String(val));
-      })
-      .catch(() => { setBudget(0); setBudgetInput('0'); });
-
-    // Expenses realtime
-    const q = query(
-      collection(db, 'pengeluaran', user.uid, 'expenses'),
-      where('month', '==', currentMonth),
-      orderBy('createdAt', 'desc')
-    );
-    const unsub = onSnapshot(
-      q,
-      snap => { setExpenses(snap.docs.map(d => ({ id: d.id, ...d.data() }))); setDataLoading(false); },
-      ()    => setDataLoading(false)
-    );
-    return () => unsub();
-  }, [user, currentMonth]);
+    (async () => {
+      const [, b] = await Promise.all([
+        loadExpenses(),
+        supabase.from('settings').select('data').eq('id', `pengeluaran-budget-${currentMonth}`).maybeSingle(),
+      ]);
+      if (!alive) return;
+      const val = Number(b?.data?.data?.amount) || 0;
+      setBudget(val);
+      setBudgetInput(String(val));
+      setDataLoading(false);
+    })();
+    return () => { alive = false; };
+  }, [currentMonth, loadExpenses]);
 
   /* ── Computed ── */
   const totalSpent = expenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
@@ -340,13 +348,6 @@ export default function Pengeluaran() {
   }, [isOver, budget, totalSpent, currentMonth, overNotified]);
 
   /* ── Handlers ── */
-  const handleLogin = async () => {
-    setLoginLoading(true);
-    try { await signInWithPopup(auth, provider); }
-    catch (err) { console.error('[Pengeluaran] Login error:', err); }
-    finally { setLoginLoading(false); }
-  };
-
   const handleAddExpense = async () => {
     if (!amount || !category) { setFormErr('Nominal dan kategori wajib diisi.'); return; }
     const num = Number(String(amount).replace(/\D/g, ''));
@@ -354,19 +355,21 @@ export default function Pengeluaran() {
     setFormErr('');
     setSubmitting(true);
     try {
-      await addDoc(collection(db, 'pengeluaran', user.uid, 'expenses'), {
-        amount:      num,
-        category,
-        description: desc.trim(),
-        date:        date || todayISO(),
-        month:       currentMonth,
-        createdAt:   serverTimestamp(),
+      const d = date || todayISO();
+      const month = d.slice(0, 7);
+      const { error } = await supabase.from('pengeluaran').insert({
+        nama: desc.trim(),
+        jumlah: num,
+        kategori: category,
+        data: { date: d, month },
       });
+      if (error) throw error;
       setAmount(''); setCategory(''); setDesc(''); setDate(todayISO());
       setShowAdd(false);
+      if (month !== currentMonth) setCurrentMonth(month); else await loadExpenses();
     } catch (err) {
       console.error('[Pengeluaran] Add error:', err);
-      setFormErr('Gagal menyimpan. Periksa koneksi dan coba lagi.');
+      setFormErr('Gagal menyimpan: ' + (err.message || 'periksa koneksi dan coba lagi.'));
     } finally {
       setSubmitting(false);
     }
@@ -374,18 +377,27 @@ export default function Pengeluaran() {
 
   const handleDelete = useCallback(async (id) => {
     if (!window.confirm('Hapus pengeluaran ini?')) return;
-    await deleteDoc(doc(db, 'pengeluaran', user.uid, 'expenses', id)).catch(console.error);
-  }, [user]);
+    const { error } = await supabase.from('pengeluaran').delete().eq('id', id);
+    if (error) { console.error(error); window.alert('Gagal menghapus: ' + error.message); return; }
+    setExpenses(list => list.filter(e => e.id !== id));
+  }, []);
 
   const handleBudgetSave = async () => {
     const val = Number(String(budgetInput).replace(/\D/g, ''));
     setBudgetSaving(true);
     try {
-      await setDoc(doc(db, 'pengeluaran', user.uid, 'budget', currentMonth), { amount: val });
+      const { error } = await supabase.from('settings').upsert({
+        id: `pengeluaran-budget-${currentMonth}`,
+        data: { amount: val },
+        updated_at: new Date().toISOString(),
+      });
+      if (error) throw error;
       setBudget(val);
       setShowBudget(false);
-    } catch (err) { console.error('[Pengeluaran] Budget save error:', err); }
-    finally { setBudgetSaving(false); }
+    } catch (err) {
+      console.error('[Pengeluaran] Budget save error:', err);
+      window.alert('Gagal menyimpan budget: ' + (err.message || ''));
+    } finally { setBudgetSaving(false); }
   };
 
   const requestNotif = async () => {
@@ -400,50 +412,16 @@ export default function Pengeluaran() {
     setExpenses([]);
   };
 
-  /* ══ RENDER: Loading auth ══ */
-  if (user === undefined) {
-    return (
-      <div className="pe-page">
-        <div className="pe-loading">
-          <div className="pe-spin" style={{ width: 28, height: 28, borderWidth: 3 }} />
-          <p>MEMUAT...</p>
-        </div>
-      </div>
-    );
-  }
-
-  /* ══ RENDER: Not logged in ══ */
-  if (!user) {
-    return (
-      <div className="pe-page">
-        <div className="pe-orb pe-o1" /><div className="pe-orb pe-o2" />
-        <div className="pe-login-wrap">
-          <div className="pe-login-card">
-            <span className="pe-login-icon">💰</span>
-            <h1 className="pe-login-title">Keuangan <em>Pribadi</em></h1>
-            <p className="pe-login-sub">
-              Pantau pengeluaran bulanan, atur budget, dan dapatkan alert sebelum limit terlampaui — semua dalam satu tempat.
-            </p>
-            <button className="pe-gbtn" onClick={handleLogin} disabled={loginLoading}>
-              {loginLoading
-                ? <><span className="pe-spin" /><span>Menghubungkan...</span></>
-                : <><i className="fa-brands fa-google" style={{ fontSize: '1.05rem' }} /><span>Lanjutkan dengan Google</span></>
-              }
-            </button>
-            <p className="pe-login-note">
-              Gunakan akun Google yang sama dengan akun SynnnW Studio kamu.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  /* ══ RENDER: Dashboard ══ */
+  /* ══ RENDER ══ */
   return (
-    <div className="pe-page">
-      <div className="pe-orb pe-o1" /><div className="pe-orb pe-o2" />
-      <div className="pe-wrap">
+    <div className="pe-embed">
+      <div className="pe-wrap-in">
+
+        {loadErr && (
+          <div className="pe-loaderr">
+            <i className="fa-solid fa-triangle-exclamation" /> Gagal memuat data: {loadErr}
+          </div>
+        )}
 
         {/* ── Header ── */}
         <div className="pe-header">
@@ -452,7 +430,7 @@ export default function Pengeluaran() {
               <i className="fa-solid fa-wallet" style={{ marginRight: 7 }} />
               Keuangan Pribadi
             </span>
-            <h1 className="pe-title">Pengeluaran <em>Bulanan</em></h1>
+            <h2 className="pe-title">Pengeluaran <em>Bulanan</em></h2>
           </div>
           <div className="pe-month-nav">
             <button className="pe-month-btn" onClick={() => handleMonthChange(-1)} title="Bulan sebelumnya">

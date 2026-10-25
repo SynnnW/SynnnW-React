@@ -456,7 +456,7 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
             <>
               <div className="nv-divider" aria-hidden="true" />
               <Link
-                to="/pengeluaran"
+                to="/admin-dashboard?tab=pengeluaran"
                 className={`nv-link${isActive('/pengeluaran') ? ' nv-active' : ''}`}
                 role="menuitem"
                 title="Pengeluaran Pribadi"
@@ -585,7 +585,7 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
             {/* Keuangan — hanya saat login */}
             {user && (
               <Link
-                to="/pengeluaran"
+                to="/admin-dashboard?tab=pengeluaran"
                 className={`nv-drawer-link${isActive('/pengeluaran') ? ' nv-active' : ''}`}
                 onClick={() => setMenuOpen(false)}
               >

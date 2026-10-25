@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PengeluaranTab from './Pengeluaran';
 import { auth, db } from '@/supabaseClient';
 import { signOut, onAuthStateChanged } from '@/lib/authCompat';
 import {
@@ -653,7 +654,10 @@ function getLast6Months() {
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState(() => {
+    const t = new URLSearchParams(window.location.search).get('tab');
+    return ['overview','orders','customers','prices','clientPrices','dashboardEditor','qris','pengeluaran'].includes(t) ? t : 'overview';
+  });
   const [orders, setOrders] = useState([]);
   const [prices, setPrices] = useState([]);
   const [users, setUsers] = useState([]);
@@ -755,6 +759,7 @@ export default function AdminDashboard() {
     { id: 'clientPrices', icon: 'fa-coins', label: 'Harga Klien' },
     { id: 'dashboardEditor', icon: 'fa-sliders', label: 'Dashboard Editor' },
     { id: 'qris', icon: 'fa-qrcode', label: 'QRIS Settings' },
+    { id: 'pengeluaran', icon: 'fa-wallet', label: 'Pengeluaran' },
   ];
 
   return (
@@ -844,6 +849,7 @@ export default function AdminDashboard() {
           {activeTab === 'clientPrices' && <ClientPricesTab orders={orders} />}
           {activeTab === 'dashboardEditor' && <DashboardEditorTab orders={orders} />}
           {activeTab === 'qris' && <QrisTab />}
+          {activeTab === 'pengeluaran' && <PengeluaranTab />}
         </div>
       </div>
     </>
