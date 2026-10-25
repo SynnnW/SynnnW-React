@@ -261,7 +261,7 @@ export default function About({ lang: propLang }) {
               <>
                 <p className="bn-lead">Kreator digital dari Jawa Timur yang nggak cuma bisa satu hal.</p>
                 <p className="bn-lead">
-                  Sekarang masih jadi mahasiswa (kabar kuliahnya nyusul), tapi terbuka buat kolaborasi apapun.
+                  Sekarang kuliah S1 di Fakultas Keperawatan Universitas Jember dan aktif di BEM FKEP, tapi tetap terbuka buat kolaborasi apapun.
                   Ngurusin web, video, live streaming, ilustrasi, sampai foto. Filosofinya sederhana: proyekmu aku garap kayak punya sendiri.
                 </p>
               </>
@@ -269,7 +269,7 @@ export default function About({ lang: propLang }) {
               <>
                 <p className="bn-lead">A multidisciplinary digital creator — not a generalist, a specialist in multiple crafts.</p>
                 <p className="bn-lead">
-                  Based in East Java, Indonesia. Currently a university student (status: awaiting announcement), open to collaboration at any scale.
+                  Based in East Java, Indonesia. Currently an undergraduate student at the Faculty of Nursing, University of Jember, and an active member of BEM FKEP — still open to collaboration at any scale.
                   Web development, video production, live streaming, illustration and photography. Philosophy: your project gets treated like mine.
                 </p>
               </>
