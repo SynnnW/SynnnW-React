@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Reveal, Arrow } from '../components/BentoKit';
+import { waLink } from '../lib/bento';
 
 /* ─────────────────────────────────────────────────────────────
    SECTIONS DATA
@@ -23,396 +25,82 @@ const SECTIONS = [
    CSS
 ───────────────────────────────────────────────────────────── */
 const CSS = `
-/* ── Page ── */
-.tos-page {
-  min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Outfit', sans-serif;
-  padding-top: 64px;
-}
+/* ══════ TERMS — gaya bento (pakai kit .bn dari bento.css) ══════ */
+.tos-page.bn { padding-top: 112px; }
+.tos-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.tos-meta-pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border-radius: 99px; font-size: 0.72rem; color: var(--text-dim); background: var(--glass2); border: 1px solid var(--border2); }
+.tos-meta-pill i { color: var(--accent2); font-size: 0.68rem; }
+.tos-hot-btn { color: #fff; border-color: rgba(255,255,255,0.55); align-self: flex-start; }
+.tos-hot-btn:hover { background: rgba(255,255,255,0.18); border-color: #fff; }
 
-/* ── Page header ── */
-.tos-header {
-  padding: 60px 80px 40px;
-  border-bottom: 1px solid var(--border);
-  max-width: 1180px;
-  margin: 0 auto;
-}
-.tos-header-label {
-  display: inline-block;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--accent3);
-  margin-bottom: 14px;
-  font-style: normal;
-}
-.tos-header-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 300;
-  color: var(--text);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  margin: 0 0 16px;
-}
-.tos-header-sub {
-  font-size: 0.9rem;
-  color: var(--text-dim);
-  margin: 0 0 20px;
-}
-.tos-header-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.tos-meta-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 14px;
-  background: var(--glass);
-  border: 1px solid var(--gborder);
-  border-radius: 99px;
-  font-size: 0.7rem;
-  color: var(--text-dim);
-  letter-spacing: 0.04em;
-}
-.tos-meta-pill i { color: var(--accent3); font-size: 0.65rem; }
+/* ── Layout: sidebar + konten ── */
+.tos-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: var(--bn-gap); align-items: start; }
+.tos-sidebar { position: sticky; top: 88px; padding: 22px 14px; max-height: calc(100vh - 110px); overflow-y: auto; scrollbar-width: thin; }
+.tos-toc-brand { font-size: 1.05rem; font-weight: 500; padding: 0 10px; }
+.tos-toc-brand span { color: var(--accent2); }
+.tos-toc-sub { display: block; padding: 2px 10px 14px; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+.tos-toc-item { display: flex; gap: 10px; align-items: baseline; padding: 9px 10px; border-radius: 12px; text-decoration: none; transition: background 0.2s; }
+.tos-toc-item:hover { background: var(--glass2); }
+.tos-toc-item.active { background: var(--accent); }
+.tos-toc-num { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--text-dim); }
+.tos-toc-label { font-size: 0.82rem; color: var(--text-dim); line-height: 1.3; }
+.tos-toc-item.active .tos-toc-num, .tos-toc-item.active .tos-toc-label { color: #fff; }
 
-/* ── Layout ── */
-.tos-layout {
-  display: flex;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 80px 120px;
-  gap: 0;
-  align-items: flex-start;
-  position: relative;
-}
-
-/* ── Sidebar ── */
-.tos-sidebar {
-  width: 260px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(139,92,246,0.2) transparent;
-  border-right: 1px solid var(--border);
-  padding: 32px 24px 32px 0;
-}
-.tos-sidebar::-webkit-scrollbar { width: 4px; }
-.tos-sidebar::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.2); border-radius: 4px; }
-
-.tos-toc-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text);
-  margin: 0 0 2px;
-}
-.tos-toc-brand span { color: var(--accent3); }
-.tos-toc-sub {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(167,139,250,0.5);
-  margin-bottom: 20px;
-  display: block;
-}
-.tos-toc-divider { height: 1px; background: var(--border); margin: 0 0 16px; }
-
-.tos-toc-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 7px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.18s, color 0.18s;
-  text-decoration: none;
-  margin-bottom: 2px;
-}
-.tos-toc-item:hover { background: var(--glass); }
-.tos-toc-item.active {
-  background: rgba(139,92,246,0.08);
-  border-left: 2px solid var(--accent3);
-  padding-left: 8px;
-}
-.tos-toc-num {
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: rgba(167,139,250,0.45);
-  margin-top: 1px;
-  flex-shrink: 0;
-  font-family: 'Outfit', sans-serif;
-}
-.tos-toc-item.active .tos-toc-num { color: var(--accent3); }
-.tos-toc-label {
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--text-dim);
-  line-height: 1.3;
-  font-family: 'Outfit', sans-serif;
-}
-.tos-toc-item.active .tos-toc-label {
-  color: var(--accent3);
-  font-weight: 600;
-}
-
-/* ── Main content ── */
-.tos-main {
-  flex: 1;
-  padding: 40px 0 40px 56px;
-  max-width: 760px;
-}
-
-/* ── Section ── */
-.tos-section {
-  margin-bottom: 64px;
-  scroll-margin-top: 90px;
-}
-.tos-sec-num {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent3);
-  margin-bottom: 8px;
-  font-family: 'Outfit', sans-serif;
-}
-.tos-sec-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.65rem;
-  font-weight: 400;
-  color: var(--text);
-  margin: 0 0 20px;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-}
-.tos-sec-divider { height: 1px; background: var(--border); margin: 0 0 24px; }
-
-/* ── Body text ── */
-.tos-p {
-  font-size: 0.95rem;
-  line-height: 1.85;
-  color: var(--text-dim);
-  margin: 0 0 16px;
-}
-.tos-p:last-child { margin-bottom: 0; }
-
-/* ── List ── */
-.tos-list {
-  list-style: none;
-  padding: 0; margin: 0 0 16px;
-  display: flex; flex-direction: column; gap: 8px;
-}
-.tos-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.93rem;
-  color: var(--text-dim);
-  line-height: 1.7;
-}
-.tos-list li::before {
-  content: '✦';
-  color: var(--accent3);
-  font-size: 0.6rem;
-  flex-shrink: 0;
-  margin-top: 5px;
-}
-.tos-list.num li { counter-increment: tos-counter; }
-.tos-list.num li::before {
-  content: counter(tos-counter) '.';
-  color: var(--accent3);
-  font-weight: 700;
-  font-size: 0.75rem;
-  min-width: 20px;
-  margin-top: 2px;
-  counter-increment: none;
-}
-.tos-list.num { counter-reset: tos-counter; }
-
-/* ── Step cards ── */
-.tos-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.tos-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 16px 18px;
-  background: var(--glass);
-  border: 1px solid var(--gborder);
-  border-radius: 14px;
-  transition: border-color 0.2s;
-}
-.tos-step:hover { border-color: var(--gborder2); }
-.tos-step-num {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: rgba(139,92,246,0.12);
-  border: 1px solid rgba(139,92,246,0.25);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--accent3);
-  flex-shrink: 0;
-  font-family: 'Outfit', sans-serif;
-}
-.tos-step-content { flex: 1; }
-.tos-step-title {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--text);
-  margin: 0 0 4px;
-  font-family: 'Outfit', sans-serif;
-}
-.tos-step-desc {
-  font-size: 0.82rem;
-  color: var(--text-dim);
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* ── Definition table ── */
-.tos-def-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 16px;
-  font-family: 'Outfit', sans-serif;
-}
-.tos-def-table tr { border-bottom: 1px solid var(--border); }
-.tos-def-table tr:last-child { border-bottom: none; }
-.tos-def-table td { padding: 11px 14px; font-size: 0.88rem; vertical-align: top; }
-.tos-def-table td:first-child {
-  font-weight: 700;
-  color: var(--text);
-  white-space: nowrap;
-  width: 180px;
-  font-family: 'Courier New', monospace;
-  background: rgba(139,92,246,0.05);
-  border-radius: 6px;
-}
-.tos-def-table td:last-child { color: var(--text-dim); line-height: 1.6; }
-
-/* ── Legal reference chip ── */
-.tos-legal {
-  font-family: 'Courier New', monospace;
-  font-size: 0.82rem;
-  background: rgba(139,92,246,0.08);
-  border: 1px solid rgba(139,92,246,0.18);
-  border-radius: 6px;
-  padding: 2px 7px;
-  color: var(--accent3);
-  white-space: nowrap;
-}
-.tos-legal-link {
-  color: var(--accent3);
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-  transition: opacity 0.18s;
-  font-size: 0.9rem;
-}
-.tos-legal-link:hover { opacity: 0.75; }
-
-/* ── Info box ── */
-.tos-infobox {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  margin-bottom: 16px;
-  font-size: 0.88rem;
-  line-height: 1.65;
-  color: var(--text-dim);
-}
-.tos-infobox.purple {
-  background: rgba(139,92,246,0.07);
-  border: 1px solid rgba(139,92,246,0.2);
-}
-.tos-infobox.yellow {
-  background: rgba(251,191,36,0.06);
-  border: 1px solid rgba(251,191,36,0.2);
-}
-.tos-infobox.green {
-  background: rgba(74,222,128,0.06);
-  border: 1px solid rgba(74,222,128,0.2);
-}
-.tos-infobox i { flex-shrink: 0; margin-top: 2px; }
-.tos-infobox.purple i { color: var(--accent3); }
-.tos-infobox.yellow i { color: #fbbf24; }
-.tos-infobox.green i { color: #4ade80; }
-
-/* ── Mobile tab bar ── */
-.tos-mobile-tabs {
-  display: none;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-  position: sticky;
-  top: 64px;
-  z-index: 50;
-  gap: 4px;
-}
+/* ── Tab mobile (chip scroll horizontal) ── */
+.tos-mobile-tabs { display: none; position: sticky; top: 68px; z-index: 40; margin: 0 calc(var(--bn-pad) * -1); padding: 8px var(--bn-pad); background: var(--nav-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); overflow-x: auto; gap: 8px; scrollbar-width: none; }
 .tos-mobile-tabs::-webkit-scrollbar { display: none; }
-.tos-mobile-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 14px;
-  white-space: nowrap;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-dim);
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  transition: color 0.18s, border-color 0.18s;
-  background: none;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-.tos-mobile-tab.active {
-  color: var(--accent3);
-  border-bottom-color: var(--accent3);
-}
+.tos-mobile-tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 99px; font-size: 0.76rem; text-decoration: none; color: var(--text-dim); border: 1px solid var(--border2); background: var(--glass); }
+.tos-mobile-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ── Konten: tiap section = kartu bento ── */
+.tos-main { display: flex; flex-direction: column; gap: var(--bn-gap); min-width: 0; }
+.tos-section { scroll-margin-top: 130px; padding: clamp(22px, 3.4vw, 40px); }
+.tos-sec-num { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent2); margin: 0 0 8px; }
+.tos-sec-title { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.12; margin: 0 0 18px; }
+.tos-sec-divider { display: none; }
+.tos-p { font-size: 0.95rem; line-height: 1.8; color: var(--text-dim); margin: 0 0 14px; }
+.tos-p:last-child { margin-bottom: 0; }
+.tos-p strong, .tos-list strong { color: var(--text); font-weight: 600; }
+.tos-list { list-style: none; padding: 0; margin: 0 0 14px; display: flex; flex-direction: column; gap: 10px; }
+.tos-list li { display: flex; gap: 12px; font-size: 0.93rem; line-height: 1.7; color: var(--text-dim); min-width: 0; overflow-wrap: anywhere; }
+.tos-list li::before { content: ''; flex: 0 0 7px; height: 7px; margin-top: 10px; border-radius: 50%; background: var(--accent2); }
+
+/* Langkah-langkah */
+.tos-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.tos-step { display: flex; gap: 14px; padding: 16px; border-radius: 20px; background: var(--glass2); border: 1px solid var(--border2); }
+.tos-step-num { flex: 0 0 34px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 0.82rem; font-weight: 600; color: #fff; background: var(--accent); }
+.tos-step-title { font-size: 0.92rem; font-weight: 600; margin: 0 0 4px; }
+.tos-step-desc { font-size: 0.82rem; line-height: 1.6; color: var(--text-dim); margin: 0; }
+
+/* Definisi: grid kartu kecil (bukan tabel, biar nggak melebar di HP) */
+.tos-def-table, .tos-def-table tbody { display: block; width: 100%; }
+.tos-def-table tbody { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.tos-def-table tr { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 18px; background: var(--glass2); border: 1px solid var(--border2); }
+.tos-def-table td { display: block; padding: 0; font-size: 0.86rem; line-height: 1.6; color: var(--text-dim); }
+.tos-def-table td:first-child { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; color: var(--accent2); }
+
+.tos-legal { display: inline-block; padding: 2px 9px; border-radius: 99px; font-size: 0.78rem; color: var(--accent2); background: var(--glass2); border: 1px solid var(--border2); max-width: 100%; overflow-wrap: anywhere; }
+.tos-legal-link { color: var(--accent2); text-decoration: underline dotted; text-underline-offset: 3px; overflow-wrap: anywhere; }
+
+.tos-infobox { display: flex; gap: 12px; padding: 14px 18px; border-radius: 20px; margin-bottom: 16px; font-size: 0.88rem; line-height: 1.65; color: var(--text-dim); }
+.tos-infobox i { flex: 0 0 auto; margin-top: 3px; }
+.tos-infobox.purple { background: rgba(139,92,246,0.09); border: 1px solid rgba(139,92,246,0.25); } .tos-infobox.purple i { color: var(--accent2); }
+.tos-infobox.yellow { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.25); } .tos-infobox.yellow i { color: #fbbf24; }
+.tos-infobox.green { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.25); } .tos-infobox.green i { color: #4ade80; }
+.tos-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
 /* ── Responsive ── */
-@media (max-width: 1024px) {
-  .tos-header { padding: 48px 40px 32px; }
-  .tos-layout { padding: 0 40px 100px; }
-  .tos-sidebar { width: 220px; }
-}
-@media (max-width: 768px) {
-  .tos-header { padding: 36px 20px 24px; }
-  .tos-layout { padding: 0 20px 80px; flex-direction: column; }
+@media (max-width: 1000px) {
+  .tos-layout { grid-template-columns: minmax(0, 1fr); }
   .tos-sidebar { display: none !important; }
   .tos-mobile-tabs { display: flex !important; }
-  .tos-main { padding: 32px 0 0; max-width: 100%; }
-  .tos-def-table td:first-child { width: 130px; font-size: 0.78rem; }
-  .tos-section { scroll-margin-top: 130px; }
 }
-@media (max-width: 480px) {
-  .tos-header-title { font-size: 2.2rem; }
-  .tos-step { padding: 12px 14px; gap: 12px; }
+@media (max-width: 640px) {
+  .tos-page.bn { padding-top: 96px; }
+  .tos-mobile-tabs { top: 60px; }
+  .tos-steps, .tos-def-table tbody { grid-template-columns: minmax(0, 1fr); }
+  .tos-section { scroll-margin-top: 120px; }
+  .tos-cta .bn-btn { width: 100%; }
 }
 `;
 
@@ -469,29 +157,28 @@ export default function Terms() {
     <>
       <style>{CSS}</style>
 
-      <div className="tos-page">
+      <div className="tos-page bn">
 
-        {/* ══════ PAGE HEADER ══════ */}
-        <div className="tos-header">
-          <span className="tos-header-label">Syarat &amp; Ketentuan</span>
-          <h1 className="tos-header-title">Terms of Service</h1>
-          <p className="tos-header-sub">
-            Berlaku sejak 1 Juni 2026 · SynnnW Studio
-          </p>
-          <div className="tos-header-pills">
-            <span className="tos-meta-pill">
-              <i className="fa-solid fa-calendar-check" />
-              Terakhir diperbarui: 1 Juni 2026
-            </span>
-            <span className="tos-meta-pill">
-              <i className="fa-solid fa-location-dot" />
-              Berlaku di: Indonesia
-            </span>
-            <span className="tos-meta-pill">
-              <i className="fa-solid fa-file-contract" />
-              12 Sections
-            </span>
-          </div>
+        {/* ══════ HERO (bento) ══════ */}
+        <div className="bn-wrap">
+        <div className="bn-grid">
+          <Reveal className="bn-card bn-hello bn-span-4">
+            <span className="bn-kicker">Syarat &amp; Ketentuan</span>
+            <h1 className="bn-title">Terms of <span>Service</span></h1>
+            <p className="bn-lead">Aturan main yang jelas antara kamu dan SynnnW Studio — dari order, pembayaran, revisi, sampai hak cipta.</p>
+            <div className="tos-pills">
+              <span className="tos-meta-pill"><i className="fa-solid fa-calendar-check" /> Diperbarui 1 Juni 2026</span>
+              <span className="tos-meta-pill"><i className="fa-solid fa-location-dot" /> Berlaku di Indonesia</span>
+            </div>
+          </Reveal>
+          <Reveal className="bn-card bn-hot bn-span-2" delay={0.08}>
+            <span className="bn-kicker" style={{ color: 'rgba(255,255,255,.85)' }}>Sections</span>
+            <div>
+              <div className="bn-big">12</div>
+              <small>poin ketentuan</small>
+            </div>
+            <button className="bn-btn tos-hot-btn" onClick={() => navigate('/price-list')}>Lihat Price List <Arrow /></button>
+          </Reveal>
         </div>
 
         {/* ══════ MOBILE HORIZONTAL TABS ══════ */}
@@ -513,7 +200,7 @@ export default function Terms() {
         <div className="tos-layout">
 
           {/* ─── SIDEBAR TOC ─── */}
-          <aside className="tos-sidebar" aria-label="Table of contents">
+          <aside className="tos-sidebar bn-card" aria-label="Table of contents">
             <p className="tos-toc-brand">SynnnW<span>ST</span></p>
             <span className="tos-toc-sub">Terms of Service</span>
             <div className="tos-toc-divider" />
@@ -534,7 +221,7 @@ export default function Terms() {
           <main className="tos-main">
 
             {/* ── 01 PENGANTAR ── */}
-            <section id="pengantar" className="tos-section">
+            <section id="pengantar" className="tos-section bn-card">
               <p className="tos-sec-num">01 / Pengantar</p>
               <h2 className="tos-sec-title">Pengantar</h2>
               <div className="tos-sec-divider" />
@@ -560,7 +247,7 @@ export default function Terms() {
             </section>
 
             {/* ── 02 DEFINISI ── */}
-            <section id="definisi" className="tos-section">
+            <section id="definisi" className="tos-section bn-card">
               <p className="tos-sec-num">02 / Definisi</p>
               <h2 className="tos-sec-title">Definisi</h2>
               <div className="tos-sec-divider" />
@@ -589,7 +276,7 @@ export default function Terms() {
             </section>
 
             {/* ── 03 LAYANAN ── */}
-            <section id="layanan" className="tos-section">
+            <section id="layanan" className="tos-section bn-card">
               <p className="tos-sec-num">03 / Layanan</p>
               <h2 className="tos-sec-title">Layanan yang Disediakan</h2>
               <div className="tos-sec-divider" />
@@ -633,7 +320,7 @@ export default function Terms() {
             </section>
 
             {/* ── 04 HOW TO ORDER ── */}
-            <section id="how-to" className="tos-section">
+            <section id="how-to" className="tos-section bn-card">
               <p className="tos-sec-num">04 / How to Order</p>
               <h2 className="tos-sec-title">How to Order</h2>
               <div className="tos-sec-divider" />
@@ -692,7 +379,7 @@ export default function Terms() {
             </section>
 
             {/* ── 05 PEMBAYARAN ── */}
-            <section id="pembayaran" className="tos-section">
+            <section id="pembayaran" className="tos-section bn-card">
               <p className="tos-sec-num">05 / Pembayaran</p>
               <h2 className="tos-sec-title">Ketentuan Pembayaran</h2>
               <div className="tos-sec-divider" />
@@ -728,7 +415,7 @@ export default function Terms() {
             </section>
 
             {/* ── 06 REVISI ── */}
-            <section id="revisi" className="tos-section">
+            <section id="revisi" className="tos-section bn-card">
               <p className="tos-sec-num">06 / Revisi</p>
               <h2 className="tos-sec-title">Kebijakan Revisi</h2>
               <div className="tos-sec-divider" />
@@ -756,7 +443,7 @@ export default function Terms() {
             </section>
 
             {/* ── 07 HKI ── */}
-            <section id="hki" className="tos-section">
+            <section id="hki" className="tos-section bn-card">
               <p className="tos-sec-num">07 / Hak Kekayaan Intelektual</p>
               <h2 className="tos-sec-title">Hak Kekayaan Intelektual</h2>
               <div className="tos-sec-divider" />
@@ -791,7 +478,7 @@ export default function Terms() {
             </section>
 
             {/* ── 08 BATASAN TANGGUNG JAWAB ── */}
-            <section id="batasan" className="tos-section">
+            <section id="batasan" className="tos-section bn-card">
               <p className="tos-sec-num">08 / Batasan</p>
               <h2 className="tos-sec-title">Batasan Tanggung Jawab</h2>
               <div className="tos-sec-divider" />
@@ -817,7 +504,7 @@ export default function Terms() {
             </section>
 
             {/* ── 09 PRIVASI DATA ── */}
-            <section id="privasi" className="tos-section">
+            <section id="privasi" className="tos-section bn-card">
               <p className="tos-sec-num">09 / Privasi Data</p>
               <h2 className="tos-sec-title">Privasi Data</h2>
               <div className="tos-sec-divider" />
@@ -866,7 +553,7 @@ export default function Terms() {
             </section>
 
             {/* ── 10 KLIEN INTERNASIONAL ── */}
-            <section id="international" className="tos-section">
+            <section id="international" className="tos-section bn-card">
               <p className="tos-sec-num">10 / International</p>
               <h2 className="tos-sec-title">Klien Internasional</h2>
               <div className="tos-sec-divider" />
@@ -898,7 +585,7 @@ export default function Terms() {
             </section>
 
             {/* ── 11 PEMBATALAN ── */}
-            <section id="pembatalan" className="tos-section">
+            <section id="pembatalan" className="tos-section bn-card">
               <p className="tos-sec-num">11 / Pembatalan</p>
               <h2 className="tos-sec-title">Pembatalan Layanan</h2>
               <div className="tos-sec-divider" />
@@ -923,7 +610,7 @@ export default function Terms() {
             </section>
 
             {/* ── 12 SENGKETA ── */}
-            <section id="sengketa" className="tos-section">
+            <section id="sengketa" className="tos-section bn-card">
               <p className="tos-sec-num">12 / Sengketa</p>
               <h2 className="tos-sec-title">Penyelesaian Sengketa &amp; Perubahan Kebijakan</h2>
               <div className="tos-sec-divider" />
@@ -974,44 +661,18 @@ export default function Terms() {
               </div>
 
               {/* Bottom nav */}
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 40 }}>
-                <button
-                  onClick={() => navigate('/price-list')}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 8,
-                    padding: '10px 22px',
-                    background: 'linear-gradient(135deg, var(--accent), var(--accent2))',
-                    color: '#fff', border: 'none', borderRadius: 99,
-                    fontFamily: 'Outfit', fontSize: '0.78rem', fontWeight: 700,
-                    letterSpacing: '0.1em', textTransform: 'uppercase',
-                    cursor: 'pointer', transition: 'opacity 0.2s',
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-                >
-                  <i className="fa-solid fa-tag" style={{ fontSize: '0.7rem' }} />
-                  Lihat Price List
+              <div className="tos-cta">
+                <button className="bn-btn bn-btn--solid" onClick={() => navigate('/price-list')}>
+                  Lihat Price List <Arrow />
                 </button>
-                <button
-                  onClick={() => navigate('/contact')}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 8,
-                    padding: '10px 22px',
-                    background: 'var(--glass)', border: '1px solid var(--gborder)',
-                    color: 'var(--text-dim)', borderRadius: 99,
-                    fontFamily: 'Outfit', fontSize: '0.78rem', fontWeight: 600,
-                    cursor: 'pointer', transition: 'color 0.2s, border-color 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.borderColor = 'var(--gborder2)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.borderColor = 'var(--gborder)'; }}
-                >
-                  <i className="fa-solid fa-message" style={{ fontSize: '0.7rem' }} />
-                  Hubungi Kami
-                </button>
+                <a className="bn-btn" href={waLink('Halo, saya mau tanya soal Terms of Service SynnnW Studio')} target="_blank" rel="noopener noreferrer">
+                  Hubungi Kami <Arrow />
+                </a>
               </div>
             </section>
 
           </main>
+        </div>
         </div>
       </div>
     </>

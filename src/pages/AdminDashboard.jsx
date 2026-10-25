@@ -542,6 +542,37 @@ const CSS = `
     border-radius: 12px; background: rgba(255,255,255,0.05);
   }
   .da-customer-table-wrap { overflow-x: auto; }
+
+  /* ── Mobile: sidebar diganti top bar + chip menu ── */
+  .da-main { min-width: 0; }
+  .da-mobilebar { display: none; }
+  @media (max-width: 900px) {
+    .da-app { flex-direction: column; }
+    .da-mobilebar {
+      display: block; position: sticky; top: 0; z-index: 60;
+      background: rgba(7,7,9,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: calc(env(safe-area-inset-top, 0px) + 10px) 14px 0;
+    }
+    .da-mobilebar-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 8px; }
+    .da-mobilebar-top b { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; display: flex; align-items: center; gap: 8px; }
+    .da-mobilebar-top b em { color: #a78bfa; }
+    .da-mobilebar-top button { height: 34px; padding: 0 14px; border-radius: 99px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.74rem; color: #f87171; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
+    .da-mobilebar-nav { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 10px; scrollbar-width: none; }
+    .da-mobilebar-nav::-webkit-scrollbar { display: none; }
+    .da-mobilebar-nav button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 99px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.78rem; color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
+    .da-mobilebar-nav button.active { background: #8b5cf6; border-color: #8b5cf6; color: #fff; }
+    .da-main { padding: 18px 14px calc(60px + env(safe-area-inset-bottom, 0px)); overflow-x: hidden; }
+    .da-panel { padding: 16px; border-radius: 16px; }
+    .da-page-title { font-size: 1.7rem; }
+    .da-form-row { grid-template-columns: 1fr; }
+    .da-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .da-table th, .da-table td { padding: 10px 12px; }
+    .da-table-wrap, .da-customer-table-wrap { -webkit-overflow-scrolling: touch; }
+    .da-qris-preview img { max-width: 100%; height: auto; }
+    .da-modal, .da-modal-box { max-width: calc(100vw - 24px); }
+  }
+  @media (max-width: 420px) { .da-stats-grid { grid-template-columns: 1fr; } }
 `;
 
 // ─── Seed data ────────────────────────────────────────────────────────────────
@@ -786,6 +817,21 @@ export default function AdminDashboard() {
             <button className="da-btn-logout" onClick={handleLogout}>
               <i className="fa-solid fa-sign-out-alt" /> Logout
             </button>
+          </div>
+        </div>
+
+        {/* Mobile top bar */}
+        <div className="da-mobilebar">
+          <div className="da-mobilebar-top">
+            <b><i className="fa-solid fa-chart-line" /> Syn<em>nw</em> Admin</b>
+            <button onClick={handleLogout}><i className="fa-solid fa-sign-out-alt" /> Logout</button>
+          </div>
+          <div className="da-mobilebar-nav">
+            {NAV_ITEMS.map(item => (
+              <button key={item.id} className={activeTab === item.id ? 'active' : ''} onClick={() => setActiveTab(item.id)}>
+                <i className={`fa-solid ${item.icon}`} /> {item.label}
+              </button>
+            ))}
           </div>
         </div>
 

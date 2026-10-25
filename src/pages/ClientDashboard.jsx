@@ -846,6 +846,25 @@ const CSS = `
 @media (max-width: 480px) {
   .db-stats-bar { grid-template-columns: 1fr 1fr; gap: 8px; }
 }
+/* ── Mobile polish ── */
+.db-page { overflow-x: clip; }
+.db-content img, .db-content video, .db-content iframe { max-width: 100%; }
+@media (max-width: 768px) {
+  .db-sidebar { padding-bottom: env(safe-area-inset-bottom, 0px); height: calc(64px + env(safe-area-inset-bottom, 0px)); background: rgba(10,10,16,0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .db-sidebar-nav-item { min-width: 0; flex: 1; padding: 6px 2px; }
+  .db-sidebar-logout-mobile { min-width: 0; flex: 1; padding: 6px 2px; }
+  .db-main { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); overflow-y: visible; }
+  .db-main-header-left h2 { font-size: 1.45rem; }
+  .db-notif-dropdown { position: fixed; top: 68px; left: 12px; right: 12px; width: auto; max-height: 70vh; }
+  .db-content { overflow-wrap: anywhere; }
+  .db-content table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .db-content input, .db-content textarea, .db-content select { max-width: 100%; font-size: 16px; }
+  .db-stat-value { font-size: 1.15rem; }
+}
+@media (max-width: 480px) {
+  .db-poster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .db-lanyard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 `;
 
 // ─────────────────────────────────────────────
