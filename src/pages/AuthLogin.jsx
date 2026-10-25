@@ -763,6 +763,15 @@ const CSS = `
 .auth-input, .auth-phone-select { border-radius: 16px; border-color: rgba(255,255,255,0.12); }
 .auth-btn { border-radius: 99px; }
 @media (min-width: 769px) {
+  .auth-feed { gap: 22px; }
+  .auth-feed-item { max-width: 380px; aspect-ratio: 16 / 9; border-radius: 22px; }
+  .auth-feed-item-img { border-radius: 22px; }
+  .auth-feed-item-text { left: 18px; right: 18px; bottom: 14px; gap: 3px; }
+  .auth-feed-item-title { font-size: 0.98rem; }
+  .auth-feed-item-label { font-size: 0.56rem; }
+  .auth-feed-item-desc { font-size: 0.72rem; }
+}
+@media (min-width: 769px) {
   .auth-right { align-items: flex-start; }
   .auth-card { position: sticky; top: 96px; }
 }
