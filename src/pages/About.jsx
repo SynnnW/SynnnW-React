@@ -1,8 +1,13 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ThumbImg, Reveal, Arrow, ContactCard } from '../components/BentoKit';
+import { useLang, waLink, IG_URL, evenSpans } from '../lib/bento';
+import { SHOWCASE_COUNT } from '../data/showcase';
 
 /* ══════════════════════════════════════════════════════
-   DATA — ACCORDION SKILLS (per Prompt 07 / same as Home)
+   DATA — skills, layanan, tools, sertifikat (isi tidak diubah,
+   kecuali Firebase → Supabase karena sudah migrasi)
 ══════════════════════════════════════════════════════ */
 const ACCORDION_ITEMS = [
   {
@@ -10,9 +15,9 @@ const ACCORDION_ITEMS = [
     num: '01',
     icon: 'fa-solid fa-code',
     title: 'Web Developer',
-    descEN: 'Building web experiences using vibe coding — fully integrated with the latest AI tools and Firebase backend. Visual-first by nature, but clean in architecture. Not just a site, it\'s a system.',
-    descID: 'Bikin web pakai vibe coding yang udah nyatu sama AI terbaru dan Firebase. Fokusnya visual dulu, tapi strukturnya tetap rapi di belakang layar. Bukan cuma website biasa, ini ekosistem digital.',
-    tools: ['React / Next.js', 'GSAP Animation', 'UX Architecture', 'HTML/CSS/JS', 'Firebase'],
+    descEN: 'Building web experiences using vibe coding — fully integrated with the latest AI tools and Supabase backend. Visual-first by nature, but clean in architecture. Not just a site, it\'s a system.',
+    descID: 'Bikin web pakai vibe coding yang udah nyatu sama AI terbaru dan Supabase. Fokusnya visual dulu, tapi strukturnya tetap rapi di belakang layar. Bukan cuma website biasa, ini ekosistem digital.',
+    tools: ['React / Next.js', 'GSAP Animation', 'UX Architecture', 'HTML/CSS/JS', 'Supabase'],
     note: 'Android admin app available for clients',
   },
   {
@@ -51,9 +56,9 @@ const SERVICES = [
   {
     num: '01', icon: 'fa-solid fa-globe',
     titleEN: 'Web Development', titleID: 'Web Development',
-    descEN: 'Premium web builds — portfolio sites, wedding invitations, custom tools. Firebase-integrated, mobile-first, and built to last.',
-    descID: 'Bikin web premium — portofolio, undangan digital, tools custom. Firebase-integrated, mobile-first, dan tahan lama.',
-    tags: ['React', 'Firebase', 'HTML/CSS/JS'],
+    descEN: 'Premium web builds — portfolio sites, wedding invitations, custom tools. Supabase-integrated, mobile-first, and built to last.',
+    descID: 'Bikin web premium — portofolio, undangan digital, tools custom. Supabase-integrated, mobile-first, dan tahan lama.',
+    tags: ['React', 'Supabase', 'HTML/CSS/JS'],
   },
   {
     num: '02', icon: 'fa-solid fa-clapperboard',
@@ -99,7 +104,7 @@ const TOOLS = [
   {
     catIcon: 'fa-solid fa-code',
     catLabel: 'Web Development',
-    items: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Next.js', 'Firebase', 'Git'],
+    items: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Next.js', 'Supabase', 'Git'],
   },
   {
     catIcon: 'fa-solid fa-video',
@@ -124,6 +129,7 @@ const TOOLS = [
 const CERTIF_ITEMS = [
   {
     src: '/assets/img/film pendek nasional.jpg',
+    thumb: '/assets/thumbs/cert-1.webp',
     filename: 'film_pendek_nasional.jpg',
     caption: 'Juara I Festival Film Cendana 2025',
     desc: 'Juara I Nasional — Festival Film Cendana 2025 · SMAS Cendana Mandau, Bengkalis, Riau',
@@ -131,6 +137,7 @@ const CERTIF_ITEMS = [
   },
   {
     src: '/assets/img/SERTTIF FLS2N.jpg',
+    thumb: '/assets/thumbs/cert-2.webp',
     filename: 'SERTTIF_FLS2N.jpg',
     caption: 'Juara 2 Film Pendek FLS2N 2024',
     desc: 'Juara 2 Tingkat Kabupaten Probolinggo — FLS2N 2024 · SMAN 1 Kraksaan',
@@ -138,6 +145,7 @@ const CERTIF_ITEMS = [
   },
   {
     src: '/assets/img/NOT ORDINARY.jpg',
+    thumb: '/assets/thumbs/cert-3.webp',
     filename: 'NOT_ORDINARY.jpg',
     caption: 'NOT AN ORDINARY TEENAGE 2025',
     desc: 'Peserta — Kegiatan NOT 2025, Universitas Jember · Tema: Strong Mind, Bright Future',
@@ -145,6 +153,7 @@ const CERTIF_ITEMS = [
   },
   {
     src: '/assets/img/SERTIF OSIS.jpg',
+    thumb: '/assets/thumbs/cert-4.webp',
     filename: 'SERTIF_OSIS.jpg',
     caption: 'Anggota Sekbid Jurnalistik OSIS 2023–2024',
     desc: 'Sekbid Jurnalistik — OSIS & MPK SMAN 1 Kraksaan · Periode 2023–2024',
@@ -152,6 +161,7 @@ const CERTIF_ITEMS = [
   },
   {
     src: '/assets/img/MEDSPIN.jpg',
+    thumb: '/assets/thumbs/cert-5.webp',
     filename: 'MEDSPIN.jpg',
     caption: 'Participant Public Poster MEDSPIN 2025',
     desc: 'Peserta Public Poster — MEDSPIN · Universitas Airlangga · Sep–Okt 2025',
@@ -159,886 +169,221 @@ const CERTIF_ITEMS = [
   },
 ];
 
-/* ══════════════════════════════════════════════════════
-   SUB-COMPONENT: ACCORDION ITEM
-══════════════════════════════════════════════════════ */
-function AccordionItem({ item, isOpen, onToggle, lang }) {
-  const desc = lang === 'en' ? item.descEN : item.descID;
-  return (
-    <div className={`ab-acc-item${isOpen ? ' open' : ''}`}>
-      <div
-        className="ab-acc-hdr"
-        onClick={onToggle}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => e.key === 'Enter' && onToggle()}
-      >
-        <div className="ab-acc-left">
-          <span className="ab-acc-num">{item.num}</span>
-          <span className="ab-acc-icon"><i className={item.icon} /></span>
-          <span className="ab-acc-title">{item.title}</span>
-        </div>
-        <span className="ab-acc-toggle"><i className="fa-solid fa-plus" /></span>
-      </div>
-      <div className="ab-acc-body">
-        <div className="ab-acc-inner">
-          <p className="ab-acc-desc">{desc}</p>
-          <div className="ab-acc-tools">
-            {item.tools.map((tool, i) => <span key={i} className="ab-tool-tag">{tool}</span>)}
-          </div>
-          {item.note && (
-            <p className="ab-acc-note"><i className="fa-solid fa-circle-info" /> {item.note}</p>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+const CERT_SPANS = [3, 3, 2, 2, 2];
 
 /* ══════════════════════════════════════════════════════
-   SUB-COMPONENT: CERTIF MODAL (BUG-FIXED)
-   Fix: tidak pakai filter pada #root (menyebabkan freeze).
-   Pakai simple backdrop opacity saja.
+   MODAL SERTIFIKAT — tidak pakai filter pada #root (bikin freeze)
 ══════════════════════════════════════════════════════ */
 function CertifModal({ src, filename, onClose }) {
   useEffect(() => {
-    const handler = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handler);
-    // FIX: lock scroll tanpa menyentuh layout/filter root
+    const onKey = e => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
-      window.removeEventListener('keydown', handler);
+      window.removeEventListener('keydown', onKey);
       document.body.style.overflow = prev;
-      // FIX: tidak ada filter cleanup yang perlu dilakukan
     };
   }, [onClose]);
 
   return (
-    <div className="ab-modal-wrap" onClick={onClose}>
-      <div className="ab-modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="ab-modal-close" onClick={onClose} aria-label="Close">
-          <i className="fa-solid fa-xmark" />
-        </button>
-        <img
-          src={src}
-          alt={filename}
-          draggable={false}
-          onContextMenu={(e) => e.preventDefault()}
-          className="ab-modal-img"
-          loading="lazy"
-        />
-        <p className="ab-modal-filename">{filename}</p>
+    <div className="bn-modal" onClick={onClose} role="dialog" aria-modal="true">
+      <div className="bn-modal-box" onClick={e => e.stopPropagation()}>
+        <button className="bn-modal-x" onClick={onClose} aria-label="Close"><i className="fa-solid fa-xmark" /></button>
+        <img src={src} alt={filename} draggable={false} onContextMenu={e => e.preventDefault()} />
+        <p>{filename}</p>
       </div>
     </div>
   );
 }
 
+function SecHead({ kicker, children }) {
+  return (
+    <Reveal className="bn-sec-head">
+      <span className="bn-kicker">{kicker}</span>
+      <h2>{children}</h2>
+    </Reveal>
+  );
+}
+
 /* ══════════════════════════════════════════════════════
-   MAIN PAGE COMPONENT: About
+   ABOUT — tampilan bento
 ══════════════════════════════════════════════════════ */
-export default function About() {
+export default function About({ lang: propLang }) {
   const navigate = useNavigate();
+  const lang = useLang(propLang);
+  const isID = lang === 'id';
+  const L = (en, id) => (isID ? id : en);
 
-  // Language detection from localStorage (matches useApp.js)
-  const [lang, setLang] = useState(() => localStorage.getItem('synw-lang') || 'id');
-  useEffect(() => {
-    const onStorage = () => setLang(localStorage.getItem('synw-lang') || 'id');
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
-  }, []);
-
-  // WIB Live Clock
+  /* Jam WIB */
   const [wibTime, setWibTime] = useState('');
   useEffect(() => {
     const tick = () => {
-      const now = new Date();
-      const wib = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
-      const h = String(wib.getHours()).padStart(2, '0');
-      const m = String(wib.getMinutes()).padStart(2, '0');
-      const s = String(wib.getSeconds()).padStart(2, '0');
-      setWibTime(`${h}:${m}:${s}`);
+      const wib = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+      const p = n => String(n).padStart(2, '0');
+      setWibTime(`${p(wib.getHours())}:${p(wib.getMinutes())}:${p(wib.getSeconds())}`);
     };
     tick();
     const timer = setInterval(tick, 1000);
     return () => clearInterval(timer);
   }, []);
 
-  // Accordion state
-  const [openAcc, setOpenAcc] = useState('acc1');
-  const handleAccToggle = useCallback((id) => {
-    setOpenAcc((prev) => (prev === id ? null : id));
-  }, []);
-
-  // Certif modal — BUG FIX: use stable state, no re-render loop
   const [certModal, setCertModal] = useState(null);
-  const [certErrors, setCertErrors] = useState({});
-  const handleCertError = useCallback((i) => {
-    setCertErrors((prev) => ({ ...prev, [i]: true }));
-  }, []);
-
-  // Scroll reveal
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      }),
-      { threshold: 0.07, rootMargin: '0px 0px -20px 0px' }
-    );
-    const timer = setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-    }, 100);
-    return () => { clearTimeout(timer); observer.disconnect(); };
-  }, []);
-
-  // CSS injection
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.id = 'about-page-styles';
-    style.textContent = `
-      /* ─── HERO ─── */
-      .ab-hero {
-        min-height: 55vh;
-        display: flex;
-        align-items: flex-end;
-        padding: 130px 80px 70px;
-        position: relative;
-        overflow: hidden;
-        border-bottom: 1px solid var(--border);
-        background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
-      }
-      .ab-hero-bg {
-        position: absolute; inset: 0; pointer-events: none;
-        background:
-          radial-gradient(ellipse 60% 70% at 90% 10%, rgba(139,92,246,0.12) 0%, transparent 65%),
-          radial-gradient(ellipse 40% 50% at 5%  85%, rgba(139,92,246,0.07) 0%, transparent 60%);
-      }
-      .ab-hero-content { position: relative; z-index: 1; flex: 1; }
-      .ab-hero-clock {
-        position: absolute;
-        top: 130px; right: 80px;
-        font-family: 'Outfit', monospace;
-        font-size: 0.72rem;
-        letter-spacing: 0.18em;
-        color: var(--text-dim);
-        background: var(--glass);
-        border: 1px solid var(--gborder);
-        border-radius: 99px;
-        padding: 7px 16px;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        z-index: 2;
-      }
-      .ab-hero-label {
-        display: block;
-        font-size: 0.6rem;
-        font-weight: 600;
-        letter-spacing: 0.32em;
-        text-transform: uppercase;
-        color: var(--text-dim);
-        margin-bottom: 14px;
-      }
-      .ab-hero-name {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(3.2rem, 8vw, 8.5rem);
-        font-weight: 300;
-        line-height: 0.88;
-        margin-bottom: 18px;
-      }
-      .ab-hero-sub {
-        font-family: 'Outfit', sans-serif;
-        font-size: 0.88rem;
-        color: var(--text-dim);
-        letter-spacing: 0.06em;
-        max-width: 400px;
-        line-height: 1.7;
-      }
-
-      /* ─── SECTION BASE ─── */
-      .ab-section {
-        padding: 100px 80px;
-        border-top: 1px solid var(--border);
-      }
-      .ab-sec-label {
-        display: block;
-        font-size: 0.6rem;
-        font-weight: 700;
-        letter-spacing: 0.32em;
-        text-transform: uppercase;
-        color: var(--text-dim);
-        margin-bottom: 14px;
-      }
-      .ab-sec-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(2.4rem, 5vw, 5rem);
-        font-weight: 300;
-        line-height: 0.92;
-        margin-bottom: 56px;
-      }
-      .ab-sec-title em { font-style: italic; }
-
-      /* ─── INTRO / SECTION 01 ─── */
-      .ab-intro { background: linear-gradient(180deg, var(--bg2) 0%, var(--bg3) 100%); }
-      .ab-intro-grid {
-        display: grid;
-        grid-template-columns: 380px 1fr;
-        gap: 80px;
-        align-items: start;
-      }
-
-      /* Photo with barrier */
-      .ab-photo-col { position: relative; }
-      .ab-photo-wrap {
-        position: sticky;
-        top: 100px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-      .ab-photo-glow {
-        position: absolute; top: -40px; left: 50%;
-        transform: translateX(-50%);
-        width: 280px; height: 280px; border-radius: 50%;
-        background: radial-gradient(ellipse, rgba(139,92,246,0.28) 0%, transparent 70%);
-        filter: blur(30px);
-        animation: abPhotoGlow 4s ease-in-out infinite alternate;
-        pointer-events: none;
-      }
-      @keyframes abPhotoGlow {
-        from { opacity: 0.6; transform: translateX(-50%) scale(0.9); }
-        to   { opacity: 1;   transform: translateX(-50%) scale(1.1); }
-      }
-      .ab-photo-frame {
-        width: 100%; aspect-ratio: 3/4; border-radius: 28px;
-        overflow: hidden; position: relative; z-index: 1;
-        background: var(--glass2);
-        border: 1px solid var(--gborder2);
-        box-shadow: 0 30px 80px var(--shadow), 0 0 0 1px rgba(139,92,246,0.12);
-      }
-      .ab-photo-img {
-        width: 100%; height: 100%; object-fit: cover; display: block;
-        pointer-events: none; user-select: none; -webkit-user-drag: none;
-        transition: transform 0.6s ease;
-      }
-      .ab-photo-frame:hover .ab-photo-img { transform: scale(1.04); }
-      .ab-photo-barrier {
-        position: absolute; inset: 0; z-index: 2;
-        background: transparent; cursor: default;
-      }
-      .ab-photo-badge {
-        display: flex; align-items: center; gap: 9px;
-        background: var(--glass2); border: 1px solid var(--gborder2);
-        border-radius: 99px; padding: 10px 20px;
-        font-size: 0.64rem; font-weight: 600;
-        letter-spacing: 0.1em; text-transform: uppercase; color: var(--text);
-        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-        position: relative; z-index: 1;
-      }
-      .ab-badge-dot {
-        width: 7px; height: 7px; border-radius: 50%;
-        background: #22c55e; flex-shrink: 0;
-        box-shadow: 0 0 8px rgba(34,197,94,0.7);
-        animation: abPulse 2s ease-in-out infinite;
-      }
-      @keyframes abPulse {
-        0%, 100% { box-shadow: 0 0 6px rgba(34,197,94,0.5); }
-        50%       { box-shadow: 0 0 14px rgba(34,197,94,0.9); }
-      }
-
-      /* Intro text */
-      .ab-intro-text { padding-top: 6px; }
-      .ab-intro-lead {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.4rem; font-style: italic;
-        color: var(--text); line-height: 1.5; margin-bottom: 20px;
-      }
-      .ab-intro-body {
-        font-size: 0.88rem; line-height: 1.9;
-        color: var(--text-dim); margin-bottom: 16px;
-      }
-
-      /* Stats row */
-      .ab-stats-row {
-        display: flex; gap: 0; margin: 30px 0 32px;
-        border: 1px solid var(--gborder); border-radius: 18px; overflow: hidden;
-        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      }
-      .ab-stat-item {
-        flex: 1; padding: 20px 16px; text-align: center;
-        border-right: 1px solid var(--gborder);
-        background: var(--glass);
-        transition: background 0.3s;
-      }
-      .ab-stat-item:last-child { border-right: none; }
-      .ab-stat-item:hover { background: var(--glass2); }
-      .ab-stat-val {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 2rem; font-weight: 300;
-        color: var(--accent3); display: block; line-height: 1;
-        margin-bottom: 6px;
-      }
-      .ab-stat-label {
-        font-size: 0.58rem; font-weight: 700;
-        letter-spacing: 0.18em; text-transform: uppercase;
-        color: var(--text-dim); display: block;
-      }
-
-      .ab-btn-cta {
-        display: inline-flex; align-items: center; gap: 10px;
-        background: var(--text); color: var(--bg);
-        border: none; border-radius: 99px;
-        padding: 14px 32px; font-family: 'Outfit', sans-serif;
-        font-size: 0.72rem; font-weight: 700;
-        letter-spacing: 0.14em; text-transform: uppercase;
-        cursor: pointer; transition: all 0.3s;
-      }
-      .ab-btn-cta:hover { background: var(--accent); color: #fff; transform: scale(1.04); }
-
-      /* ─── ACCORDION / SECTION 02 ─── */
-      .ab-skills { background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%); }
-      .ab-acc-list {
-        display: flex; flex-direction: column;
-        border: 1px solid var(--border); border-radius: 22px; overflow: hidden;
-      }
-      .ab-acc-item {
-        border-bottom: 1px solid var(--border);
-        background: var(--glass); transition: background 0.3s;
-      }
-      .ab-acc-item:last-child { border-bottom: none; }
-      .ab-acc-item.open { background: var(--glass2); }
-      .ab-acc-hdr {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 26px 34px; cursor: pointer; user-select: none;
-        transition: background 0.25s;
-      }
-      .ab-acc-hdr:hover { background: var(--glass2); }
-      .ab-acc-left { display: flex; align-items: center; gap: 18px; }
-      .ab-acc-num {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.1rem; font-weight: 300; color: var(--text-dim);
-        min-width: 28px;
-      }
-      .ab-acc-icon {
-        width: 38px; height: 38px; border-radius: 10px;
-        background: var(--glass2); border: 1px solid var(--gborder);
-        display: flex; align-items: center; justify-content: center;
-        color: var(--accent3); font-size: 0.9rem;
-      }
-      .ab-acc-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.35rem; font-weight: 400; color: var(--text);
-      }
-      .ab-acc-toggle {
-        color: var(--text-dim); font-size: 0.85rem;
-        transition: transform 0.3s ease;
-      }
-      .ab-acc-item.open .ab-acc-toggle { transform: rotate(45deg); }
-      .ab-acc-body {
-        max-height: 0; overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-      }
-      .ab-acc-item.open .ab-acc-body { max-height: 400px; }
-      .ab-acc-inner { padding: 0 34px 28px; }
-      .ab-acc-desc {
-        font-size: 0.88rem; line-height: 1.88;
-        color: var(--text-dim); margin-bottom: 18px;
-      }
-      .ab-acc-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-      .ab-tool-tag {
-        font-family: 'Outfit', sans-serif;
-        font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em;
-        background: var(--glass2); border: 1px solid var(--gborder2);
-        border-radius: 99px; padding: 5px 12px; color: var(--text-dim);
-      }
-      .ab-acc-note {
-        font-size: 0.72rem; color: var(--accent3);
-        display: flex; align-items: center; gap: 6px;
-        opacity: 0.8;
-      }
-
-      /* ─── SERVICES / SECTION 03 ─── */
-      .ab-services { background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%); }
-      .ab-svc-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-      .ab-svc-card {
-        background: var(--glass); border: 1px solid var(--gborder);
-        border-radius: 20px; padding: 28px;
-        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-        transition: border-color 0.3s, transform 0.3s, background 0.3s;
-      }
-      .ab-svc-card:hover {
-        border-color: rgba(139,92,246,0.35); transform: translateY(-4px);
-        background: var(--glass2);
-      }
-      .ab-svc-hdr {
-        display: flex; align-items: center; justify-content: space-between;
-        margin-bottom: 16px;
-      }
-      .ab-svc-num {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 2.2rem; font-weight: 300; color: var(--text-dim); opacity: 0.4;
-      }
-      .ab-svc-icon {
-        width: 42px; height: 42px; border-radius: 12px;
-        background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);
-        display: flex; align-items: center; justify-content: center;
-        color: var(--accent3); font-size: 1rem;
-      }
-      .ab-svc-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.2rem; font-weight: 500;
-        color: var(--text); margin-bottom: 10px;
-      }
-      .ab-svc-desc {
-        font-size: 0.82rem; line-height: 1.78;
-        color: var(--text-dim); margin-bottom: 16px;
-      }
-      .ab-svc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-      .ab-svc-tags span {
-        font-size: 0.62rem; font-weight: 600; letter-spacing: 0.06em;
-        background: var(--glass2); border: 1px solid var(--gborder);
-        border-radius: 99px; padding: 4px 10px; color: var(--text-dim);
-      }
-
-      /* ─── EQUIPMENT / SECTION 04 ─── */
-      .ab-equipment { background: linear-gradient(180deg, var(--bg2) 0%, var(--bg3) 100%); }
-      .ab-tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-      .ab-tool-cat {
-        background: var(--glass); border: 1px solid var(--gborder);
-        border-radius: 20px; padding: 28px;
-        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      }
-      .ab-tool-cat-hdr {
-        display: flex; align-items: center; gap: 10px;
-        margin-bottom: 20px;
-        font-size: 0.64rem; font-weight: 700; letter-spacing: 0.18em;
-        text-transform: uppercase; color: var(--accent3);
-      }
-      .ab-tool-items { display: flex; flex-wrap: wrap; gap: 8px; }
-      .ab-tool-item {
-        font-size: 0.76rem; font-weight: 500;
-        background: var(--glass2); border: 1px solid var(--gborder2);
-        border-radius: 99px; padding: 6px 14px; color: var(--text-dim);
-        transition: border-color 0.25s, color 0.25s;
-      }
-      .ab-tool-item:hover { border-color: rgba(139,92,246,0.4); color: var(--accent3); }
-
-      /* ─── ACHIEVEMENTS / SECTION 05 ─── */
-      .ab-achievements { background: linear-gradient(135deg, var(--bg3) 0%, var(--bg) 100%); }
-      .ab-gal-grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-auto-rows: 220px;
-        gap: 14px;
-      }
-      .ab-gal-half  { grid-column: span 3; }
-      .ab-gal-third { grid-column: span 2; }
-      .ab-gal-item {
-        position: relative; border-radius: 16px; overflow: hidden;
-        background: var(--glass2); border: 1px solid var(--gborder);
-        cursor: pointer; transition: transform 0.3s, border-color 0.3s;
-      }
-      .ab-gal-item:hover { transform: scale(1.02); border-color: rgba(139,92,246,0.4); }
-      .ab-gal-item img {
-        width: 100%; height: 100%; object-fit: cover;
-        pointer-events: none; user-select: none; -webkit-user-drag: none;
-        display: block;
-      }
-      .ab-gal-label {
-        position: absolute; bottom: 0; left: 0; right: 0;
-        padding: 16px 14px 12px;
-        background: linear-gradient(transparent, rgba(0,0,0,0.72));
-        font-size: 0.7rem; font-weight: 600;
-        color: rgba(255,255,255,0.9); letter-spacing: 0.04em;
-      }
-      .ab-gal-zoom {
-        position: absolute; top: 12px; right: 12px;
-        width: 32px; height: 32px; border-radius: 8px;
-        background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
-        display: flex; align-items: center; justify-content: center;
-        color: rgba(255,255,255,0.8); font-size: 0.75rem;
-        opacity: 0; transition: opacity 0.3s;
-      }
-      .ab-gal-item:hover .ab-gal-zoom { opacity: 1; }
-      .ab-gal-placeholder {
-        width: 100%; height: 100%; display: flex;
-        flex-direction: column; align-items: center; justify-content: center;
-        gap: 8px; color: var(--text-dim);
-        font-size: 0.72rem;
-      }
-
-      /* ─── CERTIF MODAL (BUG-FIXED: no root filter) ─── */
-      .ab-modal-wrap {
-        position: fixed; inset: 0; z-index: 9000;
-        background: rgba(0,0,0,0.82); backdrop-filter: blur(6px);
-        display: flex; align-items: center; justify-content: center;
-        padding: 20px; animation: abModalIn 0.25s ease;
-      }
-      @keyframes abModalIn { from { opacity: 0; } to { opacity: 1; } }
-      .ab-modal-content {
-        position: relative; max-width: 88vw; max-height: 90vh;
-        display: flex; flex-direction: column; align-items: center; gap: 12px;
-      }
-      .ab-modal-close {
-        position: absolute; top: -14px; right: -14px;
-        width: 44px; height: 44px; border-radius: 50%;
-        background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-        color: #fff; font-size: 1.1rem; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        transition: background 0.25s; z-index: 1;
-      }
-      .ab-modal-close:hover { background: rgba(139,92,246,0.7); }
-      .ab-modal-img {
-        max-width: 100%; max-height: 80vh; object-fit: contain;
-        border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,0.8);
-        user-select: none; -webkit-user-drag: none;
-        animation: abImgIn 0.3s ease;
-      }
-      @keyframes abImgIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-      .ab-modal-filename {
-        font-family: 'Outfit', sans-serif; font-size: 0.72rem;
-        color: rgba(255,255,255,0.4); letter-spacing: 0.08em;
-      }
-
-      /* ─── BOTTOM CTA ─── */
-      .ab-bottom-cta {
-        padding: 60px 80px 80px;
-        background: linear-gradient(180deg, var(--bg3) 0%, var(--bg) 100%);
-        text-align: center; border-top: 1px solid var(--border);
-      }
-      .ab-btn-view {
-        display: inline-flex; align-items: center; gap: 10px;
-        padding: 14px 36px; border: none; border-radius: 99px; cursor: pointer;
-        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        color: #fff; font-family: 'Outfit', sans-serif;
-        font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em;
-        text-transform: uppercase; transition: opacity 0.25s, transform 0.25s;
-      }
-      .ab-btn-view:hover { opacity: 0.88; transform: scale(1.04); }
-
-      /* ─── RESPONSIVE ─── */
-      @media (max-width: 1200px) {
-        .ab-intro-grid { grid-template-columns: 300px 1fr; gap: 60px; }
-        .ab-svc-grid   { grid-template-columns: repeat(2, 1fr); }
-        .ab-tools-grid { grid-template-columns: repeat(2, 1fr); }
-        .ab-gal-grid   { grid-template-columns: repeat(4, 1fr); }
-        .ab-gal-half   { grid-column: span 2; }
-        .ab-gal-third  { grid-column: span 2; }
-      }
-      @media (max-width: 1024px) {
-        .ab-hero, .ab-section, .ab-bottom-cta { padding-left: 40px; padding-right: 40px; }
-        .ab-hero-clock { right: 40px; }
-      }
-      @media (max-width: 768px) {
-        .ab-hero, .ab-section, .ab-bottom-cta { padding-left: 24px; padding-right: 24px; }
-        .ab-hero { min-height: auto; padding-top: 100px; padding-bottom: 50px; }
-        .ab-hero-clock { top: 100px; right: 24px; font-size: 0.62rem; }
-        .ab-intro-grid { grid-template-columns: 1fr; gap: 48px; }
-        .ab-photo-wrap { position: static; }
-        .ab-photo-frame { max-width: 280px; margin: 0 auto; }
-        .ab-svc-grid   { grid-template-columns: 1fr; }
-        .ab-tools-grid { grid-template-columns: 1fr; }
-        .ab-gal-grid   { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
-        .ab-gal-half   { grid-column: span 2; }
-        .ab-gal-third  { grid-column: span 1; }
-        .ab-stats-row  { flex-direction: column; }
-        .ab-stat-item  { border-right: none; border-bottom: 1px solid var(--gborder); }
-        .ab-stat-item:last-child { border-bottom: none; }
-        .ab-section { padding-top: 60px; padding-bottom: 60px; }
-        .ab-acc-hdr { padding: 20px 22px; }
-        .ab-acc-inner { padding: 0 22px 24px; }
-      }
-    `;
-    document.head.appendChild(style);
-    return () => document.getElementById('about-page-styles')?.remove();
-  }, []);
-
-  const goTo = (path) => {
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const skillSpans = evenSpans(ACCORDION_ITEMS.length, 3);
+  const svcSpans = evenSpans(SERVICES.length, 2);
+  const toolSpans = evenSpans(TOOLS.length, 3);
 
   return (
-    <>
-      {/* ── HERO ── */}
-      <div className="ab-hero">
-        <div className="ab-hero-bg" />
+    <main className="bn">
+      <div className="bn-wrap">
+        {/* ── Intro ── */}
+        <div className="bn-grid">
+          <Reveal className="bn-card bn-hello bn-span-4">
+            <div className="bn-hello-top">
+              <div className="bn-who">
+                <span className="bn-avatar"><img src="/assets/img/favicon.png" alt="" /></span>
+                <div>
+                  <b>Aldo Leo Saputra</b>
+                  <small>Multidisciplinary Digital Creator</small>
+                </div>
+              </div>
+              <span className="bn-clock">WIB {wibTime}</span>
+            </div>
+            <div className="bn-social">
+              <a href={IG_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fa-brands fa-instagram" /></a>
+              <a href={waLink(L('Hi Aldo, I want to get in touch.', 'Halo Aldo, aku mau ngobrol.'))} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i className="fa-brands fa-whatsapp" /></a>
+            </div>
+            <h1 className="bn-title">
+              {L('Hi, I’m Aldo.', 'Halo, aku Aldo.')}{' '}
+              <span>{L('Web, video & design.', 'Web, video & desain.')}</span>
+            </h1>
+            {isID ? (
+              <>
+                <p className="bn-lead">Kreator digital dari Jawa Timur yang nggak cuma bisa satu hal.</p>
+                <p className="bn-lead">
+                  Sekarang masih jadi mahasiswa (kabar kuliahnya nyusul), tapi terbuka buat kolaborasi apapun.
+                  Ngurusin web, video, live streaming, ilustrasi, sampai foto. Filosofinya sederhana: proyekmu aku garap kayak punya sendiri.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="bn-lead">A multidisciplinary digital creator — not a generalist, a specialist in multiple crafts.</p>
+                <p className="bn-lead">
+                  Based in East Java, Indonesia. Currently a university student (status: awaiting announcement), open to collaboration at any scale.
+                  Web development, video production, live streaming, illustration and photography. Philosophy: your project gets treated like mine.
+                </p>
+              </>
+            )}
+            <span className="bn-open"><i /> {L('Open for new projects', 'Terbuka untuk project baru')}</span>
+          </Reveal>
 
-        {/* WIB Clock */}
-        <div className="ab-hero-clock">
-          WIB {wibTime}
+          <Reveal className="bn-card bn-photo bn-span-2 bn-row-2" delay={0.08}>
+            <img src="/assets/img/bg1.jpg" alt="Aldo Leo Saputra" draggable={false} onContextMenu={e => e.preventDefault()} />
+            <div className="bn-photo-barrier" onContextMenu={e => e.preventDefault()} />
+          </Reveal>
+
+          <Reveal className="bn-card bn-stats bn-span-4" delay={0.12}>
+            <div><b>4+</b><span>{L('Years active', 'Tahun aktif')}</span></div>
+            <div><b>{SHOWCASE_COUNT}</b><span>{L('Projects', 'Proyek')}</span></div>
+            <div><b>5</b><span>{L('Disciplines', 'Multidisiplin')}</span></div>
+          </Reveal>
         </div>
 
-        <div className="ab-hero-content">
-          <span className="ab-hero-label reveal">About Me</span>
-          <h1 className="ab-hero-name reveal">
-            Aldo Leo Saputra
-          </h1>
-          <p className="ab-hero-sub reveal">
-            Multidisciplinary Digital Creator
-          </p>
-        </div>
-      </div>
-
-      {/* ── SECTION 01 — INTRODUCTION ── */}
-      <section className="ab-section ab-intro">
-        <div className="ab-intro-grid">
-
-          {/* Photo */}
-          <div className="ab-photo-col reveal">
-            <div className="ab-photo-wrap">
-              <div className="ab-photo-glow" />
-              <div className="ab-photo-frame">
-                <img
-                  src="/assets/img/bg1.jpg"
-                  alt="Aldo Leo Saputra"
-                  className="ab-photo-img"
-                  draggable={false}
-                  onContextMenu={(e) => e.preventDefault()}
-                />
-                {/* Barrier — prevents click, drag, save */}
-                <div
-                  className="ab-photo-barrier"
-                  onContextMenu={(e) => e.preventDefault()}
-                  draggable={false}
-                />
+        {/* ── Skills ── */}
+        <SecHead kicker="01 / Skills">{L('What I', 'Yang bisa')} <span className="bn-dim">{L('do.', 'aku kerjakan.')}</span></SecHead>
+        <div className="bn-grid">
+          {ACCORDION_ITEMS.map((it, i) => (
+            <Reveal key={it.id} className={`bn-card bn-skill bn-span-${skillSpans[i]}`} delay={(i % 2) * 0.06}>
+              <div className="bn-skill-top">
+                <span className="bn-ico"><i className={it.icon} /></span>
+                <span className="bn-num">{it.num}</span>
               </div>
-              <div className="ab-photo-badge">
-                <span className="ab-badge-dot" />
-                <span>Open for New Projects</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Text */}
-          <div className="ab-intro-text">
-            <div className="reveal">
-              <span className="ab-sec-label">01 / Introduction</span>
-              <h2 className="ab-sec-title">
-                Who{' '}
-                <span className="grad-text-1">Am I?</span>
-              </h2>
-            </div>
-
-            <div className="reveal">
-              {lang === 'id' ? (
-                <>
-                  <p className="ab-intro-lead">
-                    Kreator digital dari Jawa Timur yang nggak cuma bisa satu hal.
-                  </p>
-                  <p className="ab-intro-body">
-                    Aldo Leo Saputra — kreator digital dari Jawa Timur. Sekarang masih
-                    jadi mahasiswa (kabar kuliahnya nyusul), tapi terbuka buat kolaborasi
-                    apapun. Ngurusin web, video, live streaming, ilustrasi, sampai foto.
-                  </p>
-                  <p className="ab-intro-body">
-                    Filosofinya sederhana: proyekmu aku garap kayak punya sendiri.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="ab-intro-lead">
-                    A multidisciplinary digital creator — not a generalist,
-                    a specialist in multiple crafts.
-                  </p>
-                  <p className="ab-intro-body">
-                    I'm Aldo Leo Saputra — a digital creator based in East Java, Indonesia.
-                    Currently a university student (status: awaiting announcement), open to
-                    collaboration at any scale. My work spans premium web development, video
-                    production, live streaming, illustration, and photography.
-                  </p>
-                  <p className="ab-intro-body">
-                    Philosophy: your project gets treated like mine.
-                  </p>
-                </>
-              )}
-            </div>
-
-            {/* Stats */}
-            <div className="ab-stats-row reveal">
-              <div className="ab-stat-item">
-                <span className="ab-stat-val">4+</span>
-                <span className="ab-stat-label">
-                  {lang === 'id' ? 'Tahun Aktif' : 'Years Active'}
-                </span>
-              </div>
-              <div className="ab-stat-item">
-                <span className="ab-stat-val">21+</span>
-                <span className="ab-stat-label">
-                  {lang === 'id' ? 'Proyek' : 'Projects'}
-                </span>
-              </div>
-              <div className="ab-stat-item">
-                <span className="ab-stat-val">5</span>
-                <span className="ab-stat-label">
-                  {lang === 'id' ? 'Multidisiplin' : 'Disciplines'}
-                </span>
-              </div>
-            </div>
-
-            <div className="reveal">
-              <button className="ab-btn-cta" onClick={() => goTo('/login')}>
-                <span>{lang === 'id' ? 'Hubungi Saya' : 'Get in Touch'}</span>
-                <i className="fa-solid fa-arrow-up-right" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 02 — SKILLS ── */}
-      <section className="ab-section ab-skills">
-        <span className="ab-sec-label reveal">02 / Skills</span>
-        <h2 className="ab-sec-title reveal">
-          What I{' '}
-          <span className="grad-text-2">Do</span>
-        </h2>
-        <div className="ab-acc-list reveal">
-          {ACCORDION_ITEMS.map((item) => (
-            <AccordionItem
-              key={item.id}
-              item={item}
-              isOpen={openAcc === item.id}
-              onToggle={() => handleAccToggle(item.id)}
-              lang={lang}
-            />
+              <h3>{it.title}</h3>
+              <p>{isID ? it.descID : it.descEN}</p>
+              {it.note && <p className="bn-note"><i className="fa-solid fa-circle-info" />{it.note}</p>}
+              <div className="bn-tags">{it.tools.map(x => <span key={x}>{x}</span>)}</div>
+            </Reveal>
           ))}
         </div>
-      </section>
 
-      {/* ── SECTION 03 — SERVICES ── */}
-      <section className="ab-section ab-services">
-        <span className="ab-sec-label reveal">03 / Services</span>
-        <h2 className="ab-sec-title reveal">
-          What I Can{' '}
-          <span className="grad-text-3">Build</span>
-        </h2>
-        <div className="ab-svc-grid">
+        {/* ── Services ── */}
+        <SecHead kicker="02 / Services">{L('What I can', 'Yang bisa')} <span className="bn-dim">{L('build.', 'kubuat.')}</span></SecHead>
+        <div className="bn-grid">
           {SERVICES.map((svc, i) => (
-            <div
-              key={svc.num}
-              className={`ab-svc-card reveal${i % 3 === 1 ? ' rv-d1' : i % 3 === 2 ? ' rv-d2' : ''}`}
+            <Reveal key={svc.num} className={`bn-card bn-svc bn-span-${svcSpans[i]}`} delay={(i % 3) * 0.05}>
+              <div className="bn-skill-top">
+                <span className="bn-ico"><i className={svc.icon} /></span>
+                <span className="bn-num">{svc.num}</span>
+              </div>
+              <h3>{isID ? svc.titleID : svc.titleEN}</h3>
+              <p>{isID ? svc.descID : svc.descEN}</p>
+              <div className="bn-tags">{svc.tags.map(x => <span key={x}>{x}</span>)}</div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* ── Tools ── */}
+        <SecHead kicker="03 / Equipment">Tools & <span className="bn-dim">Gear.</span></SecHead>
+        <div className="bn-grid">
+          {TOOLS.map((cat, i) => (
+            <Reveal key={cat.catLabel} className={`bn-card bn-tool bn-span-${toolSpans[i]}`} delay={(i % 2) * 0.06}>
+              <h3><i className={cat.catIcon} />{cat.catLabel}</h3>
+              <div className="bn-tags">{cat.items.map(x => <span key={x}>{x}</span>)}</div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* ── Achievements ── */}
+        <SecHead kicker="04 / Achievements">
+          {L('Certificates &', 'Sertifikat &')} <span className="bn-dim">{L('awards.', 'penghargaan.')}</span>
+        </SecHead>
+        <div className="bn-grid">
+          {CERTIF_ITEMS.map((c, i) => (
+            <motion.button
+              key={c.filename}
+              type="button"
+              className={`bn-work bn-cert bn-span-${CERT_SPANS[i] || 2}`}
+              onClick={() => setCertModal({ src: c.src, filename: c.filename })}
+              onContextMenu={e => e.preventDefault()}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.55, delay: (i % 3) * 0.05, ease: [0.22, 1, 0.36, 1] }}
+              aria-label={c.caption}
             >
-              <div className="ab-svc-hdr">
-                <span className="ab-svc-num">{svc.num}</span>
-                <span className="ab-svc-icon"><i className={svc.icon} /></span>
-              </div>
-              <h3 className="ab-svc-title">
-                {lang === 'id' ? svc.titleID : svc.titleEN}
-              </h3>
-              <p className="ab-svc-desc">
-                {lang === 'id' ? svc.descID : svc.descEN}
-              </p>
-              <div className="ab-svc-tags">
-                {svc.tags.map((tag, j) => <span key={j}>{tag}</span>)}
-              </div>
-            </div>
+              <span className="bn-work-glow" style={{ backgroundImage: `url(${c.thumb})` }} />
+              <span className="bn-work-in">
+                <ThumbImg src={c.src} thumb={c.thumb} alt={c.caption} />
+                <span className="bn-work-shade" />
+                <span className="bn-work-go"><i className="fa-solid fa-magnifying-glass" /></span>
+                <span className="bn-work-txt">
+                  <strong className="bn-work-title">{c.caption}</strong>
+                  <span className="bn-work-desc">{c.desc}</span>
+                </span>
+              </span>
+            </motion.button>
           ))}
         </div>
-      </section>
 
-      {/* ── SECTION 04 — EQUIPMENT ── */}
-      <section className="ab-section ab-equipment">
-        <span className="ab-sec-label reveal">04 / Equipment</span>
-        <h2 className="ab-sec-title reveal">
-          Tools &{' '}
-          <span className="grad-text-4">Gear</span>
-        </h2>
-        <div className="ab-tools-grid reveal">
-          {TOOLS.map((cat) => (
-            <div key={cat.catLabel} className="ab-tool-cat">
-              <div className="ab-tool-cat-hdr">
-                <i className={cat.catIcon} />
-                <span>{cat.catLabel}</span>
-              </div>
-              <div className="ab-tool-items">
-                {cat.items.map((item, i) => (
-                  <span key={i} className="ab-tool-item">{item}</span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── SECTION 05 — ACHIEVEMENTS ── */}
-      <section className="ab-section ab-achievements">
-        <span className="ab-sec-label reveal">05 / Achievements</span>
-        <h2 className="ab-sec-title reveal">
-          {lang === 'id' ? 'Sertifikat & ' : 'Certificates & '}
-          <span className="grad-text-5">
-            {lang === 'id' ? 'Penghargaan' : 'Awards'}
-          </span>
-        </h2>
-        <div className="ab-gal-grid reveal">
-          {CERTIF_ITEMS.map((item, i) => (
-            <div
-              key={i}
-              className={`ab-gal-item ${item.cls}`}
-              onClick={() => !certErrors[i] && setCertModal({ src: item.src, filename: item.filename })}
-              onContextMenu={(e) => e.preventDefault()}
-            >
-              {certErrors[i] ? (
-                <div className="ab-gal-placeholder">
-                  <i className="fa-solid fa-file" style={{ fontSize: '1.5rem', opacity: 0.4 }} />
-                  <span>{item.filename}</span>
-                </div>
-              ) : (
-                <img
-                  src={item.src}
-                  alt={item.caption}
-                  loading="lazy"
-                  draggable={false}
-                  onContextMenu={(e) => e.preventDefault()}
-                  onError={() => handleCertError(i)}
-                />
-              )}
-              <div className="ab-gal-label">{item.caption}</div>
-              {!certErrors[i] && (
-                <div className="ab-gal-zoom">
-                  <i className="fa-solid fa-magnifying-glass" />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── BOTTOM CTA ── */}
-      <div className="ab-bottom-cta">
-        <p style={{
-          fontFamily: 'Cormorant Garamond, serif',
-          fontSize: 'clamp(1.6rem, 3vw, 2.6rem)',
-          fontWeight: 300,
-          color: 'var(--text)',
-          marginBottom: 24,
-          lineHeight: 1.2,
-        }}>
-          {lang === 'id'
-            ? 'Mau liat proyeknya?'
-            : 'Want to see the work?'}
-        </p>
-        <button className="ab-btn-view" onClick={() => goTo('/price-list')}>
-          <span>{lang === 'id' ? 'Lihat Proyek' : 'View Projects'}</span>
-          <i className="fa-solid fa-arrow-right" />
-        </button>
+        {/* ── CTA ── */}
+        <ContactCard
+          className="bn-cta"
+          title={L('Want to see the work?', 'Mau lihat proyeknya?')}
+          text={L('Browse the portfolio, or tell me about yours.', 'Lihat portofolionya, atau ceritakan project-mu.')}
+          primary={
+            <button className="bn-btn bn-btn--solid" onClick={() => navigate('/works')}>
+              {L('View Works', 'Lihat Karya')} <Arrow />
+            </button>
+          }
+          secondary={
+            <button className="bn-btn" onClick={() => navigate('/price-list')}>
+              {L('Price list', 'Daftar harga')}
+            </button>
+          }
+        />
       </div>
 
-      {/* ── CERTIF MODAL ── */}
-      {certModal && (
-        <CertifModal
-          src={certModal.src}
-          filename={certModal.filename}
-          onClose={() => setCertModal(null)}
-        />
-      )}
-    </>
+      {certModal && <CertifModal src={certModal.src} filename={certModal.filename} onClose={() => setCertModal(null)} />}
+    </main>
   );
 }

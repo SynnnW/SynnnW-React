@@ -1,0 +1,222 @@
+/* ══════════════════════════════════════════════════════
+   BENTO — dipakai Works (depan), Journal (depan), About
+   Referensi: Figma "Top portfolio websites 2025" (kartu besar,
+   latar bergaris diagonal, glow di belakang gambar).
+   Semua class di-prefix .bn- ; warna ngikut variable global.
+══════════════════════════════════════════════════════ */
+.bn {
+  --bn-pad: clamp(16px, 4vw, 40px);
+  --bn-gap: clamp(14px, 2vw, 26px);
+  --bn-r: 28px;
+  --bn-row: clamp(300px, 31vw, 390px);
+  --bn-line: color-mix(in srgb, var(--text) 6%, transparent);
+  position: relative; isolation: isolate; overflow-x: clip;
+  min-height: 100vh; padding: 112px var(--bn-pad) 90px;
+  font-family: 'Outfit', sans-serif; color: var(--text);
+}
+.bn::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    repeating-linear-gradient(118deg, transparent 0 54px, var(--bn-line) 54px 55px),
+    radial-gradient(60% 38% at 82% 0%, rgba(139, 92, 246, 0.2), transparent 70%),
+    radial-gradient(48% 34% at 0% 55%, rgba(236, 72, 153, 0.1), transparent 70%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
+}
+.bn-wrap { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--bn-gap); }
+.bn h1, .bn h2, .bn h3 { font-family: 'Outfit', sans-serif; font-weight: 500; letter-spacing: -0.025em; }
+
+/* ── Grid 6 kolom ── */
+.bn-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--bn-gap); }
+.bn-grid--rows { grid-auto-rows: var(--bn-row); }
+.bn-span-2 { grid-column: span 2; } .bn-span-3 { grid-column: span 3; }
+.bn-span-4 { grid-column: span 4; } .bn-span-6 { grid-column: span 6; }
+.bn-row-2 { grid-row: span 2; }
+
+/* ── Kartu dasar ── */
+.bn-card {
+  position: relative; overflow: hidden; border-radius: var(--bn-r);
+  border: 1px solid var(--border2); background: var(--glass);
+  padding: clamp(22px, 3vw, 34px);
+}
+.bn-kicker { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+.bn-dim { color: var(--text-dim); }
+.bn-title { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.04; letter-spacing: -0.035em; }
+.bn-title span { color: var(--text-dim); }
+.bn-lead { font-size: 1rem; line-height: 1.7; color: var(--text-dim); max-width: 520px; }
+
+/* Kartu "hello" — glow ungu di dalam kartu */
+.bn-hello { display: flex; flex-direction: column; gap: 22px; justify-content: flex-end; min-height: 330px; }
+.bn-hello::before {
+  content: ''; position: absolute; z-index: 0; width: 560px; height: 560px; right: -160px; top: -300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.5), rgba(236, 72, 153, 0.18) 45%, transparent 70%); filter: blur(30px);
+}
+.bn-hello > * { position: relative; z-index: 1; }
+.bn-who { display: flex; align-items: center; gap: 14px; }
+.bn-avatar { width: 46px; height: 46px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: var(--bg3); border: 1px solid var(--border2); }
+.bn-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.bn-who b { display: block; font-size: 0.95rem; font-weight: 500; }
+.bn-who small { font-size: 0.74rem; color: var(--text-dim); }
+.bn-social { display: flex; gap: 10px; }
+.bn-social a {
+  width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 1rem; color: var(--text);
+  border: 1px solid var(--border2); background: var(--glass); transition: background 0.3s, border-color 0.3s, transform 0.3s;
+}
+.bn-social a:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-2px); }
+
+/* Kartu berwarna (angka / kontak) */
+.bn-hot {
+  color: #fff; border: 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 240px;
+  background: linear-gradient(135deg, #7c3aed 0%, #c026d3 55%, #f97316 130%);
+}
+.bn-hot::after { content: ''; position: absolute; width: 320px; height: 320px; right: -110px; bottom: -150px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); filter: blur(10px); }
+.bn-hot > * { position: relative; z-index: 1; }
+.bn-big { font-size: clamp(4rem, 9vw, 6.6rem); font-weight: 500; line-height: 0.9; letter-spacing: -0.05em; }
+.bn-hot small { display: block; margin-top: 12px; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.85; }
+.bn-hot-sub { font-size: 0.9rem; line-height: 1.55; opacity: 0.9; max-width: 220px; }
+
+/* ── Tombol ── */
+.bn-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px; height: 46px; padding: 0 24px; border-radius: 99px; cursor: pointer;
+  font-family: 'Outfit', sans-serif; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+  border: 1px solid var(--border2); background: transparent; color: var(--text); transition: transform 0.3s, background 0.3s, border-color 0.3s;
+}
+.bn-btn:hover { transform: translateY(-2px); background: var(--glass2); border-color: var(--accent2); }
+.bn-btn--solid { background: var(--accent); border-color: var(--accent); color: #fff; }
+.bn-btn--solid:hover { background: var(--accent2); border-color: var(--accent2); }
+
+/* ── Toolbar filter ── */
+.bn-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.bn-chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px; scrollbar-width: none; max-width: 100%; }
+.bn-chips::-webkit-scrollbar { display: none; }
+.bn-chip {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 16px; border-radius: 99px; cursor: pointer;
+  font-family: 'Outfit', sans-serif; font-size: 0.8rem; color: var(--text-dim); border: 1px solid var(--border2); background: var(--glass); transition: all 0.25s;
+}
+.bn-chip i { font-style: normal; font-size: 0.68rem; opacity: 0.6; }
+.bn-chip:hover { color: var(--text); border-color: var(--accent2); }
+.bn-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.bn-seg { display: inline-flex; padding: 4px; border-radius: 99px; border: 1px solid var(--border2); background: var(--glass); }
+.bn-seg button { height: 32px; padding: 0 16px; border: 0; border-radius: 99px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.76rem; color: var(--text-dim); background: transparent; transition: all 0.25s; }
+.bn-seg button.on { background: var(--text); color: var(--bg); }
+
+/* ══════════ KARTU KARYA (gambar + glow) ══════════ */
+.bn-work { position: relative; display: block; border-radius: var(--bn-r); color: #f4f2ee; isolation: isolate; outline-offset: 5px; -webkit-user-drag: none; }
+.bn-work-glow {
+  position: absolute; inset: -20px; z-index: -1; border-radius: 44px; background-size: cover; background-position: center;
+  filter: blur(26px) saturate(1.5); opacity: 0.4; transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.bn-work:hover .bn-work-glow, .bn-work:focus-visible .bn-work-glow { opacity: 0.78; transform: scale(1.03); }
+.bn-work-in { position: absolute; inset: 0; border-radius: var(--bn-r); overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.13); background: #0b0b13; }
+.bn-work-in img, .bn-work-ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
+.bn-work:hover .bn-work-in img { transform: scale(1.06); }
+.bn-work-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5, 6, 12, 0.05) 28%, rgba(5, 6, 12, 0.9) 100%); }
+.bn-work-go {
+  position: absolute; right: 16px; top: 16px; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.22); backdrop-filter: blur(8px); transition: all 0.35s;
+}
+.bn-work:hover .bn-work-go { background: var(--accent); border-color: var(--accent); transform: rotate(45deg); }
+.bn-work-txt { position: absolute; left: clamp(18px, 2.4vw, 28px); right: clamp(18px, 2.4vw, 28px); bottom: clamp(16px, 2.2vw, 24px); display: flex; flex-direction: column; gap: 7px; }
+.bn-work-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; }
+.bn-work-title { font-size: clamp(1.05rem, 1.7vw, 1.3rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
+.bn-pill { font-style: normal; padding: 4px 10px; border-radius: 99px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.24); backdrop-filter: blur(8px); }
+.bn-pill--gold { background: rgba(250, 204, 21, 0.18); border-color: rgba(250, 204, 21, 0.5); color: #fde68a; }
+.bn-work-desc { font-size: 0.84rem; line-height: 1.5; color: rgba(244, 242, 238, 0.74); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bn-work-meta { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(244, 242, 238, 0.5); }
+.bn-empty { grid-column: 1 / -1; padding: 60px 20px; text-align: center; color: var(--text-dim); border: 1px dashed var(--border2); border-radius: var(--bn-r); }
+
+/* ══════════ KARTU KONTAK BERWARNA ══════════ */
+.bn-contact {
+  color: #fff; border: 0; display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap;
+  padding: clamp(30px, 5vw, 56px); background: linear-gradient(135deg, #ff8a1f 0%, #ff5a36 55%, #ec4899 120%);
+}
+.bn-contact-orb { position: absolute; width: 420px; height: 420px; right: -120px; top: -200px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); filter: blur(24px); pointer-events: none; }
+.bn-contact-copy { position: relative; max-width: 520px; }
+.bn-contact-copy h2 { font-size: clamp(1.7rem, 3.6vw, 2.8rem); line-height: 1.1; }
+.bn-contact-copy p { margin-top: 12px; font-size: 0.98rem; line-height: 1.6; opacity: 0.92; }
+.bn-contact-btns { position: relative; display: flex; flex-wrap: wrap; gap: 12px; }
+.bn-contact .bn-btn { color: #fff; border-color: rgba(255, 255, 255, 0.55); }
+.bn-contact .bn-btn:hover { background: rgba(255, 255, 255, 0.18); border-color: #fff; }
+.bn-contact .bn-btn--solid { background: #fff; border-color: #fff; color: #c2410c; }
+.bn-contact .bn-btn--solid:hover { background: #fff7ed; }
+
+/* ══════════ JOURNAL ══════════ */
+.bn-feat .bn-work-in { border-radius: var(--bn-r); }
+.bn-badges { position: absolute; left: 20px; top: 20px; display: flex; gap: 8px; flex-wrap: wrap; }
+.bn-feat-excerpt { max-width: 640px; font-size: 0.92rem; line-height: 1.6; color: rgba(244, 242, 238, 0.78); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.bn-feat-title { font-size: clamp(1.35rem, 2.6vw, 2.1rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.025em; max-width: 720px; }
+.bn-side { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; }
+.bn-side dl { display: flex; flex-direction: column; gap: 16px; }
+.bn-side dt { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); }
+.bn-side dd { margin-top: 4px; font-size: 1rem; }
+
+/* ══════════ ABOUT ══════════ */
+.bn-clock { font-variant-numeric: tabular-nums; font-size: 0.72rem; letter-spacing: 0.16em; color: var(--text-dim); }
+.bn-open { display: inline-flex; align-items: center; gap: 9px; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.bn-open i { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e; animation: bnPulse 2s ease-in-out infinite; }
+@keyframes bnPulse { 50% { opacity: 0.35; } }
+.bn-hello-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.bn-photo { padding: 0; min-height: 420px; background: #fff; }
+.bn-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; pointer-events: none; }
+.bn-photo-barrier { position: absolute; inset: 0; z-index: 2; }
+.bn-photo-cap { position: absolute; left: 14px; bottom: 14px; z-index: 3; padding: 8px 14px; border-radius: 99px; color: #fff; background: rgba(7, 7, 9, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.16); }
+.bn-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-content: center; }
+.bn-stats b { display: block; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+.bn-stats span { display: block; margin-top: 8px; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.bn-sec-head { padding: clamp(28px, 5vw, 56px) 4px 0; }
+.bn-sec-head h2 { margin-top: 10px; font-size: clamp(1.7rem, 3.4vw, 2.6rem); line-height: 1.1; }
+.bn-ico { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-size: 1.05rem; color: var(--accent2); background: var(--glass2); border: 1px solid var(--border2); }
+.bn-skill { display: flex; flex-direction: column; gap: 14px; }
+.bn-skill-top { display: flex; align-items: center; justify-content: space-between; }
+.bn-num { font-size: 0.75rem; letter-spacing: 0.16em; color: var(--accent2); }
+.bn-skill h3 { font-size: 1.35rem; line-height: 1.2; }
+.bn-skill p, .bn-svc p { font-size: 0.88rem; line-height: 1.7; color: var(--text-dim); }
+.bn-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 4px; }
+.bn-tags span { padding: 5px 11px; border-radius: 99px; font-size: 0.68rem; border: 1px solid var(--border2); color: var(--text-dim); }
+.bn-note { font-size: 0.78rem; color: var(--text-dim); }
+.bn-note i { margin-right: 6px; color: var(--accent2); }
+.bn-svc { display: flex; flex-direction: column; gap: 12px; padding: clamp(20px, 2.6vw, 28px); }
+.bn-svc h3 { font-size: 1.1rem; }
+.bn-tool h3 { display: flex; align-items: center; gap: 12px; font-size: 1.05rem; margin-bottom: 16px; }
+.bn-tool h3 i { color: var(--accent2); }
+.bn-tool .bn-tags { padding-top: 0; }
+.bn-tool .bn-tags span { color: var(--text); }
+.bn-cert { position: relative; padding: 0; background: transparent; min-height: 260px; cursor: zoom-in; border: 0; text-align: left; font-family: inherit; }
+.bn-cert .bn-work-in { border-radius: var(--bn-r); }
+.bn-cert-ph { position: absolute; inset: 0; display: grid; place-items: center; gap: 8px; color: var(--text-dim); font-size: 0.8rem; }
+
+/* Modal sertifikat */
+.bn-modal { position: fixed; inset: 0; z-index: 9000; display: grid; place-items: center; padding: 24px; background: rgba(5, 6, 12, 0.88); backdrop-filter: blur(6px); }
+.bn-modal-box { position: relative; max-width: min(1000px, 100%); max-height: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.bn-modal-box img { max-width: 100%; max-height: calc(100vh - 120px); border-radius: 14px; object-fit: contain; user-select: none; }
+.bn-modal-box p { font-size: 0.78rem; color: rgba(255, 255, 255, 0.6); }
+.bn-modal-x { position: absolute; right: 0; top: -48px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 1rem; cursor: pointer; }
+.bn-modal-x:hover { background: var(--accent); }
+
+/* ══════════ RESPONSIVE ══════════ */
+@media (max-width: 1000px) {
+  .bn-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bn-span-2 { grid-column: span 1; }
+  .bn-span-3, .bn-span-4, .bn-span-6 { grid-column: span 2; }
+  .bn-row-2 { grid-row: auto; }
+  .bn-photo { min-height: 360px; }
+}
+@media (max-width: 640px) {
+  .bn { padding-top: 96px; --bn-row: 360px; }
+  .bn-grid { grid-template-columns: 1fr; }
+  .bn-span-2, .bn-span-3, .bn-span-4, .bn-span-6 { grid-column: auto; }
+  .bn-hello { min-height: 0; }
+  .bn-stats { gap: 10px; }
+  .bn-bar { align-items: flex-start; }
+  .bn-contact { flex-direction: column; align-items: flex-start; }
+  .bn-contact .bn-btn { width: 100%; }
+  .bn-cert { min-height: 220px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bn-work-glow, .bn-work-in img, .bn-work-go { transition: none; }
+  .bn-open i { animation: none; }
+}
+
+/* Kartu sertifikat: bayangan lebih pekat supaya teks terbaca di atas gambar yang penuh tulisan */
+.bn-cert .bn-work-shade { background: linear-gradient(180deg, rgba(5, 6, 12, 0.35) 0%, rgba(5, 6, 12, 0.92) 70%); }
+.bn-cert { min-height: 300px; }
