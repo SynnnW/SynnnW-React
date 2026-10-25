@@ -1,24 +1,24 @@
 // src/pages/quiziz/QuizizUAS.jsx — route: /quizizuas
-// Landing prototype UAS — placeholder murni, belum ada logika quiz.
-// Urutan dipertahankan persis: judul -> pilih matkul (acak, tidak bisa
-// dipencet) + mode multiplayer (belum aktif) -> disclaimer -> link materi
-// (ke Latsol) -> komentar -> saran & masukan.
+// Landing prototype UAS — placeholder, belum ada logika quiz. Desain bento.
+// Urutan: judul -> matkul (acak, belum bisa dipencet) + multiplayer ->
+// disclaimer -> link materi (ke Latsol) -> komentar -> saran & masukan.
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SubjectComments from '../../components/SubjectComments';
 import SaranWebsite from '../../components/SaranWebsite';
 import useQuizAuth from '../../components/quiz/useQuizAuth';
 import QuizShell from '../../components/quiz/QuizShell';
+import { Reveal } from '../../components/BentoKit';
 
 const SUBJECTS = [
-  { name: 'Bahasa Inggris', icon: '🇬🇧' },
-  { name: 'Pendidikan Agama Islam', icon: '🕌' },
-  { name: 'Falsafah dan Teori Keperawatan', icon: '🩺' },
-  { name: 'Konsep Dasar Keperawatan', icon: '📋' },
-  { name: 'Pendidikan Pancasila', icon: '🇮🇩' },
-  { name: 'Kesehatan Global', icon: '🌍' },
-  { name: 'Ilmu Biomedik Dasar', icon: '🧬' },
-  { name: 'Komunikasi Dasar Keperawatan', icon: '💬' },
+  { name: 'Bahasa Inggris', icon: '🇬🇧', color: '#38bdf8' },
+  { name: 'Pendidikan Agama Islam', icon: '🕌', color: '#34d399' },
+  { name: 'Falsafah dan Teori Keperawatan', icon: '🩺', color: '#f472b6' },
+  { name: 'Konsep Dasar Keperawatan', icon: '📋', color: '#8b7bff' },
+  { name: 'Pendidikan Pancasila', icon: '🇮🇩', color: '#fb7185' },
+  { name: 'Kesehatan Global', icon: '🌍', color: '#5eead4' },
+  { name: 'Ilmu Biomedik Dasar', icon: '🧬', color: '#a78bfa' },
+  { name: 'Komunikasi Dasar Keperawatan', icon: '💬', color: '#22d3ee' },
 ];
 
 const shuffle = (arr) => {
@@ -36,59 +36,67 @@ export default function QuizizUAS() {
   const shuffled = useMemo(() => shuffle(SUBJECTS), []);
 
   return (
-    <QuizShell>
-      <div style={{ textAlign: 'center', padding: '4px 0 18px' }}>
-        <h1 className="qz-heading">Quiziz</h1>
-      </div>
+    <QuizShell maxWidth={1180}>
+      <div className="qz-landing">
+        <div className="bn-grid">
+          <Reveal className="bn-card bn-hello bn-span-4">
+            <span className="bn-kicker">Quiziz · UAS</span>
+            <h1 className="bn-title">Quiziz <span>UAS</span></h1>
+            <p className="bn-lead">Materi UAS belum tersedia (target Desember). Komentar dan saran sudah bisa dipakai dari sekarang.</p>
+          </Reveal>
+          <Reveal className="bn-card bn-hot bn-span-2" delay={0.08}>
+            <span className="bn-kicker" style={{ color: 'rgba(255,255,255,.85)' }}>Status</span>
+            <div>
+              <div className="bn-big" style={{ fontSize: 'clamp(2.4rem,5vw,3.6rem)' }}>Soon</div>
+              <small>target Desember</small>
+            </div>
+            <button className="bn-btn" style={{ color: '#fff', borderColor: 'rgba(255,255,255,.55)', alignSelf: 'flex-start' }} onClick={() => navigate('/quiziz')}>
+              Ke Latsol →
+            </button>
+          </Reveal>
+        </div>
 
-      <span className="qz-eyebrow" style={{ display: 'block', marginBottom: 12 }}>Pilih Mata Pelajaran yang Diinginkan</span>
-      <div className="qlz-grid" style={{ marginBottom: 10 }}>
-        {shuffled.map(s => (
-          <div key={s.name} className="qlz-card" style={{ cursor: 'default', opacity: 0.6 }}>
-            <span className="qlz-icon">{s.icon}</span>
-            <span className="qlz-name">{s.name}</span>
-            <span className="qz-badge qz-badge-soon" style={{ marginLeft: 'auto' }}>Coming Soon</span>
+        <div className="bn-grid">
+          {shuffled.map((s, i) => (
+            <Reveal key={s.name} className="bn-span-2" delay={(i % 3) * 0.06}>
+              <div className="bn-card qz-subj qz-subj--off" style={{ '--c': s.color }}>
+                <span className="qz-subj-ico">{s.icon}</span>
+                <span>
+                  <span className="qz-subj-name">{s.name}</span>
+                  <span className="qz-subj-go"><span>Coming soon</span></span>
+                </span>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="bn-card qz-note" style={{ borderStyle: 'dashed' }}>
+          <span className="qz-note-ico">🎮</span>
+          <div>
+            <b>Mode Multiplayer</b>
+            <p>Belum aktif, menunggu materi UAS tersedia.</p>
           </div>
-        ))}
-      </div>
+        </Reveal>
 
-      <div className="qlz-card" style={{ cursor: 'default', borderStyle: 'dashed', margin: '14px 0 28px', opacity: 0.75 }}>
-        <span style={{ fontSize: '1.3rem' }}>🎮</span>
-        <div>
-          <div style={{ fontWeight: 700, fontSize: '0.88rem' }}>Mode Multiplayer</div>
-          <div style={{ color: 'var(--qzg-text-dim)', fontSize: '0.78rem' }}>Belum aktif — menunggu materi UAS tersedia</div>
-        </div>
-        <span className="qz-badge qz-badge-soon" style={{ marginLeft: 'auto' }}>Coming Soon</span>
-      </div>
+        <Reveal className="bn-card qz-note">
+          <span className="qz-note-ico">🤖</span>
+          <div>
+            <b>Disclaimer AI</b>
+            <p>Semua soal dan penyusunan materi UAS nantinya dibuat dengan bantuan AI, sama seperti Latsol Mingguan.</p>
+          </div>
+        </Reveal>
 
-      <div className="qz-disclaimer">
-        <span className="qz-dc-icon">🤖</span>
-        <div>
-          <h4>Disclaimer AI</h4>
-          <p>Semua soal & penyusunan materi UAS nantinya dibuat dengan bantuan AI, sama seperti Latsol Mingguan.</p>
-          <p style={{ marginTop: 6 }}>Materi UAS di atas memang belum tersedia (target Desember) — tapi kolom komentar &amp; saran di bawah
-          sudah bisa dipakai duluan supaya masukanmu bisa ditampung dari sekarang.</p>
-        </div>
-      </div>
+        <button className="bn-card qz-link-card" onClick={() => navigate('/quiziz')}>
+          <span style={{ fontSize: '1.5rem' }}>📖</span>
+          <span>
+            <b style={{ fontWeight: 500 }}>Link Materi</b>
+            <small>Materi sungguhan untuk sekarang ada di Quiziz Mingguan (Latsol)</small>
+          </span>
+          <span className="qz-go">→</span>
+        </button>
 
-      <button
-        className="qlz-card"
-        style={{ '--qlz-accent': '#5eead4', marginTop: 20, marginBottom: 32, width: '100%' }}
-        onClick={() => navigate('/quiziz')}
-      >
-        <span style={{ fontSize: '1.3rem' }}>📖</span>
-        <div>
-          <div style={{ fontWeight: 700, fontSize: '0.88rem' }}>Link Materi</div>
-          <div style={{ color: 'var(--qzg-text-dim)', fontSize: '0.78rem' }}>Materi sungguhan untuk sekarang ada di Quiziz Mingguan (Latsol) →</div>
-        </div>
-        <span className="qlz-arrow">→</span>
-      </button>
-
-      <div className="qz-section">
-        <SubjectComments subjectKey="quizizUas" user={user} />
-      </div>
-      <div className="qz-section">
-        <SaranWebsite user={user} />
+        <div className="qz-section"><SubjectComments subjectKey="quizizUas" user={user} /></div>
+        <div className="qz-section"><SaranWebsite user={user} /></div>
       </div>
     </QuizShell>
   );

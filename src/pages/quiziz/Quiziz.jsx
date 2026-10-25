@@ -1,13 +1,13 @@
 // src/pages/quiziz/Quiziz.jsx — route: /quiziz
-// Landing "Quiziz Mingguan (Latsol)". Urutan elemen dipertahankan persis:
-// judul -> pilih matkul -> subjudul -> disclaimer (cuma di sini) -> 8 kartu
-// matkul (semua bisa dipencet) -> segera hadir (link ke UAS) -> komentar ->
-// saran & masukan.
+// Landing "Quiziz Mingguan (Latsol)" — desain bento (sama dengan Works/Price/Terms).
+// Urutan konten dipertahankan: judul -> disclaimer -> 8 kartu matkul ->
+// segera hadir (link ke UAS) -> komentar -> saran & masukan.
 import { useNavigate } from 'react-router-dom';
 import SubjectComments from '../../components/SubjectComments';
 import SaranWebsite from '../../components/SaranWebsite';
 import useQuizAuth from '../../components/quiz/useQuizAuth';
 import QuizShell from '../../components/quiz/QuizShell';
+import { Reveal, Arrow } from '../../components/BentoKit';
 
 const SUBJECTS = [
   { slug: 'bahasainggris', name: 'Bahasa Inggris', icon: '🇬🇧', color: '#38bdf8' },
@@ -25,50 +25,60 @@ export default function Quiziz() {
   const user = useQuizAuth();
 
   return (
-    <QuizShell>
-      <div style={{ textAlign: 'center', padding: '4px 0 8px' }}>
-        <h1 className="qz-heading">Quiz Keperawatan</h1>
-        <span className="qz-eyebrow">Pilih Mata Pelajaran</span>
-        <p className="qz-subtext">Latihan Soal HOTS Berbasis PPT Dosen/LKM Praktikum</p>
-      </div>
-
-      <div className="qz-disclaimer" style={{ marginTop: 22 }}>
-        <span className="qz-dc-icon">🤖</span>
-        <div>
-          <h4>Disclaimer AI</h4>
-          <p>Semua soal, penjelasan, dan penyusunan materi di halaman ini dibuat dengan bantuan AI.
-          Gunakan sebagai bahan latihan mandiri, bukan pengganti materi resmi dari dosen pengampu.</p>
+    <QuizShell maxWidth={1180}>
+      <div className="qz-landing">
+        <div className="bn-grid">
+          <Reveal className="bn-card bn-hello bn-span-4">
+            <span className="bn-kicker">Quiziz · Latsol Mingguan</span>
+            <h1 className="bn-title">Quiz <span>Keperawatan</span></h1>
+            <p className="bn-lead">Latihan soal HOTS berbasis PPT dosen / LKM praktikum. Pilih mata kuliah, langsung kerjakan.</p>
+          </Reveal>
+          <Reveal className="bn-card bn-hot bn-span-2" delay={0.08}>
+            <span className="bn-kicker" style={{ color: 'rgba(255,255,255,.85)' }}>Mata kuliah</span>
+            <div>
+              <div className="bn-big">{SUBJECTS.length}</div>
+              <small>siap dikerjakan</small>
+            </div>
+            <button className="bn-btn" style={{ color: '#fff', borderColor: 'rgba(255,255,255,.55)', alignSelf: 'flex-start' }} onClick={() => navigate('/quizizuas')}>
+              Quiziz UAS <Arrow />
+            </button>
+          </Reveal>
         </div>
-      </div>
 
-      <div className="qlz-grid">
-        {SUBJECTS.map(s => (
-          <button
-            key={s.slug}
-            className="qlz-card"
-            style={{ '--qlz-accent': s.color }}
-            onClick={() => navigate(`/quiziz/${s.slug}`)}
-          >
-            <span className="qlz-icon" style={{ '--qlz-accent': s.color }}>{s.icon}</span>
-            <span className="qlz-name">{s.name}</span>
-            <span className="qlz-arrow">→</span>
-          </button>
-        ))}
-      </div>
+        <Reveal className="bn-card qz-note">
+          <span className="qz-note-ico">🤖</span>
+          <div>
+            <b>Disclaimer AI</b>
+            <p>Semua soal, penjelasan, dan penyusunan materi di halaman ini dibuat dengan bantuan AI.
+            Gunakan sebagai bahan latihan mandiri, bukan pengganti materi resmi dari dosen pengampu.</p>
+          </div>
+        </Reveal>
 
-      <button className="qlz-soon" onClick={() => navigate('/quizizuas')}>
-        <span style={{ fontSize: '1.3rem' }}>🚧</span>
-        <div>
-          <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: 2 }}>Segera Hadir</div>
-          <div style={{ color: 'var(--qzg-text-dim)', fontSize: '0.8rem' }}>Website QUIZIZ UAS LATSOL →</div>
+        <div className="bn-grid">
+          {SUBJECTS.map((s, i) => (
+            <Reveal key={s.slug} className="bn-span-2" delay={(i % 3) * 0.06}>
+              <button className="bn-card qz-subj" style={{ '--c': s.color, width: '100%' }} onClick={() => navigate(`/quiziz/${s.slug}`)}>
+                <span className="qz-subj-ico">{s.icon}</span>
+                <span>
+                  <span className="qz-subj-name">{s.name}</span>
+                  <span className="qz-subj-go"><span>Mulai latihan</span><Arrow /></span>
+                </span>
+              </button>
+            </Reveal>
+          ))}
         </div>
-      </button>
 
-      <div className="qz-section">
-        <SubjectComments subjectKey="quizizLatsol" user={user} />
-      </div>
-      <div className="qz-section">
-        <SaranWebsite user={user} />
+        <button className="bn-card qz-link-card" onClick={() => navigate('/quizizuas')}>
+          <span style={{ fontSize: '1.5rem' }}>🚧</span>
+          <span>
+            <b style={{ fontWeight: 500 }}>Segera Hadir</b>
+            <small>Website QUIZIZ UAS LATSOL</small>
+          </span>
+          <span className="qz-go">→</span>
+        </button>
+
+        <div className="qz-section"><SubjectComments subjectKey="quizizLatsol" user={user} /></div>
+        <div className="qz-section"><SaranWebsite user={user} /></div>
       </div>
     </QuizShell>
   );
