@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { auth } from '@/supabaseClient';
+import { auth, supabase } from '@/supabaseClient';
 import { onAuthStateChanged } from '@/lib/authCompat';
 
 /* ─────────────────────────────────────────
@@ -192,6 +192,23 @@ const NAV_CSS = `
     box-shadow: var(--neu-press);
   }
   .nv-cta i { font-size: 0.58rem; }
+  .nv-makrab {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 16px; background: transparent; color: var(--text);
+    border: 1px solid var(--border2); border-radius: 99px;
+    font-family: 'Outfit', sans-serif; font-size: 0.64rem;
+    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; white-space: nowrap; transition: all 0.25s;
+  }
+  .nv-makrab:hover { border-color: var(--accent2); background: var(--glass2); transform: translateY(-2px); }
+  .nv-makrab i { font-size: 0.7rem; color: var(--accent2); }
+  .nv-drawer-makrab {
+    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+    padding: 13px 20px; margin-bottom: 10px; background: transparent; color: var(--text);
+    border: 1px solid var(--border2); border-radius: 99px; cursor: pointer;
+    font-family: 'Outfit', sans-serif; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
 
   /* ── Hamburger ── */
   .nv-hamburger {
@@ -289,6 +306,7 @@ const NAV_CSS = `
   @media (max-width: 768px) {
     .nv-pill      { display: none !important; }
     .nv-cta       { display: none !important; }
+    .nv-makrab    { display: none !important; }
     .nv-hamburger { display: flex !important; }
     .nv-root      { padding: 0 1.5rem; }
   }
@@ -315,6 +333,18 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
     const unsub = onAuthStateChanged(auth, u => setUser(u));
     return () => unsub();
   }, []);
+
+  /* ── Tombol Makrab: hanya untuk yang sudah login DAN terdaftar di makrab_members ── */
+  const [makrabUid, setMakrabUid] = useState(null);
+  useEffect(() => {
+    if (!user) return undefined;
+    let alive = true;
+    supabase.from('makrab_members').select('id').limit(1)
+      .then(({ data }) => { if (alive && data && data.length > 0) setMakrabUid(user.uid); })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, [user]);
+  const showMakrab = !!user && makrabUid === user.uid;
 
   /* ── Close drawer + dropdown on route change ── */
   useEffect(() => {
@@ -478,6 +508,12 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
 
         {/* ── Right section: CTA + Hamburger ── */}
         <div className="nv-right">
+          {showMakrab && (
+            <button className="nv-makrab" onClick={() => navigate('/makrab')}>
+              <i className="fa-solid fa-people-group" /> Makrab
+            </button>
+          )}
+
           {/* CTA — auth-aware */}
           <button
             className="nv-cta"
@@ -590,6 +626,12 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
                   : <><i className="fa-solid fa-moon" /> Dark</>}
               </button>
             </div>
+
+            {showMakrab && (
+              <button className="nv-drawer-makrab" onClick={() => { navigate('/makrab'); setMenuOpen(false); }}>
+                <i className="fa-solid fa-people-group" /> Makrab 2026
+              </button>
+            )}
 
             {/* CTA button in drawer */}
             <button
