@@ -63,6 +63,9 @@ const WorkDetail27 = lazy(() => import('./pages/WorkDetail27'));
 /* ── 404 & Pengeluaran ── */
 const NotFound    = lazy(() => import('./pages/NotFound'));
 
+/* ── Makrab 2026 (privat, tidak ada di navbar) ── */
+const Makrab      = lazy(() => import('./pages/Makrab'));
+
 /* ── Quiz pages — fullscreen, tidak ada di navbar ──
  *  Untuk menambah quiz baru:
  *  1. Buat file di src/pages/ (contoh: FarmakologiQuiz.jsx)
@@ -167,11 +170,12 @@ function Layout({ user }) {
     '/admin-dashboard',
     '/login',
     '/complete-profile',
+    '/makrab',
     ...QUIZ_PATHS,
   ].includes(pathname);
 
   /* ── Halaman quiz: sembunyikan FloatingUtils ── */
-  const isQuizPage = QUIZ_PATHS.includes(pathname);
+  const isQuizPage = QUIZ_PATHS.includes(pathname) || pathname === '/makrab';
 
   return (
     <>
@@ -303,6 +307,9 @@ function Layout({ user }) {
                 <Route path="/quiziz/ibd"                    element={<QuizIBD />} />
                 <Route path="/quiziz/komdas"                 element={<QuizKomdas />} />
                 {/* <Route path="/quiz-farmakologi" element={<FarmakologiQuiz />} /> */}
+
+                {/* ── MAKRAB 2026 — privat; akses dicek di dalam halaman (RLS) ── */}
+                <Route path="/makrab" element={<Makrab />} />
 
                 {/* ── 404 — selalu paling bawah ── */}
                 <Route path="*" element={<NotFound />} />
