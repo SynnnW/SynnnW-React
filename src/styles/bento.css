@@ -220,3 +220,55 @@
 /* Kartu sertifikat: bayangan lebih pekat supaya teks terbaca di atas gambar yang penuh tulisan */
 .bn-cert .bn-work-shade { background: linear-gradient(180deg, rgba(5, 6, 12, 0.35) 0%, rgba(5, 6, 12, 0.92) 70%); }
 .bn-cert { min-height: 300px; }
+
+/* ══════════════════════════════════════════════════════
+   REDESIGN LAYER — anti "AI slop"
+   sudut tajam, garis 1px, tanpa glow/orb/blur dekoratif
+══════════════════════════════════════════════════════ */
+.bn { --bn-r: 2px; font-family: var(--font-body); }
+.bn::before {
+  background: none;
+  -webkit-mask-image: none; mask-image: none;
+}
+.bn::after {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.bn h1, .bn h2, .bn h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.04em; }
+.bn-hello::before, .bn-hot::after, .bn-contact-orb, .bn-work-glow { display: none !important; }
+.bn-card { background: var(--bg2); border-color: var(--border); }
+.bn-hot { background: var(--accent) !important; color: var(--on-accent) !important; }
+.bn-hot * { color: var(--on-accent) !important; }
+.bn-kicker, .bn-work-meta, .bn-pill, .bn-chip, .bn-seg button, .bn-who small {
+  font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .08em; font-size: var(--fs-meta);
+}
+.bn-title { font-size: var(--fs-h1); line-height: .92; letter-spacing: -0.04em; }
+.bn-title span { color: var(--accent); }
+[data-theme="light"] .bn-title span { background: var(--accent); color: var(--on-accent); padding: 0 .12em; }
+.bn-pill, .bn-chip, .bn-seg, .bn-seg button, .bn-btn, .bn-avatar { border-radius: 0 !important; }
+.bn-work-go, .bn-photo-cap { backdrop-filter: none !important; border-radius: 0 !important; }
+.bn-chip { border: 1px solid var(--border2); background: transparent; color: var(--text); }
+.bn-chip.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.bn-btn { height: 52px; display: inline-flex; align-items: center; gap: 10px; padding: 0 24px; border: 1px solid var(--border2); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; }
+.bn-btn--solid { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.bn-pill--gold { background: var(--accent); color: var(--on-accent); border: 0; }
+
+/* ══════════ WORKS — hover list (desktop) / grid 2 kolom (mobile) ══════════ */
+.wk-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border2); padding-bottom: 12px; font-family: var(--font-mono); font-size: var(--fs-meta); letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+.wk-list { display: none; list-style: none; margin: 0; padding: 0; }
+.wk-list:hover .wk-row { opacity: .35; }
+.wk-list .wk-row:hover { opacity: 1; }
+.wk-row { display: grid; grid-template-columns: 56px 1fr 200px 72px; gap: 16px; align-items: baseline; padding: 22px 0; border-bottom: 1px solid var(--border); color: var(--text); transition: opacity .3s, padding-left .4s cubic-bezier(.22,1,.36,1); }
+.wk-row:hover { padding-left: 8px; }
+.wk-no, .wk-cat, .wk-yr { font-family: var(--font-mono); font-size: var(--fs-meta); letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+.wk-ti { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h3); letter-spacing: -0.03em; line-height: 1.05; }
+.wk-yr { text-align: right; }
+.wk-float { position: fixed; left: 0; top: 0; width: 280px; aspect-ratio: 4/3; pointer-events: none; z-index: 50; overflow: hidden; }
+.wk-float img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wk-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.wk-card { color: var(--text); display: block; }
+.wk-card .wk-img { aspect-ratio: 4/5; background: var(--bg3); overflow: hidden; }
+.wk-card .wk-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wk-card .wk-ti { font-size: 1.05rem; margin-top: 10px; display: block; }
+@media (min-width: 768px) and (hover: hover) { .wk-list { display: block; } .wk-grid { display: none; } }
+@media (max-width: 900px) { .wk-row { grid-template-columns: 40px 1fr 60px; } .wk-cat { display: none; } }

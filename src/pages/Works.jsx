@@ -1,8 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import LineReveal from '../components/LineReveal';
+import Magnetic from '../components/Magnetic';
 import { ThumbImg, Reveal, Arrow, ContactCard } from '../components/BentoKit';
-import { useLang, waLink, IG_URL, thumbOf, workSpans } from '../lib/bento';
+import { useLang, waLink, IG_URL, thumbOf } from '../lib/bento';
 
 /* ══════════════════════════════════════════════════════
    KARYA DATA — newest first, 21 karya
@@ -22,7 +24,7 @@ const KARYA_LIST = [
     descID: 'Design lanyard custom untuk kegiatan ekstrakurikuler dengan warna cerah dan grafis bermakna yang merepresentasikan keterlibatan siswa dan semangat sekolah.',
     tags: ['Lanyard Design', 'School ID', 'Branding'],
     image: '/assets/img/extracule.jpg',
-    gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'lanyard-genesis-2026',
@@ -35,7 +37,7 @@ const KARYA_LIST = [
     descID: 'Design lanyard resmi untuk kompetisi GENESIS (Generasi Sejuta Inspirasi), ajang kompetisi dan olimpiade bergengsi berskala regional yang diselenggarakan setiap tahun oleh SMAN 1 Kraksaan, Kabupaten Probolinggo.',
     tags: ['Lanyard Design', 'Competition', 'Event Branding', 'GENESIS', 'SMAN 1 Kraksaan'],
     image: '/assets/img/genesis.jpg',
-    gradient: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'lanyard-kelas-2026',
@@ -48,7 +50,7 @@ const KARYA_LIST = [
     descID: 'Design lanyard kelas dengan elemen branding terpadu yang memperkuat identitas dan kesatuan kelas di antara siswa.',
     tags: ['Lanyard Design', 'Class Identity', 'Student Branding'],
     image: '/assets/img/class.jpg',
-    gradient: 'linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'poster-waktu-untuk-diri-2026',
@@ -61,7 +63,7 @@ const KARYA_LIST = [
     descID: 'Poster riset untuk kompetisi "Not An Ordinary Teenage" yang diselenggarakan oleh UNEJ Fakultas Keperawatan (FKEP). Mempromosikan pentingnya waktu pribadi dan perawatan diri untuk kesehatan mental remaja.',
     tags: ['Research Poster', 'Mental Health', 'UNEJ FKEP', 'Nursing'],
     image: '/assets/img/metime.jpg',
-    gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'poster-fomo-2026',
@@ -75,7 +77,7 @@ const KARYA_LIST = [
     tags: ['Educational Poster', 'Digital Awareness', 'Mental Health', 'Social Media'],
     note: 'Poster Task by Aldo Leo Saputra, Anggi Dwi Aprilia, Big TL',
     image: '/assets/img/fomo.jpg',
-    gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+    gradient: 'var(--bg3)',
   },
 
   /* ── 2026 (existing) ── */
@@ -90,7 +92,7 @@ const KARYA_LIST = [
     descID: 'Editing video praktikum biologi yang capture momen pembelajaran hands-on, visual jelas, dan alur pendidikan untuk referensi siswa dan dokumentasi kelas.',
     tags: ['Video Editing', 'Educational', 'STEM'],
     image: '/assets/img/biology.jpg',
-    gradient: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'mindova-poster-2026',
@@ -105,7 +107,7 @@ const KARYA_LIST = [
     award: '🏥 Research Poster — MEDSPIN UNAIR 2025',
     note: 'Aldo Leo Saputra, Agustian Adven Arya Putra, Reydo Andrea Priatama',
     image: '/assets/img/mindova.jpg',
-    gradient: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'parlemen-remaja-2026',
@@ -118,7 +120,7 @@ const KARYA_LIST = [
     descID: 'Film dokumenter tentang acara Parlemen Remaja, menampilkan para pemimpin muda terlibat dalam diskusi sipil, debat, dan proses demokratis. Perayaan suara pemuda dan kesadaran politik.',
     tags: ['Documentary', 'Youth', 'Parliament', 'Civic', 'Leadership'],
     image: '/assets/img/faza.jpg',
-    gradient: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'korupsi-awareness-2026',
@@ -131,7 +133,7 @@ const KARYA_LIST = [
     descID: 'Dokumenter edukatif yang menyoroti dampak korupsi dan mempromosikan kesadaran anti-korupsi di kalangan pemuda. Mengeksplorasi isu sistemik dan tanggung jawab individu dalam memerangi korupsi.',
     tags: ['Documentary', 'Anti-Corruption', 'Awareness', 'Education', 'Social Justice'],
     image: '/assets/img/anti.jpg',
-    gradient: 'linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%)',
+    gradient: 'var(--bg3)',
   },
 
   {
@@ -145,7 +147,7 @@ const KARYA_LIST = [
     descID: 'Website kado ulang tahun buat pasangan atau anak. Ada game tantangan, story interaktif, asisten AI personal — semua HTML CSS JS, cepet dan personal banget.',
     tags: ['HTML/CSS/JS', 'Interactive Game', 'AI Integration', 'Vibe Code'],
     image: '/assets/img/image.png',
-    gradient: 'linear-gradient(135deg, var(--accent) 0%, #4f46e5 100%)',
+    gradient: 'var(--bg3)',
   },
 
   /* ── 2025 ── */
@@ -161,7 +163,7 @@ const KARYA_LIST = [
     tags: ['Short Film', 'Sinematura', 'Competition'],
     award: '🥈 Juara 2 Nasional — Film Festival Cendana 2025',
     image: '/assets/img/sumbang.jpg',
-    gradient: 'linear-gradient(135deg, #0f766e 0%, #065f46 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'guru-kita-yang-jahat-2025',
@@ -175,7 +177,7 @@ const KARYA_LIST = [
     tags: ['Short Film', 'Sinematura', 'Competition'],
     note: 'Jawa Pos SMA Awards 2025',
     image: '/assets/img/jahat.jpg',
-    gradient: 'linear-gradient(135deg, #92400e 0%, #78350f 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'video-profil-uswatun-2025',
@@ -188,7 +190,7 @@ const KARYA_LIST = [
     descID: 'Dokumenter profil guru Bahasa Inggris SMAN 1 Kraksaan. Cara beliau mengajar — pendekatan yang personal dan bikin siswa nggak takut bahasa Inggris.',
     tags: ['Video Profile', 'EJIES 2025'],
     image: '/assets/img/uswa.jpg',
-    gradient: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'video-profil-iwan-2025',
@@ -201,7 +203,7 @@ const KARYA_LIST = [
     descID: 'Dokumenter profil tentang sistem absen sidik jari di SMAN 1 Kraksaan — gimana teknologinya jalan dan ngubah cara administrasi sekolah.',
     tags: ['Video Profile', 'EJIES 2025', 'Biometric Tech'],
     image: '/assets/img/iwan.jpg',
-    gradient: 'linear-gradient(135deg, #0369a1 0%, #075985 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'senam-indonesia-hebat-2025',
@@ -214,7 +216,7 @@ const KARYA_LIST = [
     descID: 'Video lomba senam Anak Indonesia Hebat 2025, mewakili Jawa Timur dari SMAN 1 Kraksaan. Shoot dan edit bersih, sync audio ketat.',
     tags: ['Competition Video', 'Jawa Timur'],
     image: '/assets/img/anak.jpg',
-    gradient: 'linear-gradient(135deg, #b45309 0%, #92400e 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'parlemen-remaja-faza-2025',
@@ -227,7 +229,7 @@ const KARYA_LIST = [
     descID: 'Video kampanye caleg Parlemen Remaja. PLTU Paiton terangin jutaan rumah, tapi sawah kena abu, hasil panen turun. Program GENSIA: aksi nyata menuju energi bersih.',
     tags: ['Political', 'Youth Parliament', 'Energy Transition'],
     image: '/assets/img/faza.jpg',
-    gradient: 'linear-gradient(135deg, var(--accent) 0%, #5b21b6 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'video-kreatif-antikorupsi-2025',
@@ -241,7 +243,7 @@ const KARYA_LIST = [
     tags: ['Competition', 'Non-AI', 'Anti-Corruption'],
     note: 'Non-AI Production',
     image: '/assets/img/anti.jpg',
-    gradient: 'linear-gradient(135deg, #be123c 0%, #9f1239 100%)',
+    gradient: 'var(--bg3)',
   },
 
   /* ── 2024 ── */
@@ -257,7 +259,7 @@ const KARYA_LIST = [
     tags: ['Short Film', 'Sinematura', 'FLS2N'],
     award: '🏆 Juara 1 Nasional — Film Festival Cendana 2025',
     image: '/assets/img/kepala.jpg',
-    gradient: 'linear-gradient(135deg, #047857 0%, #065f46 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'rantai-2024',
@@ -270,7 +272,7 @@ const KARYA_LIST = [
     descID: 'Rantai sepeda Saka lepas. Semua orang lewat. Satu guru berhenti — bukan dengan kata-kata, tapi dengan tindakan. Film yang tenang tentang pertolongan yang nggak butuh penonton.',
     tags: ['Short Film', 'Sinematura', 'Piala Kadinas Jatim'],
     image: '/assets/img/rantai.jpg',
-    gradient: 'linear-gradient(135deg, #475569 0%, #334155 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'luka-menjadi-lukisan-2024',
@@ -284,7 +286,7 @@ const KARYA_LIST = [
     tags: ['Short Film', 'Solo Project'],
     note: 'Solo production — satu orang',
     image: '/assets/img/luka.jpg',
-    gradient: 'linear-gradient(135deg, #7c2d12 0%, #6b21a8 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'jalan-tengah-2024',
@@ -297,7 +299,7 @@ const KARYA_LIST = [
     descID: 'Alvin, siswa minoritas, mau ngadain acara Natal di sekolah. Jalannya nggak mudah. Tapi akhirnya ada yang bantu dari tempat yang nggak dia sangka. Film tentang toleransi yang bukan cuma slogan.',
     tags: ['Short Film', 'Sinematura', 'Moderasi Beragama'],
     image: '/assets/img/tengah.jpg',
-    gradient: 'linear-gradient(135deg, #0c4a6e 0%, #164e63 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'sma-awards-sinematografi-2024',
@@ -310,7 +312,7 @@ const KARYA_LIST = [
     descID: 'Eksplorasi tentang perbedaan yang sering nggak disadari — kepribadian anak-anak yang tergambar dari barang-barang yang mereka bawa.',
     tags: ['Jawa Pos SMA Awards', 'Sinematografi'],
     image: '/assets/img/pos.jpg',
-    gradient: 'linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'teaser-alterio-mpls-2024',
@@ -323,7 +325,7 @@ const KARYA_LIST = [
     descID: 'Teaser MPLS. Alvin nemu jam misterius, nggak sengaja ngaktifin, dan tiba-tiba nonton rapat OSIS tahun 2022 nentuin nama angkatan — ALTERIO 47.',
     tags: ['MPLS', 'Time Travel', 'SMAN 1 Kraksaan'],
     image: '/assets/img/teaser.jpg',
-    gradient: 'linear-gradient(135deg, #4338ca 0%, #3730a3 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'duta-pelajar-putri-2024',
@@ -336,7 +338,7 @@ const KARYA_LIST = [
     descID: 'Video profil lomba Duta Pelajar Putri Award 2024. Diedit seenergi semangat Bilqis: terus bergerak, nemu irama di setiap tantangan.',
     tags: ['Jawa Pos SMA Awards', 'Duta Pelajar Putri'],
     image: '/assets/img/pelajar.jpg',
-    gradient: 'linear-gradient(135deg, #be185d 0%, #9d174d 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'livestream-perbasi',
@@ -349,7 +351,7 @@ const KARYA_LIST = [
     descID: 'Produksi live streaming liga basket PERBASI kabupaten 14 Jawa Timur. Desain overlay OBS custom, dikontrol real-time lewat web app di tablet.',
     tags: ['OBS', 'Live Streaming', 'Broadcast Design'],
     image: '/assets/img/perbasi.jpg',
-    gradient: 'linear-gradient(135deg, #0f766e 0%, #0891b2 100%)',
+    gradient: 'var(--bg3)',
   },
 
   /* ── 2023 ── */
@@ -364,7 +366,7 @@ const KARYA_LIST = [
     descID: 'Raka visioner soal pengolahan sampah tapi terus dibully temen-temennya. Dia nggak menyerah. Film serius pertama Sinematura.',
     tags: ['Short Film', 'Sinematura', 'Debut'],
     image: '/assets/img/sarka.jpg',
-    gradient: 'linear-gradient(135deg, #064e3b 0%, #065f46 100%)',
+    gradient: 'var(--bg3)',
   },
   {
     id: 'pramu-rasa-2023',
@@ -378,7 +380,7 @@ const KARYA_LIST = [
     tags: ['Short Film', 'First Film'],
     note: 'Before Sinematura existed',
     image: '/assets/img/pramu.jpg',
-    gradient: 'linear-gradient(135deg, #78350f 0%, #92400e 100%)',
+    gradient: 'var(--bg3)',
   },
 
   /* ── Year flexible ── */
@@ -393,7 +395,7 @@ const KARYA_LIST = [
     descID: 'Undangan pernikahan digital yang nyambut tamu pakai nama mereka, ada video sinematik di awal, terus semua data tamu diatur via dashboard Firebase.',
     tags: ['Firebase', 'Real-time RSVP', 'HTML/CSS/JS'],
     image: '/assets/img/bg.png',
-    gradient: 'linear-gradient(135deg, #9d174d 0%, #831843 100%)',
+    gradient: 'var(--bg3)',
   },
 ];
 
@@ -412,6 +414,57 @@ const FILTER_CATS = [
   { key: 'Educational',label: 'Educational' },
 ];
 
+
+
+function WorkIndex({ items, isID, navigate }) {
+  const [hover, setHover] = useState(null);
+  const x = useSpring(useMotionValue(0), { stiffness: 150, damping: 20 });
+  const y = useSpring(useMotionValue(0), { stiffness: 150, damping: 20 });
+  useEffect(() => {
+    const m = (e) => { x.set(e.clientX + 24); y.set(e.clientY - 80); };
+    window.addEventListener('mousemove', m);
+    return () => window.removeEventListener('mousemove', m);
+  }, [x, y]);
+  const cur = items.find(k => k.id === hover);
+  return (
+    <>
+      <ul className="wk-list" onMouseLeave={() => setHover(null)}>
+        {items.map((k, i) => {
+          const title = isID ? k.titleID : k.titleEN;
+          return (
+            <li key={k.id}>
+              <a className="wk-row" href={k.route} data-cursor="view"
+                 onMouseEnter={() => setHover(k.id)} onFocus={() => setHover(k.id)}
+                 onClick={e => { e.preventDefault(); navigate(k.route); }}>
+                <span className="wk-no">{String(i + 1).padStart(2, '0')}</span>
+                <span className="wk-ti">{title}</span>
+                <span className="wk-cat">{k.category.filter(c => c !== 'Design').join(' / ')}</span>
+                <span className="wk-yr">{k.year}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <AnimatePresence>
+        {cur && cur.image && (
+          <motion.div key={cur.id} className="wk-float" style={{ x, y }}
+            initial={{ opacity: 0, scale: .92 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: .25 }}>
+            <img src={thumbOf(cur.image)} alt="" onError={e => { e.currentTarget.src = cur.image; }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="wk-grid">
+        {items.map(k => (
+          <a key={k.id} className="wk-card" href={k.route} onClick={e => { e.preventDefault(); navigate(k.route); }}>
+            <span className="wk-img">{k.image && <ThumbImg src={k.image} alt={isID ? k.titleID : k.titleEN} />}</span>
+            <span className="wk-ti">{isID ? k.titleID : k.titleEN}</span>
+            <span className="wk-no">{k.year}</span>
+          </a>
+        ))}
+      </div>
+    </>
+  );
+}
 
 /* ══════════════════════════════════════════════════════
    MAIN PAGE COMPONENT — tampilan bento (data di atas tidak diubah)
@@ -448,8 +501,7 @@ export default function Works({ lang: propLang }) {
       .sort((a, b) => (sortOrder === 'newest' ? b.year - a.year : a.year - b.year)),
     [activeFilter, sortOrder]
   );
-  const spans = useMemo(() => workSpans(items.length), [items.length]);
-
+  
   return (
     <main className="bn">
       <div className="bn-wrap">
@@ -467,9 +519,7 @@ export default function Works({ lang: propLang }) {
               <a href={IG_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fa-brands fa-instagram" /></a>
               <a href={waLink(L('Hi Aldo, I saw your works.', 'Halo Aldo, aku lihat karya-karyamu.'))} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i className="fa-brands fa-whatsapp" /></a>
             </div>
-            <h1 className="bn-title">
-              {L('Selected', 'Karya')} <span>{L('work.', 'pilihan.')}</span>
-            </h1>
+            <LineReveal as="h1" className="bn-title" text={L('Selected work.', 'Karya pilihan.')} />
             <p className="bn-lead">
               {L('Built with trust. Delivered with care.', 'Dikerjain serius, selesai tepat waktu.')}
             </p>
@@ -511,45 +561,15 @@ export default function Works({ lang: propLang }) {
           </div>
         </Reveal>
 
-        {/* ── Grid karya ── */}
-        <div className="bn-grid bn-grid--rows" key={`${activeFilter}-${sortOrder}`}>
-          {items.length === 0 && (
-            <div className="bn-empty">{L('No works found in this category.', 'Belum ada karya di kategori ini.')}</div>
-          )}
-          {items.map((k, i) => {
-            const title = isID ? k.titleID : k.titleEN;
-            const cats = k.category.filter(c => c !== 'Design').join(' · ');
-            return (
-              <motion.a
-                key={k.id}
-                href={k.route}
-                className={`bn-work bn-span-${spans[i]}`}
-                onClick={e => { e.preventDefault(); navigate(k.route); }}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.55, delay: (i % 3) * 0.05, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {k.image && <span className="bn-work-glow" style={{ backgroundImage: `url(${thumbOf(k.image)})` }} />}
-                <span className="bn-work-in">
-                  {k.image
-                    ? <ThumbImg src={k.image} alt={title} />
-                    : <span className="bn-work-ph" style={{ background: k.gradient }} />}
-                  <span className="bn-work-shade" />
-                  <span className="bn-work-go"><Arrow /></span>
-                  <span className="bn-work-txt">
-                    <span className="bn-work-head">
-                      <strong className="bn-work-title">{title}</strong>
-                      {k.award && <em className="bn-pill bn-pill--gold">{k.award.replace(/^[^\p{L}]+/u, '').split(' — ')[0]}</em>}
-                    </span>
-                    <span className="bn-work-desc">{isID ? k.descID : k.descEN}</span>
-                    <span className="bn-work-meta">{cats} · {k.year}</span>
-                  </span>
-                </span>
-              </motion.a>
-            );
-          })}
+        {/* ── Daftar karya ── */}
+        <div className="wk-head">
+          <span>(01) — {L('Selected works', 'Karya pilihan')}</span>
+          <span>2024–2026</span>
         </div>
+        {items.length === 0 && (
+          <div className="bn-empty">{L('No works found in this category.', 'Belum ada karya di kategori ini.')}</div>
+        )}
+        <WorkIndex key={`${activeFilter}-${sortOrder}`} items={items} isID={isID} navigate={navigate} />
 
         {/* ── CTA ── */}
         <ContactCard
@@ -557,9 +577,9 @@ export default function Works({ lang: propLang }) {
           text={L('Tell me what you’re building — we’ll talk scope, timeline and price together.',
                   'Ceritakan idenya — kita bahas scope, waktu, dan harga bareng.')}
           primary={
-            <button className="bn-btn bn-btn--solid" onClick={() => navigate('/price-list')}>
+            <Magnetic><button className="bn-btn bn-btn--solid" onClick={() => navigate('/price-list')}>
               {L('Start a Project', 'Mulai Proyek')} <Arrow />
-            </button>
+            </button></Magnetic>
           }
           secondary={
             <a className="bn-btn" href={waLink(L('Hi Aldo, I want to ask about a project.', 'Halo Aldo, aku mau tanya soal project.'))} target="_blank" rel="noopener noreferrer">
