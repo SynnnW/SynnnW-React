@@ -14,6 +14,19 @@ import { useLang, waLink, IG_URL, workSpans } from '../lib/bento';
 const KARYA_LIST = [
   /* ── 2026 ── */
   {
+    id: 'leo-notch-windows-2026',
+    route: '/works/leo-notch-windows',
+    year: 2026,
+    category: ['Software', 'App'],
+    titleEN: 'Leo — Notch for Windows',
+    titleID: 'Leo — Notch untuk Windows',
+    descEN: 'A lightweight Windows notch in the spirit of a Dynamic Island, built natively in Rust with Direct2D.',
+    descID: 'Notch Windows yang ringan ala Dynamic Island, dibuat native dengan Rust dan Direct2D.',
+    tags: ['Rust', 'Direct2D', 'Windows'],
+    image: '/assets/leo/leo.png',
+    gradient: 'var(--bg3)',
+  },
+  {
     id: 'lanyard-ekstrakurikuler-2026',
     route: '/works/lanyard-ekstrakurikuler-2026',
     year: 2026,
@@ -403,6 +416,7 @@ const KARYA_LIST = [
 const FILTER_CATS = [
   { key: 'All',        label: 'All' },
   { key: 'Web Dev',    label: 'Web Dev' },
+  { key: 'Software',   label: 'Software' },
   { key: 'Short Film', label: 'Short Film' },
   { key: 'Video',      label: 'Video' },
   { key: 'Event',      label: 'Event' },

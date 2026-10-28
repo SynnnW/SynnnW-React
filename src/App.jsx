@@ -36,7 +36,7 @@ const ClientDashboard = lazy(() => import('./pages/ClientDashboard'));
 const AdminDashboard  = lazy(() => import('./pages/AdminDashboard'));
 const CompleteProfile = lazy(() => import('./pages/CompleteProfile'));
 
-/* ── Lazy load — WorkDetail5–27 ── */
+/* ── Lazy load — WorkDetail5–28 ── */
 const WorkDetail5  = lazy(() => import('./pages/WorkDetail5'));
 const WorkDetail6  = lazy(() => import('./pages/WorkDetail6'));
 const WorkDetail7  = lazy(() => import('./pages/WorkDetail7'));
@@ -60,6 +60,7 @@ const WorkDetail24 = lazy(() => import('./pages/WorkDetail24'));
 const WorkDetail25 = lazy(() => import('./pages/WorkDetail25'));
 const WorkDetail26 = lazy(() => import('./pages/WorkDetail26'));
 const WorkDetail27 = lazy(() => import('./pages/WorkDetail27'));
+const WorkDetail28 = lazy(() => import('./pages/WorkDetail28'));
 
 /* ── 404 & Pengeluaran ── */
 const NotFound    = lazy(() => import('./pages/NotFound'));
@@ -258,6 +259,7 @@ function Layout({ user }) {
                 <Route path="/works/lanyard-kelas-2026"             element={<WorkDetail25 t={t} lang={lang} toggleLang={toggleLang} />} />
                 <Route path="/works/lanyard-genesis-2026"           element={<WorkDetail26 t={t} lang={lang} toggleLang={toggleLang} />} />
                 <Route path="/works/lanyard-ekstrakurikuler-2026"   element={<WorkDetail27 t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/works/leo-notch-windows"              element={<WorkDetail28 t={t} lang={lang} toggleLang={toggleLang} />} />
 
                 {/* ── LEGACY REDIRECTS ── */}
                 <Route path="/porto"        element={<Navigate to="/works" replace />} />

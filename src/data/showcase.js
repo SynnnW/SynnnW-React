@@ -207,6 +207,17 @@ export const SHOWCASE_FILM = [
 
 export const SHOWCASE_DESIGN = [
   {
+    "id": "leo-notch-windows-2026",
+    "route": "/works/leo-notch-windows",
+    "year": 2026,
+    "cat": "Software",
+    "titleEN": "Leo - Notch for Windows",
+    "titleID": "Leo - Notch untuk Windows",
+    "descEN": "A lightweight Windows notch in the spirit of a Dynamic Island, built natively in Rust with Direct2D.",
+    "descID": "Notch Windows yang ringan ala Dynamic Island, dibuat native dengan Rust dan Direct2D.",
+    "thumb": "/assets/thumbs/leo.webp"
+  },
+  {
     "id": "mindova-poster-2026",
     "route": "/works/mindova-poster-2026",
     "year": 2026,
