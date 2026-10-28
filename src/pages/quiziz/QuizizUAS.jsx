@@ -13,7 +13,7 @@ import { Reveal } from '../../components/BentoKit';
 const SUBJECTS = [
   { name: 'Bahasa Inggris', icon: '🇬🇧', color: '#38bdf8' },
   { name: 'Pendidikan Agama Islam', icon: '🕌', color: '#34d399' },
-  { name: 'Falsafah dan Teori Keperawatan', icon: '🩺', color: '#f472b6' },
+  { name: 'Falsafah dan Teori Keperawatan', icon: '🩺', color: 'var(--text)' },
   { name: 'Konsep Dasar Keperawatan', icon: '📋', color: '#8b7bff' },
   { name: 'Pendidikan Pancasila', icon: '🇮🇩', color: '#fb7185' },
   { name: 'Kesehatan Global', icon: '🌍', color: '#5eead4' },

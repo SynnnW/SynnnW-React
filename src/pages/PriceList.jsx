@@ -108,17 +108,17 @@ const CSS = `
 
   transition: border-color 0.28s, transform 0.28s, box-shadow 0.28s;
 }
-.pl-card:hover { border-color: var(--gborder2); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+.pl-card:hover { border-color: var(--border2); transform: translateX(8px); box-shadow: none; }
 .pl-card-soon { opacity: 0.72; }
 .pl-card-soon:hover { transform: none; }
 
 /* Badges */
 .pl-card-badges { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 14px 0; min-height: 28px; }
 .pl-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 2px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-.pl-badge-hot { background: color-mix(in srgb, var(--accent) 15%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent3); }
-.pl-badge-disc { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: rgba(239,68,68,0.9); }
-.pl-badge-soon { background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); color: rgba(251,191,36,0.9); }
-.pl-badge-custom { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); color: rgba(74,222,128,0.9); }
+.pl-badge-hot { background: var(--accent); border: 1px solid var(--accent); color: var(--on-accent); }
+.pl-badge-disc { background: transparent; border: 1px solid var(--border2); color: var(--text-dim); }
+.pl-badge-soon { background: transparent; border: 1px solid var(--border2); color: var(--text-dim); }
+.pl-badge-custom { background: transparent; border: 1px solid var(--border2); color: var(--text-dim); }
 
 /* Wishlist btn */
 .pl-wish-btn {
@@ -148,14 +148,14 @@ const CSS = `
 }
 .pl-card-body:hover .pl-card-icon-wrap { background: color-mix(in srgb, var(--accent) 10%, transparent); border-color: color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent3); }
 .pl-card-info { flex: 1; }
-.pl-card-name { font-size: 0.9rem; font-weight: 600; color: var(--text); margin: 0 0 4px; line-height: 1.3; }
+.pl-card-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 4px; line-height: 1.3; }
 .pl-card-short { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 10px; line-height: 1.5; }
 .pl-card-price-row { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; }
-.pl-card-price { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+.pl-card-price { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 500; color: var(--text); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .pl-card-unit { font-size: 0.66rem; color: var(--text-dim); font-weight: 500; }
 .pl-card-orig { font-size: 0.72rem; color: var(--text-dim); text-decoration: line-through; opacity: 0.6; }
-.pl-card-price-custom { font-size: 0.8rem; font-weight: 600; color: rgba(74,222,128,0.85); }
-.pl-card-price-soon { font-size: 0.8rem; font-weight: 600; color: rgba(251,191,36,0.8); }
+.pl-card-price-custom { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); text-transform: uppercase; letter-spacing: .08em; }
+.pl-card-price-soon { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .08em; }
 .pl-card-syarat { font-size: 0.58rem; color: var(--text-dim); opacity: 0.6; font-style: italic; }
 .pl-card-detail-hint { color: var(--text-dim); font-size: 0.7rem; opacity: 0.4; align-self: center; flex-shrink: 0; }
 

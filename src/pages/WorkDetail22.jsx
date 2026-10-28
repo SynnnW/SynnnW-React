@@ -82,8 +82,8 @@ const CSS = `
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
 }
 .wd-badge-poster { background: rgba(220,38,38,0.12); border: 1px solid rgba(220,38,38,0.3); color: #dc2626; }
-.wd-badge-health { background: rgba(236,72,153,0.12); border: 1px solid rgba(236,72,153,0.3); color: #ec4899; }
-.wd-badge-award { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: #fbbf24; }
+.wd-badge-health { background: color-mix(in srgb, var(--text) 12%, transparent); border: 1px solid color-mix(in srgb, var(--text) 30%, transparent); color: var(--text); }
+.wd-badge-award { background: color-mix(in srgb, var(--text) 10%, transparent); border: 1px solid color-mix(in srgb, var(--text) 30%, transparent); color: var(--text); }
 .wd-hero-title {
   font-family: var(--font-display);
   font-size: clamp(4rem, 10vw, 10rem);

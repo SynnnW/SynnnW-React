@@ -79,8 +79,8 @@ const CSS = `
   padding: 5px 14px; border-radius: 2px;
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
 }
-.wd-badge-lany { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #f59e0b; }
-.wd-badge-act { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #f59e0b; }
+.wd-badge-lany { background: color-mix(in srgb, var(--text) 12%, transparent); border: 1px solid color-mix(in srgb, var(--text) 30%, transparent); color: var(--text); }
+.wd-badge-act { background: color-mix(in srgb, var(--text) 12%, transparent); border: 1px solid color-mix(in srgb, var(--text) 30%, transparent); color: var(--text); }
 .wd-hero-title {
   font-family: var(--font-display);
   font-size: clamp(4rem, 10vw, 10rem);

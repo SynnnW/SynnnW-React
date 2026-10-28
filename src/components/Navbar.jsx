@@ -317,9 +317,21 @@ const NAV_CSS = `
 `;
 
 /* ─────────────────────────────────────────
-   MAIN COMPONENT/* ─────────────────────────────────────────
+   MAIN COMPONENT
+/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
+const NAV_OVERRIDE = `
+  .nv-root { transition: transform .5s cubic-bezier(.22,1,.36,1), background .3s, backdrop-filter .3s; }
+  .nv-root.nv-hidden { transform: translateY(-110%); }
+  .nv-root.nv-scrolled { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background: var(--nav-bg); border-bottom: 1px solid var(--border); }
+  .nv-pill, .nv-dropdown, .nv-dropdown-item, .nv-cta, .nv-drawer-cta, .nv-drawer-toggle-btn { border-radius: 0 !important; box-shadow: none !important; }
+  .nv-link, .nv-cta, .nv-drawer-cta, .nv-dropdown-item { font-family: var(--font-mono) !important; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem !important; }
+  .nv-link.nv-active { background: var(--accent) !important; color: var(--on-accent) !important; }
+  .nv-cta, .nv-drawer-cta { background: var(--accent) !important; color: var(--on-accent) !important; border: 0 !important; }
+  .nv-drawer-link { font-family: var(--font-display) !important; font-weight: 700; font-size: var(--fs-h2) !important; letter-spacing: -0.04em; }
+`;
+
 export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
   const [user, setUser]               = useState(null);
   const [menuOpen, setMenuOpen]       = useState(false);
@@ -346,6 +358,21 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
   }, [user]);
   const showMakrab = !!user && makrabUid === user.uid;
 
+  /* ── Navbar: sembunyi saat scroll turun, muncul saat naik ── */
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const el = document.querySelector('.nv-root');
+      if (!el) return;
+      const y = window.scrollY;
+      el.classList.toggle('nv-scrolled', y > 40);
+      el.classList.toggle('nv-hidden', y > last && y > 160);
+      last = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   /* ── Close drawer + dropdown on route change ── */
   useEffect(() => {
     setMenuOpen(false);
@@ -361,6 +388,7 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
 
   /* ── Lock body scroll while drawer is open ── */
   useEffect(() => {
+    window.__lenis?.[menuOpen ? 'stop' : 'start']?.();
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -404,7 +432,7 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
   return (
     <>
       {/* CSS — injected once, scoped to .nv-* classes — no dark bar risk */}
-      <style>{NAV_CSS}</style>
+      <style>{NAV_CSS + NAV_OVERRIDE}</style>
 
       {/* ══════════════════════════════════════
           NAV BAR
@@ -442,7 +470,7 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
                 aria-haspopup={!!link.dropdownKey}
                 aria-expanded={activeDropdown === link.dropdownKey}
               >
-                {link.label}
+                <span className="nv-roll">{link.label}</span>
               </Link>
 
               {/* Dropdown */}

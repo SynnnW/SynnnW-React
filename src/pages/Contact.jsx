@@ -14,7 +14,7 @@ const CSS = `
   --accent-g: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
   --accent-g2: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
   --green   : #4ade80;
-  --yellow  : rgba(251,191,36,0.85);
+  --yellow  : color-mix(in srgb, var(--text) 85%, transparent);
   --red     : rgba(239,68,68,0.85);
 }
 [data-theme="light"] {
@@ -45,7 +45,7 @@ const CSS = `
 }
 .cq-wo1 {
   width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(251,191,36,0.07) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--text) 7%, transparent) 0%, transparent 65%);
   top: -100px; left: -80px;
 }
 .cq-wo2 {
@@ -66,12 +66,12 @@ const CSS = `
 }
 .cq-warn-icon-ring {
   width: 72px; height: 72px; border-radius: 50%;
-  background: rgba(251,191,36,0.08);
-  border: 1px solid rgba(251,191,36,0.25);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.6rem; color: var(--yellow);
   margin-bottom: 24px;
-  box-shadow: 0 0 40px rgba(251,191,36,0.12);
+  box-shadow: 0 0 40px color-mix(in srgb, var(--text) 12%, transparent);
 }
 .cq-warn-eyebrow {
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.28em;
@@ -793,7 +793,7 @@ const CSS = `
 .cq-co-dp-badge {
   display: flex; align-items: center; gap: 12px;
   padding: 14px 16px; margin-bottom: 16px;
-  background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.22);
+  background: color-mix(in srgb, var(--text) 6%, transparent); border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
   border-radius: 2px;
 }
 .cq-co-dp-badge > i { font-size: 1.1rem; color: var(--yellow); flex-shrink: 0; }

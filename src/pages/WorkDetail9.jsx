@@ -114,7 +114,7 @@ const CSS = `
 }
 .wd-badge-film { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
 .wd-badge-video { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); }
-.wd-badge-award { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: #fbbf24; }
+.wd-badge-award { background: color-mix(in srgb, var(--text) 10%, transparent); border: 1px solid color-mix(in srgb, var(--text) 30%, transparent); color: var(--text); }
 .wd-badge-teaser { background: rgba(34,211,170,0.1); border: 1px solid rgba(34,211,170,0.3); color: #2dd4bf; }
 .wd-badge-event  { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3); color: #fb923c; }
 .wd-hero-title {
@@ -172,13 +172,13 @@ const CSS = `
 .wd-awards { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 48px; }
 .wd-award-card {
   display: flex; align-items: center; gap: 14px;
-  background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.22);
+  background: color-mix(in srgb, var(--text) 7%, transparent); border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
   border-radius: 2px; padding: 16px 22px;
   flex: 1; min-width: 220px;
 }
 .wd-award-icon { font-size: 1.8rem; flex-shrink: 0; }
 .wd-award-info { display: flex; flex-direction: column; gap: 3px; }
-.wd-award-event { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fbbf24; }
+.wd-award-event { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); }
 .wd-award-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
 
 /* ── Lang toggle ── */

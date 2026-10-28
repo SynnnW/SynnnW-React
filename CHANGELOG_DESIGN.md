@@ -12,6 +12,10 @@ Aturan: Makrab, supabase/, api/, supabaseClient.js, logika auth/backend TIDAK di
 
 - Sweep 2: radius tajam, gradient dekoratif dibuang, neon shadow dibuang di semua halaman (Makrab, Navbar, backend tidak disentuh).
 
+- Navbar: hide saat scroll turun, blur hanya saat scroll, gaya mono (baris Makrab tidak disentuh), Lenis stop saat drawer terbuka.
+- PriceList: badge rekomendasi blok lime, harga mono, hover geser 8px.
+- Warna dekoratif (pink/cyan/amber) dinetralkan di WorkDetail, Quiziz, Contact. Warna status (benar/salah, error/sukses) SENGAJA dipertahankan.
+
 ## Belum dikerjakan
 - WorkDetailLayout bersama, horizontal-scroll gallery, About/PriceList/Contact/Journal layout ulang, Navbar (ada tombol Makrab), RollLink belum dipasang di Navbar/Footer, Lenis stop saat modal.
 - Warna kategori/status (merah, hijau, pink, cyan) di beberapa halaman belum dinetralkan.

@@ -12,7 +12,7 @@ import { Reveal, Arrow } from '../../components/BentoKit';
 const SUBJECTS = [
   { slug: 'bahasainggris', name: 'Bahasa Inggris', icon: '🇬🇧', color: '#38bdf8' },
   { slug: 'pai', name: 'Pendidikan Agama Islam', icon: '🕌', color: '#34d399' },
-  { slug: 'ftk', name: 'Falsafah dan Teori Keperawatan', icon: '🩺', color: '#f472b6' },
+  { slug: 'ftk', name: 'Falsafah dan Teori Keperawatan', icon: '🩺', color: 'var(--text)' },
   { slug: 'kdk', name: 'Konsep Dasar Keperawatan', icon: '📋', color: '#8b7bff' },
   { slug: 'pancasila', name: 'Pendidikan Pancasila', icon: '🇮🇩', color: '#fb7185' },
   { slug: 'kesglob', name: 'Kesehatan Global', icon: '🌍', color: '#5eead4' },
