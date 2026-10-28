@@ -17,7 +17,7 @@ const BIM_CSS = `
 .bim-page {
   display: flex; min-height: 100dvh;
   background: var(--bg, #070709);
-  font-family: 'Outfit', 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-body), 'Segoe UI', system-ui, sans-serif;
   color: var(--text, #f0ede8);
   -webkit-font-smoothing: antialiased;
 }
@@ -49,7 +49,7 @@ const BIM_CSS = `
 }
 .bim-sb-back:hover { color: var(--text, #f0ede8); }
 .bim-sb-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: 15px; font-weight: 700; margin-top: 6px;
   color: var(--text, #f0ede8); letter-spacing: .01em;
 }
@@ -61,7 +61,7 @@ const BIM_CSS = `
   font-family: inherit; font-weight: 600; color: var(--text-dim, #64605a);
   transition: color .2s, background .2s;
 }
-.bim-sb-dash.active, .bim-sb-dash:hover { color: var(--accent, #8b5cf6); background: rgba(139,92,246,.08); }
+.bim-sb-dash.active, .bim-sb-dash:hover { color: var(--accent, var(--accent)); background: color-mix(in srgb, var(--accent) 8%, transparent); }
 
 .bim-sb-cat {
   padding: .75rem 1.1rem .25rem;
@@ -78,7 +78,7 @@ const BIM_CSS = `
   transition: all .2s;
 }
 .bim-sb-btn:hover { background: rgba(255,255,255,0.04); color: var(--text, #f0ede8); }
-.bim-sb-btn.active { color: var(--accent, #8b5cf6); font-weight: 700; background: rgba(139,92,246,.08); }
+.bim-sb-btn.active { color: var(--accent, var(--accent)); font-weight: 700; background: color-mix(in srgb, var(--accent) 8%, transparent); }
 .bim-sb-tm { font-size: 10px; color: var(--text-dim, #64605a); flex-shrink: 0; }
 .bim-sb-check { color: #34d399; margin-right: 4px; }
 .bim-sb-quiz {
@@ -86,13 +86,13 @@ const BIM_CSS = `
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 .bim-sb-quizbtn {
-  width: 100%; background: linear-gradient(135deg,#7c3aed,#8b5cf6);
+  width: 100%; background: linear-gradient(135deg,var(--accent),var(--accent));
   color: #fff; border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; padding: .68rem;
   cursor: pointer; font-weight: 700; font-size: 13px; font-family: inherit;
   transition: transform .2s, box-shadow .2s;
-  box-shadow: 0 6px 20px rgba(139,92,246,.3), inset 0 1px 0 rgba(255,255,255,0.18);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 1px 0 rgba(255,255,255,0.18);
 }
-.bim-sb-quizbtn:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(139,92,246,.4), inset 0 1px 0 rgba(255,255,255,0.2); }
+.bim-sb-quizbtn:hover { transform: translateY(-1px); box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 40%, transparent), inset 0 1px 0 rgba(255,255,255,0.2); }
 
 /* ─── Mobile toggle ─── */
 .bim-mobile-bar {
@@ -132,7 +132,7 @@ const BIM_CSS = `
   border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
 }
-.bim-card-accent { border-top: 2px solid var(--accent, #8b5cf6); }
+.bim-card-accent { border-top: 2px solid var(--accent, var(--accent)); }
 
 /* ─── Breadcrumb ─── */
 .bim-crumb {
@@ -149,14 +149,14 @@ const BIM_CSS = `
 
 /* ─── Content typography ─── */
 .bim-h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: clamp(1.6rem, 4vw, 2.1rem); font-weight: 700;
   margin: 0 0 .4rem;
-  background: linear-gradient(135deg, var(--accent2, #a78bfa), var(--accent3, #c4b5fd));
+  background: linear-gradient(135deg, var(--accent2, var(--accent)), var(--accent3, var(--accent)));
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 .bim-h2 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: 1.35rem; font-weight: 700; margin: 0; color: var(--text, #f0ede8);
 }
 .bim-h3 { font-size: .95rem; font-weight: 700; color: var(--text, #f0ede8); margin: 0 0 .35rem; }
@@ -226,14 +226,14 @@ const BIM_CSS = `
   display: flex; gap: 8px; align-items: flex-start;
   font-family: inherit; transition: all .15s;
 }
-.bim-q-opt:hover:not(.locked) { background: rgba(139,92,246,.12); border-color: rgba(139,92,246,.4); }
-.bim-q-opt.selected { background: rgba(139,92,246,.14); border-color: rgba(139,92,246,.55); }
+.bim-q-opt:hover:not(.locked) { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+.bim-q-opt.selected { background: color-mix(in srgb, var(--accent) 14%, transparent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
 .bim-q-opt.correct { background: rgba(52,211,153,.12); border-color: rgba(52,211,153,.45); color: #34d399; }
 .bim-q-opt.wrong   { background: rgba(251,113,133,.1);  border-color: rgba(251,113,133,.4);  color: #fb7185; }
 .bim-q-opt.locked  { cursor: default; }
 .bim-q-actions { display: flex; gap: 8px; margin-top: .75rem; flex-wrap: wrap; }
 .bim-q-check {
-  background: var(--accent, #8b5cf6); color: #fff; border: none; border-radius: 8px;
+  background: var(--accent, var(--accent)); color: #fff; border: none; border-radius: 8px;
   padding: .45rem 1.2rem; cursor: pointer; font-size: 13px; font-weight: 600;
   font-family: inherit; transition: opacity .2s;
 }
@@ -260,7 +260,7 @@ const BIM_CSS = `
   font-size: 14px; font-family: inherit; margin-bottom: .85rem;
   box-sizing: border-box; transition: border-color .2s;
 }
-.bim-search:focus { border-color: rgba(139,92,246,.5); }
+.bim-search:focus { border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
 .bim-search::placeholder { color: var(--text-dim, #64605a); }
 
 /* ─── Vocab card ─── */
@@ -282,7 +282,7 @@ const BIM_CSS = `
 .bim-land-cat { border-radius: 14px; padding: 1.25rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); transition: border-color .2s, transform .2s; }
 .bim-land-cat:hover { transform: translateY(-2px); }
 .bim-land-cat-icon { font-size: 22px; margin-bottom: 4px; }
-.bim-land-cat-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+.bim-land-cat-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
 .bim-land-cat-desc { font-size: 12.5px; color: var(--text-dim, #64605a); margin-bottom: 1rem; line-height: 1.55; }
 .bim-land-cat-btn {
   width: 100%; border: none; border-radius: 8px; padding: .55rem;
@@ -292,7 +292,7 @@ const BIM_CSS = `
 .bim-land-cat-btn:hover { opacity: .85; }
 .bim-search-results { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; }
 .bim-search-result-btn { width: 100%; background: none; border: none; padding: .6rem 1rem; text-align: left; cursor: pointer; font-size: 13.5px; color: var(--text, #f0ede8); display: flex; gap: 8px; align-items: center; font-family: inherit; transition: background .2s; }
-.bim-search-result-btn:hover { background: rgba(139,92,246,.1); }
+.bim-search-result-btn:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
 
 /* ─── Nav buttons (prev/next) ─── */
 .bim-nav-row { display: flex; gap: .75rem; margin-top: .5rem; }
@@ -388,7 +388,7 @@ function SampleQuestion({ num, question, options, correctIdx, explanation, passa
     <div className="bim-q-wrap">
       {passage && <div className="bim-q-passage">{passage}</div>}
       <div className="bim-q-text">
-        <Badge color="#8b5cf6">Contoh {num}</Badge>{' '}
+        <Badge color="var(--accent)">Contoh {num}</Badge>{' '}
         {question}
       </div>
       <div className="bim-q-opts">
@@ -458,7 +458,7 @@ function TopicTenses() {
               ['Future Perfect','Aksi selesai sebelum titik tertentu masa depan','by next year, by the time, by 2030','S + will have + V3','By 2030, hospitals will have automated most tasks.'],
             ].map(([t,f,sw,fm,ex]) => (
               <tr key={t} className="bim-tr">
-                <td className="bim-td" style={{ fontWeight: 600, color: '#a78bfa', whiteSpace: 'nowrap' }}>{t}</td>
+                <td className="bim-td" style={{ fontWeight: 600, color: 'var(--accent)', whiteSpace: 'nowrap' }}>{t}</td>
                 <td className="bim-td">{f}</td>
                 <td className="bim-td bim-muted" style={{ fontSize: 12 }}>{sw}</td>
                 <td className="bim-td bim-mono">{fm}</td>
@@ -526,7 +526,7 @@ function TopicVerbForms() {
       <div style={{ display: 'flex', gap: 8, marginBottom: '.75rem' }}>
         {['all','regular','irregular'].map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            style={{ background: filter === f ? '#8b5cf6' : 'rgba(255,255,255,0.06)',
+            style={{ background: filter === f ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
               color: filter === f ? '#fff' : '#8a857e',
               border: 'none', borderRadius: 8, padding: '.4rem 1rem',
               cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}>
@@ -600,7 +600,7 @@ function TopicModal() {
         <Accordion key={p.pair} title={p.pair}>
           <div style={{ display: 'grid', gap: '.65rem' }}>
             {p.items.map(item => (
-              <RuleCard key={item.modal} title={item.modal} color="#8b5cf6">
+              <RuleCard key={item.modal} title={item.modal} color="var(--accent)">
                 <p style={{ margin: '0 0 .4rem', fontSize: 13.5 }}><strong>Penggunaan:</strong> {item.use}</p>
                 <ExampleBox><em>{item.ex}</em></ExampleBox>
               </RuleCard>
@@ -623,7 +623,7 @@ function TopicModal() {
                 ['would have + V3','Akan terjadi dalam kondisi berbeda','If they had arrived earlier, it would have been controlled.'],
               ].map(([p,m,e]) => (
                 <tr key={p} className="bim-tr">
-                  <td className="bim-td bim-mono" style={{ fontWeight: 700, color: '#a78bfa' }}>{p}</td>
+                  <td className="bim-td bim-mono" style={{ fontWeight: 700, color: 'var(--accent)' }}>{p}</td>
                   <td className="bim-td">{m}</td>
                   <td className="bim-td" style={{ fontStyle: 'italic' }}>{e}</td>
                 </tr>
@@ -685,7 +685,7 @@ function TopicConditional() {
               ['Mixed','Past Perfect (if)','would + V1 (main)','Pengandaian masa lalu berdampak pada masa kini','If she had completed her training, she would be a qualified nurse now.'],
             ].map(([t,i,m,k,e]) => (
               <tr key={t} className="bim-tr">
-                <td className="bim-td" style={{ fontWeight: 700, color: '#a78bfa', whiteSpace: 'nowrap' }}>{t}</td>
+                <td className="bim-td" style={{ fontWeight: 700, color: 'var(--accent)', whiteSpace: 'nowrap' }}>{t}</td>
                 <td className="bim-td bim-mono">{i}</td>
                 <td className="bim-td bim-mono">{m}</td>
                 <td className="bim-td">{k}</td>
@@ -695,7 +695,7 @@ function TopicConditional() {
           </tbody>
         </table>
       </div>
-      <RuleCard title='"If I were" — Pengandaian Formal' color="#8b5cf6">
+      <RuleCard title='"If I were" — Pengandaian Formal' color="var(--accent)">
         <ExampleBox><em>If I were the head nurse, I would change the shift schedule.</em></ExampleBox>
         <p style={{ fontSize: 13, marginTop: '.5rem' }}>
           "Were" lazim digunakan untuk semua subjek dalam pengandaian formal (Second Conditional),
@@ -757,7 +757,7 @@ function TopicPassive() {
             ].map(([t,f,e]) => (
               <tr key={t} className="bim-tr">
                 <td className="bim-td" style={{ fontWeight: 600, color: '#5eead4' }}>{t}</td>
-                <td className="bim-td bim-mono" style={{ color: '#a78bfa' }}>{f}</td>
+                <td className="bim-td bim-mono" style={{ color: 'var(--accent)' }}>{f}</td>
                 <td className="bim-td" style={{ fontStyle: 'italic', fontSize: 13 }}>{e}</td>
               </tr>
             ))}
@@ -772,8 +772,8 @@ function TopicGerund() {
   return (
     <div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px,1fr))', gap: '.75rem', marginBottom: '1rem' }}>
-        <div className="bim-ger-col" style={{ borderTop: '3px solid #8b5cf6' }}>
-          <div style={{ fontWeight: 700, color: '#a78bfa', marginBottom: 8 }}>Verb + Gerund (V-ing)</div>
+        <div className="bim-ger-col" style={{ borderTop: '3px solid var(--accent)' }}>
+          <div style={{ fontWeight: 700, color: 'var(--accent)', marginBottom: 8 }}>Verb + Gerund (V-ing)</div>
           <ul className="bim-ger-list">{['avoid','finish','enjoy','suggest','recommend','consider','practice','keep','mind','miss'].map(v => <li key={v}>{v}</li>)}</ul>
           <ExampleBox><em>The nurse suggested reviewing the notes.</em></ExampleBox>
         </div>
@@ -827,7 +827,7 @@ function TopicRelative() {
               ['when','Waktu','Keterangan waktu','There was a time when telemedicine was not available here.'],
             ].map(([p,r,f,e]) => (
               <tr key={p} className="bim-tr">
-                <td className="bim-td" style={{ fontWeight: 700, color: '#a78bfa' }}>{p}</td>
+                <td className="bim-td" style={{ fontWeight: 700, color: 'var(--accent)' }}>{p}</td>
                 <td className="bim-td">{r}</td><td className="bim-td">{f}</td>
                 <td className="bim-td" style={{ fontStyle: 'italic', fontSize: 12 }}>{e}</td>
               </tr>
@@ -923,7 +923,7 @@ function TopicPreposition() {
           <tbody>
             {filtered.map(item => (
               <tr key={item.expr} className="bim-tr">
-                <td className="bim-td bim-mono" style={{ fontWeight: 700, color: '#a78bfa' }}>{item.expr}</td>
+                <td className="bim-td bim-mono" style={{ fontWeight: 700, color: 'var(--accent)' }}>{item.expr}</td>
                 <td className="bim-td" style={{ color: '#8a857e' }}>{item.arti}</td>
                 <td className="bim-td" style={{ fontStyle: 'italic', fontSize: 13 }}>{item.ex}</td>
               </tr>
@@ -1040,7 +1040,7 @@ function TopicReadingShort() {
         { step: '4. Eliminasi pilihan salah', desc: 'Singkirkan opsi yang tidak relevan atau bertentangan dengan teks.' },
       ].map(s => (
         <div key={s.step} className="bim-step-row">
-          <span className="bim-step-badge" style={{ background: '#8b5cf622', color: '#a78bfa', border: '1px solid #8b5cf644' }}>{s.step}</span>
+          <span className="bim-step-badge" style={{ background: 'color-mix(in srgb, var(--accent) 13%, transparent)', color: 'var(--accent)', border: '1px solid color-mix(in srgb, var(--accent) 27%, transparent)' }}>{s.step}</span>
           <span style={{ fontSize: 13.5, lineHeight: 1.6 }}>{s.desc}</span>
         </div>
       ))}
@@ -1059,7 +1059,7 @@ function TopicReadingLong() {
         { step: '5. Inference dari teks', desc: 'Kesimpulan harus didukung isi teks, bukan asumsi dari luar.' },
       ].map(s => (
         <div key={s.step} className="bim-step-row">
-          <span className="bim-step-badge" style={{ background: '#a78bfa22', color: '#c4b5fd', border: '1px solid #a78bfa44' }}>{s.step}</span>
+          <span className="bim-step-badge" style={{ background: 'color-mix(in srgb, var(--accent) 13%, transparent)', color: 'var(--accent)', border: '1px solid color-mix(in srgb, var(--accent) 27%, transparent)' }}>{s.step}</span>
           <span style={{ fontSize: 13.5, lineHeight: 1.6 }}>{s.desc}</span>
         </div>
       ))}
@@ -1118,7 +1118,7 @@ Despite the many challenges, Dina finds her work deeply meaningful. She believes
       <div className="bim-h3" style={{ marginBottom: '.65rem' }}>Contoh Soal & Analisis (klik untuk cek jawaban)</div>
       {questions.map((q, i) => (
         <div key={i} style={{ marginBottom: '.5rem' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#8b5cf6', marginBottom: 4, textTransform: 'uppercase', letterSpacing: .5 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: .5 }}>
             {q.type} — <span style={{ color: '#8a857e', fontWeight: 400 }}>{q.tujuan}</span>
           </div>
           <SampleQuestion num={i + 1} question={q.question} options={q.options} correctIdx={q.correctIdx} explanation={q.explanation} />
@@ -1231,11 +1231,11 @@ function LandingDashboard({ onSelectTopic, progress, navigate }) {
       {/* Quick actions */}
       <div style={{ display: 'flex', gap: '.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
         <button onClick={() => navigate('/quiziz/bahasainggris')}
-          style={{ flex: 1, minWidth: 180, background: 'linear-gradient(135deg,#7c3aed,#8b5cf6)',
+          style={{ flex: 1, minWidth: 180, background: 'linear-gradient(135deg,var(--accent),var(--accent))',
             color: '#fff', border: 'none', borderRadius: 12, padding: '.85rem 1.2rem',
             cursor: 'pointer', fontWeight: 800, fontSize: 15, display: 'flex',
             alignItems: 'center', justifyContent: 'center', gap: 8,
-            fontFamily: 'inherit', boxShadow: '0 4px 20px rgba(139,92,246,.3)' }}>
+            fontFamily: 'inherit', boxShadow: '0 4px 20px color-mix(in srgb, var(--accent) 30%, transparent)' }}>
           ✏️ Langsung ke Kuis
         </button>
         <button onClick={() => onSelectTopic('tenses')}
@@ -1314,7 +1314,7 @@ export default function BahasaInggrisMateri() {
   const topicInfo     = activeTopic ? TOPIC_COMPONENTS[activeTopic] : null;
   const TopicComponent= topicInfo?.Component;
   const currentCat   = NAV_ITEMS.find(n => n.topics.some(t => t.id === activeTopic));
-  const catColor     = currentCat?.color || '#8b5cf6';
+  const catColor     = currentCat?.color || 'var(--accent)';
 
   // Prev / next navigation
   const allFlat = NAV_ITEMS.flatMap(n => n.topics);

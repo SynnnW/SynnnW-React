@@ -96,14 +96,14 @@ export default function CookieConsent({ lang = 'id' }) {
         }
 
         .cc-link {
-          color: #a78bfa;
+          color: var(--accent);
           text-decoration: none;
           border-bottom: 1px solid rgba(167, 139, 250, 0.3);
           transition: all 0.2s;
         }
 
         .cc-link:hover {
-          color: #c4b5fd;
+          color: var(--accent);
           border-bottom-color: rgba(196, 181, 253, 0.6);
         }
 
@@ -116,7 +116,7 @@ export default function CookieConsent({ lang = 'id' }) {
         .cc-btn {
           padding: 10px 24px;
           border-radius: 99px;
-          font-family: 'Outfit', sans-serif;
+          font-family: var(--font-body);
           font-size: 0.75rem;
           font-weight: 700;
           letter-spacing: 0.1em;
@@ -128,9 +128,9 @@ export default function CookieConsent({ lang = 'id' }) {
         }
 
         .cc-btn-accept {
-          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+          background: linear-gradient(135deg, var(--accent), var(--accent));
           color: #fff;
-          box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+          box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 30%, transparent);
         }
 
         .cc-btn-accept:hover {

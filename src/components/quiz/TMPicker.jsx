@@ -37,7 +37,7 @@ const DEFAULT_MILESTONES = { 8: 'UTS', 16: 'UAS' };
 // Palet aksen warna yang di-cycle per nomor TM — biar "ceria" tapi tetap
 // satu sistem desain (semua kartu pakai struktur glass yang sama, cuma
 // hue-nya beda). Kartu milestone (UTS/UAS) selalu pakai emas, di luar palet ini.
-const ACCENT_CYCLE = ['#8b7bff', '#5eead4', '#38bdf8', '#f472b6', '#34d399', '#a78bfa', '#fb7185', '#22d3ee'];
+const ACCENT_CYCLE = ['#8b7bff', '#5eead4', '#38bdf8', '#f472b6', '#34d399', 'var(--accent)', '#fb7185', '#22d3ee'];
 const MILESTONE_ACCENT = '#fbbf24';
 
 /** Subscribe ke dokumen quizToggles/<subjectSlug>. Field `off`: array nomor TM

@@ -19,7 +19,7 @@ const CSS = `
 
 /* ── Orbs ── */
 .pl-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(90px); }
-.pl-orb1 { width: 520px; height: 520px; background: radial-gradient(circle, rgba(139,92,246,0.13) 0%, transparent 65%); top: -140px; left: -120px; }
+.pl-orb1 { width: 520px; height: 520px; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 13%, transparent) 0%, transparent 65%); top: -140px; left: -120px; }
 .pl-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(167,139,250,0.09) 0%, transparent 65%); bottom: -80px; right: 5%; }
 .pl-orb3 { width: 220px; height: 220px; background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 65%); top: 45%; left: 45%; }
 
@@ -34,7 +34,7 @@ const CSS = `
 .pl-hero-inner { position: relative; z-index: 1; max-width: 700px; }
 .pl-page-label { display: inline-block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent3); margin-bottom: 18px; }
 .pl-hero-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(3rem, 6.5vw, 5.8rem);
   font-weight: 300; line-height: 1.08; color: var(--text);
   margin: 0 0 20px; letter-spacing: -0.02em;
@@ -64,16 +64,16 @@ const CSS = `
   position: fixed; bottom: 28px; right: 28px; z-index: 200;
   display: flex; align-items: center; gap: 12px;
   padding: 14px 22px;
-  background: var(--accent); color: #fff;
+  background: var(--accent); color: var(--on-accent);
   border: none; border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
-  box-shadow: 0 8px 40px rgba(139,92,246,0.45);
+  box-shadow: 0 8px 40px color-mix(in srgb, var(--accent) 45%, transparent);
   transition: all 0.3s;
   animation: fabIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 @keyframes fabIn { from{opacity:0;transform:scale(0.7) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
-.pl-cart-fab:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 14px 50px rgba(139,92,246,0.55); }
+.pl-cart-fab:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 14px 50px color-mix(in srgb, var(--accent) 55%, transparent); }
 .pl-cart-count {
   background: var(--bg2); color: var(--accent);
   border-radius: 50%; width: 22px; height: 22px;
@@ -90,11 +90,11 @@ const CSS = `
 .pl-section-head { display: flex; align-items: center; gap: 18px; }
 .pl-section-icon {
   width: 50px; height: 50px; border-radius: 16px; flex-shrink: 0;
-  background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.25);
+  background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.25rem; color: var(--accent3);
 }
-.pl-section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 400; color: var(--text); margin: 0 0 4px; letter-spacing: -0.01em; }
+.pl-section-title { font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 400; color: var(--text); margin: 0 0 4px; letter-spacing: -0.01em; }
 .pl-section-sub { font-size: 0.8rem; color: var(--text-dim); margin: 0; }
 
 /* ── Grid ── */
@@ -115,7 +115,7 @@ const CSS = `
 /* Badges */
 .pl-card-badges { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 14px 0; min-height: 28px; }
 .pl-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 99px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-.pl-badge-hot { background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3); color: var(--accent3); }
+.pl-badge-hot { background: color-mix(in srgb, var(--accent) 15%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent3); }
 .pl-badge-disc { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: rgba(239,68,68,0.9); }
 .pl-badge-soon { background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); color: rgba(251,191,36,0.9); }
 .pl-badge-custom { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); color: rgba(74,222,128,0.9); }
@@ -146,7 +146,7 @@ const CSS = `
   font-size: 1.1rem; color: var(--text-dim);
   transition: all 0.25s; margin-top: 2px;
 }
-.pl-card-body:hover .pl-card-icon-wrap { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.25); color: var(--accent3); }
+.pl-card-body:hover .pl-card-icon-wrap { background: color-mix(in srgb, var(--accent) 10%, transparent); border-color: color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent3); }
 .pl-card-info { flex: 1; }
 .pl-card-name { font-size: 0.9rem; font-weight: 600; color: var(--text); margin: 0 0 4px; line-height: 1.3; }
 .pl-card-short { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 10px; line-height: 1.5; }
@@ -168,19 +168,19 @@ const CSS = `
 .pl-btn-add {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
-  background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.3);
+  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-radius: 12px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
   color: var(--accent3); transition: all 0.25s;
 }
-.pl-btn-add:hover { background: rgba(139,92,246,0.2); border-color: rgba(139,92,246,0.5); }
+.pl-btn-add:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
 .pl-btn-notify {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
   background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.25);
   border-radius: 12px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
   color: rgba(251,191,36,0.85); transition: all 0.25s;
 }
@@ -190,7 +190,7 @@ const CSS = `
   width: 100%; padding: 10px;
   background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25);
   border-radius: 12px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
   color: rgba(74,222,128,0.85); transition: all 0.25s;
 }
@@ -254,13 +254,13 @@ const CSS = `
 .pl-sheet-header { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 4px; }
 .pl-sheet-icon-wrap {
   width: 56px; height: 56px; border-radius: 18px; flex-shrink: 0;
-  background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.25);
+  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.4rem; color: var(--accent3);
 }
 .pl-sheet-hinfo { flex: 1; }
 .pl-sheet-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-.pl-sheet-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 400; color: var(--text); margin: 0 0 10px; line-height: 1.2; }
+.pl-sheet-title { font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 400; color: var(--text); margin: 0 0 10px; line-height: 1.2; }
 .pl-sheet-price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .pl-sheet-price { font-size: 1.4rem; font-weight: 700; color: var(--text); }
 .pl-sheet-unit { font-size: 0.78rem; color: var(--text-dim); }
@@ -298,13 +298,13 @@ const CSS = `
 .pl-sheet-btn-add {
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
   padding: 15px;
-  background: var(--accent); color: #fff;
+  background: var(--accent); color: var(--on-accent);
   border: none; border-radius: 14px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  box-shadow: 0 8px 30px rgba(139,92,246,0.35); transition: all 0.3s;
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 35%, transparent); transition: all 0.3s;
 }
-.pl-sheet-btn-add:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 12px 40px rgba(139,92,246,0.45); }
+.pl-sheet-btn-add:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 12px 40px color-mix(in srgb, var(--accent) 45%, transparent); }
 
 .pl-sheet-qty { flex: 1; display: flex; align-items: center; gap: 0; background: var(--glass2); border: 1px solid var(--gborder); border-radius: 14px; overflow: hidden; }
 
@@ -320,13 +320,13 @@ const CSS = `
 
 /* ── Cart items ── */
 .pl-cart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-.pl-cart-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--text); margin: 0; display: flex; align-items: center; gap: 12px; }
+.pl-cart-title { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--text); margin: 0; display: flex; align-items: center; gap: 12px; }
 .pl-cart-title i { color: var(--accent3); }
 .pl-cart-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
 .pl-cart-item:last-of-type { border-bottom: none; }
 .pl-cart-item-icon {
   width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
-  background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);
+  background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 1rem; color: var(--accent3);
 }
@@ -349,7 +349,7 @@ const CSS = `
   width: 100%; padding: 10px;
   background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25);
   border-radius: 12px; cursor: not-allowed;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
   color: rgba(239,68,68,0.7);
 }
@@ -357,14 +357,14 @@ const CSS = `
   position: fixed; top: 80px; right: 24px; z-index: 100;
   display: flex; align-items: center; gap: 8px;
   padding: 10px 18px;
-  background: rgba(139,92,246,0.1);
-  border: 1px solid rgba(139,92,246,0.3);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700;
-  color: #a78bfa; transition: all 0.25s;
+  color: var(--accent); transition: all 0.25s;
 }
-.pl-login-fab:hover { background: rgba(139,92,246,0.2); }
+.pl-login-fab:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); }
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
@@ -396,25 +396,25 @@ const CSS = `
   background: var(--glass);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
-.pl-currency-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); font-family: 'Outfit', sans-serif; }
+.pl-currency-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); font-family: var(--font-body); }
 .pl-currency-pills { display: flex; gap: 6px; }
 .pl-currency-btn {
   padding: 5px 14px; border-radius: 99px;
-  font-family: 'Outfit', sans-serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em;
+  font-family: var(--font-body); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em;
   border: 1px solid var(--gborder); background: transparent; color: var(--text-dim);
   cursor: pointer; transition: all 0.2s;
 }
 .pl-currency-btn:hover { color: var(--text); border-color: var(--gborder2); }
 .pl-currency-btn.pl-curr-active { background: var(--text); color: var(--bg); border-color: var(--text); }
-.pl-currency-usd-note { font-size: 0.62rem; color: var(--text-dim); opacity: 0.6; font-style: italic; font-family: 'Outfit', sans-serif; }
+.pl-currency-usd-note { font-size: 0.62rem; color: var(--text-dim); opacity: 0.6; font-style: italic; font-family: var(--font-body); }
 
 /* ── Notice text ── */
 .pl-notice {
   display: flex; align-items: center; gap: 10px;
   padding: 12px 80px;
-  background: rgba(139,92,246,0.06);
-  border-bottom: 1px solid rgba(139,92,246,0.18);
-  font-family: 'Outfit', sans-serif; font-size: 0.74rem; color: var(--text-dim); line-height: 1.5;
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  font-family: var(--font-body); font-size: 0.74rem; color: var(--text-dim); line-height: 1.5;
 }
 .pl-notice i { color: var(--accent3); font-size: 0.75rem; flex-shrink: 0; }
 .pl-notice a { color: var(--accent3); text-decoration: underline; text-underline-offset: 3px; transition: opacity 0.18s; }
@@ -422,10 +422,10 @@ const CSS = `
 
 /* ── Addon slots ── */
 .pl-addon-row { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; padding-top: 18px; border-top: 1px dashed var(--border); }
-.pl-addon-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); opacity: 0.6; font-family: 'Outfit', sans-serif; margin-bottom: 2px; }
+.pl-addon-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); opacity: 0.6; font-family: var(--font-body); margin-bottom: 2px; }
 .pl-addon-card { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--glass); border: 1px solid var(--gborder); border-radius: 12px; transition: border-color 0.2s; }
 .pl-addon-card:hover { border-color: var(--gborder2); }
-.pl-addon-icon { width: 32px; height: 32px; border-radius: 10px; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--accent3); flex-shrink: 0; }
+.pl-addon-icon { width: 32px; height: 32px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--accent3); flex-shrink: 0; }
 .pl-addon-info { flex: 1; }
 .pl-addon-name { font-size: 0.82rem; font-weight: 600; color: var(--text); margin: 0 0 2px; }
 .pl-addon-short { font-size: 0.66rem; color: var(--text-dim); margin: 0; }
@@ -439,14 +439,14 @@ const CSS = `
 .pl-compliance-disclaimer {
   padding: 24px 80px;
   border-top: 1px solid var(--border);
-  background: rgba(139,92,246,0.04);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
   text-align: center;
   font-size: 0.72rem;
   color: var(--text-dim);
   line-height: 1.6;
   font-style: italic;
   margin-top: 40px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
 }
 .pl-compliance-disclaimer i { color: var(--accent3); margin-right: 8px; font-size: 0.75rem; }
 .pl-compliance-disclaimer strong { color: var(--text); font-weight: 700; }
@@ -458,15 +458,15 @@ const CSS = `
 .pl-bn .pl-hot-btn { color: #fff; border-color: rgba(255,255,255,0.55); align-self: flex-start; position: relative; z-index: 1; }
 .pl-bn .pl-hot-btn:hover { background: rgba(255,255,255,0.18); border-color: #fff; }
 .pl-bn .pl-currency-bar { padding: 14px 24px; border: 1px solid var(--border2); border-radius: 22px; }
-.pl-bn .pl-notice { padding: 14px 24px; border: 1px solid rgba(139,92,246,0.22); border-radius: 22px; }
+.pl-bn .pl-notice { padding: 14px 24px; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); border-radius: 22px; }
 .pl-bn .pl-body { padding: 0; gap: clamp(48px, 7vw, 84px); }
 .pl-bn .pl-section { gap: 24px; }
 .pl-bn .pl-section-icon { width: 46px; height: 46px; border-radius: 14px; background: var(--glass2); border: 1px solid var(--border2); color: var(--accent2); font-size: 1.05rem; }
-.pl-bn .pl-section-title { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.025em; }
+.pl-bn .pl-section-title { font-family: var(--font-body); font-weight: 500; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.025em; }
 .pl-bn .pl-section-sub { font-size: 0.86rem; }
 .pl-bn .pl-grid { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: var(--bn-gap); }
 .pl-bn .pl-card { border-radius: 28px; border: 1px solid var(--border2); background: var(--glass); }
-.pl-bn .pl-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: 0 22px 54px -18px rgba(139,92,246,0.4); }
+.pl-bn .pl-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: 0 22px 54px -18px color-mix(in srgb, var(--accent) 40%, transparent); }
 .pl-bn .pl-card-soon:hover { transform: none; box-shadow: none; }
 .pl-bn .pl-card-badges { padding: 18px 18px 0; }
 .pl-bn .pl-card-body { padding: 14px 20px 18px; }
@@ -476,7 +476,7 @@ const CSS = `
 .pl-bn .pl-card-price { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; }
 .pl-bn .pl-card-actions { padding: 14px 20px 20px; }
 .pl-bn .pl-btn-add, .pl-bn .pl-btn-notify, .pl-bn .pl-btn-discuss, .pl-bn .pl-qty-control, .pl-bn .pl-btn-full { border-radius: 99px; }
-.pl-bn .pl-btn-add:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pl-bn .pl-btn-add:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .pl-bn .pl-addon-card { border-radius: 18px; }
 .pl-bn .pl-compliance-disclaimer { max-width: 1180px; margin: 40px auto 0; border: 1px solid var(--border2); border-radius: 22px; padding: 22px 28px; }
 @media (max-width: 1024px) { .pl-bn .pl-currency-bar, .pl-bn .pl-notice { padding: 12px 20px; } }

@@ -17,9 +17,9 @@ const CSS = `
   --text: #ffffff;
   --text-dim: #94a3b8;
   --text-muted: #64748b;
-  --accent: #8b5cf6;
-  --accent2: #7c3aed;
-  --accent3: #a78bfa;
+  --accent: var(--accent);
+  --accent2: var(--accent);
+  --accent3: var(--accent);
   --glass: rgba(255,255,255,0.03);
   --glass2: rgba(255,255,255,0.06);
   --gborder: rgba(255,255,255,0.08);
@@ -27,8 +27,8 @@ const CSS = `
   --border: rgba(255,255,255,0.07);
   --card-bg: rgba(255,255,255,0.03);
   --card-border: rgba(255,255,255,0.08);
-  --accent-glow: rgba(139,92,246,0.15);
-  --accent-shadow: rgba(139,92,246,0.35);
+  --accent-glow: color-mix(in srgb, var(--accent) 15%, transparent);
+  --accent-shadow: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 /* ── Layout ── */
@@ -36,7 +36,7 @@ const CSS = `
   min-height: 100vh;
   background: linear-gradient(135deg, #070709 0%, #0d0d1a 100%);
   color: var(--text);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   display: flex;
 }
 
@@ -60,7 +60,7 @@ const CSS = `
 }
 
 .db-sidebar-brand-logo {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 300;
   color: var(--text);
@@ -97,7 +97,7 @@ const CSS = `
   border: none;
   background: none;
   color: var(--text-muted);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 500;
   cursor: pointer;
@@ -114,9 +114,9 @@ const CSS = `
 }
 
 .db-sidebar-nav-item.active {
-  background: rgba(139,92,246,0.12);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--accent3);
-  border: 1px solid rgba(139,92,246,0.2);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
 .db-sidebar-footer {
@@ -133,7 +133,7 @@ const CSS = `
   border: 1px solid rgba(239,68,68,0.2);
   background: rgba(239,68,68,0.06);
   color: #f87171;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
@@ -229,7 +229,7 @@ const CSS = `
 }
 
 .db-notif-item:hover { background: var(--glass); }
-.db-notif-item.unread { background: rgba(139,92,246,0.04); }
+.db-notif-item.unread { background: color-mix(in srgb, var(--accent) 4%, transparent); }
 
 .db-notif-icon {
   width: 28px;
@@ -264,7 +264,7 @@ const CSS = `
 }
 
 .db-main-header-left h2 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 1.8rem;
   font-weight: 300;
   margin: 0 0 2px;
@@ -328,7 +328,7 @@ const CSS = `
   border: 1px solid var(--gborder);
   background: var(--glass);
   color: var(--text-dim);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.84rem;
   font-weight: 600;
   cursor: pointer;
@@ -338,7 +338,7 @@ const CSS = `
 .db-btn:hover { background: var(--glass2); color: var(--text); }
 
 .db-btn.primary {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
   color: white;
   border: none;
 }
@@ -457,14 +457,14 @@ const CSS = `
 
 .db-status-pending { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
 .db-status-editing { background: rgba(96,165,250,0.12); color: #60a5fa; border: 1px solid rgba(96,165,250,0.25); }
-.db-status-review  { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+.db-status-review  { background: rgba(167,139,250,0.12); color: var(--accent); border: 1px solid rgba(167,139,250,0.25); }
 .db-status-complete { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
 .db-status-cancelled { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
 
 /* ── Admin Notes ── */
 .db-admin-note {
-  background: rgba(139,92,246,0.06);
-  border: 1px solid rgba(139,92,246,0.2);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 14px;
   padding: 18px;
 }
@@ -509,7 +509,7 @@ const CSS = `
   border: none;
   background: none;
   color: var(--text-muted);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
@@ -559,7 +559,7 @@ const CSS = `
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(139,92,246,0.9);
+  background: color-mix(in srgb, var(--accent) 90%, transparent);
   border: none;
   color: white;
   font-size: 1.1rem;
@@ -664,7 +664,7 @@ const CSS = `
 /* ── Invoices ── */
 .db-invoice-card {
   background: var(--glass);
-  border: 1px dashed rgba(139,92,246,0.2);
+  border: 1px dashed color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 14px;
   padding: 18px 20px;
   display: flex;
@@ -707,7 +707,7 @@ const CSS = `
   border-radius: 12px;
   padding: 12px 14px;
   color: var(--text);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   resize: vertical;
   outline: none;
@@ -724,7 +724,7 @@ const CSS = `
   border-radius: 10px;
   padding: 10px 14px;
   color: var(--text);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   outline: none;
   box-sizing: border-box;
@@ -826,7 +826,7 @@ const CSS = `
     background: none;
     border: none;
     color: #f87171;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.55rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -895,7 +895,7 @@ function extractDriveId(url) {
 function notifIconStyle(type) {
   const map = {
     file_ready:         { bg: 'rgba(74,222,128,0.15)',  color: '#4ade80', icon: 'fa-file-circle-check' },
-    status_changed:     { bg: 'rgba(139,92,246,0.15)',  color: '#a78bfa', icon: 'fa-arrow-right-arrow-left' },
+    status_changed:     { bg: 'color-mix(in srgb, var(--accent) 15%, transparent)',  color: 'var(--accent)', icon: 'fa-arrow-right-arrow-left' },
     admin_message:      { bg: 'rgba(96,165,250,0.15)',  color: '#60a5fa', icon: 'fa-message' },
     payment_confirmed:  { bg: 'rgba(74,222,128,0.15)',  color: '#4ade80', icon: 'fa-circle-check' },
     project_complete:   { bg: 'rgba(251,191,36,0.15)',  color: '#fbbf24', icon: 'fa-trophy' },
@@ -949,7 +949,7 @@ function DriveVideoPlayer({ url, label }) {
           background: 'linear-gradient(transparent, rgba(0,0,0,0.75))',
           padding: '28px 16px 12px',
         }}>
-          <span style={{ fontFamily: 'Outfit', fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)' }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)' }}>
             {label}
           </span>
         </div>
@@ -1333,7 +1333,7 @@ export default function ClientDashboard() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a78bfa', fontFamily: 'Outfit, sans-serif' }}>
+      <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', fontFamily: 'var(--font-body)' }}>
         <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2rem' }} />
       </div>
     );
@@ -1586,7 +1586,7 @@ export default function ClientDashboard() {
                   <div className="db-activity-list">
                     {activities.map(a => (
                       <div key={a.id} className="db-activity-item">
-                        <div className="db-activity-dot" style={{ background: a.actor === 'admin' ? '#a78bfa' : '#60a5fa' }} />
+                        <div className="db-activity-dot" style={{ background: a.actor === 'admin' ? 'var(--accent)' : '#60a5fa' }} />
                         <span className="db-activity-text">{a.detail}</span>
                         <span className="db-activity-time">{timeAgo(a.createdAt)}</span>
                       </div>
@@ -1600,7 +1600,7 @@ export default function ClientDashboard() {
                 <div className="db-card-title"><i className="fa-solid fa-paper-plane" /> Kirim Brief / Pesan ke Admin</div>
                 {existingBrief && !briefEditMode ? (
                   <>
-                    <div style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.15)', borderRadius: '12px', padding: '14px', marginBottom: '12px' }}>
+                    <div style={{ background: 'color-mix(in srgb, var(--accent) 6%, transparent)', border: '1px solid color-mix(in srgb, var(--accent) 15%, transparent)', borderRadius: '12px', padding: '14px', marginBottom: '12px' }}>
                       <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent3)', marginBottom: '6px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Brief terakhir Anda:</p>
                       <p style={{ fontSize: '0.88rem', color: 'var(--text-dim)', margin: '0 0 6px' }}>{existingBrief.notes}</p>
                       {existingBrief.driveLink && <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Link: {existingBrief.driveLink}</p>}
@@ -1924,7 +1924,7 @@ export default function ClientDashboard() {
                   <select
                     value={lang}
                     onChange={e => { setLang(e.target.value); saveSettings('lang', e.target.value); }}
-                    style={{ background: 'var(--glass)', border: '1px solid var(--gborder)', borderRadius: '8px', padding: '6px 10px', color: 'var(--text)', fontFamily: 'Outfit, sans-serif', fontSize: '0.82rem', cursor: 'pointer' }}
+                    style={{ background: 'var(--glass)', border: '1px solid var(--gborder)', borderRadius: '8px', padding: '6px 10px', color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.82rem', cursor: 'pointer' }}
                   >
                     <option value="id">Indonesia</option>
                     <option value="en">English</option>
@@ -1959,10 +1959,10 @@ export default function ClientDashboard() {
             <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>
               {['👋', '📁', '💳', '🔔'][onboardingStep]}
             </div>
-            <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.6rem', marginBottom: 12, color: '#fff', fontWeight: 300 }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', marginBottom: 12, color: '#fff', fontWeight: 300 }}>
               {['Selamat Datang!', 'Tab Preview File', 'Tab Pembayaran', 'Notifikasi'][onboardingStep]}
             </h3>
-            <p style={{ fontFamily: 'Outfit, sans-serif', fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
               {[
                 'Dashboard ini tempat kamu ngikutin progress project yang sedang dikerjakan. Semua update dari admin langsung muncul di sini.',
                 'Semua file yang dikirim admin — video, poster, lanyard — bisa dilihat di tab Preview File. Klik Play untuk memutar video.',
@@ -1974,7 +1974,7 @@ export default function ClientDashboard() {
               {[0,1,2,3].map(i => (
                 <div key={i} style={{
                   width: i === onboardingStep ? 20 : 6, height: 6,
-                  borderRadius: 99, background: i === onboardingStep ? '#8b5cf6' : 'rgba(255,255,255,0.2)',
+                  borderRadius: 99, background: i === onboardingStep ? 'var(--accent)' : 'rgba(255,255,255,0.2)',
                   transition: 'width 0.3s ease',
                 }} />
               ))}
@@ -1983,9 +1983,9 @@ export default function ClientDashboard() {
               onClick={() => { if (onboardingStep < 3) setOnboardingStep(s => s + 1); else dismissOnboarding(); }}
               style={{
                 width: '100%', padding: '12px 0',
-                background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                background: 'linear-gradient(135deg, var(--accent), var(--accent))',
                 border: 'none', borderRadius: 99,
-                color: '#fff', fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: '0.9rem',
+                color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.9rem',
                 cursor: 'pointer',
               }}
             >
@@ -1994,7 +1994,7 @@ export default function ClientDashboard() {
             <button onClick={dismissOnboarding} style={{
               marginTop: 10, background: 'none', border: 'none',
               color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem',
-              cursor: 'pointer', fontFamily: 'Outfit, sans-serif',
+              cursor: 'pointer', fontFamily: 'var(--font-body)',
             }}>
               Lewati
             </button>

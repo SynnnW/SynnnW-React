@@ -354,7 +354,7 @@ const CSS = `
 .cp-orb-1 {
   width: 500px; height: 500px;
   top: -150px; right: -80px;
-  background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%);
 }
 .cp-orb-2 {
   width: 400px; height: 400px;
@@ -365,7 +365,7 @@ const CSS = `
 /* Spinner (auth loading) */
 .cp-spinner {
   font-size: 2rem;
-  color: var(--accent, #8b5cf6);
+  color: var(--accent, var(--accent));
   animation: cpSpin 0.8s linear infinite;
 }
 @keyframes cpSpin { to { transform: rotate(360deg); } }
@@ -390,20 +390,20 @@ const CSS = `
   display: flex;
   align-items: center;
   gap: 9px;
-  background: rgba(139,92,246,0.1);
-  border: 1px solid rgba(139,92,246,0.22);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   border-radius: 10px;
   padding: 11px 16px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.8rem;
-  color: var(--accent3, #a78bfa);
+  color: var(--accent3, var(--accent));
   margin-bottom: 28px;
 }
 .cp-banner i { flex-shrink: 0; font-size: 0.85rem; }
 
 /* Heading */
 .cp-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 2.4rem;
   font-weight: 300;
   color: var(--text, #f0ede8);
@@ -411,7 +411,7 @@ const CSS = `
   margin-bottom: 10px;
 }
 .cp-sub {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.84rem;
   color: var(--text-dim, #64605a);
   line-height: 1.6;
@@ -456,7 +456,7 @@ const CSS = `
   min-width: 0;
 }
 .cp-google-label {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -464,7 +464,7 @@ const CSS = `
   color: var(--text-dim, #64605a);
 }
 .cp-google-email {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
   color: var(--text, #f0ede8);
   white-space: nowrap;
@@ -475,7 +475,7 @@ const CSS = `
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 700;
   color: var(--text-dim, #64605a);
@@ -493,7 +493,7 @@ const CSS = `
   border: 1px solid rgba(248,113,113,0.28);
   border-radius: 10px;
   padding: 12px 15px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
   color: #fca5a5;
   margin-bottom: 20px;
@@ -513,7 +513,7 @@ const CSS = `
   gap: 7px;
 }
 .cp-label {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -523,7 +523,7 @@ const CSS = `
   align-items: center;
   gap: 8px;
 }
-.cp-required { color: var(--accent3, #a78bfa); }
+.cp-required { color: var(--accent3, var(--accent)); }
 .cp-readonly-tag {
   font-size: 0.58rem;
   font-weight: 600;
@@ -542,7 +542,7 @@ const CSS = `
   border-radius: 10px;
   padding: 13px 16px;
   color: var(--text, #f0ede8);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
   width: 100%;
@@ -550,9 +550,9 @@ const CSS = `
 .cp-input::placeholder { color: var(--text-dim, #64605a); }
 .cp-input:focus {
   outline: none;
-  border-color: var(--accent3, #a78bfa);
+  border-color: var(--accent3, var(--accent));
   background: var(--glass2, rgba(255,255,255,0.07));
-  box-shadow: 0 0 0 3px rgba(139,92,246,0.14);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 .cp-input:disabled { opacity: 0.55; cursor: not-allowed; }
 .cp-input-readonly {
@@ -579,7 +579,7 @@ const CSS = `
   border-radius: 10px;
   padding: 13px 10px;
   color: var(--text, #f0ede8);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.8rem;
   cursor: pointer;
   transition: border-color 0.25s, background 0.25s;
@@ -587,15 +587,15 @@ const CSS = `
 }
 .cp-select:focus {
   outline: none;
-  border-color: var(--accent3, #a78bfa);
+  border-color: var(--accent3, var(--accent));
   background: var(--glass2, rgba(255,255,255,0.07));
-  box-shadow: 0 0 0 3px rgba(139,92,246,0.14);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 .cp-select:disabled { opacity: 0.55; cursor: not-allowed; }
 .cp-select option { background: #1a1a2e; color: #f0ede8; }
 .cp-phone-input { flex: 1; }
 .cp-hint {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.7rem;
   color: var(--text-dim, #64605a);
   letter-spacing: 0.02em;
@@ -625,26 +625,26 @@ const CSS = `
   color: #fff;
 }
 .cp-checkbox.checked {
-  background: var(--accent, #8b5cf6);
-  border-color: var(--accent, #8b5cf6);
+  background: var(--accent, var(--accent));
+  border-color: var(--accent, var(--accent));
 }
 .cp-checkbox:hover:not(.checked) {
-  border-color: var(--accent3, #a78bfa);
+  border-color: var(--accent3, var(--accent));
 }
 .cp-terms-text {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
   color: var(--text-dim, #64605a);
   line-height: 1.5;
 }
 .cp-terms-link {
-  color: var(--accent3, #a78bfa);
+  color: var(--accent3, var(--accent));
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.2s;
 }
-.cp-terms-link:hover { color: var(--accent2, #a78bfa); }
+.cp-terms-link:hover { color: var(--accent2, var(--accent)); }
 
 /* Submit button */
 .cp-btn {
@@ -652,23 +652,23 @@ const CSS = `
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: linear-gradient(135deg, var(--accent, #8b5cf6) 0%, var(--accent2, #7c3aed) 100%);
+  background: linear-gradient(135deg, var(--accent, var(--accent)) 0%, var(--accent2, var(--accent)) 100%);
   border: none;
   border-radius: 12px;
   padding: 15px 20px;
   color: #fff;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   cursor: pointer;
   transition: all 0.3s;
   margin-top: 6px;
-  box-shadow: 0 8px 28px rgba(139,92,246,0.3);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 .cp-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 14px 38px rgba(139,92,246,0.42);
+  box-shadow: 0 14px 38px color-mix(in srgb, var(--accent) 42%, transparent);
 }
 .cp-btn:disabled {
   opacity: 0.65;
@@ -678,7 +678,7 @@ const CSS = `
 
 /* Footer note */
 .cp-footer-note {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.7rem;
   color: var(--text-dim, #64605a);
   text-align: center;

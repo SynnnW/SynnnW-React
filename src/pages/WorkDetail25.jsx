@@ -45,7 +45,7 @@ const CSS = `
 .wd-d2 { transition-delay: 0.2s; }
 .wd-d3 { transition-delay: 0.3s; }
 
-.wd-page { background: var(--bg); min-height: 100vh; color: var(--text); font-family: 'Outfit', sans-serif; }
+.wd-page { background: var(--bg); min-height: 100vh; color: var(--text); font-family: var(--font-body); }
 
 .wd-hero {
   min-height: 72vh;
@@ -57,8 +57,8 @@ const CSS = `
 .wd-hero-bg {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 55% 55% at 85% 15%, rgba(139,92,246,0.14) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 45% at 10% 85%, rgba(139,92,246,0.08) 0%, transparent 60%);
+    radial-gradient(ellipse 55% 55% at 85% 15%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 45% at 10% 85%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
 }
 .wd-hero-bg::after {
   content: '';
@@ -79,10 +79,10 @@ const CSS = `
   padding: 5px 14px; border-radius: 99px;
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
 }
-.wd-badge-lany { background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.3); color: #8b5cf6; }
-.wd-badge-brand { background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.3); color: #8b5cf6; }
+.wd-badge-lany { background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent); }
+.wd-badge-brand { background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent); }
 .wd-hero-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(4rem, 10vw, 10rem);
   font-weight: 300; line-height: 0.88;
   margin-bottom: 20px; position: relative; z-index: 1;
@@ -99,7 +99,7 @@ const CSS = `
 
 .wd-section { padding: 80px 80px; border-top: 1px solid var(--border); }
 .wd-sec-label { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
-.wd-sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 300; line-height: 0.92; margin-bottom: 48px; }
+.wd-sec-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 300; line-height: 0.92; margin-bottom: 48px; }
 .wd-sec-title em { font-style: italic; color: var(--text-dim); }
 
 .wd-yt-wrap {
@@ -146,7 +146,7 @@ const CSS = `
   background: var(--glass2); border: 1px solid var(--border);
   border-radius: 99px; padding: 12px 24px;
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-dim); cursor: pointer; font-family: 'Outfit', sans-serif;
+  color: var(--text-dim); cursor: pointer; font-family: var(--font-body);
   transition: all 0.25s;
 }
 .wd-back-btn:hover { border-color: var(--text); color: var(--text); }

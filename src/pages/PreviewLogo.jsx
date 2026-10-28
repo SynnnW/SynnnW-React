@@ -94,7 +94,7 @@ function Stempel() {
         {/* Inner ring */}
         <circle cx="100" cy="100" r="79" fill="none" stroke="#C0392B" strokeWidth="0.8" opacity="0.45"/>
         {/* Arc text */}
-        <text fontFamily="'Outfit',sans-serif" fontSize="9" fontWeight="800"
+        <text fontFamily="var(--font-body)" fontSize="9" fontWeight="800"
           letterSpacing="2.5" fill="#C0392B" opacity="0.92">
           <textPath href="#pl-stamp-arc-top" startOffset="2%">
             · DALAM PENGERJAAN · HARJAKASI 208 ·
@@ -102,11 +102,11 @@ function Stempel() {
         </text>
         {/* Center content */}
         <text x="100" y="90" textAnchor="middle"
-          fontFamily="'Cormorant Garamond',serif" fontSize="13" fontWeight="700"
+          fontFamily="var(--font-display)" fontSize="13" fontWeight="700"
           fill="#C0392B" opacity="0.9" letterSpacing="1">SEGERA</text>
         <line x1="68" y1="98" x2="132" y2="98" stroke="#C0392B" strokeWidth="1" opacity="0.35"/>
         <text x="100" y="115" textAnchor="middle"
-          fontFamily="'Cormorant Garamond',serif" fontSize="13" fontWeight="700"
+          fontFamily="var(--font-display)" fontSize="13" fontWeight="700"
           fill="#C0392B" opacity="0.9" letterSpacing="1">HADIR</text>
         {/* 5-point star dots */}
         {[0, 72, 144, 216, 288].map((a, i) => {
@@ -138,20 +138,20 @@ function LogoSVG({ size = 230 }) {
       <polygon points="150,40 220,100 200,185 150,215 100,185 80,100"
         fill="none" stroke="#D4A017" strokeWidth="2" opacity="0.8"/>
       <text x="150" y="148" textAnchor="middle"
-        fontFamily="'Cormorant Garamond',serif" fontSize="62" fontWeight="700"
+        fontFamily="var(--font-display)" fontSize="62" fontWeight="700"
         fill="url(#plRg1)" letterSpacing="-2">208</text>
       <text x="150" y="182" textAnchor="middle"
-        fontFamily="'Outfit',sans-serif" fontSize="13" fontWeight="700"
+        fontFamily="var(--font-body)" fontSize="13" fontWeight="700"
         fill="#D4A017" letterSpacing="6" opacity="0.85">HARJAKASI</text>
       <text x="150" y="200" textAnchor="middle"
-        fontFamily="'Outfit',sans-serif" fontSize="7.5" fontWeight="400"
+        fontFamily="var(--font-body)" fontSize="7.5" fontWeight="400"
         fill="#aaa" letterSpacing="3">KABUPATEN SITUBONDO</text>
       {[0, 60, 120, 180, 240, 300].map((a, i) => {
         const rad = (a - 90) * Math.PI / 180;
         return <circle key={i} cx={150 + 125 * Math.cos(rad)} cy={150 + 125 * Math.sin(rad)} r="3" fill="#D4A017" opacity="0.6"/>;
       })}
       <text x="150" y="243" textAnchor="middle"
-        fontFamily="'Outfit',sans-serif" fontSize="6" fill="#666" letterSpacing="2">
+        fontFamily="var(--font-body)" fontSize="6" fill="#666" letterSpacing="2">
         ↑ Ganti dengan foto logo kamu
       </text>
     </svg>
@@ -168,7 +168,7 @@ function ProcessItem({ item, delay = 0 }) {
     <div className={cls} style={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: '36px', position: 'relative' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '4px' }}>
         <span style={{
-          fontFamily: "'Cormorant Garamond',serif", fontSize: '2.6rem', fontWeight: 300,
+          fontFamily: "var(--font-display)", fontSize: '2.6rem', fontWeight: 300,
           lineHeight: 1, marginBottom: '16px', alignSelf: 'center',
           color: open ? '#D4A017' : '#64605a', transition: 'color 0.3s',
         }}>{item.num}</span>
@@ -179,9 +179,9 @@ function ProcessItem({ item, delay = 0 }) {
       <div style={{ padding: '4px 0 44px' }}>
         <button
           onClick={() => setOpen(p => !p)}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0, textAlign: 'left', fontFamily: "'Outfit',sans-serif" }}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0, textAlign: 'left', fontFamily: "var(--font-body)" }}
         >
-          <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.5rem', fontWeight: 600 }}>{item.title}</span>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: '1.5rem', fontWeight: 600 }}>{item.title}</span>
           <span style={{ color: '#D4A017', transform: open ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s', flexShrink: 0, marginLeft: '12px' }}>
             <i className="fa-solid fa-chevron-down"/>
           </span>
@@ -208,30 +208,30 @@ function MockupPreview({ index, bg }) {
     /* 0 Spanduk & Baliho */
     <svg key={0} viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', maxWidth: 560 }}>
       <rect x="10" y="10" width="580" height="180" rx="6" fill="none" stroke={tc} strokeWidth="1.5" opacity="0.3"/>
-      <text x="300" y="72" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="22" fill={tc} opacity="0.5" letterSpacing="8">SELAMAT</text>
-      <text x="300" y="110" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="38" fontWeight="700" fill="#D4A017" letterSpacing="-1">HARI JADI KE-208</text>
-      <text x="300" y="138" textAnchor="middle" fontFamily="'Outfit',sans-serif" fontSize="14" fill={tc} opacity="0.6" letterSpacing="6">KABUPATEN SITUBONDO</text>
+      <text x="300" y="72" textAnchor="middle" fontFamily="var(--font-display)" fontSize="22" fill={tc} opacity="0.5" letterSpacing="8">SELAMAT</text>
+      <text x="300" y="110" textAnchor="middle" fontFamily="var(--font-display)" fontSize="38" fontWeight="700" fill="#D4A017" letterSpacing="-1">HARI JADI KE-208</text>
+      <text x="300" y="138" textAnchor="middle" fontFamily="var(--font-body)" fontSize="14" fill={tc} opacity="0.6" letterSpacing="6">KABUPATEN SITUBONDO</text>
       <circle cx="78" cy="100" r="44" fill="none" stroke="#D4A017" strokeWidth="1.5" opacity="0.7"/>
-      <text x="78" y="107" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="22" fontWeight="700" fill="#D4A017">208</text>
+      <text x="78" y="107" textAnchor="middle" fontFamily="var(--font-display)" fontSize="22" fontWeight="700" fill="#D4A017">208</text>
       <circle cx="522" cy="100" r="44" fill="none" stroke="#D4A017" strokeWidth="1.5" opacity="0.7"/>
-      <text x="522" y="107" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="22" fontWeight="700" fill="#D4A017">208</text>
+      <text x="522" y="107" textAnchor="middle" fontFamily="var(--font-display)" fontSize="22" fontWeight="700" fill="#D4A017">208</text>
     </svg>,
 
     /* 1 Media Sosial */
     <svg key={1} viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style={{ width: 260, height: 260 }}>
       <rect x="0" y="0" width="300" height="300" rx="20" fill={bg} opacity="0.4"/>
       <circle cx="150" cy="128" r="80" fill="none" stroke="#D4A017" strokeWidth="1.5" opacity="0.6"/>
-      <text x="150" y="136" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="52" fontWeight="700" fill={tc}>208</text>
-      <text x="150" y="162" textAnchor="middle" fontFamily="'Outfit',sans-serif" fontSize="9" fontWeight="700" fill="#D4A017" letterSpacing="5">HARJAKASI</text>
-      <text x="150" y="240" textAnchor="middle" fontFamily="'Outfit',sans-serif" fontSize="8" fill={tc} opacity="0.5" letterSpacing="3">#AgustusMainKeSitubondo</text>
+      <text x="150" y="136" textAnchor="middle" fontFamily="var(--font-display)" fontSize="52" fontWeight="700" fill={tc}>208</text>
+      <text x="150" y="162" textAnchor="middle" fontFamily="var(--font-body)" fontSize="9" fontWeight="700" fill="#D4A017" letterSpacing="5">HARJAKASI</text>
+      <text x="150" y="240" textAnchor="middle" fontFamily="var(--font-body)" fontSize="8" fill={tc} opacity="0.5" letterSpacing="3">#AgustusMainKeSitubondo</text>
     </svg>,
 
     /* 2 Kaos */
     <svg key={2} viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg" style={{ width: 260, height: 280 }}>
       <path d="M90,30 L60,80 L100,90 L100,280 L200,280 L200,90 L240,80 L210,30 L175,50 Q150,30 125,50 Z" fill="none" stroke={tc} strokeWidth="2" opacity="0.4"/>
       <circle cx="150" cy="170" r="52" fill="none" stroke="#D4A017" strokeWidth="1.5" opacity="0.8"/>
-      <text x="150" y="178" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="34" fontWeight="700" fill={tc}>208</text>
-      <text x="150" y="199" textAnchor="middle" fontFamily="'Outfit',sans-serif" fontSize="7" fontWeight="700" fill="#D4A017" letterSpacing="4">HARJAKASI</text>
+      <text x="150" y="178" textAnchor="middle" fontFamily="var(--font-display)" fontSize="34" fontWeight="700" fill={tc}>208</text>
+      <text x="150" y="199" textAnchor="middle" fontFamily="var(--font-body)" fontSize="7" fontWeight="700" fill="#D4A017" letterSpacing="4">HARJAKASI</text>
     </svg>,
 
     /* 3 Kop Surat */
@@ -239,9 +239,9 @@ function MockupPreview({ index, bg }) {
       <rect x="10" y="10" width="380" height="260" rx="4" fill={isLight ? '#fff' : '#f5f0e8'} opacity="0.08"/>
       <line x1="10" y1="68" x2="390" y2="68" stroke="#D4A017" strokeWidth="2"/>
       <circle cx="50" cy="38" r="24" fill="none" stroke="#D4A017" strokeWidth="1.5"/>
-      <text x="50" y="44" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="16" fontWeight="700" fill={isLight ? '#1a1916' : tc}>208</text>
-      <text x="125" y="33" fontFamily="'Cormorant Garamond',serif" fontSize="12" fontWeight="700" fill={isLight ? '#1a1916' : tc}>PEMERINTAH KABUPATEN SITUBONDO</text>
-      <text x="125" y="50" fontFamily="'Outfit',sans-serif" fontSize="8" fill={isLight ? '#555' : tc} opacity="0.6">HARJAKASI KE-208 · 2026</text>
+      <text x="50" y="44" textAnchor="middle" fontFamily="var(--font-display)" fontSize="16" fontWeight="700" fill={isLight ? '#1a1916' : tc}>208</text>
+      <text x="125" y="33" fontFamily="var(--font-display)" fontSize="12" fontWeight="700" fill={isLight ? '#1a1916' : tc}>PEMERINTAH KABUPATEN SITUBONDO</text>
+      <text x="125" y="50" fontFamily="var(--font-body)" fontSize="8" fill={isLight ? '#555' : tc} opacity="0.6">HARJAKASI KE-208 · 2026</text>
       {[90, 108, 126, 144, 162, 180].map((y, i) => (
         <rect key={i} x="28" y={y} width={280 - i * 20} height="5" rx="2" fill={isLight ? '#555' : tc} opacity="0.15"/>
       ))}
@@ -251,9 +251,9 @@ function MockupPreview({ index, bg }) {
     <svg key={4} viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style={{ width: 240, height: 240 }}>
       <circle cx="150" cy="150" r="130" fill="none" stroke={tc} strokeWidth="2" opacity="0.3" strokeDasharray="8 4"/>
       <circle cx="150" cy="150" r="110" fill={bg} stroke="#D4A017" strokeWidth="2.5" opacity="0.9"/>
-      <text x="150" y="145" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="58" fontWeight="700" fill={tc}>208</text>
-      <text x="150" y="172" textAnchor="middle" fontFamily="'Outfit',sans-serif" fontSize="10" fontWeight="800" fill="#D4A017" letterSpacing="6">HARJAKASI</text>
-      <text x="150" y="190" textAnchor="middle" fontFamily="'Outfit',sans-serif" fontSize="7" fill={tc} opacity="0.5" letterSpacing="3">SITUBONDO · 2026</text>
+      <text x="150" y="145" textAnchor="middle" fontFamily="var(--font-display)" fontSize="58" fontWeight="700" fill={tc}>208</text>
+      <text x="150" y="172" textAnchor="middle" fontFamily="var(--font-body)" fontSize="10" fontWeight="800" fill="#D4A017" letterSpacing="6">HARJAKASI</text>
+      <text x="150" y="190" textAnchor="middle" fontFamily="var(--font-body)" fontSize="7" fill={tc} opacity="0.5" letterSpacing="3">SITUBONDO · 2026</text>
     </svg>,
 
     /* 5 Layar Digital */
@@ -263,9 +263,9 @@ function MockupPreview({ index, bg }) {
       <circle cx="28" cy="24" r="5" fill="#ff5f57" opacity="0.8"/>
       <circle cx="44" cy="24" r="5" fill="#febc2e" opacity="0.8"/>
       <circle cx="60" cy="24" r="5" fill="#28c840" opacity="0.8"/>
-      <text x="250" y="160" textAnchor="middle" fontFamily="'Cormorant Garamond',serif" fontSize="60" fontWeight="700" fill={tc} opacity="0.9">208</text>
-      <text x="250" y="192" textAnchor="middle" fontFamily="'Outfit',sans-serif" fontSize="11" fontWeight="700" fill="#D4A017" letterSpacing="8">HARJAKASI</text>
-      <text x="250" y="213" textAnchor="middle" fontFamily="'Outfit',sans-serif" fontSize="7" fill={tc} opacity="0.4" letterSpacing="4">KABUPATEN SITUBONDO</text>
+      <text x="250" y="160" textAnchor="middle" fontFamily="var(--font-display)" fontSize="60" fontWeight="700" fill={tc} opacity="0.9">208</text>
+      <text x="250" y="192" textAnchor="middle" fontFamily="var(--font-body)" fontSize="11" fontWeight="700" fill="#D4A017" letterSpacing="8">HARJAKASI</text>
+      <text x="250" y="213" textAnchor="middle" fontFamily="var(--font-body)" fontSize="7" fill={tc} opacity="0.4" letterSpacing="4">KABUPATEN SITUBONDO</text>
     </svg>,
   ];
 
@@ -455,10 +455,10 @@ export default function PreviewLogo() {
                     <svg viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" style={{ width: '80%', height: 'auto' }}>
                       <circle cx="80" cy="50" r="44" fill="none" stroke={v.txt} strokeWidth="1" opacity="0.4"/>
                       <text x="80" y="56" textAnchor="middle"
-                        fontFamily="'Cormorant Garamond',serif" fontSize="28" fontWeight="700"
+                        fontFamily="var(--font-display)" fontSize="28" fontWeight="700"
                         fill={v.txt} opacity="0.9">208</text>
                       <text x="80" y="70" textAnchor="middle"
-                        fontFamily="'Outfit',sans-serif" fontSize="5.5" fontWeight="700"
+                        fontFamily="var(--font-body)" fontSize="5.5" fontWeight="700"
                         fill={v.txt} opacity="0.7" letterSpacing="3">HARJAKASI</text>
                     </svg>
                   </div>
@@ -612,7 +612,7 @@ export default function PreviewLogo() {
    CSS
 ══════════════════════════════════════════════════════════════ */
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@400;500;600&display=swap');
 
 /* ── base ── */
 .pl-page {
@@ -626,7 +626,7 @@ const CSS = `
   --pl-border:   var(--border,  rgba(255,255,255,0.07));
   --pl-glass:    var(--glass,   rgba(255,255,255,0.04));
 
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   background:  var(--pl-bg);
   color:       var(--pl-text);
   overflow-x:  hidden;
@@ -663,7 +663,7 @@ const CSS = `
 .pl-hero-content { display:flex; flex-direction:column; gap:24px; }
 .pl-hero-visual  { display:flex; align-items:center; justify-content:center; }
 .pl-hero-title {
-  font-family:'Cormorant Garamond',serif;
+  font-family:var(--font-display);
   font-weight:300; line-height:1.02;
   letter-spacing:-0.02em; margin:0;
 }
@@ -720,7 +720,7 @@ const CSS = `
   padding:32px 40px; flex:1; min-width:130px;
 }
 .pl-stat-icon  { font-size:1rem; color:var(--pl-gold); opacity:0.7; }
-.pl-stat-num   { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:var(--pl-text); }
+.pl-stat-num   { font-family:var(--font-display); font-size:1.6rem; font-weight:700; color:var(--pl-text); }
 .pl-stat-label { font-size:0.62rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--pl-dim); text-align:center; }
 
 /* ── sections ── */
@@ -734,7 +734,7 @@ const CSS = `
   text-transform:uppercase; color:var(--pl-dim); margin-bottom:16px;
 }
 .pl-h2 {
-  font-family:'Cormorant Garamond',serif;
+  font-family:var(--font-display);
   font-size:clamp(2.6rem,5.5vw,5.5rem);
   font-weight:300; line-height:0.9; margin:0;
 }
@@ -753,9 +753,9 @@ const CSS = `
   border-radius:20px; padding:28px; position:relative; overflow:hidden; transition:all 0.3s;
 }
 .pl-feat-card:hover { border-color:rgba(212,160,23,0.25); transform:translateY(-3px); }
-.pl-card-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600; color:var(--pl-text); margin:0 0 10px; }
+.pl-card-title { font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--pl-text); margin:0 0 10px; }
 .pl-card-body  { font-size:0.82rem; color:var(--pl-dim); line-height:1.75; margin:0; }
-.pl-card-num   { position:absolute; bottom:20px; right:24px; font-family:'Cormorant Garamond',serif; font-size:3.5rem; font-weight:700; color:var(--pl-gold); opacity:0.07; line-height:1; user-select:none; }
+.pl-card-num   { position:absolute; bottom:20px; right:24px; font-family:var(--font-display); font-size:3.5rem; font-weight:700; color:var(--pl-gold); opacity:0.07; line-height:1; user-select:none; }
 
 /* ── quote ── */
 .pl-quote-block {
@@ -765,7 +765,7 @@ const CSS = `
 }
 .pl-quote-icon { font-size:1.4rem; color:var(--pl-gold); opacity:0.35; display:block; margin-bottom:12px; }
 .pl-quote-block blockquote {
-  font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:300; font-style:italic;
+  font-family:var(--font-display); font-size:1.15rem; font-weight:300; font-style:italic;
   color:var(--pl-text); line-height:1.75; margin:0;
 }
 
@@ -801,7 +801,7 @@ const CSS = `
 .pl-mock-tab {
   display:inline-flex; align-items:center; gap:8px; padding:10px 18px;
   background:var(--pl-glass); border:1px solid var(--pl-border);
-  border-radius:99px; cursor:pointer; font-family:'Outfit',sans-serif;
+  border-radius:99px; cursor:pointer; font-family:var(--font-body);
   font-size:0.68rem; font-weight:700; letter-spacing:0.08em; color:var(--pl-dim); transition:all 0.22s;
 }
 .pl-mock-tab:hover { color:var(--pl-text); border-color:rgba(255,255,255,0.15); }
@@ -837,7 +837,7 @@ const CSS = `
   background:linear-gradient(90deg, transparent, rgba(212,160,23,0.5), transparent);
 }
 .pl-cta-title {
-  font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,5vw,4.5rem);
+  font-family:var(--font-display); font-size:clamp(2.2rem,5vw,4.5rem);
   font-weight:300; line-height:1.05; margin:0 0 18px; color:var(--pl-text);
   position:relative; z-index:1;
 }
@@ -847,7 +847,7 @@ const CSS = `
   display:inline-flex; align-items:center; gap:12px; padding:16px 34px;
   background:linear-gradient(135deg, rgba(212,160,23,0.2), rgba(192,57,43,0.12));
   border:1px solid rgba(212,160,23,0.5); border-radius:99px; text-decoration:none;
-  color:var(--pl-text); font-family:'Outfit',sans-serif; font-size:0.74rem; font-weight:700;
+  color:var(--pl-text); font-family:var(--font-body); font-size:0.74rem; font-weight:700;
   letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s; position:relative; z-index:1;
 }
 .pl-cta-btn:hover { transform:translateY(-3px); box-shadow:0 16px 50px rgba(212,160,23,0.22); border-color:rgba(212,160,23,0.8); }
@@ -860,7 +860,7 @@ const CSS = `
 /* ── footer ── */
 .pl-footer { border-top:1px solid var(--pl-border); padding:40px 80px; }
 .pl-footer-inner { max-width:1120px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px; }
-.pl-footer-logo  { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:700; color:var(--pl-text); }
+.pl-footer-logo  { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:var(--pl-text); }
 .pl-footer-logo span { color:var(--pl-gold); }
 .pl-footer-caption { font-size:0.72rem; color:var(--pl-dim); margin:4px 0 0; }
 .pl-footer-meta { display:flex; flex-direction:column; gap:3px; text-align:center; }

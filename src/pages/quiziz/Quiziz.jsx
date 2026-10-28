@@ -16,7 +16,7 @@ const SUBJECTS = [
   { slug: 'kdk', name: 'Konsep Dasar Keperawatan', icon: '📋', color: '#8b7bff' },
   { slug: 'pancasila', name: 'Pendidikan Pancasila', icon: '🇮🇩', color: '#fb7185' },
   { slug: 'kesglob', name: 'Kesehatan Global', icon: '🌍', color: '#5eead4' },
-  { slug: 'ibd', name: 'Ilmu Biomedik Dasar', icon: '🧬', color: '#a78bfa' },
+  { slug: 'ibd', name: 'Ilmu Biomedik Dasar', icon: '🧬', color: 'var(--accent)' },
   { slug: 'komdas', name: 'Komunikasi Dasar Keperawatan', icon: '💬', color: '#22d3ee' },
 ];
 

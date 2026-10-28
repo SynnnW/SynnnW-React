@@ -11,7 +11,7 @@ const CSS = `
   padding-top: 64px;
   position: relative;
   overflow-x: hidden;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
 }
 .ck-orb {
   position: fixed; border-radius: 50%;
@@ -19,7 +19,7 @@ const CSS = `
 }
 .ck-orb1 {
   width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 65%);
   top: -200px; left: -200px;
 }
 .ck-orb2 {
@@ -34,8 +34,8 @@ const CSS = `
   margin: 0 auto;
   max-width: 1100px;
   padding: 14px 24px;
-  background: rgba(139,92,246,0.08);
-  border-bottom: 1px solid rgba(139,92,246,0.25);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   display: flex; align-items: flex-start; gap: 10px;
   font-size: 0.78rem; color: var(--text-dim); line-height: 1.65;
 }
@@ -73,7 +73,7 @@ const CSS = `
   color: var(--accent3);
 }
 .ck-left-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(2rem, 3.5vw, 2.8rem);
   font-weight: 300; line-height: 1.1;
   color: var(--text); margin: 0;
@@ -100,7 +100,7 @@ const CSS = `
 .ck-summary-item:last-child { border-bottom: none; }
 .ck-sum-icon {
   width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-  background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);
+  background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.85rem; color: var(--accent3);
 }
@@ -150,7 +150,7 @@ const CSS = `
   flex: 1; font-family: monospace;
   font-size: 0.95rem; font-weight: 700;
   color: var(--accent3);
-  background: rgba(139,92,246,0.08);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
   padding: 4px 10px; border-radius: 7px;
   letter-spacing: 0.04em;
 }
@@ -159,7 +159,7 @@ const CSS = `
   padding: 7px 14px;
   background: var(--glass); border: 1px solid var(--gborder);
   border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.68rem; font-weight: 700;
   color: var(--text-dim); transition: all 0.25s;
 }
@@ -346,7 +346,7 @@ const CSS = `
 /* Mock checkout confirm box */
 .ck-mock-confirm {
   padding: 16px 20px;
-  background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.2);
+  background: color-mix(in srgb, var(--accent) 6%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 14px;
   font-size: 0.75rem; color: var(--text-dim); line-height: 1.7;
 }
@@ -367,7 +367,7 @@ const CSS = `
 .ck-step-item:last-child { border-bottom: none; }
 .ck-step-num {
   width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
-  background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3);
+  background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.62rem; font-weight: 800; color: var(--accent3);
   margin-top: 6px;
@@ -388,7 +388,7 @@ const CSS = `
   padding: 8px 16px;
   background: var(--glass2); border: 1px solid var(--gborder);
   border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--text-dim);
   transition: all 0.25s;

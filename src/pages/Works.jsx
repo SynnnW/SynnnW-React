@@ -48,7 +48,7 @@ const KARYA_LIST = [
     descID: 'Design lanyard kelas dengan elemen branding terpadu yang memperkuat identitas dan kesatuan kelas di antara siswa.',
     tags: ['Lanyard Design', 'Class Identity', 'Student Branding'],
     image: '/assets/img/class.jpg',
-    gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+    gradient: 'linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%)',
   },
   {
     id: 'poster-waktu-untuk-diri-2026',
@@ -145,7 +145,7 @@ const KARYA_LIST = [
     descID: 'Website kado ulang tahun buat pasangan atau anak. Ada game tantangan, story interaktif, asisten AI personal — semua HTML CSS JS, cepet dan personal banget.',
     tags: ['HTML/CSS/JS', 'Interactive Game', 'AI Integration', 'Vibe Code'],
     image: '/assets/img/image.png',
-    gradient: 'linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)',
+    gradient: 'linear-gradient(135deg, var(--accent) 0%, #4f46e5 100%)',
   },
 
   /* ── 2025 ── */
@@ -227,7 +227,7 @@ const KARYA_LIST = [
     descID: 'Video kampanye caleg Parlemen Remaja. PLTU Paiton terangin jutaan rumah, tapi sawah kena abu, hasil panen turun. Program GENSIA: aksi nyata menuju energi bersih.',
     tags: ['Political', 'Youth Parliament', 'Energy Transition'],
     image: '/assets/img/faza.jpg',
-    gradient: 'linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%)',
+    gradient: 'linear-gradient(135deg, var(--accent) 0%, #5b21b6 100%)',
   },
   {
     id: 'video-kreatif-antikorupsi-2025',

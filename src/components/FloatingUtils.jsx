@@ -79,10 +79,10 @@ export default function FloatingUtils() {
 
       /* Back to Top button */
       .fu-btn.top-btn {
-        background: rgba(139, 92, 246, 0.12);
-        border: 1.5px solid rgba(139, 92, 246, 0.32);
-        color: #a78bfa;
-        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.16);
+        background: color-mix(in srgb, var(--accent) 12%, transparent);
+        border: 1.5px solid color-mix(in srgb, var(--accent) 32%, transparent);
+        color: var(--accent);
+        box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 16%, transparent);
         opacity: 0;
         transform: translateY(12px) scale(0.8);
         pointer-events: none;
@@ -97,9 +97,9 @@ export default function FloatingUtils() {
       }
 
       .fu-btn.top-btn:hover {
-        background: rgba(139, 92, 246, 0.18);
-        border-color: rgba(139, 92, 246, 0.45);
-        box-shadow: 0 6px 24px rgba(139, 92, 246, 0.28);
+        background: color-mix(in srgb, var(--accent) 18%, transparent);
+        border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+        box-shadow: 0 6px 24px color-mix(in srgb, var(--accent) 28%, transparent);
       }
 
       /* Tooltip — hover */
@@ -113,7 +113,7 @@ export default function FloatingUtils() {
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         color: rgba(255, 255, 255, 0.9);
-        font-family: 'Outfit', sans-serif;
+        font-family: var(--font-body);
         font-size: 0.72rem;
         font-weight: 600;
         white-space: nowrap;

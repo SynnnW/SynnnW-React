@@ -32,7 +32,7 @@
 
   /* ── Accents (identitas Quiziz yang sudah ada, dipertahankan) ── */
   --qzg-primary:   #8b7bff;
-  --qzg-primary2:  #a78bfa;
+  --qzg-primary2:  var(--accent);
   --qzg-teal:      #5eead4;
   --qzg-success:   #34d399;
   --qzg-warning:   #fbbf24;
@@ -474,13 +474,13 @@ textarea.qz-field { resize: vertical; min-height: 100px; }
   --qzg-glass-1: var(--glass); --qzg-glass-2: var(--glass2); --qzg-glass-3: var(--glass2);
   --qzg-border-1: var(--border2); --qzg-border-2: var(--border2); --qzg-border-accent: var(--accent2);
   --qzg-r-lg: 28px; --qzg-r-md: 20px;
-  --qzg-font: 'Outfit', system-ui, sans-serif; --qzg-font-disp: 'Outfit', system-ui, sans-serif;
-  --qzg-shadow-float: none; --qzg-glow-primary: 0 8px 28px rgba(139,92,246,0.3);
+  --qzg-font: var(--font-body), system-ui, sans-serif; --qzg-font-disp: var(--font-body), system-ui, sans-serif;
+  --qzg-shadow-float: none; --qzg-glow-primary: 0 8px 28px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 .qz-ambient {
   background:
     repeating-linear-gradient(118deg, transparent 0 54px, color-mix(in srgb, var(--text) 6%, transparent) 54px 55px),
-    radial-gradient(60% 38% at 82% 0%, rgba(139,92,246,0.2), transparent 70%),
+    radial-gradient(60% 38% at 82% 0%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%),
     radial-gradient(48% 34% at 0% 55%, rgba(236,72,153,0.1), transparent 70%),
     var(--bg);
 }

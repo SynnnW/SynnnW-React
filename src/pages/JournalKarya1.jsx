@@ -337,7 +337,7 @@ const CSS = `
   font-size: 0.74rem; color: var(--text-dim);
 }
 .k1-bc-link {
-  background: none; border: none; font-family: 'Outfit', sans-serif;
+  background: none; border: none; font-family: var(--font-body);
   font-size: 0.74rem; color: var(--text-dim);
   cursor: pointer; padding: 0; transition: color 0.2s;
 }
@@ -362,7 +362,7 @@ const CSS = `
   margin-bottom: 26px;
 }
 .k1-hero-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3.8rem);
   font-weight: 300; line-height: 1.18;
   margin-bottom: 36px; color: var(--text);
@@ -393,7 +393,7 @@ const CSS = `
 }
 .article-text em { font-style: italic; color: var(--text); }
 .article-subheading {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 1.8rem; font-weight: 600;
   color: var(--text); margin: 40px 0 16px;
 }
@@ -434,7 +434,7 @@ const CSS = `
   padding: 24px 28px; margin: 32px 0;
 }
 .blockquote-text {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 1.15rem; font-style: italic;
   line-height: 1.7; color: var(--text); margin-bottom: 12px;
 }
@@ -463,7 +463,7 @@ const CSS = `
   border: 1px solid var(--accent2); border-radius: 99px;
   padding: 10px 24px; font-size: 0.75rem;
   color: var(--accent2); text-decoration: none;
-  transition: all 0.3s; font-family: 'Outfit', sans-serif;
+  transition: all 0.3s; font-family: var(--font-body);
 }
 .source-link:hover { background: var(--accent2); color: var(--bg); }
 
@@ -477,7 +477,7 @@ const CSS = `
   -webkit-backdrop-filter: blur(12px);
   transition: border-color 0.3s;
 }
-.sidebar-widget:hover { border-color: rgba(139,92,246,0.28); }
+.sidebar-widget:hover { border-color: color-mix(in srgb, var(--accent) 28%, transparent); }
 .widget-title {
   font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--text-dim);
@@ -500,7 +500,7 @@ const CSS = `
 .rel-link-btn {
   background: none; border: none; width: 100%;
   text-align: left; padding: 10px 0;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.8rem; color: var(--text-dim);
   cursor: pointer; transition: color 0.2s;
 }

@@ -17,7 +17,7 @@ const SUBJECTS = [
   { name: 'Konsep Dasar Keperawatan', icon: '📋', color: '#8b7bff' },
   { name: 'Pendidikan Pancasila', icon: '🇮🇩', color: '#fb7185' },
   { name: 'Kesehatan Global', icon: '🌍', color: '#5eead4' },
-  { name: 'Ilmu Biomedik Dasar', icon: '🧬', color: '#a78bfa' },
+  { name: 'Ilmu Biomedik Dasar', icon: '🧬', color: 'var(--accent)' },
   { name: 'Komunikasi Dasar Keperawatan', icon: '💬', color: '#22d3ee' },
 ];
 

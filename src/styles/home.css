@@ -6,12 +6,12 @@
 .hm {
   --hm-pad: clamp(18px, 4vw, 48px);
   --hm-radius: 20px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   color: var(--text);
   overflow-x: clip;
 }
 .hm * { -webkit-tap-highlight-color: transparent; }
-.hm h1, .hm h2, .hm h3 { font-family: 'Outfit', sans-serif; font-weight: 500; letter-spacing: -0.02em; }
+.hm h1, .hm h2, .hm h3 { font-family: var(--font-body); font-weight: 500; letter-spacing: -0.02em; }
 
 .hm-wrap { max-width: 1280px; margin: 0 auto; padding-left: var(--hm-pad); padding-right: var(--hm-pad); }
 .hm-sec  { padding-top: clamp(64px, 9vw, 112px); }
@@ -28,14 +28,14 @@
 .hm-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 9px;
   height: 46px; padding: 0 24px; border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 600;
+  font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
   letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
   border: 1px solid var(--border2); background: transparent; color: var(--text);
   transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .hm-btn:hover { transform: translateY(-2px); background: var(--glass2); border-color: var(--accent2); }
-.hm-btn--solid { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 8px 28px rgba(139,92,246,0.32); }
-.hm-btn--solid:hover { background: var(--accent2); border-color: var(--accent2); box-shadow: 0 12px 34px rgba(139,92,246,0.42); }
+.hm-btn--solid { background: var(--accent); border-color: var(--accent); color: var(--on-accent); box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 32%, transparent); }
+.hm-btn--solid:hover { background: var(--accent2); border-color: var(--accent2); box-shadow: 0 12px 34px color-mix(in srgb, var(--accent) 42%, transparent); }
 .hm-btn-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 44px; }
 
 .hm-round {
@@ -43,7 +43,7 @@
   border: 1px solid var(--border2); background: var(--glass); color: var(--text);
   transition: background 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
 }
-.hm-round:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: #fff; }
+.hm-round:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .hm-round:disabled { opacity: 0.3; cursor: default; }
 
 /* ── Scroll dots ── */
@@ -106,7 +106,7 @@
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 8px; text-align: center;
   transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
 }
-.hm-tool b { font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
+.hm-tool b { font-family: var(--font-body); font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
 .hm-tool span { font-size: 0.6rem; letter-spacing: 0.04em; color: var(--text-dim); line-height: 1.25; }
 .hm-tool:hover { transform: translateY(-4px); border-color: var(--accent2); background: var(--glass2); }
 
@@ -141,7 +141,7 @@
 }
 .hm-card-go {
   position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--accent); color: #fff; opacity: 0; transform: translateY(8px) scale(0.9); transition: all 0.35s ease;
+  background: var(--accent); color: var(--on-accent); opacity: 0; transform: translateY(8px) scale(0.9); transition: all 0.35s ease;
 }
 .hm-card:hover .hm-card-go, .hm-card:focus-visible .hm-card-go { opacity: 1; transform: none; }
 .hm-card-meta { padding: 14px 4px 0; }
@@ -185,7 +185,7 @@
 .hm-award {
   position: relative; border-radius: 28px; border: 1px solid var(--border2); overflow: hidden;
   padding: clamp(40px, 7vw, 80px) clamp(56px, 9vw, 120px) 70px; min-height: 380px;
-  background: radial-gradient(120% 90% at 50% 0%, rgba(139, 92, 246, 0.16), transparent 60%), var(--glass);
+  background: radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%), var(--glass);
 }
 .hm-award-prev, .hm-award-next { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; }
 .hm-award-prev { left: clamp(10px, 2vw, 24px); }

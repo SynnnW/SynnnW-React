@@ -28,10 +28,10 @@ const TYPE_CONFIG = {
     color: '#fbbf24',
   },
   info: {
-    bg: 'rgba(139, 92, 246, 0.1)',
-    border: 'rgba(139, 92, 246, 0.35)',
+    bg: 'color-mix(in srgb, var(--accent) 10%, transparent)',
+    border: 'color-mix(in srgb, var(--accent) 35%, transparent)',
     icon: 'ℹ',
-    color: '#a78bfa',
+    color: 'var(--accent)',
   },
 };
 
@@ -118,7 +118,7 @@ function ToastItem({ toast, onRemove }) {
       {/* Message */}
       <span
         style={{
-          fontFamily: "'Outfit', sans-serif",
+          fontFamily: "var(--font-body)",
           fontSize: '0.85rem',
           fontWeight: 500,
           color: 'rgba(255, 255, 255, 0.88)',

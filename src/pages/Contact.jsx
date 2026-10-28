@@ -11,8 +11,8 @@ const CSS = `
   --gborder : rgba(255,255,255,0.09);
   --gborder2: rgba(255,255,255,0.16);
   --blur    : blur(18px) saturate(160%);
-  --accent-g: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
-  --accent-g2: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  --accent-g: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
+  --accent-g2: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
   --green   : #4ade80;
   --yellow  : rgba(251,191,36,0.85);
   --red     : rgba(239,68,68,0.85);
@@ -50,7 +50,7 @@ const CSS = `
 }
 .cq-wo2 {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 65%);
   bottom: -80px; right: -60px;
 }
 .cq-warn-card {
@@ -79,7 +79,7 @@ const CSS = `
   margin-bottom: 14px; display: block;
 }
 .cq-warn-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 400; line-height: 1.1;
   color: var(--text); margin-bottom: 20px;
@@ -93,16 +93,16 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 10px;
   padding: 14px 32px;
   background: var(--accent-g); color: #fff;
-  border-radius: 99px; font-family: 'Outfit', sans-serif;
+  border-radius: 99px; font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
   text-transform: uppercase; text-decoration: none;
   transition: all 0.3s;
-  box-shadow: 0 8px 28px rgba(139,92,246,0.4);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 40%, transparent);
   margin-bottom: 24px;
 }
 .cq-warn-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 40px rgba(139,92,246,0.5);
+  box-shadow: 0 14px 40px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 .cq-warn-hint {
   display: flex; align-items: flex-start; gap: 8px;
@@ -132,7 +132,7 @@ const CSS = `
 }
 .cq-ho1 {
   width: 520px; height: 520px;
-  background: radial-gradient(circle, rgba(139,92,246,0.11) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 11%, transparent) 0%, transparent 65%);
   top: -140px; left: -100px;
 }
 .cq-ho2 {
@@ -153,7 +153,7 @@ const CSS = `
   margin-bottom: 22px;
 }
 .cq-hero-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(3.2rem, 6.5vw, 6rem);
   font-weight: 300; line-height: 1.06;
   color: var(--text); margin: 0 0 22px;
@@ -167,8 +167,8 @@ const CSS = `
 .cq-hero-cart-badge {
   position: absolute; bottom: 32px; right: 80px;
   display: inline-flex; align-items: center; gap: 10px;
-  background: rgba(139,92,246,0.10);
-  border: 1px solid rgba(139,92,246,0.28);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   border-radius: 99px; padding: 10px 18px;
   font-size: 0.72rem; font-weight: 600; color: var(--accent3);
 }
@@ -216,8 +216,8 @@ const CSS = `
 }
 .cq-step-item.cq-step-active .cq-step-dot {
   border-color: var(--accent3); color: var(--accent3);
-  background: rgba(139,92,246,0.08);
-  box-shadow: 0 0 0 3px rgba(139,92,246,0.14);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 .cq-step-item.cq-step-done .cq-step-dot {
   border-color: var(--green); color: var(--green);
@@ -267,7 +267,7 @@ const CSS = `
 .cq-card-glow {
   position: absolute; top: -120px; right: -120px;
   width: 420px; height: 420px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 65%);
   pointer-events: none;
 }
 .cq-card-line {
@@ -325,7 +325,7 @@ const CSS = `
   margin-bottom: 12px;
 }
 .cq-step-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(1.7rem, 3.8vw, 2.6rem);
   font-weight: 400; line-height: 1.13;
   color: var(--text); margin: 0 0 10px;
@@ -345,20 +345,20 @@ const CSS = `
   padding: 14px 16px;
   background: rgba(255,255,255,0.035); border: 1px solid var(--gborder);
   border-radius: 16px; cursor: pointer; text-align: left;
-  font-family: 'Outfit', sans-serif; transition: all 0.24s;
+  font-family: var(--font-body); transition: all 0.24s;
   position: relative; overflow: hidden;
 }
 .cq-type-card::before {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(139,92,246,0) 0%, rgba(139,92,246,0.04) 100%);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 0%, transparent) 0%, color-mix(in srgb, var(--accent) 4%, transparent) 100%);
   opacity: 0; transition: opacity 0.24s;
 }
 .cq-type-card:hover { border-color: var(--gborder2); }
 .cq-type-card:hover::before { opacity: 1; }
 .cq-type-active {
-  background: rgba(139,92,246,0.09) !important;
-  border-color: rgba(139,92,246,0.38) !important;
-  box-shadow: 0 0 0 1px rgba(139,92,246,0.15), inset 0 0 30px rgba(139,92,246,0.04);
+  background: color-mix(in srgb, var(--accent) 9%, transparent) !important;
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent) !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent), inset 0 0 30px color-mix(in srgb, var(--accent) 4%, transparent);
 }
 .cq-type-icon-wrap {
   width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
@@ -367,7 +367,7 @@ const CSS = `
   font-size: 1rem; color: var(--text-dim); transition: all 0.24s;
 }
 .cq-type-active .cq-type-icon-wrap {
-  background: rgba(139,92,246,0.14); border-color: rgba(139,92,246,0.35);
+  background: color-mix(in srgb, var(--accent) 14%, transparent); border-color: color-mix(in srgb, var(--accent) 35%, transparent);
   color: var(--accent3);
 }
 .cq-type-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
@@ -376,15 +376,15 @@ const CSS = `
 .cq-type-active .cq-type-label { color: var(--accent3); }
 .cq-type-check {
   width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
-  background: var(--accent); color: #fff;
+  background: var(--accent); color: var(--on-accent);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 12px rgba(139,92,246,0.45);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 /* ── STEP 2: Order summary ── */
 .cq-summary-card {
-  background: rgba(139,92,246,0.04);
-  border: 1px solid rgba(139,92,246,0.2);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 20px; padding: 22px 24px;
 }
 .cq-summary-head {
@@ -396,7 +396,7 @@ const CSS = `
 .cq-summary-head i { font-size: 1rem; }
 .cq-summary-count {
   margin-left: auto; font-size: 0.65rem;
-  background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.28);
+  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   border-radius: 99px; padding: 3px 10px; color: var(--accent3);
 }
 .cq-summary-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
@@ -459,8 +459,8 @@ const CSS = `
   flex: 1; height: 5px; border-radius: 99px;
   background: linear-gradient(
     to right,
-    rgba(139,92,246,0.7) 0%,
-    rgba(139,92,246,0.7) var(--thumb-pct, 50%),
+    color-mix(in srgb, var(--accent) 70%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 70%, transparent) var(--thumb-pct, 50%),
     rgba(255,255,255,0.08) var(--thumb-pct, 50%)
   );
   outline: none; cursor: pointer;
@@ -471,18 +471,18 @@ const CSS = `
   width: 22px; height: 22px; border-radius: 50%;
   background: var(--accent); cursor: pointer;
   border: 2px solid rgba(255,255,255,0.9);
-  box-shadow: 0 0 0 3px rgba(139,92,246,0.3), 0 4px 12px rgba(139,92,246,0.45);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent), 0 4px 12px color-mix(in srgb, var(--accent) 45%, transparent);
   transition: box-shadow 0.22s, transform 0.22s;
 }
 .cq-slider::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 0 6px rgba(139,92,246,0.25), 0 4px 20px rgba(139,92,246,0.55);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 25%, transparent), 0 4px 20px color-mix(in srgb, var(--accent) 55%, transparent);
   transform: scale(1.1);
 }
 .cq-slider::-moz-range-thumb {
   width: 22px; height: 22px; border-radius: 50%;
   background: var(--accent); cursor: pointer;
   border: 2px solid rgba(255,255,255,0.9);
-  box-shadow: 0 0 0 3px rgba(139,92,246,0.3);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 .cq-slider-result { position: relative; height: 24px; margin: -6px 90px 0; }
 .cq-slider-thumb-label {
@@ -490,7 +490,7 @@ const CSS = `
   transform: translateX(-50%);
   font-size: 0.7rem; font-weight: 800; letter-spacing: 0.05em;
   color: var(--accent3);
-  background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.28);
+  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   border-radius: 99px; padding: 2px 10px;
   transition: left 0.1s;
   white-space: nowrap;
@@ -507,8 +507,8 @@ const CSS = `
 }
 .cq-band-active {
   opacity: 1;
-  background: rgba(139,92,246,0.07) !important;
-  border-color: rgba(139,92,246,0.28) !important;
+  background: color-mix(in srgb, var(--accent) 7%, transparent) !important;
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent) !important;
 }
 .cq-band-emoji { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
 .cq-band-label {
@@ -540,12 +540,12 @@ const CSS = `
 .cq-field-input {
   background: rgba(255,255,255,0.04); border: 1px solid var(--gborder);
   border-radius: 12px; padding: 13px 16px;
-  font-family: 'Outfit', sans-serif; font-size: 0.88rem;
+  font-family: var(--font-body); font-size: 0.88rem;
   color: var(--text); outline: none; width: 100%; box-sizing: border-box;
   transition: border-color 0.28s, background 0.28s;
 }
 .cq-field-input::placeholder { color: var(--text-dim); opacity: 0.45; }
-.cq-field-input:focus { border-color: rgba(139,92,246,0.45); background: rgba(139,92,246,0.04); }
+.cq-field-input:focus { border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: color-mix(in srgb, var(--accent) 4%, transparent); }
 .cq-field-err  { border-color: rgba(239,68,68,0.5) !important; }
 .cq-err-msg    { font-size: 0.64rem; color: var(--red); display: block; }
 .cq-field-count{
@@ -603,7 +603,7 @@ const CSS = `
 .cq-submit-note {
   display: flex; align-items: flex-start; gap: 12px;
   padding: 16px 18px; margin-bottom: 16px;
-  background: rgba(139,92,246,0.05); border: 1px solid rgba(139,92,246,0.18);
+  background: color-mix(in srgb, var(--accent) 5%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
   border-radius: 14px;
 }
 .cq-submit-note i { font-size: 1.1rem; color: var(--accent3); flex-shrink: 0; margin-top: 1px; }
@@ -628,7 +628,7 @@ const CSS = `
   padding: 11px 22px;
   background: var(--glass); border: 1px solid var(--gborder);
   border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.71rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text-dim); transition: all 0.24s;
 }
@@ -638,13 +638,13 @@ const CSS = `
   padding: 11px 30px; margin-left: auto;
   background: var(--text); color: var(--bg);
   border: none; border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.71rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   transition: all 0.3s;
 }
 .cq-btn-next:hover {
-  background: var(--accent); color: #fff;
-  box-shadow: 0 8px 28px rgba(139,92,246,0.4);
+  background: var(--accent); color: var(--on-accent);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 40%, transparent);
   transform: translateY(-1px);
 }
 .cq-btn-submit {
@@ -652,14 +652,14 @@ const CSS = `
   padding: 13px 32px; margin-left: auto;
   background: var(--accent-g); color: #fff;
   border: none; border-radius: 99px; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   transition: all 0.35s;
-  box-shadow: 0 8px 28px rgba(139,92,246,0.4);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 .cq-btn-submit:hover:not(:disabled) {
   background: var(--accent-g2);
-  box-shadow: 0 14px 40px rgba(139,92,246,0.55);
+  box-shadow: 0 14px 40px color-mix(in srgb, var(--accent) 55%, transparent);
   transform: translateY(-2px);
 }
 .cq-btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -692,7 +692,7 @@ const CSS = `
 }
 .cq-coo2 {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 9%, transparent) 0%, transparent 65%);
   bottom: -80px; right: -60px;
 }
 .cq-coo3 {
@@ -730,7 +730,7 @@ const CSS = `
   margin-bottom: 14px; display: block;
 }
 .cq-co-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 300; line-height: 1.1;
   color: var(--text); letter-spacing: -0.02em; margin: 0;
@@ -741,7 +741,7 @@ const CSS = `
 .cq-co-id-card {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 16px 20px;
-  background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.22);
+  background: color-mix(in srgb, var(--accent) 6%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   border-radius: 16px;
 }
 .cq-co-id-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
@@ -760,7 +760,7 @@ const CSS = `
   cursor: pointer; color: var(--text-dim);
   font-size: 0.88rem; transition: all 0.22s;
 }
-.cq-co-id-copy:hover { color: var(--accent3); border-color: rgba(139,92,246,0.3); }
+.cq-co-id-copy:hover { color: var(--accent3); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
 
 /* Nota grid */
 .cq-co-grid {
@@ -849,7 +849,7 @@ const CSS = `
   width: 100%; padding: 18px;
   background: linear-gradient(135deg, #25d366 0%, #1da851 100%);
   color: #fff; border-radius: 16px; text-decoration: none;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   transition: all 0.35s;
   box-shadow: 0 8px 32px rgba(37,211,102,0.35);

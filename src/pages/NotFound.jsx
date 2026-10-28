@@ -20,24 +20,24 @@ export default function NotFound() {
         padding: 24px;
       }
       .nf-code {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-display);
         font-size: clamp(5rem, 20vw, 10rem);
         font-weight: 700;
         line-height: 1;
-        background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+        background: linear-gradient(135deg, var(--accent), var(--accent));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
       .nf-title {
-        font-family: 'Outfit', sans-serif;
+        font-family: var(--font-body);
         font-size: 1.1rem;
         color: rgba(255,255,255,0.5);
         letter-spacing: 0.15em;
         text-transform: uppercase;
       }
       .nf-sub {
-        font-family: 'Outfit', sans-serif;
+        font-family: var(--font-body);
         font-size: 0.9rem;
         color: rgba(255,255,255,0.3);
         max-width: 320px;
@@ -46,11 +46,11 @@ export default function NotFound() {
       .nf-btn {
         margin-top: 8px;
         padding: 12px 28px;
-        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        background: linear-gradient(135deg, var(--accent), var(--accent));
         color: #fff;
         border: none;
         border-radius: 99px;
-        font-family: 'Outfit', sans-serif;
+        font-family: var(--font-body);
         font-size: 0.85rem;
         font-weight: 600;
         letter-spacing: 0.05em;

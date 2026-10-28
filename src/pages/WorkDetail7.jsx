@@ -94,7 +94,7 @@ const CSS = `
 .wd-d3 { transition-delay: 0.3s; }
 
 /* ── Page ── */
-.wd-page { background: var(--bg); min-height: 100vh; color: var(--text); font-family: 'Outfit', sans-serif; }
+.wd-page { background: var(--bg); min-height: 100vh; color: var(--text); font-family: var(--font-body); }
 
 /* ── Hero ── */
 .wd-hero {
@@ -108,7 +108,7 @@ const CSS = `
   position: absolute; inset: 0; pointer-events: none;
   background:
     radial-gradient(ellipse 55% 55% at 85% 15%, rgba(99,102,241,0.14) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 45% at 10% 85%, rgba(139,92,246,0.08) 0%, transparent 60%);
+    radial-gradient(ellipse 35% 45% at 10% 85%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
 }
 .wd-hero-bg::after {
   content: '';
@@ -138,12 +138,12 @@ const CSS = `
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
 }
 .wd-badge-film { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
-.wd-badge-video { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.25); color: #a78bfa; }
+.wd-badge-video { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); }
 .wd-badge-award { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: #fbbf24; }
 .wd-badge-teaser { background: rgba(34,211,170,0.1); border: 1px solid rgba(34,211,170,0.3); color: #2dd4bf; }
 .wd-badge-event  { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3); color: #fb923c; }
 .wd-hero-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: clamp(4rem, 10vw, 10rem);
   font-weight: 300; line-height: 0.88;
   margin-bottom: 20px; position: relative; z-index: 1;
@@ -162,7 +162,7 @@ const CSS = `
 /* ── Section base ── */
 .wd-section { padding: 80px 80px; border-top: 1px solid var(--border); }
 .wd-sec-label { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
-.wd-sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 300; line-height: 0.92; margin-bottom: 48px; }
+.wd-sec-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 300; line-height: 0.92; margin-bottom: 48px; }
 .wd-sec-title em { font-style: italic; color: var(--text-dim); }
 
 /* ── YouTube embed ── */
@@ -181,7 +181,7 @@ const CSS = `
   flex-wrap: wrap; gap: 12px;
 }
 .wd-yt-title-row { display: flex; flex-direction: column; gap: 2px; }
-.wd-yt-film-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 500; }
+.wd-yt-film-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; }
 .wd-yt-sub  { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; }
 .wd-yt-link {
   display: inline-flex; align-items: center; gap: 7px;
@@ -204,7 +204,7 @@ const CSS = `
 .wd-award-icon { font-size: 1.8rem; flex-shrink: 0; }
 .wd-award-info { display: flex; flex-direction: column; gap: 3px; }
 .wd-award-event { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fbbf24; }
-.wd-award-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; }
+.wd-award-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
 
 /* ── Lang toggle ── */
 .wd-lang-toggle {
@@ -216,15 +216,15 @@ const CSS = `
   padding: 7px 18px; font-size: 0.65rem; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   background: none; border: none; color: var(--text-dim); cursor: pointer;
-  transition: all 0.2s; font-family: 'Outfit', sans-serif;
+  transition: all 0.2s; font-family: var(--font-body);
 }
-.wd-lang-btn.active { background: var(--accent); color: #fff; border-radius: 99px; }
+.wd-lang-btn.active { background: var(--accent); color: var(--on-accent); border-radius: 99px; }
 
 /* ── Description + synopsis ── */
 .wd-desc { font-size: 0.92rem; line-height: 1.9; color: var(--text-dim); margin-bottom: 28px; max-width: 680px; }
 .wd-synopsis-box {
-  background: rgba(139,92,246,0.05);
-  border: 1px solid rgba(139,92,246,0.18); border-left: 3px solid var(--accent2);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-left: 3px solid var(--accent2);
   border-radius: 14px; padding: 24px 28px;
   margin-top: 28px;
 }
@@ -274,7 +274,7 @@ const CSS = `
   background: var(--glass2); border: 1px solid var(--border);
   border-radius: 99px; padding: 12px 24px;
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-dim); cursor: pointer; font-family: 'Outfit', sans-serif;
+  color: var(--text-dim); cursor: pointer; font-family: var(--font-body);
   transition: all 0.25s;
 }
 .wd-back-btn:hover { border-color: var(--text); color: var(--text); }

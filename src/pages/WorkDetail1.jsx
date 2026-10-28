@@ -99,12 +99,12 @@ function ProcessItem({ item, delay }) {
   return (
     <div className={`reveal${delay ? ` rv-d${delay}` : ""}`} style={{ display:"grid", gridTemplateColumns:"140px 1fr", gap:"40px", position:"relative" }}>
       <div style={{ display:"flex", flexDirection:"column", alignItems:"center", paddingTop:"4px" }}>
-        <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"2.8rem", fontWeight:300, color: open ? "var(--accent2)" : "var(--text-dim)", lineHeight:1, marginBottom:"16px", alignSelf:"center", transition:"color 0.3s" }}>{item.num}</span>
+        <span style={{ fontFamily:"var(--font-display)", fontSize:"2.8rem", fontWeight:300, color: open ? "var(--accent2)" : "var(--text-dim)", lineHeight:1, marginBottom:"16px", alignSelf:"center", transition:"color 0.3s" }}>{item.num}</span>
         {!item.last && <div style={{ width:"1px", flex:1, minHeight:"40px", background:"linear-gradient(to bottom, var(--border2), transparent)", margin:"0 auto" }} />}
       </div>
       <div style={{ padding:"6px 0 50px" }}>
-        <button onClick={() => setOpen((p) => !p)} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", width:"100%", background:"none", border:"none", color:"inherit", cursor:"pointer", fontFamily:"'Outfit', sans-serif", padding:0, textAlign:"left" }}>
-          <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"1.5rem", fontWeight:600 }}>{item.title}</span>
+        <button onClick={() => setOpen((p) => !p)} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", width:"100%", background:"none", border:"none", color:"inherit", cursor:"pointer", fontFamily:"var(--font-body)", padding:0, textAlign:"left" }}>
+          <span style={{ fontFamily:"var(--font-display)", fontSize:"1.5rem", fontWeight:600 }}>{item.title}</span>
           <span style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", color:"var(--accent2)", transform: open ? "rotate(180deg)" : "rotate(0deg)", transition:"transform 0.3s ease", flexShrink:0, marginLeft:"12px" }}>
             <i className="fa-solid fa-chevron-down" />
           </span>
@@ -145,7 +145,7 @@ export default function WorkDetail1({ t = {} }) {
 
         .k1-gal-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:18px; margin-bottom:24px; }
         .k1-gal-item { position:relative; border-radius:20px; overflow:hidden; background:var(--bg3); border:1px solid var(--border); transition:transform 0.4s ease,border-color 0.4s ease; cursor:pointer; }
-        .k1-gal-item:hover { transform:translateY(-6px); border-color:rgba(139,92,246,0.35); }
+        .k1-gal-item:hover { transform:translateY(-6px); border-color:color-mix(in srgb, var(--accent) 35%, transparent); }
         .k1-gal-laptop-lg   { grid-column:span 4; aspect-ratio:16/9; }
         .k1-gal-laptop-half { grid-column:span 3; aspect-ratio:16/9; }
         .k1-gal-phone       { grid-column:span 2; aspect-ratio:9/16; }
@@ -156,24 +156,24 @@ export default function WorkDetail1({ t = {} }) {
         .k1-gal-ph i { font-size:2rem; opacity:0.18; }
 
         .k1-feat-card { background:var(--bg3); border:1px solid var(--border); border-radius:22px; padding:34px 30px; transition:all 0.35s ease; position:relative; overflow:hidden; }
-        .k1-feat-card::before { content:''; position:absolute; inset:0; border-radius:22px; background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(139,92,246,0.09) 0%,transparent 65%); pointer-events:none; opacity:0; transition:opacity 0.35s; }
+        .k1-feat-card::before { content:''; position:absolute; inset:0; border-radius:22px; background:radial-gradient(ellipse 80% 60% at 50% 0%,color-mix(in srgb, var(--accent) 9%, transparent) 0%,transparent 65%); pointer-events:none; opacity:0; transition:opacity 0.35s; }
         .k1-feat-card:hover::before { opacity:1; }
-        .k1-feat-card:hover { border-color:rgba(139,92,246,0.3); transform:translateY(-5px); box-shadow:0 20px 50px rgba(0,0,0,0.35); }
+        .k1-feat-card:hover { border-color:color-mix(in srgb, var(--accent) 30%, transparent); transform:translateY(-5px); box-shadow:0 20px 50px rgba(0,0,0,0.35); }
 
         .k1-tech-item { background:var(--bg3); border:1px solid var(--border); border-radius:18px; padding:28px 24px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; transition:all 0.3s ease; }
-        .k1-tech-item:hover { border-color:rgba(139,92,246,0.3); background:var(--bg2); transform:translateY(-4px); }
+        .k1-tech-item:hover { border-color:color-mix(in srgb, var(--accent) 30%, transparent); background:var(--bg2); transform:translateY(-4px); }
 
         .k1-tag { background:var(--bg3); border:1px solid var(--border2); border-radius:99px; padding:7px 16px; font-size:0.62rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); transition:all 0.25s; cursor:default; }
         .k1-tag:hover { border-color:var(--accent3); color:var(--accent3); background:var(--bg2); }
 
-        .k1-proj-nav { display:flex; align-items:center; gap:18px; background:transparent; border:1px solid var(--border); border-radius:18px; padding:22px 28px; color:var(--text); transition:all 0.3s ease; cursor:pointer; font-family:'Outfit',sans-serif; flex:1; max-width:320px; }
-        .k1-proj-nav:hover { border-color:rgba(139,92,246,0.35); background:var(--bg2); transform:translateY(-3px); box-shadow:0 12px 36px rgba(0,0,0,0.3); }
+        .k1-proj-nav { display:flex; align-items:center; gap:18px; background:transparent; border:1px solid var(--border); border-radius:18px; padding:22px 28px; color:var(--text); transition:all 0.3s ease; cursor:pointer; font-family:var(--font-body); flex:1; max-width:320px; }
+        .k1-proj-nav:hover { border-color:color-mix(in srgb, var(--accent) 35%, transparent); background:var(--bg2); transform:translateY(-3px); box-shadow:0 12px 36px rgba(0,0,0,0.3); }
 
         .k1-social-btn { width:48px; height:48px; border-radius:12px; border:1px solid var(--border2); background:var(--bg2); color:var(--text-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; font-size:1.1rem; }
         .k1-social-btn:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-3px); }
 
-        .k1-cta-btn { display:inline-flex; align-items:center; gap:10px; background:var(--accent); color:#fff; border:none; border-radius:99px; padding:15px 40px; font-size:0.74rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s ease; cursor:pointer; box-shadow:0 8px 28px rgba(139,92,246,0.35); position:relative; z-index:1; font-family:'Outfit',sans-serif; }
-        .k1-cta-btn:hover { background:var(--accent2); transform:scale(1.05); box-shadow:0 14px 40px rgba(139,92,246,0.45); }
+        .k1-cta-btn { display:inline-flex; align-items:center; gap:10px; background:var(--accent); color: var(--on-accent); border:none; border-radius:99px; padding:15px 40px; font-size:0.74rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s ease; cursor:pointer; box-shadow:0 8px 28px color-mix(in srgb, var(--accent) 35%, transparent); position:relative; z-index:1; font-family:var(--font-body); }
+        .k1-cta-btn:hover { background:var(--accent2); transform:scale(1.05); box-shadow:0 14px 40px color-mix(in srgb, var(--accent) 45%, transparent); }
 
         /* Responsive */
         @media (max-width:1200px) {
@@ -219,7 +219,7 @@ export default function WorkDetail1({ t = {} }) {
         <section className="k1-hero" style={{ position:"relative", minHeight:"100vh", display:"flex", alignItems:"flex-end", padding:"0 80px 90px", overflow:"hidden" }}>
           <div style={{ position:"absolute", inset:0, zIndex:0 }}>
             <img src="/assets/img/image.png" alt="Project Hero" style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(0.45) saturate(1.1)" }} onError={(e) => { e.currentTarget.style.display="none"; }} />
-            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(7,7,9,1) 0%,rgba(7,7,9,0.6) 50%,rgba(7,7,9,0.2) 100%),radial-gradient(ellipse 70% 60% at 80% 30%,rgba(139,92,246,0.18) 0%,transparent 65%)" }} />
+            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(7,7,9,1) 0%,rgba(7,7,9,0.6) 50%,rgba(7,7,9,0.2) 100%),radial-gradient(ellipse 70% 60% at 80% 30%,color-mix(in srgb, var(--accent) 18%, transparent) 0%,transparent 65%)" }} />
           </div>
           <div style={{ position:"relative", zIndex:2, maxWidth:"780px" }}>
             <div className="reveal" style={{ display:"flex", alignItems:"center", gap:"9px", marginBottom:"28px" }}>
@@ -232,7 +232,7 @@ export default function WorkDetail1({ t = {} }) {
             <div className="reveal rv-d1" style={{ display:"inline-block", background:"var(--glass2)", backdropFilter:"blur(14px)", WebkitBackdropFilter:"blur(14px)", border:"1px solid var(--gborder2)", borderRadius:"99px", padding:"6px 18px", fontSize:"0.6rem", fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--accent3)", marginBottom:"22px" }}>
               {t.k1HeroCat || 'Web Development & AI Integration'}
             </div>
-            <h1 className="reveal rv-d2" style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(3.5rem, 9vw, 8.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"24px" }}>
+            <h1 className="reveal rv-d2" style={{ fontFamily:"var(--font-display)", fontSize:"clamp(3.5rem, 9vw, 8.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"24px" }}>
               {t.karya1Title || 'Interactive'}<br />
               <em style={{ fontStyle:"italic", color:"var(--text-dim)" }}>{t.karya1Em || 'Birthday Gift'}</em>
             </h1>
@@ -268,7 +268,7 @@ export default function WorkDetail1({ t = {} }) {
               <span style={{ display:"block", fontSize:"0.62rem", fontWeight:600, letterSpacing:"0.32em", textTransform:"uppercase", color:"var(--text-dim)", marginBottom:"16px" }}>
                 {t.karyaOverviewLabel||'01 / Project Overview'}
               </span>
-              <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:0 }}>
+              <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:0 }}>
                 {t.karyaOverviewTitle||'About This '}<em style={{ fontStyle:"italic", color:"var(--text-dim)" }}>{t.karyaOverviewEm||'Project.'}</em>
               </h2>
             </div>
@@ -290,7 +290,7 @@ export default function WorkDetail1({ t = {} }) {
             <div key={s.label} style={{ display:"flex", alignItems:"center" }}>
               {i > 0 && <div style={{ width:"1px", height:"50px", background:"var(--border2)", marginRight:"40px" }} />}
               <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"8px" }}>
-                <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"3rem", fontWeight:300, color:"var(--text)", lineHeight:1 }}>{s.num}</span>
+                <span style={{ fontFamily:"var(--font-display)", fontSize:"3rem", fontWeight:300, color:"var(--text)", lineHeight:1 }}>{s.num}</span>
                 <span style={{ fontSize:"0.6rem", fontWeight:600, letterSpacing:"0.2em", textTransform:"uppercase", color:"var(--text-dim)" }}>{s.label}</span>
               </div>
             </div>
@@ -300,7 +300,7 @@ export default function WorkDetail1({ t = {} }) {
         {/* ── GALLERY ── */}
         <section className="k1-section" style={{ padding:"100px 80px", borderTop:"1px solid var(--border)" }}>
           <span className="reveal" style={{ display:"block", fontSize:"0.62rem", fontWeight:600, letterSpacing:"0.32em", textTransform:"uppercase", color:"var(--text-dim)", marginBottom:"16px" }}>{t.karyaGalLabel||'02 / Gallery'}</span>
-          <h2 className="reveal rv-d1" style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"60px" }}>
+          <h2 className="reveal rv-d1" style={{ fontFamily:"var(--font-display)", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"60px" }}>
             {t.karyaGalTitle||'Visual '}<em style={{ fontStyle:"italic", color:"var(--text-dim)" }}>{t.karyaGalEm||'Showcase.'}</em>
           </h2>
           <div className="k1-gal-grid reveal rv-d2">
@@ -320,7 +320,7 @@ export default function WorkDetail1({ t = {} }) {
         {/* ── FEATURES ── */}
         <section className="k1-section" style={{ padding:"100px 80px", borderTop:"1px solid var(--border)" }}>
           <span className="reveal" style={{ display:"block", fontSize:"0.62rem", fontWeight:600, letterSpacing:"0.32em", textTransform:"uppercase", color:"var(--text-dim)", marginBottom:"16px" }}>{t.karyaFeatLabel||'03 / Features'}</span>
-          <h2 className="reveal rv-d1" style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"60px" }}>
+          <h2 className="reveal rv-d1" style={{ fontFamily:"var(--font-display)", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"60px" }}>
             {t.karyaFeatTitle||'Features & '}<em style={{ fontStyle:"italic", color:"var(--text-dim)" }}>{t.karyaFeatEm||'Highlights.'}</em>
           </h2>
           <div className="k1-feat-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"20px" }}>
@@ -329,7 +329,7 @@ export default function WorkDetail1({ t = {} }) {
                 <div style={{ width:"46px", height:"46px", borderRadius:"14px", background:"var(--glass2)", border:"1px solid var(--gborder2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.1rem", color:"var(--accent2)", marginBottom:"20px" }}>
                   <i className={f.icon} />
                 </div>
-                <h3 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"1.2rem", fontWeight:600, marginBottom:"12px", lineHeight:1.2 }}>{f.name}</h3>
+                <h3 style={{ fontFamily:"var(--font-display)", fontSize:"1.2rem", fontWeight:600, marginBottom:"12px", lineHeight:1.2 }}>{f.name}</h3>
                 <p style={{ fontSize:"0.78rem", lineHeight:1.82, color:"var(--text-dim)" }}>{f.desc}</p>
               </div>
             ))}
@@ -339,7 +339,7 @@ export default function WorkDetail1({ t = {} }) {
         {/* ── TECH STACK ── */}
         <section className="k1-section" style={{ padding:"100px 80px", borderTop:"1px solid var(--border)" }}>
           <span className="reveal" style={{ display:"block", fontSize:"0.62rem", fontWeight:600, letterSpacing:"0.32em", textTransform:"uppercase", color:"var(--text-dim)", marginBottom:"16px" }}>{t.karyaTechLabel||'04 / Technology'}</span>
-          <h2 className="reveal rv-d1" style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"60px" }}>
+          <h2 className="reveal rv-d1" style={{ fontFamily:"var(--font-display)", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"60px" }}>
             {t.karyaTechTitle||'Tech '}<em style={{ fontStyle:"italic", color:"var(--text-dim)" }}>{t.karyaTechEm||'Stack.'}</em>
           </h2>
           <div className="k1-tech-grid reveal rv-d2" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"16px", marginBottom:"32px" }}>
@@ -359,7 +359,7 @@ export default function WorkDetail1({ t = {} }) {
         {/* ── PROCESS ── */}
         <section className="k1-section" style={{ padding:"100px 80px", borderTop:"1px solid var(--border)" }}>
           <span className="reveal" style={{ display:"block", fontSize:"0.62rem", fontWeight:600, letterSpacing:"0.32em", textTransform:"uppercase", color:"var(--text-dim)", marginBottom:"16px" }}>{t.karyaProcLabel||'05 / Process'}</span>
-          <h2 className="reveal rv-d1" style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"60px" }}>
+          <h2 className="reveal rv-d1" style={{ fontFamily:"var(--font-display)", fontSize:"clamp(2.6rem, 5.5vw, 5.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"60px" }}>
             {t.karyaProcTitle||'Development '}<em style={{ fontStyle:"italic", color:"var(--text-dim)" }}>{t.karyaProcEm||'Process.'}</em>
           </h2>
           <div style={{ display:"flex", flexDirection:"column", gap:0 }}>
@@ -373,13 +373,13 @@ export default function WorkDetail1({ t = {} }) {
             <i className="fa-solid fa-arrow-left" style={{ fontSize:"1rem", color:"var(--text-dim)", flexShrink:0 }} />
             <div style={{ display:"flex", flexDirection:"column", gap:"4px" }}>
               <span style={{ fontSize:"0.58rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--text-dim)" }}>{t.karyaNavBackLabel||'Back to Work'}</span>
-              <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"1.05rem", fontWeight:600 }}>{t.karyaNavBackTitle||'All Projects'}</span>
+              <span style={{ fontFamily:"var(--font-display)", fontSize:"1.05rem", fontWeight:600 }}>{t.karyaNavBackTitle||'All Projects'}</span>
             </div>
           </button>
           <button className="k1-proj-nav" onClick={() => navigate("/works/wedding-invitation-2025")} style={{ justifyContent:"flex-end" }}>
             <div style={{ display:"flex", flexDirection:"column", gap:"4px", textAlign:"right" }}>
               <span style={{ fontSize:"0.58rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--text-dim)" }}>{t.karyaNavNextLabel||'Next Project'}</span>
-              <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"1.05rem", fontWeight:600 }}>{t.k1NavNextTitle||'Digital Wedding Invitation'}</span>
+              <span style={{ fontFamily:"var(--font-display)", fontSize:"1.05rem", fontWeight:600 }}>{t.k1NavNextTitle||'Digital Wedding Invitation'}</span>
             </div>
             <i className="fa-solid fa-arrow-right" style={{ fontSize:"1rem", color:"var(--text-dim)", flexShrink:0 }} />
           </button>
@@ -398,12 +398,12 @@ export default function WorkDetail1({ t = {} }) {
         {/* ── CTA ── */}
         <div className="reveal" style={{ padding:"60px 80px 100px" }}>
           <div className="k1-cta-inner" style={{ background:"var(--bg3)", border:"1px solid var(--border)", borderRadius:"28px", padding:"70px 80px", position:"relative", overflow:"hidden", textAlign:"center" }}>
-            <div style={{ position:"absolute", top:"-60px", left:"50%", transform:"translateX(-50%)", width:"400px", height:"200px", background:"radial-gradient(ellipse,rgba(139,92,246,0.22) 0%,transparent 70%)", pointerEvents:"none" }} />
+            <div style={{ position:"absolute", top:"-60px", left:"50%", transform:"translateX(-50%)", width:"400px", height:"200px", background:"radial-gradient(ellipse,color-mix(in srgb, var(--accent) 22%, transparent) 0%,transparent 70%)", pointerEvents:"none" }} />
             <div style={{ position:"absolute", top:0, left:"15%", right:"15%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(167,139,250,0.5),transparent)" }} />
             <p style={{ fontSize:"0.65rem", fontWeight:600, letterSpacing:"0.28em", textTransform:"uppercase", color:"var(--accent2)", marginBottom:"16px", position:"relative", zIndex:1 }}>
               {t.k1CTAEyebrow||''}
             </p>
-            <h3 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(2.2rem, 5vw, 4.5rem)", fontWeight:300, lineHeight:1.05, marginBottom:"18px", position:"relative", zIndex:1 }}>
+            <h3 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(2.2rem, 5vw, 4.5rem)", fontWeight:300, lineHeight:1.05, marginBottom:"18px", position:"relative", zIndex:1 }}>
               {t.k1CTATitle||"Let's bring"}<br />
               <em style={{ fontStyle:"italic", color:"var(--text-dim)" }}>{t.k1CTATitleEm||'your special moment to life.'}</em>
             </h3>

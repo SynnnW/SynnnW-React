@@ -18,9 +18,9 @@ const CSS = `
     --text: #ffffff;
     --text-dim: #94a3b8;
     --text-muted: #64748b;
-    --accent: #8b5cf6;
-    --accent2: #7c3aed;
-    --accent3: #a78bfa;
+    --accent: var(--accent);
+    --accent2: var(--accent);
+    --accent3: var(--accent);
     --glass: rgba(255,255,255,0.03);
     --glass2: rgba(255,255,255,0.06);
     --gborder: rgba(255,255,255,0.08);
@@ -31,7 +31,7 @@ const CSS = `
     min-height: 100vh;
     background: var(--bg);
     color: var(--text);
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-body);
   }
   .da-sidebar {
     width: 260px;
@@ -53,13 +53,13 @@ const CSS = `
     margin-bottom: 16px;
   }
   .da-brand-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-display);
     font-size: 1.4rem;
     color: #fff;
     margin: 0;
     display: flex; align-items: center; gap: 10px;
   }
-  .da-brand-title em { color: #a78bfa; font-style: italic; }
+  .da-brand-title em { color: var(--accent); font-style: italic; }
   .da-brand-sub {
     font-size: 0.62rem; color: var(--text-dim);
     letter-spacing: 0.12em; text-transform: uppercase;
@@ -78,13 +78,13 @@ const CSS = `
     border-radius: 10px;
     padding: 9px 12px 9px 34px;
     color: #fff;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.8rem;
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s;
   }
-  .da-search-input:focus { border-color: rgba(139,92,246,0.4); }
+  .da-search-input:focus { border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
   .da-search-icon {
     position: absolute;
     left: 28px;
@@ -100,7 +100,7 @@ const CSS = `
     left: 16px;
     right: 16px;
     background: #1a1a2e;
-    border: 1px solid rgba(139,92,246,0.3);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     border-radius: 12px;
     z-index: 100;
     max-height: 300px;
@@ -113,7 +113,7 @@ const CSS = `
     border-bottom: 1px solid rgba(255,255,255,0.04);
     transition: background 0.15s;
   }
-  .da-search-result-item:hover { background: rgba(139,92,246,0.08); }
+  .da-search-result-item:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
   .da-search-result-item:last-child { border-bottom: none; }
   .da-search-result-label { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 2px; }
   .da-search-result-val { font-size: 0.85rem; color: #fff; font-weight: 500; }
@@ -135,15 +135,15 @@ const CSS = `
   }
   .da-nav-item:hover { background: rgba(255,255,255,0.03); color: #fff; }
   .da-nav-item.active {
-    background: rgba(139,92,246,0.08);
-    color: #a78bfa;
-    border-left-color: #a78bfa;
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--accent);
+    border-left-color: var(--accent);
   }
   .da-nav-item i { width: 18px; text-align: center; font-size: 0.9rem; }
   .da-nav-badge {
     margin-left: auto;
-    background: rgba(139,92,246,0.15);
-    color: #a78bfa;
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
     font-size: 0.65rem; font-weight: 700;
     padding: 2px 8px; border-radius: 99px;
   }
@@ -188,10 +188,10 @@ const CSS = `
     display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;
   }
   .da-page-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-display);
     font-size: 2.2rem; font-weight: 300; color: #fff; margin: 0 0 6px;
   }
-  .da-page-title em { color: #a78bfa; font-style: italic; }
+  .da-page-title em { color: var(--accent); font-style: italic; }
   .da-page-sub { font-size: 0.82rem; color: var(--text-dim); margin: 0; }
   .da-panel {
     background: rgba(255,255,255,0.03);
@@ -206,7 +206,7 @@ const CSS = `
     color: #fff; margin: 0 0 16px;
     display: flex; align-items: center; gap: 10px;
   }
-  .da-panel-title i { color: #a78bfa; }
+  .da-panel-title i { color: var(--accent); }
   .da-stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -226,7 +226,7 @@ const CSS = `
   .da-stat-val {
     font-size: 1.7rem; font-weight: 700; color: #fff; line-height: 1;
   }
-  .da-stat-accent { color: #a78bfa; }
+  .da-stat-accent { color: var(--accent); }
   /* Revenue Chart */
   .da-chart-wrap {
     display: flex;
@@ -248,14 +248,14 @@ const CSS = `
   }
   .da-chart-bar {
     width: 100%;
-    background: linear-gradient(180deg, rgba(139,92,246,0.6) 0%, rgba(139,92,246,0.2) 100%);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 60%, transparent) 0%, color-mix(in srgb, var(--accent) 20%, transparent) 100%);
     border-radius: 6px 6px 0 0;
     transition: all 0.3s;
     min-height: 4px;
     position: relative;
   }
   .da-chart-col:hover .da-chart-bar {
-    background: linear-gradient(180deg, rgba(167,139,250,0.9) 0%, rgba(139,92,246,0.4) 100%);
+    background: linear-gradient(180deg, rgba(167,139,250,0.9) 0%, color-mix(in srgb, var(--accent) 40%, transparent) 100%);
   }
   .da-chart-tooltip {
     position: absolute;
@@ -263,7 +263,7 @@ const CSS = `
     left: 50%;
     transform: translateX(-50%);
     background: #1a1a2e;
-    border: 1px solid rgba(139,92,246,0.3);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     border-radius: 8px;
     padding: 6px 10px;
     font-size: 0.7rem;
@@ -293,11 +293,11 @@ const CSS = `
     vertical-align: middle;
   }
   .da-table tbody tr:hover { background: rgba(255,255,255,0.02); }
-  .da-table tbody tr.expanded { background: rgba(139,92,246,0.04); }
+  .da-table tbody tr.expanded { background: color-mix(in srgb, var(--accent) 4%, transparent); }
   .da-expanded-row td { padding: 0; }
   .da-expanded-content {
     padding: 16px 20px;
-    background: rgba(139,92,246,0.03);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
     border-top: 1px solid rgba(255,255,255,0.05);
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -314,7 +314,7 @@ const CSS = `
     border-radius: 10px;
     padding: 10px 12px;
     color: #fff;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.85rem;
     width: 100%;
     min-height: 70px;
@@ -331,7 +331,7 @@ const CSS = `
   }
   .da-status-pending { background: rgba(251,191,36,0.12); color: #fbbf24; }
   .da-status-editing { background: rgba(96,165,250,0.12); color: #60a5fa; }
-  .da-status-review { background: rgba(167,139,250,0.12); color: #a78bfa; }
+  .da-status-review { background: rgba(167,139,250,0.12); color: var(--accent); }
   .da-status-complete { background: rgba(74,222,128,0.12); color: #4ade80; }
   .da-status-cancelled { background: rgba(248,113,113,0.12); color: #f87171; }
   /* Priority badge */
@@ -350,23 +350,23 @@ const CSS = `
     font-size: 0.78rem; font-weight: 600;
     cursor: pointer; transition: all 0.18s;
   }
-  .da-pill:hover { border-color: rgba(139,92,246,0.4); color: #fff; }
+  .da-pill:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); color: #fff; }
   .da-pill.active {
-    background: rgba(139,92,246,0.12);
-    border-color: rgba(139,92,246,0.4);
-    color: #a78bfa;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    color: var(--accent);
   }
   /* Bulk action bar */
   .da-bulk-bar {
     display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    background: rgba(139,92,246,0.08);
-    border: 1px solid rgba(139,92,246,0.3);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     border-radius: 12px;
     padding: 10px 16px;
     margin-bottom: 16px;
   }
   .da-bulk-count {
-    font-size: 0.85rem; font-weight: 600; color: #a78bfa;
+    font-size: 0.85rem; font-weight: 600; color: var(--accent);
   }
   /* Form fields */
   .da-field { display: grid; gap: 7px; margin-bottom: 16px; }
@@ -381,12 +381,12 @@ const CSS = `
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px; color: #fff;
     padding: 11px 14px;
-    font-family: 'Outfit', sans-serif; font-size: 0.92rem;
+    font-family: var(--font-body); font-size: 0.92rem;
     outline: none; box-sizing: border-box;
     transition: border-color 0.2s;
   }
   .da-input:focus, .da-textarea:focus, .da-select:focus {
-    border-color: rgba(139,92,246,0.5);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
   }
   .da-textarea { min-height: 100px; resize: vertical; }
   .da-select { appearance: none; cursor: pointer; }
@@ -413,11 +413,11 @@ const CSS = `
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 8px; color: #fff;
     padding: 8px 10px;
-    font-family: 'Outfit', sans-serif; font-size: 0.8rem;
+    font-family: var(--font-body); font-size: 0.8rem;
     outline: none;
     transition: border-color 0.2s;
   }
-  .da-link-input:focus { border-color: rgba(139,92,246,0.4); }
+  .da-link-input:focus { border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
   .da-section-divider {
     font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
     text-transform: uppercase; color: var(--text-dim);
@@ -426,12 +426,12 @@ const CSS = `
     margin-top: 8px;
     display: flex; align-items: center; gap: 8px;
   }
-  .da-section-divider i { color: #a78bfa; font-size: 0.75rem; }
+  .da-section-divider i { color: var(--accent); font-size: 0.75rem; }
   /* Buttons */
   .da-btn {
-    background: rgba(139,92,246,0.1);
-    border: 1px solid rgba(139,92,246,0.3);
-    color: #a78bfa;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    color: var(--accent);
     padding: 10px 20px;
     border-radius: 12px;
     cursor: pointer;
@@ -439,7 +439,7 @@ const CSS = `
     display: inline-flex; align-items: center; gap: 8px;
     transition: all 0.2s;
   }
-  .da-btn:hover { background: rgba(139,92,246,0.18); }
+  .da-btn:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
   .da-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .da-btn-green {
     background: rgba(34,197,94,0.1);
@@ -469,7 +469,7 @@ const CSS = `
   .da-msg-error { font-size: 0.85rem; color: #f87171; }
   .da-checkbox {
     width: 16px; height: 16px; cursor: pointer;
-    accent-color: #8b5cf6;
+    accent-color: var(--accent);
   }
   .da-send-notif-modal {
     position: fixed; inset: 0;
@@ -480,7 +480,7 @@ const CSS = `
   }
   .da-send-notif-box {
     background: #0f0f1a;
-    border: 1px solid rgba(139,92,246,0.3);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     border-radius: 20px;
     padding: 28px;
     width: 100%; max-width: 480px;
@@ -489,7 +489,7 @@ const CSS = `
     font-size: 1.1rem; font-weight: 700; color: #fff; margin: 0 0 20px;
     display: flex; align-items: center; gap: 10px;
   }
-  .da-send-notif-title i { color: #a78bfa; }
+  .da-send-notif-title i { color: var(--accent); }
   .da-toggle-wrap {
     display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
   }
@@ -498,7 +498,7 @@ const CSS = `
     background: rgba(255,255,255,0.1); border-radius: 99px;
     cursor: pointer; transition: background 0.2s; flex-shrink: 0;
   }
-  .da-toggle.on { background: rgba(139,92,246,0.7); }
+  .da-toggle.on { background: color-mix(in srgb, var(--accent) 70%, transparent); }
   .da-toggle::after {
     content: '';
     position: absolute;
@@ -556,13 +556,13 @@ const CSS = `
       padding: calc(env(safe-area-inset-top, 0px) + 10px) 14px 0;
     }
     .da-mobilebar-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 8px; }
-    .da-mobilebar-top b { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; display: flex; align-items: center; gap: 8px; }
-    .da-mobilebar-top b em { color: #a78bfa; }
-    .da-mobilebar-top button { height: 34px; padding: 0 14px; border-radius: 99px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.74rem; color: #f87171; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
+    .da-mobilebar-top b { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; display: flex; align-items: center; gap: 8px; }
+    .da-mobilebar-top b em { color: var(--accent); }
+    .da-mobilebar-top button { height: 34px; padding: 0 14px; border-radius: 99px; cursor: pointer; font-family: var(--font-body); font-size: 0.74rem; color: #f87171; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
     .da-mobilebar-nav { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 10px; scrollbar-width: none; }
     .da-mobilebar-nav::-webkit-scrollbar { display: none; }
-    .da-mobilebar-nav button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 99px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.78rem; color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
-    .da-mobilebar-nav button.active { background: #8b5cf6; border-color: #8b5cf6; color: #fff; }
+    .da-mobilebar-nav button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 99px; cursor: pointer; font-family: var(--font-body); font-size: 0.78rem; color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
+    .da-mobilebar-nav button.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
     .da-main { padding: 18px 14px calc(60px + env(safe-area-inset-bottom, 0px)); overflow-x: hidden; }
     .da-panel { padding: 16px; border-radius: 16px; }
     .da-page-title { font-size: 1.7rem; }
@@ -1234,7 +1234,7 @@ function OrdersTab({ orders, users }) {
                         onChange={() => toggleSelect(order.id)} />
                     </td>
                     <td>
-                      <span style={{ cursor: 'pointer', color: '#a78bfa', fontWeight: 600 }}
+                      <span style={{ cursor: 'pointer', color: 'var(--accent)', fontWeight: 600 }}
                         onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}>
                         {order.projectName || 'N/A'}
                       </span>
@@ -1457,7 +1457,7 @@ function CustomersTab({ users, orders, setActiveTab }) {
                     {expandedUserId === user.id && (
                       <tr key={`${user.id}-orders`} className="da-expanded-row">
                         <td colSpan={8}>
-                          <div style={{ padding: '16px 20px', background: 'rgba(139,92,246,0.03)' }}>
+                          <div style={{ padding: '16px 20px', background: 'color-mix(in srgb, var(--accent) 3%, transparent)' }}>
                             {userOrders.length === 0 ? (
                               <p style={{ color: 'var(--text-dim)', fontSize: '0.85rem', margin: 0 }}>Belum ada order.</p>
                             ) : (

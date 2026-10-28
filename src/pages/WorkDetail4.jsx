@@ -193,14 +193,14 @@ export default function WorkDetail4({ t = {} }) {
         .k4-hero-bg {
           position: absolute; inset: 0;
           background:
-            radial-gradient(ellipse 60% 50% at 80% 20%, rgba(139,92,246,0.15) 0%, transparent 60%),
+            radial-gradient(ellipse 60% 50% at 80% 20%, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 60%),
             radial-gradient(ellipse 40% 40% at 10% 80%, rgba(34,197,94,0.06) 0%, transparent 60%);
           pointer-events: none;
         }
         .k4-hero-orb {
           position: absolute; top: -100px; right: -100px;
           width: 500px; height: 500px; border-radius: 50%;
-          background: radial-gradient(ellipse, rgba(139,92,246,0.1) 0%, transparent 70%);
+          background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 70%);
           pointer-events: none; filter: blur(40px);
           animation: k4OrbPulse 6s ease-in-out infinite alternate;
         }
@@ -223,7 +223,7 @@ export default function WorkDetail4({ t = {} }) {
           transition: transform 0.4s ease, border-color 0.4s ease;
           cursor: pointer;
         }
-        .k4-gal-item:hover { transform: translateY(-6px); border-color: rgba(139,92,246,0.35); }
+        .k4-gal-item:hover { transform: translateY(-6px); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
         .k4-gal-wide { grid-column: span 1; aspect-ratio: 16/9; }
         .k4-gal-full { grid-column: span 2; aspect-ratio: 21/9; }
         .k4-gal-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; display: block; }
@@ -252,7 +252,7 @@ export default function WorkDetail4({ t = {} }) {
         /* DEMO SECTION */
         .k4-demo-card {
           display: flex; align-items: center; gap: 40px;
-          background: linear-gradient(135deg, rgba(34,197,94,0.05) 0%, rgba(139,92,246,0.05) 100%);
+          background: linear-gradient(135deg, rgba(34,197,94,0.05) 0%, color-mix(in srgb, var(--accent) 5%, transparent) 100%);
           border: 1px solid rgba(34,197,94,0.2); border-radius: 24px;
           padding: 48px 56px; position: relative; overflow: hidden;
         }
@@ -269,7 +269,7 @@ export default function WorkDetail4({ t = {} }) {
         }
         .k4-demo-text { flex: 1; }
         .k4-demo-text h3 {
-          font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600;
+          font-family: var(--font-display); font-size: 1.6rem; font-weight: 600;
           margin-bottom: 10px; line-height: 1.1;
         }
         .k4-demo-text p {
@@ -304,7 +304,7 @@ export default function WorkDetail4({ t = {} }) {
         }
         .k4-yt-channel-card {
           display: flex; flex-direction: column; justify-content: space-between;
-          background: linear-gradient(135deg, rgba(255,0,0,0.06) 0%, rgba(139,92,246,0.04) 100%);
+          background: linear-gradient(135deg, rgba(255,0,0,0.06) 0%, color-mix(in srgb, var(--accent) 4%, transparent) 100%);
           border: 1px solid rgba(255,60,60,0.18); border-radius: 20px;
           padding: 36px 36px; position: relative; overflow: hidden;
         }
@@ -319,7 +319,7 @@ export default function WorkDetail4({ t = {} }) {
           font-size: 1.6rem; color: #ff4444; margin-bottom: 20px;
         }
         .k4-yt-channel-card h3 {
-          font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600;
+          font-family: var(--font-display); font-size: 1.35rem; font-weight: 600;
           margin-bottom: 10px; line-height: 1.15;
         }
         .k4-yt-channel-card p {
@@ -355,7 +355,7 @@ export default function WorkDetail4({ t = {} }) {
           padding: 28px 26px;
         }
         .k4-overview-ext-card h4 {
-          font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600;
+          font-family: var(--font-display); font-size: 1.1rem; font-weight: 600;
           margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
         }
         .k4-overview-ext-card h4 i { font-size: 0.95rem; color: var(--accent2); }
@@ -378,7 +378,7 @@ export default function WorkDetail4({ t = {} }) {
           animation: k4Blink 1.5s ease-in-out infinite; }
         @keyframes k4Blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
         .k4-hero-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: var(--font-display);
           font-size: clamp(3rem, 7vw, 7rem);
           font-weight: 300; line-height: 0.9; margin-bottom: 28px;
           position: relative; z-index: 1;
@@ -403,7 +403,7 @@ export default function WorkDetail4({ t = {} }) {
         .k4-sec-label { display: block; font-size: 0.6rem; font-weight: 700;
           letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim);
           margin-bottom: 12px; }
-        .k4-sec-title { font-family: 'Cormorant Garamond', serif;
+        .k4-sec-title { font-family: var(--font-display);
           font-size: clamp(2.2rem, 4.5vw, 4.5rem); font-weight: 300; line-height: 0.92;
           margin-bottom: 48px; }
         .k4-sec-title em { font-style: italic; color: var(--text-dim); }
@@ -420,7 +420,7 @@ export default function WorkDetail4({ t = {} }) {
           background: var(--glass);
         }
         .k4-stat { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .k4-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem;
+        .k4-stat-val { font-family: var(--font-display); font-size: 2.2rem;
           font-weight: 300; color: var(--text); }
         .k4-stat-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
           text-transform: uppercase; color: var(--text-dim); }
@@ -434,10 +434,10 @@ export default function WorkDetail4({ t = {} }) {
         }
         .k4-feat-card::before {
           content: ''; position: absolute; inset: 0; border-radius: 20px;
-          background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139,92,246,0.08) 0%, transparent 70%);
+          background: radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 70%);
           opacity: 0; transition: opacity 0.3s;
         }
-        .k4-feat-card:hover { border-color: rgba(139,92,246,0.3); transform: translateY(-5px);
+        .k4-feat-card:hover { border-color: color-mix(in srgb, var(--accent) 30%, transparent); transform: translateY(-5px);
           box-shadow: 0 20px 50px var(--shadow); }
         .k4-feat-card:hover::before { opacity: 1; }
         .k4-feat-icon {
@@ -447,8 +447,8 @@ export default function WorkDetail4({ t = {} }) {
           font-size: 1rem; color: var(--accent2); margin-bottom: 16px;
           transition: all 0.3s; position: relative; z-index: 1;
         }
-        .k4-feat-card:hover .k4-feat-icon { background: var(--accent); border-color: var(--accent); color: #fff; }
-        .k4-feat-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+        .k4-feat-card:hover .k4-feat-icon { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+        .k4-feat-title { font-family: var(--font-display); font-size: 1.15rem;
           font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1; }
         .k4-feat-desc { font-size: 0.78rem; line-height: 1.78; color: var(--text-dim);
           position: relative; z-index: 1; }
@@ -488,7 +488,7 @@ export default function WorkDetail4({ t = {} }) {
         .k4-cta-glow {
           position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
           width: 400px; height: 200px; pointer-events: none;
-          background: radial-gradient(ellipse, rgba(139,92,246,0.2) 0%, transparent 70%);
+          background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 70%);
         }
         .k4-cta::after {
           content: ''; position: absolute; top: 0; left: 15%; right: 15%;
@@ -497,7 +497,7 @@ export default function WorkDetail4({ t = {} }) {
         .k4-cta-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.28em;
           text-transform: uppercase; color: var(--accent2); margin-bottom: 14px;
           position: relative; z-index: 1; }
-        .k4-cta-title { font-family: 'Cormorant Garamond', serif;
+        .k4-cta-title { font-family: var(--font-display);
           font-size: clamp(2rem, 4.5vw, 4rem); font-weight: 300; line-height: 1.05;
           margin-bottom: 16px; position: relative; z-index: 1; }
         .k4-cta-title em { font-style: italic; color: var(--text-dim); }
@@ -505,10 +505,10 @@ export default function WorkDetail4({ t = {} }) {
           gap: 14px; flex-wrap: wrap; margin-top: 32px; position: relative; z-index: 1; }
         .k4-btn-main {
           display: inline-flex; align-items: center; gap: 10px;
-          background: var(--accent); color: #fff; border: none; border-radius: 99px;
+          background: var(--accent); color: var(--on-accent); border: none; border-radius: 99px;
           padding: 14px 34px; font-size: 0.72rem; font-weight: 700;
           letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
-          box-shadow: 0 8px 28px rgba(139,92,246,0.35); transition: all 0.3s;
+          box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 35%, transparent); transition: all 0.3s;
         }
         .k4-btn-main:hover { background: var(--accent2); transform: scale(1.05); }
         .k4-btn-sec {

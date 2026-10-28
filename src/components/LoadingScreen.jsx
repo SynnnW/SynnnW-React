@@ -30,7 +30,7 @@ export default function LoadingScreen({ onComplete }) {
         pointer-events: none;
       }
       .ls-brand {
-        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-family: var(--font-display), Georgia, serif;
         font-size: 2.2rem;
         font-weight: 600;
         letter-spacing: 0.06em;
@@ -38,28 +38,28 @@ export default function LoadingScreen({ onComplete }) {
         position: relative;
       }
       .ls-brand span {
-        color: #8b5cf6;
+        color: var(--accent);
       }
       .ls-brand sup {
         font-size: 0.5em;
         position: absolute;
         top: -2px;
         right: -14px;
-        color: #8b5cf6;
+        color: var(--accent);
         font-weight: 700;
         letter-spacing: 0.08em;
       }
       .ls-bar-track {
         width: 160px;
         height: 2px;
-        background: rgba(139, 92, 246, 0.15);
+        background: color-mix(in srgb, var(--accent) 15%, transparent);
         border-radius: 99px;
         overflow: hidden;
       }
       .ls-bar-fill {
         height: 100%;
         border-radius: 99px;
-        background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+        background: linear-gradient(90deg, var(--accent), var(--accent));
         animation: ls-fill 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
       @keyframes ls-fill {
@@ -67,7 +67,7 @@ export default function LoadingScreen({ onComplete }) {
         to   { width: 100%; }
       }
       .ls-tagline {
-        font-family: 'Outfit', sans-serif;
+        font-family: var(--font-body);
         font-size: 0.72rem;
         letter-spacing: 0.25em;
         text-transform: uppercase;

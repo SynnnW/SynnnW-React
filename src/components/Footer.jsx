@@ -61,7 +61,7 @@ export default function Footer({ t }) {
         <h2
           ref={nameRef}
           style={{
-            fontFamily:    'Cormorant Garamond, serif',
+            fontFamily:    'var(--font-display)',
             fontSize:      'clamp(3rem, 10vw, 9rem)',
             fontWeight:    300,
             color:         'var(--border2)',
@@ -98,7 +98,7 @@ export default function Footer({ t }) {
             to={to}
             style={{
               fontSize:      '0.72rem',
-              fontFamily:    'Outfit, sans-serif',
+              fontFamily:    'var(--font-body)',
               fontWeight:    500,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -186,7 +186,7 @@ export default function Footer({ t }) {
             cursor:        'pointer',
             letterSpacing: '0.06em',
             transition:    'color 0.2s, border-color 0.2s',
-            fontFamily:    'Outfit, sans-serif',
+            fontFamily:    'var(--font-body)',
           }}
           onMouseEnter={e => {
             e.currentTarget.style.color        = 'var(--accent)';

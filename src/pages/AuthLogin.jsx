@@ -17,20 +17,20 @@ const CSS = `
   --text: #ffffff;
   --text-dim: #94a3b8;
   --text-muted: #64748b;
-  --accent: #8b5cf6;
-  --accent2: #7c3aed;
-  --accent3: #a78bfa;
+  --accent: var(--accent);
+  --accent2: var(--accent);
+  --accent3: var(--accent);
   --glass: rgba(255,255,255,0.03);
   --glass2: rgba(255,255,255,0.06);
   --gborder: rgba(255,255,255,0.08);
   --gborder2: rgba(255,255,255,0.15);
   --border: rgba(255,255,255,0.07);
-  --border-focus: rgba(139,92,246,0.3);
+  --border-focus: color-mix(in srgb, var(--accent) 30%, transparent);
   --input-bg: rgba(255,255,255,0.04);
   --input-focus: rgba(255,255,255,0.06);
-  --accent-glow: rgba(139,92,246,0.15);
-  --accent-shadow: rgba(139,92,246,0.35);
-  --accent-rgb: #a78bfa;
+  --accent-glow: color-mix(in srgb, var(--accent) 15%, transparent);
+  --accent-shadow: color-mix(in srgb, var(--accent) 35%, transparent);
+  --accent-rgb: var(--accent);
   --blur: blur(20px);
 }
 
@@ -41,7 +41,7 @@ const CSS = `
   display: flex;
   position: relative;
   overflow: hidden;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   padding-top: 64px;
 }
 
@@ -86,7 +86,7 @@ const CSS = `
 }
 
 .auth-logo {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 1.8rem;
   font-weight: 300;
   color: var(--text);
@@ -245,7 +245,7 @@ const CSS = `
 
 /* ── Typography ── */
 .auth-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 2.8rem;
   color: var(--text);
   text-align: center;
@@ -302,7 +302,7 @@ const CSS = `
   border-radius: 12px;
   padding: 14px 16px;
   color: var(--text);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   outline: none;
   transition: all 0.25s;
@@ -350,7 +350,7 @@ const CSS = `
   border-radius: 12px;
   padding: 14px 10px;
   color: var(--text);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.88rem;
   outline: none;
   transition: all 0.25s;
@@ -377,8 +377,8 @@ const CSS = `
 
 /* ── Google Banner ── */
 .auth-google-banner {
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   border-radius: 12px;
   padding: 12px 16px;
   font-size: 0.84rem;
@@ -461,7 +461,7 @@ const CSS = `
 
 /* ── Button ── */
 .auth-btn {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -480,7 +480,7 @@ const CSS = `
 
 .auth-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 .auth-btn:disabled {
@@ -733,13 +733,13 @@ const CSS = `
 .auth-page {
   background:
     repeating-linear-gradient(118deg, transparent 0 54px, rgba(255,255,255,0.045) 54px 55px),
-    radial-gradient(60% 40% at 85% 0%, rgba(139,92,246,0.24), transparent 70%),
+    radial-gradient(60% 40% at 85% 0%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%),
     radial-gradient(50% 36% at 0% 70%, rgba(236,72,153,0.12), transparent 70%),
     #070709;
 }
 .auth-page::before, .auth-page::after { display: none; }
 .auth-sidebar { background: transparent; border-right: 0; padding: 44px clamp(20px, 3vw, 44px) 44px clamp(20px, 4vw, 64px); gap: 22px; overflow-x: hidden; }
-.auth-logo { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 1.3rem; letter-spacing: -0.02em; }
+.auth-logo { font-family: var(--font-body); font-weight: 500; font-size: 1.3rem; letter-spacing: -0.02em; }
 .auth-logo-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gborder2); }
 .auth-sidebar-label { color: var(--text-dim); letter-spacing: 0.2em; }
 .auth-feed { gap: 28px; padding: 6px 4px 4px; }
@@ -755,8 +755,8 @@ const CSS = `
 .auth-feed-item-label { color: rgba(255,255,255,0.68); font-size: 0.6rem; }
 .auth-feed-item-title { font-size: 1.1rem; font-weight: 500; letter-spacing: -0.015em; }
 .auth-feed-item-desc { white-space: normal; color: rgba(255,255,255,0.7); }
-.auth-card { border-radius: 32px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 30px 80px -34px rgba(139,92,246,0.55); }
-.auth-title { font-family: 'Outfit', sans-serif; font-weight: 500; letter-spacing: -0.03em; font-size: 2.4rem; }
+.auth-card { border-radius: 32px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 30px 80px -34px color-mix(in srgb, var(--accent) 55%, transparent); }
+.auth-title { font-family: var(--font-body); font-weight: 500; letter-spacing: -0.03em; font-size: 2.4rem; }
 .auth-tabs { padding: 4px; gap: 4px; border: 1px solid rgba(255,255,255,0.1); border-radius: 99px; background: rgba(255,255,255,0.05); }
 .auth-tab { border-bottom: 0; border-radius: 99px; padding: 11px; }
 .auth-tab.active { border-bottom: 0; background: #fff; color: #111; }

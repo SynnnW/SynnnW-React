@@ -60,7 +60,7 @@ const NAV_CSS = `
     cursor: pointer; flex-shrink: 0; padding-right: 14px; user-select: none;
   }
   .nv-logo-text {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-display), Georgia, serif;
     font-size: 1.25rem; font-weight: 700; letter-spacing: 0.04em;
     color: var(--text); transition: color 0.2s;
   }
@@ -68,7 +68,7 @@ const NAV_CSS = `
   .nv-logo-st {
     position: absolute; font-size: 0.52rem; top: -4px; right: -6px;
     color: var(--accent); font-weight: 700; letter-spacing: 0.05em;
-    font-family: 'Outfit', sans-serif; line-height: 1; pointer-events: none;
+    font-family: var(--font-body); line-height: 1; pointer-events: none;
   }
 
   /* ── Center pill — Glass + Neu ── */
@@ -94,7 +94,7 @@ const NAV_CSS = `
     letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--text-dim); padding: 7px 14px; border-radius: 99px;
     background: transparent; transition: color 0.22s, background 0.22s, box-shadow 0.22s;
-    text-decoration: none; white-space: nowrap; font-family: 'Outfit', sans-serif;
+    text-decoration: none; white-space: nowrap; font-family: var(--font-body);
   }
   .nv-link:hover {
     color: var(--text);
@@ -126,7 +126,7 @@ const NAV_CSS = `
   }
   .nv-dropdown-item {
     display: flex; align-items: center; gap: 8px; padding: 10px 18px;
-    font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 500;
+    font-family: var(--font-body); font-size: 0.75rem; font-weight: 500;
     letter-spacing: 0.04em; color: var(--text-dim);
     text-decoration: none; transition: color 0.18s, background 0.18s; white-space: nowrap;
   }
@@ -160,7 +160,7 @@ const NAV_CSS = `
     color: var(--text-dim); cursor: pointer;
     font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
     padding: 6px 10px; border-radius: 99px; transition: all 0.22s;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-body);
     box-shadow: var(--neu-flat);
   }
   .nv-lang-btn:hover {
@@ -177,7 +177,7 @@ const NAV_CSS = `
     padding: 9px 20px;
     background: var(--accent-g);
     color: #fff; border: none; border-radius: 99px;
-    font-family: 'Outfit', sans-serif; font-size: 0.64rem;
+    font-family: var(--font-body); font-size: 0.64rem;
     font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
     cursor: pointer; white-space: nowrap;
     box-shadow: 0 4px 20px var(--accent-glow), var(--neu-flat);
@@ -196,7 +196,7 @@ const NAV_CSS = `
     display: inline-flex; align-items: center; gap: 7px;
     padding: 8px 16px; background: transparent; color: var(--text);
     border: 1px solid var(--border2); border-radius: 99px;
-    font-family: 'Outfit', sans-serif; font-size: 0.64rem;
+    font-family: var(--font-body); font-size: 0.64rem;
     font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
     cursor: pointer; white-space: nowrap; transition: all 0.25s;
   }
@@ -206,7 +206,7 @@ const NAV_CSS = `
     display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
     padding: 13px 20px; margin-bottom: 10px; background: transparent; color: var(--text);
     border: 1px solid var(--border2); border-radius: 99px; cursor: pointer;
-    font-family: 'Outfit', sans-serif; font-size: 0.72rem; font-weight: 700;
+    font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.12em; text-transform: uppercase;
   }
 
@@ -258,7 +258,7 @@ const NAV_CSS = `
   .nv-drawer-close:active { box-shadow: var(--neu-press); }
 
   .nv-drawer-link {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-display), Georgia, serif;
     font-size: 1.9rem; font-weight: 400; color: var(--text-dim);
     text-decoration: none; padding: 5px 0; display: block;
     transition: color 0.2s; line-height: 1.2;
@@ -266,10 +266,10 @@ const NAV_CSS = `
   .nv-drawer-link:hover, .nv-drawer-link.nv-active { color: var(--text); }
 
   .nv-drawer-sub {
-    font-family: 'Outfit', sans-serif; font-size: 0.74rem; font-weight: 500;
+    font-family: var(--font-body); font-size: 0.74rem; font-weight: 500;
     color: var(--accent3); text-decoration: none;
     padding: 4px 0 4px 14px; display: flex; align-items: center; gap: 6px;
-    border-left: 2px solid rgba(139,92,246,0.35); margin: 2px 0 6px;
+    border-left: 2px solid color-mix(in srgb, var(--accent) 35%, transparent); margin: 2px 0 6px;
     transition: color 0.2s;
   }
   .nv-drawer-sub:hover { color: var(--text); }
@@ -280,7 +280,7 @@ const NAV_CSS = `
     background: var(--glass2); border: 1px solid var(--gborder);
     color: var(--text-dim); padding: 9px 18px; border-radius: 99px;
     font-size: 0.72rem; font-weight: 700; cursor: pointer;
-    font-family: 'Outfit', sans-serif; transition: all 0.2s;
+    font-family: var(--font-body); transition: all 0.2s;
     display: flex; align-items: center; gap: 6px;
     box-shadow: var(--neu-raised);
   }
@@ -291,7 +291,7 @@ const NAV_CSS = `
     margin-top: 16px; display: flex; align-items: center;
     justify-content: center; gap: 8px; padding: 14px 20px;
     background: var(--accent-g); color: #fff; border: none; border-radius: 99px;
-    font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 700;
+    font-family: var(--font-body); font-size: 0.75rem; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
     transition: all 0.25s; width: 100%;
     box-shadow: 0 6px 24px var(--accent-glow);
