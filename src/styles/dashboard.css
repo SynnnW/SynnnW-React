@@ -88,3 +88,7 @@
 @media (prefers-reduced-motion: reduce) {
   .dash *, .dash *::before, .dash *::after { transition: none !important; animation: none !important; }
 }
+
+/* Makrab route: the site-wide custom cursor must not apply */
+html.mk-route .cc-wrap { display: none !important; }
+html.mk-route.has-cursor, html.mk-route.has-cursor a, html.mk-route.has-cursor button { cursor: auto; }

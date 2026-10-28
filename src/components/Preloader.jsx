@@ -8,7 +8,7 @@ const KEY = 'synnnw_preloaded';
 
 export default function Preloader() {
   const [show, setShow] = useState(() => {
-    try { return !sessionStorage.getItem(KEY) && !prefersReduced(); } catch { return false; }
+    try { return !sessionStorage.getItem(KEY) && !prefersReduced() && !window.location.pathname.startsWith('/makrab'); } catch { return false; }
   });
   const [n, setN] = useState(0);
   const [out, setOut] = useState(false);

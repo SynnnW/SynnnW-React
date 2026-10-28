@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '@/styles/dashboard.css';
 import { supabase, auth } from '@/supabaseClient';
 import {
   onAuthStateChanged,
@@ -19,79 +20,93 @@ import {
    Semua warna/font/radius/spacing ada di blok :root ini.
    Tema resmi nanti cukup mengganti nilai di sini.            */
 const THEME_CSS = `
-:root {
-  --mk-font: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+/* Tokens come from src/styles/dashboard.css (.dash). --mk-* are aliases so existing classes keep working. */
+.mk {
+  --mk-font: var(--d-font);
+  --mk-bg: var(--d-bg);
+  --mk-surface: var(--d-surface);
+  --mk-surface-2: var(--d-surface-2);
+  --mk-line: color-mix(in srgb, var(--d-text) 12%, transparent);
+  --mk-ink: var(--d-text);
+  --mk-ink-2: var(--d-muted);
+  --mk-ink-3: color-mix(in srgb, var(--d-text) 55%, transparent);
 
-  --mk-bg: #f4f2ee;
-  --mk-surface: #ffffff;
-  --mk-surface-2: #ece9e2;
-  --mk-line: #dcd8cf;
-  --mk-ink: #1d1a17;
-  --mk-ink-2: #5a554d;
-  --mk-ink-3: #8a847a;
+  --mk-accent: var(--d-accent);
+  --mk-accent-hover: color-mix(in srgb, var(--d-accent) 88%, #fff);
+  --mk-accent-ink: var(--d-on-accent);
+  --mk-accent-text: var(--d-accent);
+  --mk-accent-soft: color-mix(in srgb, var(--d-accent) 10%, var(--d-surface));
 
-  --mk-accent: #7a1f2b;
-  --mk-accent-hover: #621823;
-  --mk-accent-ink: #ffffff;
-  --mk-accent-text: #7a1f2b;
-  --mk-accent-soft: #f0e2e3;
+  --mk-ok: var(--d-ok);
+  --mk-warn: var(--d-warn);
+  --mk-bad: var(--d-bad);
+  --mk-info: var(--d-info);
 
-  --mk-ok: #2e6a4d;
-  --mk-warn: #9a6410;
-  --mk-bad: #b3261e;
-  --mk-info: #2f5d8a;
+  --mk-tile-1: var(--d-surface);
+  --mk-tile-2: var(--d-surface);
+  --mk-tile-3: var(--d-surface);
+  --mk-tile-4: var(--d-surface);
 
-  --mk-tile-1: #ecdfd2;
-  --mk-tile-2: #efd8d5;
-  --mk-tile-3: #dde4d8;
-  --mk-tile-4: #e2dfd7;
+  --mk-toast-bg: var(--d-text);
+  --mk-toast-ink: var(--d-bg);
+  --mk-overlay: rgba(0, 0, 0, 0.6);
+  --mk-shadow: none;
 
-  --mk-toast-bg: #1d1a17;
-  --mk-toast-ink: #ffffff;
-  --mk-overlay: rgba(29, 26, 23, 0.5);
-  --mk-shadow: 0 10px 40px -12px rgba(29, 26, 23, 0.28);
-
-  --mk-radius: 14px;
-  --mk-radius-sm: 10px;
+  --mk-radius: 4px;
+  --mk-radius-sm: 3px;
   --mk-gap: 16px;
   --mk-tap: 44px;
   --mk-nav-h: 60px;
-  --mk-side-w: 236px;
+  --mk-side-w: 260px;
 }
-
-/* Mode gelap: pilihan disimpan di perangkat; default mengikuti pengaturan HP/laptop */
-.mk[data-theme="dark"] {
-  color-scheme: dark;
-  --mk-bg: #141211;
-  --mk-surface: #1c1917;
-  --mk-surface-2: #24201d;
-  --mk-line: #38332e;
-  --mk-ink: #ece8e1;
-  --mk-ink-2: #bcb5a9;
-  --mk-ink-3: #8f887c;
-
-  --mk-accent: #b8404f;
-  --mk-accent-hover: #cb5160;
-  --mk-accent-ink: #ffffff;
-  --mk-accent-text: #e48c97;
-  --mk-accent-soft: #3a1f24;
-
-  --mk-ok: #6cc79a;
-  --mk-warn: #e0a84a;
-  --mk-bad: #f0766d;
-  --mk-info: #82b3e3;
-
-  --mk-tile-1: #3a2f26;
-  --mk-tile-2: #402a2a;
-  --mk-tile-3: #27342a;
-  --mk-tile-4: #2d2b27;
-
-  --mk-toast-bg: #ece8e1;
-  --mk-toast-ink: #141211;
-  --mk-overlay: rgba(0, 0, 0, 0.62);
-  --mk-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.7);
+/* Light: lime is a fill only, never text/link colour */
+.mk[data-theme="light"] {
+  --mk-accent-text: #0E0D0B;
+  --mk-accent-hover: color-mix(in srgb, var(--d-accent) 80%, #000);
+  --mk-accent-soft: color-mix(in srgb, var(--d-accent) 40%, var(--d-surface));
+  --mk-ink-3: color-mix(in srgb, var(--d-text) 58%, transparent);
 }
-.mk[data-theme="light"] { color-scheme: light; }
+`;
+
+const OVERRIDE_CSS = `
+.mk { font-size: 14px; }
+.mk h1, .mk h2, .mk h3 { font-family: var(--d-font); font-weight: 600; letter-spacing: -0.01em; }
+.mk-top h1 { font-size: 1rem; }
+.mk-brand b { font-family: var(--d-display); font-weight: 600; }
+.mk-side { background: var(--mk-surface); }
+.mk-nav-btn { position: relative; min-height: 38px; transition: background-color 0.12s ease-out, color 0.12s ease-out; }
+.mk-nav-btn:hover { background: var(--d-hover); color: var(--mk-ink); }
+.mk-nav-btn.on { background: var(--d-hover); color: var(--mk-ink); font-weight: 500; }
+.mk-nav-btn.on::before { content: ''; position: absolute; left: 0; top: 7px; bottom: 7px; width: 2px; background: var(--mk-accent); }
+.mk-nav-btn em, .mk-dot, .mk-check.done span { color: var(--mk-accent-ink); }
+.mk-bottom { background: var(--mk-surface); }
+.mk-bottom button { transition: color 0.12s ease-out; }
+.mk-bottom button.on { color: var(--mk-ink); }
+.mk-btn { transition: background-color 0.12s ease-out, border-color 0.12s ease-out, color 0.12s ease-out; }
+.mk-btn:hover { background: var(--d-hover); border-color: var(--d-border-strong); }
+.mk-btn--primary:hover { background: var(--mk-accent-hover); border-color: var(--mk-accent-hover); }
+.mk input:focus-visible, .mk select:focus-visible, .mk textarea:focus-visible { outline: 2px solid var(--mk-accent); outline-offset: 0; }
+.mk[data-theme="light"] :focus-visible { outline-color: var(--d-text); }
+.mk-row { min-height: 44px; align-items: center; padding: 8px 0; transition: background-color 0.12s ease-out; }
+.mk-row:hover { background: var(--d-hover); }
+.mk-meta { font-family: var(--d-mono); font-size: 12px; }
+.mk-st::before { width: 8px; height: 8px; border-radius: 50%; }
+.mk-check span { border-radius: 50%; transition: background-color 0.12s ease-out, border-color 0.12s ease-out; }
+.mk-tile { border: 1px solid var(--mk-line); background: var(--mk-surface) !important; min-height: 92px; }
+.mk-tile b { font-family: var(--d-mono); font-weight: 500; }
+.mk-tile span { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mk-ink-3); }
+.mk-bar, .mk-bar i { border-radius: 1px; }
+.mk-money, .mk-exp b { font-family: var(--d-mono); }
+.mk-sheet { border: 1px solid var(--d-border-strong); border-radius: 4px 4px 0 0; box-shadow: none; background: var(--mk-surface); animation: mkUp 0.16s ease-out; }
+.mk-sheet-h { background: var(--mk-surface); }
+.mk-toast { box-shadow: none; animation: mkUp 0.16s ease-out; }
+.mk-grip { border-radius: 1px; }
+@keyframes mkUp { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (min-width: 900px) { .mk-sheet { max-width: 560px; border-radius: 4px; } }
+.mk-chipline span, .mk-pill { border-radius: 3px; font-family: var(--d-mono); font-size: 11px; }
+.mk-review { border-radius: 0 3px 3px 0; border-left-width: 2px; }
+.mk-btn, .mk-nav-btn, .mk-bottom button, .mk-chips button { min-height: 40px; }
+@media (prefers-reduced-motion: reduce) { .mk * { transition: none !important; } .mk-sheet, .mk-toast { animation: none; } }
 `;
 
 const CSS = `
@@ -2205,7 +2220,7 @@ function initialTheme() {
     const t = localStorage.getItem('makrab:theme');
     if (t === 'dark' || t === 'light') return t;
   } catch { /* abaikan */ }
-  return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'dark';
 }
 
 export default function Makrab() {
@@ -2215,6 +2230,14 @@ export default function Makrab() {
   const [errMsg, setErrMsg] = useState('');
   const [theme, setTheme] = useState(initialTheme);
   const changeTheme = t => { setTheme(t); try { localStorage.setItem('makrab:theme', t); } catch { /* abaikan */ } };
+
+  /* Turn off site-wide effects (custom cursor, Lenis) on this page */
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add('mk-route');
+    try { window.__lenis?.stop(); } catch { /* ignore */ }
+    return () => { root.classList.remove('mk-route'); try { window.__lenis?.start(); } catch { /* ignore */ } };
+  }, []);
 
   /* Halaman privat: jangan diindeks */
   useEffect(() => {
@@ -2261,8 +2284,8 @@ export default function Makrab() {
   }, []);
 
   return (
-    <div className="mk" data-theme={theme}>
-      <style>{THEME_CSS + CSS}</style>
+    <div className="mk dash" data-theme={theme}>
+      <style>{THEME_CSS + CSS + OVERRIDE_CSS}</style>
       {phase === 'loading' && <Loading />}
       {phase === 'login' && <LoginGate />}
       {phase === 'unregistered' && user && <NotRegistered user={user} unverified={!user.emailVerified} />}
