@@ -34,7 +34,7 @@ const CSS = `
 /* ── Layout ── */
 .db-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0E0D0B 0%, #151411 100%);
+  background: #0E0D0B;
   color: var(--text);
   font-family: var(--font-body);
   display: flex;
@@ -339,11 +339,11 @@ const CSS = `
 
 .db-btn.primary {
   background: var(--accent);
-  color: white;
+  color: var(--on-accent, #0E0D0B);
   border: none;
 }
 
-.db-btn.primary:hover { box-shadow: 0 6px 20px var(--accent-shadow); transform: translateY(-1px); }
+.db-btn.primary:hover { background: color-mix(in srgb, var(--accent) 88%, #fff); }
 
 .db-btn.wa {
   background: rgba(37,211,102,0.1);
@@ -399,8 +399,7 @@ const CSS = `
 .db-progress-step.active .db-progress-step-dot {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
-  box-shadow: 0 0 12px var(--accent-glow);
+  color: var(--on-accent, #0E0D0B);
 }
 
 .db-progress-step-label {
@@ -1346,7 +1345,7 @@ export default function ClientDashboard() {
   const steps = getProgressSteps();
 
   return (
-    <div className="db-page">
+    <div className="db-page dash" data-theme="dark">
       {/* ── SIDEBAR ── */}
       <aside className="db-sidebar">
         <div className="db-sidebar-brand">

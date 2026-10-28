@@ -765,7 +765,7 @@ export default function AdminDashboard() {
   return (
     <>
       <style>{CSS}</style>
-      <div className="da-app">
+      <div className="da-app dash" data-theme="dark">
         {/* Sidebar */}
         <div className="da-sidebar">
           <div className="da-brand">

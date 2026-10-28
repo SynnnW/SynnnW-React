@@ -1,6 +1,7 @@
 /* Shared dashboard tokens + primitives (Admin, Client, Makrab).
    Scope: .dash. Dark is the default; light via [data-theme="light"] on .dash or an ancestor. */
-.dash {
+.dash,
+.dash[data-theme="dark"] {
   --d-bg: var(--bg, #0E0D0B);
   --d-surface: #151411;
   --d-surface-2: #1B1A16;
@@ -26,7 +27,7 @@
   color-scheme: dark;
 }
 .dash[data-theme="light"],
-[data-theme="light"] .dash {
+[data-theme="light"] .dash:not([data-theme="dark"]) {
   --d-bg: #F3F0E8;
   --d-surface: #FBF9F3;
   --d-surface-2: #ECE8DD;
@@ -92,3 +93,7 @@
 /* Makrab route: the site-wide custom cursor must not apply */
 html.mk-route .cc-wrap { display: none !important; }
 html.mk-route.has-cursor, html.mk-route.has-cursor a, html.mk-route.has-cursor button { cursor: auto; }
+
+/* Admin + Client: unify sidebar surface and hairlines with the shared tokens */
+.dash .da-sidebar, .dash .db-sidebar { background: var(--d-surface); border-right: 1px solid var(--d-border); }
+.dash .da-brand, .dash .db-sidebar-brand { border-bottom-color: var(--d-border); }
