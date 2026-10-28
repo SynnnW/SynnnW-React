@@ -9,7 +9,6 @@ import PageTransition from './components/PageTransition';
 import CustomCursor from './components/CustomCursor';
 import Preloader from './components/Preloader';
 import FloatingUtils from './components/FloatingUtils';
-import { isMascotRouteHidden, readMascotHidden, MASCOT_EVENT } from './lib/leoMascot';
 
 import { auth, db, supabase } from '@/supabaseClient';
 import { onAuthStateChanged } from '@/lib/authCompat';
@@ -89,33 +88,7 @@ const QuizIBD                = lazy(() => import('./pages/quiziz/QuizIBD'));
 const QuizKomdas             = lazy(() => import('./pages/quiziz/QuizKomdas'));
 // const FarmakologiQuiz = lazy(() => import('./pages/FarmakologiQuiz')); // ← contoh tambah baru
 
-const LeoMascot = lazy(() => import('./components/LeoMascot'));
-
-/* Loads the mascot chunk only after idle, on wide screens, off hidden routes and when not dismissed. */
-function MascotMount({ pathname, lang }) {
-  const [idle, setIdle] = useState(false);
-  const [wide, setWide] = useState(() => window.matchMedia('(min-width: 700px)').matches);
-  const [dismissed, setDismissed] = useState(readMascotHidden);
-  useEffect(() => {
-    const go = () => setIdle(true);
-    if ('requestIdleCallback' in window) {
-      const id = window.requestIdleCallback(go, { timeout: 3000 });
-      return () => window.cancelIdleCallback(id);
-    }
-    const id = setTimeout(go, 1500);
-    return () => clearTimeout(id);
-  }, []);
-  useEffect(() => {
-    const m = window.matchMedia('(min-width: 700px)');
-    const onMq = () => setWide(m.matches);
-    const onPref = () => setDismissed(readMascotHidden());
-    m.addEventListener('change', onMq);
-    window.addEventListener(MASCOT_EVENT, onPref);
-    return () => { m.removeEventListener('change', onMq); window.removeEventListener(MASCOT_EVENT, onPref); };
-  }, []);
-  if (!idle || !wide || dismissed || isMascotRouteHidden(pathname)) return null;
-  return <Suspense fallback={null}><LeoMascot lang={lang} /></Suspense>;
-}
+const MascotMount = lazy(() => import('./components/MascotMount'));
 
 /** Semua path quiz: dipakai untuk isFullscreen & hide FloatingUtils */
 const QUIZ_PATHS = [
@@ -224,7 +197,7 @@ function Layout({ user }) {
 
       {/* FloatingUtils disembunyikan di semua halaman quiz */}
       {!isQuizPage && <FloatingUtils />}
-      <MascotMount pathname={pathname} lang={lang} />
+      <Suspense fallback={null}><MascotMount pathname={pathname} lang={lang} /></Suspense>
 
       {!isFullscreen && (
         <Navbar
