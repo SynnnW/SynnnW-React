@@ -1,5 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import Marquee from './Marquee';
+
+function WibClock() {
+  const fmt = () => new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta', hour12: false }).format(new Date());
+  const [t, setT] = useState(fmt);
+  useEffect(() => { const id = setInterval(() => setT(fmt()), 30000); return () => clearInterval(id); }, []);
+  return <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-meta)', letterSpacing: '0.08em', color: 'var(--text-dim)' }}>{t} WIB — JAWA TIMUR, ID</span>;
+}
 
 export default function Footer({ t }) {
   const nameRef = useRef(null);
@@ -49,12 +58,15 @@ export default function Footer({ t }) {
   const hoverOff = e => (e.currentTarget.style.color = 'var(--text-dim)');
 
   return (
+    <>
+    <Marquee />
     <footer style={{
       background:  'var(--bg2)',
       borderTop:   '1px solid var(--border)',
       overflow:    'hidden',
       paddingTop:  '4rem',
     }}>
+      <div style={{ padding: '0 2rem 1rem' }}><WibClock /></div>
 
       {/* ── Big Parallax Name (dipertahankan) ── */}
       <div style={{ overflow: 'hidden', padding: '0 2rem 2rem' }}>
@@ -201,5 +213,6 @@ export default function Footer({ t }) {
         </button>
       </div>
     </footer>
+    </>
   );
 }
