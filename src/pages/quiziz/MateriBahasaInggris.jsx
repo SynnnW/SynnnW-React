@@ -16,7 +16,7 @@ const BIM_CSS = `
 /* ─── Layout ─── */
 .bim-page {
   display: flex; min-height: 100dvh;
-  background: var(--bg, #070709);
+  background: var(--bg, #0E0D0B);
   font-family: var(--font-body), 'Segoe UI', system-ui, sans-serif;
   color: var(--text, #f0ede8);
   -webkit-font-smoothing: antialiased;

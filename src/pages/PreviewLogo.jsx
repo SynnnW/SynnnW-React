@@ -616,8 +616,8 @@ const CSS = `
 
 /* ── base ── */
 .pl-page {
-  --pl-bg:       var(--bg,      #070709);
-  --pl-bg2:      var(--bg2,     #0d0d10);
+  --pl-bg:       var(--bg,      #0E0D0B);
+  --pl-bg2:      var(--bg2,     #151411);
   --pl-bg3:      var(--bg3,     #141416);
   --pl-text:     var(--text,    #f0ede8);
   --pl-dim:      var(--text-dim,#64605a);

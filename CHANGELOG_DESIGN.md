@@ -16,6 +16,8 @@ Aturan: Makrab, supabase/, api/, supabaseClient.js, logika auth/backend TIDAK di
 - PriceList: badge rekomendasi blok lime, harga mono, hover geser 8px.
 - Warna dekoratif (pink/cyan/amber) dinetralkan di WorkDetail, Quiziz, Contact. Warna status (benar/salah, error/sukses) SENGAJA dipertahankan.
 
+- Fix: html background (anti kedip), .reveal fade-up 32px diganti mask wipe clip-path (+reduced-motion), warna latar lama #070709 -> #0E0D0B.
+
 ## Belum dikerjakan
 - WorkDetailLayout bersama, horizontal-scroll gallery, About/PriceList/Contact/Journal layout ulang, Navbar (ada tombol Makrab), RollLink belum dipasang di Navbar/Footer, Lenis stop saat modal.
 - Warna kategori/status (merah, hijau, pink, cyan) di beberapa halaman belum dinetralkan.

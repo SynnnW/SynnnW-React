@@ -13,7 +13,7 @@ const ADMIN_EMAIL = 'aldokraksaan@gmail.com';
 
 const CSS = `
   :root {
-    --bg: #070709;
+    --bg: #0E0D0B;
     --bg2: #0d0d0f;
     --text: #ffffff;
     --text-dim: #94a3b8;
@@ -745,7 +745,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#070709', color: '#666', fontSize: '0.9rem', letterSpacing: '0.1em' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0E0D0B', color: '#666', fontSize: '0.9rem', letterSpacing: '0.1em' }}>
         LOADING...
       </div>
     );

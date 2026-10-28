@@ -12,7 +12,7 @@ import { doc, setDoc, getDoc } from '@/lib/firestoreCompat';
 const CSS = `
 /* ── CSS Variables ── */
 .auth-page {
-  --bg: #070709;
+  --bg: #0E0D0B;
   --bg2: #0d0d0f;
   --text: #ffffff;
   --text-dim: #94a3b8;
@@ -735,7 +735,7 @@ const CSS = `
     repeating-linear-gradient(118deg, transparent 0 54px, rgba(255,255,255,0.045) 54px 55px),
     radial-gradient(60% 40% at 85% 0%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%),
     radial-gradient(50% 36% at 0% 70%, rgba(236,72,153,0.12), transparent 70%),
-    #070709;
+    #0E0D0B;
 }
 .auth-page::before, .auth-page::after { display: none; }
 .auth-sidebar { background: transparent; border-right: 0; padding: 44px clamp(20px, 3vw, 44px) 44px clamp(20px, 4vw, 64px); gap: 22px; overflow-x: hidden; }

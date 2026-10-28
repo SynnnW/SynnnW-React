@@ -217,7 +217,7 @@ const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E'];
 ════════════════════════════════════════════════════ */
 const CSS = `
 .qz-root {
-  --qz-bg: #070709;
+  --qz-bg: #0E0D0B;
   --qz-surface: rgba(255,255,255,0.04);
   --qz-surface2: rgba(255,255,255,0.07);
   --qz-border: rgba(255,255,255,0.09);

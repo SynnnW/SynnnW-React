@@ -12,7 +12,7 @@ import {
 // ─────────────────────────────────────────────
 const CSS = `
 :root {
-  --bg: #070709;
+  --bg: #0E0D0B;
   --bg2: #0d0d0f;
   --text: #ffffff;
   --text-dim: #94a3b8;
@@ -34,7 +34,7 @@ const CSS = `
 /* ── Layout ── */
 .db-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #070709 0%, #0d0d1a 100%);
+  background: linear-gradient(135deg, #0E0D0B 0%, #151411 100%);
   color: var(--text);
   font-family: var(--font-body);
   display: flex;
@@ -193,7 +193,7 @@ const CSS = `
   width: 300px;
   max-height: 400px;
   overflow-y: auto;
-  background: #0d0d1a;
+  background: #151411;
   border: 1px solid var(--gborder2);
   border-radius: 2px;
   box-shadow: 0 16px 40px rgba(0,0,0,0.5);
@@ -1333,7 +1333,7 @@ export default function ClientDashboard() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', fontFamily: 'var(--font-body)' }}>
+      <div style={{ minHeight: '100vh', background: '#0E0D0B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', fontFamily: 'var(--font-body)' }}>
         <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2rem' }} />
       </div>
     );

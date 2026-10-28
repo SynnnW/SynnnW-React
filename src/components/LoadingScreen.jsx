@@ -16,7 +16,7 @@ export default function LoadingScreen({ onComplete }) {
         position: fixed;
         inset: 0;
         z-index: 9999;
-        background: #070709;
+        background: #0E0D0B;
         display: flex;
         flex-direction: column;
         align-items: center;

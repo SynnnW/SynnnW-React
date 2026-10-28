@@ -7,8 +7,9 @@ import { Reveal, Arrow } from '../components/BentoKit';
 
 const CSS = `
 /* ── Reveal ── */
-.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
-.reveal.visible { opacity: 1; transform: none; }
+.reveal { clip-path: inset(0 0 100% 0); transition: clip-path 0.9s cubic-bezier(0.76,0,0.24,1); }
+.reveal.visible { clip-path: inset(0 0 0 0); }
+@media (prefers-reduced-motion: reduce) { .reveal { clip-path: none; transition: none; } }
 .rv-d1 { transition-delay: 0.08s; }
 .rv-d2 { transition-delay: 0.16s; }
 .rv-d3 { transition-delay: 0.24s; }

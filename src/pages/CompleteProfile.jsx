@@ -335,7 +335,7 @@ const CSS = `
 /* Fullscreen wrapper */
 .cp-fullscreen {
   min-height: 100vh;
-  background: var(--bg, #070709);
+  background: var(--bg, #0E0D0B);
   display: flex;
   align-items: center;
   justify-content: center;
