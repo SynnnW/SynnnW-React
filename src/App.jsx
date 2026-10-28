@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
 import PageTransition from './components/PageTransition';
 import CustomCursor from './components/CustomCursor';
+import Preloader from './components/Preloader';
 import FloatingUtils from './components/FloatingUtils';
 
 import { auth, db, supabase } from '@/supabaseClient';
@@ -120,6 +121,7 @@ export default function App() {
   return (
     <>
       <CustomCursor />
+      <Preloader />
       {loadingAuth && <LoadingScreen />}
       <BrowserRouter>
         <Layout user={user} />

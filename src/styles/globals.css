@@ -131,3 +131,8 @@ select:focus-visible {
 [data-theme="light"] .pl-modal {
   background: var(--bg) !important;
 }
+
+/* custom cursor: tampil hanya jika aktif (pointer halus) */
+html.has-cursor .cc-wrap { display: block !important; }
+html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
