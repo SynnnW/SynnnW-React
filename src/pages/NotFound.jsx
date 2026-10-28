@@ -1,7 +1,6 @@
 // src/pages/NotFound.jsx — satu momen "wow": 404 raksasa + marquee + tombol magnetic
 import { useNavigate } from 'react-router-dom';
 import LineReveal from '../components/LineReveal';
-import Marquee from '../components/Marquee';
 import Magnetic from '../components/Magnetic';
 
 export default function NotFound() {
@@ -24,7 +23,6 @@ export default function NotFound() {
           </Magnetic>
         </div>
       </div>
-      <div style={{ margin: '0 calc(var(--gutter) * -1)' }}><Marquee text="404 — LOST — NOT FOUND — SYNNNW — " /></div>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import Marquee from './Marquee';
 
 function WibClock() {
   const fmt = () => new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta', hour12: false }).format(new Date());
@@ -59,7 +58,6 @@ export default function Footer({ t }) {
 
   return (
     <>
-    <Marquee />
     <footer style={{
       background:  'var(--bg2)',
       borderTop:   '1px solid var(--border)',

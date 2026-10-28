@@ -1,6 +1,5 @@
 import LineReveal from '../components/LineReveal';
 import Magnetic from '../components/Magnetic';
-import Marquee from '../components/Marquee';
 import Counter from '../components/Counter';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -430,8 +429,6 @@ export default function Home({ t = {} }) {
             </div>
           </div>
         </section>
-
-        <Marquee />
 
         {/* ═══════════ 02 · TOOLS + INTRO ═══════════ */}
         <section className="hm-intro hm-wrap">

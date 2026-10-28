@@ -18,6 +18,8 @@ Aturan: Makrab, supabase/, api/, supabaseClient.js, logika auth/backend TIDAK di
 
 - Fix: html background (anti kedip), .reveal fade-up 32px diganti mask wipe clip-path (+reduced-motion), warna latar lama #070709 -> #0E0D0B.
 
+- Marquee besar / cepat DIHAPUS dari semua halaman (Home, Footer, 404) atas permintaan; marquee kecil lama (hm-marquee) dipertahankan.
+
 ## Belum dikerjakan
 - WorkDetailLayout bersama, horizontal-scroll gallery, About/PriceList/Contact/Journal layout ulang, Navbar (ada tombol Makrab), RollLink belum dipasang di Navbar/Footer, Lenis stop saat modal.
 - Warna kategori/status (merah, hijau, pink, cyan) di beberapa halaman belum dinetralkan.
