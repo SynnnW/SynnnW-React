@@ -1,43 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap');
 
 /* ══════════════════════════════════════════════════════
    DARK MODE (default / :root)
 ══════════════════════════════════════════════════════ */
+/* ═══ TOKENS — dark (default) ═══ */
 :root {
-  --bg: #070709; --bg2: #0d0d10; --bg3: #131318;
-  --text: #f0ede8; --text-dim: #64605a;
-  --accent: #8b5cf6; --accent2: #a78bfa; --accent3: #c4b5fd;
-  --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.12);
-  --glass: rgba(255,255,255,0.04); --glass2: rgba(255,255,255,0.07);
-  --gborder: rgba(255,255,255,0.06); --gborder2: rgba(255,255,255,0.12);
-  --nav-bg: rgba(7,7,9,0.78);
-  --shadow: rgba(0,0,0,0.7);
-  --card-bg: #0d0d10;
-  --transition: background 0.5s ease, color 0.5s ease;
+  --bg:#0E0D0B; --bg2:#151411; --bg3:#1D1B17;
+  --text:#F2EFE6; --text-dim:#8C877B;
+  --accent:#D7FF3A; --on-accent:#0E0D0B;
+  /* alias lama (kompatibilitas) — semua mengarah ke token baru */
+  --accent2:#D7FF3A; --accent3:#D7FF3A;
+  --border:rgba(242,239,230,.10); --border2:rgba(242,239,230,.22);
+  --glass:rgba(242,239,230,.03); --glass2:rgba(242,239,230,.06);
+  --gborder:rgba(242,239,230,.10); --gborder2:rgba(242,239,230,.22);
+  --nav-bg:rgba(14,13,11,.82);
+  --shadow:rgba(0,0,0,.5);
+  --card-bg:#151411;
+  --transition: background .4s ease, color .4s ease;
+  --font-display:'Bricolage Grotesque',sans-serif;
+  --font-body:'Geist',system-ui,sans-serif;
+  --font-mono:'Geist Mono',ui-monospace,monospace;
+  --fs-hero:clamp(3.5rem,11vw + .5rem,11rem);
+  --fs-h1:clamp(2.75rem,7vw,6.5rem);
+  --fs-h2:clamp(2rem,4.5vw,4rem);
+  --fs-h3:clamp(1.35rem,2vw,1.9rem);
+  --fs-body:clamp(1rem,.35vw + .92rem,1.1rem);
+  --fs-meta:.75rem;
+  --gutter:clamp(1rem,4vw,3rem);
 }
 
-/* ══════════════════════════════════════════════════════
-   LIGHT MODE — Refined Warm Cream Palette
-══════════════════════════════════════════════════════ */
+/* ═══ TOKENS — light ═══ */
 [data-theme="light"] {
-  --bg:       #FAF8F5;
-  --bg2:      #F2EEE8;
-  --bg3:      #E8E3DA;
-  --text:     #1C1917;
-  --text-dim: #78716C;
-  --accent:   #7C3AED;
-  --accent2:  #6D28D9;
-  --accent3:  #8B5CF6;
-  --nav-bg:   rgba(250,248,245,0.85);
-  --border:   rgba(28,25,23,0.07);
-  --border2:  rgba(28,25,23,0.14);
-  --gborder:  rgba(28,25,23,0.09);
-  --gborder2: rgba(28,25,23,0.18);
-  --glass:    rgba(28,25,23,0.04);
-  --glass2:   rgba(28,25,23,0.06);
-  --shadow:   rgba(28,25,23,0.08);
-  --card-bg:  #F2EEE8;
-  --transition: background 0.5s ease, color 0.5s ease;
+  --bg:#F3F0E8; --bg2:#EAE6DA; --bg3:#DFDACB;
+  --text:#14130F; --text-dim:#6B665A;
+  /* lime di light mode hanya untuk blok/highlight; teks aksen lama jatuh ke --text */
+  --accent:#D7FF3A; --on-accent:#14130F;
+  --accent2:#14130F; --accent3:#14130F;
+  --nav-bg:rgba(243,240,232,.85);
+  --border:rgba(20,19,15,.12); --border2:rgba(20,19,15,.26);
+  --gborder:rgba(20,19,15,.12); --gborder2:rgba(20,19,15,.26);
+  --glass:rgba(20,19,15,.03); --glass2:rgba(20,19,15,.06);
+  --shadow:rgba(20,19,15,.08);
+  --card-bg:#EAE6DA;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -48,15 +51,17 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.55;
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
   transition: var(--transition);
-  user-select: none;
 }
 
-h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-variation-settings: 'opsz' 96, 'wdth' 100; text-wrap: balance; letter-spacing: -0.03em; line-height: 1; }
+p { text-wrap: pretty; }
 
 a { color: inherit; text-decoration: none; }
 
@@ -67,7 +72,7 @@ img { max-width: 100%; display: block; }
 ══════════════════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 0; }
 
 /* ══════════════════════════════════════════════════════
    SCROLL REVEAL ANIMATION
@@ -100,51 +105,20 @@ a:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid var(--accent3);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* ══════════════════════════════════════════════════════
-   GRADIENT TEXT UTILITIES
-══════════════════════════════════════════════════════ */
-.grad-text-1 {
-  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.grad-text-2 {
-  background: linear-gradient(135deg, #ec4899, #f472b6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.grad-text-3 {
-  background: linear-gradient(135deg, #06b6d4, #67e8f9);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.grad-text-4 {
-  background: linear-gradient(135deg, #f59e0b, #fbbf24);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.grad-text-5 {
-  background: linear-gradient(135deg, #10b981, #34d399);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* highlight blok lime (pengganti gradient text) */
+.hl { background: var(--accent); color: var(--on-accent); padding: 0 .12em; }
 
 /* ══════════════════════════════════════════════════════
    SECTION GRADIENT BACKGROUNDS
 ══════════════════════════════════════════════════════ */
-.section-bg-1 { background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%); }
-.section-bg-2 { background: linear-gradient(180deg, var(--bg2) 0%, var(--bg3) 100%); }
-.section-bg-3 { background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%); }
-.section-bg-4 { background: linear-gradient(180deg, var(--bg3) 0%, var(--bg) 100%); }
+.section-bg-1 { background: var(--bg); }
+.section-bg-2 { background: var(--bg2); }
+.section-bg-3 { background: var(--bg3); }
+.section-bg-4 { background: var(--bg); }
 
 /* ══════════════════════════════════════════════════════
    LIGHT MODE — specific component overrides
