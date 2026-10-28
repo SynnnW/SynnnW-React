@@ -1,5 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+const LeoNotch = lazy(() => import('../leo/LeoNotch'));
+
+function useWide() {
+  const q = '(min-width: 900px)';
+  const [wide, setWide] = useState(() => typeof window !== 'undefined' && window.matchMedia(q).matches);
+  useEffect(() => {
+    const m = window.matchMedia(q);
+    const on = () => setWide(m.matches);
+    m.addEventListener('change', on);
+    return () => m.removeEventListener('change', on);
+  }, []);
+  return wide;
+}
 
 const DATA = {
   title: 'Leo',
@@ -190,6 +204,7 @@ export default function WorkDetail28({ lang = 'id' }) {
     return () => { try { document.head.removeChild(style); } catch { /* ignore */ } };
   }, []);
 
+  const wide = useWide();
   const d = DATA;
   const isEn = lang === 'en';
 
@@ -232,7 +247,22 @@ export default function WorkDetail28({ lang = 'id' }) {
       </section>
 
       <section className="wd-section">
-        <span className="wd-sec-label wd-reveal">01 / {isEn ? 'About' : 'Tentang'}</span>
+        <span className="wd-sec-label wd-reveal">01 / Demo</span>
+        <h2 className="wd-sec-title wd-reveal wd-d1">{isEn ? 'Try the' : 'Coba'} <em>{isEn ? 'notch.' : 'notch-nya.'}</em></h2>
+        {wide ? (
+          <Suspense fallback={<div style={{ minHeight: 360 }} />}>
+            <LeoNotch lang={lang} />
+          </Suspense>
+        ) : (
+          <div className="wd-reveal wd-d2">
+            <img src="/assets/thumbs/leo.webp" width="960" height="540" alt="Leo" loading="lazy" decoding="async" style={{ width: '100%', height: 'auto', border: '1px solid var(--border)' }} />
+            <p className="wd-desc" style={{ marginTop: 16 }}>{isEn ? 'The interactive demo is available on laptop screens.' : 'Demo interaktif tersedia di layar laptop.'}</p>
+          </div>
+        )}
+      </section>
+
+      <section className="wd-section">
+        <span className="wd-sec-label wd-reveal">02 / {isEn ? 'About' : 'Tentang'}</span>
         <h2 className="wd-sec-title wd-reveal wd-d1">
           {isEn ? 'A notch that' : 'Notch yang'} <em>{isEn ? 'gets out of the way.' : 'tahu diri.'}</em>
         </h2>
@@ -244,7 +274,7 @@ export default function WorkDetail28({ lang = 'id' }) {
       </section>
 
       <section className="wd-section">
-        <span className="wd-sec-label wd-reveal">02 / {isEn ? 'Features' : 'Fitur'}</span>
+        <span className="wd-sec-label wd-reveal">03 / {isEn ? 'Features' : 'Fitur'}</span>
         <h2 className="wd-sec-title wd-reveal wd-d1">{isEn ? 'What it' : 'Apa yang'} <em>{isEn ? 'does.' : 'bisa.'}</em></h2>
         <table className="wd-crew-table wd-reveal wd-d2">
           <thead>
@@ -265,7 +295,7 @@ export default function WorkDetail28({ lang = 'id' }) {
       </section>
 
       <section className="wd-section">
-        <span className="wd-sec-label wd-reveal">03 / Stack</span>
+        <span className="wd-sec-label wd-reveal">04 / Stack</span>
         <h2 className="wd-sec-title wd-reveal wd-d1">{isEn ? 'Built' : 'Dibuat'} <em>{isEn ? 'with.' : 'dengan.'}</em></h2>
         <table className="wd-crew-table wd-reveal wd-d2">
           <tbody>
