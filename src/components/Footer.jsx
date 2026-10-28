@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import LeoMascotToggle from './LeoMascotToggle';
 
 function WibClock() {
   const fmt = () => new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta', hour12: false }).format(new Date());
@@ -9,7 +10,7 @@ function WibClock() {
   return <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-meta)', letterSpacing: '0.08em', color: 'var(--text-dim)' }}>{t} WIB — JAWA TIMUR, ID</span>;
 }
 
-export default function Footer({ t }) {
+export default function Footer({ t, lang = 'id' }) {
   const nameRef = useRef(null);
 
   /* ── Parallax scroll effect (dipertahankan dari original) ── */
@@ -209,6 +210,7 @@ export default function Footer({ t }) {
         >
           Back to Top ↑
         </button>
+        <LeoMascotToggle lang={lang} />
       </div>
     </footer>
     </>
