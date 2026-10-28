@@ -1,10 +1,10 @@
-import { useMemo, useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { useMemo } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import LineReveal from '../components/LineReveal';
 import Magnetic from '../components/Magnetic';
 import { ThumbImg, Reveal, Arrow, ContactCard } from '../components/BentoKit';
-import { useLang, waLink, IG_URL, thumbOf } from '../lib/bento';
+import { useLang, waLink, IG_URL, workSpans } from '../lib/bento';
 
 /* ══════════════════════════════════════════════════════
    KARYA DATA — newest first, 21 karya
@@ -416,53 +416,40 @@ const FILTER_CATS = [
 
 
 
-function WorkIndex({ items, isID, navigate }) {
-  const [hover, setHover] = useState(null);
-  const x = useSpring(useMotionValue(0), { stiffness: 150, damping: 20 });
-  const y = useSpring(useMotionValue(0), { stiffness: 150, damping: 20 });
-  useEffect(() => {
-    const m = (e) => { x.set(e.clientX + 24); y.set(e.clientY - 80); };
-    window.addEventListener('mousemove', m);
-    return () => window.removeEventListener('mousemove', m);
-  }, [x, y]);
-  const cur = items.find(k => k.id === hover);
+const MotionLink = motion.create(Link);
+
+/* Bento card grid (same card language as Journal). Nothing depends on cursor movement. */
+function WorkIndex({ items, isID }) {
+  const spans = workSpans(items.length);
   return (
-    <>
-      <ul className="wk-list" onMouseLeave={() => setHover(null)}>
-        {items.map((k, i) => {
-          const title = isID ? k.titleID : k.titleEN;
-          return (
-            <li key={k.id}>
-              <a className="wk-row" href={k.route} data-cursor="view"
-                 onMouseEnter={() => setHover(k.id)} onFocus={() => setHover(k.id)}
-                 onClick={e => { e.preventDefault(); navigate(k.route); }}>
-                <span className="wk-no">{String(i + 1).padStart(2, '0')}</span>
-                <span className="wk-ti">{title}</span>
-                <span className="wk-cat">{k.category.filter(c => c !== 'Design').join(' / ')}</span>
-                <span className="wk-yr">{k.year}</span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-      <AnimatePresence>
-        {cur && cur.image && (
-          <motion.div key={cur.id} className="wk-float" style={{ x, y }}
-            initial={{ opacity: 0, scale: .92 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: .25 }}>
-            <img src={thumbOf(cur.image)} alt="" onError={e => { e.currentTarget.src = cur.image; }} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <div className="wk-grid">
-        {items.map(k => (
-          <a key={k.id} className="wk-card" href={k.route} onClick={e => { e.preventDefault(); navigate(k.route); }}>
-            <span className="wk-img">{k.image && <ThumbImg src={k.image} alt={isID ? k.titleID : k.titleEN} />}</span>
-            <span className="wk-ti">{isID ? k.titleID : k.titleEN}</span>
-            <span className="wk-no">{k.year}</span>
-          </a>
-        ))}
-      </div>
-    </>
+    <div className="bn-grid bn-grid--rows wk-bento">
+      {items.map((k, i) => {
+        const title = isID ? k.titleID : k.titleEN;
+        const cat = k.category.find(c => c !== 'Design') || k.category[0];
+        return (
+          <MotionLink
+            key={k.id}
+            to={k.route}
+            className={`bn-work bn-span-${spans[i]}`}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.4, delay: Math.min(i, 7) * 0.04, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="bn-work-in">
+              {k.image && <ThumbImg src={k.image} alt={title} priority={i < 2} />}
+              <span className="bn-work-shade" />
+              <span className="bn-work-go"><Arrow /></span>
+              <span className="bn-work-txt">
+                <span className="bn-work-head"><em className="bn-pill">{cat}</em></span>
+                <strong className="bn-work-title">{title}</strong>
+                <span className="bn-work-meta">{k.year}</span>
+              </span>
+            </span>
+          </MotionLink>
+        );
+      })}
+    </div>
   );
 }
 
@@ -569,7 +556,7 @@ export default function Works({ lang: propLang }) {
         {items.length === 0 && (
           <div className="bn-empty">{L('No works found in this category.', 'Belum ada karya di kategori ini.')}</div>
         )}
-        <WorkIndex key={`${activeFilter}-${sortOrder}`} items={items} isID={isID} navigate={navigate} />
+        <WorkIndex key={`${activeFilter}-${sortOrder}`} items={items} isID={isID} />
 
         {/* ── CTA ── */}
         <ContactCard

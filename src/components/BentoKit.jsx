@@ -3,13 +3,15 @@ import { thumbOf } from '../lib/bento';
 import '../styles/bento.css';
 
 /* <img> yang jatuh ke gambar asli kalau thumbnail belum ada */
-export function ThumbImg({ src, thumb, alt = '', className = '' }) {
+export function ThumbImg({ src, thumb, alt = '', className = '', priority = false }) {
   return (
     <img
       className={className}
       src={thumb || thumbOf(src)}
       alt={alt}
-      loading="lazy"
+      loading={priority ? undefined : 'lazy'}
+      fetchPriority={priority ? 'high' : undefined}
+      decoding="async"
       draggable={false}
       onError={e => {
         if (!e.currentTarget.dataset.fallback && src) {
