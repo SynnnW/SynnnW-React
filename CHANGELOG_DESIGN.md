@@ -23,3 +23,9 @@ Aturan: Makrab, supabase/, api/, supabaseClient.js, logika auth/backend TIDAK di
 ## Belum dikerjakan
 - WorkDetailLayout bersama, horizontal-scroll gallery, About/PriceList/Contact/Journal layout ulang, Navbar (ada tombol Makrab), RollLink belum dipasang di Navbar/Footer, Lenis stop saat modal.
 - Warna kategori/status (merah, hijau, pink, cyan) di beberapa halaman belum dinetralkan.
+
+## Dashboard / Works / Leo batch
+- Shared `src/styles/dashboard.css` (`.dash` tokens + `.dash-*` primitives). Fixed self-referencing `--accent` in Admin and Client.
+- Makrab: UI skin only (dark default, lime accent, hairline, flat, minimal motion). Theme key `makrab:theme` unchanged. Site cursor and Lenis are paused on /makrab.
+- Works: cursor-follow list replaced by a bento card grid (Journal style). Added Leo project (`/works/leo-notch-windows`) with an interactive notch demo (laptop screens only).
+- Leo mascot: CSS-only blink, idle sleep, dismissible (`leo.mascot.hidden`), hidden on quiz/dashboard/login/Makrab and on screens under 700px.
