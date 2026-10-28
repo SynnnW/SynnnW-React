@@ -568,7 +568,7 @@ const CSS = `
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  backdrop-filter: blur(4px);
+
 }
 
 .db-video-play-btn:hover { background: var(--accent); transform: scale(1.08); }
@@ -850,7 +850,7 @@ const CSS = `
 .db-page { overflow-x: clip; }
 .db-content img, .db-content video, .db-content iframe { max-width: 100%; }
 @media (max-width: 768px) {
-  .db-sidebar { padding-bottom: env(safe-area-inset-bottom, 0px); height: calc(64px + env(safe-area-inset-bottom, 0px)); background: rgba(10,10,16,0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .db-sidebar { padding-bottom: env(safe-area-inset-bottom, 0px); height: calc(64px + env(safe-area-inset-bottom, 0px)); background: rgba(10,10,16,0.96);}
   .db-sidebar-nav-item { min-width: 0; flex: 1; padding: 6px 2px; }
   .db-sidebar-logout-mobile { min-width: 0; flex: 1; padding: 6px 2px; }
   .db-main { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); overflow-y: visible; }
@@ -1946,7 +1946,7 @@ export default function ClientDashboard() {
       {showOnboarding && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 9800,
-          background: 'rgba(7,7,9,0.88)', backdropFilter: 'blur(8px)',
+          background: 'rgba(7,7,9,0.88)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           padding: 24,
         }}>

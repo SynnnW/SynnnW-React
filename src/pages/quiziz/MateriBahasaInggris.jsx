@@ -24,7 +24,7 @@ const BIM_CSS = `
 .bim-sidebar {
   width: 264px; min-width: 240px; flex-shrink: 0;
   background: rgba(255,255,255,0.03);
-  backdrop-filter: blur(24px) saturate(150%); -webkit-backdrop-filter: blur(24px) saturate(150%);
+
   border-right: 1px solid rgba(255,255,255,0.08);
   box-shadow: inset -1px 0 0 rgba(255,255,255,0.03);
   display: flex; flex-direction: column;
@@ -100,7 +100,7 @@ const BIM_CSS = `
   margin-bottom: 1.25rem;
 }
 .bim-mobile-toggler {
-  background: rgba(255,255,255,0.06); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 999px; padding: .5rem .9rem; cursor: pointer;
   font-size: 13px; color: var(--text, #f0ede8); font-family: inherit;
@@ -127,7 +127,7 @@ const BIM_CSS = `
 /* ─── Cards ─── */
 .bim-card {
   background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(20px) saturate(140%); -webkit-backdrop-filter: blur(20px) saturate(140%);
+
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);

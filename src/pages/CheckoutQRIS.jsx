@@ -85,7 +85,7 @@ const CSS = `
 .ck-summary-card {
   background: var(--glass); border: 1px solid var(--gborder);
   border-radius: 20px; overflow: hidden;
-  backdrop-filter: var(--blur);
+
 }
 .ck-summary-items {
   display: flex; flex-direction: column;
@@ -205,7 +205,7 @@ const CSS = `
 .ck-qris-card {
   background: var(--glass); border: 1px solid var(--gborder);
   border-radius: 24px; overflow: hidden;
-  backdrop-filter: var(--blur);
+
 }
 .ck-qris-header {
   display: flex; align-items: center; justify-content: space-between;

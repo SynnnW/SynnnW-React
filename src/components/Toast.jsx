@@ -79,8 +79,6 @@ function ToastItem({ toast, onRemove }) {
         background: cfg.bg,
         border: `1px solid ${cfg.border}`,
         borderRadius: '14px',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
         cursor: 'pointer',
         userSelect: 'none',
 

@@ -110,8 +110,8 @@ export default function FloatingUtils() {
         bottom: 50%;
         transform: translateY(50%);
         background: rgba(7, 7, 9, 0.88);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+
+
         color: rgba(255, 255, 255, 0.9);
         font-family: var(--font-body);
         font-size: 0.72rem;

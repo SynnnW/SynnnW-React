@@ -198,7 +198,7 @@ const CSS = `
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 20px;
     padding: 28px;
-    backdrop-filter: blur(18px);
+
     margin-bottom: 24px;
   }
   .da-panel-title {
@@ -551,7 +551,7 @@ const CSS = `
     .da-app { flex-direction: column; }
     .da-mobilebar {
       display: block; position: sticky; top: 0; z-index: 60;
-      background: rgba(7,7,9,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      background: rgba(7,7,9,0.92);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       padding: calc(env(safe-area-inset-top, 0px) + 10px) 14px 0;
     }

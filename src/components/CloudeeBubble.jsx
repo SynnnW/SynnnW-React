@@ -354,7 +354,7 @@ const CLOUDEE_CSS = `
   }
   .cloudee-bubble {
     background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(8px);
+
     color: #1a1a2e;
     border-radius: 12px 12px 4px 12px;
     padding: 9px 13px;

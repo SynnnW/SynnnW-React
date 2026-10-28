@@ -19,7 +19,7 @@ const CSS = `
 .qzc-wrap      { margin-top: 0; }
 .qzc-list      { display: flex; flex-direction: column; gap: 10px; }
 .qzc-item      { background: rgba(255,255,255,0.045);
-                 backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+
                  border: 1px solid rgba(255,255,255,0.09);
                  border-radius: 12px; padding: 11px 14px;
                  box-shadow: 0 6px 18px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05); }
@@ -35,13 +35,13 @@ const CSS = `
                  padding: 18px 0; }
 .qzc-form      { display: flex; gap: 8px; margin-top: 12px; }
 .qzc-input     { flex: 1; background: rgba(255,255,255,0.05);
-                 backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+
                  border: 1px solid rgba(255,255,255,0.12);
                  border-radius: 10px; padding: 9px 12px; color: #e0e0ea; font-size: 0.82rem;
                  outline: none; resize: none; font-family: inherit; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
 .qzc-input::placeholder { color: rgba(160,160,180,0.5); }
 .qzc-input:focus { border-color: rgba(139,123,255,0.55); background: rgba(255,255,255,0.08); box-shadow: 0 0 0 3px rgba(139,123,255,0.15); }
-.qzc-submit    { background: rgba(139,123,255,0.22); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+.qzc-submit    { background: rgba(139,123,255,0.22);
                  border: 1px solid rgba(139,123,255,0.4);
                  color: #c7bdff; border-radius: 999px; padding: 9px 16px; cursor: pointer;
                  font-size: 0.8rem; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
@@ -64,7 +64,7 @@ const CSS = `
 .qzc-yt-title   { font-size: 0.95rem; font-weight: 700; color: #e0e0ea;
                   display: flex; align-items: center; gap: 8px; }
 .qzc-yt-count   { font-size: 0.8rem; font-weight: 400; color: rgba(160,160,180,0.7); }
-.qzc-yt-expand  { background: rgba(139,123,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+.qzc-yt-expand  { background: rgba(139,123,255,0.08);
                   border: 1px solid rgba(139,123,255,0.32);
                   color: #b0a4ff; border-radius: 999px; padding: 6px 15px;
                   font-size: 0.75rem; font-weight: 600; cursor: pointer;

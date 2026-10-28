@@ -379,8 +379,8 @@ const CSS = `
   width: 100%;
   max-width: 480px;
   box-shadow: 0 24px 80px var(--shadow, rgba(0,0,0,0.6));
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+
+
   position: relative;
   z-index: 10;
 }

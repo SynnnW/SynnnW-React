@@ -57,7 +57,7 @@ const CSS = `
   position: relative; z-index: 1;
   max-width: 540px; width: 100%;
   background: var(--glass);
-  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+
   border: 1px solid var(--gborder);
   border-radius: 28px;
   padding: 56px 48px;
@@ -258,7 +258,7 @@ const CSS = `
 .cq-right { padding: 52px 56px 80px; }
 .cq-card {
   background: var(--glass);
-  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+
   border: 1px solid var(--gborder);
   border-radius: 28px;
   position: relative; overflow: hidden;
@@ -769,7 +769,7 @@ const CSS = `
 }
 .cq-co-nota {
   background: var(--glass);
-  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+
   border: 1px solid var(--gborder); border-radius: 22px;
   padding: 22px 24px;
 }
@@ -815,7 +815,7 @@ const CSS = `
 /* QRIS column */
 .cq-co-qris-col {
   background: var(--glass);
-  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+
   border: 1px solid var(--gborder); border-radius: 22px;
   padding: 22px 20px; text-align: center;
   display: flex; flex-direction: column; gap: 14px; align-items: center;

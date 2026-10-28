@@ -70,7 +70,7 @@ export default function CookieConsent({ lang = 'id' }) {
           z-index: 9500;
           background: rgba(7, 7, 9, 0.96);
           border-top: 1px solid rgba(255, 255, 255, 0.07);
-          backdrop-filter: blur(20px);
+
           padding: 20px 32px;
           animation: ${visible ? 'slideUp' : 'slideDown'} 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }

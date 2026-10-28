@@ -105,7 +105,7 @@ const CSS = `
   background: var(--glass); border: 1px solid var(--gborder);
   border-radius: 20px; overflow: hidden; position: relative;
   display: flex; flex-direction: column;
-  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+
   transition: border-color 0.28s, transform 0.28s, box-shadow 0.28s;
 }
 .pl-card:hover { border-color: var(--gborder2); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
@@ -227,7 +227,7 @@ const CSS = `
   display: flex; align-items: flex-end;
   opacity: 0; pointer-events: none;
   transition: opacity 0.3s;
-  backdrop-filter: blur(4px);
+
 }
 .pl-sheet-overlay.pl-sheet-open { opacity: 1; pointer-events: all; }
 
@@ -394,7 +394,7 @@ const CSS = `
   padding: 12px 80px;
   border-bottom: 1px solid var(--border);
   background: var(--glass);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+
 }
 .pl-currency-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); font-family: var(--font-body); }
 .pl-currency-pills { display: flex; gap: 6px; }

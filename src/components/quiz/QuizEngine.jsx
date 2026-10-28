@@ -291,8 +291,8 @@ const CSS = `
 /* ── Card ── */
 .qz-card {
   background:var(--qz-surface); border:1px solid var(--qz-border);
-  border-radius:var(--qz-radius); backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px); box-shadow:0 20px 50px rgba(0,0,0,0.4);
+  border-radius:var(--qz-radius);
+box-shadow:0 20px 50px rgba(0,0,0,0.4);
 }
 
 /* ── Typography ── */
@@ -377,8 +377,8 @@ const CSS = `
 /* ── Quiz sticky bar ── */
 .qz-sticky-bar {
   position:sticky; top:57px; z-index:15; display:flex; gap:8px;
-  background:rgba(7,7,9,0.92); backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px); padding:10px 0;
+  background:rgba(7,7,9,0.92);
+padding:10px 0;
   margin-bottom:16px; border-bottom:1px solid var(--qz-border);
 }
 .qz-stat-pill { flex:1; text-align:center; padding:8px 4px; background:var(--qz-surface); border:1px solid var(--qz-border); border-radius:10px; font-size:0.75rem; }
@@ -464,7 +464,7 @@ const CSS = `
 @keyframes qz-pulse { 0%,100% { opacity:1; } 50% { opacity:0.55; } }
 
 /* ── Modal overlay ── */
-.qz-modal-overlay { position:fixed; inset:0; background:rgba(4,4,6,0.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); display:flex; align-items:flex-end; justify-content:center; z-index:9000; padding:0; }
+.qz-modal-overlay { position:fixed; inset:0; background:rgba(4,4,6,0.82);display:flex; align-items:flex-end; justify-content:center; z-index:9000; padding:0; }
 .qz-modal-box { background:#0f0f14; border:1px solid var(--qz-border); border-radius:24px 24px 0 0; padding:32px 24px 40px; width:100%; max-width:520px; max-height:90dvh; overflow-y:auto; text-align:center; box-shadow:0 0 60px rgba(139,123,255,0.2); animation:qz-slide-up 0.4s ease; }
 @media (prefers-reduced-motion:reduce) { .qz-modal-box,.qz-bs-box,.qz-feedback { animation:none; } .qz-progress-fill { transition:none; } }
 .qz-result-score { font-family:var(--qz-font-display); font-size:3.5rem; font-weight:700; background:linear-gradient(120deg,var(--qz-primary),var(--qz-primary2)); -webkit-background-clip:text; background-clip:text; color:transparent; line-height:1; margin:8px 0 4px; }

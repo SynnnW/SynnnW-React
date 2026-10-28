@@ -1,3 +1,7 @@
+import LineReveal from '../components/LineReveal';
+import Magnetic from '../components/Magnetic';
+import Marquee from '../components/Marquee';
+import Counter from '../components/Counter';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -382,16 +386,13 @@ export default function Home({ t = {} }) {
         <section id="sec-home" className="hm-hero">
           <div className="hm-hero-card">
             <img className="hm-hero-bg" src="/assets/img/Artboard 1.webp" alt="" />
-            <div className="hm-beam" aria-hidden="true" />
             <div className="hm-hero-grain" aria-hidden="true" />
 
             <div className="hm-hero-left">
               <span className="hm-eyebrow"><i /> SynnnW Studio</span>
-              <h1 className="hm-h1">
-                {isID
-                  ? <>Web, video &amp; desain, <span>dikerjain seolah punya sendiri.</span></>
-                  : <>Web, video &amp; design, <span>built like it’s our own.</span></>}
-              </h1>
+              <LineReveal as="h1" className="hm-h1" delay={0.2}
+                text={isID ? 'Web, video & desain, dikerjain seolah punya sendiri.' : 'Web, video & design, built like it’s our own.'} />
+              <span className="hm-hero-tags">WEB / VIDEO / ILUSTRASI / FOTO — JAWA TIMUR, ID</span>
               <p className="hm-hero-p">
                 {L(
                   'A creative studio from East Java, run by Aldo Leo Saputra. Websites, short films, posters and event coverage — from first brief to final file.',
@@ -399,9 +400,9 @@ export default function Home({ t = {} }) {
                 )}
               </p>
               <div className="hm-hero-btns">
-                <button className="hm-btn hm-btn--solid" onClick={() => go('/login')}>
+                <Magnetic><button className="hm-btn hm-btn--solid" onClick={() => go('/login')}>
                   {L('Start a Project', 'Mulai Proyek')} <Arrow />
-                </button>
+                </button></Magnetic>
                 <button className="hm-btn hm-btn--ghost" onClick={() => scrollTo('sec-work')}>
                   {L('See the work', 'Lihat karya')}
                 </button>
@@ -420,8 +421,8 @@ export default function Home({ t = {} }) {
                 )}
               </p>
               <div className="hm-hero-stats">
-                <div><b>{SHOWCASE_COUNT}</b><span>{L('works in portfolio', 'karya di portofolio')}</span></div>
-                <div><b>4</b><span>{L('years active', 'tahun aktif')}</span></div>
+                <div><b><Counter to={SHOWCASE_COUNT} /></b><span>{L('works in portfolio', 'karya di portofolio')}</span></div>
+                <div><b><Counter to={4} /></b><span>{L('years active', 'tahun aktif')}</span></div>
               </div>
               <a className="hm-btn hm-btn--ghost" href={wa} target="_blank" rel="noopener noreferrer">
                 <i className="fa-brands fa-whatsapp" /> {L('Chat on WhatsApp', 'Chat via WhatsApp')}
@@ -429,6 +430,8 @@ export default function Home({ t = {} }) {
             </div>
           </div>
         </section>
+
+        <Marquee />
 
         {/* ═══════════ 02 · TOOLS + INTRO ═══════════ */}
         <section className="hm-intro hm-wrap">

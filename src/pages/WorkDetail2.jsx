@@ -81,7 +81,7 @@ function ImageModal({ src, onClose }) {
   }, [onClose]);
   return (
     <div style={{ position:"fixed", inset:0, zIndex:2000, display:"flex", alignItems:"center", justifyContent:"center", animation:"k2ModalIn 0.25s ease" }}>
-      <div onClick={onClose} style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.88)", backdropFilter:"blur(10px)" }} />
+      <div onClick={onClose} style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.88)", }} />
       <div style={{ position:"relative", zIndex:1, padding:"20px", display:"flex", alignItems:"center", justifyContent:"center", width:"100%", height:"100%" }}>
         <button onClick={onClose} style={{ position:"absolute", top:"20px", right:"20px", width:"44px", height:"44px", borderRadius:"50%", background:"var(--bg3)", border:"1px solid var(--border2)", color:"var(--text)", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", fontSize:"1.2rem", transition:"all 0.3s", zIndex:2 }}
           onMouseEnter={(e) => { e.currentTarget.style.background="var(--accent)"; e.currentTarget.style.color="#fff"; }}
@@ -224,7 +224,7 @@ export default function WorkDetail2({ t = {} }) {
               <span style={{ color:"var(--text-dim)", fontSize:"0.5rem" }}><i className="fa-solid fa-chevron-right" /></span>
               <span style={{ fontSize:"0.62rem", fontWeight:600, letterSpacing:"0.2em", textTransform:"uppercase", color:"var(--accent2)" }}>Web Design</span>
             </div>
-            <div className="reveal rv-d1" style={{ display:"inline-block", background:"var(--glass2)", backdropFilter:"blur(14px)", border:"1px solid var(--gborder2)", borderRadius:"99px", padding:"6px 18px", fontSize:"0.6rem", fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--accent3)", marginBottom:"22px" }}>
+            <div className="reveal rv-d1" style={{ display:"inline-block", background:"var(--glass2)", border:"1px solid var(--gborder2)", borderRadius:"99px", padding:"6px 18px", fontSize:"0.6rem", fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--accent3)", marginBottom:"22px" }}>
               {t.k2HeroCat || 'Web Development & Firebase Integration'}
             </div>
             <h1 className="reveal rv-d2" style={{ fontFamily:"var(--font-display)", fontSize:"clamp(3.5rem, 9vw, 8.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"24px" }}>
@@ -237,7 +237,7 @@ export default function WorkDetail2({ t = {} }) {
                 : (t.k2HeroSubId || 'Undangan pernikahan digital yang nyambut tamu pakai nama mereka, ada video sinematik di awal, terus semua data tamu bisa diatur lewat dashboard Firebase — siapa yang hadir, komen, dll.')
               }
             </p>
-            <div className="reveal rv-d3" style={{ display:"flex", alignItems:"center", background:"var(--glass)", backdropFilter:"blur(14px)", border:"1px solid var(--gborder)", borderRadius:"16px", padding:"20px 28px", width:"fit-content" }}>
+            <div className="reveal rv-d3" style={{ display:"flex", alignItems:"center", background:"var(--glass)", border:"1px solid var(--gborder)", borderRadius:"16px", padding:"20px 28px", width:"fit-content" }}>
               {[
                 { label: t.karyaYearLabel||'Year',     val:"2026" },
                 { label: t.karyaRoleLabel||'Role',     val: t.k2HeroRoleVal||'Developer & Designer' },
@@ -414,7 +414,7 @@ export default function WorkDetail2({ t = {} }) {
                 <i className="fa-solid fa-arrow-up-right" />
               </button>
               <a href="https://synnnw.github.io/SynnnW-Nikah/" target="_blank" rel="noopener noreferrer"
-                style={{ display:"inline-flex", alignItems:"center", gap:"10px", background:"var(--glass2)", color:"var(--text)", border:"1px solid var(--gborder2)", borderRadius:"99px", padding:"14px 30px", fontSize:"0.74rem", fontWeight:700, letterSpacing:"0.15em", textTransform:"uppercase", textDecoration:"none", backdropFilter:"blur(12px)", transition:"all 0.3s ease" }}>
+                style={{ display:"inline-flex", alignItems:"center", gap:"10px", background:"var(--glass2)", color:"var(--text)", border:"1px solid var(--gborder2)", borderRadius:"99px", padding:"14px 30px", fontSize:"0.74rem", fontWeight:700, letterSpacing:"0.15em", textTransform:"uppercase", textDecoration:"none", transition:"all 0.3s ease" }}>
                 <i className="fa-solid fa-eye" />
                 <span>{t.k2CTABtnDemo||'View Live Demo'}</span>
               </a>

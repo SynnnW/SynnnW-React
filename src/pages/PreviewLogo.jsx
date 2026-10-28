@@ -778,7 +778,7 @@ const CSS = `
 .pl-copy-hint {
   font-size:0.6rem; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.9);
   background:rgba(0,0,0,0.38); border-radius:99px; padding:4px 10px;
-  backdrop-filter:blur(6px); opacity:0; transition:opacity 0.2s;
+opacity:0; transition:opacity 0.2s;
   display:flex; align-items:center; gap:4px;
 }
 .pl-color-info { padding:14px 16px; background:var(--pl-glass); }
@@ -808,7 +808,7 @@ const CSS = `
 .pl-mock-tab.active { background:rgba(212,160,23,0.12); border-color:rgba(212,160,23,0.4); color:var(--pl-gold); }
 .pl-mock-display { border-radius:20px; overflow:hidden; border:1px solid var(--pl-border); }
 .pl-mock-canvas  { min-height:320px; display:flex; align-items:center; justify-content:center; padding:40px; position:relative; transition:background 0.4s; }
-.pl-mock-label   { position:absolute; top:16px; left:16px; display:inline-flex; align-items:center; gap:7px; padding:6px 14px; background:rgba(0,0,0,0.45); border-radius:99px; font-size:0.62rem; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.85); backdrop-filter:blur(8px); }
+.pl-mock-label   { position:absolute; top:16px; left:16px; display:inline-flex; align-items:center; gap:7px; padding:6px 14px; background:rgba(0,0,0,0.45); border-radius:99px; font-size:0.62rem; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.85);}
 .pl-mock-note    { display:flex; align-items:flex-start; gap:10px; padding:14px 20px; background:rgba(255,255,255,0.02); border-top:1px solid var(--pl-border); font-size:0.7rem; color:var(--pl-dim); line-height:1.6; }
 .pl-inline-code  { font-family:monospace; font-size:0.72rem; background:rgba(212,160,23,0.1); color:var(--pl-gold); padding:1px 6px; border-radius:4px; }
 

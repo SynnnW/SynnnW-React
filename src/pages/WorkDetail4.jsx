@@ -128,7 +128,7 @@ function ImageModal({ src, onClose }) {
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'k4ModalIn 0.25s ease' }}>
-      <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(10px)' }} />
+      <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.88)', }} />
       <div style={{ position: 'relative', zIndex: 1, padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
         <button
           onClick={onClose}

@@ -79,7 +79,7 @@ const CSS = `
 .pe-notif-bar span { font-size:.65rem;font-weight:700;color:var(--accent3);letter-spacing:.08em;text-transform:uppercase;flex-shrink:0; }
 
 /* ── Budget card ── */
-.pe-budget-card { position:relative;z-index:1;background:var(--glass);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid var(--gborder2);border-radius:24px;padding:30px 34px;margin-bottom:24px;overflow:hidden; }
+.pe-budget-card { position:relative;z-index:1;background:var(--glass);border:1px solid var(--gborder2);border-radius:24px;padding:30px 34px;margin-bottom:24px;overflow:hidden; }
 .pe-bc-glow { position:absolute;top:-80px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb, var(--accent) 9%, transparent) 0%,transparent 65%);pointer-events:none; }
 .pe-bc-line { position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.3),transparent);pointer-events:none; }
 .pe-bc-top { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap; }
@@ -124,7 +124,7 @@ const CSS = `
 .pe-empty p { font-size:.84rem;color:var(--text-dim);margin-bottom:20px; }
 
 /* Expense list card */
-.pe-list-card { background:var(--glass);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid var(--gborder);border-radius:20px;overflow:hidden; }
+.pe-list-card { background:var(--glass);border:1px solid var(--gborder);border-radius:20px;overflow:hidden; }
 .pe-list-head { padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between; }
 .pe-list-head-t { font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text); }
 .pe-list-count { font-size:.65rem;color:var(--text-dim);background:var(--glass);border:1px solid var(--border);border-radius:99px;padding:2px 10px; }
@@ -150,9 +150,9 @@ const CSS = `
 .pe-fab:active { transform:translateY(0);box-shadow:0 4px 16px color-mix(in srgb, var(--accent) 40%, transparent); }
 
 /* ── Modal ── */
-.pe-modal-bd { position:fixed;inset:0;z-index:9200;background:rgba(7,7,26,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;animation:peFadeIn .25s ease; }
+.pe-modal-bd { position:fixed;inset:0;z-index:9200;background:rgba(7,7,26,.8);display:flex;align-items:center;justify-content:center;padding:20px;animation:peFadeIn .25s ease; }
 @keyframes peFadeIn { from{opacity:0} to{opacity:1} }
-.pe-modal { background:var(--glass2);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--gborder2);border-radius:24px;padding:36px 32px;max-width:480px;width:100%;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:peModalIn .32s cubic-bezier(.22,1,.36,1); }
+.pe-modal { background:var(--glass2);border:1px solid var(--gborder2);border-radius:24px;padding:36px 32px;max-width:480px;width:100%;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:peModalIn .32s cubic-bezier(.22,1,.36,1); }
 @keyframes peModalIn { from{opacity:0;transform:translateY(16px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
 .pe-modal-close { position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--glass);border:1px solid var(--gborder);color:var(--text-dim);cursor:pointer;font-size:.88rem;display:flex;align-items:center;justify-content:center;transition:all .2s; }
 .pe-modal-close:hover { background:var(--glass2);color:var(--text); }
@@ -190,12 +190,12 @@ const CSS = `
 
 /* ── Login card ── */
 .pe-login-wrap { min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;padding:40px 24px; }
-.pe-login-card { position:relative;background:var(--glass);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid var(--gborder2);border-radius:28px;padding:52px 44px;max-width:400px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.35); }
+.pe-login-card { position:relative;background:var(--glass);border:1px solid var(--gborder2);border-radius:28px;padding:52px 44px;max-width:400px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.35); }
 .pe-login-icon { font-size:2.6rem;display:block;margin-bottom:18px; }
 .pe-login-title { font-family:var(--font-display);font-size:2.2rem;font-weight:300;color:var(--text);margin-bottom:10px; }
 .pe-login-title em { font-style:italic;color:var(--accent3); }
 .pe-login-sub { font-size:.84rem;color:var(--text-dim);line-height:1.75;margin-bottom:30px; }
-.pe-gbtn { width:100%;padding:13px 24px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid var(--gborder2);color:var(--text);font-family:var(--font-body);font-size:.84rem;font-weight:700;cursor:pointer;transition:all .28s;display:flex;align-items:center;justify-content:center;gap:12px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px); }
+.pe-gbtn { width:100%;padding:13px 24px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid var(--gborder2);color:var(--text);font-family:var(--font-body);font-size:.84rem;font-weight:700;cursor:pointer;transition:all .28s;display:flex;align-items:center;justify-content:center;gap:12px;}
 .pe-gbtn:hover { border-color:color-mix(in srgb, var(--accent) 40%, transparent);background:color-mix(in srgb, var(--accent) 8%, transparent);color:var(--accent3); }
 .pe-gbtn:active { transform:scale(.98); }
 .pe-login-note { font-size:.68rem;color:var(--text-dim);margin-top:18px;line-height:1.6; }

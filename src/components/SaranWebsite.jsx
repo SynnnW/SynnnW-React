@@ -40,7 +40,7 @@ const CSS = `
 .sw-form   { display: flex; flex-direction: column; gap: 12px; }
 .sw-input  {
   width: 100%; background: rgba(255,255,255,0.045);
-  backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+
   border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
   padding: 12px 15px; color: var(--text, #e0e0ea);
   font-size: 0.88rem; font-family: inherit; outline: none;
@@ -68,7 +68,7 @@ const CSS = `
 }
 .sw-thanks {
   display: flex; align-items: center; gap: 8px;
-  background: rgba(34,197,94,0.1); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  background: rgba(34,197,94,0.1);
   border: 1px solid rgba(34,197,94,0.28);
   border-radius: 12px; padding: 13px 16px;
   color: #4ade80; font-size: 0.88rem; font-weight: 600;
@@ -76,7 +76,7 @@ const CSS = `
 }
 .sw-trakteer-btn {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(251,191,36,0.12); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  background: rgba(251,191,36,0.12);
   border: 1px solid rgba(251,191,36,0.38);
   color: #fbbf24; border-radius: 999px; padding: 10px 20px;
   font-size: 0.85rem; font-weight: 700; text-decoration: none;
@@ -87,7 +87,7 @@ const CSS = `
 /* Kartu QRIS (bukan link keluar ke Trakteer asli) */
 .sw-qris-card {
   background: rgba(255,255,255,0.045);
-  backdrop-filter: blur(22px) saturate(150%); -webkit-backdrop-filter: blur(22px) saturate(150%);
+
   border: 1px solid rgba(255,255,255,0.11);
   border-radius: 18px; padding: 20px; text-align: center; width: 100%; max-width: 280px;
   box-shadow: 0 10px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.07);
@@ -102,7 +102,7 @@ const CSS = `
 .sw-qris-img:hover { transform: scale(1.03); }
 .sw-qris-full {
   position: fixed; inset: 0; background: rgba(5,5,9,0.86);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+
   display: flex; align-items: center; justify-content: center; z-index: 9999; cursor: zoom-out; padding: 20px;
 }
 .sw-qris-full img { max-width: 100%; max-height: 90dvh; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
@@ -111,7 +111,7 @@ const CSS = `
 .sw-admin-feed  { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
 .sw-saran-item  {
   background: rgba(255,255,255,0.045);
-  backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+
   border: 1px solid rgba(255,255,255,0.09);
   border-radius: 12px; padding: 13px 15px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.05);

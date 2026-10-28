@@ -354,7 +354,7 @@ const CSS = `
 .k1-hero-badge {
   display: inline-block;
   background: var(--glass2);
-  backdrop-filter: blur(14px);
+
   border: 1px solid var(--gborder2);
   border-radius: 99px; padding: 7px 20px;
   font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
@@ -448,8 +448,8 @@ const CSS = `
   border: 1px solid var(--border);
   padding: 14px;
   background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+
+
   margin: 32px 0;
 }
 
@@ -473,8 +473,8 @@ const CSS = `
   background: var(--glass); border: 1px solid var(--gborder);
   border-radius: 16px; padding: 20px 22px;
   margin-bottom: 16px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+
+
   transition: border-color 0.3s;
 }
 .sidebar-widget:hover { border-color: color-mix(in srgb, var(--accent) 28%, transparent); }

@@ -11,7 +11,7 @@ import { useState, useEffect, useRef } from 'react';
 const CSS = `
 .nvr-root { max-width: 640px; margin: 0 auto; font-family: 'Inter','Segoe UI',system-ui,sans-serif; color: #f4f4f6; }
 .nvr-bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 10px;
-  background: rgba(7,7,9,0.92); backdrop-filter: blur(8px); padding: 10px 4px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  background: rgba(7,7,9,0.92);padding: 10px 4px; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .nvr-back { background: none; border: 1px solid rgba(255,255,255,0.15); color: #8d8d99; border-radius: 10px;
   padding: 7px 12px; cursor: pointer; font-size: 12.5px; white-space: nowrap; }
 .nvr-chtitle { flex: 1; font-weight: 700; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

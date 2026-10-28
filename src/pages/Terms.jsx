@@ -47,7 +47,7 @@ const CSS = `
 .tos-toc-item.active .tos-toc-num, .tos-toc-item.active .tos-toc-label { color: #fff; }
 
 /* ── Tab mobile (chip scroll horizontal) ── */
-.tos-mobile-tabs { display: none; position: sticky; top: 68px; z-index: 40; margin: 0 calc(var(--bn-pad) * -1); padding: 8px var(--bn-pad); background: var(--nav-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); overflow-x: auto; gap: 8px; scrollbar-width: none; }
+.tos-mobile-tabs { display: none; position: sticky; top: 68px; z-index: 40; margin: 0 calc(var(--bn-pad) * -1); padding: 8px var(--bn-pad); background: var(--nav-bg);border-bottom: 1px solid var(--border); overflow-x: auto; gap: 8px; scrollbar-width: none; }
 .tos-mobile-tabs::-webkit-scrollbar { display: none; }
 .tos-mobile-tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 99px; font-size: 0.76rem; text-decoration: none; color: var(--text-dim); border: 1px solid var(--border2); background: var(--glass); }
 .tos-mobile-tab.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
