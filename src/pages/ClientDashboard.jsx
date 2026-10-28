@@ -1,3 +1,4 @@
+import '@/styles/dashboard.css';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '@/supabaseClient';
@@ -17,7 +18,6 @@ const CSS = `
   --text: #ffffff;
   --text-dim: #94a3b8;
   --text-muted: #64748b;
-  --accent: var(--accent);
   --accent2: var(--accent);
   --accent3: var(--accent);
   --glass: rgba(255,255,255,0.03);
