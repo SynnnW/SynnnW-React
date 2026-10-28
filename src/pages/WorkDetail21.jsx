@@ -57,7 +57,7 @@ const CSS = `
 .wd-hero-bg {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 55% 55% at 85% 15%, rgba(16,185,129,0.14) 0%, transparent 60%),
+    transparent,
     radial-gradient(ellipse 35% 45% at 10% 85%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
 }
 .wd-hero-bg::after {
@@ -76,7 +76,7 @@ const CSS = `
 }
 .wd-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 14px; border-radius: 99px;
+  padding: 5px 14px; border-radius: 2px;
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
 }
 .wd-badge-video { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #10b981; }
@@ -103,7 +103,7 @@ const CSS = `
 .wd-sec-title em { font-style: italic; color: var(--text-dim); }
 
 .wd-yt-wrap {
-  border-radius: 22px; overflow: hidden;
+  border-radius: 2px; overflow: hidden;
   border: 1px solid var(--border);
   position: relative;
   box-shadow: 0 24px 60px rgba(0,0,0,0.5);
@@ -144,7 +144,7 @@ const CSS = `
 .wd-back-btn {
   display: inline-flex; align-items: center; gap: 10px;
   background: var(--glass2); border: 1px solid var(--border);
-  border-radius: 99px; padding: 12px 24px;
+  border-radius: 2px; padding: 12px 24px;
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text-dim); cursor: pointer; font-family: var(--font-body);
   transition: all 0.25s;

@@ -50,7 +50,7 @@ const CSS = `
 }
 .cq-wo2 {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 65%);
+  background: transparent;
   bottom: -80px; right: -60px;
 }
 .cq-warn-card {
@@ -59,7 +59,7 @@ const CSS = `
   background: var(--glass);
 
   border: 1px solid var(--gborder);
-  border-radius: 28px;
+  border-radius: 2px;
   padding: 56px 48px;
   text-align: center;
   display: flex; flex-direction: column; align-items: center; gap: 0;
@@ -93,26 +93,26 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 10px;
   padding: 14px 32px;
   background: var(--accent-g); color: #fff;
-  border-radius: 99px; font-family: var(--font-body);
+  border-radius: 2px; font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
   text-transform: uppercase; text-decoration: none;
   transition: all 0.3s;
-  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow: none;
   margin-bottom: 24px;
 }
 .cq-warn-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 40px color-mix(in srgb, var(--accent) 50%, transparent);
+  box-shadow: none;
 }
 .cq-warn-hint {
   display: flex; align-items: flex-start; gap: 8px;
   font-size: 0.72rem; color: var(--text-dim); line-height: 1.65;
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 12px; padding: 12px 16px; text-align: left;
+  border-radius: 2px; padding: 12px 16px; text-align: left;
 }
 .cq-warn-hint i { color: var(--accent3); flex-shrink: 0; margin-top: 1px; }
 @media (max-width: 600px) {
-  .cq-warn-card { padding: 40px 28px; border-radius: 22px; }
+  .cq-warn-card { padding: 40px 28px; border-radius: 2px; }
 }
 
 /* ════════════════════════════════════
@@ -132,7 +132,7 @@ const CSS = `
 }
 .cq-ho1 {
   width: 520px; height: 520px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 11%, transparent) 0%, transparent 65%);
+  background: transparent;
   top: -140px; left: -100px;
 }
 .cq-ho2 {
@@ -142,7 +142,7 @@ const CSS = `
 }
 .cq-ho3 {
   width: 220px; height: 220px;
-  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 65%);
+  background: transparent;
   top: 35%; left: 45%;
 }
 .cq-hero-inner { position: relative; z-index: 1; max-width: 660px; }
@@ -169,7 +169,7 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 10px;
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-  border-radius: 99px; padding: 10px 18px;
+  border-radius: 2px; padding: 10px 18px;
   font-size: 0.72rem; font-weight: 600; color: var(--accent3);
 }
 .cq-hero-cart-badge i { font-size: 0.9rem; }
@@ -200,7 +200,7 @@ const CSS = `
 .cq-steps-track { display: flex; flex-direction: column; gap: 2px; }
 .cq-step-item {
   display: flex; align-items: center; gap: 12px;
-  padding: 10px 12px; border-radius: 12px;
+  padding: 10px 12px; border-radius: 2px;
   transition: background 0.25s, opacity 0.25s;
   opacity: 0.38;
 }
@@ -217,7 +217,7 @@ const CSS = `
 .cq-step-item.cq-step-active .cq-step-dot {
   border-color: var(--accent3); color: var(--accent3);
   background: color-mix(in srgb, var(--accent) 8%, transparent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow: none;
 }
 .cq-step-item.cq-step-done .cq-step-dot {
   border-color: var(--green); color: var(--green);
@@ -230,7 +230,7 @@ const CSS = `
   display: flex; align-items: flex-start; gap: 9px;
   font-size: 0.7rem; color: var(--text-dim); line-height: 1.6;
   padding: 12px 14px;
-  border: 1px solid var(--gborder); border-radius: 12px;
+  border: 1px solid var(--gborder); border-radius: 2px;
   background: var(--glass);
 }
 .cq-left-security i { color: var(--accent3); flex-shrink: 0; margin-top: 1px; font-size: 0.72rem; }
@@ -238,7 +238,7 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 8px;
   background: rgba(74,222,128,0.05);
   border: 1px solid rgba(74,222,128,0.18);
-  border-radius: 99px; padding: 8px 14px; width: fit-content;
+  border-radius: 2px; padding: 8px 14px; width: fit-content;
   font-size: 0.7rem; font-weight: 600; color: rgba(74,222,128,0.88);
   letter-spacing: 0.04em;
 }
@@ -260,14 +260,14 @@ const CSS = `
   background: var(--glass);
 
   border: 1px solid var(--gborder);
-  border-radius: 28px;
+  border-radius: 2px;
   position: relative; overflow: hidden;
   max-width: 700px; margin: 0 auto;
 }
 .cq-card-glow {
   position: absolute; top: -120px; right: -120px;
   width: 420px; height: 420px; border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 65%);
+  background: transparent;
   pointer-events: none;
 }
 .cq-card-line {
@@ -278,14 +278,14 @@ const CSS = `
 
 /* Progress bar */
 .cq-progress-wrap {
-  height: 3px; border-radius: 99px 99px 0 0; overflow: hidden;
+  height: 3px; border-radius: 2px 99px 0 0; overflow: hidden;
   background: rgba(255,255,255,0.04);
 }
 .cq-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent3));
+  background: var(--accent);
   transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-  border-radius: 99px;
+  border-radius: 2px;
 }
 
 /* Step counter */
@@ -344,13 +344,13 @@ const CSS = `
   display: flex; align-items: center; gap: 14px;
   padding: 14px 16px;
   background: rgba(255,255,255,0.035); border: 1px solid var(--gborder);
-  border-radius: 16px; cursor: pointer; text-align: left;
+  border-radius: 2px; cursor: pointer; text-align: left;
   font-family: var(--font-body); transition: all 0.24s;
   position: relative; overflow: hidden;
 }
 .cq-type-card::before {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 0%, transparent) 0%, color-mix(in srgb, var(--accent) 4%, transparent) 100%);
+  background: var(--accent);
   opacity: 0; transition: opacity 0.24s;
 }
 .cq-type-card:hover { border-color: var(--gborder2); }
@@ -358,10 +358,10 @@ const CSS = `
 .cq-type-active {
   background: color-mix(in srgb, var(--accent) 9%, transparent) !important;
   border-color: color-mix(in srgb, var(--accent) 38%, transparent) !important;
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent), inset 0 0 30px color-mix(in srgb, var(--accent) 4%, transparent);
+  box-shadow: none;
 }
 .cq-type-icon-wrap {
-  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+  width: 40px; height: 40px; border-radius: 2px; flex-shrink: 0;
   background: var(--glass); border: 1px solid var(--gborder);
   display: flex; align-items: center; justify-content: center;
   font-size: 1rem; color: var(--text-dim); transition: all 0.24s;
@@ -378,14 +378,14 @@ const CSS = `
   width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
   background: var(--accent); color: var(--on-accent);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: none;
 }
 
 /* ── STEP 2: Order summary ── */
 .cq-summary-card {
   background: color-mix(in srgb, var(--accent) 4%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-  border-radius: 20px; padding: 22px 24px;
+  border-radius: 2px; padding: 22px 24px;
 }
 .cq-summary-head {
   display: flex; align-items: center; gap: 10px;
@@ -397,14 +397,14 @@ const CSS = `
 .cq-summary-count {
   margin-left: auto; font-size: 0.65rem;
   background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-  border-radius: 99px; padding: 3px 10px; color: var(--accent3);
+  border-radius: 2px; padding: 3px 10px; color: var(--accent3);
 }
 .cq-summary-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
 .cq-summary-row {
   display: flex; align-items: flex-start; gap: 8px;
   padding: 12px 14px;
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 12px;
+  border-radius: 2px;
 }
 .cq-summary-row-info { display: flex; flex-direction: column; gap: 3px; flex: 1; }
 .cq-summary-name  { font-size: 0.84rem; font-weight: 600; color: var(--text); }
@@ -415,7 +415,7 @@ const CSS = `
 .cq-summary-qty {
   font-size: 0.68rem; color: var(--text-dim);
   background: var(--glass); border: 1px solid var(--gborder);
-  padding: 2px 8px; border-radius: 99px;
+  padding: 2px 8px; border-radius: 2px;
 }
 .cq-summary-price { font-size: 0.84rem; font-weight: 700; color: var(--text); }
 .cq-summary-divider {
@@ -445,7 +445,7 @@ const CSS = `
   display: flex; align-items: center; gap: 16px;
   padding: 20px 22px;
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 16px;
+  border-radius: 2px;
 }
 .cq-slider-pole {
   display: flex; flex-direction: column; align-items: center; gap: 5px;
@@ -456,13 +456,8 @@ const CSS = `
 .cq-slider-pole i { font-size: 1rem; color: var(--accent3); }
 .cq-slider {
   -webkit-appearance: none; appearance: none;
-  flex: 1; height: 5px; border-radius: 99px;
-  background: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--accent) 70%, transparent) 0%,
-    color-mix(in srgb, var(--accent) 70%, transparent) var(--thumb-pct, 50%),
-    rgba(255,255,255,0.08) var(--thumb-pct, 50%)
-  );
+  flex: 1; height: 5px; border-radius: 2px;
+  background: var(--accent);
   outline: none; cursor: pointer;
   border: 1px solid var(--gborder);
 }
@@ -471,18 +466,18 @@ const CSS = `
   width: 22px; height: 22px; border-radius: 50%;
   background: var(--accent); cursor: pointer;
   border: 2px solid rgba(255,255,255,0.9);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent), 0 4px 12px color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: none;
   transition: box-shadow 0.22s, transform 0.22s;
 }
 .cq-slider::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 25%, transparent), 0 4px 20px color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: none;
   transform: scale(1.1);
 }
 .cq-slider::-moz-range-thumb {
   width: 22px; height: 22px; border-radius: 50%;
   background: var(--accent); cursor: pointer;
   border: 2px solid rgba(255,255,255,0.9);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
+  box-shadow: none;
 }
 .cq-slider-result { position: relative; height: 24px; margin: -6px 90px 0; }
 .cq-slider-thumb-label {
@@ -491,7 +486,7 @@ const CSS = `
   font-size: 0.7rem; font-weight: 800; letter-spacing: 0.05em;
   color: var(--accent3);
   background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-  border-radius: 99px; padding: 2px 10px;
+  border-radius: 2px; padding: 2px 10px;
   transition: left 0.1s;
   white-space: nowrap;
 }
@@ -500,7 +495,7 @@ const CSS = `
 }
 .cq-band {
   display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px 16px; border-radius: 14px;
+  padding: 12px 16px; border-radius: 2px;
   border: 1px solid var(--gborder);
   background: var(--glass);
   transition: all 0.3s; opacity: 0.4;
@@ -523,7 +518,7 @@ const CSS = `
   display: flex; align-items: center; gap: 10px;
   font-size: 0.76rem; color: var(--text-dim);
   padding: 12px 16px;
-  background: var(--glass); border: 1px solid var(--gborder); border-radius: 12px;
+  background: var(--glass); border: 1px solid var(--gborder); border-radius: 2px;
 }
 .cq-slider-chosen i { color: var(--accent3); }
 .cq-slider-chosen strong { color: var(--text); }
@@ -539,7 +534,7 @@ const CSS = `
 .cq-field-optional { font-weight: 400; text-transform: none; letter-spacing: 0; opacity: 0.75; }
 .cq-field-input {
   background: rgba(255,255,255,0.04); border: 1px solid var(--gborder);
-  border-radius: 12px; padding: 13px 16px;
+  border-radius: 2px; padding: 13px 16px;
   font-family: var(--font-body); font-size: 0.88rem;
   color: var(--text); outline: none; width: 100%; box-sizing: border-box;
   transition: border-color 0.28s, background 0.28s;
@@ -558,7 +553,7 @@ const CSS = `
 .cq-review-card {
   background: rgba(255,255,255,0.025);
   border: 1px solid var(--gborder);
-  border-radius: 20px; padding: 22px 24px;
+  border-radius: 2px; padding: 22px 24px;
   margin-bottom: 20px;
 }
 .cq-review-section {
@@ -583,7 +578,7 @@ const CSS = `
   display: flex; justify-content: space-between; align-items: center;
   font-size: 0.78rem; color: var(--text-dim);
   padding: 6px 10px;
-  background: var(--glass); border-radius: 8px;
+  background: var(--glass); border-radius: 2px;
 }
 .cq-review-total-row {
   border-top: 1px solid var(--border); margin-top: 4px;
@@ -594,7 +589,7 @@ const CSS = `
   font-size: 0.82rem; color: var(--text-dim);
   line-height: 1.72; margin: 0;
   padding: 12px 14px;
-  background: var(--glass); border-radius: 12px;
+  background: var(--glass); border-radius: 2px;
   border: 1px solid var(--gborder);
   white-space: pre-wrap;
 }
@@ -604,7 +599,7 @@ const CSS = `
   display: flex; align-items: flex-start; gap: 12px;
   padding: 16px 18px; margin-bottom: 16px;
   background: color-mix(in srgb, var(--accent) 5%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  border-radius: 14px;
+  border-radius: 2px;
 }
 .cq-submit-note i { font-size: 1.1rem; color: var(--accent3); flex-shrink: 0; margin-top: 1px; }
 .cq-submit-note p { font-size: 0.78rem; color: var(--text-dim); line-height: 1.68; margin: 0; }
@@ -614,7 +609,7 @@ const CSS = `
   display: flex; align-items: center; gap: 10px;
   font-size: 0.78rem; color: var(--red);
   background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
-  border-radius: 12px; padding: 12px 16px; margin-bottom: 16px;
+  border-radius: 2px; padding: 12px 16px; margin-bottom: 16px;
 }
 
 /* ── Navigation ── */
@@ -627,7 +622,7 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 8px;
   padding: 11px 22px;
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 99px; cursor: pointer;
+  border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.71rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text-dim); transition: all 0.24s;
@@ -637,29 +632,29 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 8px;
   padding: 11px 30px; margin-left: auto;
   background: var(--text); color: var(--bg);
-  border: none; border-radius: 99px; cursor: pointer;
+  border: none; border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.71rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   transition: all 0.3s;
 }
 .cq-btn-next:hover {
   background: var(--accent); color: var(--on-accent);
-  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow: none;
   transform: translateY(-1px);
 }
 .cq-btn-submit {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 13px 32px; margin-left: auto;
   background: var(--accent-g); color: #fff;
-  border: none; border-radius: 99px; cursor: pointer;
+  border: none; border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   transition: all 0.35s;
-  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow: none;
 }
 .cq-btn-submit:hover:not(:disabled) {
   background: var(--accent-g2);
-  box-shadow: 0 14px 40px color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: none;
   transform: translateY(-2px);
 }
 .cq-btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -692,7 +687,7 @@ const CSS = `
 }
 .cq-coo2 {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 9%, transparent) 0%, transparent 65%);
+  background: transparent;
   bottom: -80px; right: -60px;
 }
 .cq-coo3 {
@@ -742,7 +737,7 @@ const CSS = `
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 16px 20px;
   background: color-mix(in srgb, var(--accent) 6%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-  border-radius: 16px;
+  border-radius: 2px;
 }
 .cq-co-id-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
 .cq-co-id-left > i { font-size: 1.2rem; color: var(--accent3); flex-shrink: 0; }
@@ -755,7 +750,7 @@ const CSS = `
 }
 .cq-co-id-copy {
   display: flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 2px; flex-shrink: 0;
   background: var(--glass); border: 1px solid var(--gborder);
   cursor: pointer; color: var(--text-dim);
   font-size: 0.88rem; transition: all 0.22s;
@@ -770,7 +765,7 @@ const CSS = `
 .cq-co-nota {
   background: var(--glass);
 
-  border: 1px solid var(--gborder); border-radius: 22px;
+  border: 1px solid var(--gborder); border-radius: 2px;
   padding: 22px 24px;
 }
 .cq-co-nota-head {
@@ -786,7 +781,7 @@ const CSS = `
   font-size: 0.82rem;
 }
 .cq-co-nota-name  { flex: 1; color: var(--text); font-weight: 500; }
-.cq-co-nota-qty   { font-size: 0.68rem; color: var(--text-dim); background: var(--glass); border: 1px solid var(--gborder); padding: 2px 8px; border-radius: 99px; }
+.cq-co-nota-qty   { font-size: 0.68rem; color: var(--text-dim); background: var(--glass); border: 1px solid var(--gborder); padding: 2px 8px; border-radius: 2px; }
 .cq-co-nota-price { font-weight: 700; color: var(--text); min-width: 110px; text-align: right; }
 .cq-co-nota-divider { height: 1px; background: var(--border); margin: 16px 0; }
 .cq-co-nota-total {
@@ -799,7 +794,7 @@ const CSS = `
   display: flex; align-items: center; gap: 12px;
   padding: 14px 16px; margin-bottom: 16px;
   background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.22);
-  border-radius: 14px;
+  border-radius: 2px;
 }
 .cq-co-dp-badge > i { font-size: 1.1rem; color: var(--yellow); flex-shrink: 0; }
 .cq-co-dp-label  { font-size: 0.68rem; color: var(--text-dim); margin-bottom: 3px; }
@@ -808,7 +803,7 @@ const CSS = `
 .cq-co-nota-meta-row {
   display: flex; justify-content: space-between; align-items: center;
   font-size: 0.76rem; color: var(--text-dim); padding: 6px 10px;
-  background: var(--glass); border-radius: 8px;
+  background: var(--glass); border-radius: 2px;
 }
 .cq-co-nota-meta-row span:last-child { color: var(--text); font-weight: 500; text-align: right; }
 
@@ -816,7 +811,7 @@ const CSS = `
 .cq-co-qris-col {
   background: var(--glass);
 
-  border: 1px solid var(--gborder); border-radius: 22px;
+  border: 1px solid var(--gborder); border-radius: 2px;
   padding: 22px 20px; text-align: center;
   display: flex; flex-direction: column; gap: 14px; align-items: center;
 }
@@ -825,7 +820,7 @@ const CSS = `
   text-transform: uppercase; color: var(--accent3);
 }
 .cq-co-qris-frame {
-  width: 220px; height: 220px; border-radius: 16px; overflow: hidden;
+  width: 220px; height: 220px; border-radius: 2px; overflow: hidden;
   border: 2px solid var(--gborder2);
   background: var(--bg2);
   display: flex; align-items: center; justify-content: center;
@@ -838,7 +833,7 @@ const CSS = `
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   padding: 12px 18px; width: 100%;
   background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.2);
-  border-radius: 12px;
+  border-radius: 2px;
 }
 .cq-co-qris-amount span { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
 .cq-co-qris-amount strong { font-size: 1.05rem; font-weight: 700; color: var(--green); }
@@ -848,7 +843,7 @@ const CSS = `
   display: flex; align-items: center; justify-content: center; gap: 12px;
   width: 100%; padding: 18px;
   background: linear-gradient(135deg, #25d366 0%, #1da851 100%);
-  color: #fff; border-radius: 16px; text-decoration: none;
+  color: #fff; border-radius: 2px; text-decoration: none;
   font-family: var(--font-body);
   font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   transition: all 0.35s;
@@ -885,7 +880,7 @@ const CSS = `
 @media (max-width: 768px) {
   .cq-left  { padding: 24px 20px; }
   .cq-right { padding: 30px 16px 60px; }
-  .cq-card  { border-radius: 20px; }
+  .cq-card  { border-radius: 2px; }
   .cq-step-body { padding: 22px 20px 0; }
   .cq-step-counter { padding: 18px 20px 0; }
   .cq-nav   { padding: 18px 20px 24px; }
@@ -1273,7 +1268,7 @@ export default function Contact({ t = {} }) {
                   border: '1px solid rgba(239,68,68,0.2)',
                   color: '#f87171',
                   padding: '10px 24px',
-                  borderRadius: '99px',
+                  borderRadius: '2px',
                   cursor: 'pointer',
                   fontWeight: 600,
                   fontSize: '0.82rem',

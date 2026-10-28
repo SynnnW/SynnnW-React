@@ -356,7 +356,7 @@ const CLOUDEE_CSS = `
     background: rgba(255,255,255,0.96);
 
     color: #1a1a2e;
-    border-radius: 12px 12px 4px 12px;
+    border-radius: 2px 12px 4px 12px;
     padding: 9px 13px;
     max-width: 175px;
     font-size: 11.5px;
@@ -381,7 +381,7 @@ const CLOUDEE_CSS = `
   .cloudee-mini-btn {
     background: rgba(255,255,255,0.12);
     border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 99px;
+    border-radius: 2px;
     padding: 2px 7px;
     cursor: pointer;
     font-size: 9px;

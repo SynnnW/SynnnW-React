@@ -63,14 +63,14 @@ const CSS = `
 .wd-d1 { transition-delay: 0.1s; } .wd-d2 { transition-delay: 0.2s; } .wd-d3 { transition-delay: 0.3s; }
 .wd-page { background: var(--bg); min-height: 100vh; color: var(--text); font-family: var(--font-body); }
 .wd-hero { min-height: 72vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 140px 80px 72px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
-.wd-hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 55% at 85% 15%, rgba(99,102,241,0.14) 0%, transparent 60%), radial-gradient(ellipse 35% 45% at 10% 85%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%); }
+.wd-hero-bg { position: absolute; inset: 0; pointer-events: none; background: transparent, radial-gradient(ellipse 35% 45% at 10% 85%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%); }
 .wd-hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, var(--bg) 100%); }
 @keyframes wdOrbPulse { from{opacity:0.6;transform:scale(0.95)} to{opacity:1;transform:scale(1.1)} }
-.wd-hero-orb { position: absolute; top: -80px; right: -80px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%); filter: blur(50px); pointer-events: none; animation: wdOrbPulse 7s ease-in-out infinite alternate; }
+.wd-hero-orb { position: absolute; top: -80px; right: -80px; width: 420px; height: 420px; border-radius: 50%; background: transparent; filter: blur(50px); pointer-events: none; animation: wdOrbPulse 7s ease-in-out infinite alternate; }
 .wd-breadcrumb { font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 20px; position: relative; z-index: 1; }
 .wd-breadcrumb span { color: var(--accent2); }
 .wd-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; position: relative; z-index: 1; }
-.wd-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 99px; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.wd-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 2px; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
 .wd-badge-creative { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
 .wd-badge-competition { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); }
 .wd-hero-title { font-family: var(--font-display); font-size: clamp(4rem, 10vw, 10rem); font-weight: 300; line-height: 0.88; margin-bottom: 20px; position: relative; z-index: 1; letter-spacing: -0.02em; }
@@ -83,13 +83,13 @@ const CSS = `
 .wd-sec-label { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
 .wd-sec-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 300; line-height: 0.92; margin-bottom: 48px; }
 .wd-sec-title em { font-style: italic; color: var(--text-dim); }
-.wd-embed-wrap { border-radius: 22px; overflow: hidden; border: 1px solid var(--border); position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+.wd-embed-wrap { border-radius: 2px; overflow: hidden; border: 1px solid var(--border); position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
 .wd-embed-wrap iframe { display: block; width: 100%; aspect-ratio: 16/9; border: none; }
-.wd-lang-toggle { display: inline-flex; align-items: center; gap: 0; background: var(--glass); border: 1px solid var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 24px; }
+.wd-lang-toggle { display: inline-flex; align-items: center; gap: 0; background: var(--glass); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 24px; }
 .wd-lang-btn { padding: 7px 18px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: none; border: none; color: var(--text-dim); cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }
-.wd-lang-btn.active { background: var(--accent); color: var(--on-accent); border-radius: 99px; }
+.wd-lang-btn.active { background: var(--accent); color: var(--on-accent); border-radius: 2px; }
 .wd-desc { font-size: 0.92rem; line-height: 1.9; color: var(--text-dim); margin-bottom: 28px; max-width: 680px; }
-.wd-highlight-box { background: rgba(225,48,108,0.07); border: 1px solid rgba(225,48,108,0.22); border-left: 3px solid #e1306c; border-radius: 14px; padding: 24px 28px; margin-bottom: 28px; }
+.wd-highlight-box { background: rgba(225,48,108,0.07); border: 1px solid rgba(225,48,108,0.22); border-left: 3px solid #e1306c; border-radius: 2px; padding: 24px 28px; margin-bottom: 28px; }
 .wd-highlight-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #e1306c; margin-bottom: 8px; }
 .wd-highlight-text { font-size: 0.88rem; line-height: 1.85; color: var(--text-dim); margin: 0; }
 .wd-crew-table { width: 100%; border-collapse: collapse; }
@@ -99,9 +99,9 @@ const CSS = `
 .wd-crew-table tr:last-child td { border-bottom: none; }
 .wd-crew-role { color: var(--text-dim); font-size: 0.8rem; white-space: nowrap; }
 .wd-crew-name { color: var(--text); font-weight: 500; }
-.wd-back-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--glass2); border: 1px solid var(--border); border-radius: 99px; padding: 12px 24px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); cursor: pointer; font-family: var(--font-body); transition: all 0.25s; }
+.wd-back-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--glass2); border: 1px solid var(--border); border-radius: 2px; padding: 12px 24px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); cursor: pointer; font-family: var(--font-body); transition: all 0.25s; }
 .wd-back-btn:hover { border-color: var(--text); color: var(--text); }
-.wd-ig-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; border: none; border-radius: 99px; font-family: var(--font-body); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: all 0.25s; cursor: pointer; }
+.wd-ig-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; border: none; border-radius: 2px; font-family: var(--font-body); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: all 0.25s; cursor: pointer; }
 .wd-ig-btn:hover { opacity: 0.85; }
 .wd-ig-btn i { font-size: 0.9rem; }
 @media (max-width: 1024px) { .wd-hero { padding: 130px 40px 60px; } .wd-section { padding: 65px 40px; } }

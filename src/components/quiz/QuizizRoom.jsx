@@ -194,7 +194,7 @@ const CSS = `
 .mp-card {
   width: 100%; max-width: 560px;
   background: #0e0e1f; border: 1px solid rgba(139,123,255,0.2);
-  border-radius: 20px; padding: 28px 24px;
+  border-radius: 2px; padding: 28px 24px;
   box-shadow: 0 24px 80px rgba(0,0,0,0.6);
   position: relative; margin: auto;
 }
@@ -209,7 +209,7 @@ const CSS = `
 .mp-badge {
   display: inline-flex; align-items: center; gap: 6px;
   background: rgba(139,123,255,0.12); border: 1px solid rgba(139,123,255,0.3);
-  border-radius: 20px; padding: 4px 12px; font-size: 0.72rem;
+  border-radius: 2px; padding: 4px 12px; font-size: 0.72rem;
   font-weight: 700; color: #b0a4ff; letter-spacing: 0.1em; margin-bottom: 14px;
 }
 .mp-title {
@@ -219,7 +219,7 @@ const CSS = `
 .mp-subtitle { font-size: 0.85rem; color: #8888a0; margin-bottom: 24px; }
 .mp-btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 14px; border-radius: 12px;
+  width: 100%; padding: 14px; border-radius: 2px;
   font-size: 0.95rem; font-weight: 700; cursor: pointer;
   border: none; transition: all 0.2s;
 }
@@ -252,7 +252,7 @@ const CSS = `
 }
 .mp-input {
   width: 100%; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
   padding: 11px 14px; color: #e0e0ea; font-size: 0.9rem;
   font-family: inherit; outline: none; box-sizing: border-box;
   transition: border-color 0.2s;
@@ -264,14 +264,14 @@ const CSS = `
 }
 .mp-select {
   width: 100%; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
   padding: 11px 14px; color: #e0e0ea; font-size: 0.88rem;
   font-family: inherit; outline: none; cursor: pointer; box-sizing: border-box;
 }
 .mp-select option { background: #1a1a2e; }
 .mp-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .mp-subject-card {
-  padding: 14px; border-radius: 12px; cursor: pointer;
+  padding: 14px; border-radius: 2px; cursor: pointer;
   border: 2px solid rgba(255,255,255,0.08); transition: all 0.2s;
   background: rgba(255,255,255,0.03);
 }
@@ -284,7 +284,7 @@ const CSS = `
   text-align: center; font-size: 2.8rem; font-weight: 900;
   letter-spacing: 0.35em; color: #8b7bff;
   background: rgba(139,123,255,0.08); border: 2px dashed rgba(139,123,255,0.35);
-  border-radius: 14px; padding: 18px; margin: 16px 0;
+  border-radius: 2px; padding: 18px; margin: 16px 0;
   font-family: monospace;
 }
 .mp-room-hint { text-align: center; font-size: 0.78rem; color: #8888a0; margin-bottom: 20px; }
@@ -293,7 +293,7 @@ const CSS = `
 .mp-player-row {
   display: flex; align-items: center; gap: 12px;
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 10px; padding: 10px 13px;
+  border-radius: 2px; padding: 10px 13px;
 }
 .mp-player-avatar {
   width: 36px; height: 36px; border-radius: 50%;
@@ -302,16 +302,16 @@ const CSS = `
 }
 .mp-player-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .mp-player-name  { font-size: 0.88rem; font-weight: 600; color: #e0e0ea; flex: 1; }
-.mp-player-badge { font-size: 0.68rem; color: #b0a4ff; background: rgba(139,123,255,0.15); padding: 2px 8px; border-radius: 20px; }
+.mp-player-badge { font-size: 0.68rem; color: #b0a4ff; background: rgba(139,123,255,0.15); padding: 2px 8px; border-radius: 2px; }
 .mp-slot-empty {
   display: flex; align-items: center; gap: 12px;
   background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);
-  border-radius: 10px; padding: 10px 13px; color: rgba(140,140,160,0.4); font-size: 0.82rem;
+  border-radius: 2px; padding: 10px 13px; color: rgba(140,140,160,0.4); font-size: 0.82rem;
 }
 .mp-slot-dot { width: 36px; height: 36px; border-radius: 50%; border: 2px dashed rgba(255,255,255,0.1); flex-shrink: 0; }
 .mp-status-bar {
   display: flex; align-items: center; justify-content: space-between;
-  background: rgba(255,255,255,0.04); border-radius: 10px; padding: 12px 16px;
+  background: rgba(255,255,255,0.04); border-radius: 2px; padding: 12px 16px;
   margin-bottom: 16px;
 }
 .mp-status-label { font-size: 0.82rem; color: #8888a0; }
@@ -326,7 +326,7 @@ const CSS = `
 .mp-timer {
   font-size: 1.1rem; font-weight: 800; color: #10b981;
   background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
-  border-radius: 8px; padding: 4px 12px;
+  border-radius: 2px; padding: 4px 12px;
   transition: all 0.5s;
 }
 .mp-timer.warn   { color: #fbbf24; background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.3); }
@@ -344,7 +344,7 @@ const CSS = `
 }
 .mp-options { display: flex; flex-direction: column; gap: 9px; }
 .mp-option {
-  padding: 12px 15px; border-radius: 10px; cursor: pointer;
+  padding: 12px 15px; border-radius: 2px; cursor: pointer;
   border: 1.5px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.04); color: #d0d0e0; font-size: 0.86rem;
   text-align: left; transition: all 0.2s; font-family: inherit;
@@ -355,7 +355,7 @@ const CSS = `
 .mp-option.wrong    { background: rgba(239,68,68,0.1);   border-color: rgba(239,68,68,0.4);  color: #f87171; }
 .mp-option.locked   { cursor: not-allowed; }
 .mp-feedback {
-  margin-top: 14px; padding: 10px 14px; border-radius: 10px;
+  margin-top: 14px; padding: 10px 14px; border-radius: 2px;
   font-size: 0.85rem; font-weight: 600;
   display: flex; align-items: center; gap: 8px;
 }
@@ -364,7 +364,7 @@ const CSS = `
 .mp-next-btn {
   margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 11px; background: rgba(139,123,255,0.2);
-  border: 1px solid rgba(139,123,255,0.4); border-radius: 10px;
+  border: 1px solid rgba(139,123,255,0.4); border-radius: 2px;
   color: #b0a4ff; font-size: 0.88rem; font-weight: 700; cursor: pointer;
   font-family: inherit; transition: all 0.2s;
 }
@@ -380,7 +380,7 @@ const CSS = `
 .mp-lb-row {
   display: flex; align-items: center; gap: 12px;
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 10px; padding: 12px 14px;
+  border-radius: 2px; padding: 12px 14px;
 }
 .mp-lb-row.me { background: rgba(139,123,255,0.1); border-color: rgba(139,123,255,0.35); }
 .mp-lb-rank   { font-size: 1.3rem; width: 32px; text-align: center; flex-shrink: 0; }
@@ -391,12 +391,12 @@ const CSS = `
 /* Error */
 .mp-error {
   background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25);
-  border-radius: 10px; padding: 10px 14px; color: #f87171;
+  border-radius: 2px; padding: 10px 14px; color: #f87171;
   font-size: 0.83rem; margin: 10px 0;
 }
 .mp-warn-box {
   background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.3);
-  border-radius: 14px; padding: 20px; text-align: center;
+  border-radius: 2px; padding: 20px; text-align: center;
 }
 .mp-warn-icon { font-size: 2.5rem; margin-bottom: 12px; }
 .mp-warn-title { font-size: 1rem; font-weight: 700; color: #fbbf24; margin-bottom: 8px; }
@@ -413,7 +413,7 @@ const CSS = `
 /* Chip row */
 .mp-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0; }
 .mp-chip {
-  padding: 7px 14px; border-radius: 20px; cursor: pointer; font-size: 0.82rem; font-weight: 600;
+  padding: 7px 14px; border-radius: 2px; cursor: pointer; font-size: 0.82rem; font-weight: 600;
   border: 1.5px solid rgba(255,255,255,0.1); color: #a0a0c0; background: rgba(255,255,255,0.04);
   transition: all 0.15s;
 }
@@ -423,7 +423,7 @@ const CSS = `
 /* Passage teks untuk soal Reading */
 .mp-passage {
   background: rgba(94,234,212,0.06); border: 1px solid rgba(94,234,212,0.18);
-  border-radius: 10px; padding: 14px; margin-bottom: 14px;
+  border-radius: 2px; padding: 14px; margin-bottom: 14px;
   max-height: 200px; overflow-y: auto;
 }
 .mp-passage::-webkit-scrollbar { width: 4px; }
@@ -439,13 +439,13 @@ const CSS = `
 .mp-qris-box {
   margin-top: 20px; padding: 16px; text-align: center;
   background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
+  border-radius: 2px;
 }
 .mp-qris-title { font-size: 0.88rem; font-weight: 700; color: #e0e0ea; margin-bottom: 4px; }
 .mp-qris-sub   { font-size: 0.75rem; color: #8888a0; margin-bottom: 12px; }
 .mp-qris-img   {
   width: 180px; height: 180px; object-fit: contain;
-  border-radius: 10px; border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 2px; border: 2px solid rgba(255,255,255,0.1);
 }
 @media (max-width: 500px) {
   .mp-card { padding: 20px 16px; }
@@ -919,7 +919,7 @@ export default function MultiplayerRoom({ user, onClose }) {
             🚪 Gabung Room
           </button>
         </div>
-        <div style={{ marginTop: 20, padding: '14px', background: 'rgba(255,255,255,0.03)', borderRadius: 10, fontSize: '0.78rem', color: '#8888a0', lineHeight: 1.7 }}>
+        <div style={{ marginTop: 20, padding: '14px', background: 'rgba(255,255,255,0.03)', borderRadius: 2, fontSize: '0.78rem', color: '#8888a0', lineHeight: 1.7 }}>
           <strong style={{ color: '#c0c0d0' }}>Cara main:</strong><br />
           1. Host buat room & bagikan kode 6 huruf ke teman<br />
           2. Teman masukkan kode → masuk lobby<br />
@@ -1117,7 +1117,7 @@ export default function MultiplayerRoom({ user, onClose }) {
                 {loading ? '⏳ Memulai...' : canStart ? '▶ Mulai Kuis!' : `Minimal 2 pemain (${players.length}/${maxP})`}
               </button>
             ) : (
-              <div style={{ textAlign: 'center', color: '#8888a0', fontSize: '0.83rem', padding: '12px', background: 'rgba(255,255,255,0.03)', borderRadius: 10 }}>
+              <div style={{ textAlign: 'center', color: '#8888a0', fontSize: '0.83rem', padding: '12px', background: 'rgba(255,255,255,0.03)', borderRadius: 2 }}>
                 ⏳ Menunggu host memulai kuis...
               </div>
             )}
@@ -1238,7 +1238,7 @@ export default function MultiplayerRoom({ user, onClose }) {
         <div className="mp-subtitle">Menunggu pemain lain menyelesaikan soal...</div>
 
         {myScore && (
-          <div style={{ background: 'rgba(139,123,255,0.1)', border: '1px solid rgba(139,123,255,0.3)', borderRadius: 14, padding: '20px', margin: '20px 0' }}>
+          <div style={{ background: 'rgba(139,123,255,0.1)', border: '1px solid rgba(139,123,255,0.3)', borderRadius: 2, padding: '20px', margin: '20px 0' }}>
             <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#b0a4ff' }}>{myScore.score.toLocaleString()}</div>
             <div style={{ fontSize: '0.82rem', color: '#8888a0', marginTop: 6 }}>
               {myScore.correct} / {myScore.total} benar &nbsp;·&nbsp; rata-rata {myScore.avgTime}s
@@ -1290,7 +1290,7 @@ export default function MultiplayerRoom({ user, onClose }) {
             ))}
           </div>
 
-          <div style={{ marginTop: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', borderRadius: 10, fontSize: '0.75rem', color: '#8888a0', lineHeight: 1.6 }}>
+          <div style={{ marginTop: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', borderRadius: 2, fontSize: '0.75rem', color: '#8888a0', lineHeight: 1.6 }}>
             💡 Skor = (Benar/Total × 2000) + Bonus Kecepatan (max +500)
           </div>
 

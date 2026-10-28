@@ -67,14 +67,14 @@ const CSS = `
 .wd-d1 { transition-delay: 0.1s; } .wd-d2 { transition-delay: 0.2s; } .wd-d3 { transition-delay: 0.3s; }
 .wd-page { background: var(--bg); min-height: 100vh; color: var(--text); font-family: var(--font-body); }
 .wd-hero { min-height: 72vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 140px 80px 72px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
-.wd-hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 55% at 85% 15%, rgba(99,102,241,0.14) 0%, transparent 60%), radial-gradient(ellipse 35% 45% at 10% 85%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%); }
+.wd-hero-bg { position: absolute; inset: 0; pointer-events: none; background: transparent, radial-gradient(ellipse 35% 45% at 10% 85%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%); }
 .wd-hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, var(--bg) 100%); }
 @keyframes wdOrbPulse { from{opacity:0.6;transform:scale(0.95)} to{opacity:1;transform:scale(1.1)} }
-.wd-hero-orb { position: absolute; top: -80px; right: -80px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%); filter: blur(50px); pointer-events: none; animation: wdOrbPulse 7s ease-in-out infinite alternate; }
+.wd-hero-orb { position: absolute; top: -80px; right: -80px; width: 420px; height: 420px; border-radius: 50%; background: transparent; filter: blur(50px); pointer-events: none; animation: wdOrbPulse 7s ease-in-out infinite alternate; }
 .wd-breadcrumb { font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 20px; position: relative; z-index: 1; }
 .wd-breadcrumb span { color: var(--accent2); }
 .wd-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; position: relative; z-index: 1; }
-.wd-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 99px; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.wd-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 2px; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
 .wd-badge-film { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
 .wd-badge-video { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); }
 .wd-hero-title { font-family: var(--font-display); font-size: clamp(4rem, 10vw, 10rem); font-weight: 300; line-height: 0.88; margin-bottom: 20px; position: relative; z-index: 1; letter-spacing: -0.02em; }
@@ -87,17 +87,17 @@ const CSS = `
 .wd-sec-label { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
 .wd-sec-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 300; line-height: 0.92; margin-bottom: 48px; }
 .wd-sec-title em { font-style: italic; color: var(--text-dim); }
-.wd-yt-wrap { border-radius: 22px; overflow: hidden; border: 1px solid var(--border); position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+.wd-yt-wrap { border-radius: 2px; overflow: hidden; border: 1px solid var(--border); position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
 .wd-yt-wrap iframe { display: block; width: 100%; aspect-ratio: 16/9; border: none; }
 .wd-yt-footer { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
 .wd-yt-title-row { display: flex; flex-direction: column; gap: 2px; }
 .wd-yt-film-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; }
 .wd-yt-sub { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; }
-.wd-yt-link { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,0,0,0.1); border: 1px solid rgba(255,60,60,0.25); border-radius: 99px; padding: 7px 16px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff5555; text-decoration: none; transition: all 0.25s; }
+.wd-yt-link { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,0,0,0.1); border: 1px solid rgba(255,60,60,0.25); border-radius: 2px; padding: 7px 16px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ff5555; text-decoration: none; transition: all 0.25s; }
 .wd-yt-link:hover { background: rgba(255,0,0,0.18); color: #ff7777; }
-.wd-lang-toggle { display: inline-flex; align-items: center; gap: 0; background: var(--glass); border: 1px solid var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 24px; }
+.wd-lang-toggle { display: inline-flex; align-items: center; gap: 0; background: var(--glass); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 24px; }
 .wd-lang-btn { padding: 7px 18px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: none; border: none; color: var(--text-dim); cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }
-.wd-lang-btn.active { background: var(--accent); color: var(--on-accent); border-radius: 99px; }
+.wd-lang-btn.active { background: var(--accent); color: var(--on-accent); border-radius: 2px; }
 .wd-desc { font-size: 0.92rem; line-height: 1.9; color: var(--text-dim); margin-bottom: 28px; max-width: 680px; }
 .wd-crew-table { width: 100%; border-collapse: collapse; }
 .wd-crew-table th { text-align: left; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); padding: 0 16px 14px; border-bottom: 1px solid var(--border); }
@@ -107,10 +107,10 @@ const CSS = `
 .wd-crew-role { color: var(--text-dim); font-size: 0.8rem; white-space: nowrap; }
 .wd-crew-name { color: var(--text); font-weight: 500; }
 .wd-cast-list { display: flex; flex-wrap: wrap; gap: 10px; }
-.wd-cast-pill { background: var(--glass); border: 1px solid var(--border2); border-radius: 99px; padding: 7px 16px; font-size: 0.72rem; color: var(--text-dim); }
-.wd-back-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--glass2); border: 1px solid var(--border); border-radius: 99px; padding: 12px 24px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); cursor: pointer; font-family: var(--font-body); transition: all 0.25s; }
+.wd-cast-pill { background: var(--glass); border: 1px solid var(--border2); border-radius: 2px; padding: 7px 16px; font-size: 0.72rem; color: var(--text-dim); }
+.wd-back-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--glass2); border: 1px solid var(--border); border-radius: 2px; padding: 12px 24px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); cursor: pointer; font-family: var(--font-body); transition: all 0.25s; }
 .wd-back-btn:hover { border-color: var(--text); color: var(--text); }
-.wd-smt-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(225,48,108,0.08); border: 1px solid rgba(225,48,108,0.22); border-radius: 14px; padding: 12px 18px; text-decoration: none; transition: all 0.25s; color: #e1306c; }
+.wd-smt-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(225,48,108,0.08); border: 1px solid rgba(225,48,108,0.22); border-radius: 2px; padding: 12px 18px; text-decoration: none; transition: all 0.25s; color: #e1306c; }
 .wd-smt-badge:hover { background: rgba(225,48,108,0.15); border-color: rgba(225,48,108,0.4); }
 .wd-smt-badge i { font-size: 1.1rem; }
 .wd-smt-badge span { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; }

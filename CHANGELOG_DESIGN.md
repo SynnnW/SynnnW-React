@@ -10,6 +10,8 @@ Aturan: Makrab, supabase/, api/, supabaseClient.js, logika auth/backend TIDAK di
 - Phase 5: NotFound (404 raksasa + marquee + Magnetic); Footer (marquee + jam WIB).
 - Glass: backdrop-filter dihapus di luar Navbar.
 
+- Sweep 2: radius tajam, gradient dekoratif dibuang, neon shadow dibuang di semua halaman (Makrab, Navbar, backend tidak disentuh).
+
 ## Belum dikerjakan
 - WorkDetailLayout bersama, horizontal-scroll gallery, About/PriceList/Contact/Journal layout ulang, Navbar (ada tombol Makrab), RollLink belum dipasang di Navbar/Footer, Lenis stop saat modal.
 - Warna kategori/status (merah, hijau, pink, cyan) di beberapa halaman belum dinetralkan.

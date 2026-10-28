@@ -19,12 +19,12 @@ const CSS = `
 }
 .ck-orb1 {
   width: 600px; height: 600px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 65%);
+  background: transparent;
   top: -200px; left: -200px;
 }
 .ck-orb2 {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 65%);
+  background: transparent;
   bottom: -100px; right: -100px;
 }
 
@@ -84,7 +84,7 @@ const CSS = `
 /* Summary card */
 .ck-summary-card {
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 20px; overflow: hidden;
+  border-radius: 2px; overflow: hidden;
 
 }
 .ck-summary-items {
@@ -99,7 +99,7 @@ const CSS = `
 }
 .ck-summary-item:last-child { border-bottom: none; }
 .ck-sum-icon {
-  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 2px; flex-shrink: 0;
   background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.85rem; color: var(--accent3);
@@ -138,7 +138,7 @@ const CSS = `
 /* Order ID */
 .ck-orderid-box {
   background: var(--glass2); border: 1px solid var(--gborder);
-  border-radius: 16px; padding: 16px 20px;
+  border-radius: 2px; padding: 16px 20px;
   display: flex; flex-direction: column; gap: 8px;
 }
 .ck-orderid-label {
@@ -158,7 +158,7 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 6px;
   padding: 7px 14px;
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 99px; cursor: pointer;
+  border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.68rem; font-weight: 700;
   color: var(--text-dim); transition: all 0.25s;
@@ -188,7 +188,7 @@ const CSS = `
   display: flex; align-items: center; gap: 8px;
   padding: 10px 16px;
   background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.2);
-  border-radius: 99px; width: fit-content;
+  border-radius: 2px; width: fit-content;
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
   color: rgba(74,222,128,0.9);
   font-variant-numeric: tabular-nums;
@@ -204,7 +204,7 @@ const CSS = `
 /* QRIS Card */
 .ck-qris-card {
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 24px; overflow: hidden;
+  border-radius: 2px; overflow: hidden;
 
 }
 .ck-qris-header {
@@ -233,7 +233,7 @@ const CSS = `
 .ck-qr-placeholder {
   width: 220px; height: 220px;
   background: #f1f5f9; border: 2px dashed #cbd5e1;
-  border-radius: 12px;
+  border-radius: 2px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 8px; text-align: center; padding: 16px;
 }
@@ -276,7 +276,7 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 14px;
   background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25);
-  border-radius: 99px;
+  border-radius: 2px;
   font-size: 0.66rem; font-weight: 800; letter-spacing: 0.12em;
   color: #f59e0b;
 }
@@ -304,7 +304,7 @@ const CSS = `
   display: flex; align-items: center; gap: 16px;
   padding: 18px 22px;
   background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.3);
-  border-radius: 18px; cursor: pointer;
+  border-radius: 2px; cursor: pointer;
   text-decoration: none;
   transition: all 0.3s;
   position: relative; overflow: hidden;
@@ -338,7 +338,7 @@ const CSS = `
   display: flex; align-items: flex-start; gap: 10px;
   padding: 12px 16px;
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 12px;
+  border-radius: 2px;
   font-size: 0.7rem; color: var(--text-dim); line-height: 1.65;
 }
 .ck-wa-note i { color: var(--accent3); font-size: 0.72rem; margin-top: 1px; flex-shrink: 0; }
@@ -347,7 +347,7 @@ const CSS = `
 .ck-mock-confirm {
   padding: 16px 20px;
   background: color-mix(in srgb, var(--accent) 6%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-  border-radius: 14px;
+  border-radius: 2px;
   font-size: 0.75rem; color: var(--text-dim); line-height: 1.7;
 }
 .ck-mock-confirm i { color: var(--accent3); margin-right: 6px; }
@@ -373,7 +373,7 @@ const CSS = `
   margin-top: 6px;
 }
 .ck-step-ico {
-  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  width: 34px; height: 34px; border-radius: 2px; flex-shrink: 0;
   background: var(--glass2); border: 1px solid var(--gborder);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.82rem; color: var(--text-dim);
@@ -387,7 +387,7 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 7px;
   padding: 8px 16px;
   background: var(--glass2); border: 1px solid var(--gborder);
-  border-radius: 99px; cursor: pointer;
+  border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--text-dim);

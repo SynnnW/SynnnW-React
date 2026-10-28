@@ -354,7 +354,7 @@ const CSS = `
 .cp-orb-1 {
   width: 500px; height: 500px;
   top: -150px; right: -80px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%);
+  background: transparent;
 }
 .cp-orb-2 {
   width: 400px; height: 400px;
@@ -374,7 +374,7 @@ const CSS = `
 .cp-card {
   background: var(--glass, rgba(255,255,255,0.04));
   border: 1px solid var(--gborder, rgba(255,255,255,0.08));
-  border-radius: 24px;
+  border-radius: 2px;
   padding: 48px 44px;
   width: 100%;
   max-width: 480px;
@@ -392,7 +392,7 @@ const CSS = `
   gap: 9px;
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-  border-radius: 10px;
+  border-radius: 2px;
   padding: 11px 16px;
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -425,7 +425,7 @@ const CSS = `
   gap: 12px;
   background: var(--glass2, rgba(255,255,255,0.07));
   border: 1px solid var(--gborder, rgba(255,255,255,0.08));
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 14px 16px;
   margin-bottom: 24px;
 }
@@ -491,7 +491,7 @@ const CSS = `
   gap: 10px;
   background: rgba(248,113,113,0.09);
   border: 1px solid rgba(248,113,113,0.28);
-  border-radius: 10px;
+  border-radius: 2px;
   padding: 12px 15px;
   font-family: var(--font-body);
   font-size: 0.82rem;
@@ -531,7 +531,7 @@ const CSS = `
   color: var(--text-dim, #64605a);
   background: var(--glass2, rgba(255,255,255,0.07));
   border: 1px solid var(--gborder, rgba(255,255,255,0.08));
-  border-radius: 99px;
+  border-radius: 2px;
   padding: 2px 9px;
 }
 
@@ -539,7 +539,7 @@ const CSS = `
 .cp-input {
   background: var(--glass, rgba(255,255,255,0.04));
   border: 1px solid var(--gborder, rgba(255,255,255,0.08));
-  border-radius: 10px;
+  border-radius: 2px;
   padding: 13px 16px;
   color: var(--text, #f0ede8);
   font-family: var(--font-body);
@@ -552,7 +552,7 @@ const CSS = `
   outline: none;
   border-color: var(--accent3, var(--accent));
   background: var(--glass2, rgba(255,255,255,0.07));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow: none;
 }
 .cp-input:disabled { opacity: 0.55; cursor: not-allowed; }
 .cp-input-readonly {
@@ -576,7 +576,7 @@ const CSS = `
   flex-shrink: 0;
   background: var(--glass, rgba(255,255,255,0.04));
   border: 1px solid var(--gborder, rgba(255,255,255,0.08));
-  border-radius: 10px;
+  border-radius: 2px;
   padding: 13px 10px;
   color: var(--text, #f0ede8);
   font-family: var(--font-body);
@@ -589,7 +589,7 @@ const CSS = `
   outline: none;
   border-color: var(--accent3, var(--accent));
   background: var(--glass2, rgba(255,255,255,0.07));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow: none;
 }
 .cp-select:disabled { opacity: 0.55; cursor: not-allowed; }
 .cp-select option { background: #1a1a2e; color: #f0ede8; }
@@ -652,9 +652,9 @@ const CSS = `
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: linear-gradient(135deg, var(--accent, var(--accent)) 0%, var(--accent2, var(--accent)) 100%);
+  background: var(--accent);
   border: none;
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 15px 20px;
   color: #fff;
   font-family: var(--font-body);
@@ -664,11 +664,11 @@ const CSS = `
   cursor: pointer;
   transition: all 0.3s;
   margin-top: 6px;
-  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 30%, transparent);
+  box-shadow: none;
 }
 .cp-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 14px 38px color-mix(in srgb, var(--accent) 42%, transparent);
+  box-shadow: none;
 }
 .cp-btn:disabled {
   opacity: 0.65;
@@ -689,7 +689,7 @@ const CSS = `
 
 /* Mobile */
 @media (max-width: 520px) {
-  .cp-card { padding: 36px 24px; border-radius: 18px; }
+  .cp-card { padding: 36px 24px; border-radius: 2px; }
   .cp-title { font-size: 2rem; }
   .cp-phone-row { flex-direction: column; }
   .cp-select { width: 100%; }

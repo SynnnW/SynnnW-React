@@ -86,13 +86,13 @@ const BIM_CSS = `
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 .bim-sb-quizbtn {
-  width: 100%; background: linear-gradient(135deg,var(--accent),var(--accent));
-  color: #fff; border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; padding: .68rem;
+  width: 100%; background: var(--accent);
+  color: #fff; border: 1px solid rgba(255,255,255,0.16); border-radius: 2px; padding: .68rem;
   cursor: pointer; font-weight: 700; font-size: 13px; font-family: inherit;
   transition: transform .2s, box-shadow .2s;
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 1px 0 rgba(255,255,255,0.18);
+  box-shadow: none;
 }
-.bim-sb-quizbtn:hover { transform: translateY(-1px); box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 40%, transparent), inset 0 1px 0 rgba(255,255,255,0.2); }
+.bim-sb-quizbtn:hover { transform: translateY(-1px); box-shadow: none; }
 
 /* ─── Mobile toggle ─── */
 .bim-mobile-bar {
@@ -102,7 +102,7 @@ const BIM_CSS = `
 .bim-mobile-toggler {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 999px; padding: .5rem .9rem; cursor: pointer;
+  border-radius: 2px; padding: .5rem .9rem; cursor: pointer;
   font-size: 13px; color: var(--text, #f0ede8); font-family: inherit;
   font-weight: 600; transition: all .2s;
   box-shadow: 0 4px 14px rgba(0,0,0,0.2);
@@ -129,7 +129,7 @@ const BIM_CSS = `
   background: rgba(255,255,255,0.04);
 
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
+  border-radius: 2px; padding: 1.5rem; margin-bottom: 1.5rem;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .bim-card-accent { border-top: 2px solid var(--accent, var(--accent)); }
@@ -152,7 +152,7 @@ const BIM_CSS = `
   font-family: var(--font-display), Georgia, serif;
   font-size: clamp(1.6rem, 4vw, 2.1rem); font-weight: 700;
   margin: 0 0 .4rem;
-  background: linear-gradient(135deg, var(--accent2, var(--accent)), var(--accent3, var(--accent)));
+  background: var(--accent);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 .bim-h2 {
@@ -165,12 +165,12 @@ const BIM_CSS = `
 
 /* ─── Badges ─── */
 .bim-badge {
-  display: inline-block; padding: 2px 10px; border-radius: 99px;
+  display: inline-block; padding: 2px 10px; border-radius: 2px;
   font-size: 11px; font-weight: 700; letter-spacing: .5px;
 }
 
 /* ─── Accordion ─── */
-.bim-acc { border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; margin-bottom: .6rem; }
+.bim-acc { border: 1px solid rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; margin-bottom: .6rem; }
 .bim-acc-btn {
   width: 100%; background: rgba(255,255,255,0.04); border: none; padding: .85rem 1rem;
   text-align: left; cursor: pointer; font-weight: 600; font-size: 13.5px;
@@ -185,24 +185,24 @@ const BIM_CSS = `
 /* ─── Boxes ─── */
 .bim-example {
   background: rgba(94,234,212,.07); border: 1px solid rgba(94,234,212,.2);
-  border-radius: 8px; padding: .75rem 1rem; margin-top: .5rem; font-size: 13.5px;
+  border-radius: 2px; padding: .75rem 1rem; margin-top: .5rem; font-size: 13.5px;
 }
 .bim-example-label { font-size: 10.5px; font-weight: 700; color: #5eead4; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
 .bim-warning {
   background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.25);
-  border-radius: 8px; padding: .75rem 1rem; margin-top: .5rem; font-size: 13.5px;
+  border-radius: 2px; padding: .75rem 1rem; margin-top: .5rem; font-size: 13.5px;
 }
 .bim-warning-label { font-size: 10.5px; font-weight: 700; color: #fbbf24; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
 .bim-tip {
   background: rgba(52,211,153,.07); border: 1px solid rgba(52,211,153,.2);
-  border-radius: 8px; padding: .65rem 1rem; margin-top: .5rem; font-size: 13.5px;
+  border-radius: 2px; padding: .65rem 1rem; margin-top: .5rem; font-size: 13.5px;
 }
 .bim-rule {
-  border-radius: 10px; padding: 1rem; margin-bottom: .65rem;
+  border-radius: 2px; padding: 1rem; margin-bottom: .65rem;
 }
 
 /* ─── Table ─── */
-.bim-table-wrap { overflow-x: auto; margin-bottom: 1.25rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.07); }
+.bim-table-wrap { overflow-x: auto; margin-bottom: 1.25rem; border-radius: 2px; border: 1px solid rgba(255,255,255,0.07); }
 .bim-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .bim-th {
   background: rgba(255,255,255,0.06); padding: 9px 12px; text-align: left;
@@ -214,12 +214,12 @@ const BIM_CSS = `
 .bim-tr:last-child .bim-td { border-bottom: none; }
 
 /* ─── Sample Question ─── */
-.bim-q-wrap { border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 1rem; margin-bottom: .75rem; background: rgba(255,255,255,0.03); }
-.bim-q-passage { background: rgba(255,255,255,0.05); border-radius: 8px; padding: .75rem 1rem; font-size: 13px; line-height: 1.7; margin-bottom: .75rem; white-space: pre-line; }
+.bim-q-wrap { border: 1px solid rgba(255,255,255,0.07); border-radius: 2px; padding: 1rem; margin-bottom: .75rem; background: rgba(255,255,255,0.03); }
+.bim-q-passage { background: rgba(255,255,255,0.05); border-radius: 2px; padding: .75rem 1rem; font-size: 13px; line-height: 1.7; margin-bottom: .75rem; white-space: pre-line; }
 .bim-q-text { font-weight: 600; margin-bottom: .65rem; font-size: 14px; line-height: 1.55; }
 .bim-q-opts { display: flex; flex-direction: column; gap: 6px; }
 .bim-q-opt {
-  padding: .55rem .85rem; border-radius: 8px;
+  padding: .55rem .85rem; border-radius: 2px;
   border: 1.5px solid rgba(255,255,255,0.09);
   background: rgba(255,255,255,0.04); color: var(--text, #f0ede8);
   font-size: 13.5px; text-align: left; cursor: pointer;
@@ -233,7 +233,7 @@ const BIM_CSS = `
 .bim-q-opt.locked  { cursor: default; }
 .bim-q-actions { display: flex; gap: 8px; margin-top: .75rem; flex-wrap: wrap; }
 .bim-q-check {
-  background: var(--accent, var(--accent)); color: #fff; border: none; border-radius: 8px;
+  background: var(--accent, var(--accent)); color: #fff; border: none; border-radius: 2px;
   padding: .45rem 1.2rem; cursor: pointer; font-size: 13px; font-weight: 600;
   font-family: inherit; transition: opacity .2s;
 }
@@ -241,20 +241,20 @@ const BIM_CSS = `
 .bim-q-check:not(:disabled):hover { opacity: .85; }
 .bim-q-retry {
   background: rgba(255,255,255,0.06); color: var(--text-dim, #64605a);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
   padding: .45rem 1rem; cursor: pointer; font-size: 13px; font-family: inherit;
   transition: background .2s;
 }
 .bim-q-retry:hover { background: rgba(255,255,255,0.1); }
 .bim-q-explanation {
   flex: 1; background: rgba(94,234,212,.07); border: 1px solid rgba(94,234,212,.2);
-  border-radius: 8px; padding: .5rem 1rem; font-size: 13px; line-height: 1.55; color: #5eead4;
+  border-radius: 2px; padding: .5rem 1rem; font-size: 13px; line-height: 1.55; color: #5eead4;
   min-width: 0;
 }
 
 /* ─── Input / Search ─── */
 .bim-search {
-  width: 100%; padding: .65rem 1rem; border-radius: 10px;
+  width: 100%; padding: .65rem 1rem; border-radius: 2px;
   border: 1px solid rgba(255,255,255,0.09); outline: none;
   background: rgba(255,255,255,0.05); color: var(--text, #f0ede8);
   font-size: 14px; font-family: inherit; margin-bottom: .85rem;
@@ -266,38 +266,38 @@ const BIM_CSS = `
 /* ─── Vocab card ─── */
 .bim-vocab-card {
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 10px; padding: .9rem 1.1rem;
+  border-radius: 2px; padding: .9rem 1.1rem;
 }
 .bim-vocab-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
 .bim-vocab-word { font-size: 15px; font-weight: 700; color: var(--text, #f0ede8); }
-.bim-vocab-arti { font-size: 11.5px; color: var(--text-dim, #64605a); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 99px; }
+.bim-vocab-arti { font-size: 11.5px; color: var(--text-dim, #64605a); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 2px; }
 .bim-vocab-ex { font-size: 13px; color: var(--text-dim, #64605a); font-style: italic; line-height: 1.6; }
 
 /* ─── Step badges ─── */
 .bim-step-row { display: flex; gap: .75rem; margin-bottom: .55rem; align-items: flex-start; }
-.bim-step-badge { padding: 2px 10px; border-radius: 99px; font-size: 11.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex-shrink: 0; }
+.bim-step-badge { padding: 2px 10px; border-radius: 2px; font-size: 11.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex-shrink: 0; }
 
 /* ─── Landing ─── */
 .bim-land-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1rem; }
-.bim-land-cat { border-radius: 14px; padding: 1.25rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); transition: border-color .2s, transform .2s; }
+.bim-land-cat { border-radius: 2px; padding: 1.25rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); transition: border-color .2s, transform .2s; }
 .bim-land-cat:hover { transform: translateY(-2px); }
 .bim-land-cat-icon { font-size: 22px; margin-bottom: 4px; }
 .bim-land-cat-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
 .bim-land-cat-desc { font-size: 12.5px; color: var(--text-dim, #64605a); margin-bottom: 1rem; line-height: 1.55; }
 .bim-land-cat-btn {
-  width: 100%; border: none; border-radius: 8px; padding: .55rem;
+  width: 100%; border: none; border-radius: 2px; padding: .55rem;
   cursor: pointer; font-weight: 700; font-size: 13px; font-family: inherit;
   transition: opacity .2s;
 }
 .bim-land-cat-btn:hover { opacity: .85; }
-.bim-search-results { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; }
+.bim-search-results { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 2px; margin-bottom: 1rem; overflow: hidden; }
 .bim-search-result-btn { width: 100%; background: none; border: none; padding: .6rem 1rem; text-align: left; cursor: pointer; font-size: 13.5px; color: var(--text, #f0ede8); display: flex; gap: 8px; align-items: center; font-family: inherit; transition: background .2s; }
 .bim-search-result-btn:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
 
 /* ─── Nav buttons (prev/next) ─── */
 .bim-nav-row { display: flex; gap: .75rem; margin-top: .5rem; }
 .bim-nav-btn {
-  flex: 1; border-radius: 10px; padding: .7rem; cursor: pointer;
+  flex: 1; border-radius: 2px; padding: .7rem; cursor: pointer;
   font-size: 13px; font-weight: 600; font-family: inherit; transition: opacity .2s;
 }
 .bim-nav-btn:hover { opacity: .82; }
@@ -307,7 +307,7 @@ const BIM_CSS = `
 /* ─── Disclaimer ─── */
 .bim-disclaimer {
   background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.3);
-  border-radius: 10px; padding: .75rem 1rem; margin-bottom: 1.25rem;
+  border-radius: 2px; padding: .75rem 1rem; margin-bottom: 1.25rem;
   font-size: 13px; display: flex; gap: .5rem; align-items: flex-start;
   line-height: 1.55; color: #b45309;
 }
@@ -315,7 +315,7 @@ const BIM_CSS = `
 
 /* ─── Gerund columns (dark-safe) ─── */
 .bim-ger-col {
-  border-radius: 10px; padding: 1rem;
+  border-radius: 2px; padding: 1rem;
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
 }
 .bim-ger-list { font-size: 13px; line-height: 1.85; margin: 0; padding-left: 1.1rem; }
@@ -528,7 +528,7 @@ function TopicVerbForms() {
           <button key={f} onClick={() => setFilter(f)}
             style={{ background: filter === f ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
               color: filter === f ? '#fff' : '#8a857e',
-              border: 'none', borderRadius: 8, padding: '.4rem 1rem',
+              border: 'none', borderRadius: 2, padding: '.4rem 1rem',
               cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}>
             {f === 'all' ? 'Semua' : f === 'regular' ? 'Regular' : 'Irregular'}
           </button>
@@ -1109,7 +1109,7 @@ Despite the many challenges, Dina finds her work deeply meaningful. She believes
 
   return (
     <div>
-      <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '1.25rem 1.5rem', marginBottom: '1.5rem', lineHeight: 1.8, fontSize: 14, whiteSpace: 'pre-line' }}>
+      <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 2, padding: '1.25rem 1.5rem', marginBottom: '1.5rem', lineHeight: 1.8, fontSize: 14, whiteSpace: 'pre-line' }}>
         <div style={{ fontWeight: 700, color: '#8a857e', marginBottom: '.75rem', fontSize: 11, letterSpacing: .5, textTransform: 'uppercase' }}>
           TEKS BACAAN — Nurse Dina (Long Text)
         </div>
@@ -1232,16 +1232,16 @@ function LandingDashboard({ onSelectTopic, progress, navigate }) {
       <div style={{ display: 'flex', gap: '.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
         <button onClick={() => navigate('/quiziz/bahasainggris')}
           style={{ flex: 1, minWidth: 180, background: 'linear-gradient(135deg,var(--accent),var(--accent))',
-            color: '#fff', border: 'none', borderRadius: 12, padding: '.85rem 1.2rem',
+            color: '#fff', border: 'none', borderRadius: 2, padding: '.85rem 1.2rem',
             cursor: 'pointer', fontWeight: 800, fontSize: 15, display: 'flex',
             alignItems: 'center', justifyContent: 'center', gap: 8,
-            fontFamily: 'inherit', boxShadow: '0 4px 20px color-mix(in srgb, var(--accent) 30%, transparent)' }}>
+            fontFamily: 'inherit', boxShadow: 'none' }}>
           ✏️ Langsung ke Kuis
         </button>
         <button onClick={() => onSelectTopic('tenses')}
           style={{ flex: 1, minWidth: 180, background: 'rgba(255,255,255,0.05)',
             color: 'var(--text, #f0ede8)', border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 12, padding: '.85rem 1.2rem',
+            borderRadius: 2, padding: '.85rem 1.2rem',
             cursor: 'pointer', fontWeight: 700, fontSize: 15, display: 'flex',
             alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'inherit' }}>
           📚 Mulai dari Grammar
@@ -1408,7 +1408,7 @@ export default function BahasaInggrisMateri() {
                 {progress[activeTopic]
                   ? <Badge color="#34d399">✓ Selesai dibaca</Badge>
                   : <button onClick={() => selectTopic(activeTopic)}
-                      style={{ background: 'none', border: `1px solid ${catColor}44`, borderRadius: 99,
+                      style={{ background: 'none', border: `1px solid ${catColor}44`, borderRadius: 2,
                         padding: '2px 12px', fontSize: 11.5, fontWeight: 700, color: catColor,
                         cursor: 'pointer', fontFamily: 'inherit' }}>
                       Tandai Selesai

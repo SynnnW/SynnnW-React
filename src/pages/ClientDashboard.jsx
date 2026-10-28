@@ -93,7 +93,7 @@ const CSS = `
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: 2px;
   border: none;
   background: none;
   color: var(--text-muted);
@@ -129,7 +129,7 @@ const CSS = `
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: 2px;
   border: 1px solid rgba(239,68,68,0.2);
   background: rgba(239,68,68,0.06);
   color: #f87171;
@@ -155,7 +155,7 @@ const CSS = `
 .db-notif-bell {
   background: none;
   border: 1px solid var(--gborder);
-  border-radius: 10px;
+  border-radius: 2px;
   width: 36px;
   height: 36px;
   display: flex;
@@ -179,7 +179,7 @@ const CSS = `
   font-weight: 700;
   min-width: 16px;
   height: 16px;
-  border-radius: 99px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -195,7 +195,7 @@ const CSS = `
   overflow-y: auto;
   background: #0d0d1a;
   border: 1px solid var(--gborder2);
-  border-radius: 14px;
+  border-radius: 2px;
   box-shadow: 0 16px 40px rgba(0,0,0,0.5);
   z-index: 200;
 }
@@ -234,7 +234,7 @@ const CSS = `
 .db-notif-icon {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,7 +286,7 @@ const CSS = `
 .db-stat-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 14px;
+  border-radius: 2px;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -301,7 +301,7 @@ const CSS = `
 .db-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 20px;
+  border-radius: 2px;
   padding: 24px;
   margin-bottom: 20px;
 }
@@ -324,7 +324,7 @@ const CSS = `
   align-items: center;
   gap: 6px;
   padding: 9px 18px;
-  border-radius: 10px;
+  border-radius: 2px;
   border: 1px solid var(--gborder);
   background: var(--glass);
   color: var(--text-dim);
@@ -338,7 +338,7 @@ const CSS = `
 .db-btn:hover { background: var(--glass2); color: var(--text); }
 
 .db-btn.primary {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
+  background: var(--accent);
   color: white;
   border: none;
 }
@@ -431,7 +431,7 @@ const CSS = `
 .db-order-card {
   background: var(--glass);
   border: 1px solid var(--gborder);
-  border-radius: 14px;
+  border-radius: 2px;
   padding: 18px;
   display: flex;
   justify-content: space-between;
@@ -448,7 +448,7 @@ const CSS = `
   align-items: center;
   gap: 5px;
   padding: 4px 10px;
-  border-radius: 99px;
+  border-radius: 2px;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -465,7 +465,7 @@ const CSS = `
 .db-admin-note {
   background: color-mix(in srgb, var(--accent) 6%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-  border-radius: 14px;
+  border-radius: 2px;
   padding: 18px;
 }
 
@@ -524,7 +524,7 @@ const CSS = `
 
 .db-video-player-wrap {
   background: #000;
-  border-radius: 12px;
+  border-radius: 2px;
   overflow: hidden;
   border: 1px solid var(--gborder);
 }
@@ -611,7 +611,7 @@ const CSS = `
 .db-img-frame {
   background: var(--glass);
   border: 1px solid var(--gborder);
-  border-radius: 10px;
+  border-radius: 2px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -631,7 +631,7 @@ const CSS = `
 .db-empty-state {
   background: var(--glass);
   border: 1px dashed var(--gborder2);
-  border-radius: 16px;
+  border-radius: 2px;
   padding: 40px 24px;
   text-align: center;
 }
@@ -665,7 +665,7 @@ const CSS = `
 .db-invoice-card {
   background: var(--glass);
   border: 1px dashed color-mix(in srgb, var(--accent) 20%, transparent);
-  border-radius: 14px;
+  border-radius: 2px;
   padding: 18px 20px;
   display: flex;
   justify-content: space-between;
@@ -704,7 +704,7 @@ const CSS = `
   min-height: 100px;
   background: var(--glass);
   border: 1px solid var(--gborder2);
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 12px 14px;
   color: var(--text);
   font-family: var(--font-body);
@@ -721,7 +721,7 @@ const CSS = `
   width: 100%;
   background: var(--glass);
   border: 1px solid var(--gborder2);
-  border-radius: 10px;
+  border-radius: 2px;
   padding: 10px 14px;
   color: var(--text);
   font-family: var(--font-body);
@@ -759,7 +759,7 @@ const CSS = `
   position: absolute;
   inset: 0;
   background: #334155;
-  border-radius: 22px;
+  border-radius: 2px;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -933,7 +933,7 @@ function DriveVideoPlayer({ url, label }) {
 
   return (
     <div style={{ marginBottom: 24 }}>
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000', borderRadius: 2, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
         {/* Drive iframe - langsung bisa diklik */}
         <iframe
           ref={iframeRef}
@@ -1556,7 +1556,7 @@ export default function ClientDashboard() {
                   <div style={{
                     width: '100%',
                     aspectRatio: '16 / 9',
-                    borderRadius: '12px',
+                    borderRadius: '2px',
                     overflow: 'hidden',
                     border: '1px solid rgba(34,197,94,0.2)',
                     background: '#000',
@@ -1568,7 +1568,7 @@ export default function ClientDashboard() {
                         width: '100%',
                         height: '100%',
                         border: 'none',
-                        borderRadius: '12px'
+                        borderRadius: '2px'
                       }}
                       allowFullScreen
                       allow="fullscreen"
@@ -1600,7 +1600,7 @@ export default function ClientDashboard() {
                 <div className="db-card-title"><i className="fa-solid fa-paper-plane" /> Kirim Brief / Pesan ke Admin</div>
                 {existingBrief && !briefEditMode ? (
                   <>
-                    <div style={{ background: 'color-mix(in srgb, var(--accent) 6%, transparent)', border: '1px solid color-mix(in srgb, var(--accent) 15%, transparent)', borderRadius: '12px', padding: '14px', marginBottom: '12px' }}>
+                    <div style={{ background: 'color-mix(in srgb, var(--accent) 6%, transparent)', border: '1px solid color-mix(in srgb, var(--accent) 15%, transparent)', borderRadius: '2px', padding: '14px', marginBottom: '12px' }}>
                       <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent3)', marginBottom: '6px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Brief terakhir Anda:</p>
                       <p style={{ fontSize: '0.88rem', color: 'var(--text-dim)', margin: '0 0 6px' }}>{existingBrief.notes}</p>
                       {existingBrief.driveLink && <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Link: {existingBrief.driveLink}</p>}
@@ -1780,7 +1780,7 @@ export default function ClientDashboard() {
                       <img
                         src={dc.qrisImageUrl}
                         alt="QRIS"
-                        style={{ width: '250px', borderRadius: '12px', marginBottom: '14px', display: 'block' }}
+                        style={{ width: '250px', borderRadius: '2px', marginBottom: '14px', display: 'block' }}
                       />
                     )}
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '14px' }}>
@@ -1924,7 +1924,7 @@ export default function ClientDashboard() {
                   <select
                     value={lang}
                     onChange={e => { setLang(e.target.value); saveSettings('lang', e.target.value); }}
-                    style={{ background: 'var(--glass)', border: '1px solid var(--gborder)', borderRadius: '8px', padding: '6px 10px', color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.82rem', cursor: 'pointer' }}
+                    style={{ background: 'var(--glass)', border: '1px solid var(--gborder)', borderRadius: '2px', padding: '6px 10px', color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.82rem', cursor: 'pointer' }}
                   >
                     <option value="id">Indonesia</option>
                     <option value="en">English</option>
@@ -1953,7 +1953,7 @@ export default function ClientDashboard() {
           <div style={{
             background: 'rgba(255,255,255,0.04)',
             border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 24, padding: '32px 28px',
+            borderRadius: 2, padding: '32px 28px',
             maxWidth: 380, width: '100%', textAlign: 'center',
           }}>
             <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>
@@ -1974,7 +1974,7 @@ export default function ClientDashboard() {
               {[0,1,2,3].map(i => (
                 <div key={i} style={{
                   width: i === onboardingStep ? 20 : 6, height: 6,
-                  borderRadius: 99, background: i === onboardingStep ? 'var(--accent)' : 'rgba(255,255,255,0.2)',
+                  borderRadius: 2, background: i === onboardingStep ? 'var(--accent)' : 'rgba(255,255,255,0.2)',
                   transition: 'width 0.3s ease',
                 }} />
               ))}
@@ -1984,7 +1984,7 @@ export default function ClientDashboard() {
               style={{
                 width: '100%', padding: '12px 0',
                 background: 'linear-gradient(135deg, var(--accent), var(--accent))',
-                border: 'none', borderRadius: 99,
+                border: 'none', borderRadius: 2,
                 color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.9rem',
                 cursor: 'pointer',
               }}

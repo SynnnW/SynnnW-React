@@ -41,7 +41,7 @@ const CSS = `
 .sw-input  {
   width: 100%; background: rgba(255,255,255,0.045);
 
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 2px;
   padding: 12px 15px; color: var(--text, #e0e0ea);
   font-size: 0.88rem; font-family: inherit; outline: none;
   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; box-sizing: border-box;
@@ -52,7 +52,7 @@ const CSS = `
 .sw-btn {
   align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;
   background: linear-gradient(135deg, #8b7bff, #6d5df0);
-  border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; padding: 11px 24px;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 2px; padding: 11px 24px;
   color: #fff; font-size: 0.88rem; font-weight: 700;
   cursor: pointer; transition: all 0.2s;
   box-shadow: 0 8px 24px rgba(139,123,255,0.32), inset 0 1px 0 rgba(255,255,255,0.18);
@@ -70,7 +70,7 @@ const CSS = `
   display: flex; align-items: center; gap: 8px;
   background: rgba(34,197,94,0.1);
   border: 1px solid rgba(34,197,94,0.28);
-  border-radius: 12px; padding: 13px 16px;
+  border-radius: 2px; padding: 13px 16px;
   color: #4ade80; font-size: 0.88rem; font-weight: 600;
   box-shadow: 0 6px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
 }
@@ -78,7 +78,7 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 8px;
   background: rgba(251,191,36,0.12);
   border: 1px solid rgba(251,191,36,0.38);
-  color: #fbbf24; border-radius: 999px; padding: 10px 20px;
+  color: #fbbf24; border-radius: 2px; padding: 10px 20px;
   font-size: 0.85rem; font-weight: 700; text-decoration: none;
   cursor: pointer; transition: all 0.2s;
 }
@@ -89,13 +89,13 @@ const CSS = `
   background: rgba(255,255,255,0.045);
 
   border: 1px solid rgba(255,255,255,0.11);
-  border-radius: 18px; padding: 20px; text-align: center; width: 100%; max-width: 280px;
+  border-radius: 2px; padding: 20px; text-align: center; width: 100%; max-width: 280px;
   box-shadow: 0 10px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.07);
 }
 .sw-qris-card h4 { color: var(--text, #e0e0ea); margin-bottom: 6px; font-size: 0.95rem; }
 .sw-qris-card p  { color: var(--text-dim, #8888a0); font-size: 0.8rem; line-height: 1.5; margin-bottom: 12px; }
 .sw-qris-img {
-  width: 160px; max-width: 100%; border-radius: 14px; cursor: pointer;
+  width: 160px; max-width: 100%; border-radius: 2px; cursor: pointer;
   border: 1px solid rgba(255,255,255,0.12);
   transition: transform 0.2s; display: block; margin: 0 auto 12px;
 }
@@ -105,7 +105,7 @@ const CSS = `
 
   display: flex; align-items: center; justify-content: center; z-index: 9999; cursor: zoom-out; padding: 20px;
 }
-.sw-qris-full img { max-width: 100%; max-height: 90dvh; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.sw-qris-full img { max-width: 100%; max-height: 90dvh; border-radius: 2px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
 
 /* Admin feed */
 .sw-admin-feed  { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
@@ -113,7 +113,7 @@ const CSS = `
   background: rgba(255,255,255,0.045);
 
   border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 12px; padding: 13px 15px;
+  border-radius: 2px; padding: 13px 15px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .sw-saran-head  { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }

@@ -88,7 +88,7 @@ function ImageModal({ src, onClose }) {
           onMouseLeave={(e) => { e.currentTarget.style.background="var(--bg3)"; e.currentTarget.style.color="var(--text)"; }}>
           <i className="fa-solid fa-xmark" />
         </button>
-        <img src={src} alt="Preview" style={{ maxWidth:"90%", maxHeight:"90vh", objectFit:"contain", borderRadius:"16px", boxShadow:"0 25px 60px rgba(0,0,0,0.75)", animation:"k1ImgIn 0.3s ease" }} loading="lazy" />
+        <img src={src} alt="Preview" style={{ maxWidth:"90%", maxHeight:"90vh", objectFit:"contain", borderRadius:"2px", boxShadow:"0 25px 60px rgba(0,0,0,0.75)", animation:"k1ImgIn 0.3s ease" }} loading="lazy" />
       </div>
     </div>
   );
@@ -144,7 +144,7 @@ export default function WorkDetail1({ t = {} }) {
         @keyframes k1Bounce  { 0%,100%{transform:translateY(0)}50%{transform:translateY(6px)} }
 
         .k1-gal-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:18px; margin-bottom:24px; }
-        .k1-gal-item { position:relative; border-radius:20px; overflow:hidden; background:var(--bg3); border:1px solid var(--border); transition:transform 0.4s ease,border-color 0.4s ease; cursor:pointer; }
+        .k1-gal-item { position:relative; border-radius:2px; overflow:hidden; background:var(--bg3); border:1px solid var(--border); transition:transform 0.4s ease,border-color 0.4s ease; cursor:pointer; }
         .k1-gal-item:hover { transform:translateY(-6px); border-color:color-mix(in srgb, var(--accent) 35%, transparent); }
         .k1-gal-laptop-lg   { grid-column:span 4; aspect-ratio:16/9; }
         .k1-gal-laptop-half { grid-column:span 3; aspect-ratio:16/9; }
@@ -155,25 +155,25 @@ export default function WorkDetail1({ t = {} }) {
         .k1-gal-ph { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%); color:var(--text-dim); font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; min-height:120px; }
         .k1-gal-ph i { font-size:2rem; opacity:0.18; }
 
-        .k1-feat-card { background:var(--bg3); border:1px solid var(--border); border-radius:22px; padding:34px 30px; transition:all 0.35s ease; position:relative; overflow:hidden; }
-        .k1-feat-card::before { content:''; position:absolute; inset:0; border-radius:22px; background:radial-gradient(ellipse 80% 60% at 50% 0%,color-mix(in srgb, var(--accent) 9%, transparent) 0%,transparent 65%); pointer-events:none; opacity:0; transition:opacity 0.35s; }
+        .k1-feat-card { background:var(--bg3); border:1px solid var(--border); border-radius:2px; padding:34px 30px; transition:all 0.35s ease; position:relative; overflow:hidden; }
+        .k1-feat-card::before { content:''; position:absolute; inset:0; border-radius:2px; background:transparent; pointer-events:none; opacity:0; transition:opacity 0.35s; }
         .k1-feat-card:hover::before { opacity:1; }
         .k1-feat-card:hover { border-color:color-mix(in srgb, var(--accent) 30%, transparent); transform:translateY(-5px); box-shadow:0 20px 50px rgba(0,0,0,0.35); }
 
-        .k1-tech-item { background:var(--bg3); border:1px solid var(--border); border-radius:18px; padding:28px 24px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; transition:all 0.3s ease; }
+        .k1-tech-item { background:var(--bg3); border:1px solid var(--border); border-radius:2px; padding:28px 24px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; transition:all 0.3s ease; }
         .k1-tech-item:hover { border-color:color-mix(in srgb, var(--accent) 30%, transparent); background:var(--bg2); transform:translateY(-4px); }
 
-        .k1-tag { background:var(--bg3); border:1px solid var(--border2); border-radius:99px; padding:7px 16px; font-size:0.62rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); transition:all 0.25s; cursor:default; }
+        .k1-tag { background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:7px 16px; font-size:0.62rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); transition:all 0.25s; cursor:default; }
         .k1-tag:hover { border-color:var(--accent3); color:var(--accent3); background:var(--bg2); }
 
-        .k1-proj-nav { display:flex; align-items:center; gap:18px; background:transparent; border:1px solid var(--border); border-radius:18px; padding:22px 28px; color:var(--text); transition:all 0.3s ease; cursor:pointer; font-family:var(--font-body); flex:1; max-width:320px; }
+        .k1-proj-nav { display:flex; align-items:center; gap:18px; background:transparent; border:1px solid var(--border); border-radius:2px; padding:22px 28px; color:var(--text); transition:all 0.3s ease; cursor:pointer; font-family:var(--font-body); flex:1; max-width:320px; }
         .k1-proj-nav:hover { border-color:color-mix(in srgb, var(--accent) 35%, transparent); background:var(--bg2); transform:translateY(-3px); box-shadow:0 12px 36px rgba(0,0,0,0.3); }
 
-        .k1-social-btn { width:48px; height:48px; border-radius:12px; border:1px solid var(--border2); background:var(--bg2); color:var(--text-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; font-size:1.1rem; }
+        .k1-social-btn { width:48px; height:48px; border-radius:2px; border:1px solid var(--border2); background:var(--bg2); color:var(--text-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; font-size:1.1rem; }
         .k1-social-btn:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-3px); }
 
-        .k1-cta-btn { display:inline-flex; align-items:center; gap:10px; background:var(--accent); color: var(--on-accent); border:none; border-radius:99px; padding:15px 40px; font-size:0.74rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s ease; cursor:pointer; box-shadow:0 8px 28px color-mix(in srgb, var(--accent) 35%, transparent); position:relative; z-index:1; font-family:var(--font-body); }
-        .k1-cta-btn:hover { background:var(--accent2); transform:scale(1.05); box-shadow:0 14px 40px color-mix(in srgb, var(--accent) 45%, transparent); }
+        .k1-cta-btn { display:inline-flex; align-items:center; gap:10px; background:var(--accent); color: var(--on-accent); border:none; border-radius:2px; padding:15px 40px; font-size:0.74rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s ease; cursor:pointer; box-shadow:none; position:relative; z-index:1; font-family:var(--font-body); }
+        .k1-cta-btn:hover { background:var(--accent2); transform:scale(1.05); box-shadow:none; }
 
         /* Responsive */
         @media (max-width:1200px) {
@@ -229,7 +229,7 @@ export default function WorkDetail1({ t = {} }) {
               <span style={{ color:"var(--text-dim)", fontSize:"0.5rem" }}><i className="fa-solid fa-chevron-right" /></span>
               <span style={{ fontSize:"0.62rem", fontWeight:600, letterSpacing:"0.2em", textTransform:"uppercase", color:"var(--accent2)" }}>Web Design</span>
             </div>
-            <div className="reveal rv-d1" style={{ display:"inline-block", background:"var(--glass2)", border:"1px solid var(--gborder2)", borderRadius:"99px", padding:"6px 18px", fontSize:"0.6rem", fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--accent3)", marginBottom:"22px" }}>
+            <div className="reveal rv-d1" style={{ display:"inline-block", background:"var(--glass2)", border:"1px solid var(--gborder2)", borderRadius:"2px", padding:"6px 18px", fontSize:"0.6rem", fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--accent3)", marginBottom:"22px" }}>
               {t.k1HeroCat || 'Web Development & AI Integration'}
             </div>
             <h1 className="reveal rv-d2" style={{ fontFamily:"var(--font-display)", fontSize:"clamp(3.5rem, 9vw, 8.5rem)", fontWeight:300, lineHeight:0.9, marginBottom:"24px" }}>
@@ -239,7 +239,7 @@ export default function WorkDetail1({ t = {} }) {
             <p className="reveal rv-d3" style={{ fontSize:"0.92rem", color:"var(--text-dim)", maxWidth:"500px", lineHeight:1.78, marginBottom:"36px" }}>
               {t.k1HeroSub || ''}
             </p>
-            <div className="reveal rv-d3" style={{ display:"flex", alignItems:"center", background:"var(--glass)", border:"1px solid var(--gborder)", borderRadius:"16px", padding:"20px 28px", width:"fit-content" }}>
+            <div className="reveal rv-d3" style={{ display:"flex", alignItems:"center", background:"var(--glass)", border:"1px solid var(--gborder)", borderRadius:"2px", padding:"20px 28px", width:"fit-content" }}>
               {[
                 { label: t.karyaYearLabel||'Year',     val: "2026" },
                 { label: t.karyaRoleLabel||'Role',     val: t.k1HeroRoleVal||'Developer & Designer' },
@@ -280,7 +280,7 @@ export default function WorkDetail1({ t = {} }) {
         </section>
 
         {/* ── STATS BAR ── */}
-        <div className="reveal k1-stats-bar" style={{ margin:"0 80px", background:"var(--bg3)", border:"1px solid var(--border)", borderRadius:"20px", display:"flex", alignItems:"center", justifyContent:"space-around", padding:"40px 60px" }}>
+        <div className="reveal k1-stats-bar" style={{ margin:"0 80px", background:"var(--bg3)", border:"1px solid var(--border)", borderRadius:"2px", display:"flex", alignItems:"center", justifyContent:"space-around", padding:"40px 60px" }}>
           {[
             { num:"11", label: t.k1Stat1Label||'Pages' },
             { num:"2",  label: t.k1Stat2Label||'Built-in Games' },
@@ -326,7 +326,7 @@ export default function WorkDetail1({ t = {} }) {
           <div className="k1-feat-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"20px" }}>
             {FEATURES.map((f, i) => (
               <div key={i} className={`k1-feat-card reveal${i%3 ? ` rv-d${i%3}` : ""}`}>
-                <div style={{ width:"46px", height:"46px", borderRadius:"14px", background:"var(--glass2)", border:"1px solid var(--gborder2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.1rem", color:"var(--accent2)", marginBottom:"20px" }}>
+                <div style={{ width:"46px", height:"46px", borderRadius:"2px", background:"var(--glass2)", border:"1px solid var(--gborder2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.1rem", color:"var(--accent2)", marginBottom:"20px" }}>
                   <i className={f.icon} />
                 </div>
                 <h3 style={{ fontFamily:"var(--font-display)", fontSize:"1.2rem", fontWeight:600, marginBottom:"12px", lineHeight:1.2 }}>{f.name}</h3>
@@ -397,7 +397,7 @@ export default function WorkDetail1({ t = {} }) {
 
         {/* ── CTA ── */}
         <div className="reveal" style={{ padding:"60px 80px 100px" }}>
-          <div className="k1-cta-inner" style={{ background:"var(--bg3)", border:"1px solid var(--border)", borderRadius:"28px", padding:"70px 80px", position:"relative", overflow:"hidden", textAlign:"center" }}>
+          <div className="k1-cta-inner" style={{ background:"var(--bg3)", border:"1px solid var(--border)", borderRadius:"2px", padding:"70px 80px", position:"relative", overflow:"hidden", textAlign:"center" }}>
             <div style={{ position:"absolute", top:"-60px", left:"50%", transform:"translateX(-50%)", width:"400px", height:"200px", background:"radial-gradient(ellipse,color-mix(in srgb, var(--accent) 22%, transparent) 0%,transparent 70%)", pointerEvents:"none" }} />
             <div style={{ position:"absolute", top:0, left:"15%", right:"15%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(167,139,250,0.5),transparent)" }} />
             <p style={{ fontSize:"0.65rem", fontWeight:600, letterSpacing:"0.28em", textTransform:"uppercase", color:"var(--accent2)", marginBottom:"16px", position:"relative", zIndex:1 }}>
@@ -416,7 +416,7 @@ export default function WorkDetail1({ t = {} }) {
                 <i className="fa-solid fa-arrow-up-right" />
               </button>
               <a href="https://synnnw.github.io/apa aja/" target="_blank" rel="noopener noreferrer"
-                style={{ display:"inline-flex", alignItems:"center", gap:"10px", background:"var(--glass2)", color:"var(--text)", border:"1px solid var(--gborder2)", borderRadius:"99px", padding:"14px 30px", fontSize:"0.74rem", fontWeight:700, letterSpacing:"0.15em", textTransform:"uppercase", textDecoration:"none", transition:"all 0.3s ease" }}>
+                style={{ display:"inline-flex", alignItems:"center", gap:"10px", background:"var(--glass2)", color:"var(--text)", border:"1px solid var(--gborder2)", borderRadius:"2px", padding:"14px 30px", fontSize:"0.74rem", fontWeight:700, letterSpacing:"0.15em", textTransform:"uppercase", textDecoration:"none", transition:"all 0.3s ease" }}>
                 <i className="fa-solid fa-eye" />
                 <span>{t.k1CTABtnDemo||'View Live Demo'}</span>
               </a>

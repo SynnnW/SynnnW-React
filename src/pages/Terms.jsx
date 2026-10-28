@@ -28,7 +28,7 @@ const CSS = `
 /* ══════ TERMS — gaya bento (pakai kit .bn dari bento.css) ══════ */
 .tos-page.bn { padding-top: 112px; }
 .tos-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.tos-meta-pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border-radius: 99px; font-size: 0.72rem; color: var(--text-dim); background: var(--glass2); border: 1px solid var(--border2); }
+.tos-meta-pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border-radius: 2px; font-size: 0.72rem; color: var(--text-dim); background: var(--glass2); border: 1px solid var(--border2); }
 .tos-meta-pill i { color: var(--accent2); font-size: 0.68rem; }
 .tos-hot-btn { color: #fff; border-color: rgba(255,255,255,0.55); align-self: flex-start; }
 .tos-hot-btn:hover { background: rgba(255,255,255,0.18); border-color: #fff; }
@@ -39,7 +39,7 @@ const CSS = `
 .tos-toc-brand { font-size: 1.05rem; font-weight: 500; padding: 0 10px; }
 .tos-toc-brand span { color: var(--accent2); }
 .tos-toc-sub { display: block; padding: 2px 10px 14px; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
-.tos-toc-item { display: flex; gap: 10px; align-items: baseline; padding: 9px 10px; border-radius: 12px; text-decoration: none; transition: background 0.2s; }
+.tos-toc-item { display: flex; gap: 10px; align-items: baseline; padding: 9px 10px; border-radius: 2px; text-decoration: none; transition: background 0.2s; }
 .tos-toc-item:hover { background: var(--glass2); }
 .tos-toc-item.active { background: var(--accent); }
 .tos-toc-num { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--text-dim); }
@@ -49,7 +49,7 @@ const CSS = `
 /* ── Tab mobile (chip scroll horizontal) ── */
 .tos-mobile-tabs { display: none; position: sticky; top: 68px; z-index: 40; margin: 0 calc(var(--bn-pad) * -1); padding: 8px var(--bn-pad); background: var(--nav-bg);border-bottom: 1px solid var(--border); overflow-x: auto; gap: 8px; scrollbar-width: none; }
 .tos-mobile-tabs::-webkit-scrollbar { display: none; }
-.tos-mobile-tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 99px; font-size: 0.76rem; text-decoration: none; color: var(--text-dim); border: 1px solid var(--border2); background: var(--glass); }
+.tos-mobile-tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 2px; font-size: 0.76rem; text-decoration: none; color: var(--text-dim); border: 1px solid var(--border2); background: var(--glass); }
 .tos-mobile-tab.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
 /* ── Konten: tiap section = kartu bento ── */
@@ -67,7 +67,7 @@ const CSS = `
 
 /* Langkah-langkah */
 .tos-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
-.tos-step { display: flex; gap: 14px; padding: 16px; border-radius: 20px; background: var(--glass2); border: 1px solid var(--border2); }
+.tos-step { display: flex; gap: 14px; padding: 16px; border-radius: 2px; background: var(--glass2); border: 1px solid var(--border2); }
 .tos-step-num { flex: 0 0 34px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 0.82rem; font-weight: 600; color: var(--on-accent); background: var(--accent); }
 .tos-step-title { font-size: 0.92rem; font-weight: 600; margin: 0 0 4px; }
 .tos-step-desc { font-size: 0.82rem; line-height: 1.6; color: var(--text-dim); margin: 0; }
@@ -75,14 +75,14 @@ const CSS = `
 /* Definisi: grid kartu kecil (bukan tabel, biar nggak melebar di HP) */
 .tos-def-table, .tos-def-table tbody { display: block; width: 100%; }
 .tos-def-table tbody { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.tos-def-table tr { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 18px; background: var(--glass2); border: 1px solid var(--border2); }
+.tos-def-table tr { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 2px; background: var(--glass2); border: 1px solid var(--border2); }
 .tos-def-table td { display: block; padding: 0; font-size: 0.86rem; line-height: 1.6; color: var(--text-dim); }
 .tos-def-table td:first-child { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; color: var(--accent2); }
 
-.tos-legal { display: inline-block; padding: 2px 9px; border-radius: 99px; font-size: 0.78rem; color: var(--accent2); background: var(--glass2); border: 1px solid var(--border2); max-width: 100%; overflow-wrap: anywhere; }
+.tos-legal { display: inline-block; padding: 2px 9px; border-radius: 2px; font-size: 0.78rem; color: var(--accent2); background: var(--glass2); border: 1px solid var(--border2); max-width: 100%; overflow-wrap: anywhere; }
 .tos-legal-link { color: var(--accent2); text-decoration: underline dotted; text-underline-offset: 3px; overflow-wrap: anywhere; }
 
-.tos-infobox { display: flex; gap: 12px; padding: 14px 18px; border-radius: 20px; margin-bottom: 16px; font-size: 0.88rem; line-height: 1.65; color: var(--text-dim); }
+.tos-infobox { display: flex; gap: 12px; padding: 14px 18px; border-radius: 2px; margin-bottom: 16px; font-size: 0.88rem; line-height: 1.65; color: var(--text-dim); }
 .tos-infobox i { flex: 0 0 auto; margin-top: 3px; }
 .tos-infobox.purple { background: color-mix(in srgb, var(--accent) 9%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); } .tos-infobox.purple i { color: var(--accent2); }
 .tos-infobox.yellow { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.25); } .tos-infobox.yellow i { color: #fbbf24; }

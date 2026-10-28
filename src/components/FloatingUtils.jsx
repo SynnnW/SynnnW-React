@@ -82,7 +82,7 @@ export default function FloatingUtils() {
         background: color-mix(in srgb, var(--accent) 12%, transparent);
         border: 1.5px solid color-mix(in srgb, var(--accent) 32%, transparent);
         color: var(--accent);
-        box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 16%, transparent);
+        box-shadow: none;
         opacity: 0;
         transform: translateY(12px) scale(0.8);
         pointer-events: none;
@@ -99,7 +99,7 @@ export default function FloatingUtils() {
       .fu-btn.top-btn:hover {
         background: color-mix(in srgb, var(--accent) 18%, transparent);
         border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-        box-shadow: 0 6px 24px color-mix(in srgb, var(--accent) 28%, transparent);
+        box-shadow: none;
       }
 
       /* Tooltip — hover */
@@ -118,7 +118,7 @@ export default function FloatingUtils() {
         font-weight: 600;
         white-space: nowrap;
         padding: 7px 11px;
-        border-radius: 8px;
+        border-radius: 2px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         opacity: 0;
         pointer-events: none;

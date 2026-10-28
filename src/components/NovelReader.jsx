@@ -12,11 +12,11 @@ const CSS = `
 .nvr-root { max-width: 640px; margin: 0 auto; font-family: 'Inter','Segoe UI',system-ui,sans-serif; color: #f4f4f6; }
 .nvr-bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 10px;
   background: rgba(7,7,9,0.92);padding: 10px 4px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.nvr-back { background: none; border: 1px solid rgba(255,255,255,0.15); color: #8d8d99; border-radius: 10px;
+.nvr-back { background: none; border: 1px solid rgba(255,255,255,0.15); color: #8d8d99; border-radius: 2px;
   padding: 7px 12px; cursor: pointer; font-size: 12.5px; white-space: nowrap; }
 .nvr-chtitle { flex: 1; font-weight: 700; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nvr-fontbtn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #c9c9d2;
-  border-radius: 8px; width: 28px; height: 28px; cursor: pointer; font-size: 13px; line-height: 1; }
+  border-radius: 2px; width: 28px; height: 28px; cursor: pointer; font-size: 13px; line-height: 1; }
 .nvr-progress { height: 3px; background: rgba(255,255,255,0.08); }
 .nvr-progress-fill { height: 100%; background: linear-gradient(90deg,#8b7bff,#5eead4); transition: width 0.15s; }
 .nvr-page { padding: 28px 18px 72px; }
@@ -25,7 +25,7 @@ const CSS = `
 .nvr-body p { line-height: 1.9; margin-bottom: 1.1em; color: #e3e3e9; }
 .nvr-nav { display: flex; gap: 10px; margin-top: 32px; }
 .nvr-nav button { flex: 1; background: rgba(139,123,255,0.08); border: 1px solid rgba(139,123,255,0.3); color: #b0a4ff;
-  border-radius: 12px; padding: 12px; cursor: pointer; font-size: 13px; font-weight: 600; }
+  border-radius: 2px; padding: 12px; cursor: pointer; font-size: 13px; font-weight: 600; }
 .nvr-nav button:disabled { opacity: 0.35; cursor: default; }
 `;
 

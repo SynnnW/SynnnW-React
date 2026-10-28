@@ -78,7 +78,7 @@ function ToastItem({ toast, onRemove }) {
         padding: '14px 16px',
         background: cfg.bg,
         border: `1px solid ${cfg.border}`,
-        borderRadius: '14px',
+        borderRadius: '2px',
         cursor: 'pointer',
         userSelect: 'none',
 

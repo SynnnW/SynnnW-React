@@ -84,7 +84,7 @@ const CSS = `
 .wd-hero-bg {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 55% 55% at 85% 15%, rgba(99,102,241,0.14) 0%, transparent 60%),
+    transparent,
     radial-gradient(ellipse 35% 45% at 10% 85%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
 }
 .wd-hero-bg::after {
@@ -96,7 +96,7 @@ const CSS = `
 .wd-hero-orb {
   position: absolute; top: -80px; right: -80px;
   width: 420px; height: 420px; border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%);
+  background: transparent;
   filter: blur(50px); pointer-events: none;
   animation: wdOrbPulse 7s ease-in-out infinite alternate;
 }
@@ -111,7 +111,7 @@ const CSS = `
 }
 .wd-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 14px; border-radius: 99px;
+  padding: 5px 14px; border-radius: 2px;
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
 }
 .wd-badge-film { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
@@ -144,7 +144,7 @@ const CSS = `
 
 /* ── YouTube embed ── */
 .wd-yt-wrap {
-  border-radius: 22px; overflow: hidden;
+  border-radius: 2px; overflow: hidden;
   border: 1px solid var(--border);
   position: relative;
   box-shadow: 0 24px 60px rgba(0,0,0,0.5);
@@ -163,7 +163,7 @@ const CSS = `
 .wd-yt-link {
   display: inline-flex; align-items: center; gap: 7px;
   background: rgba(255,0,0,0.1); border: 1px solid rgba(255,60,60,0.25);
-  border-radius: 99px; padding: 7px 16px;
+  border-radius: 2px; padding: 7px 16px;
   font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   color: #ff5555; text-decoration: none;
   transition: all 0.25s;
@@ -175,7 +175,7 @@ const CSS = `
 .wd-award-card {
   display: flex; align-items: center; gap: 14px;
   background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.22);
-  border-radius: 16px; padding: 16px 22px;
+  border-radius: 2px; padding: 16px 22px;
   flex: 1; min-width: 220px;
 }
 .wd-award-icon { font-size: 1.8rem; flex-shrink: 0; }
@@ -187,7 +187,7 @@ const CSS = `
 .wd-lang-toggle {
   display: inline-flex; align-items: center; gap: 0;
   background: var(--glass); border: 1px solid var(--border);
-  border-radius: 99px; overflow: hidden; margin-bottom: 24px;
+  border-radius: 2px; overflow: hidden; margin-bottom: 24px;
 }
 .wd-lang-btn {
   padding: 7px 18px; font-size: 0.65rem; font-weight: 700;
@@ -195,14 +195,14 @@ const CSS = `
   background: none; border: none; color: var(--text-dim); cursor: pointer;
   transition: all 0.2s; font-family: var(--font-body);
 }
-.wd-lang-btn.active { background: var(--accent); color: var(--on-accent); border-radius: 99px; }
+.wd-lang-btn.active { background: var(--accent); color: var(--on-accent); border-radius: 2px; }
 
 /* ── Description + synopsis ── */
 .wd-desc { font-size: 0.92rem; line-height: 1.9; color: var(--text-dim); margin-bottom: 28px; max-width: 680px; }
 .wd-synopsis-box {
   background: color-mix(in srgb, var(--accent) 5%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-left: 3px solid var(--accent2);
-  border-radius: 14px; padding: 24px 28px;
+  border-radius: 2px; padding: 24px 28px;
   margin-top: 28px;
 }
 .wd-synopsis-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent2); margin-bottom: 10px; }
@@ -229,7 +229,7 @@ const CSS = `
 .wd-cast-list { display: flex; flex-wrap: wrap; gap: 10px; }
 .wd-cast-pill {
   background: var(--glass); border: 1px solid var(--border2);
-  border-radius: 99px; padding: 7px 16px;
+  border-radius: 2px; padding: 7px 16px;
   font-size: 0.72rem; color: var(--text-dim);
 }
 
@@ -237,7 +237,7 @@ const CSS = `
 .wd-smt-badge {
   display: inline-flex; align-items: center; gap: 10px;
   background: rgba(225,48,108,0.08); border: 1px solid rgba(225,48,108,0.22);
-  border-radius: 14px; padding: 12px 18px;
+  border-radius: 2px; padding: 12px 18px;
   text-decoration: none; transition: all 0.25s;
   color: #e1306c;
 }
@@ -249,7 +249,7 @@ const CSS = `
 .wd-back-btn {
   display: inline-flex; align-items: center; gap: 10px;
   background: var(--glass2); border: 1px solid var(--border);
-  border-radius: 99px; padding: 12px 24px;
+  border-radius: 2px; padding: 12px 24px;
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text-dim); cursor: pointer; font-family: var(--font-body);
   transition: all 0.25s;
@@ -260,7 +260,7 @@ const CSS = `
 .wd-solo-card {
   background: rgba(34,211,170,0.06);
   border: 1px solid rgba(34,211,170,0.22);
-  border-radius: 16px; padding: 22px 26px; margin-bottom: 36px;
+  border-radius: 2px; padding: 22px 26px; margin-bottom: 36px;
   display: flex; align-items: flex-start; gap: 14px;
 }
 .wd-solo-card i { color: #2dd4bf; font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }

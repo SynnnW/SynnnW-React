@@ -19,9 +19,9 @@ const CSS = `
 
 /* ── Orbs ── */
 .pl-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(90px); }
-.pl-orb1 { width: 520px; height: 520px; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 13%, transparent) 0%, transparent 65%); top: -140px; left: -120px; }
+.pl-orb1 { width: 520px; height: 520px; background: transparent; top: -140px; left: -120px; }
 .pl-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(167,139,250,0.09) 0%, transparent 65%); bottom: -80px; right: 5%; }
-.pl-orb3 { width: 220px; height: 220px; background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 65%); top: 45%; left: 45%; }
+.pl-orb3 { width: 220px; height: 220px; background: transparent; top: 45%; left: 45%; }
 
 /* ── Hero ── */
 .pl-hero {
@@ -46,7 +46,7 @@ const CSS = `
   display: inline-flex; align-items: center; gap: 8px;
   padding: 8px 16px;
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 99px; font-size: 0.72rem; font-weight: 600;
+  border-radius: 2px; font-size: 0.72rem; font-weight: 600;
   color: var(--text-dim); letter-spacing: 0.04em;
 }
 .pl-hero-pill i { color: var(--accent3); font-size: 0.68rem; }
@@ -65,15 +65,15 @@ const CSS = `
   display: flex; align-items: center; gap: 12px;
   padding: 14px 22px;
   background: var(--accent); color: var(--on-accent);
-  border: none; border-radius: 99px; cursor: pointer;
+  border: none; border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
-  box-shadow: 0 8px 40px color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: none;
   transition: all 0.3s;
   animation: fabIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 @keyframes fabIn { from{opacity:0;transform:scale(0.7) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
-.pl-cart-fab:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 14px 50px color-mix(in srgb, var(--accent) 55%, transparent); }
+.pl-cart-fab:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: none; }
 .pl-cart-count {
   background: var(--bg2); color: var(--accent);
   border-radius: 50%; width: 22px; height: 22px;
@@ -89,7 +89,7 @@ const CSS = `
 .pl-section { display: flex; flex-direction: column; gap: 28px; }
 .pl-section-head { display: flex; align-items: center; gap: 18px; }
 .pl-section-icon {
-  width: 50px; height: 50px; border-radius: 16px; flex-shrink: 0;
+  width: 50px; height: 50px; border-radius: 2px; flex-shrink: 0;
   background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.25rem; color: var(--accent3);
@@ -103,7 +103,7 @@ const CSS = `
 /* ── Card ── */
 .pl-card {
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 20px; overflow: hidden; position: relative;
+  border-radius: 2px; overflow: hidden; position: relative;
   display: flex; flex-direction: column;
 
   transition: border-color 0.28s, transform 0.28s, box-shadow 0.28s;
@@ -114,7 +114,7 @@ const CSS = `
 
 /* Badges */
 .pl-card-badges { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 14px 0; min-height: 28px; }
-.pl-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 99px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.pl-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 2px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 .pl-badge-hot { background: color-mix(in srgb, var(--accent) 15%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent3); }
 .pl-badge-disc { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: rgba(239,68,68,0.9); }
 .pl-badge-soon { background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); color: rgba(251,191,36,0.9); }
@@ -140,7 +140,7 @@ const CSS = `
 }
 .pl-card-body:hover { background: var(--glass2); }
 .pl-card-icon-wrap {
-  width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: 2px; flex-shrink: 0;
   background: var(--glass2); border: 1px solid var(--gborder);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.1rem; color: var(--text-dim);
@@ -169,7 +169,7 @@ const CSS = `
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
   background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  border-radius: 12px; cursor: pointer;
+  border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
   color: var(--accent3); transition: all 0.25s;
@@ -179,7 +179,7 @@ const CSS = `
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
   background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.25);
-  border-radius: 12px; cursor: pointer;
+  border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
   color: rgba(251,191,36,0.85); transition: all 0.25s;
@@ -189,7 +189,7 @@ const CSS = `
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
   background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25);
-  border-radius: 12px; cursor: pointer;
+  border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
   color: rgba(74,222,128,0.85); transition: all 0.25s;
@@ -200,7 +200,7 @@ const CSS = `
 .pl-qty-control {
   display: flex; align-items: center; justify-content: center; gap: 0;
   background: var(--glass2); border: 1px solid var(--gborder);
-  border-radius: 12px; overflow: hidden; width: 100%;
+  border-radius: 2px; overflow: hidden; width: 100%;
 }
 .pl-qty-mini { width: auto; }
 .pl-qty-btn {
@@ -235,7 +235,7 @@ const CSS = `
   width: 100%; max-width: 620px; margin: 0 auto;
   background: var(--bg);
   border: 1px solid var(--gborder);
-  border-radius: 28px 28px 0 0;
+  border-radius: 2px 28px 0 0;
   max-height: 88vh; overflow: hidden;
   display: flex; flex-direction: column;
   transform: translateY(100%);
@@ -245,7 +245,7 @@ const CSS = `
 .pl-cart-sheet { max-width: 500px; }
 
 .pl-sheet-handle {
-  width: 40px; height: 4px; border-radius: 99px;
+  width: 40px; height: 4px; border-radius: 2px;
   background: var(--gborder2);
   margin: 14px auto 0; flex-shrink: 0;
 }
@@ -253,7 +253,7 @@ const CSS = `
 
 .pl-sheet-header { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 4px; }
 .pl-sheet-icon-wrap {
-  width: 56px; height: 56px; border-radius: 18px; flex-shrink: 0;
+  width: 56px; height: 56px; border-radius: 2px; flex-shrink: 0;
   background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.4rem; color: var(--accent3);
@@ -289,7 +289,7 @@ const CSS = `
   display: flex; align-items: flex-start; gap: 10px;
   padding: 12px 16px;
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 12px; margin-bottom: 20px;
+  border-radius: 2px; margin-bottom: 20px;
   font-size: 0.72rem; color: var(--text-dim); line-height: 1.6;
 }
 .pl-sheet-syarat i { color: var(--accent3); font-size: 0.75rem; flex-shrink: 0; margin-top: 1px; }
@@ -299,19 +299,19 @@ const CSS = `
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
   padding: 15px;
   background: var(--accent); color: var(--on-accent);
-  border: none; border-radius: 14px; cursor: pointer;
+  border: none; border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 35%, transparent); transition: all 0.3s;
+  box-shadow: none; transition: all 0.3s;
 }
-.pl-sheet-btn-add:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 12px 40px color-mix(in srgb, var(--accent) 45%, transparent); }
+.pl-sheet-btn-add:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: none; }
 
-.pl-sheet-qty { flex: 1; display: flex; align-items: center; gap: 0; background: var(--glass2); border: 1px solid var(--gborder); border-radius: 14px; overflow: hidden; }
+.pl-sheet-qty { flex: 1; display: flex; align-items: center; gap: 0; background: var(--glass2); border: 1px solid var(--gborder); border-radius: 2px; overflow: hidden; }
 
 .pl-sheet-btn-wish {
   width: 54px; height: 54px;
   background: var(--glass2); border: 1px solid var(--gborder);
-  border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  border-radius: 2px; display: flex; align-items: center; justify-content: center;
   font-size: 1rem; color: var(--text-dim);
   cursor: pointer; transition: all 0.25s; flex-shrink: 0;
 }
@@ -325,7 +325,7 @@ const CSS = `
 .pl-cart-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
 .pl-cart-item:last-of-type { border-bottom: none; }
 .pl-cart-item-icon {
-  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+  width: 40px; height: 40px; border-radius: 2px; flex-shrink: 0;
   background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 1rem; color: var(--accent3);
@@ -348,7 +348,7 @@ const CSS = `
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
   background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25);
-  border-radius: 12px; cursor: not-allowed;
+  border-radius: 2px; cursor: not-allowed;
   font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
   color: rgba(239,68,68,0.7);
@@ -359,7 +359,7 @@ const CSS = `
   padding: 10px 18px;
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  border-radius: 99px; cursor: pointer;
+  border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700;
   color: var(--accent); transition: all 0.25s;
@@ -399,7 +399,7 @@ const CSS = `
 .pl-currency-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); font-family: var(--font-body); }
 .pl-currency-pills { display: flex; gap: 6px; }
 .pl-currency-btn {
-  padding: 5px 14px; border-radius: 99px;
+  padding: 5px 14px; border-radius: 2px;
   font-family: var(--font-body); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em;
   border: 1px solid var(--gborder); background: transparent; color: var(--text-dim);
   cursor: pointer; transition: all 0.2s;
@@ -423,9 +423,9 @@ const CSS = `
 /* ── Addon slots ── */
 .pl-addon-row { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; padding-top: 18px; border-top: 1px dashed var(--border); }
 .pl-addon-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); opacity: 0.6; font-family: var(--font-body); margin-bottom: 2px; }
-.pl-addon-card { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--glass); border: 1px solid var(--gborder); border-radius: 12px; transition: border-color 0.2s; }
+.pl-addon-card { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--glass); border: 1px solid var(--gborder); border-radius: 2px; transition: border-color 0.2s; }
 .pl-addon-card:hover { border-color: var(--gborder2); }
-.pl-addon-icon { width: 32px; height: 32px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--accent3); flex-shrink: 0; }
+.pl-addon-icon { width: 32px; height: 32px; border-radius: 2px; background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--accent3); flex-shrink: 0; }
 .pl-addon-info { flex: 1; }
 .pl-addon-name { font-size: 0.82rem; font-weight: 600; color: var(--text); margin: 0 0 2px; }
 .pl-addon-short { font-size: 0.66rem; color: var(--text-dim); margin: 0; }
@@ -457,28 +457,28 @@ const CSS = `
 .pl-bn .pl-hero-pill { background: var(--glass2); border: 1px solid var(--border2); }
 .pl-bn .pl-hot-btn { color: #fff; border-color: rgba(255,255,255,0.55); align-self: flex-start; position: relative; z-index: 1; }
 .pl-bn .pl-hot-btn:hover { background: rgba(255,255,255,0.18); border-color: #fff; }
-.pl-bn .pl-currency-bar { padding: 14px 24px; border: 1px solid var(--border2); border-radius: 22px; }
-.pl-bn .pl-notice { padding: 14px 24px; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); border-radius: 22px; }
+.pl-bn .pl-currency-bar { padding: 14px 24px; border: 1px solid var(--border2); border-radius: 2px; }
+.pl-bn .pl-notice { padding: 14px 24px; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); border-radius: 2px; }
 .pl-bn .pl-body { padding: 0; gap: clamp(48px, 7vw, 84px); }
 .pl-bn .pl-section { gap: 24px; }
-.pl-bn .pl-section-icon { width: 46px; height: 46px; border-radius: 14px; background: var(--glass2); border: 1px solid var(--border2); color: var(--accent2); font-size: 1.05rem; }
+.pl-bn .pl-section-icon { width: 46px; height: 46px; border-radius: 2px; background: var(--glass2); border: 1px solid var(--border2); color: var(--accent2); font-size: 1.05rem; }
 .pl-bn .pl-section-title { font-family: var(--font-body); font-weight: 500; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.025em; }
 .pl-bn .pl-section-sub { font-size: 0.86rem; }
 .pl-bn .pl-grid { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: var(--bn-gap); }
-.pl-bn .pl-card { border-radius: 28px; border: 1px solid var(--border2); background: var(--glass); }
-.pl-bn .pl-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: 0 22px 54px -18px color-mix(in srgb, var(--accent) 40%, transparent); }
+.pl-bn .pl-card { border-radius: 2px; border: 1px solid var(--border2); background: var(--glass); }
+.pl-bn .pl-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: none; }
 .pl-bn .pl-card-soon:hover { transform: none; box-shadow: none; }
 .pl-bn .pl-card-badges { padding: 18px 18px 0; }
 .pl-bn .pl-card-body { padding: 14px 20px 18px; }
-.pl-bn .pl-card-icon-wrap { width: 48px; height: 48px; border-radius: 16px; color: var(--accent2); }
+.pl-bn .pl-card-icon-wrap { width: 48px; height: 48px; border-radius: 2px; color: var(--accent2); }
 .pl-bn .pl-card-name { font-size: 1.02rem; font-weight: 500; letter-spacing: -0.01em; }
 .pl-bn .pl-card-short { font-size: 0.78rem; }
 .pl-bn .pl-card-price { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; }
 .pl-bn .pl-card-actions { padding: 14px 20px 20px; }
-.pl-bn .pl-btn-add, .pl-bn .pl-btn-notify, .pl-bn .pl-btn-discuss, .pl-bn .pl-qty-control, .pl-bn .pl-btn-full { border-radius: 99px; }
+.pl-bn .pl-btn-add, .pl-bn .pl-btn-notify, .pl-bn .pl-btn-discuss, .pl-bn .pl-qty-control, .pl-bn .pl-btn-full { border-radius: 2px; }
 .pl-bn .pl-btn-add:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.pl-bn .pl-addon-card { border-radius: 18px; }
-.pl-bn .pl-compliance-disclaimer { max-width: 1180px; margin: 40px auto 0; border: 1px solid var(--border2); border-radius: 22px; padding: 22px 28px; }
+.pl-bn .pl-addon-card { border-radius: 2px; }
+.pl-bn .pl-compliance-disclaimer { max-width: 1180px; margin: 40px auto 0; border: 1px solid var(--border2); border-radius: 2px; padding: 22px 28px; }
 @media (max-width: 1024px) { .pl-bn .pl-currency-bar, .pl-bn .pl-notice { padding: 12px 20px; } }
 @media (max-width: 640px) { .pl-page.bn { padding-top: 96px; } .pl-bn .pl-grid { grid-template-columns: 1fr; } }
 `;

@@ -50,7 +50,7 @@ const CSS = `
   position: absolute;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, var(--accent-rgb), transparent);
+  background: transparent;
   border-radius: 50%;
   top: -150px;
   left: -150px;
@@ -64,7 +64,7 @@ const CSS = `
   position: absolute;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, var(--accent-rgb), transparent);
+  background: transparent;
   border-radius: 50%;
   bottom: -100px;
   right: -100px;
@@ -129,7 +129,7 @@ const CSS = `
   align-items: center;
   gap: 14px;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border-radius: 14px;
+  border-radius: 2px;
   overflow: hidden;
   width: 100%;
   text-align: left;
@@ -144,7 +144,7 @@ const CSS = `
   width: 120px;
   height: 90px;
   flex-shrink: 0;
-  border-radius: 10px;
+  border-radius: 2px;
   overflow: hidden;
   border: 1px solid var(--gborder);
   position: relative;
@@ -234,7 +234,7 @@ const CSS = `
 .auth-card {
   background: var(--glass);
   border: 1px solid var(--gborder);
-  border-radius: 20px;
+  border-radius: 2px;
   padding: 52px;
   width: 100%;
   max-width: 520px;
@@ -299,7 +299,7 @@ const CSS = `
 .auth-input {
   background: var(--input-bg);
   border: 1px solid var(--border-focus);
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 14px 16px;
   color: var(--text);
   font-family: var(--font-body);
@@ -347,7 +347,7 @@ const CSS = `
 .auth-phone-select {
   background: var(--input-bg);
   border: 1px solid var(--border-focus);
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 14px 10px;
   color: var(--text);
   font-family: var(--font-body);
@@ -379,7 +379,7 @@ const CSS = `
 .auth-google-banner {
   background: color-mix(in srgb, var(--accent) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 12px 16px;
   font-size: 0.84rem;
   color: var(--accent3);
@@ -398,7 +398,7 @@ const CSS = `
 .auth-password-warning {
   background: rgba(217, 119, 6, 0.1);
   border: 1px solid rgba(217, 119, 6, 0.3);
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 14px 16px;
   margin: 0;
   display: flex;
@@ -461,10 +461,10 @@ const CSS = `
 
 /* ── Button ── */
 .auth-btn {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
+  background: var(--accent);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 14px 18px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -480,7 +480,7 @@ const CSS = `
 
 .auth-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: none;
 }
 
 .auth-btn:disabled {
@@ -505,7 +505,7 @@ const CSS = `
   border: 1px solid rgba(220, 38, 38, 0.3);
   color: #fca5a5;
   padding: 14px 16px;
-  border-radius: 12px;
+  border-radius: 2px;
   font-size: 0.88rem;
   margin-bottom: 18px;
   display: flex;
@@ -523,7 +523,7 @@ const CSS = `
   border: 1px solid rgba(34, 197, 94, 0.3);
   color: #86efac;
   padding: 14px 16px;
-  border-radius: 12px;
+  border-radius: 2px;
   font-size: 0.88rem;
   margin-bottom: 18px;
   display: flex;
@@ -712,7 +712,7 @@ const CSS = `
 }
 .auth-sidebar::-webkit-scrollbar-thumb {
   background: var(--gborder);
-  border-radius: 10px;
+  border-radius: 2px;
 }
 .auth-sidebar::-webkit-scrollbar-thumb:hover {
   background: var(--gborder2);
@@ -726,7 +726,7 @@ const CSS = `
 }
 .auth-feed::-webkit-scrollbar-thumb {
   background: var(--gborder);
-  border-radius: 10px;
+  border-radius: 2px;
 }
 
 /* ══════ BENTO OVERRIDE (redesign) ══════ */
@@ -743,11 +743,11 @@ const CSS = `
 .auth-logo-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gborder2); }
 .auth-sidebar-label { color: var(--text-dim); letter-spacing: 0.2em; }
 .auth-feed { gap: 28px; padding: 6px 4px 4px; }
-.auth-feed-item { position: relative; display: block; padding: 0; aspect-ratio: 16 / 10; border-radius: 26px; overflow: visible; isolation: isolate; transition: none; }
+.auth-feed-item { position: relative; display: block; padding: 0; aspect-ratio: 16 / 10; border-radius: 2px; overflow: visible; isolation: isolate; transition: none; }
 .auth-feed-item:hover { transform: none; }
-.auth-feed-glow { position: absolute; inset: -18px; z-index: -1; border-radius: 42px; background-size: cover; background-position: center; filter: blur(26px) saturate(1.5); opacity: 0.4; transition: opacity 0.5s; }
+.auth-feed-glow { position: absolute; inset: -18px; z-index: -1; border-radius: 2px; background-size: cover; background-position: center; filter: blur(26px) saturate(1.5); opacity: 0.4; transition: opacity 0.5s; }
 .auth-feed-item:hover .auth-feed-glow, .auth-feed-item:focus-visible .auth-feed-glow { opacity: 0.8; }
-.auth-feed-item-img { position: absolute; inset: 0; width: auto; height: auto; border-radius: 26px; border: 1px solid rgba(255,255,255,0.13); background: #0b0b13; }
+.auth-feed-item-img { position: absolute; inset: 0; width: auto; height: auto; border-radius: 2px; border: 1px solid rgba(255,255,255,0.13); background: #0b0b13; }
 .auth-feed-item-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,6,12,0.05) 30%, rgba(5,6,12,0.92) 100%); }
 .auth-feed-item-img.is-png img, .auth-feed-item-img.is-cover img { object-fit: cover; transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
 .auth-feed-item:hover .auth-feed-item-img img { transform: scale(1.06); }
@@ -755,17 +755,17 @@ const CSS = `
 .auth-feed-item-label { color: rgba(255,255,255,0.68); font-size: 0.6rem; }
 .auth-feed-item-title { font-size: 1.1rem; font-weight: 500; letter-spacing: -0.015em; }
 .auth-feed-item-desc { white-space: normal; color: rgba(255,255,255,0.7); }
-.auth-card { border-radius: 32px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 30px 80px -34px color-mix(in srgb, var(--accent) 55%, transparent); }
+.auth-card { border-radius: 2px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); box-shadow: none; }
 .auth-title { font-family: var(--font-body); font-weight: 500; letter-spacing: -0.03em; font-size: 2.4rem; }
-.auth-tabs { padding: 4px; gap: 4px; border: 1px solid rgba(255,255,255,0.1); border-radius: 99px; background: rgba(255,255,255,0.05); }
-.auth-tab { border-bottom: 0; border-radius: 99px; padding: 11px; }
+.auth-tabs { padding: 4px; gap: 4px; border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; background: rgba(255,255,255,0.05); }
+.auth-tab { border-bottom: 0; border-radius: 2px; padding: 11px; }
 .auth-tab.active { border-bottom: 0; background: #fff; color: #111; }
-.auth-input, .auth-phone-select { border-radius: 16px; border-color: rgba(255,255,255,0.12); }
-.auth-btn { border-radius: 99px; }
+.auth-input, .auth-phone-select { border-radius: 2px; border-color: rgba(255,255,255,0.12); }
+.auth-btn { border-radius: 2px; }
 @media (min-width: 769px) {
   .auth-feed { gap: 22px; }
-  .auth-feed-item { max-width: 380px; aspect-ratio: 16 / 9; border-radius: 22px; }
-  .auth-feed-item-img { border-radius: 22px; }
+  .auth-feed-item { max-width: 380px; aspect-ratio: 16 / 9; border-radius: 2px; }
+  .auth-feed-item-img { border-radius: 2px; }
   .auth-feed-item-text { left: 18px; right: 18px; bottom: 14px; gap: 3px; }
   .auth-feed-item-title { font-size: 0.98rem; }
   .auth-feed-item-label { font-size: 0.56rem; }

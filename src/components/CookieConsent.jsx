@@ -115,7 +115,7 @@ export default function CookieConsent({ lang = 'id' }) {
 
         .cc-btn {
           padding: 10px 24px;
-          border-radius: 99px;
+          border-radius: 2px;
           font-family: var(--font-body);
           font-size: 0.75rem;
           font-weight: 700;
@@ -128,9 +128,9 @@ export default function CookieConsent({ lang = 'id' }) {
         }
 
         .cc-btn-accept {
-          background: linear-gradient(135deg, var(--accent), var(--accent));
+          background: var(--accent);
           color: #fff;
-          box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 30%, transparent);
+          box-shadow: none;
         }
 
         .cc-btn-accept:hover {

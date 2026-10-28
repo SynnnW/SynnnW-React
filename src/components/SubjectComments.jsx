@@ -21,7 +21,7 @@ const CSS = `
 .qzc-item      { background: rgba(255,255,255,0.045);
 
                  border: 1px solid rgba(255,255,255,0.09);
-                 border-radius: 12px; padding: 11px 14px;
+                 border-radius: 2px; padding: 11px 14px;
                  box-shadow: 0 6px 18px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05); }
 .qzc-header    { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
 .qzc-name      { font-size: 0.78rem; font-weight: 600; color: #c9c9d2; }
@@ -37,13 +37,13 @@ const CSS = `
 .qzc-input     { flex: 1; background: rgba(255,255,255,0.05);
 
                  border: 1px solid rgba(255,255,255,0.12);
-                 border-radius: 10px; padding: 9px 12px; color: #e0e0ea; font-size: 0.82rem;
+                 border-radius: 2px; padding: 9px 12px; color: #e0e0ea; font-size: 0.82rem;
                  outline: none; resize: none; font-family: inherit; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
 .qzc-input::placeholder { color: rgba(160,160,180,0.5); }
 .qzc-input:focus { border-color: rgba(139,123,255,0.55); background: rgba(255,255,255,0.08); box-shadow: 0 0 0 3px rgba(139,123,255,0.15); }
 .qzc-submit    { background: rgba(139,123,255,0.22);
                  border: 1px solid rgba(139,123,255,0.4);
-                 color: #c7bdff; border-radius: 999px; padding: 9px 16px; cursor: pointer;
+                 color: #c7bdff; border-radius: 2px; padding: 9px 16px; cursor: pointer;
                  font-size: 0.8rem; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
 .qzc-submit:hover:not(:disabled) { background: rgba(139,123,255,0.34); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(139,123,255,0.25); }
 .qzc-submit:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -52,7 +52,7 @@ const CSS = `
 
 /* ── Toggle mode (quiz tab) ── */
 .qzc-toggle       { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-                    border-radius: 999px; color: rgba(200,200,215,0.8);
+                    border-radius: 2px; color: rgba(200,200,215,0.8);
                     font-size: 0.78rem; cursor: pointer; padding: 6px 14px;
                     display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
 .qzc-toggle:hover { color: #e0e0ea; background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.16); }
@@ -66,7 +66,7 @@ const CSS = `
 .qzc-yt-count   { font-size: 0.8rem; font-weight: 400; color: rgba(160,160,180,0.7); }
 .qzc-yt-expand  { background: rgba(139,123,255,0.08);
                   border: 1px solid rgba(139,123,255,0.32);
-                  color: #b0a4ff; border-radius: 999px; padding: 6px 15px;
+                  color: #b0a4ff; border-radius: 2px; padding: 6px 15px;
                   font-size: 0.75rem; font-weight: 600; cursor: pointer;
                   transition: all 0.2s; white-space: nowrap; }
 .qzc-yt-expand:hover { background: rgba(139,123,255,0.18); border-color: rgba(139,123,255,0.55); transform: translateY(-1px); }

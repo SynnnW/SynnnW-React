@@ -140,7 +140,7 @@ function ImageModal({ src, onClose }) {
         <img
           src={src}
           alt="Preview"
-          style={{ maxWidth: '90%', maxHeight: '90vh', objectFit: 'contain', borderRadius: '16px', boxShadow: '0 25px 60px rgba(0,0,0,0.75)', animation: 'k4ImgIn 0.3s ease' }}
+          style={{ maxWidth: '90%', maxHeight: '90vh', objectFit: 'contain', borderRadius: '2px', boxShadow: '0 25px 60px rgba(0,0,0,0.75)', animation: 'k4ImgIn 0.3s ease' }}
           loading="lazy"
         />
       </div>
@@ -193,14 +193,14 @@ export default function WorkDetail4({ t = {} }) {
         .k4-hero-bg {
           position: absolute; inset: 0;
           background:
-            radial-gradient(ellipse 60% 50% at 80% 20%, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 60%),
+            transparent,
             radial-gradient(ellipse 40% 40% at 10% 80%, rgba(34,197,94,0.06) 0%, transparent 60%);
           pointer-events: none;
         }
         .k4-hero-orb {
           position: absolute; top: -100px; right: -100px;
           width: 500px; height: 500px; border-radius: 50%;
-          background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 70%);
+          background: transparent;
           pointer-events: none; filter: blur(40px);
           animation: k4OrbPulse 6s ease-in-out infinite alternate;
         }
@@ -218,7 +218,7 @@ export default function WorkDetail4({ t = {} }) {
           gap: 20px;
         }
         .k4-gal-item {
-          position: relative; border-radius: 20px; overflow: hidden;
+          position: relative; border-radius: 2px; overflow: hidden;
           background: var(--glass); border: 1px solid var(--border);
           transition: transform 0.4s ease, border-color 0.4s ease;
           cursor: pointer;
@@ -252,8 +252,8 @@ export default function WorkDetail4({ t = {} }) {
         /* DEMO SECTION */
         .k4-demo-card {
           display: flex; align-items: center; gap: 40px;
-          background: linear-gradient(135deg, rgba(34,197,94,0.05) 0%, color-mix(in srgb, var(--accent) 5%, transparent) 100%);
-          border: 1px solid rgba(34,197,94,0.2); border-radius: 24px;
+          background: var(--accent);
+          border: 1px solid rgba(34,197,94,0.2); border-radius: 2px;
           padding: 48px 56px; position: relative; overflow: hidden;
         }
         .k4-demo-card::before {
@@ -262,7 +262,7 @@ export default function WorkDetail4({ t = {} }) {
           background: linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent);
         }
         .k4-demo-icon-wrap {
-          width: 80px; height: 80px; border-radius: 20px; flex-shrink: 0;
+          width: 80px; height: 80px; border-radius: 2px; flex-shrink: 0;
           background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);
           display: flex; align-items: center; justify-content: center;
           font-size: 2rem; color: #22c55e;
@@ -277,7 +277,7 @@ export default function WorkDetail4({ t = {} }) {
         }
         .k4-demo-btn {
           display: inline-flex; align-items: center; gap: 10px;
-          background: #22c55e; color: #fff; border: none; border-radius: 99px;
+          background: #22c55e; color: #fff; border: none; border-radius: 2px;
           padding: 13px 32px; font-size: 0.72rem; font-weight: 700;
           letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
           transition: all 0.3s; cursor: pointer;
@@ -295,7 +295,7 @@ export default function WorkDetail4({ t = {} }) {
         /* YOUTUBE SECTION */
         .k4-yt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         .k4-yt-embed-wrap {
-          border-radius: 20px; overflow: hidden; position: relative;
+          border-radius: 2px; overflow: hidden; position: relative;
           aspect-ratio: 16/9; border: 1px solid var(--border);
           background: #000;
         }
@@ -304,8 +304,8 @@ export default function WorkDetail4({ t = {} }) {
         }
         .k4-yt-channel-card {
           display: flex; flex-direction: column; justify-content: space-between;
-          background: linear-gradient(135deg, rgba(255,0,0,0.06) 0%, color-mix(in srgb, var(--accent) 4%, transparent) 100%);
-          border: 1px solid rgba(255,60,60,0.18); border-radius: 20px;
+          background: var(--accent);
+          border: 1px solid rgba(255,60,60,0.18); border-radius: 2px;
           padding: 36px 36px; position: relative; overflow: hidden;
         }
         .k4-yt-channel-card::before {
@@ -327,7 +327,7 @@ export default function WorkDetail4({ t = {} }) {
         }
         .k4-yt-btn {
           display: inline-flex; align-items: center; gap: 10px;
-          background: #ff0000; color: #fff; border: none; border-radius: 99px;
+          background: #ff0000; color: #fff; border: none; border-radius: 2px;
           padding: 12px 28px; font-size: 0.7rem; font-weight: 700;
           letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
           transition: all 0.3s; width: fit-content;
@@ -351,7 +351,7 @@ export default function WorkDetail4({ t = {} }) {
           margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
         }
         .k4-overview-ext-card {
-          background: var(--glass); border: 1px solid var(--border); border-radius: 18px;
+          background: var(--glass); border: 1px solid var(--border); border-radius: 2px;
           padding: 28px 26px;
         }
         .k4-overview-ext-card h4 {
@@ -370,7 +370,7 @@ export default function WorkDetail4({ t = {} }) {
         .k4-badge {
           display: inline-flex; align-items: center; gap: 8px;
           background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
-          border-radius: 99px; padding: 6px 16px; font-size: 0.62rem; font-weight: 700;
+          border-radius: 2px; padding: 6px 16px; font-size: 0.62rem; font-weight: 700;
           letter-spacing: 0.12em; text-transform: uppercase; color: #22c55e;
           margin-bottom: 24px; position: relative; z-index: 1; width: fit-content;
         }
@@ -429,19 +429,19 @@ export default function WorkDetail4({ t = {} }) {
         /* FEATURES GRID */
         .k4-features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .k4-feat-card {
-          background: var(--glass); border: 1px solid var(--border); border-radius: 20px;
+          background: var(--glass); border: 1px solid var(--border); border-radius: 2px;
           padding: 28px 24px; transition: all 0.35s ease; position: relative; overflow: hidden;
         }
         .k4-feat-card::before {
-          content: ''; position: absolute; inset: 0; border-radius: 20px;
-          background: radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 70%);
+          content: ''; position: absolute; inset: 0; border-radius: 2px;
+          background: transparent;
           opacity: 0; transition: opacity 0.3s;
         }
         .k4-feat-card:hover { border-color: color-mix(in srgb, var(--accent) 30%, transparent); transform: translateY(-5px);
           box-shadow: 0 20px 50px var(--shadow); }
         .k4-feat-card:hover::before { opacity: 1; }
         .k4-feat-icon {
-          width: 44px; height: 44px; border-radius: 13px;
+          width: 44px; height: 44px; border-radius: 2px;
           background: var(--glass2); border: 1px solid var(--border2);
           display: flex; align-items: center; justify-content: center;
           font-size: 1rem; color: var(--accent2); margin-bottom: 16px;
@@ -458,14 +458,14 @@ export default function WorkDetail4({ t = {} }) {
         .k4-tech-item {
           display: flex; align-items: center; gap: 14px;
           background: var(--glass); border: 1px solid var(--border);
-          border-radius: 14px; padding: 16px 18px; transition: all 0.28s;
+          border-radius: 2px; padding: 16px 18px; transition: all 0.28s;
         }
         .k4-tech-item:hover { border-color: var(--border2); background: var(--glass2); transform: translateY(-3px); }
         .k4-tech-icon { font-size: 1.2rem; color: var(--accent2); width: 22px; text-align: center; flex-shrink: 0; }
         .k4-tech-label { font-size: 0.82rem; font-weight: 600; margin-bottom: 2px; }
         .k4-tech-desc { font-size: 0.68rem; color: var(--text-dim); }
         .k4-tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
-        .k4-tag { background: var(--glass); border: 1px solid var(--border2); border-radius: 99px;
+        .k4-tag { background: var(--glass); border: 1px solid var(--border2); border-radius: 2px;
           padding: 5px 14px; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em;
           text-transform: uppercase; color: var(--text-dim); transition: all 0.25s; }
         .k4-tag:hover { border-color: var(--accent3); color: var(--accent3); }
@@ -474,21 +474,21 @@ export default function WorkDetail4({ t = {} }) {
         .k4-firebase-badge {
           display: inline-flex; align-items: center; gap: 10px;
           background: rgba(255,140,0,0.08); border: 1px solid rgba(255,140,0,0.25);
-          border-radius: 14px; padding: 14px 20px; margin-bottom: 32px;
+          border-radius: 2px; padding: 14px 20px; margin-bottom: 32px;
           font-size: 0.75rem; color: #ffaa33; line-height: 1.5;
         }
         .k4-firebase-badge i { font-size: 1.2rem; flex-shrink: 0; }
 
         /* CTA */
         .k4-cta {
-          background: var(--glass); border: 1px solid var(--border); border-radius: 28px;
+          background: var(--glass); border: 1px solid var(--border); border-radius: 2px;
           padding: 70px 80px; text-align: center; position: relative; overflow: hidden;
           margin: 0 80px 80px;
         }
         .k4-cta-glow {
           position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
           width: 400px; height: 200px; pointer-events: none;
-          background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 70%);
+          background: transparent;
         }
         .k4-cta::after {
           content: ''; position: absolute; top: 0; left: 15%; right: 15%;
@@ -505,16 +505,16 @@ export default function WorkDetail4({ t = {} }) {
           gap: 14px; flex-wrap: wrap; margin-top: 32px; position: relative; z-index: 1; }
         .k4-btn-main {
           display: inline-flex; align-items: center; gap: 10px;
-          background: var(--accent); color: var(--on-accent); border: none; border-radius: 99px;
+          background: var(--accent); color: var(--on-accent); border: none; border-radius: 2px;
           padding: 14px 34px; font-size: 0.72rem; font-weight: 700;
           letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
-          box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 35%, transparent); transition: all 0.3s;
+          box-shadow: none; transition: all 0.3s;
         }
         .k4-btn-main:hover { background: var(--accent2); transform: scale(1.05); }
         .k4-btn-sec {
           display: inline-flex; align-items: center; gap: 10px;
           background: var(--glass2); color: var(--text); border: 1px solid var(--border2);
-          border-radius: 99px; padding: 14px 28px; font-size: 0.72rem; font-weight: 700;
+          border-radius: 2px; padding: 14px 28px; font-size: 0.72rem; font-weight: 700;
           letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
           text-decoration: none; transition: all 0.3s;
         }
@@ -526,7 +526,7 @@ export default function WorkDetail4({ t = {} }) {
         .k4-nav-btn {
           display: inline-flex; align-items: center; gap: 10px;
           background: var(--glass2); border: 1px solid var(--border);
-          border-radius: 99px; padding: 12px 24px; font-size: 0.7rem; font-weight: 600;
+          border-radius: 2px; padding: 12px 24px; font-size: 0.7rem; font-weight: 600;
           letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim);
           cursor: pointer; transition: all 0.28s;
         }
@@ -637,7 +637,7 @@ export default function WorkDetail4({ t = {} }) {
                   Konten halaman ini dapat diedit langsung dari Firebase Console — tanpa perlu coding atau deploy ulang.
                 </div>
               </div>
-              <div ref={r} className="reveal rv-d2" style={{ background: 'var(--glass)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px 22px', marginTop: '16px' }}>
+              <div ref={r} className="reveal rv-d2" style={{ background: 'var(--glass)', border: '1px solid var(--border)', borderRadius: '2px', padding: '24px 22px', marginTop: '16px' }}>
                 <div style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '14px' }}>Key Highlights</div>
                 {[
                   { icon: 'fa-solid fa-wifi', text: 'Kontrol OBS dari tablet via jaringan lokal — tanpa kabel, tanpa software tambahan' },

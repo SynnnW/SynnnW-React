@@ -53,13 +53,13 @@ export default function LoadingScreen({ onComplete }) {
         width: 160px;
         height: 2px;
         background: color-mix(in srgb, var(--accent) 15%, transparent);
-        border-radius: 99px;
+        border-radius: 2px;
         overflow: hidden;
       }
       .ls-bar-fill {
         height: 100%;
-        border-radius: 99px;
-        background: linear-gradient(90deg, var(--accent), var(--accent));
+        border-radius: 2px;
+        background: var(--accent);
         animation: ls-fill 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
       @keyframes ls-fill {

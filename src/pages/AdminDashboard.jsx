@@ -75,7 +75,7 @@ const CSS = `
     width: 100%;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
+    border-radius: 2px;
     padding: 9px 12px 9px 34px;
     color: #fff;
     font-family: var(--font-body);
@@ -101,7 +101,7 @@ const CSS = `
     right: 16px;
     background: #1a1a2e;
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-    border-radius: 12px;
+    border-radius: 2px;
     z-index: 100;
     max-height: 300px;
     overflow-y: auto;
@@ -145,7 +145,7 @@ const CSS = `
     background: color-mix(in srgb, var(--accent) 15%, transparent);
     color: var(--accent);
     font-size: 0.65rem; font-weight: 700;
-    padding: 2px 8px; border-radius: 99px;
+    padding: 2px 8px; border-radius: 2px;
   }
   .da-nav-badge-red {
     background: rgba(239,68,68,0.15);
@@ -164,7 +164,7 @@ const CSS = `
     border: 1px solid rgba(239,68,68,0.2);
     color: #f87171;
     padding: 10px 16px;
-    border-radius: 12px;
+    border-radius: 2px;
     cursor: pointer; font-weight: 600;
     font-size: 0.82rem;
     display: flex; align-items: center; gap: 8px;
@@ -196,7 +196,7 @@ const CSS = `
   .da-panel {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
+    border-radius: 2px;
     padding: 28px;
 
     margin-bottom: 24px;
@@ -216,7 +216,7 @@ const CSS = `
   .da-stat-card {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px; padding: 20px 22px;
+    border-radius: 2px; padding: 20px 22px;
   }
   .da-stat-label {
     font-size: 0.62rem; font-weight: 700;
@@ -248,14 +248,14 @@ const CSS = `
   }
   .da-chart-bar {
     width: 100%;
-    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 60%, transparent) 0%, color-mix(in srgb, var(--accent) 20%, transparent) 100%);
+    background: var(--accent);
     border-radius: 6px 6px 0 0;
     transition: all 0.3s;
     min-height: 4px;
     position: relative;
   }
   .da-chart-col:hover .da-chart-bar {
-    background: linear-gradient(180deg, rgba(167,139,250,0.9) 0%, color-mix(in srgb, var(--accent) 40%, transparent) 100%);
+    background: var(--accent);
   }
   .da-chart-tooltip {
     position: absolute;
@@ -264,7 +264,7 @@ const CSS = `
     transform: translateX(-50%);
     background: #1a1a2e;
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-    border-radius: 8px;
+    border-radius: 2px;
     padding: 6px 10px;
     font-size: 0.7rem;
     color: #fff;
@@ -311,7 +311,7 @@ const CSS = `
   .da-internal-notes {
     background: rgba(251,191,36,0.06);
     border: 1px solid rgba(251,191,36,0.15);
-    border-radius: 10px;
+    border-radius: 2px;
     padding: 10px 12px;
     color: #fff;
     font-family: var(--font-body);
@@ -325,7 +325,7 @@ const CSS = `
   /* Status badge */
   .da-status-badge {
     display: inline-flex; align-items: center;
-    padding: 3px 10px; border-radius: 99px;
+    padding: 3px 10px; border-radius: 2px;
     font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.05em;
   }
@@ -343,7 +343,7 @@ const CSS = `
     display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
   }
   .da-pill {
-    padding: 6px 16px; border-radius: 99px;
+    padding: 6px 16px; border-radius: 2px;
     border: 1px solid rgba(255,255,255,0.1);
     background: rgba(255,255,255,0.02);
     color: var(--text-dim);
@@ -361,7 +361,7 @@ const CSS = `
     display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     background: color-mix(in srgb, var(--accent) 8%, transparent);
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-    border-radius: 12px;
+    border-radius: 2px;
     padding: 10px 16px;
     margin-bottom: 16px;
   }
@@ -379,7 +379,7 @@ const CSS = `
     width: 100%;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; color: #fff;
+    border-radius: 2px; color: #fff;
     padding: 11px 14px;
     font-family: var(--font-body); font-size: 0.92rem;
     outline: none; box-sizing: border-box;
@@ -411,7 +411,7 @@ const CSS = `
     flex: 1;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px; color: #fff;
+    border-radius: 2px; color: #fff;
     padding: 8px 10px;
     font-family: var(--font-body); font-size: 0.8rem;
     outline: none;
@@ -433,7 +433,7 @@ const CSS = `
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     color: var(--accent);
     padding: 10px 20px;
-    border-radius: 12px;
+    border-radius: 2px;
     cursor: pointer;
     font-weight: 600; font-size: 0.87rem;
     display: inline-flex; align-items: center; gap: 8px;
@@ -462,7 +462,7 @@ const CSS = `
   }
   .da-btn-yellow:hover { background: rgba(251,191,36,0.14); }
   .da-btn-sm {
-    padding: 6px 12px; font-size: 0.77rem; border-radius: 8px;
+    padding: 6px 12px; font-size: 0.77rem; border-radius: 2px;
   }
   .da-btn-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .da-msg-success { font-size: 0.85rem; color: #86efac; }
@@ -481,7 +481,7 @@ const CSS = `
   .da-send-notif-box {
     background: #0f0f1a;
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-    border-radius: 20px;
+    border-radius: 2px;
     padding: 28px;
     width: 100%; max-width: 480px;
   }
@@ -495,7 +495,7 @@ const CSS = `
   }
   .da-toggle {
     position: relative; width: 42px; height: 24px;
-    background: rgba(255,255,255,0.1); border-radius: 99px;
+    background: rgba(255,255,255,0.1); border-radius: 2px;
     cursor: pointer; transition: background 0.2s; flex-shrink: 0;
   }
   .da-toggle.on { background: color-mix(in srgb, var(--accent) 70%, transparent); }
@@ -516,7 +516,7 @@ const CSS = `
   .da-cat-col {
     background: rgba(255,255,255,0.02);
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px; padding: 16px;
+    border-radius: 2px; padding: 16px;
   }
   .da-cat-col-title {
     font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
@@ -529,7 +529,7 @@ const CSS = `
   .da-deadline-warn {
     background: rgba(239,68,68,0.07);
     border: 1px solid rgba(239,68,68,0.25);
-    border-radius: 14px; padding: 14px 18px;
+    border-radius: 2px; padding: 14px 18px;
     margin-bottom: 20px;
     display: flex; align-items: center; gap: 12px;
     color: #f87171; font-size: 0.85rem;
@@ -540,7 +540,7 @@ const CSS = `
     width: 200px; height: 200px;
     object-fit: contain;
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; background: rgba(255,255,255,0.05);
+    border-radius: 2px; background: rgba(255,255,255,0.05);
   }
   .da-customer-table-wrap { overflow-x: auto; }
 
@@ -558,13 +558,13 @@ const CSS = `
     .da-mobilebar-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 8px; }
     .da-mobilebar-top b { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; display: flex; align-items: center; gap: 8px; }
     .da-mobilebar-top b em { color: var(--accent); }
-    .da-mobilebar-top button { height: 34px; padding: 0 14px; border-radius: 99px; cursor: pointer; font-family: var(--font-body); font-size: 0.74rem; color: #f87171; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
+    .da-mobilebar-top button { height: 34px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-family: var(--font-body); font-size: 0.74rem; color: #f87171; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
     .da-mobilebar-nav { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 10px; scrollbar-width: none; }
     .da-mobilebar-nav::-webkit-scrollbar { display: none; }
-    .da-mobilebar-nav button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 99px; cursor: pointer; font-family: var(--font-body); font-size: 0.78rem; color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
+    .da-mobilebar-nav button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-family: var(--font-body); font-size: 0.78rem; color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
     .da-mobilebar-nav button.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
     .da-main { padding: 18px 14px calc(60px + env(safe-area-inset-bottom, 0px)); overflow-x: hidden; }
-    .da-panel { padding: 16px; border-radius: 16px; }
+    .da-panel { padding: 16px; border-radius: 2px; }
     .da-page-title { font-size: 1.7rem; }
     .da-form-row { grid-template-columns: 1fr; }
     .da-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }

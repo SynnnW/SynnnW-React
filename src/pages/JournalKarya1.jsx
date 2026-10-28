@@ -178,7 +178,7 @@ export default function JournalKarya1() {
               <div style={{ maxWidth: '800px', margin: '0 auto' }}>
                 <iframe
                   width="100%"
-                  style={{ aspectRatio: '16/9', borderRadius: '12px', display: 'block' }}
+                  style={{ aspectRatio: '16/9', borderRadius: '2px', display: 'block' }}
                   src="https://www.youtube.com/embed/AsM_KnHh-M4"
                   title="FiSS 2024 Video Dokumentasi"
                   frameBorder="0"
@@ -356,7 +356,7 @@ const CSS = `
   background: var(--glass2);
 
   border: 1px solid var(--gborder2);
-  border-radius: 99px; padding: 7px 20px;
+  border-radius: 2px; padding: 7px 20px;
   font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--accent2);
   margin-bottom: 26px;
@@ -401,7 +401,7 @@ const CSS = `
 /* Figures */
 .article-figure { margin: 32px 0; }
 .figure-glass-container {
-  border-radius: 16px; overflow: hidden;
+  border-radius: 2px; overflow: hidden;
   border: 1px solid var(--border); background: var(--bg3);
 }
 .figure-img {
@@ -444,7 +444,7 @@ const CSS = `
 
 /* Video — responsive, max-width 800px */
 .glass-video-container {
-  border-radius: 16px; overflow: hidden;
+  border-radius: 2px; overflow: hidden;
   border: 1px solid var(--border);
   padding: 14px;
   background: var(--glass);
@@ -460,7 +460,7 @@ const CSS = `
 }
 .source-link {
   display: inline-flex; align-items: center; gap: 9px;
-  border: 1px solid var(--accent2); border-radius: 99px;
+  border: 1px solid var(--accent2); border-radius: 2px;
   padding: 10px 24px; font-size: 0.75rem;
   color: var(--accent2); text-decoration: none;
   transition: all 0.3s; font-family: var(--font-body);
@@ -471,7 +471,7 @@ const CSS = `
 .k1-sidebar { position: sticky; top: 84px; height: fit-content; }
 .sidebar-widget {
   background: var(--glass); border: 1px solid var(--gborder);
-  border-radius: 16px; padding: 20px 22px;
+  border-radius: 2px; padding: 20px 22px;
   margin-bottom: 16px;
 
 
