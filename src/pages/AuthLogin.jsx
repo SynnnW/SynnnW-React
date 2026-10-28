@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, provider, db } from '@/supabaseClient';
+import { auth, provider, db, supabase } from '@/supabaseClient';
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
@@ -942,6 +942,14 @@ FeedCard.displayName = 'FeedCard';
 // ═════════════════════════════════════════════════════════════
 export default function AuthLogin() {
   const navigate = useNavigate();
+  /* Anggota Makrab langsung ke /makrab (bukan dashboard klien); yang lain tetap ke /Dashboard */
+  const goAfterLogin = async () => {
+    try {
+      const { data } = await supabase.from('makrab_members').select('id').limit(1);
+      if (data && data.length) { navigate('/makrab'); return; }
+    } catch { /* abaikan */ }
+    navigate('/Dashboard');
+  };
 
   // Mode & loading
   const [mode, setMode] = useState('login');
@@ -986,7 +994,7 @@ export default function AuthLogin() {
   // Redirect if already logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) navigate('/Dashboard');
+      if (user) goAfterLogin();
     });
     return () => unsubscribe();
   }, [navigate]);
@@ -1022,7 +1030,7 @@ export default function AuthLogin() {
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password.trim());
       setSuccess('Login berhasil! Redirecting...');
-      setTimeout(() => navigate('/Dashboard'), 800);
+      setTimeout(() => goAfterLogin(), 800);
     } catch (err) {
       console.error('[AuthLogin] Login error:', err);
       if (err.code === 'auth/user-not-found') {
@@ -1081,7 +1089,7 @@ export default function AuthLogin() {
           createdAt: new Date(),
         });
         setSuccess('Akun berhasil dibuat!');
-        setTimeout(() => navigate('/Dashboard'), 1000);
+        setTimeout(() => goAfterLogin(), 1000);
       } else {
         // ── Register via Email ──
 
@@ -1101,7 +1109,7 @@ export default function AuthLogin() {
         });
 
         setSuccess('Akun berhasil dibuat! Redirecting...');
-        setTimeout(() => navigate('/Dashboard'), 1000);
+        setTimeout(() => goAfterLogin(), 1000);
       }
     } catch (err) {
       console.error('[AuthLogin] Register error:', err);
@@ -1131,7 +1139,7 @@ export default function AuthLogin() {
       if (userDoc.exists()) {
         // User lama → langsung ke Dashboard
         setSuccess('Akun sudah terdaftar! Redirecting...');
-        setTimeout(() => navigate('/Dashboard'), 800);
+        setTimeout(() => goAfterLogin(), 800);
       } else {
         // User baru → redirect ke mode register, pre-fill data
         setGoogleUser(user);

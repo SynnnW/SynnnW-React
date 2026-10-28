@@ -76,6 +76,7 @@ export default function CompleteProfile() {
       try {
         const snap = await getDoc(doc(db, 'users', currentUser.uid));
         if (snap.exists() && snap.data()?.phone) {
+          window.dispatchEvent(new Event('synw:profile-complete'));
           navigate('/Dashboard', { replace: true });
           return;
         }
@@ -127,6 +128,7 @@ export default function CompleteProfile() {
       });
 
       // 3. Redirect ke Dashboard
+      window.dispatchEvent(new Event('synw:profile-complete'));
       navigate('/Dashboard', { replace: true });
 
     } catch (e) {

@@ -9,7 +9,7 @@ import PageTransition from './components/PageTransition';
 import CustomCursor from './components/CustomCursor';
 import FloatingUtils from './components/FloatingUtils';
 
-import { auth, db } from '@/supabaseClient';
+import { auth, db, supabase } from '@/supabaseClient';
 import { onAuthStateChanged } from '@/lib/authCompat';
 import { doc, getDoc } from '@/lib/firestoreCompat';
 
@@ -152,16 +152,25 @@ function Layout({ user }) {
   const [userProfileComplete, setUserProfileComplete] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
-    getDoc(doc(db, 'users', user.uid)).then(snap => {
-      if (!snap.exists() || !snap.data()?.phone) {
-        setUserProfileComplete(false);
-      } else {
-        setUserProfileComplete(true);
-      }
+    if (!user) return undefined;
+    let alive = true;
+    getDoc(doc(db, 'users', user.uid)).then(async snap => {
+      if (!alive) return;
+      if (snap.exists() && snap.data()?.phone) { setUserProfileComplete(true); return; }
+      // Anggota Makrab (login Google dll.) tidak dipaksa mengisi profil klien
+      let member = false;
+      try {
+        const { data } = await supabase.from('makrab_members').select('id').limit(1);
+        member = !!(data && data.length);
+      } catch { /* abaikan: dianggap bukan anggota */ }
+      if (alive) setUserProfileComplete(member);
     }).catch(() => {
-      setUserProfileComplete(true);
+      if (alive) setUserProfileComplete(true);
     });
+    // CompleteProfile memberi tahu App setelah profil tersimpan, supaya tidak mental balik ke /complete-profile
+    const onDone = () => setUserProfileComplete(true);
+    window.addEventListener('synw:profile-complete', onDone);
+    return () => { alive = false; window.removeEventListener('synw:profile-complete', onDone); };
   }, [user]);
 
   /* ── Halaman fullscreen: tidak pakai Navbar & Footer ── */

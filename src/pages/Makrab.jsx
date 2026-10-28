@@ -33,16 +33,23 @@ const THEME_CSS = `
   --mk-accent: #7a1f2b;
   --mk-accent-hover: #621823;
   --mk-accent-ink: #ffffff;
+  --mk-accent-text: #7a1f2b;
   --mk-accent-soft: #f0e2e3;
 
   --mk-ok: #2e6a4d;
   --mk-warn: #9a6410;
   --mk-bad: #b3261e;
+  --mk-info: #2f5d8a;
 
   --mk-tile-1: #ecdfd2;
   --mk-tile-2: #efd8d5;
   --mk-tile-3: #dde4d8;
   --mk-tile-4: #e2dfd7;
+
+  --mk-toast-bg: #1d1a17;
+  --mk-toast-ink: #ffffff;
+  --mk-overlay: rgba(29, 26, 23, 0.5);
+  --mk-shadow: 0 10px 40px -12px rgba(29, 26, 23, 0.28);
 
   --mk-radius: 14px;
   --mk-radius-sm: 10px;
@@ -50,8 +57,41 @@ const THEME_CSS = `
   --mk-tap: 44px;
   --mk-nav-h: 60px;
   --mk-side-w: 236px;
-  --mk-shadow: 0 10px 40px -12px rgba(29, 26, 23, 0.28);
 }
+
+/* Mode gelap: pilihan disimpan di perangkat; default mengikuti pengaturan HP/laptop */
+.mk[data-theme="dark"] {
+  color-scheme: dark;
+  --mk-bg: #141211;
+  --mk-surface: #1c1917;
+  --mk-surface-2: #24201d;
+  --mk-line: #38332e;
+  --mk-ink: #ece8e1;
+  --mk-ink-2: #bcb5a9;
+  --mk-ink-3: #8f887c;
+
+  --mk-accent: #b8404f;
+  --mk-accent-hover: #cb5160;
+  --mk-accent-ink: #ffffff;
+  --mk-accent-text: #e48c97;
+  --mk-accent-soft: #3a1f24;
+
+  --mk-ok: #6cc79a;
+  --mk-warn: #e0a84a;
+  --mk-bad: #f0766d;
+  --mk-info: #82b3e3;
+
+  --mk-tile-1: #3a2f26;
+  --mk-tile-2: #402a2a;
+  --mk-tile-3: #27342a;
+  --mk-tile-4: #2d2b27;
+
+  --mk-toast-bg: #ece8e1;
+  --mk-toast-ink: #141211;
+  --mk-overlay: rgba(0, 0, 0, 0.62);
+  --mk-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.7);
+}
+.mk[data-theme="light"] { color-scheme: light; }
 `;
 
 const CSS = `
@@ -59,7 +99,7 @@ const CSS = `
 .mk *, .mk *::before, .mk *::after { box-sizing: border-box; }
 .mk :where(button, input, select, textarea) { font: inherit; color: inherit; }
 .mk :where(button) { cursor: pointer; }
-.mk :where(a) { color: var(--mk-accent); }
+.mk :where(a) { color: var(--mk-accent-text); }
 .mk h1, .mk h2, .mk h3 { font-family: var(--mk-font); margin: 0; font-weight: 500; letter-spacing: -0.015em; }
 .mk p { margin: 0; }
 .mk :focus-visible { outline: 2px solid var(--mk-accent); outline-offset: 2px; }
@@ -83,7 +123,7 @@ const CSS = `
   border: 0; background: none; font-size: 11px; color: var(--mk-ink-3);
 }
 .mk-bottom button i { font-size: 17px; }
-.mk-bottom button.on { color: var(--mk-accent); }
+.mk-bottom button.on { color: var(--mk-accent-text); }
 .mk-bottom button.on::before { content: ''; position: absolute; top: 0; left: 28%; right: 28%; height: 2px; background: var(--mk-accent); }
 
 @media (min-width: 900px) {
@@ -108,7 +148,7 @@ const CSS = `
 }
 .mk-nav-btn i { width: 18px; text-align: center; }
 .mk-nav-btn:hover { background: rgba(122, 31, 43, 0.06); }
-.mk-nav-btn.on { background: var(--mk-accent-soft); color: var(--mk-accent); font-weight: 500; }
+.mk-nav-btn.on { background: var(--mk-accent-soft); color: var(--mk-accent-text); font-weight: 500; }
 .mk-nav-btn em { margin-left: auto; font-style: normal; font-size: 12px; min-width: 20px; text-align: center; padding: 1px 6px; border-radius: 99px; background: var(--mk-accent); color: #fff; }
 .mk-side-foot { margin-top: auto; padding: 12px 10px 0; border-top: 1px solid var(--mk-line); font-size: 13px; }
 .mk-side-foot small { display: block; color: var(--mk-ink-3); overflow: hidden; text-overflow: ellipsis; }
@@ -168,7 +208,7 @@ const CSS = `
 .mk-st { display: inline-flex; align-items: center; gap: 6px; }
 .mk-st::before { content: ''; width: 7px; height: 7px; border-radius: 2px; background: var(--mk-ink-3); }
 .mk-st.proses::before { background: var(--mk-warn); }
-.mk-st.review::before { background: #2f5d8a; }
+.mk-st.review::before { background: var(--mk-info); }
 .mk-st.selesai::before { background: var(--mk-ok); }
 .mk-reorder { display: flex; flex-direction: column; flex: 0 0 auto; }
 .mk-reorder button { width: 32px; height: 22px; border: 0; background: none; color: var(--mk-ink-3); font-size: 11px; }
@@ -203,7 +243,7 @@ const CSS = `
 .mk-cmt p { white-space: pre-wrap; overflow-wrap: anywhere; }
 
 /* ── Sheet / modal ── */
-.mk-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(29, 26, 23, 0.5); display: flex; align-items: flex-end; justify-content: center; }
+.mk-overlay { position: fixed; inset: 0; z-index: 100; background: var(--mk-overlay); display: flex; align-items: flex-end; justify-content: center; }
 .mk-sheet {
   width: 100%; max-height: 94dvh; overflow-y: auto; background: var(--mk-bg); border-radius: 20px 20px 0 0;
   padding: 0 16px calc(24px + env(safe-area-inset-bottom)); box-shadow: var(--mk-shadow); animation: mkUp 0.24s ease-out;
@@ -220,7 +260,7 @@ const CSS = `
 
 /* ── Toast ── */
 .mk-toasts { position: fixed; left: 12px; right: 12px; bottom: calc(var(--mk-nav-h) + 14px + env(safe-area-inset-bottom)); z-index: 200; display: flex; flex-direction: column; gap: 8px; pointer-events: none; align-items: center; }
-.mk-toast { pointer-events: auto; max-width: 440px; width: 100%; background: var(--mk-ink); color: #fff; border-radius: var(--mk-radius-sm); padding: 12px 14px; font-size: 14px; box-shadow: var(--mk-shadow); animation: mkUp 0.2s ease-out; }
+.mk-toast { pointer-events: auto; max-width: 440px; width: 100%; background: var(--mk-toast-bg); color: var(--mk-toast-ink); border-radius: var(--mk-radius-sm); padding: 12px 14px; font-size: 14px; box-shadow: var(--mk-shadow); animation: mkUp 0.2s ease-out; }
 .mk-toast.err { background: var(--mk-bad); }
 @media (min-width: 900px) { .mk-toasts { bottom: 20px; left: auto; right: 20px; align-items: flex-end; } }
 
@@ -247,12 +287,32 @@ const CSS = `
 .mk-mem small { color: var(--mk-ink-3); overflow-wrap: anywhere; }
 .mk-mem-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 @media (prefers-reduced-motion: reduce) { .mk-sheet, .mk-toast { animation: none; } }
-`;
+/* ── Divisi, dana, nota ── */
+.mk-div { display: block; width: 100%; text-align: left; border: 1px solid var(--mk-line); background: var(--mk-surface); border-radius: var(--mk-radius); padding: 14px; margin-bottom: 10px; }
+.mk-div:hover { border-color: var(--mk-ink-3); }
+.mk-div h3 { font-size: 1.02rem; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.mk-div small { color: var(--mk-ink-3); font-weight: 400; font-size: 13px; }
+.mk-div p { margin-top: 4px; font-size: 13px; color: var(--mk-ink-2); }
+.mk-chipline { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.mk-chipline span { font-size: 12px; color: var(--mk-ink-2); border: 1px solid var(--mk-line); border-radius: 6px; padding: 2px 8px; }
+.mk-money { font-variant-numeric: tabular-nums; }
+.mk-exp { padding: 12px 0; border-bottom: 1px solid var(--mk-line); display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: start; }
+.mk-exp b { font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
+.mk-exp-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.mk-warn { color: var(--mk-warn); }
+.mk-back { border: 0; background: none; color: var(--mk-accent-text); padding: 0; min-height: 36px; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.mk-pill { font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--mk-surface-2); color: var(--mk-ink-2); }
+.mk-pill.warn { background: var(--mk-accent-soft); color: var(--mk-warn); }
+.mk-mem-edit { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mk-mem-edit .full { grid-column: 1 / -1; }
+.mk-file-note { font-size: 13px; color: var(--mk-ink-3); margin-top: 4px; }`;
 
 /* ══════════════════════════════════════════════════════════════
    KONSTANTA & HELPER
 ══════════════════════════════════════════════════════════════ */
-const ADMIN_EMAIL = 'aldokraksaan@gmail.com';
+const ADMIN_EMAILS = { 'aldokraksaan@gmail.com': 'Aldo', 'aprilmeijuni1904@gmail.com': 'April' };
+const PERAN = { admin: 'Admin', koordinator: 'Koordinator', anggota: 'Anggota' };
+const EXP_STATUS = { menunggu: 'Menunggu persetujuan', disetujui: 'Disetujui', ditolak: 'Ditolak' };
 const KAT = { kuliah: 'Tugas Kuliah', makrab: 'Tugas Makrab', admin: 'To-do Admin' };
 const STATUS = { todo: 'Belum', proses: 'Proses', review: 'Review', selesai: 'Selesai' };
 const SUB_STATUS = { menunggu: 'Menunggu review', perlu_revisi: 'Perlu revisi', disetujui: 'Disetujui' };
@@ -278,8 +338,10 @@ const TABLE_KEY = {
   makrab_submissions: 'submissions',
   makrab_reviews: 'reviews',
   makrab_reminders: 'reminders',
+  makrab_divisions: 'divisions',
+  makrab_expenses: 'expenses',
 };
-const EMPTY_DB = { members: [], tasks: [], assignees: [], comments: [], submissions: [], reviews: [], reminders: [] };
+const EMPTY_DB = { members: [], tasks: [], assignees: [], comments: [], submissions: [], reviews: [], reminders: [], divisions: [], expenses: [] };
 
 const TZ = 'Asia/Jakarta';
 const dayFmt = new Intl.DateTimeFormat('id-ID', { weekday: 'short', day: 'numeric', month: 'short', timeZone: TZ });
@@ -317,6 +379,7 @@ const toLocalInput = iso => {
 const fromLocalInput = v => (v ? new Date(v).toISOString() : null);
 const safeUrl = u => /^https?:\/\//i.test(u || '');
 const hostOf = u => { try { return new URL(u).host; } catch { return u; } };
+const rp = n => `Rp ${new Intl.NumberFormat('id-ID').format(Math.round(Number(n) || 0))}`;
 const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
 /* ── Kalender: .ics + link Google Calendar ── */
@@ -369,7 +432,7 @@ function pushBrowser(title, body) {
   try { new Notification(title, { body, tag: `${title}|${body}`.slice(0, 60) }); } catch { /* abaikan */ }
 }
 
-/* Aturan lihat tugas, sama persis dengan RLS (dipakai admin untuk "lihat sebagai") */
+/* Tugas pribadi seorang anggota (yang ditugaskan padanya + tugas kuliah miliknya), sama dengan aturan RLS */
 function visibleForMember(tasks, assignees, member) {
   if (!member) return [];
   const assigned = new Set(assignees.filter(a => a.member_id === member.id).map(a => a.task_id));
@@ -415,14 +478,23 @@ function useMakrabData(me, isAdmin, onEvent) {
       if (e) throw e;
       return data || [];
     };
+    const table = get('makrab_members', 'created_at');
     const roster = isAdmin
-      ? get('makrab_members', 'created_at')
-      : supabase.rpc('makrab_roster').then(r => { if (r.error) throw r.error; return r.data || []; });
-    const [members, tasks, assignees, comments, submissions, reviews, reminders] = await Promise.all([
+      ? table
+      : Promise.all([
+          supabase.rpc('makrab_roster').then(r => { if (r.error) throw r.error; return r.data || []; }),
+          table,
+        ]).then(([names, rows]) => {
+          const byId = new Map(names.map(n => [n.id, n]));
+          rows.forEach(r => byId.set(r.id, { ...byId.get(r.id), ...r }));
+          return [...byId.values()];
+        });
+    const [members, tasks, assignees, comments, submissions, reviews, reminders, divisions, expenses] = await Promise.all([
       roster, get('makrab_tasks', 'urutan'), get('makrab_task_assignees'), get('makrab_comments', 'created_at'),
       get('makrab_submissions', 'created_at'), get('makrab_reviews', 'created_at'), get('makrab_reminders', 'waktu'),
+      get('makrab_divisions', 'urutan'), get('makrab_expenses', 'created_at'),
     ]);
-    setDb({ members, tasks, assignees, comments, submissions, reviews, reminders });
+    setDb({ members, tasks, assignees, comments, submissions, reviews, reminders, divisions, expenses });
   }, [isAdmin]);
 
   useEffect(() => {
@@ -474,11 +546,11 @@ function useMakrabData(me, isAdmin, onEvent) {
    NOTIFIKASI DI DALAM HALAMAN (diturunkan dari data, jadi tetap
    muncul walau halaman baru dibuka setelah kejadian)
 ══════════════════════════════════════════════════════════════ */
-function buildNotices({ me, isAdmin, db, nameOf }) {
+function buildNotices({ me, canManage, db, nameOf }) {
   const title = id => db.tasks.find(t => t.id === id)?.judul || 'tugas';
   const out = [];
   db.submissions.forEach(s => {
-    if (isAdmin && s.author_id !== me.id) {
+    if (canManage && s.author_id !== me.id) {
       out.push({ id: `s${s.id}`, t: s.created_at, icon: 'link', taskId: s.task_id, text: `${nameOf(s.author_id)} kirim link (Revisi ${s.revisi_ke}): ${title(s.task_id)}` });
     }
   });
@@ -487,7 +559,7 @@ function buildNotices({ me, isAdmin, db, nameOf }) {
       out.push({ id: `c${c.id}`, t: c.created_at, icon: 'comment', taskId: c.task_id, text: `${nameOf(c.author_id)} komentar di ${title(c.task_id)}` });
     }
   });
-  if (!isAdmin) {
+  {
     db.reviews.forEach(r => {
       const s = db.submissions.find(x => x.id === r.submission_id);
       if (s && s.author_id === me.id) {
@@ -551,15 +623,15 @@ function Sheet({ title, onClose, actions, children }) {
 }
 
 function TaskRow({ t, ctx, sub = false, reorder = false }) {
-  const { db, nameOf, actions, isAdmin } = ctx;
+  const { db, nameOf, actions, canManage } = ctx;
   const done = t.status === 'selesai';
   const kids = db.tasks.filter(x => x.parent_id === t.id);
   const doneKids = kids.filter(k => k.status === 'selesai').length;
   const ds = dueState(t);
   const people = db.assignees.filter(a => a.task_id === t.id).map(a => nameOf(a.member_id));
-  const pending = isAdmin ? db.submissions.filter(s => s.task_id === t.id && s.status === 'menunggu').length : 0;
+  const pending = canManage ? db.submissions.filter(s => s.task_id === t.id && s.status === 'menunggu').length : 0;
   const parentAssigned = !!t.parent_id && db.assignees.some(a => a.task_id === t.parent_id);
-  const unassigned = isAdmin && t.kategori !== 'admin' && people.length === 0 && kids.length === 0 && !parentAssigned;
+  const unassigned = canManage && t.kategori !== 'admin' && people.length === 0 && kids.length === 0 && !parentAssigned;
   return (
     <div className={`mk-row${sub ? ' sub' : ''}${done ? ' is-done' : ''}`}>
       <button className={`mk-check${done ? ' done' : ''}`} onClick={() => actions.toggleDone(t)} aria-pressed={done} aria-label={done ? 'Batalkan selesai' : 'Tandai selesai'}>
@@ -568,6 +640,7 @@ function TaskRow({ t, ctx, sub = false, reorder = false }) {
       <button className="mk-row-body" onClick={() => actions.openTask(t.id)}>
         <span className="mk-row-title">{t.judul}</span>
         <span className="mk-meta">
+          {ctx.showDivision && t.division_id && <span>{ctx.divisionName(t.division_id)}</span>}
           {t.matkul && <span>{t.matkul}</span>}
           {t.deadline && <span className={ds || ''}>{ds === 'lewat' ? 'Lewat · ' : ''}{fmtDeadline(t.deadline)}</span>}
           {kids.length > 0 && <span>{doneKids}/{kids.length} sub-tugas</span>}
@@ -621,7 +694,9 @@ function TaskList({ list, ctx, reorder = false, emptyText = 'Belum ada tugas.' }
    KARTU LINK & REVISI
 ══════════════════════════════════════════════════════════════ */
 function SubmissionCard({ s, ctx }) {
-  const { db, isAdmin, nameOf, actions } = ctx;
+  const { db, nameOf, actions } = ctx;
+  const taskOfSub = db.tasks.find(x => x.id === s.task_id);
+  const canReview = !!taskOfSub && ctx.canManageTask(taskOfSub);
   const reviews = db.reviews.filter(r => r.submission_id === s.id);
   const [isi, setIsi] = useState('');
   const [busy, setBusy] = useState(false);
@@ -643,9 +718,9 @@ function SubmissionCard({ s, ctx }) {
       {s.catatan && <p className="mk-hint" style={{ whiteSpace: 'pre-wrap' }}>{s.catatan}</p>}
       <p className="mk-hint" style={{ marginTop: 6 }}>{nameOf(s.author_id)} · {fmtAgo(s.created_at)}</p>
       {reviews.map(r => (
-        <div key={r.id} className="mk-review"><small>Revisi dari admin · {fmtAgo(r.created_at)}</small>{r.isi}</div>
+        <div key={r.id} className="mk-review"><small>Revisi · {fmtAgo(r.created_at)}</small>{r.isi}</div>
       ))}
-      {isAdmin && (
+      {canReview && (
         <div style={{ marginTop: 12 }}>
           <textarea className="mk-textarea" value={isi} onChange={e => setIsi(e.target.value)} placeholder="Tulis revisi atau catatan untuk link ini" maxLength={4000} />
           <div className="mk-chips" style={{ marginTop: 8, marginBottom: 0 }}>
@@ -663,7 +738,7 @@ function SubmissionCard({ s, ctx }) {
    DETAIL TUGAS
 ══════════════════════════════════════════════════════════════ */
 function TaskDetail({ id, ctx, onClose, onEdit }) {
-  const { db, me, isAdmin, nameOf, actions } = ctx;
+  const { db, me, nameOf, actions } = ctx;
   const t = db.tasks.find(x => x.id === id);
   const [url, setUrl] = useState('');
   const [catatan, setCatatan] = useState('');
@@ -677,7 +752,7 @@ function TaskDetail({ id, ctx, onClose, onEdit }) {
   const kids = db.tasks.filter(x => x.parent_id === t.id).sort((a, b) => a.urutan - b.urutan);
   const people = db.assignees.filter(a => a.task_id === t.id).map(a => nameOf(a.member_id));
   const mine = t.kategori === 'kuliah' && t.dibuat_oleh === me.id;
-  const canEdit = isAdmin || mine;
+  const canEdit = ctx.canManageTask(t) || mine || (t.kategori === 'admin' && t.dibuat_oleh === me.id);
   const subs = db.submissions.filter(s => s.task_id === t.id).sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
   const comments = db.comments.filter(c => c.task_id === t.id).sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
   const myRem = db.reminders.find(r => r.task_id === t.id && r.member_id === me.id && !r.dikirim);
@@ -814,60 +889,79 @@ function TaskDetail({ id, ctx, onClose, onEdit }) {
    FORM TUGAS (tambah / ubah)
 ══════════════════════════════════════════════════════════════ */
 function TaskForm({ ctx, initial, defaults, onClose, onSaved }) {
-  const { db, isAdmin, actions } = ctx;
+  const { db, isAdmin, me, actions } = ctx;
   const base = initial || defaults || {};
-  const [kategori, setKategori] = useState(isAdmin ? (base.kategori || 'makrab') : 'kuliah');
+  const isPrivate = initial?.kategori === 'admin';
+  const personal = !initial && !!defaults?.personal;
+  const manage = !isPrivate && (initial ? ctx.canManageTask(initial) : ctx.canManage && !personal);
+  const [kategori, setKategori] = useState(isPrivate ? 'admin' : (manage ? (base.kategori === 'kuliah' ? 'kuliah' : 'makrab') : 'kuliah'));
   const [judul, setJudul] = useState(base.judul || '');
   const [deskripsi, setDeskripsi] = useState(base.deskripsi || '');
   const [matkul, setMatkul] = useState(base.matkul || '');
   const [deadline, setDeadline] = useState(toLocalInput(base.deadline));
   const [kelas, setKelas] = useState(base.kelas || '');
   const [parentId, setParentId] = useState(base.parent_id || '');
+  const [divisionId, setDivisionId] = useState(isAdmin ? (base.division_id || '') : (me.division_id || ''));
   const [assignees, setAssignees] = useState(() => new Set(initial ? db.assignees.filter(a => a.task_id === initial.id).map(a => a.member_id) : []));
   const [busy, setBusy] = useState(false);
 
-  const people = db.members.filter(m => !m.is_admin);
+  const people = db.members.filter(m => (divisionId ? m.division_id === divisionId : true));
   const kelasList = [...new Set(people.map(m => m.kelas).filter(Boolean))].sort();
-  const parents = db.tasks.filter(t => !t.parent_id && t.kategori === kategori && t.id !== initial?.id);
+  const parents = db.tasks.filter(t => !t.parent_id && t.kategori === kategori && t.id !== initial?.id && (t.division_id || '') === (divisionId || ''));
   const toggle = id => setAssignees(prev => { const n = new Set(prev); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  const labelOf = m => `${m.nama}${m.kelas ? ` · ${m.kelas}` : ''}${m.email === null || m.email === undefined ? ' (menunggu email)' : ''}`;
 
   const submit = async e => {
     e.preventDefault();
     if (!judul.trim()) return;
     setBusy(true);
-    const ok = await actions.saveTask(
-      {
-        kategori,
-        judul: judul.trim(),
-        deskripsi: deskripsi.trim() || null,
-        matkul: kategori === 'kuliah' ? (matkul.trim() || null) : null,
-        deadline: fromLocalInput(deadline),
-        kelas: isAdmin && kategori === 'kuliah' ? (kelas || null) : undefined,
-        parent_id: isAdmin ? (parentId || null) : undefined,
-      },
-      initial?.id,
-      isAdmin && kategori !== 'admin' ? [...assignees] : null
-    );
+    const payload = {
+      kategori,
+      judul: judul.trim(),
+      deskripsi: deskripsi.trim() || null,
+      matkul: kategori === 'kuliah' ? (matkul.trim() || null) : null,
+      deadline: fromLocalInput(deadline),
+    };
+    if (manage) {
+      payload.division_id = isAdmin ? (divisionId || null) : (me.division_id || null);
+      payload.parent_id = parentId || null;
+      payload.kelas = isAdmin && kategori === 'kuliah' ? (kelas || null) : undefined;
+    }
+    const ok = await actions.saveTask(payload, initial?.id, manage ? [...assignees].filter(id => people.some(p => p.id === id)) : null);
     setBusy(false);
     if (ok) onSaved(ok);
   };
 
   return (
-    <Sheet title={initial ? 'Ubah tugas' : 'Tugas baru'} onClose={onClose}>
+    <Sheet title={initial ? 'Ubah tugas' : (personal ? 'Tugas kuliah pribadi' : 'Tugas baru')} onClose={onClose}>
       <form onSubmit={submit}>
-        {isAdmin && (
-          <div className="mk-field">
-            <label htmlFor="f-kat">Kategori</label>
-            <select id="f-kat" className="mk-select" value={kategori} onChange={e => { setKategori(e.target.value); setParentId(''); }}>
-              {Object.entries(KAT).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-            </select>
+        {manage && (
+          <div className="mk-row-2">
+            <div className="mk-field">
+              <label htmlFor="f-kat">Kategori</label>
+              <select id="f-kat" className="mk-select" value={kategori} onChange={e => { setKategori(e.target.value); setParentId(''); }}>
+                <option value="makrab">Tugas Makrab</option>
+                <option value="kuliah">Tugas Kuliah</option>
+              </select>
+            </div>
+            <div className="mk-field">
+              <label htmlFor="f-div">Divisi</label>
+              {isAdmin ? (
+                <select id="f-div" className="mk-select" value={divisionId} onChange={e => { setDivisionId(e.target.value); setParentId(''); setAssignees(new Set()); }}>
+                  <option value="">Semua / tanpa divisi</option>
+                  {db.divisions.map(d => <option key={d.id} value={d.id}>{d.nama}</option>)}
+                </select>
+              ) : (
+                <div style={{ minHeight: 44, display: 'flex', alignItems: 'center' }}>{ctx.divisionName(me.division_id)}</div>
+              )}
+            </div>
           </div>
         )}
         <div className="mk-field">
           <label htmlFor="f-judul">Judul</label>
           <input id="f-judul" className="mk-input" value={judul} onChange={e => setJudul(e.target.value)} maxLength={200} required autoFocus />
         </div>
-        {kategori === 'kuliah' && (
+        {kategori === 'kuliah' && !isPrivate && (
           <div className="mk-field">
             <label htmlFor="f-matkul">Mata kuliah</label>
             <input id="f-matkul" className="mk-input" list="mk-matkul" value={matkul} onChange={e => setMatkul(e.target.value)} maxLength={80} placeholder="mis. Bahasa Inggris" />
@@ -883,17 +977,17 @@ function TaskForm({ ctx, initial, defaults, onClose, onSaved }) {
             <label htmlFor="f-dl">Deadline</label>
             <input id="f-dl" className="mk-input" type="datetime-local" value={deadline} onChange={e => setDeadline(e.target.value)} />
           </div>
-          {isAdmin && kategori === 'kuliah' && (
+          {manage && isAdmin && kategori === 'kuliah' && (
             <div className="mk-field">
               <label htmlFor="f-kelas">Khusus kelas</label>
               <select id="f-kelas" className="mk-select" value={kelas} onChange={e => setKelas(e.target.value)}>
                 <option value="">Semua kelas</option>
-                {kelasList.map(k => <option key={k} value={k}>Kelas {k}</option>)}
+                {[...new Set(db.members.map(m => m.kelas).filter(Boolean))].sort().map(k => <option key={k} value={k}>Kelas {k}</option>)}
               </select>
             </div>
           )}
         </div>
-        {isAdmin && kategori !== 'admin' && (
+        {manage && (
           <div className="mk-field">
             <label htmlFor="f-parent">Sub-tugas dari</label>
             <select id="f-parent" className="mk-select" value={parentId} onChange={e => setParentId(e.target.value)}>
@@ -902,10 +996,10 @@ function TaskForm({ ctx, initial, defaults, onClose, onSaved }) {
             </select>
           </div>
         )}
-        {isAdmin && kategori !== 'admin' && (
+        {manage && (
           <div className="mk-field">
             <span className="mk-label">Ditugaskan ke</span>
-            {people.length === 0 && <p className="mk-hint">Belum ada anggota. Tambahkan dulu di menu Anggota.</p>}
+            {people.length === 0 && <p className="mk-hint">Belum ada anggota di divisi ini.</p>}
             {people.length > 0 && (
               <div className="mk-chips">
                 <button type="button" onClick={() => setAssignees(new Set(people.map(p => p.id)))}>Semua</button>
@@ -918,7 +1012,7 @@ function TaskForm({ ctx, initial, defaults, onClose, onSaved }) {
             {people.map(p => (
               <label key={p.id} className="mk-chk">
                 <input type="checkbox" checked={assignees.has(p.id)} onChange={() => toggle(p.id)} />
-                <span>{p.nama}{p.kelas ? ` · ${p.kelas}` : ''}</span>
+                <span>{labelOf(p)}</span>
               </label>
             ))}
           </div>
@@ -1055,7 +1149,7 @@ function MemberHome({ tasks, ctx, go }) {
         {minggu.length > 0 && <><p className="mk-label" style={{ marginTop: 10 }}>Minggu ini</p>{rows(minggu)}</>}
       </Section>
       <Section title="Tugas kuliah" note={`${kuliah.length} belum selesai`}
-        action={<button className="mk-btn mk-btn--sm" onClick={() => ctx.actions.openForm({ kategori: 'kuliah' })}><I n="plus" /> Tambah</button>}>
+        action={<button className="mk-btn mk-btn--sm" onClick={() => ctx.actions.openForm({ kategori: 'kuliah', personal: true })}><I n="plus" /> Tambah</button>}>
         {kuliah.length === 0 ? <p className="mk-empty">Belum ada tugas kuliah.</p> : rows(kuliah.slice(0, 5))}
         {kuliah.length > 5 && <button className="mk-btn mk-btn--sm" style={{ marginTop: 10 }} onClick={() => go('kuliah')}>Lihat semua ({kuliah.length})</button>}
       </Section>
@@ -1078,7 +1172,7 @@ function KuliahView({ tasks, ctx }) {
     <>
       <div className="mk-page-h">
         <div><h2>Tugas kuliah</h2><p className="mk-hint">Dikelompokkan per mata kuliah. Matkul tanpa tugas berarti memang belum ada.</p></div>
-        <button className="mk-btn mk-btn--primary" onClick={() => ctx.actions.openForm({ kategori: 'kuliah' })}><I n="plus" /> Tambah tugas</button>
+        <button className="mk-btn mk-btn--primary" onClick={() => ctx.actions.openForm({ kategori: 'kuliah', personal: true })}><I n="plus" /> Tambah tugas</button>
       </div>
       {groups.length === 0 && <p className="mk-empty">Belum ada tugas kuliah. Tambahkan sendiri kalau ada yang belum dimasukkan koordinator.</p>}
       {groups.map(([matkul, items]) => (
@@ -1124,32 +1218,44 @@ function AgendaView({ tasks, ctx }) {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   TAMPILAN ADMIN
+   TAMPILAN KELOLA (admin = semua divisi, koordinator = divisinya)
 ══════════════════════════════════════════════════════════════ */
 const leafTasks = tasks => tasks.filter(t => !tasks.some(x => x.parent_id === t.id));
 
-function Overview({ ctx, go, onView }) {
-  const { db } = ctx;
-  const people = db.members.filter(m => !m.is_admin);
-  const real = db.tasks.filter(t => t.kategori !== 'admin');
+function expenseTotals(expenses, divisionId) {
+  const list = expenses.filter(e => e.division_id === divisionId);
+  const sum = st => list.filter(e => e.status === st).reduce((n, e) => n + Number(e.jumlah), 0);
+  return { approved: sum('disetujui'), pending: sum('menunggu') };
+}
+
+function DanaBar({ budget, approved, pending }) {
+  const pct = v => (budget > 0 ? Math.min(100, Math.round((v / budget) * 100)) : 0);
+  return (
+    <div className="mk-bar" aria-hidden="true" style={{ position: 'relative' }}>
+      <i style={{ width: `${pct(approved + pending)}%`, background: 'var(--mk-warn)', position: 'absolute', left: 0, opacity: 0.55 }} />
+      <i style={{ width: `${pct(approved)}%`, position: 'absolute', left: 0 }} />
+    </div>
+  );
+}
+
+function Overview({ ctx, go, onView, onDivision, scope }) {
+  const { db, isAdmin } = ctx;
+  const real = db.tasks.filter(t => t.kategori !== 'admin' && (!scope || t.division_id === scope));
   const leaves = leafTasks(real);
   const lewat = leaves.filter(t => dueState(t) === 'lewat');
-  const waiting = db.submissions.filter(s => s.status === 'menunggu');
+  const waiting = db.submissions.filter(s => s.status === 'menunggu' && real.some(t => t.id === s.task_id));
   const makrabLeaves = leaves.filter(t => t.kategori === 'makrab');
-  const kuliahLeaves = leaves.filter(t => t.kategori === 'kuliah');
   const doneM = makrabLeaves.filter(t => t.status === 'selesai').length;
   const assignedIds = new Set(db.assignees.map(a => a.task_id));
   const unassigned = makrabLeaves.filter(t => !assignedIds.has(t.id) && !(t.parent_id && assignedIds.has(t.parent_id)));
   const pct = (a, b) => (b ? Math.round((a / b) * 100) : 0);
-
-  const personStats = people.map(p => {
-    const mine = leafTasks(visibleForMember(db.tasks, db.assignees, p));
-    return { p, total: mine.length, done: mine.filter(t => t.status === 'selesai').length };
-  });
+  const people = db.members.filter(m => m.division_id === scope && m.id !== ctx.me.id);
+  const pendingExpenses = db.expenses.filter(e => e.status === 'menunggu' && (!scope || e.division_id === scope));
+  const divs = scope ? db.divisions.filter(d => d.id === scope) : db.divisions;
 
   return (
     <>
-      <div className="mk-page-h"><h2>Ringkasan</h2></div>
+      <div className="mk-page-h"><h2>{scope ? ctx.divisionName(scope) : 'Ringkasan'}</h2></div>
       <div className="mk-tiles">
         <button className="mk-tile" onClick={() => go('review')}><b>{waiting.length}</b><span>link menunggu review</span></button>
         <button className="mk-tile" onClick={() => go('tugas')}><b>{lewat.length}</b><span>lewat deadline</span></button>
@@ -1157,10 +1263,10 @@ function Overview({ ctx, go, onView }) {
         <button className="mk-tile" onClick={() => go('tugas')}><b>{unassigned.length}</b><span>belum dibagi</span></button>
       </div>
 
-      {people.length === 0 && (
+      {isAdmin && pendingExpenses.length > 0 && (
         <p className="mk-viewas" style={{ marginTop: 18 }}>
-          <span>Belum ada anggota. Tambahkan email mereka dulu supaya bisa login dan dibagi tugas.</span>
-          <button className="mk-btn mk-btn--sm mk-btn--primary" onClick={() => go('anggota')}>Tambah anggota</button>
+          <span><b>{pendingExpenses.length}</b> pengeluaran menunggu persetujuanmu.</span>
+          <button className="mk-btn mk-btn--sm mk-btn--primary" onClick={() => go('dana')}>Periksa</button>
         </p>
       )}
 
@@ -1170,30 +1276,62 @@ function Overview({ ctx, go, onView }) {
         </Section>
       )}
 
-      <Section title="Progres per kategori">
-        <div className="mk-prog"><button onClick={() => go('tugas')}>Tugas makrab</button><span>{doneM}/{makrabLeaves.length}</span><div className="mk-bar"><i style={{ width: `${pct(doneM, makrabLeaves.length)}%` }} /></div></div>
-        <div className="mk-prog"><button onClick={() => go('tugas')}>Tugas kuliah</button><span>{kuliahLeaves.filter(t => t.status === 'selesai').length}/{kuliahLeaves.length}</span><div className="mk-bar"><i style={{ width: `${pct(kuliahLeaves.filter(t => t.status === 'selesai').length, kuliahLeaves.length)}%` }} /></div></div>
-      </Section>
+      {!scope && (
+        <Section title="Progres per divisi" note="tap untuk membuka">
+          {db.divisions.map(d => {
+            const ls = leafTasks(db.tasks.filter(t => t.kategori !== 'admin' && t.division_id === d.id));
+            const done = ls.filter(t => t.status === 'selesai').length;
+            return (
+              <div key={d.id} className="mk-prog">
+                <button onClick={() => onDivision(d.id)}>{d.nama}</button>
+                <span>{done}/{ls.length}</span>
+                <div className="mk-bar"><i style={{ width: `${pct(done, ls.length)}%` }} /></div>
+              </div>
+            );
+          })}
+        </Section>
+      )}
 
-      <Section title="Progres per orang" note="tap nama untuk lihat dashboard-nya">
-        {personStats.length === 0 && <p className="mk-empty">Belum ada anggota.</p>}
-        {personStats.map(({ p, total, done }) => (
-          <div key={p.id} className="mk-prog">
-            <button onClick={() => onView(p.id)}>{p.nama}{p.kelas ? ` · ${p.kelas}` : ''}</button>
-            <span>{done}/{total}</span>
-            <div className="mk-bar"><i style={{ width: `${pct(done, total)}%` }} /></div>
-          </div>
-        ))}
+      {scope && (
+        <Section title="Progres per anggota" note={isAdmin ? 'tap nama untuk lihat dashboard-nya' : ''}>
+          {people.length === 0 && <p className="mk-empty">Belum ada anggota di divisimu.</p>}
+          {people.map(p => {
+            const mine = leafTasks(visibleForMember(db.tasks, db.assignees, p));
+            const done = mine.filter(t => t.status === 'selesai').length;
+            return (
+              <div key={p.id} className="mk-prog">
+                {isAdmin ? <button onClick={() => onView(p.id)}>{p.nama}</button> : <span style={{ color: 'var(--mk-ink)', fontWeight: 500 }}>{p.nama}</span>}
+                <span>{done}/{mine.length}</span>
+                <div className="mk-bar"><i style={{ width: `${pct(done, mine.length)}%` }} /></div>
+              </div>
+            );
+          })}
+        </Section>
+      )}
+
+      <Section title="Dana" action={<button className="mk-btn mk-btn--sm" onClick={() => go('dana')}>Buka</button>}>
+        {divs.map(d => {
+          const t = expenseTotals(db.expenses, d.id);
+          return (
+            <div key={d.id} className="mk-prog">
+              <span style={{ color: 'var(--mk-ink)', fontWeight: 500 }}>{d.nama}</span>
+              <span className="mk-money">{rp(t.approved)} / {rp(d.budget)}</span>
+              <DanaBar budget={d.budget} approved={t.approved} pending={t.pending} />
+            </div>
+          );
+        })}
       </Section>
     </>
   );
 }
 
-function ReviewView({ ctx }) {
+function ReviewView({ ctx, scope }) {
   const { db, actions } = ctx;
   const [tab, setTab] = useState('menunggu');
-  const list = db.submissions.filter(s => s.status === tab).sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-  const count = st => db.submissions.filter(s => s.status === st).length;
+  const inScope = s => { const t = db.tasks.find(x => x.id === s.task_id); return !!t && (!scope || t.division_id === scope); };
+  const base = db.submissions.filter(inScope);
+  const list = base.filter(s => s.status === tab).sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+  const count = st => base.filter(s => s.status === st).length;
   return (
     <>
       <div className="mk-page-h"><div><h2>Review link</h2><p className="mk-hint">Yang paling lama menunggu ada di atas.</p></div></div>
@@ -1207,7 +1345,9 @@ function ReviewView({ ctx }) {
         const t = db.tasks.find(x => x.id === s.task_id);
         return (
           <div key={s.id}>
-            <button className="mk-btn mk-btn--sm" style={{ marginBottom: 8 }} onClick={() => actions.openTask(s.task_id)}>{t?.judul || 'Tugas'} <I n="chevron-right" /></button>
+            <button className="mk-btn mk-btn--sm" style={{ marginBottom: 8 }} onClick={() => actions.openTask(s.task_id)}>
+              {ctx.isAdmin && t?.division_id ? `${ctx.divisionName(t.division_id)} · ` : ''}{t?.judul || 'Tugas'} <I n="chevron-right" />
+            </button>
             <SubmissionCard s={s} ctx={ctx} />
           </div>
         );
@@ -1216,24 +1356,35 @@ function ReviewView({ ctx }) {
   );
 }
 
-function AdminTasks({ ctx }) {
-  const { db, actions } = ctx;
+function AdminTasks({ ctx, scope, divFilter, setDivFilter }) {
+  const { db, actions, isAdmin } = ctx;
   const [kat, setKat] = useState('all');
   const [orang, setOrang] = useState('');
   const [st, setSt] = useState('');
+  const div = scope || divFilter;
   const order = { makrab: 0, kuliah: 1 };
   const list = db.tasks
     .filter(t => t.kategori !== 'admin')
+    .filter(t => !div || t.division_id === div)
     .filter(t => kat === 'all' || t.kategori === kat)
     .filter(t => !st || t.status === st)
     .filter(t => !orang || db.assignees.some(a => a.task_id === t.id && a.member_id === orang) || (t.parent_id && db.assignees.some(a => a.task_id === t.parent_id && a.member_id === orang)))
     .sort((a, b) => order[a.kategori] - order[b.kategori] || a.urutan - b.urutan);
+  const people = db.members.filter(m => !div || m.division_id === div);
   return (
     <>
       <div className="mk-page-h">
         <h2>Semua tugas</h2>
-        <button className="mk-btn mk-btn--primary" onClick={() => actions.openForm({ kategori: kat === 'kuliah' ? 'kuliah' : 'makrab' })}><I n="plus" /> Tambah tugas</button>
+        <button className="mk-btn mk-btn--primary" onClick={() => actions.openForm({ kategori: kat === 'kuliah' ? 'kuliah' : 'makrab', division_id: div || undefined })}><I n="plus" /> Tambah tugas</button>
       </div>
+      {isAdmin && (
+        <div className="mk-field">
+          <select className="mk-select" aria-label="Filter divisi" value={divFilter} onChange={e => { setDivFilter(e.target.value); setOrang(''); }}>
+            <option value="">Semua divisi</option>
+            {db.divisions.map(d => <option key={d.id} value={d.id}>{d.nama}</option>)}
+          </select>
+        </div>
+      )}
       <div className="mk-tabs">
         {[['all', 'Semua'], ['makrab', 'Makrab'], ['kuliah', 'Kuliah']].map(([k, l]) => (
           <button key={k} className={kat === k ? 'on' : ''} onClick={() => setKat(k)}>{l}</button>
@@ -1242,14 +1393,14 @@ function AdminTasks({ ctx }) {
       <div className="mk-row-2" style={{ marginBottom: 8 }}>
         <select className="mk-select" aria-label="Filter orang" value={orang} onChange={e => setOrang(e.target.value)}>
           <option value="">Semua orang</option>
-          {db.members.filter(m => !m.is_admin).map(m => <option key={m.id} value={m.id}>{m.nama}</option>)}
+          {people.map(m => <option key={m.id} value={m.id}>{m.nama}</option>)}
         </select>
         <select className="mk-select" aria-label="Filter status" value={st} onChange={e => setSt(e.target.value)}>
           <option value="">Semua status</option>
           {Object.entries(STATUS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
         </select>
       </div>
-      <TaskList list={list} ctx={ctx} reorder emptyText="Tidak ada tugas yang cocok dengan filter." />
+      <TaskList list={list} ctx={{ ...ctx, showDivision: isAdmin && !div }} reorder emptyText="Tidak ada tugas yang cocok dengan filter." />
     </>
   );
 }
@@ -1266,7 +1417,7 @@ function AdminTodo({ ctx }) {
   };
   return (
     <>
-      <div className="mk-page-h"><div><h2>To-do admin</h2><p className="mk-hint">Hanya kamu yang bisa melihat ini.</p></div></div>
+      <div className="mk-page-h"><div><h2>To-do saya</h2><p className="mk-hint">Catatan pribadi. Tidak ada orang lain yang bisa melihat ini, termasuk admin lain.</p></div></div>
       <form onSubmit={add} style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
         <input className="mk-input" placeholder="Tambah poin baru" value={text} onChange={e => setText(e.target.value)} maxLength={200} aria-label="Poin baru" />
         <button className="mk-btn mk-btn--primary" disabled={!text.trim()}>Tambah</button>
@@ -1276,103 +1427,408 @@ function AdminTodo({ ctx }) {
   );
 }
 
-function MembersView({ ctx, onView }) {
-  const { db, actions } = ctx;
-  const [nama, setNama] = useState('');
-  const [email, setEmail] = useState('');
-  const [kelas, setKelas] = useState('');
+/* ── Divisi & anggota ── */
+const peranRank = { admin: 0, koordinator: 1, anggota: 2 };
+
+function DivisionsView({ ctx, onOpen }) {
+  const { db } = ctx;
+  return (
+    <>
+      <div className="mk-page-h"><div><h2>Divisi & anggota</h2><p className="mk-hint">Total {db.members.length} orang di struktur. Tap divisi untuk melihat anggota dan memasukkan email mereka.</p></div></div>
+      {db.divisions.map(d => {
+        const ms = db.members.filter(m => m.division_id === d.id);
+        const aktif = ms.filter(m => m.email).length;
+        const koord = ms.find(m => m.peran === 'koordinator') || ms.find(m => m.peran === 'admin' && d.jenis === 'sie');
+        const pic = db.members.find(m => m.id === d.pic_id);
+        const waitingEmail = ms.length - aktif;
+        const ls = leafTasks(db.tasks.filter(t => t.kategori !== 'admin' && t.division_id === d.id));
+        const tot = expenseTotals(db.expenses, d.id);
+        return (
+          <button key={d.id} className="mk-div" onClick={() => onOpen(d.id)}>
+            <h3>{d.nama}<small>{ms.length}{d.target_anggota ? ` / ${d.target_anggota + (koord ? 1 : 0)}` : ''} orang</small></h3>
+            <p>
+              {d.jenis === 'sie' ? `Koordinator: ${koord?.nama || '-'}` : 'Badan Pengurus Harian'}
+              {pic && d.jenis === 'sie' ? ` · PIC: ${pic.nama}` : ''}
+            </p>
+            <p>
+              {aktif} sudah punya email{waitingEmail > 0 ? <span className="mk-warn"> · {waitingEmail} menunggu email</span> : ''}
+              {ls.length > 0 ? ` · tugas ${ls.filter(t => t.status === 'selesai').length}/${ls.length}` : ''}
+            </p>
+            <p className="mk-money">Dana {rp(tot.approved)} dari {rp(d.budget)}</p>
+          </button>
+        );
+      })}
+    </>
+  );
+}
+
+function MemberRow({ m, ctx, onView }) {
+  const { isAdmin, actions, db } = ctx;
+  const editable = ctx.canManageMembers(m.division_id) && (isAdmin || m.peran === 'anggota');
+  const div = db.divisions.find(d => d.id === m.division_id);
+  const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [f, setF] = useState({ nama: m.nama, email: m.email || '', kelas: m.kelas || '', jabatan: m.jabatan || '', sub_sie: m.sub_sie || '', peran: m.peran, izin: !!m.izin_anggota, division_id: m.division_id || '' });
+  const set = k => e => setF(v => ({ ...v, [k]: e.target.value }));
+  const save = async () => {
+    const email = f.email.trim().toLowerCase();
+    if (email && !isEmail(email)) { actions.toast('Format email belum benar', 'err'); return; }
+    if (!f.nama.trim()) return;
+    setBusy(true);
+    const patch = { nama: f.nama.trim(), email: email || null, kelas: f.kelas.trim() || null, jabatan: f.jabatan.trim() || null, sub_sie: f.sub_sie || null };
+    if (isAdmin) { patch.peran = f.peran; patch.izin_anggota = f.peran === 'koordinator' ? f.izin : false; patch.division_id = f.division_id || null; }
+    const ok = await actions.updateMember(m.id, patch);
+    setBusy(false);
+    if (ok) setOpen(false);
+  };
+  return (
+    <div className="mk-mem">
+      <div>
+        <b>{m.nama}</b>{m.nama_lengkap && m.nama_lengkap !== m.nama ? <small style={{ display: 'block' }}>{m.nama_lengkap}</small> : null}
+        <small style={{ display: 'block' }}>
+          {PERAN[m.peran]}{m.jabatan ? ` · ${m.jabatan}` : ''}{m.sub_sie ? ` · ${m.sub_sie}` : ''}{m.peran === 'koordinator' && m.izin_anggota ? ' · boleh mengurus anggota' : ''}
+        </small>
+        <small style={{ display: 'block' }} className={m.email ? '' : 'mk-warn'}>{m.email || 'Menunggu email'}</small>
+      </div>
+      <div className="mk-mem-actions">
+        {editable && <button className="mk-btn mk-btn--sm" onClick={() => setOpen(o => !o)}>{open ? 'Tutup' : (m.email ? 'Ubah' : 'Isi email')}</button>}
+        {isAdmin && m.email && m.id !== ctx.me.id && <button className="mk-btn mk-btn--sm" onClick={() => onView(m.id)}>Lihat sebagai</button>}
+      </div>
+      {open && (
+        <div className="mk-mem-edit">
+          <div className="mk-field full"><label>Email (akun login)</label><input className="mk-input" type="email" value={f.email} onChange={set('email')} placeholder="kosongkan jika belum ada" /></div>
+          <div className="mk-field"><label>Nama panggilan</label><input className="mk-input" value={f.nama} onChange={set('nama')} maxLength={80} /></div>
+          <div className="mk-field"><label>Kelas</label><input className="mk-input" value={f.kelas} onChange={set('kelas')} maxLength={20} /></div>
+          <div className="mk-field"><label>Jabatan</label><input className="mk-input" value={f.jabatan} onChange={set('jabatan')} maxLength={80} /></div>
+          {div && div.sub_sie.length > 0 && (
+            <div className="mk-field"><label>Sub sie</label>
+              <select className="mk-select" value={f.sub_sie} onChange={set('sub_sie')}><option value="">-</option>{div.sub_sie.map(x => <option key={x} value={x}>{x}</option>)}</select>
+            </div>
+          )}
+          {isAdmin && (
+            <>
+              <div className="mk-field"><label>Peran</label>
+                <select className="mk-select" value={f.peran} onChange={set('peran')}>{Object.entries(PERAN).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
+              </div>
+              <div className="mk-field"><label>Divisi</label>
+                <select className="mk-select" value={f.division_id} onChange={set('division_id')}><option value="">-</option>{db.divisions.map(d => <option key={d.id} value={d.id}>{d.nama}</option>)}</select>
+              </div>
+              {f.peran === 'koordinator' && (
+                <label className="mk-chk full"><input type="checkbox" checked={f.izin} onChange={e => setF(v => ({ ...v, izin: e.target.checked }))} /><span>Boleh menambah dan mengurus anggota divisinya</span></label>
+              )}
+            </>
+          )}
+          <div className="full" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button className="mk-btn mk-btn--primary" onClick={save} disabled={busy}>{busy ? 'Menyimpan…' : 'Simpan'}</button>
+            {(isAdmin || m.peran === 'anggota') && m.id !== ctx.me.id && <button className="mk-btn mk-btn--danger" onClick={() => actions.removeMember(m)}><I n="trash" /> Hapus</button>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DivisionDetail({ ctx, division, onBack, go, onView, setDivFilter }) {
+  const { db, isAdmin, actions } = ctx;
+  const ms = db.members.filter(m => m.division_id === division.id).sort((a, b) => peranRank[a.peran] - peranRank[b.peran] || a.nama.localeCompare(b.nama, 'id'));
+  const canAdd = ctx.canManageMembers(division.id);
+  const pic = db.members.find(m => m.id === division.pic_id);
+  const bph = db.members.filter(m => db.divisions.find(d => d.id === m.division_id)?.jenis === 'bph');
+  const ls = leafTasks(db.tasks.filter(t => t.kategori !== 'admin' && t.division_id === division.id));
+  const tot = expenseTotals(db.expenses, division.id);
+  const [f, setF] = useState({ nama: '', email: '', kelas: '', jabatan: '', sub_sie: '', peran: 'anggota' });
+  const [busy, setBusy] = useState(false);
+  const set = k => e => setF(v => ({ ...v, [k]: e.target.value }));
   const add = async e => {
     e.preventDefault();
-    if (!isEmail(email.trim())) { actions.toast('Format email belum benar', 'err'); return; }
+    const email = f.email.trim().toLowerCase();
+    if (email && !isEmail(email)) { actions.toast('Format email belum benar', 'err'); return; }
     setBusy(true);
-    const ok = await actions.addMember({ nama: nama.trim(), email: email.trim().toLowerCase(), kelas: kelas.trim() || null });
+    const ok = await actions.addMember({
+      nama: f.nama.trim(), email: email || null, kelas: f.kelas.trim() || null, jabatan: f.jabatan.trim() || null,
+      sub_sie: f.sub_sie || null, division_id: division.id, peran: isAdmin ? f.peran : 'anggota',
+    });
     setBusy(false);
-    if (ok) { setNama(''); setEmail(''); setKelas(''); }
+    if (ok) setF({ nama: '', email: '', kelas: '', jabatan: '', sub_sie: '', peran: 'anggota' });
   };
   return (
     <>
-      <div className="mk-page-h"><div><h2>Anggota</h2><p className="mk-hint">Mereka login memakai email yang kamu daftarkan di sini.</p></div></div>
-      <form onSubmit={add} className="mk-card">
-        <div className="mk-field"><label htmlFor="m-nama">Nama</label><input id="m-nama" className="mk-input" value={nama} onChange={e => setNama(e.target.value)} maxLength={80} required /></div>
-        <div className="mk-field"><label htmlFor="m-email">Email (akun Google / email login)</label><input id="m-email" className="mk-input" type="email" value={email} onChange={e => setEmail(e.target.value)} required /></div>
-        <div className="mk-field"><label htmlFor="m-kelas">Kelas (opsional, untuk tugas yang beda per kelas)</label><input id="m-kelas" className="mk-input" value={kelas} onChange={e => setKelas(e.target.value)} maxLength={20} placeholder="mis. A" /></div>
-        <button className="mk-btn mk-btn--primary" disabled={busy || !nama.trim() || !email.trim()}>Tambah anggota</button>
-      </form>
-      <Section title="Daftar" note={`${db.members.length} orang`}>
-        {db.members.map(m => (
-          <div key={m.id} className="mk-mem">
-            <div>
-              <b>{m.nama}</b>{m.is_admin ? ' · koordinator' : ''}
-              <small style={{ display: 'block' }}>{m.email}</small>
+      {isAdmin && <button className="mk-back" onClick={onBack}><I n="chevron-left" /> Semua divisi</button>}
+      <div className="mk-page-h"><div><h2>{division.nama}</h2><p className="mk-hint">{ms.length} orang{division.target_anggota ? `, target ${division.target_anggota} anggota + koordinator` : ''}</p></div></div>
+
+      <div className="mk-tiles">
+        <button className="mk-tile" onClick={() => { setDivFilter(division.id); go('tugas'); }}><b>{ls.filter(t => t.status === 'selesai').length}/{ls.length}</b><span>tugas selesai</span></button>
+        <button className="mk-tile" onClick={() => { setDivFilter(division.id); go('dana'); }}><b className="mk-money" style={{ fontSize: '1.3rem' }}>{rp(tot.approved)}</b><span>terpakai dari {rp(division.budget)}</span></button>
+        <button className="mk-tile" onClick={() => go('review')}><b>{db.submissions.filter(s => s.status === 'menunggu' && db.tasks.find(t => t.id === s.task_id)?.division_id === division.id).length}</b><span>link menunggu review</span></button>
+        <div className="mk-tile"><b>{ms.filter(m => m.email).length}/{ms.length}</b><span>sudah punya email</span></div>
+      </div>
+
+      {division.sub_sie.length > 0 && <div className="mk-chipline">{division.sub_sie.map(x => <span key={x}>{x}</span>)}</div>}
+
+      {isAdmin && division.jenis === 'sie' && (
+        <div className="mk-field" style={{ marginTop: 16 }}>
+          <label htmlFor="pic">PIC (anggota BPH)</label>
+          <select id="pic" className="mk-select" value={division.pic_id || ''} onChange={e => actions.setPic(division.id, e.target.value || null)}>
+            <option value="">-</option>{bph.map(m => <option key={m.id} value={m.id}>{m.nama}{m.jabatan ? ` (${m.jabatan})` : ''}</option>)}
+          </select>
+        </div>
+      )}
+      {!isAdmin && pic && <p className="mk-hint" style={{ marginTop: 12 }}>PIC: {pic.nama}</p>}
+
+      <Section title="Anggota" note={canAdd ? '' : 'hanya bisa dilihat'}>
+        {ms.map(m => <MemberRow key={m.id} m={m} ctx={ctx} onView={onView} />)}
+      </Section>
+
+      {canAdd && (
+        <Section title="Tambah anggota">
+          <form onSubmit={add} className="mk-card">
+            <div className="mk-field"><label htmlFor="a-nama">Nama panggilan</label><input id="a-nama" className="mk-input" value={f.nama} onChange={set('nama')} maxLength={80} required /></div>
+            <div className="mk-field"><label htmlFor="a-email">Email (boleh dikosongkan dulu)</label><input id="a-email" className="mk-input" type="email" value={f.email} onChange={set('email')} /></div>
+            <div className="mk-row-2">
+              <div className="mk-field"><label htmlFor="a-kelas">Kelas</label><input id="a-kelas" className="mk-input" value={f.kelas} onChange={set('kelas')} maxLength={20} /></div>
+              <div className="mk-field"><label htmlFor="a-jab">Jabatan</label><input id="a-jab" className="mk-input" value={f.jabatan} onChange={set('jabatan')} maxLength={80} /></div>
             </div>
-            <div className="mk-mem-actions">
-              {!m.is_admin && <button className="mk-btn mk-btn--sm" onClick={() => onView(m.id)}>Lihat dashboard</button>}
-              {!m.is_admin && <button className="mk-btn mk-btn--sm mk-btn--danger" onClick={() => actions.removeMember(m)} aria-label={`Hapus ${m.nama}`}><I n="trash" /></button>}
-            </div>
-            {!m.is_admin && (
-              <input
-                className="mk-input" style={{ gridColumn: '1 / -1', minHeight: 36 }} defaultValue={m.kelas || ''} placeholder="Kelas"
-                aria-label={`Kelas ${m.nama}`} maxLength={20}
-                onBlur={e => { const v = e.target.value.trim() || null; if (v !== (m.kelas || null)) actions.updateMember(m.id, { kelas: v }); }}
-              />
+            {division.sub_sie.length > 0 && (
+              <div className="mk-field"><label htmlFor="a-sub">Sub sie</label>
+                <select id="a-sub" className="mk-select" value={f.sub_sie} onChange={set('sub_sie')}><option value="">-</option>{division.sub_sie.map(x => <option key={x} value={x}>{x}</option>)}</select>
+              </div>
             )}
+            {isAdmin && (
+              <div className="mk-field"><label htmlFor="a-peran">Peran</label>
+                <select id="a-peran" className="mk-select" value={f.peran} onChange={set('peran')}>{Object.entries(PERAN).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
+              </div>
+            )}
+            <button className="mk-btn mk-btn--primary" disabled={busy || !f.nama.trim()}>Tambah</button>
+          </form>
+        </Section>
+      )}
+    </>
+  );
+}
+
+/* ── Dana & pengeluaran ── */
+function BudgetEditor({ d, actions }) {
+  const [v, setV] = useState(String(d.budget || ''));
+  const num = Number(v.replace(/\D/g, '')) || 0;
+  return (
+    <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+      <input className="mk-input" inputMode="numeric" aria-label={`Budget ${d.nama}`} value={v} onChange={e => setV(e.target.value.replace(/\D/g, ''))} placeholder="Budget (Rp)" />
+      <button className="mk-btn" disabled={num === Number(d.budget)} onClick={() => actions.setBudget(d.id, num)}>Simpan</button>
+    </div>
+  );
+}
+
+function ExpensesView({ ctx, divFilter, setDivFilter }) {
+  const { db, isAdmin, actions, me } = ctx;
+  const fixed = isAdmin ? '' : me.division_id;
+  const selected = fixed || divFilter;
+  const divs = isAdmin ? db.divisions : db.divisions.filter(d => d.id === me.division_id);
+  const shown = selected ? divs.filter(d => d.id === selected) : divs;
+  const canAdd = !!selected && ctx.canManageDivision(selected);
+  const list = db.expenses.filter(e => !selected || e.division_id === selected).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  const [f, setF] = useState({ tanggal: new Date().toISOString().slice(0, 10), keterangan: '', jumlah: '' });
+  const [file, setFile] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [fileKey, setFileKey] = useState(0);
+  const jumlah = Number(String(f.jumlah).replace(/\D/g, '')) || 0;
+  const submit = async e => {
+    e.preventDefault();
+    if (!file) { actions.toast('Foto nota wajib diunggah', 'err'); return; }
+    setBusy(true);
+    const ok = await actions.addExpense({ division_id: selected, tanggal: f.tanggal, keterangan: f.keterangan.trim(), jumlah, file });
+    setBusy(false);
+    if (ok) { setF(v => ({ ...v, keterangan: '', jumlah: '' })); setFile(null); setFileKey(k => k + 1); }
+  };
+
+  return (
+    <>
+      <div className="mk-page-h"><div><h2>Dana & pengeluaran</h2><p className="mk-hint">Setiap pengeluaran wajib disertai foto nota. Admin yang menyetujui dan mengatur budget.</p></div></div>
+      {isAdmin && (
+        <div className="mk-field">
+          <select className="mk-select" aria-label="Pilih divisi" value={divFilter} onChange={e => setDivFilter(e.target.value)}>
+            <option value="">Semua divisi</option>
+            {db.divisions.map(d => <option key={d.id} value={d.id}>{d.nama}</option>)}
+          </select>
+        </div>
+      )}
+
+      {shown.map(d => {
+        const t = expenseTotals(db.expenses, d.id);
+        const sisa = Number(d.budget) - t.approved;
+        return (
+          <div key={d.id} className="mk-card">
+            <div className="mk-card-h"><b>{d.nama}</b><span className="mk-money">Budget {rp(d.budget)}</span></div>
+            <DanaBar budget={Number(d.budget)} approved={t.approved} pending={t.pending} />
+            <p className="mk-hint mk-money" style={{ marginTop: 8 }}>
+              Terpakai {rp(t.approved)} · menunggu {rp(t.pending)} · <span className={sisa < 0 ? 'mk-warn' : ''}>sisa {rp(sisa)}</span>
+            </p>
+            {isAdmin && <BudgetEditor key={`${d.id}-${d.budget}`} d={d} actions={actions} />}
           </div>
-        ))}
+        );
+      })}
+
+      {canAdd && (
+        <Section title="Catat pengeluaran">
+          <form onSubmit={submit} className="mk-card">
+            <div className="mk-row-2">
+              <div className="mk-field"><label htmlFor="x-tgl">Tanggal</label><input id="x-tgl" className="mk-input" type="date" value={f.tanggal} onChange={e => setF(v => ({ ...v, tanggal: e.target.value }))} required /></div>
+              <div className="mk-field"><label htmlFor="x-jml">Jumlah (Rp)</label><input id="x-jml" className="mk-input" inputMode="numeric" value={f.jumlah} onChange={e => setF(v => ({ ...v, jumlah: e.target.value.replace(/\D/g, '') }))} placeholder="50000" required /></div>
+            </div>
+            <p className="mk-hint mk-money" style={{ marginTop: -6, marginBottom: 10 }}>{jumlah > 0 ? rp(jumlah) : ''}</p>
+            <div className="mk-field"><label htmlFor="x-ket">Untuk apa</label><input id="x-ket" className="mk-input" value={f.keterangan} onChange={e => setF(v => ({ ...v, keterangan: e.target.value }))} maxLength={300} required /></div>
+            <div className="mk-field">
+              <label htmlFor="x-file">Foto nota (wajib)</label>
+              <input key={fileKey} id="x-file" className="mk-input" type="file" accept="image/jpeg,image/png,image/webp,application/pdf,image/*" onChange={e => setFile(e.target.files?.[0] || null)} required />
+              <p className="mk-file-note">JPG, PNG, atau PDF. Foto dikecilkan otomatis. Maksimal 5 MB.</p>
+            </div>
+            <button className="mk-btn mk-btn--primary" disabled={busy || !file || !f.keterangan.trim() || jumlah <= 0}>{busy ? 'Mengunggah…' : 'Simpan pengeluaran'}</button>
+          </form>
+        </Section>
+      )}
+      {isAdmin && !selected && <p className="mk-hint" style={{ marginTop: 12 }}>Pilih satu divisi di atas untuk mencatat pengeluaran atas namanya.</p>}
+
+      <Section title="Riwayat" note={`${list.length} catatan`}>
+        {list.length === 0 && <p className="mk-empty">Belum ada pengeluaran.</p>}
+        {list.map(e => {
+          const own = e.dibuat_oleh === me.id;
+          return (
+            <div key={e.id} className="mk-exp">
+              <div>
+                <span style={{ fontWeight: 500, overflowWrap: 'anywhere' }}>{e.keterangan}</span>
+                <p className="mk-hint">
+                  {new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric', timeZone: TZ }).format(new Date(`${e.tanggal}T12:00:00+07:00`))}
+                  {!selected ? ` · ${ctx.divisionName(e.division_id)}` : ''} · {ctx.nameOf(e.dibuat_oleh)}
+                </p>
+                <p className="mk-hint"><span className={`mk-st ${e.status === 'disetujui' ? 'selesai' : e.status === 'ditolak' ? '' : 'review'}`}>{EXP_STATUS[e.status]}</span></p>
+                {e.catatan && <p className="mk-hint">Catatan: {e.catatan}</p>}
+              </div>
+              <b>{rp(e.jumlah)}</b>
+              <div className="mk-exp-actions">
+                <button className="mk-btn mk-btn--sm" onClick={() => actions.openNota(e)}><I n="receipt" /> Lihat nota</button>
+                {e.nota_drive_url && <a className="mk-btn mk-btn--sm" href={e.nota_drive_url} target="_blank" rel="noopener noreferrer"><I n="folder-open" /> Drive</a>}
+                {isAdmin && e.status !== 'disetujui' && <button className="mk-btn mk-btn--sm mk-btn--primary" onClick={() => actions.setExpenseStatus(e, { status: 'disetujui', catatan: null })}>Setujui</button>}
+                {isAdmin && e.status !== 'ditolak' && <button className="mk-btn mk-btn--sm" onClick={() => { const c = window.prompt('Alasan ditolak (boleh kosong)'); if (c !== null) actions.setExpenseStatus(e, { status: 'ditolak', catatan: c.trim() || null }); }}>Tolak</button>}
+                {(isAdmin || (own && e.status === 'menunggu')) && <button className="mk-btn mk-btn--sm mk-btn--danger" onClick={() => actions.deleteExpense(e)}><I n="trash" /></button>}
+              </div>
+            </div>
+          );
+        })}
       </Section>
     </>
   );
 }
 
 /* ══════════════════════════════════════════════════════════════
+   UPLOAD NOTA: kecilkan foto di browser sebelum diunggah
+══════════════════════════════════════════════════════════════ */
+const NOTA_MAX = 5 * 1024 * 1024;
+async function prepareNota(file) {
+  if (file.type === 'application/pdf') {
+    if (file.size > NOTA_MAX) throw new Error('PDF terlalu besar (maksimal 5 MB).');
+    return { blob: file, type: 'application/pdf', ext: 'pdf' };
+  }
+  const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const w = Math.max(1, Math.round(bmp.width * scale));
+    const h = Math.max(1, Math.round(bmp.height * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const g = canvas.getContext('2d');
+    g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+    g.drawImage(bmp, 0, 0, w, h);
+    for (const q of [0.85, 0.7, 0.55]) {
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', q));
+      if (blob && blob.size <= NOTA_MAX) return { blob, type: 'image/jpeg', ext: 'jpg' };
+    }
+    throw new Error('Foto terlalu besar. Coba foto ulang dengan resolusi lebih kecil.');
+  } catch (e) {
+    if (e && /terlalu besar/.test(e.message || '')) throw e;
+    if (allowed.includes(file.type) && file.size <= NOTA_MAX) {
+      return { blob: file, type: file.type, ext: file.type.split('/')[1].replace('jpeg', 'jpg') };
+    }
+    throw new Error('Format foto tidak didukung. Pakai JPG, PNG, atau PDF.', { cause: e });
+  }
+}
+
+const friendlyError = e => {
+  const m = e?.message || '';
+  if (/makrab_members_email_key|duplicate key/.test(m)) return 'Email itu sudah dipakai orang lain.';
+  if (/row-level security|permission denied/.test(m)) return 'Kamu tidak punya izin untuk itu.';
+  if (/Failed to fetch|NetworkError|Load failed/.test(m)) return 'Koneksi bermasalah. Coba lagi.';
+  if (/JSON object requested/.test(m)) return 'Tidak ada yang berubah. Mungkin kamu tidak punya izin, atau datanya sudah dihapus.';
+  return m || 'Terjadi kesalahan';
+};
+
+/* ══════════════════════════════════════════════════════════════
    WORKSPACE (setelah login & terdaftar)
 ══════════════════════════════════════════════════════════════ */
-const NAV_MEMBER = [
-  { k: 'home', l: 'Beranda', i: 'house' },
-  { k: 'kuliah', l: 'Kuliah', i: 'graduation-cap' },
-  { k: 'makrab', l: 'Makrab', i: 'people-group' },
-  { k: 'jadwal', l: 'Jadwal', i: 'calendar-days' },
-];
-const NAV_ADMIN = [
-  { k: 'ringkasan', l: 'Ringkasan', i: 'chart-simple' },
-  { k: 'review', l: 'Review', i: 'inbox' },
-  { k: 'tugas', l: 'Tugas', i: 'list-check' },
-  { k: 'todo', l: 'To-do', i: 'clipboard-check' },
-  { k: 'anggota', l: 'Anggota', i: 'users' },
-];
+const NI = {
+  home: { k: 'home', l: 'Beranda', i: 'house' },
+  kuliah: { k: 'kuliah', l: 'Kuliah', i: 'graduation-cap' },
+  makrab: { k: 'makrab', l: 'Makrab', i: 'people-group' },
+  jadwal: { k: 'jadwal', l: 'Jadwal', i: 'calendar-days' },
+  todo: { k: 'todo', l: 'To-do', i: 'clipboard-check' },
+  dana: { k: 'dana', l: 'Dana', i: 'wallet' },
+  ringkasan: { k: 'ringkasan', l: 'Ringkasan', i: 'chart-simple' },
+  review: { k: 'review', l: 'Review', i: 'inbox' },
+  tugas: { k: 'tugas', l: 'Tugas', i: 'list-check' },
+  divisi: { k: 'divisi', l: 'Divisi', i: 'sitemap' },
+  anggota: { k: 'anggota', l: 'Anggota', i: 'users' },
+};
+const NAV_KELOLA_ADMIN = [NI.ringkasan, NI.review, NI.tugas, NI.divisi, NI.dana];
+const NAV_KELOLA_KOORD = [NI.ringkasan, NI.review, NI.tugas, NI.anggota, NI.dana];
+const NAV_SAYA_MANAGER = [NI.home, NI.kuliah, NI.makrab, NI.jadwal, NI.todo];
+const NAV_SAYA_ANGGOTA = [NI.home, NI.kuliah, NI.makrab, NI.jadwal, NI.dana];
 
-function Workspace({ user, me }) {
+function Workspace({ user, me, theme, onTheme }) {
   const isAdmin = !!me.is_admin;
+  const isKoord = me.peran === 'koordinator';
+  const canManage = isAdmin || isKoord;
   const [toasts, toast] = useToasts();
-  const [tab, setTab] = useState(isAdmin ? 'ringkasan' : 'home');
+  const [mode, setMode] = useState(canManage ? 'kelola' : 'saya');
+  const [tab, setTab] = useState(canManage ? 'ringkasan' : 'home');
   const [sheet, setSheet] = useState(null);
   const [viewAs, setViewAs] = useState('');
+  const [divFilter, setDivFilter] = useState('');
+  const [openDiv, setOpenDiv] = useState('');
   const [, setPermTick] = useState(0);
   const dbRef = useRef(EMPTY_DB);
 
   /* Notifikasi saat data baru masuk lewat realtime */
   const onEvent = useCallback((name, payload) => {
-    if (payload.eventType !== 'INSERT') return;
     const row = payload.new;
     const d = dbRef.current;
     const title = id => d.tasks.find(t => t.id === id)?.judul || 'tugas';
     const nm = id => d.members.find(m => m.id === id)?.nama || 'Seseorang';
     let msg = '';
-    if (name === 'makrab_submissions' && isAdmin && row.author_id !== me.id) msg = `${nm(row.author_id)} kirim link: ${title(row.task_id)}`;
-    else if (name === 'makrab_comments' && row.author_id !== me.id) msg = `${nm(row.author_id)} komentar di ${title(row.task_id)}`;
-    else if (name === 'makrab_reviews' && !isAdmin) msg = 'Ada revisi baru dari admin';
-    else if (name === 'makrab_task_assignees' && !isAdmin && row.member_id === me.id) msg = 'Kamu dapat tugas baru';
+    if (payload.eventType === 'INSERT') {
+      if (name === 'makrab_submissions' && canManage && row.author_id !== me.id) msg = `${nm(row.author_id)} kirim link: ${title(row.task_id)}`;
+      else if (name === 'makrab_comments' && row.author_id !== me.id) msg = `${nm(row.author_id)} komentar di ${title(row.task_id)}`;
+      else if (name === 'makrab_reviews') {
+        const sub = d.submissions.find(s => s.id === row.submission_id);
+        if (sub && sub.author_id === me.id) msg = 'Ada revisi baru untuk link-mu';
+      } else if (name === 'makrab_task_assignees' && row.member_id === me.id) msg = 'Kamu dapat tugas baru';
+      else if (name === 'makrab_expenses' && isAdmin && row.dibuat_oleh !== me.id) msg = `Pengeluaran baru menunggu persetujuan: ${row.keterangan}`;
+    } else if (payload.eventType === 'UPDATE' && name === 'makrab_expenses' && row.dibuat_oleh === me.id && row.status !== 'menunggu') {
+      msg = `Pengeluaranmu ${row.status === 'disetujui' ? 'disetujui' : 'ditolak'}: ${row.keterangan}`;
+    }
     if (msg) { toast(msg); pushBrowser('Makrab 2026', msg); }
-  }, [isAdmin, me.id, toast]);
+  }, [canManage, isAdmin, me.id, toast]);
 
   const { db, ready, live, error, reload, upsertLocal, removeLocal } = useMakrabData(me, isAdmin, onEvent);
   useEffect(() => { dbRef.current = db; });
 
   const nameOf = useCallback(id => db.members.find(m => m.id === id)?.nama || 'Seseorang', [db.members]);
+  const divisionName = useCallback(id => db.divisions.find(d => d.id === id)?.nama || '', [db.divisions]);
   const viewMember = isAdmin && viewAs ? db.members.find(m => m.id === viewAs) : null;
-  const memberMode = !isAdmin || !!viewMember;
-  const visTasks = viewMember ? visibleForMember(db.tasks, db.assignees, viewMember) : db.tasks;
-  const ctxDb = viewMember ? { ...db, tasks: visTasks } : db;
+  const sayaMode = !!viewMember || mode === 'saya' || !canManage;
+  const subject = viewMember || me;
+  const personalTasks = useMemo(() => visibleForMember(db.tasks, db.assignees, subject), [db.tasks, db.assignees, subject]);
+  const ctxDb = viewMember ? { ...db, tasks: personalTasks } : db;
+  const scope = isAdmin ? '' : (me.division_id || '');
 
   /* Notifikasi di dalam halaman */
   const seenKey = `makrab:seen:${me.id}`;
@@ -1385,7 +1841,7 @@ function Workspace({ user, me }) {
       return now;
     } catch { return new Date().toISOString(); }
   });
-  const notices = useMemo(() => buildNotices({ me, isAdmin, db, nameOf }), [me, isAdmin, db, nameOf]);
+  const notices = useMemo(() => buildNotices({ me, canManage, db, nameOf }), [me, canManage, db, nameOf]);
   const unread = notices.filter(n => new Date(n.t) > new Date(seen)).length;
   const markSeen = () => {
     const now = new Date().toISOString();
@@ -1418,7 +1874,7 @@ function Workspace({ user, me }) {
   /* ── Aksi data (RLS di database yang menentukan boleh/tidak; UI hanya menyembunyikan) ── */
   const run = async (fn, okMsg) => {
     try { const r = await fn(); if (okMsg) toast(okMsg); return r === undefined ? true : r; }
-    catch (e) { toast(e?.message || 'Terjadi kesalahan', 'err'); return false; }
+    catch (e) { toast(friendlyError(e), 'err'); return false; }
   };
   const one = async q => { const { data, error: e } = await q.select().single(); if (e) throw e; return data; };
 
@@ -1441,7 +1897,10 @@ function Workspace({ user, me }) {
       if (id) {
         row = await one(supabase.from('makrab_tasks').update(payload).eq('id', id));
       } else {
-        const sibs = db.tasks.filter(x => x.kategori === payload.kategori && (x.parent_id || null) === (payload.parent_id || null));
+        const sibs = db.tasks.filter(x => x.kategori === payload.kategori
+          && (x.parent_id || null) === (payload.parent_id || null)
+          && (x.division_id || null) === (payload.division_id || null)
+          && (payload.kategori !== 'admin' || x.dibuat_oleh === me.id));
         payload.urutan = sibs.reduce((m, x) => Math.max(m, x.urutan), 0) + 1;
         payload.dibuat_oleh = me.id;
         row = await one(supabase.from('makrab_tasks').insert(payload));
@@ -1461,7 +1920,7 @@ function Workspace({ user, me }) {
           if (e) throw e;
           (data || []).forEach(a => upsertLocal('makrab_task_assignees', a));
         }
-      } else if (!isAdmin && !id) {
+      } else if (!id && payload.kategori === 'kuliah' && payload.division_id === undefined) {
         const a = await one(supabase.from('makrab_task_assignees').insert({ task_id: row.id, member_id: me.id }));
         upsertLocal('makrab_task_assignees', a);
       }
@@ -1479,6 +1938,21 @@ function Workspace({ user, me }) {
       }, 'Tugas dihapus');
     },
 
+    moveTask: (t, dir) => run(async () => {
+      const sibs = db.tasks
+        .filter(x => x.kategori === t.kategori && (x.parent_id || null) === (t.parent_id || null)
+          && (x.division_id || null) === (t.division_id || null) && (t.kategori !== 'admin' || x.dibuat_oleh === t.dibuat_oleh))
+        .sort((a, b) => a.urutan - b.urutan || new Date(a.created_at) - new Date(b.created_at));
+      const i = sibs.findIndex(x => x.id === t.id);
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= sibs.length) return true;
+      [sibs[i], sibs[j]] = [sibs[j], sibs[i]];
+      const changed = sibs.map((x, n) => ({ x, urutan: n + 1 })).filter(({ x, urutan }) => x.urutan !== urutan);
+      const rows = await Promise.all(changed.map(({ x, urutan }) => one(supabase.from('makrab_tasks').update({ urutan }).eq('id', x.id))));
+      rows.forEach(r => upsertLocal('makrab_tasks', r));
+      return true;
+    }),
+
     addComment: (taskId, isi) => run(async () => {
       const row = await one(supabase.from('makrab_comments').insert({ task_id: taskId, author_id: me.id, isi }));
       upsertLocal('makrab_comments', row);
@@ -1488,7 +1962,7 @@ function Workspace({ user, me }) {
       const row = await one(supabase.from('makrab_submissions').insert({ task_id: taskId, author_id: me.id, url, catatan: catatan || null }));
       upsertLocal('makrab_submissions', row);
       await reload();
-    }, 'Link terkirim ke admin'),
+    }, 'Link terkirim'),
 
     reviewSubmission: (sub, { isi, status }) => run(async () => {
       if (isi) {
@@ -1518,6 +1992,7 @@ function Workspace({ user, me }) {
       return true;
     }, 'Pengingat diatur'),
 
+    /* ── anggota & divisi ── */
     addMember: m => run(async () => {
       const row = await one(supabase.from('makrab_members').insert(m));
       upsertLocal('makrab_members', row);
@@ -1527,7 +2002,7 @@ function Workspace({ user, me }) {
       upsertLocal('makrab_members', row);
     }, 'Tersimpan'),
     removeMember: async m => {
-      if (!window.confirm(`Hapus ${m.nama} dari daftar? Penugasannya ikut hilang; tugasnya tetap ada.`)) return false;
+      if (!window.confirm(`Hapus ${m.nama} dari struktur? Penugasannya ikut hilang; tugasnya tetap ada.`)) return false;
       return run(async () => {
         const { error: e } = await supabase.from('makrab_members').delete().eq('id', m.id);
         if (e) throw e;
@@ -1536,36 +2011,94 @@ function Workspace({ user, me }) {
         await reload();
       }, 'Anggota dihapus');
     },
+    setBudget: (divisionId, budget) => run(async () => {
+      const row = await one(supabase.from('makrab_divisions').update({ budget }).eq('id', divisionId));
+      upsertLocal('makrab_divisions', row);
+    }, 'Budget disimpan'),
+    setPic: (divisionId, picId) => run(async () => {
+      const row = await one(supabase.from('makrab_divisions').update({ pic_id: picId }).eq('id', divisionId));
+      upsertLocal('makrab_divisions', row);
+    }, 'PIC disimpan'),
+
+    /* ── pengeluaran & nota ── */
+    addExpense: ({ division_id, tanggal, keterangan, jumlah, file }) => run(async () => {
+      const prepared = await prepareNota(file);
+      const path = `${division_id}/${crypto.randomUUID()}.${prepared.ext}`;
+      const up = await supabase.storage.from('makrab-nota').upload(path, prepared.blob, { contentType: prepared.type, upsert: false });
+      if (up.error) throw up.error;
+      let row;
+      try {
+        row = await one(supabase.from('makrab_expenses').insert({ division_id, tanggal, keterangan, jumlah, nota_path: path }));
+      } catch (e) {
+        await supabase.storage.from('makrab-nota').remove([path]);
+        throw e;
+      }
+      upsertLocal('makrab_expenses', row);
+      // Salin ke Google Drive (opsional, tidak boleh menggagalkan pencatatan)
+      supabase.functions.invoke('makrab-nota-drive', { body: { expense_id: row.id } })
+        .then(({ data }) => { if (data?.drive_url) upsertLocal('makrab_expenses', { ...row, nota_drive_url: data.drive_url }); })
+        .catch(() => {});
+      return row;
+    }, 'Pengeluaran tercatat'),
+    setExpenseStatus: (exp, { status, catatan }) => run(async () => {
+      const row = await one(supabase.from('makrab_expenses').update({ status, catatan }).eq('id', exp.id));
+      upsertLocal('makrab_expenses', row);
+    }, 'Tersimpan'),
+    deleteExpense: async exp => {
+      if (!window.confirm(`Hapus catatan "${exp.keterangan}"?`)) return false;
+      return run(async () => {
+        const { error: e } = await supabase.from('makrab_expenses').delete().eq('id', exp.id);
+        if (e) throw e;
+        removeLocal('makrab_expenses', { id: exp.id });
+        await supabase.storage.from('makrab-nota').remove([exp.nota_path]);
+      }, 'Catatan dihapus');
+    },
+    openNota: async exp => {
+      const w = window.open('about:blank', '_blank');
+      try {
+        const { data, error: e } = await supabase.storage.from('makrab-nota').createSignedUrl(exp.nota_path, 300);
+        if (e) throw e;
+        if (w) { w.opener = null; w.location.href = data.signedUrl; } else window.location.href = data.signedUrl;
+      } catch (e) {
+        if (w) w.close();
+        toast(friendlyError(e), 'err');
+      }
+    },
   };
 
-  /* Urutan: tukar posisi dengan tetangga di kategori & induk yang sama */
-  actions.moveTask = (t, dir) => run(async () => {
-    const sibs = db.tasks
-      .filter(x => x.kategori === t.kategori && (x.parent_id || null) === (t.parent_id || null))
-      .sort((a, b) => a.urutan - b.urutan || new Date(a.created_at) - new Date(b.created_at));
-    const i = sibs.findIndex(x => x.id === t.id);
-    const j = i + dir;
-    if (i < 0 || j < 0 || j >= sibs.length) return true;
-    [sibs[i], sibs[j]] = [sibs[j], sibs[i]];
-    const changed = sibs.map((x, n) => ({ x, urutan: n + 1 })).filter(({ x, urutan }) => x.urutan !== urutan);
-    const rows = await Promise.all(changed.map(({ x, urutan }) => one(supabase.from('makrab_tasks').update({ urutan }).eq('id', x.id))));
-    rows.forEach(r => upsertLocal('makrab_tasks', r));
-    return true;
-  });
+  const ctx = {
+    me, isAdmin, isKoord, canManage, db: ctxDb, nameOf, actions, divisionName,
+    canManageTask: t => t.kategori !== 'admin' && (isAdmin || (isKoord && !!t.division_id && t.division_id === me.division_id)),
+    canManageDivision: id => !!id && (isAdmin || (isKoord && me.division_id === id)),
+    canManageMembers: id => !!id && (isAdmin || (isKoord && !!me.izin_anggota && me.division_id === id)),
+  };
 
-  const ctx = { me, isAdmin, db: ctxDb, nameOf, actions };
-  const nav = memberMode ? NAV_MEMBER : NAV_ADMIN;
-  const waiting = db.submissions.filter(s => s.status === 'menunggu').length;
-  const go = k => { setTab(k); window.scrollTo(0, 0); };
+  /* Navigasi */
+  const subjectIsManager = !!viewMember && (viewMember.peran === 'koordinator' || viewMember.peran === 'admin');
+  let navItems;
+  if (viewMember) navItems = subjectIsManager ? NAV_SAYA_MANAGER.filter(n => n.k !== 'todo') : NAV_SAYA_ANGGOTA;
+  else if (!canManage) navItems = NAV_SAYA_ANGGOTA;
+  else if (mode === 'saya') navItems = NAV_SAYA_MANAGER;
+  else navItems = isAdmin ? NAV_KELOLA_ADMIN : NAV_KELOLA_KOORD;
+  const withSwitch = canManage && !viewMember
+    ? [...navItems, { k: '__mode', l: mode === 'kelola' ? 'Saya' : 'Kelola', i: 'right-left' }]
+    : navItems;
+
+  const waiting = db.submissions.filter(s => s.status === 'menunggu' && (isAdmin || db.tasks.find(t => t.id === s.task_id)?.division_id === me.division_id)).length;
+  const go = k => {
+    if (k === '__mode') { const next = mode === 'kelola' ? 'saya' : 'kelola'; setMode(next); setTab(next === 'kelola' ? 'ringkasan' : 'home'); }
+    else setTab(k);
+    window.scrollTo(0, 0);
+  };
   const startViewAs = id => { setViewAs(id); setTab('home'); window.scrollTo(0, 0); };
-  const stopViewAs = () => { setViewAs(''); setTab('ringkasan'); };
+  const stopViewAs = () => { setViewAs(''); setTab(mode === 'kelola' ? 'divisi' : 'home'); };
+  const openDivision = id => { setOpenDiv(id); setTab('divisi'); window.scrollTo(0, 0); };
   const closeSheet = () => setSheet(null);
 
-  const badge = k => (k === 'review' && waiting > 0 ? waiting : 0);
-  const renderNav = side => nav.map(n => (
+  const renderNav = side => withSwitch.map(n => (
     <button key={n.k} className={`${side ? 'mk-nav-btn' : ''}${tab === n.k ? ' on' : ''}`} onClick={() => go(n.k)} aria-current={tab === n.k ? 'page' : undefined}>
       <I n={n.i} />{side ? <span>{n.l}</span> : n.l}
-      {badge(n.k) > 0 && (side ? <em>{badge(n.k)}</em> : <span className="mk-dot" style={{ top: 6, right: '28%' }}>{badge(n.k)}</span>)}
+      {n.k === 'review' && waiting > 0 && (side ? <em>{waiting}</em> : <span className="mk-dot" style={{ top: 6, right: '24%' }}>{waiting}</span>)}
     </button>
   ));
 
@@ -1575,38 +2108,54 @@ function Workspace({ user, me }) {
     const missing = /relation|does not exist|schema cache|Could not find/i.test(error);
     view = (
       <div className="mk-card">
-        <p className="mk-err">{missing ? 'Tabel Makrab belum ada di database. Jalankan supabase/makrab.sql di SQL Editor Supabase.' : `Gagal memuat data: ${error}`}</p>
+        <p className="mk-err">{missing ? 'Tabel Makrab belum lengkap di database. Jalankan supabase/makrab.sql, makrab-v2.sql, lalu makrab-v3.sql.' : `Gagal memuat data: ${error}`}</p>
         <button className="mk-btn" onClick={() => reload().catch(() => {})}>Coba lagi</button>
       </div>
     );
-  } else if (memberMode) {
-    const tasks = viewMember ? visTasks : db.tasks;
-    if (tab === 'kuliah') view = <KuliahView tasks={tasks} ctx={ctx} />;
-    else if (tab === 'makrab') view = <MakrabView tasks={tasks} ctx={ctx} />;
-    else if (tab === 'jadwal') view = <AgendaView tasks={tasks} ctx={ctx} />;
-    else view = <MemberHome tasks={tasks} ctx={ctx} go={go} />;
-  } else if (tab === 'review') view = <ReviewView ctx={ctx} />;
-  else if (tab === 'tugas') view = <AdminTasks ctx={ctx} />;
-  else if (tab === 'todo') view = <AdminTodo ctx={ctx} />;
-  else if (tab === 'anggota') view = <MembersView ctx={ctx} onView={startViewAs} />;
-  else view = <Overview ctx={ctx} go={go} onView={startViewAs} />;
+  } else if (sayaMode) {
+    if (tab === 'kuliah') view = <KuliahView tasks={personalTasks} ctx={ctx} />;
+    else if (tab === 'makrab') view = <MakrabView tasks={personalTasks} ctx={ctx} />;
+    else if (tab === 'jadwal') view = <AgendaView tasks={personalTasks} ctx={ctx} />;
+    else if (tab === 'todo' && !viewMember) view = <AdminTodo ctx={ctx} />;
+    else if (tab === 'dana') view = <ExpensesView ctx={ctx} divFilter={divFilter} setDivFilter={setDivFilter} />;
+    else view = <MemberHome tasks={personalTasks} ctx={ctx} go={go} />;
+  } else if (tab === 'review') view = <ReviewView ctx={ctx} scope={scope} />;
+  else if (tab === 'tugas') view = <AdminTasks ctx={ctx} scope={scope} divFilter={divFilter} setDivFilter={setDivFilter} />;
+  else if (tab === 'dana') view = <ExpensesView ctx={ctx} divFilter={divFilter} setDivFilter={setDivFilter} />;
+  else if (tab === 'divisi' && isAdmin) {
+    const d = db.divisions.find(x => x.id === openDiv);
+    view = d
+      ? <DivisionDetail ctx={ctx} division={d} onBack={() => setOpenDiv('')} go={go} onView={startViewAs} setDivFilter={setDivFilter} />
+      : <DivisionsView ctx={ctx} onOpen={setOpenDiv} />;
+  } else if (tab === 'anggota' && isKoord) {
+    const d = db.divisions.find(x => x.id === me.division_id);
+    view = d ? <DivisionDetail ctx={ctx} division={d} onBack={() => {}} go={go} onView={startViewAs} setDivFilter={setDivFilter} /> : <p className="mk-empty">Kamu belum masuk divisi mana pun. Hubungi admin.</p>;
+  } else view = <Overview ctx={ctx} go={go} onView={startViewAs} onDivision={openDivision} scope={scope} />;
+
+  const roleLabel = isAdmin ? 'Admin' : isKoord ? `Koordinator${me.division_id ? ` ${divisionName(me.division_id)}` : ''}` : (me.division_id ? divisionName(me.division_id) : 'Anggota');
 
   return (
     <div className="mk-shell">
       <aside className="mk-side" aria-label="Menu">
-        <div className="mk-brand"><b>Makrab 2026</b><span>Divisi PDD</span></div>
+        <div className="mk-brand"><b>Makrab 2026</b><span>Kepanitiaan GONGG</span></div>
         {renderNav(true)}
         <div className="mk-side-foot">
           <b>{me.nama}</b>
-          <small>{isAdmin ? 'Koordinator' : (me.kelas ? `Kelas ${me.kelas}` : 'Anggota')} · {user.email}</small>
-          <button className="mk-btn mk-btn--sm" style={{ marginTop: 10 }} onClick={() => signOut()}><I n="right-from-bracket" /> Keluar</button>
+          <small>{roleLabel} · {user.email}</small>
+          <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
+            <button className="mk-btn mk-btn--sm" onClick={() => onTheme(theme === 'dark' ? 'light' : 'dark')}><I n={theme === 'dark' ? 'sun' : 'moon'} /> {theme === 'dark' ? 'Terang' : 'Gelap'}</button>
+            <button className="mk-btn mk-btn--sm" onClick={() => signOut()}><I n="right-from-bracket" /> Keluar</button>
+          </div>
         </div>
       </aside>
 
       <div>
         <header className="mk-top">
-          <h1>Makrab 2026<small> · PDD</small></h1>
+          <h1>Makrab 2026<small> · {roleLabel}</small></h1>
           <span className={`mk-live${live ? ' on' : ''}`} title={live ? 'Tersambung (live)' : 'Belum tersambung ke update langsung'} role="status" aria-label={live ? 'Live' : 'Offline'} />
+          <button className="mk-icon-btn" onClick={() => onTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? 'Ganti ke mode terang' : 'Ganti ke mode gelap'}>
+            <I n={theme === 'dark' ? 'sun' : 'moon'} />
+          </button>
           <button className="mk-icon-btn" onClick={() => setSheet({ type: 'notif' })} aria-label={`Notifikasi, ${unread} belum dibaca`}>
             <I n="bell" />{unread > 0 && <span className="mk-dot">{unread > 9 ? '9+' : unread}</span>}
           </button>
@@ -1615,7 +2164,7 @@ function Workspace({ user, me }) {
         <main className="mk-main">
           {viewMember && (
             <div className="mk-viewas">
-              <span>Melihat dashboard <b>{viewMember.nama}</b>. Aksi yang kamu lakukan tetap atas namamu.</span>
+              <span>Melihat dashboard pribadi <b>{viewMember.nama}</b>. Aksi yang kamu lakukan tetap atas namamu.</span>
               <button className="mk-btn mk-btn--sm" onClick={stopViewAs}>Kembali</button>
             </div>
           )}
@@ -1626,7 +2175,7 @@ function Workspace({ user, me }) {
       <nav className="mk-bottom" aria-label="Menu utama">{renderNav(false)}</nav>
 
       {sheet?.type === 'task' && (
-        <TaskDetail key={sheet.id} id={sheet.id} ctx={ctx} onClose={closeSheet} onEdit={t => setSheet({ type: 'form', initial: t, back: t.id })} />
+        <TaskDetail key={sheet.id} id={sheet.id} ctx={{ ...ctx, db }} onClose={closeSheet} onEdit={t => setSheet({ type: 'form', initial: t, back: t.id })} />
       )}
       {sheet?.type === 'form' && (
         <TaskForm
@@ -1651,16 +2200,26 @@ function Workspace({ user, me }) {
 /* ══════════════════════════════════════════════════════════════
    HALAMAN
 ══════════════════════════════════════════════════════════════ */
+function initialTheme() {
+  try {
+    const t = localStorage.getItem('makrab:theme');
+    if (t === 'dark' || t === 'light') return t;
+  } catch { /* abaikan */ }
+  return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 export default function Makrab() {
   const [phase, setPhase] = useState('loading'); // loading | login | unregistered | error | ready
   const [user, setUser] = useState(null);
   const [me, setMe] = useState(null);
   const [errMsg, setErrMsg] = useState('');
+  const [theme, setTheme] = useState(initialTheme);
+  const changeTheme = t => { setTheme(t); try { localStorage.setItem('makrab:theme', t); } catch { /* abaikan */ } };
 
   /* Halaman privat: jangan diindeks */
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = 'Makrab 2026 · PDD';
+    document.title = 'Makrab 2026 · GONGG';
     const meta = document.createElement('meta');
     meta.name = 'robots'; meta.content = 'noindex,nofollow';
     document.head.appendChild(meta);
@@ -1679,9 +2238,9 @@ export default function Makrab() {
         if (error) throw error;
         const email = (u.email || '').toLowerCase();
         let row = (data || []).find(r => r.email === email);
-        // Koordinator tidak boleh terkunci kalau barisnya hilang
-        if (!row && email === ADMIN_EMAIL && u.emailVerified) {
-          const ins = await supabase.from('makrab_members').insert({ email, nama: 'Aldo', is_admin: true }).select().single();
+        // Admin tidak boleh terkunci kalau barisnya hilang
+        if (!row && ADMIN_EMAILS[email] && u.emailVerified) {
+          const ins = await supabase.from('makrab_members').insert({ email, nama: ADMIN_EMAILS[email], peran: 'admin' }).select().single();
           if (ins.error) throw ins.error;
           row = ins.data;
         }
@@ -1693,7 +2252,7 @@ export default function Makrab() {
         if (cancelled) return;
         const msg = e?.message || 'Gagal memuat';
         setErrMsg(/relation|does not exist|schema cache|Could not find/i.test(msg)
-          ? 'Tabel Makrab belum ada di database. Jalankan supabase/makrab.sql di SQL Editor Supabase.'
+          ? 'Tabel Makrab belum ada di database. Jalankan supabase/makrab.sql, makrab-v2.sql, lalu makrab-v3.sql di SQL Editor Supabase.'
           : msg);
         setPhase('error');
       }
@@ -1702,7 +2261,7 @@ export default function Makrab() {
   }, []);
 
   return (
-    <div className="mk">
+    <div className="mk" data-theme={theme}>
       <style>{THEME_CSS + CSS}</style>
       {phase === 'loading' && <Loading />}
       {phase === 'login' && <LoginGate />}
@@ -1714,7 +2273,7 @@ export default function Makrab() {
           <button className="mk-btn" onClick={() => window.location.reload()}>Muat ulang</button>
         </div></div>
       )}
-      {phase === 'ready' && me && <Workspace user={user} me={me} />}
+      {phase === 'ready' && me && <Workspace user={user} me={me} theme={theme} onTheme={changeTheme} />}
     </div>
   );
 }
