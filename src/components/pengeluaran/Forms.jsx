@@ -43,7 +43,7 @@ export function ExpenseForm({ pockets, initial, onSave, onDelete, onClose }) {
       <Field label="Catatan"><input className="dash-input" value={note} maxLength={80} placeholder="Bensin" onChange={(e) => setNote(e.target.value)} /></Field>
       <div className="pk-field">
         <span>Kantong</span>
-        <div className="pk-chips" role="radiogroup" aria-label="Kantong">
+        <div className="pk-chips pk-scroll" role="radiogroup" aria-label="Kantong">
           {pockets.map((p) => (
             <button key={p.key} type="button" role="radio" aria-checked={p.key === pocketKey}
               className={`pk-chip ${p.key === pocketKey ? 'on' : ''}`} onClick={() => { setPocketKey(p.key); setWarn(0); }}>
@@ -55,7 +55,7 @@ export function ExpenseForm({ pockets, initial, onSave, onDelete, onClose }) {
       <Field label="Tanggal"><input className="dash-input" type="date" value={date} max="2100-12-31" onChange={(e) => setDate(e.target.value)} /></Field>
       <div className="pk-field">
         <span>Kategori (opsional)</span>
-        <div className="pk-chips">
+        <div className="pk-chips pk-scroll">
           {CATEGORIES.map((c) => (
             <button key={c.v} type="button" aria-pressed={category === c.v} className={`pk-chip ${category === c.v ? 'on' : ''}`}
               onClick={() => setCategory(category === c.v ? '' : c.v)}>{c.l}</button>

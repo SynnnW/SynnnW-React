@@ -35,7 +35,7 @@
 .pk-face-recent li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pk-face-recent li b { font-weight: 500; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .pk-face-recent li.muted { opacity: .55; }
-.pk-face-new { align-items: flex-start; justify-content: center; gap: 8px; background: transparent; color: var(--d-text); border: 1.5px dashed var(--d-border-strong); }
+.pk-face-new { align-items: flex-start; justify-content: center; gap: 8px; background: var(--d-surface); color: var(--d-text); border: 1.5px dashed var(--d-border-strong); }
 .pk-face-new::after { display: none; }
 .pk-face-new strong { font-family: var(--d-display); font-size: 22px; font-weight: 600; }
 .pk-face-new small { color: var(--d-muted); font-size: 13px; max-width: 30ch; }
@@ -127,3 +127,11 @@ button.pk-row:hover { background: var(--d-hover); }
 
 @media (max-width: 380px) { .pk-face { padding: 18px 18px 16px; } .pk-face-bal { font-size: 36px; } }
 @media (prefers-reduced-motion: reduce) { .pk-bar i, .pk-dots button::after { transition: none; } }
+
+/* iOS Safari zoom otomatis kalau font input < 16px */
+.pk-sheet input, .pk-sheet select, .pk-sheet textarea { font-size: 16px; }
+.pk-amount input { font-size: clamp(30px, 9vw, 40px); }
+.pk-chips.pk-scroll { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px; padding: 0 18px; scrollbar-width: none; overscroll-behavior-x: contain; }
+.pk-chips.pk-scroll::-webkit-scrollbar { display: none; }
+.pk-chips.pk-scroll .pk-chip { flex-shrink: 0; }
+.pk-form { gap: 12px; }
