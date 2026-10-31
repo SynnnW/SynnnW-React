@@ -12,14 +12,14 @@ import { supabase } from '@/supabaseClient';
    CATEGORIES
 ══════════════════════════════════════════════════════ */
 const CATS = [
-  { v:'makanan',    l:'Makanan',      e:'🍔', c:'#f59e0b', bg:'rgba(245,158,11,0.10)', bd:'rgba(245,158,11,0.28)' },
-  { v:'transport',  l:'Transport',    e:'🚗', c:'#3b82f6', bg:'rgba(59,130,246,0.10)', bd:'rgba(59,130,246,0.28)' },
-  { v:'belanja',    l:'Belanja',      e:'🛍️', c:'#ec4899', bg:'rgba(236,72,153,0.10)', bd:'rgba(236,72,153,0.28)' },
-  { v:'digital',    l:'Digital',      e:'📱', c:'var(--accent)', bg:'color-mix(in srgb, var(--accent) 10%, transparent)', bd:'color-mix(in srgb, var(--accent) 28%, transparent)' },
-  { v:'hiburan',    l:'Hiburan',      e:'🎮', c:'#10b981', bg:'rgba(16,185,129,0.10)', bd:'rgba(16,185,129,0.28)' },
-  { v:'kesehatan',  l:'Kesehatan',    e:'💊', c:'#ef4444', bg:'rgba(239,68,68,0.10)',  bd:'rgba(239,68,68,0.28)'  },
-  { v:'pendidikan', l:'Pendidikan',   e:'📚', c:'#06b6d4', bg:'rgba(6,182,212,0.10)',  bd:'rgba(6,182,212,0.28)'  },
-  { v:'lainnya',    l:'Lainnya',      e:'💡', c:'var(--accent)', bg:'rgba(167,139,250,0.10)',bd:'rgba(167,139,250,0.28)'},
+  { v:'makanan',    l:'Makanan',      e:'', c:'#f59e0b', bg:'rgba(245,158,11,0.10)', bd:'rgba(245,158,11,0.28)' },
+  { v:'transport',  l:'Transport',    e:'', c:'#3b82f6', bg:'rgba(59,130,246,0.10)', bd:'rgba(59,130,246,0.28)' },
+  { v:'belanja',    l:'Belanja',      e:'', c:'#ec4899', bg:'rgba(236,72,153,0.10)', bd:'rgba(236,72,153,0.28)' },
+  { v:'digital',    l:'Digital',      e:'', c:'var(--accent)', bg:'color-mix(in srgb, var(--accent) 10%, transparent)', bd:'color-mix(in srgb, var(--accent) 28%, transparent)' },
+  { v:'hiburan',    l:'Hiburan',      e:'', c:'#10b981', bg:'rgba(16,185,129,0.10)', bd:'rgba(16,185,129,0.28)' },
+  { v:'kesehatan',  l:'Kesehatan',    e:'', c:'#ef4444', bg:'rgba(239,68,68,0.10)',  bd:'rgba(239,68,68,0.28)'  },
+  { v:'pendidikan', l:'Pendidikan',   e:'', c:'#06b6d4', bg:'rgba(6,182,212,0.10)',  bd:'rgba(6,182,212,0.28)'  },
+  { v:'lainnya',    l:'Lainnya',      e:'', c:'var(--accent)', bg:'color-mix(in srgb, var(--accent) 10%, transparent)',bd:'color-mix(in srgb, var(--accent) 28%, transparent)'},
 ];
 
 /* ══════════════════════════════════════════════════════
@@ -51,7 +51,7 @@ const CSS = `
 /* ── Ambient orbs ── */
 .pe-orb { position:fixed; border-radius:50%; pointer-events:none; filter:blur(90px); z-index:0; }
 .pe-o1 { width:600px;height:600px; background:transparent; top:-200px;left:-100px; }
-.pe-o2 { width:400px;height:400px; background:radial-gradient(circle,rgba(167,139,250,0.05) 0%,transparent 65%); bottom:200px;right:-80px; }
+.pe-o2 { width:400px;height:400px; background:radial-gradient(circle,color-mix(in srgb, var(--accent) 5%, transparent) 0%,transparent 65%); bottom:200px;right:-80px; }
 
 /* ── Header ── */
 .pe-header { position:relative;z-index:1; padding:48px 0 36px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:20px; border-bottom:1px solid var(--border); margin-bottom:28px; }
@@ -81,7 +81,7 @@ const CSS = `
 /* ── Budget card ── */
 .pe-budget-card { position:relative;z-index:1;background:var(--glass);border:1px solid var(--gborder2);border-radius:2px;padding:30px 34px;margin-bottom:24px;overflow:hidden; }
 .pe-bc-glow { position:absolute;top:-80px;right:-60px;width:280px;height:280px;border-radius:50%;background:transparent;pointer-events:none; }
-.pe-bc-line { position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.3),transparent);pointer-events:none; }
+.pe-bc-line { position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--accent) 30%, transparent),transparent);pointer-events:none; }
 .pe-bc-top { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap; }
 .pe-bc-info {}
 .pe-bc-lbl { font-size:.6rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px; }
@@ -145,12 +145,12 @@ const CSS = `
 .pe-list-empty p { font-size:.78rem;color:var(--text-dim); }
 
 /* ── FAB ── */
-.pe-fab { position:fixed;bottom:28px;right:80px;z-index:8000;display:inline-flex;align-items:center;gap:10px;padding:13px 24px;background:var(--accent-g);color:#fff;border:none;border-radius:2px;font-family:var(--font-body);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;box-shadow:none;transition:all .28s; }
+.pe-fab { position:fixed;bottom:28px;right:80px;z-index:var(--z-modal);display:inline-flex;align-items:center;gap:10px;padding:13px 24px;background:var(--accent-g);color:#fff;border:none;border-radius:2px;font-family:var(--font-body);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;box-shadow:none;transition:all .28s; }
 .pe-fab:hover { transform:translateY(-3px);box-shadow:none; }
 .pe-fab:active { transform:translateY(0);box-shadow:none; }
 
 /* ── Modal ── */
-.pe-modal-bd { position:fixed;inset:0;z-index:9200;background:rgba(7,7,26,.8);display:flex;align-items:center;justify-content:center;padding:20px;animation:peFadeIn .25s ease; }
+.pe-modal-bd { position:fixed;inset:0;z-index:calc(var(--z-modal) + 10);background:rgba(7,7,26,.8);display:flex;align-items:center;justify-content:center;padding:20px;animation:peFadeIn .25s ease; }
 @keyframes peFadeIn { from{opacity:0} to{opacity:1} }
 .pe-modal { background:var(--glass2);border:1px solid var(--gborder2);border-radius:2px;padding:36px 32px;max-width:480px;width:100%;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:peModalIn .32s cubic-bezier(.22,1,.36,1); }
 @keyframes peModalIn { from{opacity:0;transform:translateY(16px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
@@ -338,7 +338,7 @@ export default function Pengeluaran() {
     if (isOver && !overNotified) {
       setOverNotified(true);
       if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-        new Notification('⚠️ Budget Terlampaui!', {
+        new Notification('Budget Terlampaui!', {
           body: `Pengeluaran ${fmtIDR(totalSpent)} melebihi budget ${fmtIDR(budget)} untuk ${fullMonthLbl(currentMonth)}`,
           icon: '/favicon.svg',
         });

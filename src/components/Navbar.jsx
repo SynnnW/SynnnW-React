@@ -36,300 +36,126 @@ const DROPDOWN_ITEMS = {
    (all CSS variables from globals.css)
 ───────────────────────────────────────── */
 const NAV_CSS = `
-  /* ── Root bar — Glassmorphic ── */
+  /* ═══ Navbar editorial — hairline, mono folio, penanda lime ═══ */
   .nv-root {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 999;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2.5rem;
-    background: var(--nav-bg);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
-    border-bottom: 1px solid var(--gborder);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.25),
-                0 1px 0 var(--gborder);
+    position: fixed; top: 0; left: 0; right: 0; z-index: var(--z-nav);
+    height: 64px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--gutter);
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    border-bottom: 1px solid var(--border);
+    transition: transform var(--dur-route) var(--ease-out), background-color .3s ease, border-color .3s ease;
   }
+  .nv-root.nv-hidden { transform: translateY(-110%); }
+  .nv-root.nv-scrolled { background: var(--nav-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 
   /* ── Logo ── */
-  .nv-logo {
-    position: relative; display: inline-flex; align-items: center;
-    cursor: pointer; flex-shrink: 0; padding-right: 14px; user-select: none;
-  }
-  .nv-logo-text {
-    font-family: var(--font-display), Georgia, serif;
-    font-size: 1.25rem; font-weight: 700; letter-spacing: 0.04em;
-    color: var(--text); transition: color 0.2s;
-  }
-  .nv-logo:hover .nv-logo-text { color: var(--accent3); }
-  .nv-logo-st {
-    position: absolute; font-size: 0.52rem; top: -4px; right: -6px;
-    color: var(--accent); font-weight: 700; letter-spacing: 0.05em;
-    font-family: var(--font-body); line-height: 1; pointer-events: none;
-  }
+  .nv-logo { position: relative; display: inline-flex; align-items: baseline; gap: 6px; cursor: pointer; flex-shrink: 0; user-select: none; }
+  .nv-logo-text { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; font-style: italic; letter-spacing: -0.02em; color: var(--text); transition: color var(--dur-fast) ease; }
+  .nv-logo:hover .nv-logo-text { color: var(--accent-text); }
+  .nv-logo-st { font-family: var(--font-mono); font-size: .56rem; letter-spacing: .12em; padding: 1px 5px; background: var(--accent); color: var(--on-accent); border-radius: 2px; align-self: flex-start; margin-top: 3px; pointer-events: none; }
 
-  /* ── Center pill — Glass + Neu ── */
-  .nv-pill {
-    display: flex; align-items: center; gap: 2px;
-    background: var(--glass2);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
-    border: 1px solid var(--gborder2);
-    border-radius: 99px;
-    padding: 5px 7px;
-    position: absolute; left: 50%; transform: translateX(-50%);
-    box-shadow: var(--neu-raised),
-                inset 0 1px 0 rgba(255,255,255,0.07);
-  }
-
-  /* ── Nav item ── */
-  .nv-item { position: relative; }
-
-  /* ── Nav link ── */
+  /* ── Menu tengah: baris tautan dengan folio ── */
+  .nv-pill { display: flex; align-items: center; gap: 4px; position: absolute; left: 50%; transform: translateX(-50%); counter-reset: nvn; }
+  .nv-item { position: relative; counter-increment: nvn; }
   .nv-link {
-    display: block; font-size: 0.64rem; font-weight: 600;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text-dim); padding: 7px 14px; border-radius: 99px;
-    background: transparent; transition: color 0.22s, background 0.22s, box-shadow 0.22s;
-    text-decoration: none; white-space: nowrap; font-family: var(--font-body);
+    display: flex; align-items: baseline; gap: 7px; padding: 8px 14px; border-radius: var(--r-s);
+    font-family: var(--font-mono); font-size: .72rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-dim); white-space: nowrap; text-decoration: none;
+    transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
   }
-  .nv-link:hover {
-    color: var(--text);
-    background: var(--glass);
-  }
-  .nv-link.nv-active {
-    color: var(--bg);
-    background: var(--text);
-    box-shadow: var(--neu-flat);
-  }
-  .nv-link.nv-active:hover { color: var(--bg); }
+  .nv-link::before { content: counter(nvn, decimal-leading-zero); font-size: .56rem; color: var(--text-faint); transition: color var(--dur-fast) ease; }
+  .nv-link:hover { color: var(--text); }
+  .nv-link:hover::before { color: var(--accent-text); }
+  .nv-link.nv-active { background: var(--accent); color: var(--on-accent); }
+  .nv-link.nv-active::before { color: var(--on-accent); opacity: .7; }
 
-  /* ── Dropdown panel — Glassmorphic ── */
+  /* ── Dropdown ── */
   .nv-dropdown {
-    position: absolute; top: calc(100% + 12px); left: 50%;
-    transform: translateX(-50%);
-    background: var(--glass2);
-    backdrop-filter: var(--blur-lg);
-    -webkit-backdrop-filter: var(--blur-lg);
-    border: 1px solid var(--gborder-accent);
-    border-radius: 18px; padding: 8px 0; min-width: 200px;
-    box-shadow: var(--neu-raised), 0 20px 60px var(--shadow);
-    z-index: 1000; animation: nv-drop 0.18s cubic-bezier(0.22,1,0.36,1) forwards;
-    pointer-events: auto;
+    position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%); min-width: 220px; padding: 6px;
+    background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--r-notch);
+    box-shadow: 0 18px 40px -18px var(--shadow); z-index: var(--z-float);
+    animation: nv-drop var(--dur-base) var(--ease-out) forwards;
   }
-  @keyframes nv-drop {
-    from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
-    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-  }
-  .nv-dropdown-item {
-    display: flex; align-items: center; gap: 8px; padding: 10px 18px;
-    font-family: var(--font-body); font-size: 0.75rem; font-weight: 500;
-    letter-spacing: 0.04em; color: var(--text-dim);
-    text-decoration: none; transition: color 0.18s, background 0.18s; white-space: nowrap;
-  }
-  .nv-dropdown-item:hover { color: var(--text); background: var(--glass); }
-  .nv-dropdown-item i { font-size: 0.7rem; color: var(--accent3); }
+  @keyframes nv-drop { from { opacity: 0; transform: translateX(-50%) translateY(-6px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+  .nv-dropdown-item { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: var(--r-s); font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-dim); white-space: nowrap; transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease; }
+  .nv-dropdown-item:hover { color: var(--text); background: var(--glass2); }
+  .nv-dropdown-item i { font-size: .8rem; color: var(--accent-text); }
 
-  /* ── Divider ── */
-  .nv-divider {
-    width: 1px; height: 18px; background: var(--border2);
-    margin: 0 4px; flex-shrink: 0;
-  }
+  .nv-divider { width: 1px; height: 18px; background: var(--border2); margin: 0 6px; flex-shrink: 0; }
 
-  /* ── Icon buttons ── */
-  .nv-icon-btn {
-    background: var(--glass); border: 1px solid var(--gborder);
-    color: var(--text-dim); width: 32px; height: 32px; border-radius: 50%;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 0.88rem; transition: all 0.22s;
-    box-shadow: var(--neu-flat);
+  /* ── Tombol ikon & bahasa ── */
+  .nv-icon-btn, .nv-lang-btn {
+    min-width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+    background: transparent; border: 1px solid var(--border2); color: var(--text); border-radius: 99px;
+    font-family: var(--font-mono); font-size: .7rem; font-weight: 600; letter-spacing: .08em; padding: 0 12px;
+    transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, border-color var(--dur-fast) ease;
   }
-  .nv-icon-btn:hover {
-    color: var(--text); border-color: var(--gborder-accent);
-    box-shadow: var(--neu-raised);
-    background: var(--glass2);
-  }
-  .nv-icon-btn:active { box-shadow: var(--neu-press); }
+  .nv-icon-btn { padding: 0; width: 40px; font-size: .9rem; }
+  .nv-icon-btn:hover, .nv-lang-btn:hover { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .nv-icon-btn:active, .nv-lang-btn:active { transform: translateY(1px); }
 
-  /* ── Lang button ── */
-  .nv-lang-btn {
-    background: var(--glass); border: 1px solid var(--gborder);
-    color: var(--text-dim); cursor: pointer;
-    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
-    padding: 6px 10px; border-radius: 99px; transition: all 0.22s;
-    font-family: var(--font-body);
-    box-shadow: var(--neu-flat);
-  }
-  .nv-lang-btn:hover {
-    color: var(--text); border-color: var(--gborder-accent);
-    box-shadow: var(--neu-raised); background: var(--glass2);
-  }
-
-  /* ── Right section ── */
   .nv-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 
-  /* ── CTA button — Neu-Glass hybrid ── */
-  .nv-cta {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 9px 20px;
-    background: var(--accent-g);
-    color: #fff; border: none; border-radius: 99px;
-    font-family: var(--font-body); font-size: 0.64rem;
-    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-    cursor: pointer; white-space: nowrap;
-    box-shadow: 0 4px 20px var(--accent-glow), var(--neu-flat);
-    transition: all 0.25s;
+  /* ── CTA ── */
+  .nv-cta, .nv-drawer-cta {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 18px;
+    background: var(--accent); color: var(--on-accent); border: 0; border-radius: var(--r-notch); cursor: pointer; white-space: nowrap;
+    font-family: var(--font-mono); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
   }
-  .nv-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px var(--accent-glow), var(--neu-raised);
+  .nv-cta:hover, .nv-drawer-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -12px var(--shadow); }
+  .nv-cta:active, .nv-drawer-cta:active { transform: translateY(0); }
+  .nv-cta i, .nv-drawer-cta i { font-size: .7rem; }
+  .nv-makrab, .nv-drawer-makrab {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 16px; cursor: pointer; white-space: nowrap;
+    background: transparent; color: var(--text); border: 1px solid var(--border2); border-radius: var(--r-notch);
+    font-family: var(--font-mono); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    transition: border-color var(--dur-fast) ease, background-color var(--dur-fast) ease;
   }
-  .nv-cta:active {
-    transform: translateY(0);
-    box-shadow: var(--neu-press);
-  }
-  .nv-cta i { font-size: 0.58rem; }
-  .nv-makrab {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 8px 16px; background: transparent; color: var(--text);
-    border: 1px solid var(--border2); border-radius: 99px;
-    font-family: var(--font-body); font-size: 0.64rem;
-    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-    cursor: pointer; white-space: nowrap; transition: all 0.25s;
-  }
-  .nv-makrab:hover { border-color: var(--accent2); background: var(--glass2); transform: translateY(-2px); }
-  .nv-makrab i { font-size: 0.7rem; color: var(--accent2); }
-  .nv-drawer-makrab {
-    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
-    padding: 13px 20px; margin-bottom: 10px; background: transparent; color: var(--text);
-    border: 1px solid var(--border2); border-radius: 99px; cursor: pointer;
-    font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase;
-  }
+  .nv-makrab:hover, .nv-drawer-makrab:hover { border-color: var(--text); background: var(--glass2); }
+  .nv-makrab i, .nv-drawer-makrab i { font-size: .8rem; color: var(--accent-text); }
+  .nv-drawer-makrab { width: 100%; margin-bottom: 10px; min-height: 48px; }
 
   /* ── Hamburger ── */
-  .nv-hamburger {
-    display: none;
-    background: var(--glass2); border: 1px solid var(--gborder);
-    color: var(--text); width: 38px; height: 38px; border-radius: 12px;
-    align-items: center; justify-content: center;
-    cursor: pointer; font-size: 0.95rem; transition: all 0.2s;
-    box-shadow: var(--neu-raised);
-  }
-  .nv-hamburger:hover { background: var(--glass3); box-shadow: var(--neu-raised); }
-  .nv-hamburger:active { box-shadow: var(--neu-press); }
+  .nv-hamburger { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; cursor: pointer; background: transparent; border: 1px solid var(--border2); color: var(--text); border-radius: var(--r-s); font-size: 1rem; }
+  .nv-hamburger:hover { background: var(--glass2); }
 
-  /* ── Mobile backdrop ── */
-  .nv-backdrop {
-    position: fixed; inset: 0; z-index: 9998;
-    background: rgba(7,7,26,0.55);
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-    animation: nv-fade 0.25s ease;
-  }
-  @keyframes nv-fade { from { opacity: 0; } to { opacity: 1; } }
-
-  /* ── Mobile drawer — Glassmorphic ── */
+  /* ── Drawer mobile: solid, tanpa kaca ── */
+  .nv-backdrop { position: fixed; inset: 0; z-index: var(--z-overlay); background: color-mix(in srgb, var(--bg) 70%, #000); opacity: .72; animation: nv-fade var(--dur-base) ease; }
+  @keyframes nv-fade { from { opacity: 0; } to { opacity: .72; } }
   .nv-drawer {
-    position: fixed; top: 0; right: 0; bottom: 0;
-    width: 67%; max-width: 340px; min-width: 260px; z-index: 9999;
-    background: var(--glass2);
-    backdrop-filter: var(--blur-lg); -webkit-backdrop-filter: var(--blur-lg);
-    border-left: 1px solid var(--gborder2);
-    box-shadow: -12px 0 40px var(--shadow);
-    display: flex; flex-direction: column;
-    padding: 80px 28px 36px; gap: 2px;
-    overflow-y: auto; overflow-x: hidden;
-    animation: nv-slide 0.3s cubic-bezier(0.22,1,0.36,1);
+    position: fixed; top: 0; right: 0; bottom: 0; width: min(86vw, 380px); z-index: calc(var(--z-overlay) + 1);
+    background: var(--bg); border-left: 1px solid var(--border2); box-shadow: -24px 0 50px -30px var(--shadow);
+    display: flex; flex-direction: column; padding: 84px 28px 32px; gap: 2px; overflow-y: auto; overflow-x: hidden; counter-reset: nvd;
+    animation: nv-slide var(--dur-route) var(--ease-out);
   }
   @keyframes nv-slide { from { transform: translateX(100%); } to { transform: translateX(0); } }
-
-  .nv-drawer-close {
-    position: absolute; top: 20px; right: 20px;
-    background: var(--glass2); border: 1px solid var(--gborder);
-    color: var(--text); width: 40px; height: 40px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 1rem; transition: all 0.2s;
-    box-shadow: var(--neu-raised);
-  }
-  .nv-drawer-close:hover { background: var(--glass3); color: var(--accent3); }
-  .nv-drawer-close:active { box-shadow: var(--neu-press); }
-
+  .nv-drawer-close { position: absolute; top: 14px; right: 16px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: transparent; border: 1px solid var(--border2); border-radius: 99px; color: var(--text); font-size: 1rem; }
+  .nv-drawer-close:hover { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
   .nv-drawer-link {
-    font-family: var(--font-display), Georgia, serif;
-    font-size: 1.9rem; font-weight: 400; color: var(--text-dim);
-    text-decoration: none; padding: 5px 0; display: block;
-    transition: color 0.2s; line-height: 1.2;
+    display: flex; align-items: baseline; gap: 12px; padding: 8px 0; counter-increment: nvd; border-bottom: 1px solid var(--border);
+    font-family: var(--font-display); font-size: clamp(1.8rem, 8vw, 2.4rem); font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-dim);
+    transition: color var(--dur-fast) ease, padding-left var(--dur-base) var(--ease-out);
   }
-  .nv-drawer-link:hover, .nv-drawer-link.nv-active { color: var(--text); }
-
-  .nv-drawer-sub {
-    font-family: var(--font-body); font-size: 0.74rem; font-weight: 500;
-    color: var(--accent3); text-decoration: none;
-    padding: 4px 0 4px 14px; display: flex; align-items: center; gap: 6px;
-    border-left: 2px solid color-mix(in srgb, var(--accent) 35%, transparent); margin: 2px 0 6px;
-    transition: color 0.2s;
-  }
+  .nv-drawer-link::before { content: counter(nvd, decimal-leading-zero); font-family: var(--font-mono); font-size: .66rem; letter-spacing: .08em; color: var(--text-faint); }
+  .nv-drawer-link:hover { color: var(--text); padding-left: 6px; }
+  .nv-drawer-link.nv-active { color: var(--text); font-style: italic; }
+  .nv-drawer-link.nv-active::before { color: var(--accent-text); }
+  .nv-drawer-sub { display: flex; align-items: center; gap: 8px; padding: 8px 0 8px 14px; margin: 2px 0 6px; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-dim); border-left: 1px solid var(--border2); }
   .nv-drawer-sub:hover { color: var(--text); }
-  .nv-drawer-sub i { font-size: 0.65rem; }
+  .nv-drawer-sub i { font-size: .72rem; color: var(--accent-text); }
+  .nv-drawer-toggles { margin-top: 26px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .nv-drawer-toggle-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; cursor: pointer; background: transparent; color: var(--text); border: 1px solid var(--border2); border-radius: 99px; font-family: var(--font-mono); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .nv-drawer-toggle-btn:hover { background: var(--glass2); }
+  .nv-drawer-cta { margin-top: 14px; width: 100%; min-height: 52px; }
+  .nv-drawer-divider { width: 100%; height: 1px; background: var(--border); margin: 18px 0 12px; }
 
-  .nv-drawer-toggles { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; }
-  .nv-drawer-toggle-btn {
-    background: var(--glass2); border: 1px solid var(--gborder);
-    color: var(--text-dim); padding: 9px 18px; border-radius: 99px;
-    font-size: 0.72rem; font-weight: 700; cursor: pointer;
-    font-family: var(--font-body); transition: all 0.2s;
-    display: flex; align-items: center; gap: 6px;
-    box-shadow: var(--neu-raised);
-  }
-  .nv-drawer-toggle-btn:hover { color: var(--text); background: var(--glass3); }
-  .nv-drawer-toggle-btn:active { box-shadow: var(--neu-press); }
-
-  .nv-drawer-cta {
-    margin-top: 16px; display: flex; align-items: center;
-    justify-content: center; gap: 8px; padding: 14px 20px;
-    background: var(--accent-g); color: #fff; border: none; border-radius: 99px;
-    font-family: var(--font-body); font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
-    transition: all 0.25s; width: 100%;
-    box-shadow: 0 6px 24px var(--accent-glow);
-  }
-  .nv-drawer-cta:hover { opacity: 0.88; transform: translateY(-1px); }
-  .nv-drawer-cta:active { transform: translateY(0); }
-  .nv-drawer-cta i { font-size: 0.65rem; }
-
-  .nv-drawer-divider { width: 100%; height: 1px; background: var(--border); margin: 16px 0 12px; }
-
-  /* ── Responsive ── */
+  @media (max-width: 1024px) { .nv-pill { gap: 0; } .nv-link { padding: 8px 10px; } .nv-link::before { display: none; } }
   @media (max-width: 768px) {
-    .nv-pill      { display: none !important; }
-    .nv-cta       { display: none !important; }
-    .nv-makrab    { display: none !important; }
+    .nv-pill, .nv-cta, .nv-makrab { display: none !important; }
     .nv-hamburger { display: flex !important; }
-    .nv-root      { padding: 0 1.5rem; }
   }
-  @media (max-width: 480px) {
-    .nv-drawer { width: 80%; }
-    .nv-root   { padding: 0 1.2rem; }
-  }
-`;
-
-/* ─────────────────────────────────────────
-   MAIN COMPONENT
-/* ─────────────────────────────────────────
-   MAIN COMPONENT
-───────────────────────────────────────── */
-const NAV_OVERRIDE = `
-  .nv-root { transition: transform .5s cubic-bezier(.22,1,.36,1), background .3s, backdrop-filter .3s; }
-  .nv-root.nv-hidden { transform: translateY(-110%); }
-  .nv-root.nv-scrolled { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background: var(--nav-bg); border-bottom: 1px solid var(--border); }
-  .nv-pill, .nv-dropdown, .nv-dropdown-item, .nv-cta, .nv-drawer-cta, .nv-drawer-toggle-btn { border-radius: 0 !important; box-shadow: none !important; }
-  .nv-link, .nv-cta, .nv-drawer-cta, .nv-dropdown-item { font-family: var(--font-mono) !important; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem !important; }
-  .nv-link.nv-active { background: var(--accent) !important; color: var(--on-accent) !important; }
-  .nv-cta, .nv-drawer-cta { background: var(--accent) !important; color: var(--on-accent) !important; border: 0 !important; }
-  .nv-drawer-link { font-family: var(--font-display) !important; font-weight: 700; font-size: var(--fs-h2) !important; letter-spacing: -0.04em; }
+  @media (prefers-reduced-motion: reduce) { .nv-root, .nv-drawer, .nv-dropdown { animation: none !important; transition: none !important; } }
 `;
 
 export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
@@ -432,7 +258,7 @@ export default function Navbar({ t, lang, toggleLang, theme, toggleTheme }) {
   return (
     <>
       {/* CSS — injected once, scoped to .nv-* classes — no dark bar risk */}
-      <style>{NAV_CSS + NAV_OVERRIDE}</style>
+      <style>{NAV_CSS}</style>
 
       {/* ══════════════════════════════════════
           NAV BAR

@@ -67,9 +67,9 @@ export default function CookieConsent({ lang = 'id' }) {
           bottom: 0;
           left: 0;
           right: 0;
-          z-index: 9500;
+          z-index: calc(var(--z-toast) - 10);
           background: rgba(7, 7, 9, 0.96);
-          border-top: 1px solid rgba(255, 255, 255, 0.07);
+          border-top: 1px solid var(--border);
 
           padding: 20px 32px;
           animation: ${visible ? 'slideUp' : 'slideDown'} 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -88,7 +88,7 @@ export default function CookieConsent({ lang = 'id' }) {
           flex: 1;
           font-size: 0.9rem;
           line-height: 1.7;
-          color: rgba(255, 255, 255, 0.75);
+          color: var(--text-dim);
         }
 
         .cc-links {
@@ -96,14 +96,14 @@ export default function CookieConsent({ lang = 'id' }) {
         }
 
         .cc-link {
-          color: var(--accent);
+          color: var(--accent-text);
           text-decoration: none;
-          border-bottom: 1px solid rgba(167, 139, 250, 0.3);
+          border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
           transition: all 0.2s;
         }
 
         .cc-link:hover {
-          color: var(--accent);
+          color: var(--accent-text);
           border-bottom-color: rgba(196, 181, 253, 0.6);
         }
 
@@ -129,7 +129,7 @@ export default function CookieConsent({ lang = 'id' }) {
 
         .cc-btn-accept {
           background: var(--accent);
-          color: #fff;
+          color: var(--on-accent);
           box-shadow: none;
         }
 
@@ -140,14 +140,14 @@ export default function CookieConsent({ lang = 'id' }) {
 
         .cc-btn-decline {
           background: transparent;
-          color: rgba(255, 255, 255, 0.6);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: var(--text-dim);
+          border: 1px solid var(--border2);
         }
 
         .cc-btn-decline:hover {
-          color: rgba(255, 255, 255, 0.9);
-          border-color: rgba(255, 255, 255, 0.3);
-          background: rgba(255, 255, 255, 0.05);
+          color: var(--text);
+          border-color: var(--border2);
+          background: var(--glass2);
         }
 
         /* Mobile responsive */

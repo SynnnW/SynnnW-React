@@ -1,218 +1,91 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import LeoMascotToggle from './LeoMascotToggle';
+import { prefersReduced } from '../lib/motion';
+import '../styles/chrome.css';
 
 function WibClock() {
   const fmt = () => new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta', hour12: false }).format(new Date());
   const [t, setT] = useState(fmt);
   useEffect(() => { const id = setInterval(() => setT(fmt()), 30000); return () => clearInterval(id); }, []);
-  return <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-meta)', letterSpacing: '0.08em', color: 'var(--text-dim)' }}>{t} WIB — JAWA TIMUR, ID</span>;
+  return <span className="folio">{t} WIB — Jawa Timur, ID</span>;
 }
 
-export default function Footer({ t, lang = 'id' }) {
+const NAV = [
+  { to: '/', en: 'Home', id: 'Beranda' },
+  { to: '/works', en: 'Works', id: 'Karya' },
+  { to: '/about', en: 'About', id: 'Tentang' },
+  { to: '/journal', en: 'Journal', id: 'Jurnal' },
+  { to: '/price-list', en: 'Pricing', id: 'Harga' },
+  { to: '/terms', en: 'Terms', id: 'Ketentuan' },
+  { to: '/contact', en: 'Contact', id: 'Kontak' },
+];
+
+export default function Footer({ lang = 'id' }) {
   const nameRef = useRef(null);
+  const isID = lang !== 'en';
+  const L = (en, id) => (isID ? id : en);
 
-  /* ── Parallax scroll effect (dipertahankan dari original) ── */
+  /* Parallax nama besar (dipertahankan); dimatikan bila reduced-motion */
   useEffect(() => {
-    const setInitial = () => {
-      if (!nameRef.current) return;
-      nameRef.current.style.transform = 'translateX(-260px)';
-    };
-    setInitial();
-
-    const handleScroll = () => {
-      if (!nameRef.current) return;
-      const el = nameRef.current;
-      const footerEl = el.closest('footer');
+    const el = nameRef.current;
+    if (!el || prefersReduced()) return undefined;
+    const footerEl = el.closest('footer');
+    const update = () => {
       if (!footerEl) return;
-
-      const rect     = footerEl.getBoundingClientRect();
-      const winH     = window.innerHeight;
-      const progress = 1 - (rect.top / winH);
-      const clamped  = Math.max(0, Math.min(1, progress));
-
-      el.style.transform = `translateX(${-260 + clamped * 520}px)`;
+      const rect = footerEl.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, 1 - rect.top / window.innerHeight));
+      el.style.transform = `translateX(${-12 + p * 12}%)`;
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
   }, []);
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  /* ── Shared link style ── */
-  const linkStyle = {
-    fontSize: '0.8rem',
-    color: 'var(--text-dim)',
-    letterSpacing: '0.06em',
-    textDecoration: 'none',
-    transition: 'color 0.2s',
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '5px',
-  };
-  const hoverOn  = e => (e.currentTarget.style.color = 'var(--text)');
-  const hoverOff = e => (e.currentTarget.style.color = 'var(--text-dim)');
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: prefersReduced() ? 'auto' : 'smooth' });
 
   return (
-    <>
-    <footer style={{
-      background:  'var(--bg2)',
-      borderTop:   '1px solid var(--border)',
-      overflow:    'hidden',
-      paddingTop:  '4rem',
-    }}>
-      <div style={{ padding: '0 2rem 1rem' }}><WibClock /></div>
-
-      {/* ── Big Parallax Name (dipertahankan) ── */}
-      <div style={{ overflow: 'hidden', padding: '0 2rem 2rem' }}>
-        <h2
-          ref={nameRef}
-          style={{
-            fontFamily:    'var(--font-display)',
-            fontSize:      'clamp(3rem, 10vw, 9rem)',
-            fontWeight:    300,
-            color:         'var(--border2)',
-            whiteSpace:    'nowrap',
-            letterSpacing: '-0.02em',
-            willChange:    'transform',
-            display:       'inline-block',
-          }}
-        >
-          Aldo Leo Saputra
-        </h2>
+    <footer className="ft">
+      <div className="ft-top">
+        <WibClock />
+        <span className="folio">© 2025–2026 SynnnW Studio</span>
       </div>
 
-      {/* ── Quick nav links row ── */}
-      <div style={{
-        display:       'flex',
-        alignItems:    'center',
-        gap:           '1.5rem',
-        padding:       '1rem 2rem',
-        flexWrap:      'wrap',
-        borderTop:     '1px solid var(--border)',
-      }}>
-        {[
-          { to: '/',          label: 'Home'      },
-          { to: '/works',     label: 'Works'     },
-          { to: '/about',     label: 'About'     },
-          { to: '/journal',   label: 'Journal'   },
-          { to: '/price-list',label: 'Pricing'   },
-          { to: '/terms',     label: 'Terms'     },
-          { to: '/contact',   label: 'Contact'   },
-        ].map(({ to, label }) => (
-          <Link
-            key={to}
-            to={to}
-            style={{
-              fontSize:      '0.72rem',
-              fontFamily:    'var(--font-body)',
-              fontWeight:    500,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color:         'var(--text-dim)',
-              textDecoration:'none',
-              transition:    'color 0.2s',
-            }}
-            onMouseEnter={hoverOn}
-            onMouseLeave={hoverOff}
-          >
-            {label}
-          </Link>
-        ))}
+      <div className="ft-name-wrap">
+        <h2 ref={nameRef} className="ft-name" aria-label="Aldo Leo Saputra">Aldo Leo <em>Saputra</em></h2>
       </div>
 
-      {/* ── Footer Bottom ── */}
-      <div style={{
-        display:        'flex',
-        alignItems:     'center',
-        justifyContent: 'space-between',
-        flexWrap:       'wrap',
-        gap:            '1rem',
-        padding:        '1.5rem 2rem',
-        borderTop:      '1px solid var(--border)',
-      }}>
+      <div className="ft-grid">
+        <nav className="ft-col" aria-label={L('Footer navigation', 'Navigasi footer')}>
+          <h3>{L('Navigate', 'Jelajahi')}</h3>
+          <ul className="ft-list">
+            {NAV.map(n => (
+              <li key={n.to}><Link className="ft-link" to={n.to}>{isID ? n.id : n.en}</Link></li>
+            ))}
+          </ul>
+        </nav>
 
-        {/* Copyright — English, 2025–2026 */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', margin: 0 }}>
-            © 2025–2026 SynnnW Studio. All rights reserved.
-          </p>
+        <div className="ft-col">
+          <h3>{L('Elsewhere', 'Di tempat lain')}</h3>
+          <ul className="ft-list">
+            <li><a className="ft-link ft-link--plain" href="https://github.com/SynnnW" target="_blank" rel="noopener noreferrer"><i className="fa-brands fa-github" aria-hidden="true" />GitHub</a></li>
+            <li><a className="ft-link ft-link--plain" href="https://www.instagram.com/aldosynnn?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer"><i className="fa-brands fa-instagram" aria-hidden="true" />Instagram</a></li>
+            <li><a className="ft-link ft-link--plain" href="https://wa.me/6281252790018" target="_blank" rel="noopener noreferrer"><i className="fa-brands fa-whatsapp" aria-hidden="true" />WhatsApp</a></li>
+          </ul>
         </div>
 
-        {/* Social links */}
-        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <a
-            href="https://github.com/SynnnW"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={linkStyle}
-            onMouseEnter={hoverOn}
-            onMouseLeave={hoverOff}
-          >
-            <i className="fa-brands fa-github" style={{ fontSize: '0.85rem' }} />
-            GitHub
-          </a>
-
-          {/* Instagram — updated URL per Prompt 04 */}
-          <a
-            href="https://www.instagram.com/aldosynnn?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-            target="_blank"
-            rel="noopener noreferrer"
-            style={linkStyle}
-            onMouseEnter={hoverOn}
-            onMouseLeave={hoverOff}
-          >
-            <i className="fa-brands fa-instagram" style={{ fontSize: '0.85rem' }} />
-            Instagram
-          </a>
-
-          {/* WhatsApp */}
-          <a
-            href="https://wa.me/6281252790018"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ ...linkStyle, color: 'rgba(37,211,102,0.6)' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#25d366')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(37,211,102,0.6)')}
-          >
-            <i className="fa-brands fa-whatsapp" style={{ fontSize: '0.85rem' }} />
-            WhatsApp
-          </a>
+        <div className="ft-col ft-cta">
+          <h3>{L('Next project', 'Proyek berikutnya')}</h3>
+          <p>{L('Got something to ', 'Punya sesuatu untuk ')}<em>{L('build?', 'dibangun?')}</em></p>
+          <Link to="/contact" className="ft-btn">{L('Write a brief', 'Tulis brief')} <i className="fa-solid fa-arrow-up-right" aria-hidden="true" /></Link>
         </div>
+      </div>
 
-        {/* Back to top (dipertahankan) */}
-        <button
-          onClick={scrollToTop}
-          style={{
-            background:    'none',
-            border:        '1px solid var(--border2)',
-            color:         'var(--text-dim)',
-            padding:       '6px 16px',
-            borderRadius:  '4px',
-            fontSize:      '0.78rem',
-            cursor:        'pointer',
-            letterSpacing: '0.06em',
-            transition:    'color 0.2s, border-color 0.2s',
-            fontFamily:    'var(--font-body)',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.color        = 'var(--accent)';
-            e.currentTarget.style.borderColor  = 'var(--accent)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.color        = 'var(--text-dim)';
-            e.currentTarget.style.borderColor  = 'var(--border2)';
-          }}
-        >
-          Back to Top ↑
-        </button>
+      <div className="ft-bottom">
+        <span>{L('All rights reserved.', 'Seluruh hak cipta dilindungi.')}</span>
+        <button type="button" className="ft-top-btn" onClick={scrollToTop}>{L('Back to top', 'Ke atas')} ↑</button>
         <LeoMascotToggle lang={lang} />
       </div>
     </footer>
-    </>
   );
 }

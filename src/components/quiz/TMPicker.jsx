@@ -85,7 +85,7 @@ export default function TMPicker({
 
       {isAdmin && (
         <div className="tmp-admin-bar">
-          🛠️ Mode Admin — klik kartu TM yang sudah punya konten untuk menyalakan/mematikannya ke publik
+           Mode Admin — klik kartu TM yang sudah punya konten untuk menyalakan/mematikannya ke publik
           (tidak menghapus data, cuma disembunyikan sementara).
         </div>
       )}

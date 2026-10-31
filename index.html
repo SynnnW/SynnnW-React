@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,13 +31,13 @@
     <meta name="twitter:creator" content="@aldosynnn" />
 
     <!-- ═══ THEME COLOR ═══ -->
-    <meta name="theme-color" content="#0E0D0B" />
+    <meta name="theme-color" content="#1B1E22" />
 
     <!-- ═══ GOOGLE FONTS ═══ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
       rel="stylesheet"
     />
 
@@ -64,11 +64,20 @@
 
     <!-- ═══ STYLE: prevent flash of unstyled content ═══ -->
     <style>
-      html { background: #0E0D0B; }
-      [data-theme="light"] { background: #F3F0E8; }
+      html { background: #1B1E22; }
+      [data-theme="light"] { background: #F2EEE5; }
     </style>
   </head>
   <body>
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('synw-theme');
+          if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

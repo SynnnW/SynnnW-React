@@ -9,16 +9,17 @@ import SaranWebsite from '../../components/SaranWebsite';
 import useQuizAuth from '../../components/quiz/useQuizAuth';
 import QuizShell from '../../components/quiz/QuizShell';
 import { Reveal } from '../../components/BentoKit';
+import Ico from '../../components/Ico';
 
 const SUBJECTS = [
-  { name: 'Bahasa Inggris', icon: '🇬🇧', color: '#38bdf8' },
-  { name: 'Pendidikan Agama Islam', icon: '🕌', color: '#34d399' },
+  { name: 'Bahasa Inggris', icon: '🇬🇧', color: 'var(--accent-text)' },
+  { name: 'Pendidikan Agama Islam', icon: '🕌', color: 'var(--accent-text)' },
   { name: 'Falsafah dan Teori Keperawatan', icon: '🩺', color: 'var(--text)' },
-  { name: 'Konsep Dasar Keperawatan', icon: '📋', color: '#8b7bff' },
-  { name: 'Pendidikan Pancasila', icon: '🇮🇩', color: '#fb7185' },
-  { name: 'Kesehatan Global', icon: '🌍', color: '#5eead4' },
-  { name: 'Ilmu Biomedik Dasar', icon: '🧬', color: 'var(--accent)' },
-  { name: 'Komunikasi Dasar Keperawatan', icon: '💬', color: '#22d3ee' },
+  { name: 'Konsep Dasar Keperawatan', icon: '📋', color: 'var(--accent-text)' },
+  { name: 'Pendidikan Pancasila', icon: '🇮🇩', color: 'var(--accent-text)' },
+  { name: 'Kesehatan Global', icon: '🌍', color: 'var(--accent-text)' },
+  { name: 'Ilmu Biomedik Dasar', icon: '🧬', color: 'var(--accent-text)' },
+  { name: 'Komunikasi Dasar Keperawatan', icon: '💬', color: 'var(--accent-text)' },
 ];
 
 const shuffle = (arr) => {
@@ -60,7 +61,7 @@ export default function QuizizUAS() {
           {shuffled.map((s, i) => (
             <Reveal key={s.name} className="bn-span-2" delay={(i % 3) * 0.06}>
               <div className="bn-card qz-subj qz-subj--off" style={{ '--c': s.color }}>
-                <span className="qz-subj-ico">{s.icon}</span>
+                <span className="qz-subj-ico"><Ico e={s.icon} /></span>
                 <span>
                   <span className="qz-subj-name">{s.name}</span>
                   <span className="qz-subj-go"><span>Coming soon</span></span>
@@ -71,7 +72,7 @@ export default function QuizizUAS() {
         </div>
 
         <Reveal className="bn-card qz-note" style={{ borderStyle: 'dashed' }}>
-          <span className="qz-note-ico">🎮</span>
+          <span className="qz-note-ico"><i className="fa-solid fa-gamepad" aria-hidden="true" /></span>
           <div>
             <b>Mode Multiplayer</b>
             <p>Belum aktif, menunggu materi UAS tersedia.</p>
@@ -79,7 +80,7 @@ export default function QuizizUAS() {
         </Reveal>
 
         <Reveal className="bn-card qz-note">
-          <span className="qz-note-ico">🤖</span>
+          <span className="qz-note-ico"><i className="fa-solid fa-robot" aria-hidden="true" /></span>
           <div>
             <b>Disclaimer AI</b>
             <p>Semua soal dan penyusunan materi UAS nantinya dibuat dengan bantuan AI, sama seperti Latsol Mingguan.</p>
@@ -87,7 +88,7 @@ export default function QuizizUAS() {
         </Reveal>
 
         <button className="bn-card qz-link-card" onClick={() => navigate('/quiziz')}>
-          <span style={{ fontSize: '1.5rem' }}>📖</span>
+          <span style={{ fontSize: '1.5rem' }}><i className="fa-solid fa-book-open" aria-hidden="true" /></span>
           <span>
             <b style={{ fontWeight: 500 }}>Link Materi</b>
             <small>Materi sungguhan untuk sekarang ada di Quiziz Mingguan (Latsol)</small>

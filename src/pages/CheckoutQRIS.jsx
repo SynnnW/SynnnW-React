@@ -6,7 +6,7 @@ import { doc, getDoc } from '@/lib/firestoreCompat';
 const CSS = `
 /* ── Page ── */
 .ck-page {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg);
   padding-top: 64px;
   position: relative;
@@ -127,11 +127,11 @@ const CSS = `
 .ck-dp-box {
   display: flex; align-items: flex-start; gap: 12px;
   padding: 14px 20px 18px;
-  background: rgba(251,191,36,0.04);
-  border-top: 1px solid rgba(251,191,36,0.15);
+  background: color-mix(in srgb, var(--warn) 4%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--warn) 15%, transparent);
 }
-.ck-dp-box > i { color: rgba(251,191,36,0.8); font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
-.ck-dp-title { font-size: 0.78rem; font-weight: 700; color: rgba(251,191,36,0.9); margin: 0 0 4px; }
+.ck-dp-box > i { color: color-mix(in srgb, var(--warn) 80%, transparent); font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
+.ck-dp-title { font-size: 0.78rem; font-weight: 700; color: color-mix(in srgb, var(--warn) 90%, transparent); margin: 0 0 4px; }
 .ck-dp-sub { font-size: 0.72rem; color: var(--text-dim); margin: 0; line-height: 1.6; }
 .ck-dp-sub strong { color: var(--text); }
 
@@ -187,17 +187,17 @@ const CSS = `
 .ck-countdown-bar {
   display: flex; align-items: center; gap: 8px;
   padding: 10px 16px;
-  background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.2);
+  background: color-mix(in srgb, var(--ok) 6%, transparent); border: 1px solid color-mix(in srgb, var(--ok) 20%, transparent);
   border-radius: 2px; width: fit-content;
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
-  color: rgba(74,222,128,0.9);
+  color: color-mix(in srgb, var(--ok) 90%, transparent);
   font-variant-numeric: tabular-nums;
 }
 .ck-countdown-bar i { font-size: 0.65rem; animation: ckPulse 1.6s ease infinite; }
 @keyframes ckPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 .ck-expired {
-  background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.2);
-  color: rgba(239,68,68,0.85);
+  background: color-mix(in srgb, var(--bad) 6%, transparent); border-color: color-mix(in srgb, var(--bad) 20%, transparent);
+  color: color-mix(in srgb, var(--bad) 85%, transparent);
 }
 .ck-expired i { animation: none; }
 
@@ -232,19 +232,19 @@ const CSS = `
 .ck-qr-img { width: 220px; height: 220px; object-fit: contain; display: block; }
 .ck-qr-placeholder {
   width: 220px; height: 220px;
-  background: #f1f5f9; border: 2px dashed #cbd5e1;
+  background: #f1f5f9; border: 2px dashed var(--text-dim);
   border-radius: 2px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 8px; text-align: center; padding: 16px;
 }
-.ck-qr-placeholder i { font-size: 2rem; color: #94a3b8; }
-.ck-qr-placeholder p { font-size: 0.7rem; color: #64748b; margin: 0; line-height: 1.5; }
+.ck-qr-placeholder i { font-size: 2rem; color: var(--text-dim); }
+.ck-qr-placeholder p { font-size: 0.7rem; color: var(--text-faint); margin: 0; line-height: 1.5; }
 .ck-qr-hint {
-  font-size: 0.68rem; color: #475569;
+  font-size: 0.68rem; color: var(--text-faint);
   text-align: center; margin: 0; line-height: 1.5;
 }
 .ck-qr-apps {
-  font-size: 0.6rem; color: #94a3b8;
+  font-size: 0.6rem; color: var(--text-dim);
   letter-spacing: 0.04em; margin: 0; text-align: center;
 }
 .ck-qr-expired-overlay {
@@ -254,7 +254,7 @@ const CSS = `
   gap: 8px;
   font-size: 0.85rem; font-weight: 700; color: var(--text-dim);
 }
-.ck-qr-expired-overlay i { font-size: 1.8rem; color: #f59e0b; }
+.ck-qr-expired-overlay i { font-size: 1.8rem; color: var(--warn); }
 
 .ck-amount-row {
   display: flex; align-items: center; justify-content: space-between;
@@ -275,14 +275,14 @@ const CSS = `
 .ck-amount-badge {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 14px;
-  background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25);
+  background: color-mix(in srgb, var(--warn) 8%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 25%, transparent);
   border-radius: 2px;
   font-size: 0.66rem; font-weight: 800; letter-spacing: 0.12em;
-  color: #f59e0b;
+  color: var(--warn);
 }
 .ck-pulse-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: #f59e0b; flex-shrink: 0;
+  background: var(--warn); flex-shrink: 0;
   animation: ckPulse 1.2s ease infinite;
 }
 

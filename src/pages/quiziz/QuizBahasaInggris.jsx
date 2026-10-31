@@ -63,7 +63,7 @@ export function AiDisclaimer() {
   const [open, setOpen] = useState(false);
   return (
     <div className="qz-disclaimer">
-      <span className="qz-dc-icon">🤖</span>
+      <span className="qz-dc-icon"><i className="fa-solid fa-robot" aria-hidden="true" /></span>
       <div>
         <h4 style={{ display: 'inline', marginRight: 4 }}>Disclaimer AI:</h4>
         <span>
@@ -144,14 +144,14 @@ export default function QuizBahasaInggris() {
       desc: 'Gabungan 100 soal Grammar & Vocabulary — kerjakan ini dulu untuk belajar materinya.',
       typeClass: 'qz-type-learn',
       badgeBg: 'rgba(94,234,212,0.10)', badgeBorder: 'rgba(94,234,212,0.35)', badgeColor: '#5eead4',
-      badgeLabel: '📖 BELAJAR',
+      badgeLabel: 'BELAJAR',
     },
     {
       key: '50', icon: '⏱️', label: 'Latihan Serius', soalCount: 50,
       desc: '50 soal simulasi UAS versi sulit. Target waktu 60 menit di Timed Mode.',
       typeClass: 'qz-type-practice',
       badgeBg: 'rgba(251,191,36,0.10)', badgeBorder: 'rgba(251,191,36,0.35)', badgeColor: '#fbbf24',
-      badgeLabel: '⏱️ LATIHAN',
+      badgeLabel: 'LATIHAN',
       locked: lockStatus !== 'unlocked',
       lockedMsg: lockStatus === 'loggedout'
         ? 'Login dulu, lalu selesaikan "Bahan Belajar" untuk membuka ini.'
@@ -186,7 +186,7 @@ export default function QuizBahasaInggris() {
           ← Kembali ke daftar TM
         </button>
         <button className="qz-btn qz-btn-glass qz-btn-sm" onClick={() => navigate('/quiziz/bahasainggris/materi')}>
-          📖 Pelajari Materi
+          <i className="fa-solid fa-book-open" aria-hidden="true" /> Pelajari Materi
         </button>
       </div>
       <AiDisclaimer />

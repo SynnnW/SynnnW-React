@@ -1,28 +1,34 @@
-// src/pages/NotFound.jsx — satu momen "wow": 404 raksasa + marquee + tombol magnetic
-import { useNavigate } from 'react-router-dom';
-import LineReveal from '../components/LineReveal';
-import Magnetic from '../components/Magnetic';
+// src/pages/NotFound.jsx — 404 editorial: angka serif raksasa bergaris stabilo + maskot Pico (sedih)
+import { Link, useNavigate } from 'react-router-dom';
+import Mascot from '../components/mascot/Mascot';
+import '../styles/chrome.css';
 
-export default function NotFound() {
+export default function NotFound({ lang = 'id' }) {
   const navigate = useNavigate();
+  const id = lang !== 'en';
+  const L = (en, idn) => (id ? idn : en);
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'var(--bg)', color: 'var(--text)', padding: 'var(--gutter)', paddingTop: '6rem' }}>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-meta)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-dim)' }}>
-        (404) — Page not found
-      </span>
-      <div>
-        <LineReveal as="h1" text="404" style={{ fontSize: 'clamp(8rem, 34vw, 30rem)', fontWeight: 800, letterSpacing: '-0.06em', lineHeight: 0.8 }} />
-        <p style={{ marginTop: '2rem', maxWidth: '36ch', color: 'var(--text-dim)' }}>
-          Halaman yang kamu cari tidak ada atau sudah dipindah. / The page you’re looking for doesn’t exist or has moved.
-        </p>
-        <div style={{ marginTop: '2rem' }}>
-          <Magnetic>
-            <button onClick={() => navigate('/')} style={{ height: 56, padding: '0 32px', background: 'var(--accent)', color: 'var(--on-accent)', border: 0, borderRadius: 0, fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.8rem', cursor: 'pointer' }}>
-              ← Kembali ke beranda
-            </button>
-          </Magnetic>
+    <section className="nf" aria-labelledby="nf-title">
+      <div className="nf-meta">
+        <span className="folio">(404) — {L('Page not found', 'Halaman tidak ditemukan')}</span>
+        <span className="folio">SynnnW Studio</span>
+      </div>
+
+      <div className="nf-mascot"><Mascot mood="sad" size="100%" label={L('Pico looks sad: page not found', 'Pico tampak sedih: halaman tidak ditemukan')} /></div>
+
+      <div className="nf-body">
+        <div className="nf-num" aria-hidden="true"><span className="mark">404</span></div>
+        <div className="nf-copy">
+          <h1 id="nf-title">{L('This page took a ', 'Halaman ini sedang ')}<em>{L('wrong turn.', 'tersesat.')}</em></h1>
+          <p>{L('The page you’re looking for doesn’t exist or has moved. Try the works index or head back home.', 'Halaman yang kamu cari tidak ada atau sudah dipindah. Coba lihat daftar karya atau kembali ke beranda.')}</p>
+          <div className="nf-actions">
+            <button type="button" className="pb pb--solid" onClick={() => navigate('/')}><i className="fa-solid fa-arrow-left" aria-hidden="true" />{L('Back home', 'Ke beranda')}</button>
+            <Link to="/works" className="pb">{L('See works', 'Lihat karya')}</Link>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className="nf-foot"><span className="folio">{L('Tip: check the address for typos.', 'Tips: periksa kembali alamatnya.')}</span></div>
+    </section>
   );
 }

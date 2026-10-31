@@ -8,14 +8,14 @@ const CSS = `
 /* ── Variables (augment globals) ── */
 :root {
   --glass3 : rgba(255,255,255,0.10);
-  --gborder : rgba(255,255,255,0.09);
+  --gborder : color-mix(in srgb, var(--text) 9%, transparent);
   --gborder2: rgba(255,255,255,0.16);
   --blur    : blur(18px) saturate(160%);
   --accent-g: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
   --accent-g2: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%);
-  --green   : #4ade80;
+  --green   : var(--ok);
   --yellow  : color-mix(in srgb, var(--text) 85%, transparent);
-  --red     : rgba(239,68,68,0.85);
+  --red     : color-mix(in srgb, var(--bad) 85%, transparent);
 }
 [data-theme="light"] {
   --gborder : rgba(0,0,0,0.10);
@@ -25,7 +25,7 @@ const CSS = `
 
 /* ── Page shell ── */
 .cq-page {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg);
   padding-top: 64px;
 }
@@ -92,7 +92,7 @@ const CSS = `
 .cq-warn-cta {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 14px 32px;
-  background: var(--accent-g); color: #fff;
+  background: var(--accent-g); color: var(--text);
   border-radius: 2px; font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
   text-transform: uppercase; text-decoration: none;
@@ -137,7 +137,7 @@ const CSS = `
 }
 .cq-ho2 {
   width: 380px; height: 380px;
-  background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 65%);
   bottom: -60px; right: 8%;
 }
 .cq-ho3 {
@@ -221,7 +221,7 @@ const CSS = `
 }
 .cq-step-item.cq-step-done .cq-step-dot {
   border-color: var(--green); color: var(--green);
-  background: rgba(74,222,128,0.08);
+  background: color-mix(in srgb, var(--ok) 8%, transparent);
 }
 .cq-step-info { display: flex; flex-direction: column; gap: 1px; }
 .cq-step-num  { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
@@ -236,10 +236,10 @@ const CSS = `
 .cq-left-security i { color: var(--accent3); flex-shrink: 0; margin-top: 1px; font-size: 0.72rem; }
 .cq-avail-badge {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(74,222,128,0.05);
-  border: 1px solid rgba(74,222,128,0.18);
+  background: color-mix(in srgb, var(--ok) 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ok) 18%, transparent);
   border-radius: 2px; padding: 8px 14px; width: fit-content;
-  font-size: 0.7rem; font-weight: 600; color: rgba(74,222,128,0.88);
+  font-size: 0.7rem; font-weight: 600; color: color-mix(in srgb, var(--ok) 88%, transparent);
   letter-spacing: 0.04em;
 }
 .cq-avail-dot {
@@ -248,8 +248,8 @@ const CSS = `
   animation: cqPulse 2s ease infinite;
 }
 @keyframes cqPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
-  50%       { box-shadow: 0 0 0 5px rgba(74,222,128,0); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 50%, transparent); }
+  50%       { box-shadow: 0 0 0 5px color-mix(in srgb, var(--ok) 0%, transparent); }
 }
 
 /* ════════════════════════════════════
@@ -272,14 +272,14 @@ const CSS = `
 }
 .cq-card-line {
   position: absolute; top: 0; left: 12%; right: 12%; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.4), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 40%, transparent), transparent);
   pointer-events: none;
 }
 
 /* Progress bar */
 .cq-progress-wrap {
   height: 3px; border-radius: 2px 99px 0 0; overflow: hidden;
-  background: rgba(255,255,255,0.04);
+  background: var(--glass);
 }
 .cq-progress-bar {
   height: 100%;
@@ -343,7 +343,7 @@ const CSS = `
 .cq-type-card {
   display: flex; align-items: center; gap: 14px;
   padding: 14px 16px;
-  background: rgba(255,255,255,0.035); border: 1px solid var(--gborder);
+  background: var(--glass); border: 1px solid var(--gborder);
   border-radius: 2px; cursor: pointer; text-align: left;
   font-family: var(--font-body); transition: all 0.24s;
   position: relative; overflow: hidden;
@@ -465,7 +465,7 @@ const CSS = `
   -webkit-appearance: none; appearance: none;
   width: 22px; height: 22px; border-radius: 50%;
   background: var(--accent); cursor: pointer;
-  border: 2px solid rgba(255,255,255,0.9);
+  border: 2px solid var(--border2);
   box-shadow: none;
   transition: box-shadow 0.22s, transform 0.22s;
 }
@@ -476,7 +476,7 @@ const CSS = `
 .cq-slider::-moz-range-thumb {
   width: 22px; height: 22px; border-radius: 50%;
   background: var(--accent); cursor: pointer;
-  border: 2px solid rgba(255,255,255,0.9);
+  border: 2px solid var(--border2);
   box-shadow: none;
 }
 .cq-slider-result { position: relative; height: 24px; margin: -6px 90px 0; }
@@ -530,10 +530,10 @@ const CSS = `
   font-size: 0.61rem; font-weight: 700; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--text-dim);
 }
-.cq-required    { color: rgba(239,68,68,0.7); }
+.cq-required    { color: color-mix(in srgb, var(--bad) 70%, transparent); }
 .cq-field-optional { font-weight: 400; text-transform: none; letter-spacing: 0; opacity: 0.75; }
 .cq-field-input {
-  background: rgba(255,255,255,0.04); border: 1px solid var(--gborder);
+  background: var(--glass); border: 1px solid var(--gborder);
   border-radius: 2px; padding: 13px 16px;
   font-family: var(--font-body); font-size: 0.88rem;
   color: var(--text); outline: none; width: 100%; box-sizing: border-box;
@@ -541,7 +541,7 @@ const CSS = `
 }
 .cq-field-input::placeholder { color: var(--text-dim); opacity: 0.45; }
 .cq-field-input:focus { border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: color-mix(in srgb, var(--accent) 4%, transparent); }
-.cq-field-err  { border-color: rgba(239,68,68,0.5) !important; }
+.cq-field-err  { border-color: color-mix(in srgb, var(--bad) 50%, transparent) !important; }
 .cq-err-msg    { font-size: 0.64rem; color: var(--red); display: block; }
 .cq-field-count{
   font-size: 0.62rem; color: var(--text-dim);
@@ -551,7 +551,7 @@ const CSS = `
 
 /* ── STEP 5: Review card ── */
 .cq-review-card {
-  background: rgba(255,255,255,0.025);
+  background: var(--glass);
   border: 1px solid var(--gborder);
   border-radius: 2px; padding: 22px 24px;
   margin-bottom: 20px;
@@ -608,7 +608,7 @@ const CSS = `
 .cq-global-err {
   display: flex; align-items: center; gap: 10px;
   font-size: 0.78rem; color: var(--red);
-  background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
+  background: color-mix(in srgb, var(--bad) 6%, transparent); border: 1px solid color-mix(in srgb, var(--bad) 20%, transparent);
   border-radius: 2px; padding: 12px 16px; margin-bottom: 16px;
 }
 
@@ -645,7 +645,7 @@ const CSS = `
 .cq-btn-submit {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 13px 32px; margin-left: auto;
-  background: var(--accent-g); color: #fff;
+  background: var(--accent-g); color: var(--text);
   border: none; border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
@@ -662,7 +662,7 @@ const CSS = `
 /* Spinner */
 .cq-spinner {
   display: inline-block; width: 16px; height: 16px; border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+  border: 2px solid var(--border2); border-top-color: var(--text);
   animation: cqSpin 0.7s linear infinite; flex-shrink: 0;
 }
 @keyframes cqSpin { to { transform: rotate(360deg); } }
@@ -682,7 +682,7 @@ const CSS = `
 }
 .cq-coo1 {
   width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(74,222,128,0.06) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--ok) 6%, transparent) 0%, transparent 65%);
   top: -150px; left: -120px;
 }
 .cq-coo2 {
@@ -692,7 +692,7 @@ const CSS = `
 }
 .cq-coo3 {
   width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(167,139,250,0.06) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 65%);
   top: 40%; left: 50%;
 }
 .cq-co-wrap {
@@ -708,11 +708,11 @@ const CSS = `
 }
 .cq-co-success-ring {
   width: 80px; height: 80px; border-radius: 50%;
-  background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.28);
+  background: color-mix(in srgb, var(--ok) 8%, transparent); border: 1px solid color-mix(in srgb, var(--ok) 28%, transparent);
   display: flex; align-items: center; justify-content: center;
   font-size: 2rem; color: var(--green);
   margin-bottom: 22px;
-  box-shadow: 0 0 60px rgba(74,222,128,0.15);
+  box-shadow: 0 0 60px color-mix(in srgb, var(--ok) 15%, transparent);
   animation: successPop 0.5s cubic-bezier(0.175,0.885,0.32,1.275) both;
 }
 @keyframes successPop {
@@ -832,7 +832,7 @@ const CSS = `
 .cq-co-qris-amount {
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   padding: 12px 18px; width: 100%;
-  background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.2);
+  background: color-mix(in srgb, var(--ok) 6%, transparent); border: 1px solid color-mix(in srgb, var(--ok) 20%, transparent);
   border-radius: 2px;
 }
 .cq-co-qris-amount span { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
@@ -843,7 +843,7 @@ const CSS = `
   display: flex; align-items: center; justify-content: center; gap: 12px;
   width: 100%; padding: 18px;
   background: linear-gradient(135deg, #25d366 0%, #1da851 100%);
-  color: #fff; border-radius: 2px; text-decoration: none;
+  color: var(--text); border-radius: 2px; text-decoration: none;
   font-family: var(--font-body);
   font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   transition: all 0.35s;
@@ -910,7 +910,7 @@ const WA_NUMBER   = '628XXXXXXXXXX'; // ← Ganti dengan nomor WA kamu
 ───────────────────────────────────────────────────────────── */
 
 export default function Contact({ t = {} }) {
-  // ✅ FIX #1: Define CLIENT_TYPES dari getClientTypes(t)
+  // FIX #1: Define CLIENT_TYPES dari getClientTypes(t)
   const CLIENT_TYPES = getClientTypes(t);
   /* ── Cart ── */
   const [cartData,   setCartData]   = useState(null);
@@ -920,7 +920,7 @@ export default function Contact({ t = {} }) {
     try {
       const raw = localStorage.getItem('selectedServices');
       if (raw) setCartData(JSON.parse(raw));
-    } catch (_) {/* corrupt data — biarkan null */}
+    } catch {/* corrupt data — biarkan null */}
     setCartLoaded(true);
   }, []);
 
@@ -974,7 +974,7 @@ export default function Contact({ t = {} }) {
 
   /* ─────── FIREBASE SUBMIT (try-catch-finally) ─────── */
   const handleSubmitData = async (e) => {
-    // ✅ FIX #2: Add e.preventDefault() di baris pertama
+    // FIX #2: Add e.preventDefault() di baris pertama
     if (e) {
       e.preventDefault();
     }
@@ -990,7 +990,7 @@ export default function Contact({ t = {} }) {
     try {
       const payload = {
         userId:             auth.currentUser.uid,
-        userEmail:          auth.currentUser.email, // ✅ FIX #3: Tambah email untuk tracking
+        userEmail:          auth.currentUser.email, // FIX #3: Tambah email untuk tracking
         clientType,
         creativePreference: creativeSlider,
         creativeLabel:      sliderLabel(creativeSlider),
@@ -1013,15 +1013,15 @@ export default function Contact({ t = {} }) {
         timestamp:          serverTimestamp(),
       };
 
-      console.log('[Contact] 📤 Submitting payload:', payload);
+      console.log('[Contact] Submitting payload:', payload);
 
-      // ✅ FIX #3: Wrap dalam try-catch dengan verbose logging
+      // FIX #3: Wrap dalam try-catch dengan verbose logging
       const docRef = await addDoc(collection(db, 'orders'), payload);
       
-      console.log('✅ [Contact] Order berhasil disimpan!');
-      console.log(`   📋 Document ID: ${docRef.id}`);
-      console.log(`   👤 User ID: ${auth.currentUser.uid}`);
-      console.log(`   📦 Service Category: ${payload.serviceCategory}`);
+      console.log('[Contact] Order berhasil disimpan!');
+      console.log(`   Document ID: ${docRef.id}`);
+      console.log(`   User ID: ${auth.currentUser.uid}`);
+      console.log(`   Service Category: ${payload.serviceCategory}`);
       
       setGeneratedId(docRef.id);
       
@@ -1031,7 +1031,7 @@ export default function Contact({ t = {} }) {
       }, 500);
 
     } catch (err) {
-      console.error('❌ [Contact] Firebase error saat upload order:');
+      console.error('[Contact] Firebase error saat upload order:');
       console.error(`   Error Code: ${err.code || 'UNKNOWN'}`);
       console.error(`   Error Message: ${err.message}`);
       console.error(`   Full Error:`, err);
@@ -1072,29 +1072,29 @@ export default function Contact({ t = {} }) {
     const clientLabel = CLIENT_TYPES.find(c => c.value === clientType)?.label ?? clientType;
 
     const msg = [
-      '🎨 *BRIEF & ORDER BARU — SynnnW*',
+      '*BRIEF & ORDER BARU — SynnnW*',
       '━━━━━━━━━━━━━━━━━━━━━━━━━',
       '',
-      `📋 *ORDER ID:* \`${generatedId}\``,
+      `*ORDER ID:* \`${generatedId}\``,
       '',
-      '👤 *TIPE KLIEN*',
+      '*TIPE KLIEN*',
       `  • ${clientLabel}`,
       '',
-      '🎨 *PREFERENSI KREATIF*',
+      '*PREFERENSI KREATIF*',
       `  • Skala ${creativeSlider}/100 — ${sliderLabel(creativeSlider)}`,
       '',
-      '📁 *DETAIL PROYEK*',
+      '*DETAIL PROYEK*',
       `  • Nama Proyek : ${projectName}`,
       `  • Deskripsi   : ${projectDesc || '—'}`,
       '',
-      '🛒 *ITEM YANG DIPESAN*',
+      '*ITEM YANG DIPESAN*',
       itemLines,
       '',
-      `💰 *TOTAL TAGIHAN : Rp ${cartTotal.toLocaleString('id-ID')}*`,
+      `*TOTAL TAGIHAN : Rp ${cartTotal.toLocaleString('id-ID')}*`,
       `   DP 50% yang harus ditransfer: *Rp ${Math.ceil(cartTotal / 2).toLocaleString('id-ID')}*`,
       '',
       '━━━━━━━━━━━━━━━━━━━━━━━━━',
-      'Halo kak, saya ingin konfirmasi pembayaran untuk order di atas! 🙏',
+      'Halo kak, saya ingin konfirmasi pembayaran untuk order di atas! ',
     ].join('\n');
 
     return encodeURIComponent(msg);
@@ -1264,9 +1264,9 @@ export default function Contact({ t = {} }) {
                 onClick={async () => { await signOut(auth); navigate('/'); }}
                 style={{
                   marginTop: '12px',
-                  background: 'rgba(239,68,68,0.08)',
-                  border: '1px solid rgba(239,68,68,0.2)',
-                  color: '#f87171',
+                  background: 'color-mix(in srgb, var(--bad) 8%, transparent)',
+                  border: '1px solid color-mix(in srgb, var(--bad) 20%, transparent)',
+                  color: 'var(--bad)',
                   padding: '10px 24px',
                   borderRadius: '2px',
                   cursor: 'pointer',

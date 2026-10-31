@@ -37,7 +37,7 @@ export default function CustomCursor() {
 
   const size = state.label ? 72 : state.big ? 56 : 10;
   return (
-    <div ref={ref} aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, zIndex: 99999, pointerEvents: 'none', display: 'none' }} className="cc-wrap">
+    <div ref={ref} aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, zIndex: 'var(--z-cursor)', pointerEvents: 'none', display: 'none' }} className="cc-wrap">
       <div style={{ width: size, height: size, borderRadius: '50%', background: '#fff', mixBlendMode: 'difference', transition: 'width .3s, height .3s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {state.label && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#000', letterSpacing: '0.08em' }}>{state.label}</span>}
       </div>

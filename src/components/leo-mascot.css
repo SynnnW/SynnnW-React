@@ -1,5 +1,5 @@
 /* Leo mascot. Fixed bottom-left above the WhatsApp button; below navbar, modals, preloader and quiz (z-index 800). */
-.leo-m { position: fixed; left: calc(24px + env(safe-area-inset-left)); bottom: calc(94px + env(safe-area-inset-bottom)); z-index: 800; pointer-events: none; display: block; }
+.leo-m { position: fixed; left: calc(24px + env(safe-area-inset-left)); bottom: calc(94px + env(safe-area-inset-bottom)); z-index: var(--z-float); pointer-events: none; display: block; }
 .leo-m-body { pointer-events: auto; position: relative; width: 52px; height: 42px; padding: 0; border-radius: 16px; background: #0E0D0B; border: 1px solid rgba(242, 239, 230, .22); cursor: pointer; display: grid; place-items: center; }
 .leo-m-body:focus-visible, .leo-m-hide:focus-visible { outline: 2px solid #D7FF3A; outline-offset: 2px; }
 .leo-m-eyes { display: flex; gap: 14px; transform: translate(var(--gx, 0px), var(--gy, 0px)); }

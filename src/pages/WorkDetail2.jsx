@@ -80,7 +80,7 @@ function ImageModal({ src, onClose }) {
     return () => { window.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
   }, [onClose]);
   return (
-    <div style={{ position:"fixed", inset:0, zIndex:2000, display:"flex", alignItems:"center", justifyContent:"center", animation:"k2ModalIn 0.25s ease" }}>
+    <div style={{ position:"fixed", inset:0, zIndex:'var(--z-modal)', display:"flex", alignItems:"center", justifyContent:"center", animation:"k2ModalIn 0.25s ease" }}>
       <div onClick={onClose} style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.88)", }} />
       <div style={{ position:"relative", zIndex:1, padding:"20px", display:"flex", alignItems:"center", justifyContent:"center", width:"100%", height:"100%" }}>
         <button onClick={onClose} style={{ position:"absolute", top:"20px", right:"20px", width:"44px", height:"44px", borderRadius:"50%", background:"var(--bg3)", border:"1px solid var(--border2)", color:"var(--text)", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", fontSize:"1.2rem", transition:"all 0.3s", zIndex:2 }}
@@ -170,7 +170,7 @@ export default function WorkDetail2({ t = {} }) {
         .k2-proj-nav:hover { border-color:color-mix(in srgb, var(--accent) 35%, transparent); background:var(--bg2); transform:translateY(-3px); box-shadow:0 12px 36px rgba(0,0,0,0.3); }
 
         .k2-social-btn { width:48px; height:48px; border-radius:2px; border:1px solid var(--border2); background:var(--bg2); color:var(--text-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; font-size:1.1rem; }
-        .k2-social-btn:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-3px); }
+        .k2-social-btn:hover { border-color:var(--accent); color:var(--accent-text); transform:translateY(-3px); }
 
         .k2-cta-btn { display:inline-flex; align-items:center; gap:10px; background:var(--accent); color: var(--on-accent); border:none; border-radius:2px; padding:15px 40px; font-size:0.74rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s ease; cursor:pointer; box-shadow:none; position:relative; z-index:1; font-family:var(--font-body); }
         .k2-cta-btn:hover { background:var(--accent2); transform:scale(1.05); box-shadow:none; }
@@ -397,7 +397,7 @@ export default function WorkDetail2({ t = {} }) {
         <div className="reveal" style={{ padding:"60px 80px 100px" }}>
           <div className="k2-cta-inner" style={{ background:"var(--bg3)", border:"1px solid var(--border)", borderRadius:"2px", padding:"70px 80px", position:"relative", overflow:"hidden", textAlign:"center" }}>
             <div style={{ position:"absolute", top:"-60px", left:"50%", transform:"translateX(-50%)", width:"400px", height:"200px", background:"radial-gradient(ellipse,color-mix(in srgb, var(--accent) 22%, transparent) 0%,transparent 70%)", pointerEvents:"none" }} />
-            <div style={{ position:"absolute", top:0, left:"15%", right:"15%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(167,139,250,0.5),transparent)" }} />
+            <div style={{ position:"absolute", top:0, left:"15%", right:"15%", height:"1px", background:"linear-gradient(90deg,transparent,color-mix(in srgb, var(--accent) 50%, transparent),transparent)" }} />
             <p style={{ fontSize:"0.65rem", fontWeight:600, letterSpacing:"0.28em", textTransform:"uppercase", color:"var(--accent2)", marginBottom:"16px", position:"relative", zIndex:1 }}>
               {t.k2CTAEyebrow||''}
             </p>

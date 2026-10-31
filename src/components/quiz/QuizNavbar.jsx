@@ -9,10 +9,11 @@
 // Mengikuti karakter navbar utama SynnnW (pill nav tengah, logo kiri,
 // CTA kanan, hamburger+drawer di mobile) tapi pakai token glass
 // Quiziz sendiri (lihat styles/quizGlass.css) supaya identitas Quiziz
-// (dark canvas, violet+teal, Space Grotesk/Inter) tetap utuh.
+// (neumorphism subtle, aksen lime, light/dark) tetap utuh.
 // ─────────────────────────────────────────────────────────────
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import ThemeToggle from '../ThemeToggle';
 
 const LINKS = [
   { to: '/quiziz',    label: 'Latsol Mingguan' },
@@ -28,7 +29,7 @@ export default function QuizNavbar() {
     <>
       <nav className="qzn-root" role="navigation" aria-label="Navigasi Quiziz">
         <Link to="/quiziz" className="qzn-logo" aria-label="Kembali ke Quiziz">
-          <span className="qzn-logo-mark">✦</span>
+          <i className="fa-solid fa-seedling qzn-logo-mark" aria-hidden="true" />
           <span className="qzn-logo-text">Synnn<span>W</span> · Quiziz</span>
         </Link>
 
@@ -49,6 +50,7 @@ export default function QuizNavbar() {
             <i className="fa-solid fa-arrow-left" style={{ fontSize: '0.6rem' }} />
             Website Utama
           </a>
+          <ThemeToggle label={false} />
           <button
             className="qzn-hamburger"
             onClick={() => setOpen(true)}
@@ -85,6 +87,8 @@ export default function QuizNavbar() {
               <i className="fa-solid fa-arrow-left" style={{ fontSize: '0.7rem' }} />
               Website Utama SynnnW
             </a>
+            <div className="qzn-drawer-divider" />
+            <ThemeToggle />
           </div>
         </>
       )}

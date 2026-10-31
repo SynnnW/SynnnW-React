@@ -334,8 +334,8 @@ export default function CompleteProfile() {
 const CSS = `
 /* Fullscreen wrapper */
 .cp-fullscreen {
-  min-height: 100vh;
-  background: var(--bg, #0E0D0B);
+  min-height: 100dvh;
+  background: var(--bg, var(--bg));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -372,8 +372,8 @@ const CSS = `
 
 /* Card */
 .cp-card {
-  background: var(--glass, rgba(255,255,255,0.04));
-  border: 1px solid var(--gborder, rgba(255,255,255,0.08));
+  background: var(--glass, var(--glass));
+  border: 1px solid var(--gborder, var(--border));
   border-radius: 2px;
   padding: 48px 44px;
   width: 100%;
@@ -423,8 +423,8 @@ const CSS = `
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--glass2, rgba(255,255,255,0.07));
-  border: 1px solid var(--gborder, rgba(255,255,255,0.08));
+  background: var(--glass2, var(--glass2));
+  border: 1px solid var(--gborder, var(--border));
   border-radius: 2px;
   padding: 14px 16px;
   margin-bottom: 24px;
@@ -434,8 +434,8 @@ const CSS = `
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid var(--border2, rgba(255,255,255,0.12));
-  background: var(--glass, rgba(255,255,255,0.04));
+  border: 1px solid var(--border2, var(--border2));
+  background: var(--glass, var(--glass));
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -489,13 +489,13 @@ const CSS = `
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  background: rgba(248,113,113,0.09);
-  border: 1px solid rgba(248,113,113,0.28);
+  background: color-mix(in srgb, var(--bad) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bad) 28%, transparent);
   border-radius: 2px;
   padding: 12px 15px;
   font-family: var(--font-body);
   font-size: 0.82rem;
-  color: #fca5a5;
+  color: var(--bad);
   margin-bottom: 20px;
   line-height: 1.5;
 }
@@ -529,16 +529,16 @@ const CSS = `
   font-weight: 600;
   letter-spacing: 0.12em;
   color: var(--text-dim, #64605a);
-  background: var(--glass2, rgba(255,255,255,0.07));
-  border: 1px solid var(--gborder, rgba(255,255,255,0.08));
+  background: var(--glass2, var(--glass2));
+  border: 1px solid var(--gborder, var(--border));
   border-radius: 2px;
   padding: 2px 9px;
 }
 
 /* Inputs */
 .cp-input {
-  background: var(--glass, rgba(255,255,255,0.04));
-  border: 1px solid var(--gborder, rgba(255,255,255,0.08));
+  background: var(--glass, var(--glass));
+  border: 1px solid var(--gborder, var(--border));
   border-radius: 2px;
   padding: 13px 16px;
   color: var(--text, #f0ede8);
@@ -551,7 +551,7 @@ const CSS = `
 .cp-input:focus {
   outline: none;
   border-color: var(--accent3, var(--accent));
-  background: var(--glass2, rgba(255,255,255,0.07));
+  background: var(--glass2, var(--glass2));
   box-shadow: none;
 }
 .cp-input:disabled { opacity: 0.55; cursor: not-allowed; }
@@ -561,9 +561,9 @@ const CSS = `
   border-style: dashed;
 }
 .cp-input-readonly:focus {
-  border-color: var(--gborder, rgba(255,255,255,0.08));
+  border-color: var(--gborder, var(--border));
   box-shadow: none;
-  background: var(--glass, rgba(255,255,255,0.04));
+  background: var(--glass, var(--glass));
 }
 
 /* Phone row */
@@ -574,8 +574,8 @@ const CSS = `
 .cp-select {
   width: 130px;
   flex-shrink: 0;
-  background: var(--glass, rgba(255,255,255,0.04));
-  border: 1px solid var(--gborder, rgba(255,255,255,0.08));
+  background: var(--glass, var(--glass));
+  border: 1px solid var(--gborder, var(--border));
   border-radius: 2px;
   padding: 13px 10px;
   color: var(--text, #f0ede8);
@@ -588,11 +588,11 @@ const CSS = `
 .cp-select:focus {
   outline: none;
   border-color: var(--accent3, var(--accent));
-  background: var(--glass2, rgba(255,255,255,0.07));
+  background: var(--glass2, var(--glass2));
   box-shadow: none;
 }
 .cp-select:disabled { opacity: 0.55; cursor: not-allowed; }
-.cp-select option { background: #1a1a2e; color: #f0ede8; }
+.cp-select option { background: var(--bg); color: #f0ede8; }
 .cp-phone-input { flex: 1; }
 .cp-hint {
   font-family: var(--font-body);
@@ -612,8 +612,8 @@ const CSS = `
   width: 20px;
   height: 20px;
   border-radius: 6px;
-  border: 1.5px solid var(--gborder2, rgba(255,255,255,0.12));
-  background: var(--glass, rgba(255,255,255,0.04));
+  border: 1.5px solid var(--gborder2, var(--border2));
+  background: var(--glass, var(--glass));
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -622,7 +622,7 @@ const CSS = `
   transition: all 0.2s;
   margin-top: 1px;
   font-size: 0.65rem;
-  color: #fff;
+  color: var(--text);
 }
 .cp-checkbox.checked {
   background: var(--accent, var(--accent));
@@ -656,7 +656,7 @@ const CSS = `
   border: none;
   border-radius: 2px;
   padding: 15px 20px;
-  color: #fff;
+  color: var(--on-accent);
   font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 700;

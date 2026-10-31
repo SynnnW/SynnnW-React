@@ -109,11 +109,11 @@ const CSS = `
   padding: 5px 14px; border-radius: 2px;
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
 }
-.wd-badge-film { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
-.wd-badge-video { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); }
+.wd-badge-film { background: color-mix(in srgb, var(--text) 12%, transparent); border: 1px solid color-mix(in srgb, var(--text) 30%, transparent); color: var(--text); }
+.wd-badge-video { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent-text); }
 .wd-badge-award { background: color-mix(in srgb, var(--text) 10%, transparent); border: 1px solid color-mix(in srgb, var(--text) 30%, transparent); color: var(--text); }
-.wd-badge-teaser { background: rgba(34,211,170,0.1); border: 1px solid rgba(34,211,170,0.3); color: #2dd4bf; }
-.wd-badge-event  { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3); color: #fb923c; }
+.wd-badge-teaser { background: color-mix(in srgb, var(--info) 10%, transparent); border: 1px solid color-mix(in srgb, var(--info) 30%, transparent); color: var(--info); }
+.wd-badge-event  { background: color-mix(in srgb, var(--warn) 10%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent); color: var(--warn); }
 .wd-hero-title {
   font-family: var(--font-display);
   font-size: clamp(4rem, 10vw, 10rem);
@@ -253,14 +253,14 @@ const CSS = `
 
 /* ── Solo highlight ── */
 .wd-solo-card {
-  background: rgba(34,211,170,0.06);
-  border: 1px solid rgba(34,211,170,0.22);
+  background: color-mix(in srgb, var(--info) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--info) 22%, transparent);
   border-radius: 2px; padding: 22px 26px; margin-bottom: 36px;
   display: flex; align-items: flex-start; gap: 14px;
 }
-.wd-solo-card i { color: #2dd4bf; font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }
+.wd-solo-card i { color: var(--info); font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }
 .wd-solo-card p { font-size: 0.82rem; line-height: 1.75; color: var(--text-dim); margin: 0; }
-.wd-solo-card strong { color: #2dd4bf; }
+.wd-solo-card strong { color: var(--info); }
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
@@ -286,7 +286,7 @@ const CSS = `
 // ─────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────
-export default function WorkDetail16({ lang = 'id' }) {
+export default function WorkDetail16({ lang = 'id', toggleLang }) {
   const navigate = useNavigate();
   const pageRef  = useReveal();
 
@@ -296,7 +296,7 @@ export default function WorkDetail16({ lang = 'id' }) {
     style.textContent = CSS;
     document.head.appendChild(style);
     window.scrollTo(0, 0);
-    return () => { try { document.head.removeChild(style); } catch (_) {} };
+    return () => { try { document.head.removeChild(style); } catch { /* abaikan */ } };
   }, []);
 
   const d = DATA;
@@ -410,8 +410,8 @@ export default function WorkDetail16({ lang = 'id' }) {
 
         <div className="wd-reveal wd-d1">
           <div className="wd-lang-toggle">
-            <button className={`wd-lang-btn ${lang === 'id' ? 'active' : ''}`} onClick={() => setLang('id')}>ID</button>
-            <button className={`wd-lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => setLang('en')}>EN</button>
+            <button className={`wd-lang-btn ${lang === 'id' ? 'active' : ''}`} onClick={() => { if (lang !== 'id') toggleLang?.(); }}>ID</button>
+            <button className={`wd-lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => { if (lang !== 'en') toggleLang?.(); }}>EN</button>
           </div>
         </div>
 

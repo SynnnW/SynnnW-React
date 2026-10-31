@@ -1,3 +1,5 @@
+import Mascot from '../components/mascot/Mascot';
+import ThemeToggle from '../components/ThemeToggle';
 import { useState, useEffect, useRef, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, provider, db, supabase } from '@/supabaseClient';
@@ -10,33 +12,19 @@ import {
 import { doc, setDoc, getDoc } from '@/lib/firestoreCompat';
 
 const CSS = `
-/* ── CSS Variables ── */
+/* ── Token: mengikuti tema global (dark/light). Hanya alias lokal yang dibutuhkan. ── */
 .auth-page {
-  --bg: #0E0D0B;
-  --bg2: #0d0d0f;
-  --text: #ffffff;
-  --text-dim: #94a3b8;
-  --text-muted: #64748b;
-  --accent: var(--accent);
-  --accent2: var(--accent);
-  --accent3: var(--accent);
-  --glass: rgba(255,255,255,0.03);
-  --glass2: rgba(255,255,255,0.06);
-  --gborder: rgba(255,255,255,0.08);
-  --gborder2: rgba(255,255,255,0.15);
-  --border: rgba(255,255,255,0.07);
-  --border-focus: color-mix(in srgb, var(--accent) 30%, transparent);
-  --input-bg: rgba(255,255,255,0.04);
-  --input-focus: rgba(255,255,255,0.06);
+  --text-muted: var(--text-faint);
+  --border-focus: color-mix(in srgb, var(--accent) 45%, transparent);
+  --input-bg: var(--glass);
+  --input-focus: var(--glass2);
   --accent-glow: color-mix(in srgb, var(--accent) 15%, transparent);
   --accent-shadow: color-mix(in srgb, var(--accent) 35%, transparent);
-  --accent-rgb: var(--accent);
-  --blur: blur(20px);
 }
 
 /* ── Page ── */
 .auth-page {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg);
   display: flex;
   position: relative;
@@ -367,8 +355,8 @@ const CSS = `
 }
 
 .auth-phone-select option {
-  background: #0d0d0f;
-  color: #fff;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .auth-phone-number {
@@ -408,19 +396,19 @@ const CSS = `
 
 .auth-password-warning i {
   font-size: 0.95rem;
-  color: #ea580c;
+  color: var(--warn);
   margin-top: 2px;
   flex-shrink: 0;
 }
 
 .auth-password-warning-text {
   font-size: 0.82rem;
-  color: #fde047;
+  color: var(--warn);
   line-height: 1.5;
 }
 
 .auth-password-warning-text strong {
-  color: #fbbf24;
+  color: var(--warn);
   font-weight: 600;
 }
 
@@ -462,7 +450,7 @@ const CSS = `
 /* ── Button ── */
 .auth-btn {
   background: var(--accent);
-  color: white;
+  color: var(--on-accent);
   border: none;
   border-radius: 2px;
   padding: 14px 18px;
@@ -503,7 +491,7 @@ const CSS = `
 .auth-err {
   background: rgba(220, 38, 38, 0.12);
   border: 1px solid rgba(220, 38, 38, 0.3);
-  color: #fca5a5;
+  color: var(--bad);
   padding: 14px 16px;
   border-radius: 2px;
   font-size: 0.88rem;
@@ -514,14 +502,14 @@ const CSS = `
 }
 
 .auth-err::before {
-  content: '⚠️';
+  content: '';
   flex-shrink: 0;
 }
 
 .auth-success {
-  background: rgba(34, 197, 94, 0.12);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  color: #86efac;
+  background: color-mix(in srgb, var(--ok) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
+  color: var(--ok);
   padding: 14px 16px;
   border-radius: 2px;
   font-size: 0.88rem;
@@ -729,39 +717,37 @@ const CSS = `
   border-radius: 2px;
 }
 
-/* ══════ BENTO OVERRIDE (redesign) ══════ */
+/* ══════ EDITORIAL OVERRIDE ══════ */
 .auth-page {
-  background:
-    repeating-linear-gradient(118deg, transparent 0 54px, rgba(255,255,255,0.045) 54px 55px),
-    radial-gradient(60% 40% at 85% 0%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%),
-    radial-gradient(50% 36% at 0% 70%, rgba(236,72,153,0.12), transparent 70%),
-    #0E0D0B;
+  background: repeating-linear-gradient(118deg, transparent 0 54px, var(--glass2) 54px 55px), var(--bg);
 }
 .auth-page::before, .auth-page::after { display: none; }
+.auth-topbar { position: absolute; top: 14px; right: 16px; z-index: var(--z-sticky); }
+.auth-mascot { margin: -8px 0 4px -6px; }
 .auth-sidebar { background: transparent; border-right: 0; padding: 44px clamp(20px, 3vw, 44px) 44px clamp(20px, 4vw, 64px); gap: 22px; overflow-x: hidden; }
-.auth-logo { font-family: var(--font-body); font-weight: 500; font-size: 1.3rem; letter-spacing: -0.02em; }
+.auth-logo { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 1.5rem; letter-spacing: -0.02em; }
 .auth-logo-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gborder2); }
 .auth-sidebar-label { color: var(--text-dim); letter-spacing: 0.2em; }
 .auth-feed { gap: 28px; padding: 6px 4px 4px; }
 .auth-feed-item { position: relative; display: block; padding: 0; aspect-ratio: 16 / 10; border-radius: 2px; overflow: visible; isolation: isolate; transition: none; }
 .auth-feed-item:hover { transform: none; }
-.auth-feed-glow { position: absolute; inset: -18px; z-index: -1; border-radius: 2px; background-size: cover; background-position: center; filter: blur(26px) saturate(1.5); opacity: 0.4; transition: opacity 0.5s; }
+.auth-feed-glow { display: none; position: absolute; inset: -18px; z-index: -1; border-radius: 2px; background-size: cover; background-position: center; filter: blur(26px) saturate(1.5); opacity: 0.4; transition: opacity 0.5s; }
 .auth-feed-item:hover .auth-feed-glow, .auth-feed-item:focus-visible .auth-feed-glow { opacity: 0.8; }
-.auth-feed-item-img { position: absolute; inset: 0; width: auto; height: auto; border-radius: 2px; border: 1px solid rgba(255,255,255,0.13); background: #0b0b13; }
+.auth-feed-item-img { position: absolute; inset: 0; width: auto; height: auto; border-radius: 2px; border: 1px solid var(--border2); background: var(--bg); }
 .auth-feed-item-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,6,12,0.05) 30%, rgba(5,6,12,0.92) 100%); }
 .auth-feed-item-img.is-png img, .auth-feed-item-img.is-cover img { object-fit: cover; transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
 .auth-feed-item:hover .auth-feed-item-img img { transform: scale(1.06); }
 .auth-feed-item-text { position: absolute; left: 22px; right: 22px; bottom: 18px; z-index: 2; gap: 5px; }
-.auth-feed-item-label { color: rgba(255,255,255,0.68); font-size: 0.6rem; }
+.auth-feed-item-label { color: var(--text-dim); font-size: 0.6rem; }
 .auth-feed-item-title { font-size: 1.1rem; font-weight: 500; letter-spacing: -0.015em; }
-.auth-feed-item-desc { white-space: normal; color: rgba(255,255,255,0.7); }
-.auth-card { border-radius: 2px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); box-shadow: none; }
-.auth-title { font-family: var(--font-body); font-weight: 500; letter-spacing: -0.03em; font-size: 2.4rem; }
-.auth-tabs { padding: 4px; gap: 4px; border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; background: rgba(255,255,255,0.05); }
+.auth-feed-item-desc { white-space: normal; color: var(--text-dim); }
+.auth-card { border-radius: var(--r-notch); background: var(--bg2); border: 1px solid var(--border2); box-shadow: none; }
+.auth-title { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; font-size: clamp(2.2rem, 4vw, 3rem); line-height: 1.02; }
+.auth-tabs { padding: 4px; gap: 4px; border: 1px solid var(--border2); border-radius: 2px; background: var(--glass2); }
 .auth-tab { border-bottom: 0; border-radius: 2px; padding: 11px; }
-.auth-tab.active { border-bottom: 0; background: #fff; color: #111; }
-.auth-input, .auth-phone-select { border-radius: 2px; border-color: rgba(255,255,255,0.12); }
-.auth-btn { border-radius: 2px; }
+.auth-tab.active { border-bottom: 0; background: var(--accent); color: var(--on-accent); }
+.auth-input, .auth-phone-select { border-radius: 2px; border-color: var(--border2); }
+.auth-btn { border-radius: var(--r-notch); min-height: 48px; }
 @media (min-width: 769px) {
   .auth-feed { gap: 22px; }
   .auth-feed-item { max-width: 380px; aspect-ratio: 16 / 9; border-radius: 2px; }
@@ -791,7 +777,7 @@ const FEED_ITEMS = [
   {
     id: 1,
     type: 'short-film',
-    label: 'Short Film · 🏆 Juara 1 Nasional',
+    label: 'Short Film · Juara 1 Nasional',
     title: 'Ruang Kepala',
     description: 'Film Festival Cendana 2025 — SMAN 1 Kraksaan',
     icon: 'fa-film',
@@ -802,7 +788,7 @@ const FEED_ITEMS = [
   {
     id: 2,
     type: 'short-film',
-    label: 'Short Film · 🥈 Juara 2 Nasional',
+    label: 'Short Film · Juara 2 Nasional',
     title: 'Suara Sumbang Angin Utara',
     description: 'Film Festival Cendana 2025 — Probolinggo',
     icon: 'fa-award',
@@ -1184,6 +1170,7 @@ export default function AuthLogin() {
 
       {/* ── RIGHT CONTAINER: Form ── */}
       <div className="auth-right">
+        <div className="auth-topbar"><ThemeToggle label={false} /></div>
         <div className="auth-card">
 
           {/* Tabs */}
@@ -1202,6 +1189,13 @@ export default function AuthLogin() {
             </button>
           </div>
 
+          <div className="auth-mascot">
+            <Mascot
+              size={92}
+              mood={error ? 'sad' : success ? 'happy' : loading ? 'thinking' : 'wave'}
+              label={error ? 'Pico tampak khawatir: ada kesalahan' : success ? 'Pico senang: berhasil' : 'Pico menyapa'}
+            />
+          </div>
           <h1 className="auth-title">
             {mode === 'login' ? 'Masuk' : 'Buat Akun'}
           </h1>
@@ -1211,8 +1205,8 @@ export default function AuthLogin() {
               : 'Bergabunglah dengan kami untuk memulai'}
           </p>
 
-          {error && <div className="auth-err">{error}</div>}
-          {success && <div className="auth-success">{success}</div>}
+          {error && <div className="auth-err" role="alert">{error}</div>}
+          {success && <div className="auth-success" role="status">{success}</div>}
 
           {/* ══════════════════════════════════════
               LOGIN MODE
@@ -1395,8 +1389,8 @@ export default function AuthLogin() {
                         required
                       />
                       {passwordMismatch && (
-                        <div className="auth-input-helper" style={{ color: '#f87171' }}>
-                          ❌ Password tidak cocok
+                        <div className="auth-input-helper" style={{ color: 'var(--bad)' }}>
+                          <i className="fa-solid fa-circle-xmark" aria-hidden="true" /> Password tidak cocok
                         </div>
                       )}
                     </div>

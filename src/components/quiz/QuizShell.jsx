@@ -2,7 +2,7 @@
 // ─────────────────────────────────────────────────────────────
 // Pembungkus bersama untuk layar-layar "pemilihan" di Quiziz
 // (landing matkul, TM picker, chapter picker, landing UAS):
-// ambient glass background + QuizNavbar + container konten.
+// latar neumorphism + QuizNavbar + container konten.
 //
 // SENGAJA TIDAK dipakai di layar pengerjaan soal (QuizEngine) atau
 // di halaman Materi (MateriBahasaInggris) — keduanya sudah punya
@@ -20,12 +20,7 @@ import QuizNavbar from './QuizNavbar';
 export default function QuizShell({ children, maxWidth = 720 }) {
   return (
     <div className="qz-app">
-      <div className="qz-ambient" aria-hidden="true">
-        <span className="qz-orb qz-orb-1" />
-        <span className="qz-orb qz-orb-2" />
-        <span className="qz-orb qz-orb-3" />
-        <span className="qz-grain" />
-      </div>
+      <div className="qz-ambient" aria-hidden="true" />
 
       <QuizNavbar />
 

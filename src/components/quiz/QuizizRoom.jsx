@@ -32,14 +32,14 @@ const COL = 'quizRooms';
 const QTIME_DEFAULT = 20; // detik per soal
 
 const SUBJECTS = [
-  { key: 'kesglob', label: '🌍 Kesehatan Global',              color: '#10b981', desc: 'Epidemiologi, SDGs & sistem kesehatan dunia' },
-  { key: 'ftk',    label: '🌿 Falsafah & Teori Keperawatan',   color: '#8b7bff', desc: 'Paradigma & teori-teori keperawatan' },
+  { key: 'kesglob', label: 'Kesehatan Global',              color: 'var(--ok)', desc: 'Epidemiologi, SDGs & sistem kesehatan dunia' },
+  { key: 'ftk',    label: 'Falsafah & Teori Keperawatan',   color: 'var(--accent-text)', desc: 'Paradigma & teori-teori keperawatan' },
   { key: 'eng',    label: '🇬🇧 Bahasa Inggris',               color: '#3b82f6', desc: 'Grammar, Vocabulary & Reading — Keperawatan UNEJ' },
 ];
 const QCOUNTS    = [10, 15, 20, 30];
 const MAX_OPTS   = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 const QTIME_OPTS = [15, 20, 30, 45];
-const MEDALS     = ['🥇', '🥈', '🥉'];
+const MEDALS     = ['', '', ''];
 
 /* ════════════════════════════════════════════════
    HELPERS
@@ -157,8 +157,8 @@ const fmtTime = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 ════════════════════════════════════════════════ */
 const CSS = `
 .mp-overlay {
-  position: fixed; inset: 0; z-index: 10000;
-  background: linear-gradient(180deg, #0a0a1a 0%, #070714 60%, #0d0519 100%);
+  position: fixed; inset: 0; z-index: calc(var(--z-overlay) + 1);
+  background: var(--nm-bg);
   display: flex; align-items: flex-start; justify-content: center;
   overflow-y: auto; padding: 20px 16px 40px;
   overflow: hidden;
@@ -177,7 +177,7 @@ const CSS = `
   100% { transform: translateX(-120px); opacity: 0; }
 }
 .mp-cloud {
-  position: fixed; pointer-events: none; z-index: 10001;
+  position: fixed; pointer-events: none; z-index: calc(var(--z-overlay) + 2);
   will-change: transform;
 }
 .mp-cloud-1 { top: 8%;  animation: floatCloud1 28s linear infinite; }
@@ -189,34 +189,34 @@ const CSS = `
 .mp-overlay-scroll {
   width: 100%; display: flex; align-items: flex-start; justify-content: center;
   overflow-y: auto; padding: 20px 16px 40px; min-height: 100%;
-  position: relative; z-index: 10002;
+  position: relative; z-index: calc(var(--z-overlay) + 3);
 }
 .mp-card {
   width: 100%; max-width: 560px;
-  background: #0e0e1f; border: 1px solid rgba(139,123,255,0.2);
+  background: #0e0e1f; border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 2px; padding: 28px 24px;
   box-shadow: 0 24px 80px rgba(0,0,0,0.6);
   position: relative; margin: auto;
 }
 .mp-close {
   position: absolute; top: 14px; right: 14px;
-  background: rgba(255,255,255,0.08); border: none; border-radius: 50%;
+  background: color-mix(in srgb, var(--nm-bg) 88%, var(--text)); border: none; border-radius: 50%;
   width: 32px; height: 32px; cursor: pointer; color: #aaa;
   font-size: 1rem; display: flex; align-items: center; justify-content: center;
   transition: all 0.2s;
 }
-.mp-close:hover { background: rgba(255,80,80,0.2); color: #f87171; }
+.mp-close:hover { background: color-mix(in srgb, var(--bad) 20%, transparent); color: var(--bad); }
 .mp-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(139,123,255,0.12); border: 1px solid rgba(139,123,255,0.3);
+  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-radius: 2px; padding: 4px 12px; font-size: 0.72rem;
-  font-weight: 700; color: #b0a4ff; letter-spacing: 0.1em; margin-bottom: 14px;
+  font-weight: 700; color: var(--accent-text); letter-spacing: 0.1em; margin-bottom: 14px;
 }
 .mp-title {
   font-size: clamp(1.4rem, 4vw, 1.9rem); font-weight: 800;
-  color: #e0e0ea; margin-bottom: 6px; line-height: 1.2;
+  color: var(--text); margin-bottom: 6px; line-height: 1.2;
 }
-.mp-subtitle { font-size: 0.85rem; color: #8888a0; margin-bottom: 24px; }
+.mp-subtitle { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 24px; }
 .mp-btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   width: 100%; padding: 14px; border-radius: 2px;
@@ -224,182 +224,182 @@ const CSS = `
   border: none; transition: all 0.2s;
 }
 .mp-btn-primary {
-  background: linear-gradient(135deg,#8b7bff,#6d5df0);
-  color: #fff; box-shadow: 0 6px 20px rgba(139,123,255,0.3);
+  background: var(--accent);
+  color: var(--on-accent); box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 30%, transparent);
 }
-.mp-btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(139,123,255,0.45); }
+.mp-btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 45%, transparent); }
 .mp-btn-secondary {
-  background: rgba(255,255,255,0.06); color: #c0c0d0;
-  border: 1px solid rgba(255,255,255,0.12);
+  background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); color: var(--text);
+  border: 1px solid var(--border2);
 }
-.mp-btn-secondary:hover:not(:disabled) { background: rgba(255,255,255,0.1); }
+.mp-btn-secondary:hover:not(:disabled) { background: color-mix(in srgb, var(--nm-bg) 88%, var(--text)); }
 .mp-btn-danger {
-  background: rgba(239,68,68,0.12); color: #f87171;
-  border: 1px solid rgba(239,68,68,0.3);
+  background: color-mix(in srgb, var(--bad) 12%, transparent); color: var(--bad);
+  border: 1px solid color-mix(in srgb, var(--bad) 30%, transparent);
 }
-.mp-btn-danger:hover:not(:disabled) { background: rgba(239,68,68,0.22); }
+.mp-btn-danger:hover:not(:disabled) { background: color-mix(in srgb, var(--bad) 22%, transparent); }
 .mp-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .mp-divider {
   display: flex; align-items: center; gap: 12px; margin: 20px 0;
-  color: rgba(140,140,160,0.5); font-size: 0.78rem;
+  color: color-mix(in srgb, var(--text-dim) 50%, transparent); font-size: 0.78rem;
 }
 .mp-divider::before,.mp-divider::after {
-  content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08);
+  content: ''; flex: 1; height: 1px; background: color-mix(in srgb, var(--nm-bg) 88%, var(--text));
 }
 .mp-label {
-  font-size: 0.75rem; font-weight: 700; color: #8888a0;
+  font-size: 0.75rem; font-weight: 700; color: var(--text-dim);
   text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; display: block;
 }
 .mp-input {
-  width: 100%; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
-  padding: 11px 14px; color: #e0e0ea; font-size: 0.9rem;
+  width: 100%; background: color-mix(in srgb, var(--nm-bg) 94%, var(--text));
+  border: 1px solid var(--border2); border-radius: 2px;
+  padding: 11px 14px; color: var(--text); font-size: 0.9rem;
   font-family: inherit; outline: none; box-sizing: border-box;
   transition: border-color 0.2s;
 }
-.mp-input:focus { border-color: rgba(139,123,255,0.55); }
+.mp-input:focus { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
 .mp-input-code {
   text-align: center; font-size: 1.8rem; font-weight: 800;
   letter-spacing: 0.3em; text-transform: uppercase;
 }
 .mp-select {
-  width: 100%; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
-  padding: 11px 14px; color: #e0e0ea; font-size: 0.88rem;
+  width: 100%; background: color-mix(in srgb, var(--nm-bg) 94%, var(--text));
+  border: 1px solid var(--border2); border-radius: 2px;
+  padding: 11px 14px; color: var(--text); font-size: 0.88rem;
   font-family: inherit; outline: none; cursor: pointer; box-sizing: border-box;
 }
-.mp-select option { background: #1a1a2e; }
+.mp-select option { background: var(--nm-bg); }
 .mp-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .mp-subject-card {
   padding: 14px; border-radius: 2px; cursor: pointer;
-  border: 2px solid rgba(255,255,255,0.08); transition: all 0.2s;
-  background: rgba(255,255,255,0.03);
+  border: 2px solid var(--border); transition: all 0.2s;
+  background: var(--nm-bg);
 }
-.mp-subject-card:hover { background: rgba(255,255,255,0.06); }
-.mp-subject-card.selected { border-color: rgba(139,123,255,0.6); background: rgba(139,123,255,0.1); }
-.mp-subject-label { font-size: 0.88rem; font-weight: 700; color: #e0e0ea; margin-bottom: 3px; }
-.mp-subject-desc  { font-size: 0.72rem; color: #8888a0; line-height: 1.4; }
+.mp-subject-card:hover { background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); }
+.mp-subject-card.selected { border-color: color-mix(in srgb, var(--accent) 60%, transparent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.mp-subject-label { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.mp-subject-desc  { font-size: 0.72rem; color: var(--text-dim); line-height: 1.4; }
 /* Room code display */
 .mp-room-code {
   text-align: center; font-size: 2.8rem; font-weight: 900;
-  letter-spacing: 0.35em; color: #8b7bff;
-  background: rgba(139,123,255,0.08); border: 2px dashed rgba(139,123,255,0.35);
+  letter-spacing: 0.35em; color: var(--accent-text);
+  background: color-mix(in srgb, var(--accent) 8%, transparent); border: 2px dashed color-mix(in srgb, var(--accent) 35%, transparent);
   border-radius: 2px; padding: 18px; margin: 16px 0;
   font-family: monospace;
 }
-.mp-room-hint { text-align: center; font-size: 0.78rem; color: #8888a0; margin-bottom: 20px; }
+.mp-room-hint { text-align: center; font-size: 0.78rem; color: var(--text-dim); margin-bottom: 20px; }
 /* Lobby */
 .mp-players { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
 .mp-player-row {
   display: flex; align-items: center; gap: 12px;
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  background: var(--nm-bg); border: 1px solid var(--border);
   border-radius: 2px; padding: 10px 13px;
 }
 .mp-player-avatar {
   width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(139,123,255,0.25); display: flex; align-items: center;
+  background: color-mix(in srgb, var(--accent) 25%, transparent); display: flex; align-items: center;
   justify-content: center; font-size: 1rem; flex-shrink: 0; overflow: hidden;
 }
 .mp-player-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.mp-player-name  { font-size: 0.88rem; font-weight: 600; color: #e0e0ea; flex: 1; }
-.mp-player-badge { font-size: 0.68rem; color: #b0a4ff; background: rgba(139,123,255,0.15); padding: 2px 8px; border-radius: 2px; }
+.mp-player-name  { font-size: 0.88rem; font-weight: 600; color: var(--text); flex: 1; }
+.mp-player-badge { font-size: 0.68rem; color: var(--accent-text); background: color-mix(in srgb, var(--accent) 15%, transparent); padding: 2px 8px; border-radius: 2px; }
 .mp-slot-empty {
   display: flex; align-items: center; gap: 12px;
-  background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);
-  border-radius: 2px; padding: 10px 13px; color: rgba(140,140,160,0.4); font-size: 0.82rem;
+  background: var(--nm-bg); border: 1px dashed var(--border);
+  border-radius: 2px; padding: 10px 13px; color: color-mix(in srgb, var(--text-dim) 40%, transparent); font-size: 0.82rem;
 }
-.mp-slot-dot { width: 36px; height: 36px; border-radius: 50%; border: 2px dashed rgba(255,255,255,0.1); flex-shrink: 0; }
+.mp-slot-dot { width: 36px; height: 36px; border-radius: 50%; border: 2px dashed var(--border2); flex-shrink: 0; }
 .mp-status-bar {
   display: flex; align-items: center; justify-content: space-between;
-  background: rgba(255,255,255,0.04); border-radius: 2px; padding: 12px 16px;
+  background: var(--nm-bg); border-radius: 2px; padding: 12px 16px;
   margin-bottom: 16px;
 }
-.mp-status-label { font-size: 0.82rem; color: #8888a0; }
-.mp-status-value { font-size: 0.88rem; font-weight: 700; color: #b0a4ff; }
+.mp-status-label { font-size: 0.82rem; color: var(--text-dim); }
+.mp-status-value { font-size: 0.88rem; font-weight: 700; color: var(--accent-text); }
 /* Quiz */
 .mp-quiz-header {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 18px; padding-bottom: 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid var(--border);
 }
-.mp-q-counter { font-size: 0.78rem; color: #8888a0; }
+.mp-q-counter { font-size: 0.78rem; color: var(--text-dim); }
 .mp-timer {
-  font-size: 1.1rem; font-weight: 800; color: #10b981;
-  background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
+  font-size: 1.1rem; font-weight: 800; color: var(--ok);
+  background: color-mix(in srgb, var(--ok) 10%, transparent); border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
   border-radius: 2px; padding: 4px 12px;
   transition: all 0.5s;
 }
-.mp-timer.warn   { color: #fbbf24; background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.3); }
-.mp-timer.danger { color: #f87171; background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
+.mp-timer.warn   { color: var(--warn); background: color-mix(in srgb, var(--warn) 10%, transparent); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
+.mp-timer.danger { color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, transparent); border-color: color-mix(in srgb, var(--bad) 30%, transparent); }
 .mp-progress-bar {
-  height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 18px; overflow: hidden;
+  height: 3px; background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); border-radius: 2px; margin-bottom: 18px; overflow: hidden;
 }
 .mp-progress-fill {
-  height: 100%; background: linear-gradient(90deg,#8b7bff,#5eead4);
+  height: 100%; background: var(--accent);
   border-radius: 2px; transition: width 1s linear;
 }
 .mp-q-text {
-  font-size: 0.92rem; color: #e0e0ea; line-height: 1.65;
+  font-size: 0.92rem; color: var(--text); line-height: 1.65;
   margin-bottom: 18px; white-space: pre-wrap;
 }
 .mp-options { display: flex; flex-direction: column; gap: 9px; }
 .mp-option {
   padding: 12px 15px; border-radius: 2px; cursor: pointer;
-  border: 1.5px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.04); color: #d0d0e0; font-size: 0.86rem;
+  border: 1.5px solid var(--border2);
+  background: var(--nm-bg); color: var(--text); font-size: 0.86rem;
   text-align: left; transition: all 0.2s; font-family: inherit;
 }
-.mp-option:hover:not(.locked) { background: rgba(139,123,255,0.12); border-color: rgba(139,123,255,0.4); }
-.mp-option.selected { background: rgba(139,123,255,0.15); border-color: rgba(139,123,255,0.6); color: #e0e0ea; }
-.mp-option.correct  { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.5); color: #34d399; }
-.mp-option.wrong    { background: rgba(239,68,68,0.1);   border-color: rgba(239,68,68,0.4);  color: #f87171; }
+.mp-option:hover:not(.locked) { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+.mp-option.selected { background: color-mix(in srgb, var(--accent) 15%, transparent); border-color: color-mix(in srgb, var(--accent) 60%, transparent); color: var(--text); }
+.mp-option.correct  { background: color-mix(in srgb, var(--ok) 12%, transparent); border-color: color-mix(in srgb, var(--ok) 50%, transparent); color: var(--ok); }
+.mp-option.wrong    { background: color-mix(in srgb, var(--bad) 10%, transparent);   border-color: color-mix(in srgb, var(--bad) 40%, transparent);  color: var(--bad); }
 .mp-option.locked   { cursor: not-allowed; }
 .mp-feedback {
   margin-top: 14px; padding: 10px 14px; border-radius: 2px;
   font-size: 0.85rem; font-weight: 600;
   display: flex; align-items: center; gap: 8px;
 }
-.mp-feedback.correct { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
-.mp-feedback.wrong   { background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+.mp-feedback.correct { background: color-mix(in srgb, var(--ok) 10%, transparent); color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 25%, transparent); }
+.mp-feedback.wrong   { background: color-mix(in srgb, var(--bad) 8%, transparent); color: var(--bad); border: 1px solid color-mix(in srgb, var(--bad) 20%, transparent); }
 .mp-next-btn {
   margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; padding: 11px; background: rgba(139,123,255,0.2);
-  border: 1px solid rgba(139,123,255,0.4); border-radius: 2px;
-  color: #b0a4ff; font-size: 0.88rem; font-weight: 700; cursor: pointer;
+  width: 100%; padding: 11px; background: color-mix(in srgb, var(--accent) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 2px;
+  color: var(--accent-text); font-size: 0.88rem; font-weight: 700; cursor: pointer;
   font-family: inherit; transition: all 0.2s;
 }
-.mp-next-btn:hover { background: rgba(139,123,255,0.3); }
+.mp-next-btn:hover { background: color-mix(in srgb, var(--accent) 30%, transparent); }
 /* Waiting & Results */
 .mp-waiting { text-align: center; padding: 24px 0; }
 .mp-spin {
-  width: 48px; height: 48px; border: 3px solid rgba(139,123,255,0.2);
-  border-top-color: #8b7bff; border-radius: 50%;
+  width: 48px; height: 48px; border: 3px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-top-color: var(--accent-text); border-radius: 50%;
   animation: mpSpin 1s linear infinite; margin: 0 auto 16px;
 }
 .mp-leaderboard { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
 .mp-lb-row {
   display: flex; align-items: center; gap: 12px;
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  background: var(--nm-bg); border: 1px solid var(--border);
   border-radius: 2px; padding: 12px 14px;
 }
-.mp-lb-row.me { background: rgba(139,123,255,0.1); border-color: rgba(139,123,255,0.35); }
+.mp-lb-row.me { background: color-mix(in srgb, var(--accent) 10%, transparent); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
 .mp-lb-rank   { font-size: 1.3rem; width: 32px; text-align: center; flex-shrink: 0; }
 .mp-lb-info   { flex: 1; }
-.mp-lb-name   { font-size: 0.88rem; font-weight: 600; color: #e0e0ea; }
-.mp-lb-detail { font-size: 0.72rem; color: #8888a0; margin-top: 2px; }
-.mp-lb-score  { font-size: 1.05rem; font-weight: 800; color: #b0a4ff; }
+.mp-lb-name   { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.mp-lb-detail { font-size: 0.72rem; color: var(--text-dim); margin-top: 2px; }
+.mp-lb-score  { font-size: 1.05rem; font-weight: 800; color: var(--accent-text); }
 /* Error */
 .mp-error {
-  background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25);
-  border-radius: 2px; padding: 10px 14px; color: #f87171;
+  background: color-mix(in srgb, var(--bad) 8%, transparent); border: 1px solid color-mix(in srgb, var(--bad) 25%, transparent);
+  border-radius: 2px; padding: 10px 14px; color: var(--bad);
   font-size: 0.83rem; margin: 10px 0;
 }
 .mp-warn-box {
-  background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.3);
+  background: color-mix(in srgb, var(--warn) 8%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
   border-radius: 2px; padding: 20px; text-align: center;
 }
 .mp-warn-icon { font-size: 2.5rem; margin-bottom: 12px; }
-.mp-warn-title { font-size: 1rem; font-weight: 700; color: #fbbf24; margin-bottom: 8px; }
+.mp-warn-title { font-size: 1rem; font-weight: 700; color: var(--warn); margin-bottom: 8px; }
 .mp-warn-text  { font-size: 0.85rem; color: #a0906a; line-height: 1.6; }
 /* Stack buttons */
 .mp-stack { display: flex; flex-direction: column; gap: 10px; }
@@ -414,22 +414,22 @@ const CSS = `
 .mp-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0; }
 .mp-chip {
   padding: 7px 14px; border-radius: 2px; cursor: pointer; font-size: 0.82rem; font-weight: 600;
-  border: 1.5px solid rgba(255,255,255,0.1); color: #a0a0c0; background: rgba(255,255,255,0.04);
+  border: 1.5px solid var(--border2); color: #a0a0c0; background: var(--nm-bg);
   transition: all 0.15s;
 }
-.mp-chip.active { background: rgba(139,123,255,0.2); border-color: rgba(139,123,255,0.55); color: #c0b4ff; }
+.mp-chip.active { background: color-mix(in srgb, var(--accent) 20%, transparent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); color: #c0b4ff; }
 /* Section spacing */
 .mp-section { margin-bottom: 20px; }
 /* Passage teks untuk soal Reading */
 .mp-passage {
-  background: rgba(94,234,212,0.06); border: 1px solid rgba(94,234,212,0.18);
+  background: color-mix(in srgb, var(--accent) 6%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
   border-radius: 2px; padding: 14px; margin-bottom: 14px;
   max-height: 200px; overflow-y: auto;
 }
 .mp-passage::-webkit-scrollbar { width: 4px; }
-.mp-passage::-webkit-scrollbar-thumb { background: rgba(94,234,212,0.3); border-radius: 2px; }
+.mp-passage::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 2px; }
 .mp-passage-label {
-  font-size: 0.68rem; font-weight: 800; color: #5eead4;
+  font-size: 0.68rem; font-weight: 800; color: var(--accent-text);
   text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;
 }
 .mp-passage-text {
@@ -438,14 +438,14 @@ const CSS = `
 /* QRIS */
 .mp-qris-box {
   margin-top: 20px; padding: 16px; text-align: center;
-  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  background: var(--nm-bg); border: 1px solid var(--border);
   border-radius: 2px;
 }
-.mp-qris-title { font-size: 0.88rem; font-weight: 700; color: #e0e0ea; margin-bottom: 4px; }
-.mp-qris-sub   { font-size: 0.75rem; color: #8888a0; margin-bottom: 12px; }
+.mp-qris-title { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.mp-qris-sub   { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 12px; }
 .mp-qris-img   {
   width: 180px; height: 180px; object-fit: contain;
-  border-radius: 2px; border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 2px; border: 2px solid var(--border2);
 }
 @media (max-width: 500px) {
   .mp-card { padding: 20px 16px; }
@@ -466,7 +466,7 @@ function PlayerRow({ player, isHost, rank }) {
           : <span>{player.name?.[0]?.toUpperCase() ?? '?'}</span>}
       </div>
       <span className="mp-player-name">{player.name || 'Pemain'}</span>
-      {isHost && <span className="mp-player-badge">👑 Host</span>}
+      {isHost && <span className="mp-player-badge"><i className="fa-solid fa-crown" aria-hidden="true" /> Host</span>}
     </div>
   );
 }
@@ -479,7 +479,7 @@ function TimerBar({ timeLeft, timeMax }) {
       <div className="mp-progress-bar">
         <div className="mp-progress-fill" style={{ width: `${pct}%` }} />
       </div>
-      <div className={`mp-timer ${cls}`}>⏱ {timeLeft}s</div>
+      <div className={`mp-timer ${cls}`}>{timeLeft}s</div>
     </>
   );
 }
@@ -492,11 +492,11 @@ function TimerBar({ timeLeft, timeMax }) {
 ════════════════════════════════════════════════ */
 const CloudSVG = ({ width = 160 }) => (
   <svg width={width} height={Math.round(width * 0.55)} viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="100" cy="78" rx="95" ry="36" fill="rgba(139,123,255,0.22)" />
-    <ellipse cx="62"  cy="60" rx="52" ry="34" fill="rgba(94,234,212,0.16)" />
-    <ellipse cx="132" cy="62" rx="50" ry="30" fill="rgba(139,123,255,0.18)" />
-    <ellipse cx="100" cy="50" rx="42" ry="28" fill="rgba(160,140,255,0.2)" />
-    <ellipse cx="78"  cy="44" rx="28" ry="22" fill="rgba(94,234,212,0.12)" />
+    <ellipse cx="100" cy="78" rx="95" ry="36" fill="color-mix(in srgb, var(--accent) 22%, transparent)" />
+    <ellipse cx="62"  cy="60" rx="52" ry="34" fill="color-mix(in srgb, var(--accent) 16%, transparent)" />
+    <ellipse cx="132" cy="62" rx="50" ry="30" fill="color-mix(in srgb, var(--accent) 18%, transparent)" />
+    <ellipse cx="100" cy="50" rx="42" ry="28" fill="color-mix(in srgb, var(--accent) 20%, transparent)" />
+    <ellipse cx="78"  cy="44" rx="28" ry="22" fill="color-mix(in srgb, var(--accent) 12%, transparent)" />
   </svg>
 );
 
@@ -878,7 +878,7 @@ export default function MultiplayerRoom({ user, onClose }) {
         <div className="mp-card" style={{ marginTop: '10vh' }}>
           <button className="mp-close" onClick={onClose}>✕</button>
           <div className="mp-warn-box">
-            <div className="mp-warn-icon">🔐</div>
+            <div className="mp-warn-icon"><i className="fa-solid fa-lock" aria-hidden="true" /></div>
             <div className="mp-warn-title">Akun Google Diperlukan</div>
             <div className="mp-warn-text">
               Fitur Kuis Multiplayer hanya tersedia untuk pengguna yang login
@@ -905,7 +905,7 @@ export default function MultiplayerRoom({ user, onClose }) {
       <style>{CSS}</style>
       <div className="mp-card">
         <button className="mp-close" onClick={handleClose}>✕</button>
-        <div className="mp-badge">🎮 MULTIPLAYER</div>
+        <div className="mp-badge"><i className="fa-solid fa-gamepad" aria-hidden="true" /> MULTIPLAYER</div>
         <div className="mp-title">Kuis Bareng</div>
         <div className="mp-subtitle">
           Tantang teman satu kelas — 1v1 hingga 10 pemain secara real-time!
@@ -913,18 +913,18 @@ export default function MultiplayerRoom({ user, onClose }) {
         {error && <div className="mp-error">{error}</div>}
         <div className="mp-stack">
           <button className="mp-btn mp-btn-primary" onClick={() => { setError(''); setScreen('creating'); }}>
-            ➕ Buat Room Baru
+            <i className="fa-solid fa-plus" aria-hidden="true" /> Buat Room Baru
           </button>
           <button className="mp-btn mp-btn-secondary" onClick={() => { setError(''); setScreen('joining'); }}>
-            🚪 Gabung Room
+            <i className="fa-solid fa-door-open" aria-hidden="true" /> Gabung Room
           </button>
         </div>
-        <div style={{ marginTop: 20, padding: '14px', background: 'rgba(255,255,255,0.03)', borderRadius: 2, fontSize: '0.78rem', color: '#8888a0', lineHeight: 1.7 }}>
-          <strong style={{ color: '#c0c0d0' }}>Cara main:</strong><br />
+        <div style={{ marginTop: 20, padding: '14px', background: 'color-mix(in srgb, var(--text) 3%, transparent)', borderRadius: 2, fontSize: '0.78rem', color: 'var(--text-dim)', lineHeight: 1.7 }}>
+          <strong style={{ color: 'var(--text)' }}>Cara main:</strong><br />
           1. Host buat room & bagikan kode 6 huruf ke teman<br />
           2. Teman masukkan kode → masuk lobby<br />
           3. Host klik Mulai → semua kerjakan soal yang sama<br />
-          4. Skor dihitung berdasarkan kebenaran & kecepatan jawab 🏆
+          4. Skor dihitung berdasarkan kebenaran & kecepatan jawab 
         </div>
       </div>
     </div>
@@ -936,14 +936,14 @@ export default function MultiplayerRoom({ user, onClose }) {
       <style>{CSS}</style>
       <div className="mp-card">
         <button className="mp-close" onClick={() => setScreen('home')}>✕</button>
-        <div className="mp-badge">➕ BUAT ROOM</div>
+        <div className="mp-badge"><i className="fa-solid fa-plus" aria-hidden="true" /> BUAT ROOM</div>
         <div className="mp-title">Setup Room</div>
         <div className="mp-subtitle">Konfigurasi kuis sebelum mulai</div>
         {error && <div className="mp-error">{error}</div>}
 
         {/* Pilih Materi */}
         <div className="mp-section">
-          <span className="mp-label">📚 Materi</span>
+          <span className="mp-label"><i className="fa-solid fa-book" aria-hidden="true" /> Materi</span>
           <div className="mp-grid2">
             {SUBJECTS.map(s => (
               <div
@@ -960,7 +960,7 @@ export default function MultiplayerRoom({ user, onClose }) {
 
         {/* Jumlah Soal */}
         <div className="mp-section">
-          <span className="mp-label">📝 Jumlah Soal</span>
+          <span className="mp-label"><i className="fa-solid fa-pen-to-square" aria-hidden="true" /> Jumlah Soal</span>
           <div className="mp-chips">
             {QCOUNTS.map(n => (
               <button key={n} className={`mp-chip${fQCount === n ? ' active' : ''}`} onClick={() => setFQCount(n)}>
@@ -972,7 +972,7 @@ export default function MultiplayerRoom({ user, onClose }) {
 
         {/* Waktu Per Soal */}
         <div className="mp-section">
-          <span className="mp-label">⏱ Waktu per Soal</span>
+          <span className="mp-label"><i className="fa-solid fa-stopwatch" aria-hidden="true" /> Waktu per Soal</span>
           <div className="mp-chips">
             {QTIME_OPTS.map(t => (
               <button key={t} className={`mp-chip${fQTime === t ? ' active' : ''}`} onClick={() => setFQTime(t)}>
@@ -984,7 +984,7 @@ export default function MultiplayerRoom({ user, onClose }) {
 
         {/* Maks Pemain */}
         <div className="mp-section">
-          <span className="mp-label">👥 Maks Pemain</span>
+          <span className="mp-label"><i className="fa-solid fa-user-group" aria-hidden="true" /> Maks Pemain</span>
           <div className="mp-chips">
             {MAX_OPTS.map(n => (
               <button key={n} className={`mp-chip${fMaxPlayers === n ? ' active' : ''}`} onClick={() => setFMaxPlayers(n)}>
@@ -996,7 +996,7 @@ export default function MultiplayerRoom({ user, onClose }) {
 
         <div className="mp-stack">
           <button className="mp-btn mp-btn-primary" onClick={handleCreate} disabled={loading}>
-            {loading ? '⏳ Membuat...' : '🚀 Buat Room'}
+            {loading ? '⏳ Membuat...' : 'Buat Room'}
           </button>
           <button className="mp-btn mp-btn-secondary" onClick={() => setScreen('home')} disabled={loading}>
             ← Kembali
@@ -1012,7 +1012,7 @@ export default function MultiplayerRoom({ user, onClose }) {
       <style>{CSS}</style>
       <div className="mp-card">
         <button className="mp-close" onClick={() => setScreen('home')}>✕</button>
-        <div className="mp-badge">🚪 GABUNG ROOM</div>
+        <div className="mp-badge"><i className="fa-solid fa-door-open" aria-hidden="true" /> GABUNG ROOM</div>
         <div className="mp-title">Masukkan Kode</div>
         <div className="mp-subtitle">Minta kode 6 huruf dari host</div>
         {error && <div className="mp-error">{error}</div>}
@@ -1054,12 +1054,12 @@ export default function MultiplayerRoom({ user, onClose }) {
         <FloatingClouds />
         <div className="mp-card">
           <button className="mp-close" onClick={handleClose}>✕</button>
-          <div className="mp-badge">🏠 LOBBY</div>
+          <div className="mp-badge"><i className="fa-solid fa-house" aria-hidden="true" /> LOBBY</div>
 
           {isHost ? (
             <>
               <div className="mp-title">Room Siap!</div>
-              <div className="mp-subtitle">Bagikan kode ini ke temanmu 👇</div>
+              <div className="mp-subtitle">Bagikan kode ini ke temanmu <i className="fa-solid fa-arrow-down" aria-hidden="true" /></div>
               <div className="mp-room-code">{roomCode}</div>
               <div className="mp-room-hint">Kode berlaku selama room aktif</div>
             </>
@@ -1101,7 +1101,7 @@ export default function MultiplayerRoom({ user, onClose }) {
               </div>
             ))}
             {maxP > 6 && players.length < maxP && (
-              <div style={{ fontSize: '0.75rem', color: '#8888a0', textAlign: 'center', padding: '8px' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', textAlign: 'center', padding: '8px' }}>
                 +{maxP - Math.min(players.length, 6)} slot tersisa
               </div>
             )}
@@ -1117,12 +1117,12 @@ export default function MultiplayerRoom({ user, onClose }) {
                 {loading ? '⏳ Memulai...' : canStart ? '▶ Mulai Kuis!' : `Minimal 2 pemain (${players.length}/${maxP})`}
               </button>
             ) : (
-              <div style={{ textAlign: 'center', color: '#8888a0', fontSize: '0.83rem', padding: '12px', background: 'rgba(255,255,255,0.03)', borderRadius: 2 }}>
+              <div style={{ textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.83rem', padding: '12px', background: 'color-mix(in srgb, var(--text) 3%, transparent)', borderRadius: 2 }}>
                 ⏳ Menunggu host memulai kuis...
               </div>
             )}
             <button className="mp-btn mp-btn-danger" onClick={handleClose}>
-              🚪 Keluar Room
+              <i className="fa-solid fa-door-open" aria-hidden="true" /> Keluar Room
             </button>
           </div>
         </div>
@@ -1154,7 +1154,7 @@ export default function MultiplayerRoom({ user, onClose }) {
               {answers.filter(a => a.correct).length} benar
             </div>
             <div className={`mp-timer ${timeLeft <= 5 ? 'danger' : timeLeft <= 10 ? 'warn' : ''}`}>
-              ⏱ {timeLeft}s
+              <i className="fa-solid fa-stopwatch" aria-hidden="true" /> {timeLeft}s
             </div>
           </div>
 
@@ -1166,7 +1166,7 @@ export default function MultiplayerRoom({ user, onClose }) {
           {/* Passage teks (khusus soal Reading) */}
           {q.passage && (
             <div className="mp-passage">
-              <div className="mp-passage-label">📖 Bacaan</div>
+              <div className="mp-passage-label"><i className="fa-solid fa-book-open" aria-hidden="true" /> Bacaan</div>
               <div className="mp-passage-text">{q.passage}</div>
             </div>
           )}
@@ -1197,7 +1197,7 @@ export default function MultiplayerRoom({ user, onClose }) {
           {/* Feedback */}
           {isCheckedState && (
             <div className={`mp-feedback ${isCorrectAns ? 'correct' : 'wrong'}`}>
-              {isCorrectAns ? '✅ Benar!' : selected == null ? '⏰ Waktu habis!' : '❌ Salah!'}
+              {isCorrectAns ? 'Benar!' : selected == null ? 'Waktu habis!' : 'Salah!'}
               {!isCorrectAns && selected !== q.correct && (
                 <span style={{ fontSize: '0.78rem', opacity: 0.8 }}>
                   &nbsp;Jawaban: {String.fromCharCode(65 + q.correct)}
@@ -1218,7 +1218,7 @@ export default function MultiplayerRoom({ user, onClose }) {
             </button>
           ) : (
             <button className="mp-next-btn" onClick={() => goNextQ()}>
-              {currentQ + 1 >= qMax ? '📊 Lihat Hasil' : 'Soal Berikutnya →'}
+              {currentQ + 1 >= qMax ? 'Lihat Hasil' : 'Soal Berikutnya →'}
             </button>
           )}
         </div>
@@ -1232,15 +1232,15 @@ export default function MultiplayerRoom({ user, onClose }) {
       <style>{CSS}</style>
       <div className="mp-card" style={{ textAlign: 'center' }}>
         <div className="mp-badge" style={{ justifyContent: 'center', margin: '0 auto 16px' }}>
-          ✅ SELESAI
+          <i className="fa-solid fa-circle-check" aria-hidden="true" /> SELESAI
         </div>
         <div className="mp-title">Kuis Selesai!</div>
         <div className="mp-subtitle">Menunggu pemain lain menyelesaikan soal...</div>
 
         {myScore && (
-          <div style={{ background: 'rgba(139,123,255,0.1)', border: '1px solid rgba(139,123,255,0.3)', borderRadius: 2, padding: '20px', margin: '20px 0' }}>
-            <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#b0a4ff' }}>{myScore.score.toLocaleString()}</div>
-            <div style={{ fontSize: '0.82rem', color: '#8888a0', marginTop: 6 }}>
+          <div style={{ background: 'color-mix(in srgb, var(--accent) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)', borderRadius: 2, padding: '20px', margin: '20px 0' }}>
+            <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--accent-text)' }}>{myScore.score.toLocaleString()}</div>
+            <div style={{ fontSize: '0.82rem', color: 'var(--text-dim)', marginTop: 6 }}>
               {myScore.correct} / {myScore.total} benar &nbsp;·&nbsp; rata-rata {myScore.avgTime}s
             </div>
           </div>
@@ -1248,7 +1248,7 @@ export default function MultiplayerRoom({ user, onClose }) {
 
         <div className="mp-waiting">
           <div className="mp-spin" />
-          <div style={{ fontSize: '0.82rem', color: '#8888a0' }}>
+          <div style={{ fontSize: '0.82rem', color: 'var(--text-dim)' }}>
             Leaderboard muncul saat semua pemain selesai...
           </div>
         </div>
@@ -1264,9 +1264,9 @@ export default function MultiplayerRoom({ user, onClose }) {
         <style>{CSS}</style>
         <FloatingClouds />
         <div className="mp-card">
-          <div className="mp-badge">🏆 HASIL AKHIR</div>
+          <div className="mp-badge"><i className="fa-solid fa-trophy" aria-hidden="true" /> HASIL AKHIR</div>
           <div className="mp-title" style={{ textAlign: 'center' }}>
-            {myRank === 0 ? '🎉 Kamu Menang!' : myRank === 1 ? '🥈 Runner Up!' : myRank === 2 ? '🥉 Posisi 3!' : 'Leaderboard'}
+            {myRank === 0 ? 'Kamu Menang!' : myRank === 1 ? 'Runner Up!' : myRank === 2 ? 'Posisi 3!' : 'Leaderboard'}
           </div>
           <div className="mp-subtitle" style={{ textAlign: 'center' }}>
             Materi: {SUBJECTS.find(s => s.key === roomData?.subject)?.label}
@@ -1276,7 +1276,7 @@ export default function MultiplayerRoom({ user, onClose }) {
             {leaderboard.map((p, i) => (
               <div key={p.uid} className={`mp-lb-row${p.uid === user?.uid ? ' me' : ''}`}>
                 <div className="mp-lb-rank">{MEDALS[i] || `#${i + 1}`}</div>
-                <div style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', background: 'rgba(139,123,255,0.2)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem' }}>
+                <div style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', background: 'color-mix(in srgb, var(--accent) 20%, transparent)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem' }}>
                   {p.photo
                     ? <img src={p.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
                     : p.name?.[0]?.toUpperCase()}
@@ -1290,13 +1290,13 @@ export default function MultiplayerRoom({ user, onClose }) {
             ))}
           </div>
 
-          <div style={{ marginTop: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', borderRadius: 2, fontSize: '0.75rem', color: '#8888a0', lineHeight: 1.6 }}>
-            💡 Skor = (Benar/Total × 2000) + Bonus Kecepatan (max +500)
+          <div style={{ marginTop: 8, padding: '10px 14px', background: 'color-mix(in srgb, var(--text) 3%, transparent)', borderRadius: 2, fontSize: '0.75rem', color: 'var(--text-dim)', lineHeight: 1.6 }}>
+            <i className="fa-solid fa-lightbulb" aria-hidden="true" /> Skor = (Benar/Total × 2000) + Bonus Kecepatan (max +500)
           </div>
 
           {/* QRIS */}
           <div className="mp-qris-box">
-            <div className="mp-qris-title">☕ Dukung pengembangan kuis ini</div>
+            <div className="mp-qris-title"><i className="fa-solid fa-mug-hot" aria-hidden="true" /> Dukung pengembangan kuis ini</div>
             <div className="mp-qris-sub">Scan QRIS untuk donasi — semua nominal diterima!</div>
             <img
               src="/assets/img/qris.jpg"
@@ -1313,7 +1313,7 @@ export default function MultiplayerRoom({ user, onClose }) {
               setIsHost(false); setLeaderboard([]); setSubmitted(false);
               setAnswers([]); setQuestions([]);
             }}>
-              🔄 Main Lagi
+              <i className="fa-solid fa-rotate" aria-hidden="true" /> Main Lagi
             </button>
             <button className="mp-btn mp-btn-secondary" onClick={handleClose}>
               ✕ Tutup
