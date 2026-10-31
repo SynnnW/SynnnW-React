@@ -11,6 +11,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { revealOnScroll } from '../lib/revealOnScroll';
 
 /* ══════════════════════════════════════════════════════
    WORKDETAIL4 — Live Stream Design & OBS via Tablet
@@ -164,16 +165,7 @@ export default function WorkDetail4({ t = {} }) {
 
   /* ── Reveal Observer ── */
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-      }),
-      { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
-    );
-    const timer = setTimeout(() => {
-      revealEls.current.forEach((el) => { if (el) observer.observe(el); });
-    }, 80);
-    return () => { clearTimeout(timer); observer.disconnect(); };
+    return revealOnScroll(() => revealEls.current, 30);
   }, []);
 
   const d = data;

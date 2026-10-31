@@ -4,6 +4,7 @@ import { auth, db } from '@/supabaseClient';
 import { onAuthStateChanged } from '@/lib/authCompat';
 import { collection, onSnapshot } from '@/lib/firestoreCompat';
 import { Reveal, Arrow } from '../components/BentoKit';
+import { revealOnScroll } from '../lib/revealOnScroll';
 
 const CSS = `
 /* ── Reveal ── */
@@ -953,12 +954,7 @@ export default function PriceList({ t = {} }) {
   /* ── Reveal observer ── */
   const r = (el) => { if (el && !revealEls.current.includes(el)) revealEls.current.push(el); };
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-      { threshold: 0.06, rootMargin: '0px 0px -20px 0px' }
-    );
-    const id = setTimeout(() => { revealEls.current.forEach((el) => { if (el) obs.observe(el); }); }, 50);
-    return () => { clearTimeout(id); obs.disconnect(); };
+    return revealOnScroll(() => revealEls.current, 20);
   }, []);
 
   /* ── Cart helpers ── */

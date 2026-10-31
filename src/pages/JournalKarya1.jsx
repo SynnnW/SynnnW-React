@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { revealOnScroll } from '../lib/revealOnScroll';
 
 /* ── Bilingual data ── */
 const TX = {
@@ -38,14 +39,7 @@ export default function JournalKarya1() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-      { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
-    );
-    const id = setTimeout(() => {
-      revealEls.current.forEach((el) => { if (el) observer.observe(el); });
-    }, 50);
-    return () => { clearTimeout(id); observer.disconnect(); };
+    return revealOnScroll(() => revealEls.current, 30);
   }, []);
 
   const handleCopy = () => {
