@@ -84,7 +84,7 @@ export default function QuizFTK() {
             onClick={() => setView('quiz')}
             style={{ width: '100%' }}
           >
-            ✏️ Lanjut ke Latihan Soal Bab Ini →
+            <i className="fa-solid fa-pencil" aria-hidden="true" /> Lanjut ke Latihan Soal Bab Ini →
           </button>
         </div>
       </div>

@@ -20,7 +20,7 @@ export default function FloatingUtils() {
       .fu-container {
         position: fixed;
         bottom: 28px;
-        z-index: 9000;
+        z-index: var(--z-float);
         display: flex;
         flex-direction: column;
         gap: 12px;
@@ -67,7 +67,7 @@ export default function FloatingUtils() {
       /* WhatsApp button */
       .fu-btn.wa-btn {
         background: #25d366;
-        color: #fff;
+        color: var(--text);
         box-shadow: 0 6px 28px rgba(37, 211, 102, 0.38);
         font-weight: 600;
       }
@@ -81,7 +81,7 @@ export default function FloatingUtils() {
       .fu-btn.top-btn {
         background: color-mix(in srgb, var(--accent) 12%, transparent);
         border: 1.5px solid color-mix(in srgb, var(--accent) 32%, transparent);
-        color: var(--accent);
+        color: var(--accent-text);
         box-shadow: none;
         opacity: 0;
         transform: translateY(12px) scale(0.8);
@@ -112,14 +112,14 @@ export default function FloatingUtils() {
         background: rgba(7, 7, 9, 0.88);
 
 
-        color: rgba(255, 255, 255, 0.9);
+        color: var(--text);
         font-family: var(--font-body);
         font-size: 0.72rem;
         font-weight: 600;
         white-space: nowrap;
         padding: 7px 11px;
         border-radius: 2px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--border2);
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.2s ease;

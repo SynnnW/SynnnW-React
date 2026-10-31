@@ -30,8 +30,8 @@ const CSS = `
 .tos-pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .tos-meta-pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border-radius: 2px; font-size: 0.72rem; color: var(--text-dim); background: var(--glass2); border: 1px solid var(--border2); }
 .tos-meta-pill i { color: var(--accent2); font-size: 0.68rem; }
-.tos-hot-btn { color: #fff; border-color: rgba(255,255,255,0.55); align-self: flex-start; }
-.tos-hot-btn:hover { background: rgba(255,255,255,0.18); border-color: #fff; }
+.tos-hot-btn { color: var(--text); border-color: var(--border2); align-self: flex-start; }
+.tos-hot-btn:hover { background: color-mix(in srgb, var(--text) 18%, transparent); border-color: var(--text); }
 
 /* ── Layout: sidebar + konten ── */
 .tos-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: var(--bn-gap); align-items: start; }
@@ -44,7 +44,7 @@ const CSS = `
 .tos-toc-item.active { background: var(--accent); }
 .tos-toc-num { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--text-dim); }
 .tos-toc-label { font-size: 0.82rem; color: var(--text-dim); line-height: 1.3; }
-.tos-toc-item.active .tos-toc-num, .tos-toc-item.active .tos-toc-label { color: #fff; }
+.tos-toc-item.active .tos-toc-num, .tos-toc-item.active .tos-toc-label { color: var(--text); }
 
 /* ── Tab mobile (chip scroll horizontal) ── */
 .tos-mobile-tabs { display: none; position: sticky; top: 68px; z-index: 40; margin: 0 calc(var(--bn-pad) * -1); padding: 8px var(--bn-pad); background: var(--nav-bg);border-bottom: 1px solid var(--border); overflow-x: auto; gap: 8px; scrollbar-width: none; }
@@ -85,8 +85,8 @@ const CSS = `
 .tos-infobox { display: flex; gap: 12px; padding: 14px 18px; border-radius: 2px; margin-bottom: 16px; font-size: 0.88rem; line-height: 1.65; color: var(--text-dim); }
 .tos-infobox i { flex: 0 0 auto; margin-top: 3px; }
 .tos-infobox.purple { background: color-mix(in srgb, var(--accent) 9%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); } .tos-infobox.purple i { color: var(--accent2); }
-.tos-infobox.yellow { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.25); } .tos-infobox.yellow i { color: #fbbf24; }
-.tos-infobox.green { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.25); } .tos-infobox.green i { color: #4ade80; }
+.tos-infobox.yellow { background: color-mix(in srgb, var(--warn) 7%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 25%, transparent); } .tos-infobox.yellow i { color: var(--warn); }
+.tos-infobox.green { background: color-mix(in srgb, var(--ok) 7%, transparent); border: 1px solid color-mix(in srgb, var(--ok) 25%, transparent); } .tos-infobox.green i { color: var(--ok); }
 .tos-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
 /* ── Responsive ── */
@@ -172,7 +172,7 @@ export default function Terms() {
             </div>
           </Reveal>
           <Reveal className="bn-card bn-hot bn-span-2" delay={0.08}>
-            <span className="bn-kicker" style={{ color: 'rgba(255,255,255,.85)' }}>Sections</span>
+            <span className="bn-kicker" style={{ color: 'var(--text)' }}>Sections</span>
             <div>
               <div className="bn-big">12</div>
               <small>poin ketentuan</small>

@@ -63,10 +63,10 @@ const CSS = `
 .wd-breadcrumb span { color: var(--accent2); }
 .wd-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; position: relative; z-index: 1; }
 .wd-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 2px; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-.wd-badge-film { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
-.wd-badge-video { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); }
-.wd-badge-teaser { background: rgba(34,211,170,0.1); border: 1px solid rgba(34,211,170,0.3); color: #2dd4bf; }
-.wd-badge-event { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3); color: #fb923c; }
+.wd-badge-film { background: color-mix(in srgb, var(--text) 12%, transparent); border: 1px solid color-mix(in srgb, var(--text) 30%, transparent); color: var(--text); }
+.wd-badge-video { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent-text); }
+.wd-badge-teaser { background: color-mix(in srgb, var(--info) 10%, transparent); border: 1px solid color-mix(in srgb, var(--info) 30%, transparent); color: var(--info); }
+.wd-badge-event { background: color-mix(in srgb, var(--warn) 10%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent); color: var(--warn); }
 .wd-hero-title { font-family: var(--font-display); font-size: clamp(4rem, 10vw, 10rem); font-weight: 300; line-height: 0.88; margin-bottom: 20px; position: relative; z-index: 1; letter-spacing: -0.02em; }
 .wd-hero-title em { font-style: italic; color: var(--text-dim); }
 .wd-hero-meta { display: flex; flex-wrap: wrap; gap: 28px; padding-top: 28px; border-top: 1px solid var(--border); position: relative; z-index: 1; }
@@ -120,7 +120,7 @@ export default function WorkDetail12() {
     style.textContent = CSS;
     document.head.appendChild(style);
     window.scrollTo(0, 0);
-    return () => { try { document.head.removeChild(style); } catch (_) {} };
+    return () => { try { document.head.removeChild(style); } catch { /* abaikan */ } };
   }, []);
 
   const d    = DATA;

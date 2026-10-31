@@ -23,17 +23,17 @@ export default function Preloader() {
   }, [show]);
 
   if (!show) return null;
-  const panel = { position: 'fixed', left: 0, width: '100%', height: '50.2%', background: 'var(--bg)', zIndex: 9998 };
+  const panel = { position: 'fixed', left: 0, width: '100%', height: '50.2%', background: 'var(--bg)', zIndex: 'calc(var(--z-overlay) - 1)' };
   const t = { duration: 0.9, ease: EASE_IN_OUT };
   return (
-    <div onClick={finish} role="presentation" style={{ position: 'fixed', inset: 0, zIndex: 9997, cursor: 'pointer' }}>
+    <div onClick={finish} role="dialog" aria-modal="true" aria-label="Memuat situs" style={{ position: 'fixed', inset: 0, zIndex: 'calc(var(--z-overlay) - 2)', cursor: 'pointer' }}>
       <motion.div style={{ ...panel, top: 0 }} animate={out ? { y: '-100%' } : { y: 0 }} transition={t} />
       <motion.div style={{ ...panel, bottom: 0 }} animate={out ? { y: '100%' } : { y: 0 }} transition={t} />
       <motion.div animate={{ opacity: out ? 0 : 1 }} transition={{ duration: 0.3 }}
-        style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 'var(--gutter)', color: 'var(--text)' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-meta)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>SynnnW Studio — Klik untuk lewati</span>
+        style={{ position: 'fixed', inset: 0, zIndex: 'var(--z-overlay)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 'var(--gutter)', color: 'var(--text)' }}>
+        <button type="button" onClick={finish} style={{ alignSelf: 'flex-start', minHeight: 44, padding: 0, background: 'none', border: 0, cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-meta)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text)' }}>SynnnW Studio — Lewati ↗</button>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--fs-h2)', letterSpacing: '-0.04em' }}>SYNNNW</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 500, fontSize: 'var(--fs-h1)', letterSpacing: '-0.03em', lineHeight: 0.9 }}>Synnn<span style={{ color: 'var(--accent-text)' }}>W</span></span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-hero)', lineHeight: 0.8, fontVariantNumeric: 'tabular-nums' }}>{String(n).padStart(3, '0')}</span>
         </div>
       </motion.div>

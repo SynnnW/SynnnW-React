@@ -193,6 +193,7 @@ function Layout({ user }) {
 
   return (
     <>
+      <a className="skip-link" href="#main">{lang === 'en' ? 'Skip to content' : 'Lewati ke konten'}</a>
       <ScrollToTop />
 
       {/* FloatingUtils disembunyikan di semua halaman quiz */}
@@ -210,7 +211,7 @@ function Layout({ user }) {
         />
       )}
 
-      <main style={{ paddingTop: isFullscreen ? '0' : '64px' }}>
+      <main id="main" tabIndex={-1} style={{ paddingTop: isFullscreen ? '0' : '64px', outline: 'none' }}>
         <AnimatePresence mode="wait">
           <Suspense fallback={<PageLoader />}>
             <PageTransition>
@@ -328,7 +329,7 @@ function Layout({ user }) {
                 <Route path="/makrab" element={<Makrab />} />
 
                 {/* ── 404 — selalu paling bawah ── */}
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound lang={lang} />} />
 
               </Routes>
             </PageTransition>
@@ -346,16 +347,9 @@ function Layout({ user }) {
 ══════════════════════════════════════════════════════ */
 function PageLoader() {
   return (
-    <div style={{
-      minHeight: '60vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '0.9rem',
-      letterSpacing: '0.1em',
-      color: '#666',
-    }}>
-      LOADING...
+    <div className="pgl" role="status" aria-live="polite">
+      <div className="pgl-bar" aria-hidden="true" />
+      <span className="pgl-cap">Memuat…</span>
     </div>
   );
 }

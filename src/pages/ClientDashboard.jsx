@@ -1,4 +1,6 @@
 import '@/styles/dashboard.css';
+import ThemeToggle from '@/components/ThemeToggle';
+import Mascot from '@/components/mascot/Mascot';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '@/supabaseClient';
@@ -12,29 +14,11 @@ import {
 // CSS
 // ─────────────────────────────────────────────
 const CSS = `
-:root {
-  --bg: #0E0D0B;
-  --bg2: #0d0d0f;
-  --text: #ffffff;
-  --text-dim: #94a3b8;
-  --text-muted: #64748b;
-  --accent2: var(--accent);
-  --accent3: var(--accent);
-  --glass: rgba(255,255,255,0.03);
-  --glass2: rgba(255,255,255,0.06);
-  --gborder: rgba(255,255,255,0.08);
-  --gborder2: rgba(255,255,255,0.15);
-  --border: rgba(255,255,255,0.07);
-  --card-bg: rgba(255,255,255,0.03);
-  --card-border: rgba(255,255,255,0.08);
-  --accent-glow: color-mix(in srgb, var(--accent) 15%, transparent);
-  --accent-shadow: color-mix(in srgb, var(--accent) 35%, transparent);
-}
 
 /* ── Layout ── */
 .db-page {
-  min-height: 100vh;
-  background: #0E0D0B;
+  min-height: 100dvh;
+  background: var(--d-bg);
   color: var(--text);
   font-family: var(--font-body);
   display: flex;
@@ -43,13 +27,13 @@ const CSS = `
 .db-sidebar {
   width: 260px;
   flex-shrink: 0;
-  background: rgba(255,255,255,0.02);
+  background: var(--d-surface);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 100dvh;
   overflow-y: auto;
   z-index: 50;
 }
@@ -130,9 +114,9 @@ const CSS = `
   gap: 10px;
   padding: 10px 14px;
   border-radius: 2px;
-  border: 1px solid rgba(239,68,68,0.2);
-  background: rgba(239,68,68,0.06);
-  color: #f87171;
+  border: 1px solid color-mix(in srgb, var(--d-bad) 20%, transparent);
+  background: color-mix(in srgb, var(--d-bad) 6%, transparent);
+  color: var(--d-bad);
   font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 600;
@@ -142,8 +126,8 @@ const CSS = `
 }
 
 .db-sidebar-logout:hover {
-  background: rgba(239,68,68,0.12);
-  border-color: rgba(239,68,68,0.35);
+  background: color-mix(in srgb, var(--d-bad) 12%, transparent);
+  border-color: color-mix(in srgb, var(--d-bad) 35%, transparent);
 }
 
 /* ── Notif Bell ── */
@@ -384,15 +368,15 @@ const CSS = `
   font-size: 0.75rem;
   font-weight: 700;
   z-index: 1;
-  border: 2px solid #334155;
+  border: 2px solid var(--d-border-strong);
   background: var(--bg);
   color: var(--text-muted);
   transition: all 0.3s;
 }
 
 .db-progress-step.done .db-progress-step-dot {
-  background: #22c55e;
-  border-color: #22c55e;
+  background: var(--d-ok);
+  border-color: var(--d-ok);
   color: white;
 }
 
@@ -419,12 +403,12 @@ const CSS = `
 .db-progress-connector {
   flex: 1;
   height: 2px;
-  background: #334155;
+  background: var(--d-border-strong);
   margin-top: 15px;
   transition: background 0.3s;
 }
 
-.db-progress-connector.done { background: #22c55e; }
+.db-progress-connector.done { background: var(--d-ok); }
 
 /* ── Order Card ── */
 .db-order-card {
@@ -454,11 +438,11 @@ const CSS = `
   text-transform: uppercase;
 }
 
-.db-status-pending { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
-.db-status-editing { background: rgba(96,165,250,0.12); color: #60a5fa; border: 1px solid rgba(96,165,250,0.25); }
-.db-status-review  { background: rgba(167,139,250,0.12); color: var(--accent); border: 1px solid rgba(167,139,250,0.25); }
-.db-status-complete { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
-.db-status-cancelled { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+.db-status-pending { background: color-mix(in srgb, var(--d-warn) 12%, transparent); color: var(--d-warn); border: 1px solid color-mix(in srgb, var(--d-warn) 25%, transparent); }
+.db-status-editing { background: color-mix(in srgb, var(--d-info) 12%, transparent); color: var(--d-info); border: 1px solid color-mix(in srgb, var(--d-info) 25%, transparent); }
+.db-status-review  { background: color-mix(in srgb, var(--d-accent) 16%, transparent); color: var(--d-accent-text); border: 1px solid color-mix(in srgb, var(--d-accent) 34%, transparent); }
+.db-status-complete { background: color-mix(in srgb, var(--d-ok) 12%, transparent); color: var(--d-ok); border: 1px solid color-mix(in srgb, var(--d-ok) 25%, transparent); }
+.db-status-cancelled { background: color-mix(in srgb, var(--d-bad) 12%, transparent); color: var(--d-bad); border: 1px solid color-mix(in srgb, var(--d-bad) 25%, transparent); }
 
 /* ── Admin Notes ── */
 .db-admin-note {
@@ -689,12 +673,12 @@ const CSS = `
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #334155;
+  color: var(--d-border-strong);
   transition: color 0.15s, transform 0.15s;
   padding: 0;
 }
 
-.db-star-btn.active { color: #fbbf24; }
+.db-star-btn.active { color: var(--d-warn); }
 .db-star-btn:hover { transform: scale(1.15); }
 
 /* ── Brief ── */
@@ -757,7 +741,7 @@ const CSS = `
 .db-toggle-slider {
   position: absolute;
   inset: 0;
-  background: #334155;
+  background: var(--d-border-strong);
   border-radius: 2px;
   cursor: pointer;
   transition: background 0.2s;
@@ -789,7 +773,7 @@ const CSS = `
     justify-content: space-around;
     align-items: center;
     padding: 0 8px;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid var(--d-border);
     border-right: none;
     z-index: 100;
     overflow: visible;
@@ -824,7 +808,7 @@ const CSS = `
     padding: 6px 10px;
     background: none;
     border: none;
-    color: #f87171;
+    color: var(--d-bad);
     font-family: var(--font-body);
     font-size: 0.55rem;
     letter-spacing: 0.04em;
@@ -849,7 +833,7 @@ const CSS = `
 .db-page { overflow-x: clip; }
 .db-content img, .db-content video, .db-content iframe { max-width: 100%; }
 @media (max-width: 768px) {
-  .db-sidebar { padding-bottom: env(safe-area-inset-bottom, 0px); height: calc(64px + env(safe-area-inset-bottom, 0px)); background: rgba(10,10,16,0.96);}
+  .db-sidebar { padding-bottom: env(safe-area-inset-bottom, 0px); height: calc(64px + env(safe-area-inset-bottom, 0px)); background: var(--d-surface);}
   .db-sidebar-nav-item { min-width: 0; flex: 1; padding: 6px 2px; }
   .db-sidebar-logout-mobile { min-width: 0; flex: 1; padding: 6px 2px; }
   .db-main { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); overflow-y: visible; }
@@ -893,13 +877,13 @@ function extractDriveId(url) {
 
 function notifIconStyle(type) {
   const map = {
-    file_ready:         { bg: 'rgba(74,222,128,0.15)',  color: '#4ade80', icon: 'fa-file-circle-check' },
-    status_changed:     { bg: 'color-mix(in srgb, var(--accent) 15%, transparent)',  color: 'var(--accent)', icon: 'fa-arrow-right-arrow-left' },
-    admin_message:      { bg: 'rgba(96,165,250,0.15)',  color: '#60a5fa', icon: 'fa-message' },
-    payment_confirmed:  { bg: 'rgba(74,222,128,0.15)',  color: '#4ade80', icon: 'fa-circle-check' },
-    project_complete:   { bg: 'rgba(251,191,36,0.15)',  color: '#fbbf24', icon: 'fa-trophy' },
+    file_ready:         { bg: 'color-mix(in srgb, var(--d-ok) 15%, transparent)',  color: 'var(--d-ok)', icon: 'fa-file-circle-check' },
+    status_changed:     { bg: 'color-mix(in srgb, var(--accent) 15%, transparent)',  color: 'var(--accent-text)', icon: 'fa-arrow-right-arrow-left' },
+    admin_message:      { bg: 'color-mix(in srgb, var(--d-info) 15%, transparent)',  color: 'var(--d-info)', icon: 'fa-message' },
+    payment_confirmed:  { bg: 'color-mix(in srgb, var(--d-ok) 15%, transparent)',  color: 'var(--d-ok)', icon: 'fa-circle-check' },
+    project_complete:   { bg: 'color-mix(in srgb, var(--d-warn) 15%, transparent)',  color: 'var(--d-warn)', icon: 'fa-trophy' },
   };
-  return map[type] || { bg: 'rgba(148,163,184,0.15)', color: '#94a3b8', icon: 'fa-bell' };
+  return map[type] || { bg: 'rgba(148,163,184,0.15)', color: 'var(--d-muted)', icon: 'fa-bell' };
 }
 
 // ─────────────────────────────────────────────
@@ -932,7 +916,7 @@ function DriveVideoPlayer({ url, label }) {
 
   return (
     <div style={{ marginBottom: 24 }}>
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000', borderRadius: 2, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000', borderRadius: 2, overflow: 'hidden', border: '1px solid color-mix(in srgb, var(--d-text) 8%, transparent)' }}>
         {/* Drive iframe - langsung bisa diklik */}
         <iframe
           ref={iframeRef}
@@ -948,7 +932,7 @@ function DriveVideoPlayer({ url, label }) {
           background: 'linear-gradient(transparent, rgba(0,0,0,0.75))',
           padding: '28px 16px 12px',
         }}>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)' }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: 'color-mix(in srgb, var(--d-text) 70%, transparent)' }}>
             {label}
           </span>
         </div>
@@ -1016,7 +1000,7 @@ export default function ClientDashboard() {
     const style = document.createElement('style');
     style.textContent = CSS;
     document.head.appendChild(style);
-    return () => { try { document.head.removeChild(style); } catch (_) {} };
+    return () => { try { document.head.removeChild(style); } catch { /* abaikan */ } };
   }, []);
 
   // WIB Clock (update every second)
@@ -1332,7 +1316,7 @@ export default function ClientDashboard() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#0E0D0B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', fontFamily: 'var(--font-body)' }}>
+      <div style={{ minHeight: '100dvh', background: 'var(--d-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-text)', fontFamily: 'var(--font-body)' }}>
         <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2rem' }} />
       </div>
     );
@@ -1345,7 +1329,7 @@ export default function ClientDashboard() {
   const steps = getProgressSteps();
 
   return (
-    <div className="db-page dash" data-theme="dark">
+    <div className="db-page dash">
       {/* ── SIDEBAR ── */}
       <aside className="db-sidebar">
         <div className="db-sidebar-brand">
@@ -1379,6 +1363,7 @@ export default function ClientDashboard() {
         </nav>
 
         <div className="db-sidebar-footer">
+          <ThemeToggle />
           <button className="db-sidebar-logout" onClick={handleLogout}>
             <i className="fa-solid fa-right-from-bracket" /> Logout
           </button>
@@ -1396,6 +1381,7 @@ export default function ClientDashboard() {
               {clock && <span style={{ marginLeft: 12, fontFamily: 'monospace', fontSize: '0.75rem', color: 'var(--accent3)', letterSpacing: '0.08em' }}>{clock}</span>}
             </p>
           </div>
+          <ThemeToggle label={false} />
           {/* Notification Bell */}
           <div className="db-notif-wrapper">
             <button className="db-notif-bell" onClick={() => setNotifOpen(o => !o)}>
@@ -1459,7 +1445,7 @@ export default function ClientDashboard() {
             </div>
             <div className="db-stat-card">
               <div className="db-stat-label">Review Pending</div>
-              <div className="db-stat-value" style={{ color: pendingReview ? '#fbbf24' : 'var(--text)' }}>{pendingReview}</div>
+              <div className="db-stat-value" style={{ color: pendingReview ? 'var(--d-warn)' : 'var(--text)' }}>{pendingReview}</div>
               <div className="db-stat-sub">{pendingReview ? 'belum diisi' : 'oke'}</div>
             </div>
           </div>
@@ -1547,8 +1533,8 @@ export default function ClientDashboard() {
 
               {/* Live Stream Section */}
               {dc?.streamingLink && (
-                <div className="db-card" style={{ border: '1px solid rgba(34,197,94,0.2)' }}>
-                  <div className="db-card-title"><i className="fa-solid fa-broadcast" style={{ color: '#22c55e' }} /> Live Stream dari Editor</div>
+                <div className="db-card" style={{ border: '1px solid color-mix(in srgb, var(--d-ok) 20%, transparent)' }}>
+                  <div className="db-card-title"><i className="fa-solid fa-broadcast" style={{ color: 'var(--d-ok)' }} /> Live Stream dari Editor</div>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', marginBottom: '12px' }}>
                     Admin sedang melakukan editing dan screen sharing secara live. Klik play untuk melihat:
                   </p>
@@ -1557,7 +1543,7 @@ export default function ClientDashboard() {
                     aspectRatio: '16 / 9',
                     borderRadius: '2px',
                     overflow: 'hidden',
-                    border: '1px solid rgba(34,197,94,0.2)',
+                    border: '1px solid color-mix(in srgb, var(--d-ok) 20%, transparent)',
                     background: '#000',
                     marginBottom: '12px'
                   }}>
@@ -1585,7 +1571,7 @@ export default function ClientDashboard() {
                   <div className="db-activity-list">
                     {activities.map(a => (
                       <div key={a.id} className="db-activity-item">
-                        <div className="db-activity-dot" style={{ background: a.actor === 'admin' ? 'var(--accent)' : '#60a5fa' }} />
+                        <div className="db-activity-dot" style={{ background: a.actor === 'admin' ? 'var(--accent)' : 'var(--d-info)' }} />
                         <span className="db-activity-text">{a.detail}</span>
                         <span className="db-activity-time">{timeAgo(a.createdAt)}</span>
                       </div>
@@ -1631,7 +1617,7 @@ export default function ClientDashboard() {
                         onChange={e => setBriefLink(e.target.value)}
                       />
                     </div>
-                    {briefSaved && <p style={{ color: '#4ade80', fontSize: '0.82rem', marginBottom: '10px' }}>✓ Pesan terkirim! Admin akan membaca segera.</p>}
+                    {briefSaved && <p style={{ color: 'var(--d-ok)', fontSize: '0.82rem', marginBottom: '10px' }}>✓ Pesan terkirim! Admin akan membaca segera.</p>}
                     <div style={{ display: 'flex', gap: '8px' }}>
                       <button className="db-btn primary" onClick={handleBriefSubmit} disabled={briefSaving || !briefNotes}>
                         {briefSaving ? <i className="fa-solid fa-spinner fa-spin" /> : <i className="fa-solid fa-paper-plane" />}
@@ -1645,8 +1631,8 @@ export default function ClientDashboard() {
 
               {/* Rating (jika order complete & belum ada review) */}
               {latestOrder?.status === 'complete' && !existingReview && !ratingSaved && (
-                <div className="db-card" style={{ border: '1px solid rgba(251,191,36,0.2)' }}>
-                  <div className="db-card-title"><i className="fa-solid fa-star" style={{ color: '#fbbf24' }} /> Proyek selesai! Bagaimana pengalaman Anda?</div>
+                <div className="db-card" style={{ border: '1px solid color-mix(in srgb, var(--d-warn) 20%, transparent)' }}>
+                  <div className="db-card-title"><i className="fa-solid fa-star" style={{ color: 'var(--d-warn)' }} /> Proyek selesai! Bagaimana pengalaman Anda?</div>
                   <div className="db-star-row">
                     {[1,2,3,4,5].map(s => (
                       <button key={s} className={`db-star-btn ${ratingScore >= s ? 'active' : ''}`} onClick={() => setRatingScore(s)}>
@@ -1670,16 +1656,16 @@ export default function ClientDashboard() {
 
               {ratingSaved && (
                 <div className="db-card" style={{ textAlign: 'center' }}>
-                  <p style={{ color: '#fbbf24', fontSize: '1.1rem', fontWeight: 700 }}>⭐ Terima kasih atas ulasannya!</p>
+                  <p style={{ color: 'var(--d-warn)', fontSize: '1.1rem', fontWeight: 700 }}><i className="fa-solid fa-star" aria-hidden="true" /> Terima kasih atas ulasannya!</p>
                 </div>
               )}
 
               {existingReview && (
                 <div className="db-card">
-                  <div className="db-card-title"><i className="fa-solid fa-star" style={{ color: '#fbbf24' }} /> Review Anda</div>
+                  <div className="db-card-title"><i className="fa-solid fa-star" style={{ color: 'var(--d-warn)' }} /> Review Anda</div>
                   <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
                     {[...Array(existingReview.rating || 0)].map((_, i) => (
-                      <i key={i} className="fa-solid fa-star" style={{ color: '#fbbf24', fontSize: '1rem' }} />
+                      <i key={i} className="fa-solid fa-star" style={{ color: 'var(--d-warn)', fontSize: '1rem' }} />
                     ))}
                   </div>
                   {existingReview.comment && <p style={{ fontSize: '0.88rem', color: 'var(--text-dim)' }}>{existingReview.comment}</p>}
@@ -1767,8 +1753,8 @@ export default function ClientDashboard() {
                 <div className="db-card-title"><i className="fa-solid fa-coins" /> Tahap Pemberkasan (DP)</div>
                 {dpPaid ? (
                   <div className="db-payment-status-row">
-                    <i className="fa-solid fa-circle-check" style={{ color: '#4ade80' }} />
-                    <span style={{ color: '#4ade80' }}>DP Sudah Dibayar</span>
+                    <i className="fa-solid fa-circle-check" style={{ color: 'var(--d-ok)' }} />
+                    <span style={{ color: 'var(--d-ok)' }}>DP Sudah Dibayar</span>
                   </div>
                 ) : (
                   <>
@@ -1872,7 +1858,7 @@ export default function ClientDashboard() {
                       <button className="db-btn primary" onClick={() => setIsEditingProfile(true)}>
                         <i className="fa-solid fa-pen" /> Edit Profil
                       </button>
-                      {profileSaved && <span style={{ color: '#4ade80', fontSize: '0.82rem', alignSelf: 'center' }}>✓ Tersimpan</span>}
+                      {profileSaved && <span style={{ color: 'var(--d-ok)', fontSize: '0.82rem', alignSelf: 'center' }}>✓ Tersimpan</span>}
                     </div>
                   </>
                 ) : (
@@ -1943,25 +1929,15 @@ export default function ClientDashboard() {
 
       {/* ── ONBOARDING TUTORIAL (PATCH 16-A Fix 2) ── */}
       {showOnboarding && (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 9800,
-          background: 'rgba(7,7,9,0.88)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: 24,
-        }}>
-          <div style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 2, padding: '32px 28px',
-            maxWidth: 380, width: '100%', textAlign: 'center',
-          }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>
-              {['👋', '📁', '💳', '🔔'][onboardingStep]}
+        <div className="dash-modal" role="dialog" aria-modal="true" aria-labelledby="onb-title" style={{ placeItems: 'center', padding: 24, zIndex: 'calc(var(--z-modal) + 20)' }}>
+          <div className="dash-card dash-onb">
+            <div className="dash-onb-visual" aria-hidden={onboardingStep !== 0}>
+              {onboardingStep === 0
+                ? <Mascot mood="wave" size={110} label="Pico menyapa dan menyambutmu di dashboard" />
+                : <i className={['', 'fa-solid fa-folder-open', 'fa-solid fa-credit-card', 'fa-solid fa-bell'][onboardingStep]} aria-hidden="true" />}
             </div>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', marginBottom: 12, color: '#fff', fontWeight: 300 }}>
-              {['Selamat Datang!', 'Tab Preview File', 'Tab Pembayaran', 'Notifikasi'][onboardingStep]}
-            </h3>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
+            <h3 id="onb-title">{['Selamat Datang!', 'Tab Preview File', 'Tab Pembayaran', 'Notifikasi'][onboardingStep]}</h3>
+            <p>
               {[
                 'Dashboard ini tempat kamu ngikutin progress project yang sedang dikerjakan. Semua update dari admin langsung muncul di sini.',
                 'Semua file yang dikirim admin — video, poster, lanyard — bisa dilihat di tab Preview File. Klik Play untuk memutar video.',
@@ -1969,34 +1945,19 @@ export default function ClientDashboard() {
                 'Lonceng di pojok kanan atas akan berdering saat ada update dari admin. Pastikan kamu cek dashboard ini secara rutin.',
               ][onboardingStep]}
             </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, margin: '20px 0 12px' }}>
-              {[0,1,2,3].map(i => (
-                <div key={i} style={{
-                  width: i === onboardingStep ? 20 : 6, height: 6,
-                  borderRadius: 2, background: i === onboardingStep ? 'var(--accent)' : 'rgba(255,255,255,0.2)',
-                  transition: 'width 0.3s ease',
-                }} />
-              ))}
+            <div className="dash-onb-dots" role="img" aria-label={`Langkah ${onboardingStep + 1} dari 4`}>
+              {[0, 1, 2, 3].map(i => <span key={i} className={i === onboardingStep ? 'on' : ''} />)}
             </div>
             <button
+              type="button"
+              className="dash-btn primary"
+              style={{ width: '100%' }}
               onClick={() => { if (onboardingStep < 3) setOnboardingStep(s => s + 1); else dismissOnboarding(); }}
-              style={{
-                width: '100%', padding: '12px 0',
-                background: 'linear-gradient(135deg, var(--accent), var(--accent))',
-                border: 'none', borderRadius: 2,
-                color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.9rem',
-                cursor: 'pointer',
-              }}
             >
-              {onboardingStep < 3 ? 'Lanjut →' : 'Mulai Pakai Dashboard'}
+              {onboardingStep < 3 ? 'Lanjut' : 'Mulai Pakai Dashboard'}
+              {onboardingStep < 3 && <i className="fa-solid fa-arrow-right" aria-hidden="true" />}
             </button>
-            <button onClick={dismissOnboarding} style={{
-              marginTop: 10, background: 'none', border: 'none',
-              color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem',
-              cursor: 'pointer', fontFamily: 'var(--font-body)',
-            }}>
-              Lewati
-            </button>
+            <button type="button" className="dash-btn ghost" style={{ width: '100%', marginTop: 8 }} onClick={dismissOnboarding}>Lewati</button>
           </div>
         </div>
       )}

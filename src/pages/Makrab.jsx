@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@/styles/dashboard.css';
+import { getTheme, setTheme as setGlobalTheme } from '@/lib/theme';
 import { supabase, auth } from '@/supabaseClient';
 import {
   onAuthStateChanged,
@@ -2220,7 +2221,7 @@ function initialTheme() {
     const t = localStorage.getItem('makrab:theme');
     if (t === 'dark' || t === 'light') return t;
   } catch { /* abaikan */ }
-  return 'dark';
+  return getTheme();
 }
 
 export default function Makrab() {
@@ -2229,7 +2230,7 @@ export default function Makrab() {
   const [me, setMe] = useState(null);
   const [errMsg, setErrMsg] = useState('');
   const [theme, setTheme] = useState(initialTheme);
-  const changeTheme = t => { setTheme(t); try { localStorage.setItem('makrab:theme', t); } catch { /* abaikan */ } };
+  const changeTheme = t => { setTheme(t); setGlobalTheme(t); try { localStorage.setItem('makrab:theme', t); } catch { /* abaikan */ } };
 
   /* Turn off site-wide effects (custom cursor, Lenis) on this page */
   useEffect(() => {

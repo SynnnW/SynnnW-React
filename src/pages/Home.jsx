@@ -1,4 +1,3 @@
-import LineReveal from '../components/LineReveal';
 import Magnetic from '../components/Magnetic';
 import Counter from '../components/Counter';
 import { useState, useEffect, useRef } from 'react';
@@ -383,15 +382,29 @@ export default function Home({ t = {} }) {
 
         {/* ═══════════ 01 · HERO ═══════════ */}
         <section id="sec-home" className="hm-hero">
-          <div className="hm-hero-card">
-            <img className="hm-hero-bg" src="/assets/img/Artboard 1.webp" alt="" />
+          <div className="hm-hero-card crop">
+            <span className="crop-b" aria-hidden="true" />
+            <img className="hm-hero-bg" src="/assets/img/hero-event.webp" alt="" />
             <div className="hm-hero-grain" aria-hidden="true" />
 
             <div className="hm-hero-left">
               <span className="hm-eyebrow"><i /> SynnnW Studio</span>
-              <LineReveal as="h1" className="hm-h1" delay={0.2}
-                text={isID ? 'Web, video & desain, dikerjain seolah punya sendiri.' : 'Web, video & design, built like it’s our own.'} />
-              <span className="hm-hero-tags">WEB / VIDEO / ILUSTRASI / FOTO — JAWA TIMUR, ID</span>
+              <h1 className="hm-h1">
+                {isID ? (
+                  <>
+                    <span className="hm-line"><span>Web, video &amp; desain,</span></span>{' '}
+                    <span className="hm-line"><span>dikerjain seolah</span></span>{' '}
+                    <span className="hm-line"><span><em className="hm-swipe">punya sendiri.</em></span></span>
+                  </>
+                ) : (
+                  <>
+                    <span className="hm-line"><span>Web, video &amp; design,</span></span>{' '}
+                    <span className="hm-line"><span>built like it’s</span></span>{' '}
+                    <span className="hm-line"><span><em className="hm-swipe">our own.</em></span></span>
+                  </>
+                )}
+              </h1>
+              <span className="hm-hero-tags folio">WEB / VIDEO / {L('ILLUSTRATION', 'ILUSTRASI')} / {L('PHOTO', 'FOTO')} — {L('EAST JAVA', 'JAWA TIMUR')}, ID</span>
               <p className="hm-hero-p">
                 {L(
                   'A creative studio from East Java, run by Aldo Leo Saputra. Websites, short films, posters and event coverage — from first brief to final file.',

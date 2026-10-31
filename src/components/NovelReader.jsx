@@ -11,20 +11,20 @@ import { useState, useEffect, useRef } from 'react';
 const CSS = `
 .nvr-root { max-width: 640px; margin: 0 auto; font-family: 'Inter','Segoe UI',system-ui,sans-serif; color: #f4f4f6; }
 .nvr-bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 10px;
-  background: rgba(7,7,9,0.92);padding: 10px 4px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.nvr-back { background: none; border: 1px solid rgba(255,255,255,0.15); color: #8d8d99; border-radius: 2px;
+  background: rgba(7,7,9,0.92);padding: 10px 4px; border-bottom: 1px solid var(--border); }
+.nvr-back { background: none; border: 1px solid var(--border2); color: #8d8d99; border-radius: 2px;
   padding: 7px 12px; cursor: pointer; font-size: 12.5px; white-space: nowrap; }
 .nvr-chtitle { flex: 1; font-weight: 700; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nvr-fontbtn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #c9c9d2;
+.nvr-fontbtn { background: var(--glass2); border: 1px solid var(--border2); color: #c9c9d2;
   border-radius: 2px; width: 28px; height: 28px; cursor: pointer; font-size: 13px; line-height: 1; }
-.nvr-progress { height: 3px; background: rgba(255,255,255,0.08); }
-.nvr-progress-fill { height: 100%; background: linear-gradient(90deg,#8b7bff,#5eead4); transition: width 0.15s; }
+.nvr-progress { height: 3px; background: var(--glass2); }
+.nvr-progress-fill { height: 100%; background: linear-gradient(90deg,var(--accent-text),var(--accent-text)); transition: width 0.15s; }
 .nvr-page { padding: 28px 18px 72px; }
 .nvr-title { font-family: 'Space Grotesk','Inter',sans-serif; font-size: clamp(1.3rem,5vw,1.7rem); font-weight: 800; margin-bottom: 4px; }
 .nvr-sub { color: #8d8d99; font-size: 0.82rem; margin-bottom: 24px; }
 .nvr-body p { line-height: 1.9; margin-bottom: 1.1em; color: #e3e3e9; }
 .nvr-nav { display: flex; gap: 10px; margin-top: 32px; }
-.nvr-nav button { flex: 1; background: rgba(139,123,255,0.08); border: 1px solid rgba(139,123,255,0.3); color: #b0a4ff;
+.nvr-nav button { flex: 1; background: color-mix(in srgb, var(--accent) 8%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent-text);
   border-radius: 2px; padding: 12px; cursor: pointer; font-size: 13px; font-weight: 600; }
 .nvr-nav button:disabled { opacity: 0.35; cursor: default; }
 `;
@@ -48,7 +48,7 @@ export default function NovelReader({ title, chapterTitle, content, onBack, onPr
     try {
       const saved = localStorage.getItem('nvr_font_step');
       if (saved !== null) setFontStep(Number(saved));
-    } catch {}
+    } catch { /* abaikan */ }
   }, []);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function NovelReader({ title, chapterTitle, content, onBack, onPr
   const changeFont = (dir) => {
     setFontStep((s) => {
       const next = Math.min(FONT_STEPS.length - 1, Math.max(0, s + dir));
-      try { localStorage.setItem('nvr_font_step', String(next)); } catch {}
+      try { localStorage.setItem('nvr_font_step', String(next)); } catch { /* abaikan */ }
       return next;
     });
   };

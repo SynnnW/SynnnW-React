@@ -8,16 +8,17 @@ import SaranWebsite from '../../components/SaranWebsite';
 import useQuizAuth from '../../components/quiz/useQuizAuth';
 import QuizShell from '../../components/quiz/QuizShell';
 import { Reveal, Arrow } from '../../components/BentoKit';
+import Ico from '../../components/Ico';
 
 const SUBJECTS = [
-  { slug: 'bahasainggris', name: 'Bahasa Inggris', icon: '🇬🇧', color: '#38bdf8' },
-  { slug: 'pai', name: 'Pendidikan Agama Islam', icon: '🕌', color: '#34d399' },
+  { slug: 'bahasainggris', name: 'Bahasa Inggris', icon: '🇬🇧', color: 'var(--accent-text)' },
+  { slug: 'pai', name: 'Pendidikan Agama Islam', icon: '🕌', color: 'var(--accent-text)' },
   { slug: 'ftk', name: 'Falsafah dan Teori Keperawatan', icon: '🩺', color: 'var(--text)' },
-  { slug: 'kdk', name: 'Konsep Dasar Keperawatan', icon: '📋', color: '#8b7bff' },
-  { slug: 'pancasila', name: 'Pendidikan Pancasila', icon: '🇮🇩', color: '#fb7185' },
-  { slug: 'kesglob', name: 'Kesehatan Global', icon: '🌍', color: '#5eead4' },
-  { slug: 'ibd', name: 'Ilmu Biomedik Dasar', icon: '🧬', color: 'var(--accent)' },
-  { slug: 'komdas', name: 'Komunikasi Dasar Keperawatan', icon: '💬', color: '#22d3ee' },
+  { slug: 'kdk', name: 'Konsep Dasar Keperawatan', icon: '📋', color: 'var(--accent-text)' },
+  { slug: 'pancasila', name: 'Pendidikan Pancasila', icon: '🇮🇩', color: 'var(--accent-text)' },
+  { slug: 'kesglob', name: 'Kesehatan Global', icon: '🌍', color: 'var(--accent-text)' },
+  { slug: 'ibd', name: 'Ilmu Biomedik Dasar', icon: '🧬', color: 'var(--accent-text)' },
+  { slug: 'komdas', name: 'Komunikasi Dasar Keperawatan', icon: '💬', color: 'var(--accent-text)' },
 ];
 
 export default function Quiziz() {
@@ -46,7 +47,7 @@ export default function Quiziz() {
         </div>
 
         <Reveal className="bn-card qz-note">
-          <span className="qz-note-ico">🤖</span>
+          <span className="qz-note-ico"><i className="fa-solid fa-robot" aria-hidden="true" /></span>
           <div>
             <b>Disclaimer AI</b>
             <p>Semua soal, penjelasan, dan penyusunan materi di halaman ini dibuat dengan bantuan AI.
@@ -58,7 +59,7 @@ export default function Quiziz() {
           {SUBJECTS.map((s, i) => (
             <Reveal key={s.slug} className="bn-span-2" delay={(i % 3) * 0.06}>
               <button className="bn-card qz-subj" style={{ '--c': s.color, width: '100%' }} onClick={() => navigate(`/quiziz/${s.slug}`)}>
-                <span className="qz-subj-ico">{s.icon}</span>
+                <span className="qz-subj-ico"><Ico e={s.icon} /></span>
                 <span>
                   <span className="qz-subj-name">{s.name}</span>
                   <span className="qz-subj-go"><span>Mulai latihan</span><Arrow /></span>
@@ -69,7 +70,7 @@ export default function Quiziz() {
         </div>
 
         <button className="bn-card qz-link-card" onClick={() => navigate('/quizizuas')}>
-          <span style={{ fontSize: '1.5rem' }}>🚧</span>
+          <span style={{ fontSize: '1.5rem' }}></span>
           <span>
             <b style={{ fontWeight: 500 }}>Segera Hadir</b>
             <small>Website QUIZIZ UAS LATSOL</small>

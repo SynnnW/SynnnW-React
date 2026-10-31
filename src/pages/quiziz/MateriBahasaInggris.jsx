@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { topics as NAV_ITEMS, readingExamples } from '../../data/quiziz/bahasaInggris/tm01/materi';
+import Ico from '../../components/Ico';
 
 /* ──────────────────────────────────────────────────────────
    NAVIGASI TOPIK
@@ -16,17 +17,17 @@ const BIM_CSS = `
 /* ─── Layout ─── */
 .bim-page {
   display: flex; min-height: 100dvh;
-  background: var(--bg, #0E0D0B);
+  background: var(--bg, var(--nm-bg));
   font-family: var(--font-body), 'Segoe UI', system-ui, sans-serif;
-  color: var(--text, #f0ede8);
+  color: var(--text, var(--text));
   -webkit-font-smoothing: antialiased;
 }
 .bim-sidebar {
   width: 264px; min-width: 240px; flex-shrink: 0;
-  background: rgba(255,255,255,0.03);
+  background: var(--nm-bg);
 
-  border-right: 1px solid rgba(255,255,255,0.08);
-  box-shadow: inset -1px 0 0 rgba(255,255,255,0.03);
+  border-right: 1px solid var(--border);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--text) 3%, transparent);
   display: flex; flex-direction: column;
   position: sticky; top: 0; height: 100dvh; overflow-y: auto;
 }
@@ -39,26 +40,26 @@ const BIM_CSS = `
 /* ─── Sidebar inner ─── */
 .bim-sb-head {
   padding: 1.1rem 1.1rem 0.9rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid var(--border);
 }
 .bim-sb-back {
   background: none; border: none; cursor: pointer;
-  color: var(--text-dim, #64605a); font-size: 12px; padding: 0;
+  color: var(--text-dim, var(--text-faint)); font-size: 12px; padding: 0;
   font-family: inherit; display: flex; align-items: center; gap: 4px;
   transition: color .2s;
 }
-.bim-sb-back:hover { color: var(--text, #f0ede8); }
+.bim-sb-back:hover { color: var(--text, var(--text)); }
 .bim-sb-title {
   font-family: var(--font-display), Georgia, serif;
   font-size: 15px; font-weight: 700; margin-top: 6px;
-  color: var(--text, #f0ede8); letter-spacing: .01em;
+  color: var(--text, var(--text)); letter-spacing: .01em;
 }
-.bim-sb-sub { font-size: 10px; color: var(--text-dim, #64605a); margin-top: 2px; }
+.bim-sb-sub { font-size: 10px; color: var(--text-dim, var(--text-faint)); margin-top: 2px; }
 
 .bim-sb-dash {
   width: 100%; background: none; border: none; cursor: pointer;
   padding: .6rem 1.1rem; text-align: left; font-size: 13px;
-  font-family: inherit; font-weight: 600; color: var(--text-dim, #64605a);
+  font-family: inherit; font-weight: 600; color: var(--text-dim, var(--text-faint));
   transition: color .2s, background .2s;
 }
 .bim-sb-dash.active, .bim-sb-dash:hover { color: var(--accent, var(--accent)); background: color-mix(in srgb, var(--accent) 8%, transparent); }
@@ -66,28 +67,28 @@ const BIM_CSS = `
 .bim-sb-cat {
   padding: .75rem 1.1rem .25rem;
   font-size: 10px; font-weight: 800; letter-spacing: 1px;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--border);
   margin-top: 4px; display: flex; align-items: center; gap: 5px;
 }
 .bim-sb-btn {
   width: 100%; background: none; border: none; border-left: 3px solid transparent;
   padding: .45rem 1.1rem; text-align: left; cursor: pointer;
   font-size: 12.5px; font-family: inherit;
-  color: var(--text-dim, #64605a);
+  color: var(--text-dim, var(--text-faint));
   display: flex; justify-content: space-between; align-items: center;
   transition: all .2s;
 }
-.bim-sb-btn:hover { background: rgba(255,255,255,0.04); color: var(--text, #f0ede8); }
+.bim-sb-btn:hover { background: var(--nm-bg); color: var(--text, var(--text)); }
 .bim-sb-btn.active { color: var(--accent, var(--accent)); font-weight: 700; background: color-mix(in srgb, var(--accent) 8%, transparent); }
-.bim-sb-tm { font-size: 10px; color: var(--text-dim, #64605a); flex-shrink: 0; }
-.bim-sb-check { color: #34d399; margin-right: 4px; }
+.bim-sb-tm { font-size: 10px; color: var(--text-dim, var(--text-faint)); flex-shrink: 0; }
+.bim-sb-check { color: var(--ok); margin-right: 4px; }
 .bim-sb-quiz {
   padding: .9rem 1.1rem; margin-top: auto;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--border);
 }
 .bim-sb-quizbtn {
   width: 100%; background: var(--accent);
-  color: #fff; border: 1px solid rgba(255,255,255,0.16); border-radius: 2px; padding: .68rem;
+  color: var(--on-accent); border: 1px solid var(--border2); border-radius: 2px; padding: .68rem;
   cursor: pointer; font-weight: 700; font-size: 13px; font-family: inherit;
   transition: transform .2s, box-shadow .2s;
   box-shadow: none;
@@ -100,22 +101,22 @@ const BIM_CSS = `
   margin-bottom: 1.25rem;
 }
 .bim-mobile-toggler {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: color-mix(in srgb, var(--nm-bg) 94%, var(--text));
+  border: 1px solid var(--border2);
   border-radius: 2px; padding: .5rem .9rem; cursor: pointer;
-  font-size: 13px; color: var(--text, #f0ede8); font-family: inherit;
+  font-size: 13px; color: var(--text, var(--text)); font-family: inherit;
   font-weight: 600; transition: all .2s;
   box-shadow: 0 4px 14px rgba(0,0,0,0.2);
 }
-.bim-mobile-toggler:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
+.bim-mobile-toggler:hover { background: color-mix(in srgb, var(--nm-bg) 88%, var(--text)); transform: translateY(-1px); }
 .bim-sb-overlay {
   display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6);
-  z-index: 999;
+  z-index: var(--z-float);
 }
 @media (max-width: 768px) {
   .bim-mobile-bar { display: flex; }
   .bim-sidebar {
-    position: fixed; left: 0; top: 0; z-index: 1000;
+    position: fixed; left: 0; top: 0; z-index: var(--z-float);
     transform: translateX(-100%); transition: transform .3s cubic-bezier(.22,1,.36,1);
     box-shadow: 8px 0 32px rgba(0,0,0,.6);
   }
@@ -126,26 +127,26 @@ const BIM_CSS = `
 
 /* ─── Cards ─── */
 .bim-card {
-  background: rgba(255,255,255,0.04);
+  background: var(--nm-bg);
 
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
   border-radius: 2px; padding: 1.5rem; margin-bottom: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 1px 0 color-mix(in srgb, var(--text) 5%, transparent);
 }
 .bim-card-accent { border-top: 2px solid var(--accent, var(--accent)); }
 
 /* ─── Breadcrumb ─── */
 .bim-crumb {
   display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: var(--text-dim, #64605a);
+  font-size: 12px; color: var(--text-dim, var(--text-faint));
   margin-bottom: .5rem;
 }
 .bim-crumb-btn {
   background: none; border: none; cursor: pointer; padding: 0;
-  font-size: 12px; font-family: inherit; color: var(--text-dim, #64605a);
+  font-size: 12px; font-family: inherit; color: var(--text-dim, var(--text-faint));
   transition: color .2s;
 }
-.bim-crumb-btn:hover { color: var(--text, #f0ede8); }
+.bim-crumb-btn:hover { color: var(--text, var(--text)); }
 
 /* ─── Content typography ─── */
 .bim-h1 {
@@ -157,11 +158,11 @@ const BIM_CSS = `
 }
 .bim-h2 {
   font-family: var(--font-display), Georgia, serif;
-  font-size: 1.35rem; font-weight: 700; margin: 0; color: var(--text, #f0ede8);
+  font-size: 1.35rem; font-weight: 700; margin: 0; color: var(--text, var(--text));
 }
-.bim-h3 { font-size: .95rem; font-weight: 700; color: var(--text, #f0ede8); margin: 0 0 .35rem; }
-.bim-muted { color: var(--text-dim, #64605a); font-size: .85rem; }
-.bim-body { font-size: 14px; line-height: 1.75; color: var(--text, #f0ede8); }
+.bim-h3 { font-size: .95rem; font-weight: 700; color: var(--text, var(--text)); margin: 0 0 .35rem; }
+.bim-muted { color: var(--text-dim, var(--text-faint)); font-size: .85rem; }
+.bim-body { font-size: 14px; line-height: 1.75; color: var(--text, var(--text)); }
 
 /* ─── Badges ─── */
 .bim-badge {
@@ -170,31 +171,31 @@ const BIM_CSS = `
 }
 
 /* ─── Accordion ─── */
-.bim-acc { border: 1px solid rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; margin-bottom: .6rem; }
+.bim-acc { border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin-bottom: .6rem; }
 .bim-acc-btn {
-  width: 100%; background: rgba(255,255,255,0.04); border: none; padding: .85rem 1rem;
+  width: 100%; background: var(--nm-bg); border: none; padding: .85rem 1rem;
   text-align: left; cursor: pointer; font-weight: 600; font-size: 13.5px;
   display: flex; justify-content: space-between; align-items: center;
-  color: var(--text, #f0ede8); font-family: inherit; transition: background .2s;
+  color: var(--text, var(--text)); font-family: inherit; transition: background .2s;
 }
-.bim-acc-btn:hover { background: rgba(255,255,255,0.07); }
-.bim-acc-btn .bim-chevron { color: var(--text-dim, #64605a); transition: transform .25s; font-size: 11px; }
+.bim-acc-btn:hover { background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); }
+.bim-acc-btn .bim-chevron { color: var(--text-dim, var(--text-faint)); transition: transform .25s; font-size: 11px; }
 .bim-acc-btn .bim-chevron.open { transform: rotate(180deg); }
-.bim-acc-body { padding: 1rem; border-top: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); }
+.bim-acc-body { padding: 1rem; border-top: 1px solid var(--border); background: var(--nm-bg); }
 
 /* ─── Boxes ─── */
 .bim-example {
-  background: rgba(94,234,212,.07); border: 1px solid rgba(94,234,212,.2);
+  background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 2px; padding: .75rem 1rem; margin-top: .5rem; font-size: 13.5px;
 }
-.bim-example-label { font-size: 10.5px; font-weight: 700; color: #5eead4; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.bim-example-label { font-size: 10.5px; font-weight: 700; color: var(--accent-text); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
 .bim-warning {
-  background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.25);
+  background: color-mix(in srgb, var(--warn) 7%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 25%, transparent);
   border-radius: 2px; padding: .75rem 1rem; margin-top: .5rem; font-size: 13.5px;
 }
-.bim-warning-label { font-size: 10.5px; font-weight: 700; color: #fbbf24; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.bim-warning-label { font-size: 10.5px; font-weight: 700; color: var(--warn); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
 .bim-tip {
-  background: rgba(52,211,153,.07); border: 1px solid rgba(52,211,153,.2);
+  background: color-mix(in srgb, var(--ok) 7%, transparent); border: 1px solid color-mix(in srgb, var(--ok) 20%, transparent);
   border-radius: 2px; padding: .65rem 1rem; margin-top: .5rem; font-size: 13.5px;
 }
 .bim-rule {
@@ -202,76 +203,76 @@ const BIM_CSS = `
 }
 
 /* ─── Table ─── */
-.bim-table-wrap { overflow-x: auto; margin-bottom: 1.25rem; border-radius: 2px; border: 1px solid rgba(255,255,255,0.07); }
+.bim-table-wrap { overflow-x: auto; margin-bottom: 1.25rem; border-radius: 2px; border: 1px solid var(--border); }
 .bim-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .bim-th {
-  background: rgba(255,255,255,0.06); padding: 9px 12px; text-align: left;
+  background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); padding: 9px 12px; text-align: left;
   font-weight: 700; font-size: 11px; letter-spacing: .5px;
-  color: var(--text-dim, #64605a); text-transform: uppercase;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  color: var(--text-dim, var(--text-faint)); text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
 }
-.bim-td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+.bim-td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .bim-tr:last-child .bim-td { border-bottom: none; }
 
 /* ─── Sample Question ─── */
-.bim-q-wrap { border: 1px solid rgba(255,255,255,0.07); border-radius: 2px; padding: 1rem; margin-bottom: .75rem; background: rgba(255,255,255,0.03); }
-.bim-q-passage { background: rgba(255,255,255,0.05); border-radius: 2px; padding: .75rem 1rem; font-size: 13px; line-height: 1.7; margin-bottom: .75rem; white-space: pre-line; }
+.bim-q-wrap { border: 1px solid var(--border); border-radius: 2px; padding: 1rem; margin-bottom: .75rem; background: var(--nm-bg); }
+.bim-q-passage { background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); border-radius: 2px; padding: .75rem 1rem; font-size: 13px; line-height: 1.7; margin-bottom: .75rem; white-space: pre-line; }
 .bim-q-text { font-weight: 600; margin-bottom: .65rem; font-size: 14px; line-height: 1.55; }
 .bim-q-opts { display: flex; flex-direction: column; gap: 6px; }
 .bim-q-opt {
   padding: .55rem .85rem; border-radius: 2px;
-  border: 1.5px solid rgba(255,255,255,0.09);
-  background: rgba(255,255,255,0.04); color: var(--text, #f0ede8);
+  border: 1.5px solid var(--border2);
+  background: var(--nm-bg); color: var(--text, var(--text));
   font-size: 13.5px; text-align: left; cursor: pointer;
   display: flex; gap: 8px; align-items: flex-start;
   font-family: inherit; transition: all .15s;
 }
 .bim-q-opt:hover:not(.locked) { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
 .bim-q-opt.selected { background: color-mix(in srgb, var(--accent) 14%, transparent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
-.bim-q-opt.correct { background: rgba(52,211,153,.12); border-color: rgba(52,211,153,.45); color: #34d399; }
-.bim-q-opt.wrong   { background: rgba(251,113,133,.1);  border-color: rgba(251,113,133,.4);  color: #fb7185; }
+.bim-q-opt.correct { background: color-mix(in srgb, var(--ok) 12%, transparent); border-color: color-mix(in srgb, var(--ok) 45%, transparent); color: var(--ok); }
+.bim-q-opt.wrong   { background: color-mix(in srgb, var(--bad) 10%, transparent);  border-color: color-mix(in srgb, var(--bad) 40%, transparent);  color: var(--bad); }
 .bim-q-opt.locked  { cursor: default; }
 .bim-q-actions { display: flex; gap: 8px; margin-top: .75rem; flex-wrap: wrap; }
 .bim-q-check {
-  background: var(--accent, var(--accent)); color: #fff; border: none; border-radius: 2px;
+  background: var(--accent, var(--accent)); color: var(--on-accent); border: none; border-radius: 2px;
   padding: .45rem 1.2rem; cursor: pointer; font-size: 13px; font-weight: 600;
   font-family: inherit; transition: opacity .2s;
 }
 .bim-q-check:disabled { opacity: .4; cursor: not-allowed; }
 .bim-q-check:not(:disabled):hover { opacity: .85; }
 .bim-q-retry {
-  background: rgba(255,255,255,0.06); color: var(--text-dim, #64605a);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
+  background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); color: var(--text-dim, var(--text-faint));
+  border: 1px solid var(--border2); border-radius: 2px;
   padding: .45rem 1rem; cursor: pointer; font-size: 13px; font-family: inherit;
   transition: background .2s;
 }
-.bim-q-retry:hover { background: rgba(255,255,255,0.1); }
+.bim-q-retry:hover { background: color-mix(in srgb, var(--nm-bg) 88%, var(--text)); }
 .bim-q-explanation {
-  flex: 1; background: rgba(94,234,212,.07); border: 1px solid rgba(94,234,212,.2);
-  border-radius: 2px; padding: .5rem 1rem; font-size: 13px; line-height: 1.55; color: #5eead4;
+  flex: 1; background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-radius: 2px; padding: .5rem 1rem; font-size: 13px; line-height: 1.55; color: var(--accent-text);
   min-width: 0;
 }
 
 /* ─── Input / Search ─── */
 .bim-search {
   width: 100%; padding: .65rem 1rem; border-radius: 2px;
-  border: 1px solid rgba(255,255,255,0.09); outline: none;
-  background: rgba(255,255,255,0.05); color: var(--text, #f0ede8);
+  border: 1px solid var(--border2); outline: none;
+  background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); color: var(--text, var(--text));
   font-size: 14px; font-family: inherit; margin-bottom: .85rem;
   box-sizing: border-box; transition: border-color .2s;
 }
 .bim-search:focus { border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
-.bim-search::placeholder { color: var(--text-dim, #64605a); }
+.bim-search::placeholder { color: var(--text-dim, var(--text-faint)); }
 
 /* ─── Vocab card ─── */
 .bim-vocab-card {
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  background: var(--nm-bg); border: 1px solid var(--border);
   border-radius: 2px; padding: .9rem 1.1rem;
 }
 .bim-vocab-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
-.bim-vocab-word { font-size: 15px; font-weight: 700; color: var(--text, #f0ede8); }
-.bim-vocab-arti { font-size: 11.5px; color: var(--text-dim, #64605a); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 2px; }
-.bim-vocab-ex { font-size: 13px; color: var(--text-dim, #64605a); font-style: italic; line-height: 1.6; }
+.bim-vocab-word { font-size: 15px; font-weight: 700; color: var(--text, var(--text)); }
+.bim-vocab-arti { font-size: 11.5px; color: var(--text-dim, var(--text-faint)); background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); padding: 2px 8px; border-radius: 2px; }
+.bim-vocab-ex { font-size: 13px; color: var(--text-dim, var(--text-faint)); font-style: italic; line-height: 1.6; }
 
 /* ─── Step badges ─── */
 .bim-step-row { display: flex; gap: .75rem; margin-bottom: .55rem; align-items: flex-start; }
@@ -279,19 +280,19 @@ const BIM_CSS = `
 
 /* ─── Landing ─── */
 .bim-land-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1rem; }
-.bim-land-cat { border-radius: 2px; padding: 1.25rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); transition: border-color .2s, transform .2s; }
+.bim-land-cat { border-radius: 2px; padding: 1.25rem; background: var(--nm-bg); border: 1px solid var(--border); transition: border-color .2s, transform .2s; }
 .bim-land-cat:hover { transform: translateY(-2px); }
 .bim-land-cat-icon { font-size: 22px; margin-bottom: 4px; }
 .bim-land-cat-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
-.bim-land-cat-desc { font-size: 12.5px; color: var(--text-dim, #64605a); margin-bottom: 1rem; line-height: 1.55; }
+.bim-land-cat-desc { font-size: 12.5px; color: var(--text-dim, var(--text-faint)); margin-bottom: 1rem; line-height: 1.55; }
 .bim-land-cat-btn {
   width: 100%; border: none; border-radius: 2px; padding: .55rem;
   cursor: pointer; font-weight: 700; font-size: 13px; font-family: inherit;
   transition: opacity .2s;
 }
 .bim-land-cat-btn:hover { opacity: .85; }
-.bim-search-results { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 2px; margin-bottom: 1rem; overflow: hidden; }
-.bim-search-result-btn { width: 100%; background: none; border: none; padding: .6rem 1rem; text-align: left; cursor: pointer; font-size: 13.5px; color: var(--text, #f0ede8); display: flex; gap: 8px; align-items: center; font-family: inherit; transition: background .2s; }
+.bim-search-results { background: var(--nm-bg); border: 1px solid var(--border); border-radius: 2px; margin-bottom: 1rem; overflow: hidden; }
+.bim-search-result-btn { width: 100%; background: none; border: none; padding: .6rem 1rem; text-align: left; cursor: pointer; font-size: 13.5px; color: var(--text, var(--text)); display: flex; gap: 8px; align-items: center; font-family: inherit; transition: background .2s; }
 .bim-search-result-btn:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
 
 /* ─── Nav buttons (prev/next) ─── */
@@ -301,12 +302,12 @@ const BIM_CSS = `
   font-size: 13px; font-weight: 600; font-family: inherit; transition: opacity .2s;
 }
 .bim-nav-btn:hover { opacity: .82; }
-.bim-nav-prev { background: rgba(255,255,255,0.06); color: var(--text, #f0ede8); border: 1px solid rgba(255,255,255,0.1); }
-.bim-nav-next { color: #fff; border: none; }
+.bim-nav-prev { background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); color: var(--text, var(--text)); border: 1px solid var(--border2); }
+.bim-nav-next { color: var(--text); border: none; }
 
 /* ─── Disclaimer ─── */
 .bim-disclaimer {
-  background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.3);
+  background: color-mix(in srgb, var(--warn) 7%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
   border-radius: 2px; padding: .75rem 1rem; margin-bottom: 1.25rem;
   font-size: 13px; display: flex; gap: .5rem; align-items: flex-start;
   line-height: 1.55; color: #b45309;
@@ -316,12 +317,12 @@ const BIM_CSS = `
 /* ─── Gerund columns (dark-safe) ─── */
 .bim-ger-col {
   border-radius: 2px; padding: 1rem;
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  background: var(--nm-bg); border: 1px solid var(--border);
 }
 .bim-ger-list { font-size: 13px; line-height: 1.85; margin: 0; padding-left: 1.1rem; }
 
 /* ─── Mono cell ─── */
-.bim-mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 12px; background: rgba(255,255,255,0.04); padding: 1px 5px; border-radius: 4px; }
+.bim-mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 12px; background: var(--nm-bg); padding: 1px 5px; border-radius: 4px; }
 `;
 
 /* ──────────────────────────────────────────────────────────
@@ -352,14 +353,14 @@ function ExampleBox({ label, children }) {
 function WarningBox({ label, children }) {
   return (
     <div className="bim-warning">
-      {label && <div className="bim-warning-label">⚠️ {label}</div>}
+      {label && <div className="bim-warning-label">{label}</div>}
       {children}
     </div>
   );
 }
 
 function TipBox({ children }) {
-  return <div className="bim-tip"><span style={{ fontWeight: 700, color: '#34d399' }}>💡 </span>{children}</div>;
+  return <div className="bim-tip"><span style={{ fontWeight: 700, color: 'var(--ok)' }}><i className="fa-solid fa-lightbulb" aria-hidden="true" /> </span>{children}</div>;
 }
 
 function RuleCard({ title, color, children }) {
@@ -402,8 +403,8 @@ function SampleQuestion({ num, question, options, correctIdx, explanation, passa
           return (
             <button key={i} className={cls} onClick={() => !checked && setSelected(i)}>
               <strong>{String.fromCharCode(65 + i)}.</strong> {opt}
-              {checked && i === correctIdx && <span style={{ marginLeft: 'auto' }}>✅</span>}
-              {checked && i === selected && i !== correctIdx && <span style={{ marginLeft: 'auto' }}>❌</span>}
+              {checked && i === correctIdx && <span style={{ marginLeft: 'auto' }}><i className="fa-solid fa-circle-check" aria-hidden="true" /></span>}
+              {checked && i === selected && i !== correctIdx && <span style={{ marginLeft: 'auto' }}><i className="fa-solid fa-circle-xmark" aria-hidden="true" /></span>}
             </button>
           );
         })}
@@ -458,11 +459,11 @@ function TopicTenses() {
               ['Future Perfect','Aksi selesai sebelum titik tertentu masa depan','by next year, by the time, by 2030','S + will have + V3','By 2030, hospitals will have automated most tasks.'],
             ].map(([t,f,sw,fm,ex]) => (
               <tr key={t} className="bim-tr">
-                <td className="bim-td" style={{ fontWeight: 600, color: 'var(--accent)', whiteSpace: 'nowrap' }}>{t}</td>
+                <td className="bim-td" style={{ fontWeight: 600, color: 'var(--accent-text)', whiteSpace: 'nowrap' }}>{t}</td>
                 <td className="bim-td">{f}</td>
                 <td className="bim-td bim-muted" style={{ fontSize: 12 }}>{sw}</td>
                 <td className="bim-td bim-mono">{fm}</td>
-                <td className="bim-td" style={{ fontStyle: 'italic', color: '#8a857e', fontSize: 12 }}>{ex}</td>
+                <td className="bim-td" style={{ fontStyle: 'italic', color: 'var(--text-dim)', fontSize: 12 }}>{ex}</td>
               </tr>
             ))}
           </tbody>
@@ -471,12 +472,12 @@ function TopicTenses() {
       <WarningBox label="JANGAN TERTUKAR: Simple Past vs Present Perfect">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.75rem', marginTop: '.5rem' }}>
           <div>
-            <strong style={{ color: '#fb7185' }}>Simple Past</strong><br />
+            <strong style={{ color: 'var(--bad)' }}>Simple Past</strong><br />
             <em>"She visited the clinic yesterday."</em><br />
             <span style={{ fontSize: 12 }}>→ "yesterday" = waktu lampau spesifik, sudah selesai sepenuhnya.</span>
           </div>
           <div>
-            <strong style={{ color: '#34d399' }}>Present Perfect</strong><br />
+            <strong style={{ color: 'var(--ok)' }}>Present Perfect</strong><br />
             <em>"She has visited the clinic several times this month."</em><br />
             <span style={{ fontSize: 12 }}>→ "this month" = periode masih berlangsung; pengalaman relevan.</span>
           </div>
@@ -526,8 +527,8 @@ function TopicVerbForms() {
       <div style={{ display: 'flex', gap: 8, marginBottom: '.75rem' }}>
         {['all','regular','irregular'].map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            style={{ background: filter === f ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
-              color: filter === f ? '#fff' : '#8a857e',
+            style={{ background: filter === f ? 'var(--accent)' : 'color-mix(in srgb, var(--nm-bg) 94%, var(--text))',
+              color: filter === f ? '#fff' : 'var(--text-dim)',
               border: 'none', borderRadius: 2, padding: '.4rem 1rem',
               cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}>
             {f === 'all' ? 'Semua' : f === 'regular' ? 'Regular' : 'Irregular'}
@@ -551,7 +552,7 @@ function TopicVerbForms() {
                 <td className="bim-td">{v.v3}</td>
                 <td className="bim-td">{v.ving}</td>
                 <td className="bim-td">{v.v5}</td>
-                <td className="bim-td" style={{ fontSize: 12, color: '#8a857e' }}>{v.ex}</td>
+                <td className="bim-td" style={{ fontSize: 12, color: 'var(--text-dim)' }}>{v.ex}</td>
               </tr>
             ))}
           </tbody>
@@ -623,7 +624,7 @@ function TopicModal() {
                 ['would have + V3','Akan terjadi dalam kondisi berbeda','If they had arrived earlier, it would have been controlled.'],
               ].map(([p,m,e]) => (
                 <tr key={p} className="bim-tr">
-                  <td className="bim-td bim-mono" style={{ fontWeight: 700, color: 'var(--accent)' }}>{p}</td>
+                  <td className="bim-td bim-mono" style={{ fontWeight: 700, color: 'var(--accent-text)' }}>{p}</td>
                   <td className="bim-td">{m}</td>
                   <td className="bim-td" style={{ fontStyle: 'italic' }}>{e}</td>
                 </tr>
@@ -661,7 +662,7 @@ function TopicSVA() {
       {rules.map((r, i) => (
         <Accordion key={i} title={r.title} defaultOpen={i === 0}>
           <ExampleBox label="Contoh kalimat"><em style={{ whiteSpace: 'pre-line' }}>{r.ex}</em></ExampleBox>
-          <p style={{ fontSize: 13.5, marginTop: '.5rem', lineHeight: 1.65 }}>📌 {r.note}</p>
+          <p style={{ fontSize: 13.5, marginTop: '.5rem', lineHeight: 1.65 }}>{r.note}</p>
         </Accordion>
       ))}
     </div>
@@ -685,7 +686,7 @@ function TopicConditional() {
               ['Mixed','Past Perfect (if)','would + V1 (main)','Pengandaian masa lalu berdampak pada masa kini','If she had completed her training, she would be a qualified nurse now.'],
             ].map(([t,i,m,k,e]) => (
               <tr key={t} className="bim-tr">
-                <td className="bim-td" style={{ fontWeight: 700, color: 'var(--accent)', whiteSpace: 'nowrap' }}>{t}</td>
+                <td className="bim-td" style={{ fontWeight: 700, color: 'var(--accent-text)', whiteSpace: 'nowrap' }}>{t}</td>
                 <td className="bim-td bim-mono">{i}</td>
                 <td className="bim-td bim-mono">{m}</td>
                 <td className="bim-td">{k}</td>
@@ -704,8 +705,8 @@ function TopicConditional() {
       </RuleCard>
       <WarningBox label="Kesalahan Umum First Conditional">
         <p style={{ margin: 0, fontSize: 13 }}>
-          ❌ <em>"If a nurse will notice unusual symptoms, she will inform the doctor."</em><br />
-          ✅ <em>"If a nurse notices unusual symptoms, she will inform the doctor."</em><br /><br />
+          <i className="fa-solid fa-circle-xmark" aria-hidden="true" /> <em>"If a nurse will notice unusual symptoms, she will inform the doctor."</em><br />
+          <i className="fa-solid fa-circle-check" aria-hidden="true" /> <em>"If a nurse notices unusual symptoms, she will inform the doctor."</em><br /><br />
           Pada if-clause First Conditional, gunakan Present Simple — bukan "will" — meskipun artinya masa depan.
         </p>
       </WarningBox>
@@ -756,8 +757,8 @@ function TopicPassive() {
               ['Modal + have been + V3','modal + have + been + V3','The symptom should have been reported earlier.'],
             ].map(([t,f,e]) => (
               <tr key={t} className="bim-tr">
-                <td className="bim-td" style={{ fontWeight: 600, color: '#5eead4' }}>{t}</td>
-                <td className="bim-td bim-mono" style={{ color: 'var(--accent)' }}>{f}</td>
+                <td className="bim-td" style={{ fontWeight: 600, color: 'var(--accent-text)' }}>{t}</td>
+                <td className="bim-td bim-mono" style={{ color: 'var(--accent-text)' }}>{f}</td>
                 <td className="bim-td" style={{ fontStyle: 'italic', fontSize: 13 }}>{e}</td>
               </tr>
             ))}
@@ -773,17 +774,17 @@ function TopicGerund() {
     <div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px,1fr))', gap: '.75rem', marginBottom: '1rem' }}>
         <div className="bim-ger-col" style={{ borderTop: '3px solid var(--accent)' }}>
-          <div style={{ fontWeight: 700, color: 'var(--accent)', marginBottom: 8 }}>Verb + Gerund (V-ing)</div>
+          <div style={{ fontWeight: 700, color: 'var(--accent-text)', marginBottom: 8 }}>Verb + Gerund (V-ing)</div>
           <ul className="bim-ger-list">{['avoid','finish','enjoy','suggest','recommend','consider','practice','keep','mind','miss'].map(v => <li key={v}>{v}</li>)}</ul>
           <ExampleBox><em>The nurse suggested reviewing the notes.</em></ExampleBox>
         </div>
-        <div className="bim-ger-col" style={{ borderTop: '3px solid #10b981' }}>
-          <div style={{ fontWeight: 700, color: '#34d399', marginBottom: 8 }}>Verb + Infinitive (to + V1)</div>
+        <div className="bim-ger-col" style={{ borderTop: '3px solid var(--ok)' }}>
+          <div style={{ fontWeight: 700, color: 'var(--ok)', marginBottom: 8 }}>Verb + Infinitive (to + V1)</div>
           <ul className="bim-ger-list">{['want','need','hope','decide','plan','agree','expect','refuse','manage','fail'].map(v => <li key={v}>{v}</li>)}</ul>
           <ExampleBox><em>She decided to continue her studies.</em></ExampleBox>
         </div>
-        <div className="bim-ger-col" style={{ borderTop: '3px solid #fbbf24' }}>
-          <div style={{ fontWeight: 700, color: '#fbbf24', marginBottom: 8 }}>Bisa Keduanya</div>
+        <div className="bim-ger-col" style={{ borderTop: '3px solid var(--warn)' }}>
+          <div style={{ fontWeight: 700, color: 'var(--warn)', marginBottom: 8 }}>Bisa Keduanya</div>
           <ul className="bim-ger-list">{['like','love','start','begin','continue','prefer'].map(v => <li key={v}>{v}</li>)}</ul>
           <ExampleBox><em>She likes reading / to read medical journals.</em></ExampleBox>
         </div>
@@ -827,7 +828,7 @@ function TopicRelative() {
               ['when','Waktu','Keterangan waktu','There was a time when telemedicine was not available here.'],
             ].map(([p,r,f,e]) => (
               <tr key={p} className="bim-tr">
-                <td className="bim-td" style={{ fontWeight: 700, color: 'var(--accent)' }}>{p}</td>
+                <td className="bim-td" style={{ fontWeight: 700, color: 'var(--accent-text)' }}>{p}</td>
                 <td className="bim-td">{r}</td><td className="bim-td">{f}</td>
                 <td className="bim-td" style={{ fontStyle: 'italic', fontSize: 12 }}>{e}</td>
               </tr>
@@ -841,7 +842,7 @@ function TopicRelative() {
           <em>"The nurse who works nights is very experienced."</em><br /><br />
           <strong>Non-restrictive</strong> (dengan koma): informasi tambahan, bisa dihilangkan.<br />
           <em>"Dr. Sari, who specializes in community health, visited the village."</em><br /><br />
-          ⚠️ "That" <strong>tidak digunakan</strong> dalam non-restrictive clause (yang diapit koma).
+          <i className="fa-solid fa-triangle-exclamation" aria-hidden="true" /> "That" <strong>tidak digunakan</strong> dalam non-restrictive clause (yang diapit koma).
         </p>
       </WarningBox>
     </div>
@@ -866,8 +867,8 @@ function TopicSubjunctive() {
       </ExampleBox>
       <WarningBox label="Jangan Tambahkan -s">
         <p style={{ margin: 0, fontSize: 13 }}>
-          ❌ <em>"The doctor insisted that the patient rests."</em><br />
-          ✅ <em>"The doctor insisted that the patient rest."</em><br />
+          <i className="fa-solid fa-circle-xmark" aria-hidden="true" /> <em>"The doctor insisted that the patient rests."</em><br />
+          <i className="fa-solid fa-circle-check" aria-hidden="true" /> <em>"The doctor insisted that the patient rest."</em><br />
           Meskipun "the patient" orang ketiga tunggal, dalam Subjunctive tidak ada -s.
         </p>
       </WarningBox>
@@ -923,8 +924,8 @@ function TopicPreposition() {
           <tbody>
             {filtered.map(item => (
               <tr key={item.expr} className="bim-tr">
-                <td className="bim-td bim-mono" style={{ fontWeight: 700, color: 'var(--accent)' }}>{item.expr}</td>
-                <td className="bim-td" style={{ color: '#8a857e' }}>{item.arti}</td>
+                <td className="bim-td bim-mono" style={{ fontWeight: 700, color: 'var(--accent-text)' }}>{item.expr}</td>
+                <td className="bim-td" style={{ color: 'var(--text-dim)' }}>{item.arti}</td>
                 <td className="bim-td" style={{ fontStyle: 'italic', fontSize: 13 }}>{item.ex}</td>
               </tr>
             ))}
@@ -1014,7 +1015,7 @@ function TopicVocab({ category }) {
           </div>
         ))}
         {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', color: '#8a857e', padding: '2rem' }}>
+          <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '2rem' }}>
             Kata tidak ditemukan — coba kata kunci lain.
           </div>
         )}
@@ -1040,7 +1041,7 @@ function TopicReadingShort() {
         { step: '4. Eliminasi pilihan salah', desc: 'Singkirkan opsi yang tidak relevan atau bertentangan dengan teks.' },
       ].map(s => (
         <div key={s.step} className="bim-step-row">
-          <span className="bim-step-badge" style={{ background: 'color-mix(in srgb, var(--accent) 13%, transparent)', color: 'var(--accent)', border: '1px solid color-mix(in srgb, var(--accent) 27%, transparent)' }}>{s.step}</span>
+          <span className="bim-step-badge" style={{ background: 'color-mix(in srgb, var(--accent) 13%, transparent)', color: 'var(--accent-text)', border: '1px solid color-mix(in srgb, var(--accent) 27%, transparent)' }}>{s.step}</span>
           <span style={{ fontSize: 13.5, lineHeight: 1.6 }}>{s.desc}</span>
         </div>
       ))}
@@ -1059,7 +1060,7 @@ function TopicReadingLong() {
         { step: '5. Inference dari teks', desc: 'Kesimpulan harus didukung isi teks, bukan asumsi dari luar.' },
       ].map(s => (
         <div key={s.step} className="bim-step-row">
-          <span className="bim-step-badge" style={{ background: 'color-mix(in srgb, var(--accent) 13%, transparent)', color: 'var(--accent)', border: '1px solid color-mix(in srgb, var(--accent) 27%, transparent)' }}>{s.step}</span>
+          <span className="bim-step-badge" style={{ background: 'color-mix(in srgb, var(--accent) 13%, transparent)', color: 'var(--accent-text)', border: '1px solid color-mix(in srgb, var(--accent) 27%, transparent)' }}>{s.step}</span>
           <span style={{ fontSize: 13.5, lineHeight: 1.6 }}>{s.desc}</span>
         </div>
       ))}
@@ -1109,8 +1110,8 @@ Despite the many challenges, Dina finds her work deeply meaningful. She believes
 
   return (
     <div>
-      <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 2, padding: '1.25rem 1.5rem', marginBottom: '1.5rem', lineHeight: 1.8, fontSize: 14, whiteSpace: 'pre-line' }}>
-        <div style={{ fontWeight: 700, color: '#8a857e', marginBottom: '.75rem', fontSize: 11, letterSpacing: .5, textTransform: 'uppercase' }}>
+      <div style={{ background: 'var(--nm-bg)', border: '1px solid color-mix(in srgb, var(--nm-bg) 88%, var(--text))', borderRadius: 2, padding: '1.25rem 1.5rem', marginBottom: '1.5rem', lineHeight: 1.8, fontSize: 14, whiteSpace: 'pre-line' }}>
+        <div style={{ fontWeight: 700, color: 'var(--text-dim)', marginBottom: '.75rem', fontSize: 11, letterSpacing: .5, textTransform: 'uppercase' }}>
           TEKS BACAAN — Nurse Dina (Long Text)
         </div>
         {passage}
@@ -1118,8 +1119,8 @@ Despite the many challenges, Dina finds her work deeply meaningful. She believes
       <div className="bim-h3" style={{ marginBottom: '.65rem' }}>Contoh Soal & Analisis (klik untuk cek jawaban)</div>
       {questions.map((q, i) => (
         <div key={i} style={{ marginBottom: '.5rem' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: .5 }}>
-            {q.type} — <span style={{ color: '#8a857e', fontWeight: 400 }}>{q.tujuan}</span>
+          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent-text)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: .5 }}>
+            {q.type} — <span style={{ color: 'var(--text-dim)', fontWeight: 400 }}>{q.tujuan}</span>
           </div>
           <SampleQuestion num={i + 1} question={q.question} options={q.options} correctIdx={q.correctIdx} explanation={q.explanation} />
         </div>
@@ -1200,7 +1201,7 @@ function LandingDashboard({ onSelectTopic, progress, navigate }) {
   return (
     <div>
       <div className="bim-disclaimer">
-        <span style={{ fontSize: 16 }}>🤖</span>
+        <span style={{ fontSize: 16 }}><i className="fa-solid fa-robot" aria-hidden="true" /></span>
         <span>
           <strong>Disclaimer AI:</strong> Materi ini disusun dengan bantuan Claude.ai dan ChatGPT
           berdasarkan materi TM 1–7 Semester 1 Angkatan 2026 (Kelas A · B · C · D).
@@ -1222,7 +1223,7 @@ function LandingDashboard({ onSelectTopic, progress, navigate }) {
         <div className="bim-search-results">
           {results.map(t => (
             <button key={t.id} className="bim-search-result-btn" onClick={() => onSelectTopic(t.id)}>
-              🔍 {t.label} <Badge color="#64748b">{t.tm}</Badge>
+               {t.label} <Badge color="#64748b">{t.tm}</Badge>
             </button>
           ))}
         </div>
@@ -1236,15 +1237,15 @@ function LandingDashboard({ onSelectTopic, progress, navigate }) {
             cursor: 'pointer', fontWeight: 800, fontSize: 15, display: 'flex',
             alignItems: 'center', justifyContent: 'center', gap: 8,
             fontFamily: 'inherit', boxShadow: 'none' }}>
-          ✏️ Langsung ke Kuis
+          <i className="fa-solid fa-pencil" aria-hidden="true" /> Langsung ke Kuis
         </button>
         <button onClick={() => onSelectTopic('tenses')}
-          style={{ flex: 1, minWidth: 180, background: 'rgba(255,255,255,0.05)',
-            color: 'var(--text, #f0ede8)', border: '1px solid rgba(255,255,255,0.1)',
+          style={{ flex: 1, minWidth: 180, background: 'color-mix(in srgb, var(--text) 5%, transparent)',
+            color: 'var(--text, var(--text))', border: '1px solid var(--text-faint)',
             borderRadius: 2, padding: '.85rem 1.2rem',
             cursor: 'pointer', fontWeight: 700, fontSize: 15, display: 'flex',
             alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'inherit' }}>
-          📚 Mulai dari Grammar
+          <i className="fa-solid fa-book" aria-hidden="true" /> Mulai dari Grammar
         </button>
       </div>
 
@@ -1254,7 +1255,7 @@ function LandingDashboard({ onSelectTopic, progress, navigate }) {
           const done = n.topics.filter(t => progress[t.id]).length;
           return (
             <div key={n.category} className="bim-land-cat" style={{ borderTop: `3px solid ${n.color}` }}>
-              <div className="bim-land-cat-icon">{n.icon}</div>
+              <div className="bim-land-cat-icon"><Ico e={n.icon} /></div>
               <div className="bim-land-cat-title" style={{ color: n.color }}>{n.category}</div>
               <p className="bim-land-cat-desc">
                 {n.category === 'GRAMMAR' && 'Pelajari aturan dan pola kalimat bahasa Inggris.'}
@@ -1262,7 +1263,7 @@ function LandingDashboard({ onSelectTopic, progress, navigate }) {
                 {n.category === 'READING' && 'Belajar menemukan ide pokok, informasi detail, dan kesimpulan dari teks.'}
               </p>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '.65rem' }}>
-                <span style={{ fontSize: 12, color: '#8a857e' }}>{done}/{n.topics.length} topik selesai</span>
+                <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>{done}/{n.topics.length} topik selesai</span>
                 <Badge color={n.color}>{done}/{n.topics.length}</Badge>
               </div>
               <button className="bim-land-cat-btn" onClick={() => onSelectTopic(n.topics[0].id)}
@@ -1304,7 +1305,7 @@ export default function BahasaInggrisMateri() {
     setSidebarOpen(false);
     setProgress(prev => {
       const next = { ...prev, [id]: true };
-      try { localStorage.setItem('bi_materi_progress', JSON.stringify(next)); } catch {}
+      try { localStorage.setItem('bi_materi_progress', JSON.stringify(next)); } catch { /* abaikan */ }
       return next;
     });
     if (mainRef.current) mainRef.current.scrollTo(0, 0);
@@ -1342,13 +1343,13 @@ export default function BahasaInggrisMateri() {
           className={`bim-sb-dash${!activeTopic ? ' active' : ''}`}
           onClick={() => { setActiveTopic(null); setSidebarOpen(false); }}
         >
-          🏠 Dashboard
+          <i className="fa-solid fa-house" aria-hidden="true" /> Dashboard
         </button>
 
         {NAV_ITEMS.map(n => (
           <div key={n.category}>
             <div className="bim-sb-cat" style={{ color: n.color }}>
-              {n.icon} {n.category}
+              <Ico e={n.icon} /> {n.category}
             </div>
             {n.topics.map(t => (
               <button
@@ -1369,7 +1370,7 @@ export default function BahasaInggrisMateri() {
 
         <div className="bim-sb-quiz">
           <button className="bim-sb-quizbtn" onClick={() => navigate('/quiziz/bahasainggris')}>
-            ✏️ Mulai Kuis
+            <i className="fa-solid fa-pencil" aria-hidden="true" /> Mulai Kuis
           </button>
         </div>
       </aside>
@@ -1379,10 +1380,10 @@ export default function BahasaInggrisMateri() {
         {/* Mobile bar */}
         <div className="bim-mobile-bar">
           <button className="bim-mobile-toggler" onClick={() => setSidebarOpen(o => !o)}>
-            ☰ {activeTopic ? topicInfo?.label : 'Menu Materi'}
+             {activeTopic ? topicInfo?.label : 'Menu Materi'}
           </button>
           <button className="bim-mobile-toggler" onClick={() => navigate('/quiziz/bahasainggris')}>
-            ✏️ Kuis
+            <i className="fa-solid fa-pencil" aria-hidden="true" /> Kuis
           </button>
         </div>
 
@@ -1406,7 +1407,7 @@ export default function BahasaInggrisMateri() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', gap: 12, flexWrap: 'wrap' }}>
                 <h2 className="bim-h2">{topicInfo.label}</h2>
                 {progress[activeTopic]
-                  ? <Badge color="#34d399">✓ Selesai dibaca</Badge>
+                  ? <Badge color="var(--ok)">✓ Selesai dibaca</Badge>
                   : <button onClick={() => selectTopic(activeTopic)}
                       style={{ background: 'none', border: `1px solid ${catColor}44`, borderRadius: 2,
                         padding: '2px 12px', fontSize: 11.5, fontWeight: 700, color: catColor,

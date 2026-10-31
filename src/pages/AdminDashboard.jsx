@@ -1,4 +1,5 @@
 import '@/styles/dashboard.css';
+import ThemeToggle from '@/components/ThemeToggle';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PengeluaranTab from './Pengeluaran';
@@ -13,53 +14,40 @@ import {
 const ADMIN_EMAIL = 'aldokraksaan@gmail.com';
 
 const CSS = `
-  :root {
-    --bg: #0E0D0B;
-    --bg2: #0d0d0f;
-    --text: #ffffff;
-    --text-dim: #94a3b8;
-    --text-muted: #64748b;
-    --accent2: var(--accent);
-    --accent3: var(--accent);
-    --glass: rgba(255,255,255,0.03);
-    --glass2: rgba(255,255,255,0.06);
-    --gborder: rgba(255,255,255,0.08);
-    --gborder2: rgba(255,255,255,0.15);
-  }
   .da-app {
     display: flex;
-    min-height: 100vh;
+    min-height: 100dvh;
     background: var(--bg);
     color: var(--text);
     font-family: var(--font-body);
   }
   .da-sidebar {
     width: 260px;
-    min-height: 100vh;
-    background: rgba(255,255,255,0.02);
-    border-right: 1px solid rgba(255,255,255,0.07);
+    min-height: 100dvh;
+    background: var(--d-surface);
+    border-right: 1px solid var(--d-border);
     display: flex;
     flex-direction: column;
     padding: 28px 0;
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: 100dvh;
     overflow-y: auto;
     flex-shrink: 0;
   }
   .da-brand {
     padding: 0 24px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid var(--d-border);
     margin-bottom: 16px;
   }
   .da-brand-title {
     font-family: var(--font-display);
     font-size: 1.4rem;
-    color: #fff;
+    color: var(--d-text);
     margin: 0;
     display: flex; align-items: center; gap: 10px;
   }
-  .da-brand-title em { color: var(--accent); font-style: italic; }
+  .da-brand-title em { color: var(--accent-text); font-style: italic; }
   .da-brand-sub {
     font-size: 0.62rem; color: var(--text-dim);
     letter-spacing: 0.12em; text-transform: uppercase;
@@ -67,17 +55,17 @@ const CSS = `
   }
   .da-search-wrap {
     padding: 0 16px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid var(--d-border);
     margin-bottom: 12px;
     position: relative;
   }
   .da-search-input {
     width: 100%;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--d-surface);
+    border: 1px solid var(--d-border);
     border-radius: 2px;
     padding: 9px 12px 9px 34px;
-    color: #fff;
+    color: var(--d-text);
     font-family: var(--font-body);
     font-size: 0.8rem;
     outline: none;
@@ -99,7 +87,7 @@ const CSS = `
     top: calc(100% - 8px);
     left: 16px;
     right: 16px;
-    background: #1a1a2e;
+    background: var(--d-surface-2);
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     border-radius: 2px;
     z-index: 100;
@@ -110,18 +98,18 @@ const CSS = `
   .da-search-result-item {
     padding: 10px 14px;
     cursor: pointer;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--d-border);
     transition: background 0.15s;
   }
   .da-search-result-item:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
   .da-search-result-item:last-child { border-bottom: none; }
   .da-search-result-label { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 2px; }
-  .da-search-result-val { font-size: 0.85rem; color: #fff; font-weight: 500; }
+  .da-search-result-val { font-size: 0.85rem; color: var(--d-text); font-weight: 500; }
   .da-nav-section-label {
     padding: 4px 24px;
     font-size: 0.6rem; font-weight: 800;
     letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(255,255,255,0.25);
+    color: var(--d-faint);
     margin-bottom: 4px; margin-top: 12px;
   }
   .da-nav-item {
@@ -133,36 +121,36 @@ const CSS = `
     border-left: 3px solid transparent;
     transition: all 0.18s;
   }
-  .da-nav-item:hover { background: rgba(255,255,255,0.03); color: #fff; }
+  .da-nav-item:hover { background: var(--d-surface); color: var(--d-text); }
   .da-nav-item.active {
     background: color-mix(in srgb, var(--accent) 8%, transparent);
-    color: var(--accent);
+    color: var(--accent-text);
     border-left-color: var(--accent);
   }
   .da-nav-item i { width: 18px; text-align: center; font-size: 0.9rem; }
   .da-nav-badge {
     margin-left: auto;
     background: color-mix(in srgb, var(--accent) 15%, transparent);
-    color: var(--accent);
+    color: var(--accent-text);
     font-size: 0.65rem; font-weight: 700;
     padding: 2px 8px; border-radius: 2px;
   }
   .da-nav-badge-red {
-    background: rgba(239,68,68,0.15);
-    color: #f87171;
+    background: color-mix(in srgb, var(--d-bad) 15%, transparent);
+    color: var(--d-bad);
     animation: pulse-badge 2s infinite;
   }
   @keyframes pulse-badge { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
   .da-sidebar-footer {
     margin-top: auto;
     padding: 20px 24px;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid var(--d-border);
   }
   .da-btn-logout {
     width: 100%;
-    background: rgba(239,68,68,0.08);
-    border: 1px solid rgba(239,68,68,0.2);
-    color: #f87171;
+    background: color-mix(in srgb, var(--d-bad) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--d-bad) 20%, transparent);
+    color: var(--d-bad);
     padding: 10px 16px;
     border-radius: 2px;
     cursor: pointer; font-weight: 600;
@@ -170,10 +158,10 @@ const CSS = `
     display: flex; align-items: center; gap: 8px;
     transition: all 0.2s;
   }
-  .da-btn-logout:hover { background: rgba(239,68,68,0.15); }
+  .da-btn-logout:hover { background: color-mix(in srgb, var(--d-bad) 15%, transparent); }
   .da-main {
     flex: 1;
-    min-height: 100vh;
+    min-height: 100dvh;
     overflow-y: auto;
     padding: 40px 48px 80px;
   }
@@ -184,18 +172,18 @@ const CSS = `
   .da-page-header {
     margin-bottom: 32px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid var(--d-border);
     display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;
   }
   .da-page-title {
     font-family: var(--font-display);
-    font-size: 2.2rem; font-weight: 300; color: #fff; margin: 0 0 6px;
+    font-size: 2.2rem; font-weight: 300; color: var(--d-text); margin: 0 0 6px;
   }
-  .da-page-title em { color: var(--accent); font-style: italic; }
+  .da-page-title em { color: var(--accent-text); font-style: italic; }
   .da-page-sub { font-size: 0.82rem; color: var(--text-dim); margin: 0; }
   .da-panel {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--d-surface);
+    border: 1px solid var(--d-border);
     border-radius: 2px;
     padding: 28px;
 
@@ -203,10 +191,10 @@ const CSS = `
   }
   .da-panel-title {
     font-size: 1rem; font-weight: 700;
-    color: #fff; margin: 0 0 16px;
+    color: var(--d-text); margin: 0 0 16px;
     display: flex; align-items: center; gap: 10px;
   }
-  .da-panel-title i { color: var(--accent); }
+  .da-panel-title i { color: var(--accent-text); }
   .da-stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -214,8 +202,8 @@ const CSS = `
     margin-bottom: 28px;
   }
   .da-stat-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--d-surface);
+    border: 1px solid var(--d-border);
     border-radius: 2px; padding: 20px 22px;
   }
   .da-stat-label {
@@ -224,9 +212,9 @@ const CSS = `
     color: var(--text-dim); display: block; margin-bottom: 8px;
   }
   .da-stat-val {
-    font-size: 1.7rem; font-weight: 700; color: #fff; line-height: 1;
+    font-size: 1.7rem; font-weight: 700; color: var(--d-text); line-height: 1;
   }
-  .da-stat-accent { color: var(--accent); }
+  .da-stat-accent { color: var(--accent-text); }
   /* Revenue Chart */
   .da-chart-wrap {
     display: flex;
@@ -262,12 +250,12 @@ const CSS = `
     bottom: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    background: #1a1a2e;
+    background: var(--d-surface-2);
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     border-radius: 2px;
     padding: 6px 10px;
     font-size: 0.7rem;
-    color: #fff;
+    color: var(--d-text);
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
@@ -284,21 +272,21 @@ const CSS = `
     font-size: 0.68rem; font-weight: 700;
     letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--text-dim);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid var(--d-border);
   }
   .da-table td {
     padding: 13px 16px;
     font-size: 0.84rem; color: var(--text);
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--d-border);
     vertical-align: middle;
   }
-  .da-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+  .da-table tbody tr:hover { background: var(--d-surface); }
   .da-table tbody tr.expanded { background: color-mix(in srgb, var(--accent) 4%, transparent); }
   .da-expanded-row td { padding: 0; }
   .da-expanded-content {
     padding: 16px 20px;
     background: color-mix(in srgb, var(--accent) 3%, transparent);
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid var(--d-border);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
@@ -309,11 +297,11 @@ const CSS = `
     text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px;
   }
   .da-internal-notes {
-    background: rgba(251,191,36,0.06);
-    border: 1px solid rgba(251,191,36,0.15);
+    background: color-mix(in srgb, var(--d-warn) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--d-warn) 15%, transparent);
     border-radius: 2px;
     padding: 10px 12px;
-    color: #fff;
+    color: var(--d-text);
     font-family: var(--font-body);
     font-size: 0.85rem;
     width: 100%;
@@ -329,32 +317,32 @@ const CSS = `
     font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.05em;
   }
-  .da-status-pending { background: rgba(251,191,36,0.12); color: #fbbf24; }
-  .da-status-editing { background: rgba(96,165,250,0.12); color: #60a5fa; }
-  .da-status-review { background: rgba(167,139,250,0.12); color: var(--accent); }
-  .da-status-complete { background: rgba(74,222,128,0.12); color: #4ade80; }
-  .da-status-cancelled { background: rgba(248,113,113,0.12); color: #f87171; }
+  .da-status-pending { background: color-mix(in srgb, var(--d-warn) 12%, transparent); color: var(--d-warn); }
+  .da-status-editing { background: color-mix(in srgb, var(--d-info) 12%, transparent); color: var(--d-info); }
+  .da-status-review { background: color-mix(in srgb, var(--d-accent) 16%, transparent); color: var(--d-accent-text); }
+  .da-status-complete { background: color-mix(in srgb, var(--d-ok) 12%, transparent); color: var(--d-ok); }
+  .da-status-cancelled { background: color-mix(in srgb, var(--d-bad) 12%, transparent); color: var(--d-bad); }
   /* Priority badge */
-  .da-priority-high { color: #f87171; }
-  .da-priority-medium { color: #fbbf24; }
-  .da-priority-low { color: #4ade80; }
+  .da-priority-high { color: var(--d-bad); }
+  .da-priority-medium { color: var(--d-warn); }
+  .da-priority-low { color: var(--d-ok); }
   /* Filter pills */
   .da-filter-pills {
     display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
   }
   .da-pill {
     padding: 6px 16px; border-radius: 2px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--d-border-strong);
+    background: var(--d-surface);
     color: var(--text-dim);
     font-size: 0.78rem; font-weight: 600;
     cursor: pointer; transition: all 0.18s;
   }
-  .da-pill:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); color: #fff; }
+  .da-pill:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); color: var(--d-text); }
   .da-pill.active {
     background: color-mix(in srgb, var(--accent) 12%, transparent);
     border-color: color-mix(in srgb, var(--accent) 40%, transparent);
-    color: var(--accent);
+    color: var(--accent-text);
   }
   /* Bulk action bar */
   .da-bulk-bar {
@@ -366,7 +354,7 @@ const CSS = `
     margin-bottom: 16px;
   }
   .da-bulk-count {
-    font-size: 0.85rem; font-weight: 600; color: var(--accent);
+    font-size: 0.85rem; font-weight: 600; color: var(--accent-text);
   }
   /* Form fields */
   .da-field { display: grid; gap: 7px; margin-bottom: 16px; }
@@ -377,9 +365,9 @@ const CSS = `
   }
   .da-input, .da-textarea, .da-select {
     width: 100%;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 2px; color: #fff;
+    background: var(--d-surface);
+    border: 1px solid var(--d-border-strong);
+    border-radius: 2px; color: var(--d-text);
     padding: 11px 14px;
     font-family: var(--font-body); font-size: 0.92rem;
     outline: none; box-sizing: border-box;
@@ -409,9 +397,9 @@ const CSS = `
   }
   .da-link-input {
     flex: 1;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 2px; color: #fff;
+    background: var(--d-surface);
+    border: 1px solid var(--d-border);
+    border-radius: 2px; color: var(--d-text);
     padding: 8px 10px;
     font-family: var(--font-body); font-size: 0.8rem;
     outline: none;
@@ -422,16 +410,16 @@ const CSS = `
     font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
     text-transform: uppercase; color: var(--text-dim);
     padding: 10px 0 8px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid var(--d-border);
     margin-top: 8px;
     display: flex; align-items: center; gap: 8px;
   }
-  .da-section-divider i { color: var(--accent); font-size: 0.75rem; }
+  .da-section-divider i { color: var(--accent-text); font-size: 0.75rem; }
   /* Buttons */
   .da-btn {
     background: color-mix(in srgb, var(--accent) 10%, transparent);
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-    color: var(--accent);
+    color: var(--accent-text);
     padding: 10px 20px;
     border-radius: 2px;
     cursor: pointer;
@@ -442,31 +430,31 @@ const CSS = `
   .da-btn:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
   .da-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .da-btn-green {
-    background: rgba(34,197,94,0.1);
-    border-color: rgba(34,197,94,0.3);
-    color: #86efac;
+    background: color-mix(in srgb, var(--d-ok) 10%, transparent);
+    border-color: color-mix(in srgb, var(--d-ok) 30%, transparent);
+    color: var(--d-ok);
   }
-  .da-btn-green:hover { background: rgba(34,197,94,0.18); }
+  .da-btn-green:hover { background: color-mix(in srgb, var(--d-ok) 18%, transparent); }
   .da-btn-red {
-    background: rgba(239,68,68,0.08);
-    border-color: rgba(239,68,68,0.25);
-    color: #f87171;
+    background: color-mix(in srgb, var(--d-bad) 8%, transparent);
+    border-color: color-mix(in srgb, var(--d-bad) 25%, transparent);
+    color: var(--d-bad);
     padding: 6px 12px;
     font-size: 0.77rem;
   }
-  .da-btn-red:hover { background: rgba(239,68,68,0.15); }
+  .da-btn-red:hover { background: color-mix(in srgb, var(--d-bad) 15%, transparent); }
   .da-btn-yellow {
-    background: rgba(251,191,36,0.08);
-    border-color: rgba(251,191,36,0.25);
-    color: #fbbf24;
+    background: color-mix(in srgb, var(--d-warn) 8%, transparent);
+    border-color: color-mix(in srgb, var(--d-warn) 25%, transparent);
+    color: var(--d-warn);
   }
-  .da-btn-yellow:hover { background: rgba(251,191,36,0.14); }
+  .da-btn-yellow:hover { background: color-mix(in srgb, var(--d-warn) 14%, transparent); }
   .da-btn-sm {
     padding: 6px 12px; font-size: 0.77rem; border-radius: 2px;
   }
   .da-btn-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-  .da-msg-success { font-size: 0.85rem; color: #86efac; }
-  .da-msg-error { font-size: 0.85rem; color: #f87171; }
+  .da-msg-success { font-size: 0.85rem; color: var(--d-ok); }
+  .da-msg-error { font-size: 0.85rem; color: var(--d-bad); }
   .da-checkbox {
     width: 16px; height: 16px; cursor: pointer;
     accent-color: var(--accent);
@@ -479,23 +467,23 @@ const CSS = `
     padding: 24px;
   }
   .da-send-notif-box {
-    background: #0f0f1a;
+    background: var(--d-surface);
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     border-radius: 2px;
     padding: 28px;
     width: 100%; max-width: 480px;
   }
   .da-send-notif-title {
-    font-size: 1.1rem; font-weight: 700; color: #fff; margin: 0 0 20px;
+    font-size: 1.1rem; font-weight: 700; color: var(--d-text); margin: 0 0 20px;
     display: flex; align-items: center; gap: 10px;
   }
-  .da-send-notif-title i { color: var(--accent); }
+  .da-send-notif-title i { color: var(--accent-text); }
   .da-toggle-wrap {
     display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
   }
   .da-toggle {
     position: relative; width: 42px; height: 24px;
-    background: rgba(255,255,255,0.1); border-radius: 2px;
+    background: var(--d-hover); border-radius: 2px;
     cursor: pointer; transition: background 0.2s; flex-shrink: 0;
   }
   .da-toggle.on { background: color-mix(in srgb, var(--accent) 70%, transparent); }
@@ -514,8 +502,8 @@ const CSS = `
   }
   @media (max-width: 700px) { .da-cat-cols { grid-template-columns: 1fr; } }
   .da-cat-col {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: var(--d-surface);
+    border: 1px solid var(--d-border);
     border-radius: 2px; padding: 16px;
   }
   .da-cat-col-title {
@@ -523,24 +511,24 @@ const CSS = `
     text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px;
   }
   .da-cat-col-val {
-    font-size: 1.5rem; font-weight: 700; color: #fff;
+    font-size: 1.5rem; font-weight: 700; color: var(--d-text);
   }
   .da-cat-col-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
   .da-deadline-warn {
-    background: rgba(239,68,68,0.07);
-    border: 1px solid rgba(239,68,68,0.25);
+    background: color-mix(in srgb, var(--d-bad) 7%, transparent);
+    border: 1px solid color-mix(in srgb, var(--d-bad) 25%, transparent);
     border-radius: 2px; padding: 14px 18px;
     margin-bottom: 20px;
     display: flex; align-items: center; gap: 12px;
-    color: #f87171; font-size: 0.85rem;
+    color: var(--d-bad); font-size: 0.85rem;
   }
   .da-editor-order-select { display: grid; gap: 8px; margin-bottom: 24px; }
   .da-qris-preview { margin-top: 12px; }
   .da-qris-preview img {
     width: 200px; height: 200px;
     object-fit: contain;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 2px; background: rgba(255,255,255,0.05);
+    border: 1px solid var(--d-border-strong);
+    border-radius: 2px; background: var(--d-surface-2);
   }
   .da-customer-table-wrap { overflow-x: auto; }
 
@@ -551,17 +539,17 @@ const CSS = `
     .da-app { flex-direction: column; }
     .da-mobilebar {
       display: block; position: sticky; top: 0; z-index: 60;
-      background: rgba(7,7,9,0.92);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: color-mix(in srgb, var(--d-bg) 92%, transparent);
+      border-bottom: 1px solid var(--d-border);
       padding: calc(env(safe-area-inset-top, 0px) + 10px) 14px 0;
     }
     .da-mobilebar-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 8px; }
     .da-mobilebar-top b { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; display: flex; align-items: center; gap: 8px; }
-    .da-mobilebar-top b em { color: var(--accent); }
-    .da-mobilebar-top button { height: 34px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-family: var(--font-body); font-size: 0.74rem; color: #f87171; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
+    .da-mobilebar-top b em { color: var(--accent-text); }
+    .da-mobilebar-top button:not(.theme-toggle) { height: 34px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-family: var(--font-body); font-size: 0.74rem; color: var(--d-bad); background: color-mix(in srgb, var(--d-bad) 8%, transparent); border: 1px solid color-mix(in srgb, var(--d-bad) 30%, transparent); }
     .da-mobilebar-nav { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 10px; scrollbar-width: none; }
     .da-mobilebar-nav::-webkit-scrollbar { display: none; }
-    .da-mobilebar-nav button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-family: var(--font-body); font-size: 0.78rem; color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
+    .da-mobilebar-nav button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 2px; cursor: pointer; font-family: var(--font-body); font-size: 0.78rem; color: var(--text-dim); background: var(--d-surface); border: 1px solid var(--d-border-strong); white-space: nowrap; }
     .da-mobilebar-nav button.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
     .da-main { padding: 18px 14px calc(60px + env(safe-area-inset-bottom, 0px)); overflow-x: hidden; }
     .da-panel { padding: 16px; border-radius: 2px; }
@@ -745,7 +733,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0E0D0B', color: '#666', fontSize: '0.9rem', letterSpacing: '0.1em' }}>
+      <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--d-bg)', color: 'var(--d-muted)', fontSize: '0.9rem', letterSpacing: '0.1em' }}>
         LOADING...
       </div>
     );
@@ -765,12 +753,12 @@ export default function AdminDashboard() {
   return (
     <>
       <style>{CSS}</style>
-      <div className="da-app dash" data-theme="dark">
+      <div className="da-app dash">
         {/* Sidebar */}
         <div className="da-sidebar">
           <div className="da-brand">
             <h2 className="da-brand-title">
-              <i className="fa-solid fa-chart-line" /> Syn<em>nw</em>
+              <i className="fa-solid fa-chart-line" /> <span>Syn<em>nw</em></span>
             </h2>
             <span className="da-brand-sub">Admin Dashboard</span>
           </div>
@@ -819,6 +807,7 @@ export default function AdminDashboard() {
           ))}
 
           <div className="da-sidebar-footer">
+            <ThemeToggle />
             <button className="da-btn-logout" onClick={handleLogout}>
               <i className="fa-solid fa-sign-out-alt" /> Logout
             </button>
@@ -828,8 +817,8 @@ export default function AdminDashboard() {
         {/* Mobile top bar */}
         <div className="da-mobilebar">
           <div className="da-mobilebar-top">
-            <b><i className="fa-solid fa-chart-line" /> Syn<em>nw</em> Admin</b>
-            <button onClick={handleLogout}><i className="fa-solid fa-sign-out-alt" /> Logout</button>
+            <b><i className="fa-solid fa-chart-line" /> <span>Syn<em>nw</em></span> Admin</b>
+            <span style={{ display: 'flex', gap: 8 }}><ThemeToggle label={false} /><button onClick={handleLogout}><i className="fa-solid fa-sign-out-alt" /> Logout</button></span>
           </div>
           <div className="da-mobilebar-nav">
             {NAV_ITEMS.map(item => (
@@ -1234,7 +1223,7 @@ function OrdersTab({ orders, users }) {
                         onChange={() => toggleSelect(order.id)} />
                     </td>
                     <td>
-                      <span style={{ cursor: 'pointer', color: 'var(--accent)', fontWeight: 600 }}
+                      <span style={{ cursor: 'pointer', color: 'var(--accent-text)', fontWeight: 600 }}
                         onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}>
                         {order.projectName || 'N/A'}
                       </span>
@@ -1267,9 +1256,9 @@ function OrdersTab({ orders, users }) {
                         onChange={e => handleFieldUpdate(order.id, 'priority', e.target.value)}
                       >
                         <option value="">—</option>
-                        <option value="high">🔴 Tinggi</option>
-                        <option value="medium">🟡 Sedang</option>
-                        <option value="low">🟢 Rendah</option>
+                        <option value="high"><i className="fa-solid fa-circle ico-bad" aria-hidden="true" /> Tinggi</option>
+                        <option value="medium"> Sedang</option>
+                        <option value="low"><i className="fa-solid fa-circle ico-ok" aria-hidden="true" /> Rendah</option>
                       </select>
                     </td>
                     <td>
@@ -1300,13 +1289,13 @@ function OrdersTab({ orders, users }) {
                           <div>
                             <div className="da-expand-section-title">Detail Order</div>
                             <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)', margin: '0 0 6px' }}>
-                              <strong style={{ color: '#fff' }}>WA User:</strong> {order.phone || '—'}
+                              <strong style={{ color: 'var(--d-text)' }}>WA User:</strong> {order.phone || '—'}
                             </p>
                             <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)', margin: '0 0 6px' }}>
-                              <strong style={{ color: '#fff' }}>Email:</strong> {order.email || '—'}
+                              <strong style={{ color: 'var(--d-text)' }}>Email:</strong> {order.email || '—'}
                             </p>
                             <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)', margin: '0 0 6px' }}>
-                              <strong style={{ color: '#fff' }}>Dibuat:</strong> {order.timestamp?.toDate?.().toLocaleString('id-ID') || '—'}
+                              <strong style={{ color: 'var(--d-text)' }}>Dibuat:</strong> {order.timestamp?.toDate?.().toLocaleString('id-ID') || '—'}
                             </p>
                             {order.cartItems && (
                               <>
@@ -1343,7 +1332,7 @@ function OrdersTab({ orders, users }) {
               <i className="fa-solid fa-bell" /> Kirim Notifikasi ke Klien
             </div>
             <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginBottom: 16 }}>
-              Order: <strong style={{ color: '#fff' }}>{notifModal.projectName}</strong>
+              Order: <strong style={{ color: 'var(--d-text)' }}>{notifModal.projectName}</strong>
             </p>
             <div className="da-field">
               <label>Tipe Notifikasi</label>
@@ -1395,7 +1384,7 @@ function InternalNotesField({ order, onSave }) {
         onBlur={() => { onSave(order.id, val); setSaved(true); }}
         placeholder="Catatan internal untuk order ini (tidak terlihat klien)..."
       />
-      {saved && <span style={{ fontSize: '0.72rem', color: '#4ade80' }}>✓ Tersimpan</span>}
+      {saved && <span style={{ fontSize: '0.72rem', color: 'var(--d-ok)' }}>✓ Tersimpan</span>}
     </div>
   );
 }
@@ -1553,10 +1542,10 @@ function PricesTab({ prices }) {
   };
 
   const STATUS_COLORS = {
-    active: '#4ade80',
-    coming_soon: '#fbbf24',
-    full_booked: '#f87171',
-    inactive: '#64748b',
+    active: 'var(--d-ok)',
+    coming_soon: 'var(--d-warn)',
+    full_booked: 'var(--d-bad)',
+    inactive: 'var(--d-faint)',
   };
   const STATUS_LABELS = { active: 'Active', coming_soon: 'Coming Soon', full_booked: 'Full Booked', inactive: 'Inactive' };
 
@@ -1580,7 +1569,7 @@ function PricesTab({ prices }) {
         </div>
       </div>
 
-      {seedMsg && <p style={{ color: '#4ade80', fontSize: '0.85rem', marginBottom: 12 }}>{seedMsg}</p>}
+      {seedMsg && <p style={{ color: 'var(--d-ok)', fontSize: '0.85rem', marginBottom: 12 }}>{seedMsg}</p>}
 
       {showForm && (
         <div className="da-panel">
@@ -1679,7 +1668,7 @@ function PricesTab({ prices }) {
                   <td>
                     <select
                       className="da-select"
-                      style={{ maxWidth: 130, padding: '5px 8px', fontSize: '0.8rem', color: STATUS_COLORS[price.status] || '#fff' }}
+                      style={{ maxWidth: 130, padding: '5px 8px', fontSize: '0.8rem', color: STATUS_COLORS[price.status] || 'var(--d-text)' }}
                       value={price.status || 'active'}
                       onChange={e => handleStatusChange(price.id, e.target.value)}
                     >
@@ -1984,12 +1973,12 @@ function DashboardEditorTab({ orders }) {
               <div className="da-toggle-wrap" style={{ cursor: 'pointer' }} onClick={() => setDpPaid(p => !p)}>
                 <div className={`da-toggle ${dpPaid ? 'on' : ''}`} />
                 <span className="da-toggle-label">DP Sudah Dibayar?</span>
-                {dpPaid && <span style={{ fontSize: '0.75rem', color: '#4ade80' }}>✓ YA</span>}
+                {dpPaid && <span style={{ fontSize: '0.75rem', color: 'var(--d-ok)' }}>✓ YA</span>}
               </div>
               <div className="da-toggle-wrap" style={{ cursor: 'pointer' }} onClick={() => setFinalPaid(p => !p)}>
                 <div className={`da-toggle ${finalPaid ? 'on' : ''}`} />
                 <span className="da-toggle-label">Pembayaran Final Lunas?</span>
-                {finalPaid && <span style={{ fontSize: '0.75rem', color: '#4ade80' }}>✓ YA</span>}
+                {finalPaid && <span style={{ fontSize: '0.75rem', color: 'var(--d-ok)' }}>✓ YA</span>}
               </div>
             </div>
             <div className="da-field">
@@ -2033,7 +2022,7 @@ function QrisTab() {
     try {
       await setDoc(doc(db, 'settings', 'qris'), { imageUrl: qrisUrl.trim(), updatedAt: serverTimestamp() });
       setMsg('✓ QRIS global berhasil disimpan!');
-    } catch (e) { setMsg('Gagal menyimpan.'); }
+    } catch { setMsg('Gagal menyimpan.'); }
     setSaving(false);
     setTimeout(() => setMsg(''), 3000);
   };

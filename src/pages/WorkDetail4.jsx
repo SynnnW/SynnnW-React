@@ -127,7 +127,7 @@ function ImageModal({ src, onClose }) {
   }, [onClose]);
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'k4ModalIn 0.25s ease' }}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 'var(--z-modal)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'k4ModalIn 0.25s ease' }}>
       <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.88)', }} />
       <div style={{ position: 'relative', zIndex: 1, padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
         <button
@@ -492,7 +492,7 @@ export default function WorkDetail4({ t = {} }) {
         }
         .k4-cta::after {
           content: ''; position: absolute; top: 0; left: 15%; right: 15%;
-          height: 1px; background: linear-gradient(90deg, transparent, rgba(167,139,250,0.5), transparent);
+          height: 1px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 50%, transparent), transparent);
         }
         .k4-cta-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.28em;
           text-transform: uppercase; color: var(--accent2); margin-bottom: 14px;

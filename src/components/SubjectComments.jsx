@@ -18,13 +18,13 @@ const CSS = `
 /* ── Shared ── */
 .qzc-wrap      { margin-top: 0; }
 .qzc-list      { display: flex; flex-direction: column; gap: 10px; }
-.qzc-item      { background: rgba(255,255,255,0.045);
+.qzc-item      { background: var(--nm-bg);
 
-                 border: 1px solid rgba(255,255,255,0.09);
+                 border: 1px solid var(--border2);
                  border-radius: 2px; padding: 11px 14px;
-                 box-shadow: 0 6px 18px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05); }
+                 box-shadow: 0 6px 18px rgba(0,0,0,0.2), inset 0 1px 0 color-mix(in srgb, var(--text) 5%, transparent); }
 .qzc-header    { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
-.qzc-name      { font-size: 0.78rem; font-weight: 600; color: #c9c9d2; }
+.qzc-name      { font-size: 0.78rem; font-weight: 600; color: var(--text-dim); }
 .qzc-anon      { font-size: 0.68rem; color: rgba(160,160,180,0.5); }
 .qzc-time      { font-size: 0.68rem; color: rgba(140,140,160,0.5); margin-left: auto; }
 .qzc-text      { font-size: 0.83rem; color: #e0e0ea; line-height: 1.55; word-break: break-word; }
@@ -34,28 +34,28 @@ const CSS = `
 .qzc-empty     { font-size: 0.82rem; color: rgba(140,140,160,0.5); text-align: center;
                  padding: 18px 0; }
 .qzc-form      { display: flex; gap: 8px; margin-top: 12px; }
-.qzc-input     { flex: 1; background: rgba(255,255,255,0.05);
+.qzc-input     { flex: 1; background: color-mix(in srgb, var(--nm-bg) 94%, var(--text));
 
-                 border: 1px solid rgba(255,255,255,0.12);
+                 border: 1px solid var(--border2);
                  border-radius: 2px; padding: 9px 12px; color: #e0e0ea; font-size: 0.82rem;
                  outline: none; resize: none; font-family: inherit; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
 .qzc-input::placeholder { color: rgba(160,160,180,0.5); }
-.qzc-input:focus { border-color: rgba(139,123,255,0.55); background: rgba(255,255,255,0.08); box-shadow: 0 0 0 3px rgba(139,123,255,0.15); }
-.qzc-submit    { background: rgba(139,123,255,0.22);
-                 border: 1px solid rgba(139,123,255,0.4);
+.qzc-input:focus { border-color: color-mix(in srgb, var(--accent) 55%, transparent); background: color-mix(in srgb, var(--nm-bg) 88%, var(--text)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent); }
+.qzc-submit    { background: color-mix(in srgb, var(--accent) 22%, transparent);
+                 border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
                  color: #c7bdff; border-radius: 2px; padding: 9px 16px; cursor: pointer;
                  font-size: 0.8rem; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
-.qzc-submit:hover:not(:disabled) { background: rgba(139,123,255,0.34); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(139,123,255,0.25); }
+.qzc-submit:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 34%, transparent); transform: translateY(-1px); box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 25%, transparent); }
 .qzc-submit:disabled { opacity: 0.4; cursor: not-allowed; }
 .qzc-hint      { font-size: 0.72rem; color: rgba(130,130,150,0.6); margin-top: 5px; }
 .qzc-login-note { font-size: 0.75rem; color: rgba(130,130,150,0.6); margin-top: 10px; }
 
 /* ── Toggle mode (quiz tab) ── */
-.qzc-toggle       { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+.qzc-toggle       { background: var(--nm-bg); border: 1px solid var(--border2);
                     border-radius: 2px; color: rgba(200,200,215,0.8);
                     font-size: 0.78rem; cursor: pointer; padding: 6px 14px;
                     display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
-.qzc-toggle:hover { color: #e0e0ea; background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.16); }
+.qzc-toggle:hover { color: #e0e0ea; background: color-mix(in srgb, var(--nm-bg) 94%, var(--text)); border-color: var(--border2); }
 
 /* ── YouTube mode (subjects screen) ── */
 .qzc-yt-wrap    { padding: 28px 0 8px; }
@@ -64,18 +64,18 @@ const CSS = `
 .qzc-yt-title   { font-size: 0.95rem; font-weight: 700; color: #e0e0ea;
                   display: flex; align-items: center; gap: 8px; }
 .qzc-yt-count   { font-size: 0.8rem; font-weight: 400; color: rgba(160,160,180,0.7); }
-.qzc-yt-expand  { background: rgba(139,123,255,0.08);
-                  border: 1px solid rgba(139,123,255,0.32);
+.qzc-yt-expand  { background: color-mix(in srgb, var(--accent) 8%, transparent);
+                  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
                   color: #b0a4ff; border-radius: 2px; padding: 6px 15px;
                   font-size: 0.75rem; font-weight: 600; cursor: pointer;
                   transition: all 0.2s; white-space: nowrap; }
-.qzc-yt-expand:hover { background: rgba(139,123,255,0.18); border-color: rgba(139,123,255,0.55); transform: translateY(-1px); }
+.qzc-yt-expand:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); transform: translateY(-1px); }
 .qzc-yt-divider { display: flex; align-items: center; gap: 10px;
-                  margin: 12px 0; color: rgba(139,123,255,0.5); font-size: 0.72rem;
+                  margin: 12px 0; color: color-mix(in srgb, var(--accent) 50%, transparent); font-size: 0.72rem;
                   font-weight: 600; letter-spacing: 0.06em; }
 .qzc-yt-divider::before, .qzc-yt-divider::after {
-  content: ''; flex: 1; height: 1px; background: rgba(139,123,255,0.18); }
-.qzc-yt-form-wrap { margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.07);
+  content: ''; flex: 1; height: 1px; background: color-mix(in srgb, var(--accent) 18%, transparent); }
+.qzc-yt-form-wrap { margin-top: 16px; border-top: 1px solid var(--border);
                     padding-top: 14px; }
 .qzc-yt-form-title { font-size: 0.75rem; font-weight: 600; color: rgba(160,160,180,0.6);
                      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
@@ -95,7 +95,7 @@ function CommentItem({ c, user, onDelete }) {
     <div className="qzc-item">
       <div className="qzc-header">
         <span className="qzc-name">{c.nickname}</span>
-        {c.isAnon && <span className="qzc-anon">👤 anonim</span>}
+        {c.isAnon && <span className="qzc-anon"><i className="fa-solid fa-user" aria-hidden="true" /> anonim</span>}
         <span className="qzc-time">{timeAgo(c.createdAt)}</span>
         {user?.uid === c.uid && (
           <button className="qzc-del" onClick={() => onDelete(c.id, c.uid)} title="Hapus">✕</button>
@@ -108,7 +108,7 @@ function CommentItem({ c, user, onDelete }) {
 
 function CommentForm({ user, text, setText, sending, onSend }) {
   if (!user) {
-    return <div className="qzc-login-note">🔐 Login dulu untuk ikut berkomentar</div>;
+    return <div className="qzc-login-note"><i className="fa-solid fa-lock" aria-hidden="true" /> Login dulu untuk ikut berkomentar</div>;
   }
   return (
     <div>
@@ -202,7 +202,7 @@ export default function SubjectComments({
         {/* Header */}
         <div className="qzc-yt-header">
           <div className="qzc-yt-title">
-            💬 Komentar
+            <i className="fa-solid fa-comment" aria-hidden="true" /> Komentar
             <span className="qzc-yt-count">{comments.length}</span>
           </div>
           {!expanded && hiddenCount > 0 && (
@@ -221,7 +221,7 @@ export default function SubjectComments({
         <div className="qzc-list">
           {comments.length === 0 ? (
             <div className="qzc-empty">
-              Belum ada komentar. Jadilah yang pertama! 👋
+              Belum ada komentar. Jadilah yang pertama! 
             </div>
           ) : (
             visible.map(c => (
@@ -245,7 +245,7 @@ export default function SubjectComments({
 
         {/* Form tulis komentar */}
         <div className="qzc-yt-form-wrap">
-          <div className="qzc-yt-form-title">✏️ Tulis Komentar</div>
+          <div className="qzc-yt-form-title"><i className="fa-solid fa-pencil" aria-hidden="true" /> Tulis Komentar</div>
           <CommentForm
             user={user}
             text={text}
@@ -264,14 +264,14 @@ export default function SubjectComments({
       <style>{CSS}</style>
 
       <button className="qzc-toggle" onClick={() => setOpen(o => !o)}>
-        💬 {comments.length} komentar {open ? '▲' : '▼'}
+        <i className="fa-solid fa-comment" aria-hidden="true" /> {comments.length} komentar {open ? '▲' : '▼'}
       </button>
 
       {open && (
         <>
           <div className="qzc-list" style={{ marginTop: 10, maxHeight: 220, overflowY: 'auto', scrollbarWidth: 'thin' }}>
             {comments.length === 0
-              ? <div className="qzc-empty">Belum ada komentar. Jadilah yang pertama! 👋</div>
+              ? <div className="qzc-empty">Belum ada komentar. Jadilah yang pertama! <i className="fa-solid fa-hand" aria-hidden="true" /></div>
               : comments.map(c => (
                 <CommentItem key={c.id} c={c} user={user} onDelete={handleDelete} />
               ))

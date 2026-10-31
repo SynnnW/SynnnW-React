@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import TRANSLATIONS from '../data/translations';
+import { getTheme, applyTheme, setTheme, hasManualTheme, THEME_EVENT } from '../lib/theme';
 
 /* ══════════════════════════════════════════════════════
    useTheme
@@ -8,41 +9,28 @@ import TRANSLATIONS from '../data/translations';
    — Listens for system changes if no manual override
 ══════════════════════════════════════════════════════ */
 export function useTheme() {
-  const [theme, setTheme] = useState(() => {
-    // 1. User pernah milih manual → pakai itu
-    const saved = localStorage.getItem('synw-theme');
-    if (saved) return saved;
-    // 2. Belum pernah → ikutin OS/browser
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
+  const [theme, setThemeState] = useState(getTheme);
 
-  // Sinkronisasi ke <html data-theme="...">
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+  // Sinkronisasi ke <html data-theme="..."> + <meta theme-color>
+  useEffect(() => { applyTheme(theme); }, [theme]);
 
-  // Dengarkan perubahan sistem — hanya aktif jika user BELUM override manual
+  // Ikuti perubahan dari tempat lain (ThemeToggle di dashboard, tab lain) dan dari OS
+  // (OS hanya dipakai bila pengguna belum memilih manual).
   useEffect(() => {
+    const onChange = () => setThemeState(getTheme());
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleSysChange = (e) => {
-      const manual = localStorage.getItem('synw-theme');
-      if (!manual) {
-        // Belum ada pilihan manual — ikutin sistem
-        setTheme(e.matches ? 'dark' : 'light');
-      }
+    const onSys = () => { if (!hasManualTheme()) setThemeState(getTheme()); };
+    window.addEventListener(THEME_EVENT, onChange);
+    window.addEventListener('storage', onChange);
+    mq.addEventListener('change', onSys);
+    return () => {
+      window.removeEventListener(THEME_EVENT, onChange);
+      window.removeEventListener('storage', onChange);
+      mq.removeEventListener('change', onSys);
     };
-    mq.addEventListener('change', handleSysChange);
-    return () => mq.removeEventListener('change', handleSysChange);
   }, []);
 
-  const toggleTheme = () => {
-    setTheme(prev => {
-      const next = prev === 'dark' ? 'light' : 'dark';
-      // Simpan sebagai override manual
-      localStorage.setItem('synw-theme', next);
-      return next;
-    });
-  };
+  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
   return { theme, toggleTheme };
 }
@@ -71,6 +59,8 @@ export function useLang() {
       return next;
     });
   };
+
+  useEffect(() => { document.documentElement.setAttribute('lang', lang); }, [lang]);
 
   const t = TRANSLATIONS[lang];
 

@@ -10,28 +10,28 @@ import { useEffect, useState } from 'react';
  */
 const TYPE_CONFIG = {
   success: {
-    bg: 'rgba(74, 222, 128, 0.1)',
-    border: 'rgba(74, 222, 128, 0.35)',
+    bg: 'color-mix(in srgb, var(--ok) 10%, transparent)',
+    border: 'color-mix(in srgb, var(--ok) 35%, transparent)',
     icon: '✓',
-    color: '#4ade80',
+    color: 'var(--ok)',
   },
   error: {
-    bg: 'rgba(248, 113, 113, 0.1)',
-    border: 'rgba(248, 113, 113, 0.35)',
+    bg: 'color-mix(in srgb, var(--bad) 10%, transparent)',
+    border: 'color-mix(in srgb, var(--bad) 35%, transparent)',
     icon: '✕',
-    color: '#f87171',
+    color: 'var(--bad)',
   },
   warning: {
-    bg: 'rgba(251, 191, 36, 0.1)',
-    border: 'rgba(251, 191, 36, 0.35)',
+    bg: 'color-mix(in srgb, var(--warn) 10%, transparent)',
+    border: 'color-mix(in srgb, var(--warn) 35%, transparent)',
     icon: '⚠',
-    color: '#fbbf24',
+    color: 'var(--warn)',
   },
   info: {
     bg: 'color-mix(in srgb, var(--accent) 10%, transparent)',
     border: 'color-mix(in srgb, var(--accent) 35%, transparent)',
     icon: 'ℹ',
-    color: 'var(--accent)',
+    color: 'var(--accent-text)',
   },
 };
 
@@ -119,7 +119,7 @@ function ToastItem({ toast, onRemove }) {
           fontFamily: "var(--font-body)",
           fontSize: '0.85rem',
           fontWeight: 500,
-          color: 'rgba(255, 255, 255, 0.88)',
+          color: 'var(--text)',
           lineHeight: '1.5',
           flex: 1,
           wordBreak: 'break-word',
@@ -144,7 +144,7 @@ export function ToastContainer({ toasts, onRemove }) {
         position: 'fixed',
         bottom: '24px',
         right: '24px',
-        zIndex: 99990,
+        zIndex: 'var(--z-toast)',
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',

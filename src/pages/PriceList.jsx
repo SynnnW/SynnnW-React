@@ -16,12 +16,12 @@ const CSS = `
 .rv-d4 { transition-delay: 0.32s; }
 
 /* ── Page ── */
-.pl-page { min-height: 100vh; background: var(--bg); padding-top: 64px; }
+.pl-page { min-height: 100dvh; background: var(--bg); padding-top: 64px; }
 
 /* ── Orbs ── */
 .pl-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(90px); }
 .pl-orb1 { width: 520px; height: 520px; background: transparent; top: -140px; left: -120px; }
-.pl-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(167,139,250,0.09) 0%, transparent 65%); bottom: -80px; right: 5%; }
+.pl-orb2 { width: 380px; height: 380px; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 9%, transparent) 0%, transparent 65%); bottom: -80px; right: 5%; }
 .pl-orb3 { width: 220px; height: 220px; background: transparent; top: 45%; left: 45%; }
 
 /* ── Hero ── */
@@ -76,7 +76,7 @@ const CSS = `
 @keyframes fabIn { from{opacity:0;transform:scale(0.7) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
 .pl-cart-fab:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: none; }
 .pl-cart-count {
-  background: var(--bg2); color: var(--accent);
+  background: var(--bg2); color: var(--accent-text);
   border-radius: 50%; width: 22px; height: 22px;
   display: flex; align-items: center; justify-content: center;
   font-size: 0.66rem; font-weight: 800; flex-shrink: 0;
@@ -130,8 +130,8 @@ const CSS = `
   font-size: 0.8rem; color: var(--text-dim);
   cursor: pointer; transition: all 0.25s;
 }
-.pl-wish-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.08); }
-.pl-wish-btn.pl-wished { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.1); }
+.pl-wish-btn:hover { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, transparent); background: color-mix(in srgb, var(--bad) 8%, transparent); }
+.pl-wish-btn.pl-wished { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, transparent); background: color-mix(in srgb, var(--bad) 10%, transparent); }
 
 /* Card body */
 .pl-card-body {
@@ -179,23 +179,23 @@ const CSS = `
 .pl-btn-notify {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
-  background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.25);
+  background: color-mix(in srgb, var(--warn) 8%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 25%, transparent);
   border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
-  color: rgba(251,191,36,0.85); transition: all 0.25s;
+  color: color-mix(in srgb, var(--warn) 85%, transparent); transition: all 0.25s;
 }
-.pl-btn-notify:hover { background: rgba(251,191,36,0.14); }
+.pl-btn-notify:hover { background: color-mix(in srgb, var(--warn) 14%, transparent); }
 .pl-btn-discuss {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
-  background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25);
+  background: color-mix(in srgb, var(--ok) 8%, transparent); border: 1px solid color-mix(in srgb, var(--ok) 25%, transparent);
   border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
-  color: rgba(74,222,128,0.85); transition: all 0.25s;
+  color: color-mix(in srgb, var(--ok) 85%, transparent); transition: all 0.25s;
 }
-.pl-btn-discuss:hover { background: rgba(74,222,128,0.14); }
+.pl-btn-discuss:hover { background: color-mix(in srgb, var(--ok) 14%, transparent); }
 
 /* ── Qty control ── */
 .pl-qty-control {
@@ -266,7 +266,7 @@ const CSS = `
 .pl-sheet-price { font-size: 1.4rem; font-weight: 700; color: var(--text); }
 .pl-sheet-unit { font-size: 0.78rem; color: var(--text-dim); }
 .pl-sheet-orig { font-size: 0.9rem; color: var(--text-dim); text-decoration: line-through; opacity: 0.55; }
-.pl-sheet-price-soon { font-size: 1.1rem; font-weight: 700; color: rgba(251,191,36,0.8); }
+.pl-sheet-price-soon { font-size: 1.1rem; font-weight: 700; color: color-mix(in srgb, var(--warn) 80%, transparent); }
 
 .pl-sheet-close {
   width: 36px; height: 36px; border-radius: 50%;
@@ -282,9 +282,9 @@ const CSS = `
 .pl-sheet-desc { display: flex; flex-direction: column; gap: 4px; margin-bottom: 18px; }
 .pl-sheet-desc p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.75; margin: 0; }
 .pl-sheet-feat { color: var(--text) !important; font-size: 0.82rem !important; }
-.pl-sheet-warn { color: rgba(251,191,36,0.85) !important; font-style: italic; }
+.pl-sheet-warn { color: color-mix(in srgb, var(--warn) 85%, transparent) !important; font-style: italic; }
 .pl-sheet-tip { color: var(--accent3) !important; font-size: 0.8rem !important; }
-.pl-sheet-soon-note { color: rgba(251,191,36,0.75) !important; font-size: 0.8rem !important; }
+.pl-sheet-soon-note { color: color-mix(in srgb, var(--warn) 75%, transparent) !important; font-size: 0.8rem !important; }
 
 .pl-sheet-syarat {
   display: flex; align-items: flex-start; gap: 10px;
@@ -316,8 +316,8 @@ const CSS = `
   font-size: 1rem; color: var(--text-dim);
   cursor: pointer; transition: all 0.25s; flex-shrink: 0;
 }
-.pl-sheet-btn-wish:hover { color: #f87171; border-color: rgba(248,113,113,0.4); }
-.pl-sheet-btn-wish.pl-wished { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.08); }
+.pl-sheet-btn-wish:hover { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, transparent); }
+.pl-sheet-btn-wish.pl-wished { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, transparent); background: color-mix(in srgb, var(--bad) 8%, transparent); }
 
 /* ── Cart items ── */
 .pl-cart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
@@ -341,18 +341,18 @@ const CSS = `
 .pl-card-full { opacity: 0.65; }
 .pl-card-full:hover { transform: none; }
 .pl-badge-full {
-  background: rgba(239,68,68,0.12);
-  border: 1px solid rgba(239,68,68,0.3);
-  color: rgba(239,68,68,0.9);
+  background: color-mix(in srgb, var(--bad) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bad) 30%, transparent);
+  color: color-mix(in srgb, var(--bad) 90%, transparent);
 }
 .pl-btn-full {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 10px;
-  background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25);
+  background: color-mix(in srgb, var(--bad) 8%, transparent); border: 1px solid color-mix(in srgb, var(--bad) 25%, transparent);
   border-radius: 2px; cursor: not-allowed;
   font-family: var(--font-body);
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
-  color: rgba(239,68,68,0.7);
+  color: color-mix(in srgb, var(--bad) 70%, transparent);
 }
 .pl-login-fab {
   position: fixed; top: 80px; right: 24px; z-index: 100;
@@ -363,7 +363,7 @@ const CSS = `
   border-radius: 2px; cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.78rem; font-weight: 700;
-  color: var(--accent); transition: all 0.25s;
+  color: var(--accent-text); transition: all 0.25s;
 }
 .pl-login-fab:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); }
 
@@ -456,8 +456,8 @@ const CSS = `
 .pl-page.bn { padding: 112px var(--bn-pad) 90px; background: transparent; }
 .pl-bn .pl-hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
 .pl-bn .pl-hero-pill { background: var(--glass2); border: 1px solid var(--border2); }
-.pl-bn .pl-hot-btn { color: #fff; border-color: rgba(255,255,255,0.55); align-self: flex-start; position: relative; z-index: 1; }
-.pl-bn .pl-hot-btn:hover { background: rgba(255,255,255,0.18); border-color: #fff; }
+.pl-bn .pl-hot-btn { color: var(--text); border-color: var(--border2); align-self: flex-start; position: relative; z-index: 1; }
+.pl-bn .pl-hot-btn:hover { background: color-mix(in srgb, var(--text) 18%, transparent); border-color: var(--text); }
 .pl-bn .pl-currency-bar { padding: 14px 24px; border: 1px solid var(--border2); border-radius: 2px; }
 .pl-bn .pl-notice { padding: 14px 24px; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); border-radius: 2px; }
 .pl-bn .pl-body { padding: 0; gap: clamp(48px, 7vw, 84px); }
@@ -1037,7 +1037,7 @@ export default function PriceList({ t = {} }) {
           </Reveal>
 
           <Reveal className="bn-card bn-hot bn-span-2" delay={0.08}>
-            <span className="bn-kicker" style={{ color: 'rgba(255,255,255,.85)' }}>
+            <span className="bn-kicker" style={{ color: 'var(--text)' }}>
               {CATEGORIES.length} kategori
             </span>
             <div>

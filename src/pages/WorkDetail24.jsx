@@ -172,7 +172,7 @@ export default function WorkDetail24({ lang = 'id' }) {
     style.textContent = CSS;
     document.head.appendChild(style);
     window.scrollTo(0, 0);
-    return () => { try { document.head.removeChild(style); } catch (_) {} };
+    return () => { try { document.head.removeChild(style); } catch { /* abaikan */ } };
   }, []);
 
   const d = DATA;

@@ -1,12 +1,11 @@
 // src/components/CloudeeBubble.jsx
-// Cloudee — maskot interaktif quiz keperawatan
-// Fitur: 23 animasi + 28 ekspresi, streak detection, click reactions,
-//        login reactions, time warning, speech bubble lucu,
-//        cursor eye-tracking (desktop), floating animation, efek 3D
+// Maskot kuis keperawatan — sekarang memakai <Mascot> (Pico, 3D + fallback 2D).
+// Logika dipertahankan: bank pesan, deteksi streak benar/salah, peringatan waktu,
+// reaksi login, reaksi klik berjenjang, hover, minimize. Yang diganti hanya wujud avatarnya.
+// Pesan di bank berisi emoji lama; emoji dibuang saat ditampilkan (ikon = Font Awesome saja).
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { createAvatar } from '@bible-strong/avatar-react';
-import '@bible-strong/avatar-react/styles.css';
+import Mascot from './mascot/Mascot';
 
 /* ════════════════════════════════════════════════════════════
    BANK PESAN
@@ -159,548 +158,182 @@ const MSGS = {
   ],
 };
 
+
 /* ════════════════════════════════════════════════════════════
-   DISPLAY (animasi / ekspresi) PER STATE
+   MOOD per jenis reaksi (kontrak mood: idle|wave|thinking|happy|sad|celebrate)
 ════════════════════════════════════════════════════════════ */
-const DISPLAYS = {
-  idle: [
-    { kind: 'animation',  key: 'idle' },
-    { kind: 'animation',  key: 'listening' },
-    { kind: 'expression', key: 'neutral' },
-    { kind: 'expression', key: 'small-attentive' },
-    { kind: 'expression', key: 'attentive-left' },
-    { kind: 'expression', key: 'gentle-downward-gaze' },
-    { kind: 'animation',  key: 'curious' },
-    { kind: 'expression', key: 'curious-left' },
-    { kind: 'expression', key: 'upward-side-glance' },
-  ],
-  correct: [
-    { kind: 'animation',  key: 'celebrate' },
-    { kind: 'animation',  key: 'happy' },
-    { kind: 'animation',  key: 'excited' },
-    { kind: 'animation',  key: 'proud' },
-    { kind: 'animation',  key: 'laughing' },
-    { kind: 'expression', key: 'joyful-wide' },
-    { kind: 'expression', key: 'joyful-down-right' },
-    { kind: 'expression', key: 'asymmetric-up-left' },
-    { kind: 'expression', key: 'playful-right' },
-  ],
-  wrong: [
-    { kind: 'animation',  key: 'sad' },
-    { kind: 'animation',  key: 'surprised' },
-    { kind: 'animation',  key: 'confused' },
-    { kind: 'expression', key: 'uneasy-left' },
-    { kind: 'expression', key: 'wide-downward-gaze' },
-    { kind: 'expression', key: 'asymmetric-down-right' },
-    { kind: 'expression', key: 'downward-gaze' },
-    { kind: 'expression', key: 'wide-down-left' },
-    { kind: 'expression', key: 'surprised-left' },
-    { kind: 'expression', key: 'skeptical-right' },
-  ],
-  streak_correct: [
-    { kind: 'animation',  key: 'excited' },
-    { kind: 'animation',  key: 'celebrate' },
-    { kind: 'animation',  key: 'laughing' },
-    { kind: 'expression', key: 'joyful-wide' },
-    { kind: 'expression', key: 'playful-right' },
-    { kind: 'expression', key: 'far-right-glance' },
-  ],
-  streak_wrong: [
-    { kind: 'animation',  key: 'sad' },
-    { kind: 'animation',  key: 'drowsy' },
-    { kind: 'animation',  key: 'bored' },
-    { kind: 'expression', key: 'downward-gaze' },
-    { kind: 'expression', key: 'sleepy-squint' },
-    { kind: 'expression', key: 'drowsy-closed' },
-    { kind: 'expression', key: 'eyes-closed' },
-  ],
-  time_warning: [
-    { kind: 'animation',  key: 'scared' },
-    { kind: 'animation',  key: 'surprised' },
-    { kind: 'expression', key: 'surprised-wide-left' },
-    { kind: 'expression', key: 'surprised-left' },
-    { kind: 'expression', key: 'uneasy-left' },
-  ],
-  loading: [
-    { kind: 'animation',  key: 'thinking' },
-    { kind: 'animation',  key: 'searching' },
-    { kind: 'expression', key: 'curious-left' },
-    { kind: 'expression', key: 'upward-side-glance' },
-    { kind: 'expression', key: 'small-attentive' },
-  ],
-  'finished-good': [
-    { kind: 'animation',  key: 'celebrate' },
-    { kind: 'animation',  key: 'proud' },
-    { kind: 'animation',  key: 'excited' },
-    { kind: 'expression', key: 'joyful-wide' },
-    { kind: 'expression', key: 'joyful-down-right' },
-  ],
-  'finished-mid': [
-    { kind: 'animation',  key: 'happy' },
-    { kind: 'animation',  key: 'idle' },
-    { kind: 'expression', key: 'gentle-downward-gaze' },
-    { kind: 'expression', key: 'small-attentive' },
-    { kind: 'expression', key: 'attentive-left' },
-  ],
-  'finished-bad': [
-    { kind: 'animation',  key: 'sad' },
-    { kind: 'animation',  key: 'drowsy' },
-    { kind: 'expression', key: 'downward-gaze' },
-    { kind: 'expression', key: 'uneasy-left' },
-    { kind: 'expression', key: 'sleepy-squint' },
-  ],
-  'login-google': [
-    { kind: 'animation',  key: 'excited' },
-    { kind: 'animation',  key: 'celebrate' },
-    { kind: 'animation',  key: 'happy' },
-    { kind: 'expression', key: 'joyful-wide' },
-    { kind: 'expression', key: 'joyful-down-right' },
-  ],
-  'login-anon': [
-    { kind: 'animation',  key: 'suspicious' },
-    { kind: 'animation',  key: 'curious' },
-    { kind: 'animation',  key: 'confused' },
-    { kind: 'expression', key: 'suspicious-right' },
-    { kind: 'expression', key: 'skeptical-right' },
-    { kind: 'expression', key: 'skeptical-left' },
-    { kind: 'expression', key: 'far-right-glance' },
-  ],
-  hover: [
-    { kind: 'animation',  key: 'playful' },
-    { kind: 'animation',  key: 'happy' },
-    { kind: 'expression', key: 'playful-right' },
-    { kind: 'expression', key: 'joyful-wide' },
-    { kind: 'expression', key: 'asymmetric-up-left' },
-  ],
+const MOOD_FOR = {
+  correct: 'happy', streak_correct: 'celebrate', wrong: 'sad', streak_wrong: 'sad',
+  time_warning: 'thinking', loading: 'thinking', hover: 'wave', idle: 'idle',
+  'finished-good': 'celebrate', 'finished-mid': 'happy', 'finished-bad': 'sad',
+  'login-google': 'wave', 'login-anon': 'wave',
 };
 
-/* ════════════════════════════════════════════════════════════
-   CLICK REACTIONS — diklik berurutan makin parah wkwk
-════════════════════════════════════════════════════════════ */
+/* CLICK REACTIONS — diklik berurutan makin "parah" */
 const CLICK_REACTIONS = [
-  { display: { kind: 'animation',  key: 'angry' },        msg: 'Eh, jangan diklik! Fokus! 😤' },
-  { display: { kind: 'expression', key: 'angry-brows' },  msg: 'MASIH diklik juga?! 😤' },
-  { display: { kind: 'expression', key: 'angry-right' },  msg: 'OKE! KAMU NGAJAK BERANTEM?!' },
-  { display: { kind: 'expression', key: 'angry-left' },   msg: 'Aku catat ini ya. Aku CATAT.' },
-  { display: { kind: 'animation',  key: 'playful' },      msg: 'Hahaha kamu iseng banget 😭' },
-  { display: { kind: 'animation',  key: 'scared' },       msg: 'TOLONG! STOP! BANTUU! 😭' },
-  { display: { kind: 'animation',  key: 'sad' },          msg: 'Aku udah nyerah... kamu menang 😭' },
-  { display: { kind: 'expression', key: 'drowsy-closed' },msg: 'Aku pura-pura tidur deh...' },
-  { display: { kind: 'animation',  key: 'sleeping' },     msg: 'Zzzzzz... (aku mogok diklik)' },
+  { mood: 'thinking', msg: 'Eh, jangan diklik! Fokus!' },
+  { mood: 'thinking', msg: 'MASIH diklik juga?!' },
+  { mood: 'sad',      msg: 'OKE! KAMU NGAJAK BERANTEM?!' },
+  { mood: 'sad',      msg: 'Aku catat ini ya. Aku CATAT.' },
+  { mood: 'happy',    msg: 'Hahaha kamu iseng banget' },
+  { mood: 'sad',      msg: 'TOLONG! STOP! BANTUU!' },
+  { mood: 'sad',      msg: 'Aku udah nyerah... kamu menang' },
+  { mood: 'idle',     msg: 'Aku pura-pura tidur deh...' },
+  { mood: 'idle',     msg: 'Zzzzzz... (aku mogok diklik)' },
 ];
 
-/* ════════════════════════════════════════════════════════════
-   CSS GLOBAL — floating, 3D, glow, pop
-════════════════════════════════════════════════════════════ */
 const CLOUDEE_CSS = `
-  @keyframes cloudeeFloat {
-    0%  { transform: translateY(0px)   rotate(0deg); }
-    20% { transform: translateY(-7px)  rotate(1.2deg); }
-    40% { transform: translateY(-4px)  rotate(-0.5deg); }
-    60% { transform: translateY(-9px)  rotate(0.8deg); }
-    80% { transform: translateY(-3px)  rotate(-1deg); }
-    100%{ transform: translateY(0px)   rotate(0deg); }
-  }
-  @keyframes cloudeePop {
-    0%  { opacity:0; transform: scale(0.7) translateY(8px); }
-    70% { opacity:1; transform: scale(1.06) translateY(-2px); }
-    100%{ opacity:1; transform: scale(1) translateY(0); }
-  }
-  @keyframes cloudeeGlow {
-    0%,100% { box-shadow: 0 0 18px rgba(139,123,255,0.35), 0 6px 24px rgba(0,0,0,0.4); }
-    50%      { box-shadow: 0 0 32px rgba(139,123,255,0.6),  0 8px 30px rgba(0,0,0,0.45); }
-  }
-  @keyframes cloudeeParticle {
-    0%   { opacity:1; transform: scale(1) translate(0,0); }
-    100% { opacity:0; transform: scale(0.2) translate(var(--px),var(--py)); }
-  }
-  @keyframes bubbleBounce {
-    0%  { transform: scale(1); }
-    30% { transform: scale(1.04); }
-    60% { transform: scale(0.97); }
-    100%{ transform: scale(1); }
-  }
   .cloudee-wrap {
-    position: fixed;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    user-select: none;
+    position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: var(--z-float);
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px; pointer-events: none;
   }
-  .cloudee-avatar-float {
-    animation: cloudeeFloat 5s ease-in-out infinite;
-  }
-  .cloudee-avatar-float.paused {
-    animation-play-state: paused;
-  }
-  .cloudee-3d-wrap {
-    perspective: 220px;
-    transition: all 0.3s ease;
-  }
-  .cloudee-avatar-inner {
-    transform-style: preserve-3d;
-    transition: transform 0.15s ease-out;
-    border-radius: 50%;
-    animation: cloudeeGlow 3s ease-in-out infinite;
-  }
-  .cloudee-avatar-inner.no-3d {
-    animation: none;
-    box-shadow: none;
-  }
+  .cloudee-wrap > * { pointer-events: auto; }
   .cloudee-bubble {
-    background: rgba(255,255,255,0.96);
-
-    color: #1a1a2e;
-    border-radius: 2px 12px 4px 12px;
-    padding: 9px 13px;
-    max-width: 175px;
-    font-size: 11.5px;
-    font-weight: 600;
-    line-height: 1.55;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.28);
-    animation: cloudeePop 0.28s ease;
-    text-align: center;
-    pointer-events: none;
-    position: relative;
-    animation: cloudeePop 0.28s ease, bubbleBounce 0.6s ease 0.28s;
+    position: relative; max-width: min(240px, 70vw); padding: 10px 14px; margin-right: 4px;
+    background: var(--nm-bg); color: var(--text); border: 1px solid var(--border2); border-radius: var(--r-m);
+    box-shadow: var(--nm-raise-sm); font-size: 13px; line-height: 1.45; font-family: var(--font-body);
+    animation: cloudeePop var(--dur-base) var(--ease-out);
   }
-  .cloudee-bubble-tail {
-    position: absolute;
-    bottom: -7px;
-    right: 14px;
-    width: 0;
-    height: 0;
-    border-left: 7px solid transparent;
-    border-top: 7px solid rgba(255,255,255,0.96);
-  }
+  .cloudee-bubble-tail { position: absolute; bottom: -7px; right: 22px; width: 12px; height: 12px; background: var(--nm-bg); border-right: 1px solid var(--border2); border-bottom: 1px solid var(--border2); transform: rotate(45deg); }
+  @keyframes cloudeePop { from { opacity: 0; transform: translateY(6px) scale(.97); } to { opacity: 1; transform: none; } }
+  .cloudee-avatar { position: relative; cursor: pointer; border: 0; background: none; padding: 0; line-height: 0; border-radius: 50%; transition: width var(--dur-base) ease; }
+  .cloudee-avatar:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   .cloudee-mini-btn {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 2px;
-    padding: 2px 7px;
-    cursor: pointer;
-    font-size: 9px;
-    color: rgba(255,255,255,0.65);
-    line-height: 1;
-    transition: all 0.2s;
+    position: absolute; top: -6px; left: -6px; width: 28px; height: 28px; display: grid; place-items: center;
+    border-radius: 50%; border: 1px solid var(--border2); background: var(--nm-bg); color: var(--text); cursor: pointer;
+    box-shadow: var(--nm-raise-sm); font-size: 11px; z-index: 2;
   }
-  .cloudee-mini-btn:hover {
-    background: rgba(255,255,255,0.22);
-    color: #fff;
-  }
-  .cloudee-particle {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: cloudeeParticle 0.7s ease-out forwards;
-  }
-  /* Mobile: sembunyikan efek 3D tilt, tetap floating */
-  @media (hover: none) {
-    .cloudee-avatar-inner {
-      transform: none !important;
-    }
-  }
+  .cloudee-mini-btn:hover { color: var(--accent-text); }
+  .cloudee-particle { position: absolute; border-radius: 2px; pointer-events: none; animation: cloudeeBurst .8s var(--ease-out) forwards; }
+  @keyframes cloudeeBurst { from { opacity: 1; transform: translate(0,0) rotate(0); } to { opacity: 0; transform: translate(var(--px), var(--py)) rotate(160deg); } }
+  @media (max-width: 520px) { .cloudee-wrap { right: 6px; } }
+  @media (prefers-reduced-motion: reduce) { .cloudee-bubble, .cloudee-particle { animation: none !important; } .cloudee-particle { display: none; } }
 `;
 
-/* ════════════════════════════════════════════════════════════
-   HELPER
-════════════════════════════════════════════════════════════ */
+/* HELPER */
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const clean = (s) => String(s).replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/\s{2,}/g, ' ').trim();
+const PARTICLE_COLORS = ['#D7FF3A', '#FF8F7A', '#7CC4F2', '#F2C14E', '#ECE9E0'];
 
-const isTouchDevice = () =>
-  typeof window !== 'undefined' &&
-  (navigator.maxTouchPoints > 0 || 'ontouchstart' in window);
-
-const PARTICLE_COLORS = ['#8b7bff','#5eead4','#fbbf24','#f472b6','#34d399','#60a5fa'];
-
-/* ════════════════════════════════════════════════════════════
-   KOMPONEN UTAMA
-════════════════════════════════════════════════════════════ */
+/* KOMPONEN UTAMA */
 export default function CloudeeBubble({ quizState = 'idle', timeLeft = null }) {
-  const avatarRef       = useRef(null);
-  const containerRef    = useRef(null);
-  const innerRef        = useRef(null);
-  const [loaded, setLoaded]           = useState(false);
-  const [minimized, setMinimized]     = useState(false);
-  const [showBubble, setShowBubble]   = useState(false);
-  const [message, setMessage]         = useState('');
-  const [display, setDisplay]         = useState({ kind: 'animation', key: 'idle' });
-  const [tilt, setTilt]               = useState({ x: 0, y: 0 }); // 3D tilt
-  const [particles, setParticles]     = useState([]);              // click particles
-  const [isHovered, setIsHovered]     = useState(false);
+  const [minimized, setMinimized]   = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
+  const [message, setMessage]       = useState('');
+  const [mood, setMood]             = useState('idle');
+  const [particles, setParticles]   = useState([]);
 
   const correctStreak   = useRef(0);
   const wrongStreak     = useRef(0);
   const clickCount      = useRef(0);
   const clickResetTimer = useRef(null);
   const bubbleTimer     = useRef(null);
-  const idleTimer       = useRef(null);
-  const timeWarnShown   = useRef(false);
-  const mousePosRef     = useRef({ x: 0, y: 0 });
-  const rafRef          = useRef(null);
-  const isTouch         = useRef(isTouchDevice());
+  const moodRef         = useRef('idle');
 
-  // ── Load avatar JSON dari public/ ──────────────────────
-  useEffect(() => {
-    if (avatarRef.current) return;
-    fetch('/cloudee.avatar.json')
-      .then(r => r.json())
-      .then(def => { avatarRef.current = createAvatar(def); setLoaded(true); })
-      .catch(err => console.warn('[Cloudee] gagal load:', err));
+  // Ganti mood; jika sama dengan sebelumnya, lewati idle sebentar agar reaksi diputar ulang.
+  const applyMood = useCallback((next) => {
+    if (moodRef.current === next && next !== 'idle') {
+      moodRef.current = 'idle'; setMood('idle');
+      setTimeout(() => { moodRef.current = next; setMood(next); }, 60);
+    } else { moodRef.current = next; setMood(next); }
   }, []);
 
-  // ── Cursor tracking (desktop only) ─────────────────────
-  useEffect(() => {
-    if (isTouch.current) return;
-    const handleMouseMove = (e) => {
-      mousePosRef.current = { x: e.clientX, y: e.clientY };
-    };
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-
-    const updateTilt = () => {
-      if (!containerRef.current || minimized) { rafRef.current = requestAnimationFrame(updateTilt); return; }
-      const rect = containerRef.current.getBoundingClientRect();
-      const cx = rect.left + rect.width  / 2;
-      const cy = rect.top  + rect.height / 2;
-      const dx = mousePosRef.current.x - cx;
-      const dy = mousePosRef.current.y - cy;
-      // Clamp tilt ke max ±14 derajat
-      const maxAngle = 14;
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const tx = Math.max(-maxAngle, Math.min(maxAngle, (dx / vw)  * 28));
-      const ty = Math.max(-maxAngle, Math.min(maxAngle, (dy / vh) * 28));
-      setTilt({ x: tx, y: ty });
-      rafRef.current = requestAnimationFrame(updateTilt);
-    };
-    rafRef.current = requestAnimationFrame(updateTilt);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [minimized]);
-
-  // ── Helper: tampilkan reaksi ────────────────────────────
-  const showReaction = useCallback((displaysArr, msgsArr, duration = 5000) => {
+  const showReaction = useCallback((nextMood, msgsArr, duration = 5000) => {
     if (bubbleTimer.current) clearTimeout(bubbleTimer.current);
-    setDisplay(pick(displaysArr));
-    setMessage(pick(msgsArr));
+    applyMood(nextMood);
+    setMessage(clean(pick(msgsArr)));
     setShowBubble(true);
-    bubbleTimer.current = setTimeout(() => {
-      setShowBubble(false);
-      setDisplay({ kind: 'animation', key: 'idle' });
-    }, duration);
-  }, []);
+    bubbleTimer.current = setTimeout(() => { setShowBubble(false); applyMood('idle'); }, duration);
+  }, [applyMood]);
 
-  // ── Idle wandering: ganti ekspresi random setiap 10–16 detik ──
-  useEffect(() => {
-    const scheduleIdle = () => {
-      const delay = 10000 + Math.random() * 6000;
-      idleTimer.current = setTimeout(() => {
-        if (!showBubble) {
-          const d = pick(DISPLAYS.idle);
-          setDisplay(d);
-        }
-        scheduleIdle();
-      }, delay);
-    };
-    scheduleIdle();
-    return () => clearTimeout(idleTimer.current);
-  }, [showBubble]);
+  useEffect(() => () => { clearTimeout(bubbleTimer.current); clearTimeout(clickResetTimer.current); }, []);
 
-  // ── Reaksi time warning ─────────────────────────────────
+  // Peringatan waktu (≤ 5 menit)
+  const timeWarnShown = useRef(false);
   useEffect(() => {
-    if (timeLeft === null || timeLeft > 300) {
-      timeWarnShown.current = false;
-      return;
-    }
+    if (timeLeft === null || timeLeft > 300) { timeWarnShown.current = false; return; }
     if (!timeWarnShown.current) {
       timeWarnShown.current = true;
-      showReaction(DISPLAYS.time_warning, MSGS.time_warning, 6000);
+      showReaction(MOOD_FOR.time_warning, MSGS.time_warning, 6000);
     }
   }, [timeLeft, showReaction]);
 
-  // ── Reaksi quizState ────────────────────────────────────
+  // Reaksi terhadap event kuis nyata
   useEffect(() => {
     if (quizState === 'idle') return;
-    let displaysArr, msgsArr, duration = 5000;
+    let key = quizState; let msgsArr; let duration = 5000;
 
     if (quizState === 'correct') {
-      correctStreak.current += 1;
-      wrongStreak.current    = 0;
-      if (correctStreak.current >= 3) {
-        displaysArr = DISPLAYS.streak_correct; msgsArr = MSGS.streak_correct;
-      } else {
-        displaysArr = DISPLAYS.correct; msgsArr = MSGS.correct;
-      }
+      correctStreak.current += 1; wrongStreak.current = 0;
+      key = correctStreak.current >= 3 ? 'streak_correct' : 'correct'; msgsArr = MSGS[key];
     } else if (quizState === 'wrong') {
-      wrongStreak.current   += 1;
-      correctStreak.current  = 0;
-      if (wrongStreak.current >= 3) {
-        displaysArr = DISPLAYS.streak_wrong; msgsArr = MSGS.streak_wrong;
-      } else {
-        displaysArr = DISPLAYS.wrong; msgsArr = MSGS.wrong;
-      }
+      wrongStreak.current += 1; correctStreak.current = 0;
+      key = wrongStreak.current >= 3 ? 'streak_wrong' : 'wrong'; msgsArr = MSGS[key];
     } else if (quizState === 'loading') {
-      displaysArr = DISPLAYS.loading;
-      msgsArr     = ['Hmm... soal apa ya... 🤔', 'Loading... 🔍', 'Sebentar ya... ⏳'];
-      duration    = 3000;
-    } else if (['finished-good','finished-mid','finished-bad'].includes(quizState)) {
-      correctStreak.current = 0;
-      wrongStreak.current   = 0;
-      displaysArr = DISPLAYS[quizState];
-      msgsArr     = MSGS[quizState];
-      duration    = 8000;
-    } else if (['login-google','login-anon'].includes(quizState)) {
-      displaysArr = DISPLAYS[quizState]; msgsArr = MSGS[quizState]; duration = 5000;
+      msgsArr = ['Hmm... soal apa ya...', 'Sebentar ya...']; duration = 3000;
+    } else if (['finished-good', 'finished-mid', 'finished-bad'].includes(quizState)) {
+      correctStreak.current = 0; wrongStreak.current = 0; msgsArr = MSGS[quizState]; duration = 8000;
+    } else if (['login-google', 'login-anon'].includes(quizState)) {
+      msgsArr = MSGS[quizState]; duration = 5000;
     } else { return; }
 
-    showReaction(displaysArr, msgsArr, duration);
+    if (!msgsArr) return;
+    showReaction(MOOD_FOR[key] || 'idle', msgsArr, duration);
   }, [quizState, showReaction]);
 
-  // ── Spawn particles ─────────────────────────────────────
   const spawnParticles = useCallback(() => {
     const ps = Array.from({ length: 7 }, (_, i) => ({
-      id: Date.now() + i,
-      color: pick(PARTICLE_COLORS),
-      px: `${(Math.random() - 0.5) * 80}px`,
-      py: `${-(40 + Math.random() * 50)}px`,
-      size: 5 + Math.random() * 6,
-      left: 20 + Math.random() * 60,
-      top:  20 + Math.random() * 60,
+      id: Date.now() + i, color: pick(PARTICLE_COLORS),
+      px: `${(Math.random() - 0.5) * 80}px`, py: `${-(40 + Math.random() * 50)}px`,
+      size: 5 + Math.random() * 5, left: 20 + Math.random() * 60, top: 20 + Math.random() * 60,
     }));
     setParticles(ps);
     setTimeout(() => setParticles([]), 800);
   }, []);
 
-  // ── Handle klik avatar ──────────────────────────────────
   const handleAvatarClick = () => {
     spawnParticles();
     if (clickResetTimer.current) clearTimeout(clickResetTimer.current);
-    const idx      = Math.min(clickCount.current, CLICK_REACTIONS.length - 1);
-    const reaction = CLICK_REACTIONS[idx];
+    const reaction = CLICK_REACTIONS[Math.min(clickCount.current, CLICK_REACTIONS.length - 1)];
     clickCount.current += 1;
-    if (bubbleTimer.current) clearTimeout(bubbleTimer.current);
-    setDisplay(reaction.display);
-    setMessage(reaction.msg);
-    setShowBubble(true);
-    bubbleTimer.current = setTimeout(() => {
-      setShowBubble(false);
-      setDisplay({ kind: 'animation', key: 'idle' });
-    }, 3500);
+    showReaction(reaction.mood, [reaction.msg], 3500);
     clickResetTimer.current = setTimeout(() => { clickCount.current = 0; }, 6000);
   };
 
-  // ── Handle hover ────────────────────────────────────────
   const handleMouseEnter = () => {
-    setIsHovered(true);
-    if (!showBubble) {
-      setDisplay(pick(DISPLAYS.hover));
-      setMessage(pick(MSGS.hover));
-      setShowBubble(true);
-      if (bubbleTimer.current) clearTimeout(bubbleTimer.current);
-      bubbleTimer.current = setTimeout(() => {
-        setShowBubble(false);
-        setDisplay({ kind: 'animation', key: 'idle' });
-      }, 2500);
-    }
+    if (!showBubble && MSGS.hover) showReaction(MOOD_FOR.hover, MSGS.hover, 2500);
   };
-  const handleMouseLeave = () => setIsHovered(false);
-
-  if (!loaded || !avatarRef.current) return null;
-  const Av     = avatarRef.current;
-  const avProps = display.kind === 'animation'
-    ? { animation: display.key }
-    : { expression: display.key };
-
-  // Tilt 3D berdasarkan kursor (disabled saat minimized atau touch device)
-  const tiltStyle = (!minimized && !isTouch.current)
-    ? { transform: `perspective(220px) rotateY(${tilt.x * 0.6}deg) rotateX(${-tilt.y * 0.4}deg)` }
-    : {};
-
-  const avatarSize = minimized ? '36px' : '64px';
 
   return (
     <>
       <style>{CLOUDEE_CSS}</style>
-
-      <div className="cloudee-wrap" ref={containerRef}>
-
-        {/* Speech bubble */}
+      <div className="cloudee-wrap">
         {showBubble && !minimized && (
-          <div className="cloudee-bubble">
+          <div className="cloudee-bubble" role="status" aria-live="polite">
             {message}
             <div className="cloudee-bubble-tail" />
           </div>
         )}
-
-        {/* Avatar + particles + float + 3D */}
-        <div
-          className={`cloudee-avatar-float${minimized ? ' paused' : ''}`}
-          style={{ position: 'relative', cursor: 'pointer' }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleAvatarClick}
-          title="Klik aku!"
-        >
-          {/* Particles on click */}
-          {particles.map(p => (
-            <div
-              key={p.id}
-              className="cloudee-particle"
-              style={{
-                '--px': p.px, '--py': p.py,
-                background: p.color,
-                width: p.size, height: p.size,
-                left: `${p.left}%`, top: `${p.top}%`,
-              }}
-            />
-          ))}
-
-          {/* 3D inner wrap */}
-          <div
-            ref={innerRef}
-            className={`cloudee-avatar-inner${minimized ? ' no-3d' : ''}`}
-            style={{
-              width: avatarSize,
-              height: avatarSize,
-              transition: 'width 0.3s ease, height 0.3s ease',
-              overflow: 'hidden',
-              ...tiltStyle,
-            }}
+        <div style={{ position: 'relative' }}>
+          <button
+            type="button" className="cloudee-mini-btn"
+            onClick={() => setMinimized(m => !m)}
+            aria-label={minimized ? 'Tampilkan maskot' : 'Sembunyikan maskot'}
+            aria-pressed={minimized}
           >
-            <Av {...avProps} size="100%" ariaLabel="Cloudee maskot" />
-          </div>
-
-          {/* Hover glow ring */}
-          {isHovered && !minimized && (
-            <div style={{
-              position: 'absolute', inset: -4,
-              borderRadius: '50%',
-              border: '2px solid rgba(139,123,255,0.6)',
-              boxShadow: '0 0 16px rgba(139,123,255,0.4)',
-              pointerEvents: 'none',
-              animation: 'cloudeeGlow 1.5s ease-in-out infinite',
-            }} />
-          )}
+            <i className={minimized ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'} aria-hidden="true" />
+          </button>
+          <button
+            type="button" className="cloudee-avatar"
+            onMouseEnter={handleMouseEnter} onClick={handleAvatarClick}
+            aria-label="Pico, maskot kuis. Klik untuk menyapa"
+          >
+            {particles.map(p => (
+              <span key={p.id} className="cloudee-particle" style={{ '--px': p.px, '--py': p.py, background: p.color, width: p.size, height: p.size, left: `${p.left}%`, top: `${p.top}%` }} />
+            ))}
+            <Mascot mood={mood} size={minimized ? 44 : 104} decorative trackPointer />
+          </button>
         </div>
-
-        {/* Tombol minimize */}
-        <button
-          className="cloudee-mini-btn"
-          onClick={() => setMinimized(m => !m)}
-          title={minimized ? 'Tampilkan Cloudee' : 'Sembunyikan'}
-        >
-          {minimized ? '▲' : '▼'}
-        </button>
       </div>
     </>
   );

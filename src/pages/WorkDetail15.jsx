@@ -104,8 +104,8 @@ const CSS = `
   padding: 5px 14px; border-radius: 2px;
   font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
 }
-.wd-badge-profile { background: rgba(34,211,170,0.1);  border: 1px solid rgba(34,211,170,0.3);  color: #2dd4bf; }
-.wd-badge-documentary { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); }
+.wd-badge-profile { background: color-mix(in srgb, var(--info) 10%, transparent);  border: 1px solid color-mix(in srgb, var(--info) 30%, transparent);  color: var(--info); }
+.wd-badge-documentary { background: color-mix(in srgb, var(--accent) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent-text); }
 .wd-hero-title {
   font-family: var(--font-display);
   font-size: clamp(4rem, 10vw, 10rem);
@@ -225,7 +225,7 @@ export default function WorkDetail15() {
     style.textContent = CSS;
     document.head.appendChild(style);
     window.scrollTo(0, 0);
-    return () => { try { document.head.removeChild(style); } catch (_) {} };
+    return () => { try { document.head.removeChild(style); } catch { /* abaikan */ } };
   }, []);
 
   const d    = DATA;

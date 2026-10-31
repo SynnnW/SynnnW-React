@@ -50,7 +50,7 @@ export default function ChapterPicker({ subjectName, subjectSlug, chapters = [],
 
       {isAdmin && (
         <div className="cp-admin-bar">
-          🛠️ Mode Admin — klik bab untuk menyalakan/mematikannya ke publik.
+           Mode Admin — klik bab untuk menyalakan/mematikannya ke publik.
         </div>
       )}
 

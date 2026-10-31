@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import SmoothScroll from './components/SmoothScroll';
 import { ToastProvider } from './hooks/useToast';
-import './styles/globals.css'; // ✅ FIXED PATH (was './globals.css')
+import './styles/globals.css';
+import './styles/chrome.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

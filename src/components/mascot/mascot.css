@@ -1,0 +1,50 @@
+/* Maskot Pico — wadah + animasi sprite 2D.
+   Gerak: idle sangat halus; reaksi lain berjalan sekali lalu diam ("reward sekali"). */
+.mascot { position: relative; display: inline-block; aspect-ratio: 200 / 238; line-height: 0; user-select: none; }
+.mascot > .mc, .mascot > .mascot-3d { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mascot-3d { opacity: 0; transition: opacity var(--dur-base, 260ms) ease; pointer-events: none; }
+.mascot-3d.is-ready { opacity: 1; }
+.mascot-3d canvas { display: block; width: 100% !important; height: 100% !important; }
+.mascot.is-3d-ready > .mc { display: none; }
+
+.mc { overflow: visible; }
+.mc * { transform-box: fill-box; transform-origin: center; }
+.mc-arm-l { transform-origin: 100% 15%; }
+.mc-arm-r { transform-origin: 0% 15%; }
+.mc-sprout { transform-origin: 50% 100%; }
+.mc-eyes { transform-origin: 50% 50%; }
+
+@keyframes mcBob   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes mcBlink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@keyframes mcSway  { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
+@keyframes mcWave  { 0%, 100% { transform: rotate(-125deg); } 50% { transform: rotate(-80deg); } }
+@keyframes mcHop   { 0%, 100% { transform: translateY(0) scale(1, 1); } 25% { transform: translateY(-16px) scale(.97, 1.04); } 50% { transform: translateY(0) scale(1.05, .95); } }
+@keyframes mcDroop { from { transform: translateY(0) rotate(0); } to { transform: translateY(4px) rotate(-2deg); } }
+@keyframes mcPop   { 0% { transform: scale(0) rotate(-30deg); opacity: 0; } 55% { opacity: 1; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+.mc-all { animation: mcBob 3.2s ease-in-out infinite; }
+.mc-eyes { animation: mcBlink 4.8s ease-in-out infinite; }
+.mc-sprout { animation: mcSway 3.6s ease-in-out infinite; }
+.mc-arm-l { transform: rotate(8deg); }
+.mc-arm-r { transform: rotate(-8deg); }
+
+.mc--wave .mc-arm-r { animation: mcWave .5s ease-in-out 5 alternate; transform: rotate(-125deg); }
+.mc--wave .mc-all { animation: none; }
+.mc--thinking .mc-arm-r { transform: rotate(-140deg) translate(-4px, 6px); }
+.mc--thinking .mc-all { animation: mcBob 4.4s ease-in-out infinite; }
+.mc--happy .mc-all, .mc--celebrate .mc-all { animation: mcHop .7s var(--ease-out, ease-out) 2; }
+.mc--celebrate .mc-arm-l { transform: rotate(135deg); }
+.mc--celebrate .mc-arm-r { transform: rotate(-135deg); }
+.mc--happy .mc-arm-r { transform: rotate(-70deg); }
+.mc--sad .mc-all { animation: mcDroop .5s ease-out forwards; }
+.mc--sad .mc-sprout { animation: none; transform: rotate(-24deg); }
+.mc--sad .mc-arm-l, .mc--sad .mc-arm-r { transform: rotate(0); }
+.mc--sad .mc-eyes { animation: none; }
+.mc-spark { transform-origin: center; animation: mcPop .45s var(--ease-out, ease-out) both; }
+.mc-spark.s2 { animation-delay: .08s; } .mc-spark.s3 { animation-delay: .16s; } .mc-spark.s4 { animation-delay: .24s; }
+
+.mc--paused, .mc--paused * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .mc *, .mc { animation: none !important; }
+  .mc-spark { opacity: 1; transform: none; }
+}

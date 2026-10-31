@@ -15,8 +15,8 @@ export default function LoadingScreen({ onComplete }) {
       .ls-wrapper {
         position: fixed;
         inset: 0;
-        z-index: 9999;
-        background: #0E0D0B;
+        z-index: var(--z-overlay);
+        background: var(--bg);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -30,22 +30,23 @@ export default function LoadingScreen({ onComplete }) {
         pointer-events: none;
       }
       .ls-brand {
-        font-family: var(--font-display), Georgia, serif;
-        font-size: 2.2rem;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        color: #ffffff;
+        font-family: var(--font-display);
+        font-size: 2.6rem;
+        font-weight: 500;
+        font-style: italic;
+        letter-spacing: -0.02em;
+        color: var(--text);
         position: relative;
       }
       .ls-brand span {
-        color: var(--accent);
+        color: var(--accent-text);
       }
       .ls-brand sup {
         font-size: 0.5em;
         position: absolute;
         top: -2px;
         right: -14px;
-        color: var(--accent);
+        color: var(--accent-text);
         font-weight: 700;
         letter-spacing: 0.08em;
       }
@@ -71,7 +72,7 @@ export default function LoadingScreen({ onComplete }) {
         font-size: 0.72rem;
         letter-spacing: 0.25em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.3);
+        color: var(--text-dim);
         animation: ls-fade-in 0.6s ease 0.3s forwards;
         opacity: 0;
       }
@@ -100,9 +101,9 @@ export default function LoadingScreen({ onComplete }) {
   if (!visible) return null;
 
   return (
-    <div className={`ls-wrapper${fadeOut ? ' fade-out' : ''}`}>
+    <div className={`ls-wrapper${fadeOut ? ' fade-out' : ''}`} role="status" aria-live="polite" aria-label="Memuat situs">
       <div className="ls-brand">
-        SynnnW<span>W</span>
+        Synnn<span>W</span>
         <sup>ST</sup>
       </div>
       <div className="ls-bar-track">
