@@ -215,3 +215,12 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
   .mark::after { transform: scaleX(1); animation: none; }
   .skeleton::after { animation: none; }
 }
+
+/* Content barrier (public pages): no long-press menu, no image drag, no text selection.
+   Forms and private dashboards (.dash / .mk) stay selectable. Add .allow-select to opt in. */
+html, body, img, a, video, canvas, svg { -webkit-touch-callout: none; }
+body { -webkit-user-select: none; user-select: none; }
+img, video, canvas { -webkit-user-drag: none; user-drag: none; -webkit-user-select: none; user-select: none; }
+input, textarea, select, [contenteditable="true"], .allow-select, .dash, .dash *, .mk, .mk * {
+  -webkit-user-select: text; user-select: text; -webkit-touch-callout: default;
+}
