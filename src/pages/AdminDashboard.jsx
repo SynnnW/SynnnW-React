@@ -835,7 +835,16 @@ export default function AdminDashboard() {
           {activeTab === 'orders' && <OrdersTab orders={orders} users={users} />}
           {activeTab === 'customers' && <CustomersTab users={users} orders={orders} setActiveTab={setActiveTab} />}
           {activeTab === 'prices' && <PricesTab prices={prices} />}
-          {activeTab === 'clientPrices' && <ClientPricesTab orders={orders} />}
+          {activeTab === 'clientPrices' && (
+            <div>
+              <div className="da-page-header"><div><h1 className="da-page-title">Harga <em>Klien</em></h1></div></div>
+              <div className="dash-empty" role="status">
+                <i className="fa-solid fa-coins" aria-hidden="true" style={{ fontSize: '1.6rem' }} />
+                <b>Harga Klien belum tersedia</b>
+                <span>Komponen fitur ini belum pernah ada di repo, jadi tab ini hanya menampilkan pesan ini agar dashboard tidak blank.</span>
+              </div>
+            </div>
+          )}
           {activeTab === 'dashboardEditor' && <DashboardEditorTab orders={orders} />}
           {activeTab === 'qris' && <QrisTab />}
           {activeTab === 'pengeluaran' && <PengeluaranTab />}
