@@ -1,4 +1,6 @@
-// src/components/SmoothScroll.jsx — Lenis satu RAF, mati di reduced-motion
+// src/components/SmoothScroll.jsx — Lenis satu RAF, mati di reduced-motion.
+// Halaman privat (Makrab, <html class="mk-route">) memakai scroll native: Lenis DIHANCURKAN di sana.
+// (lenis.stop() tidak cocok: saat stopped Lenis memanggil preventDefault pada wheel/touch sehingga halaman tidak bisa di-scroll.)
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import { prefersReduced } from '../lib/motion';
@@ -6,24 +8,29 @@ import { prefersReduced } from '../lib/motion';
 export default function SmoothScroll({ children }) {
   const containerRef = useRef(null);
   useEffect(() => {
-    if (prefersReduced()) return;
-    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-    window.__lenis = lenis;
-    // Halaman privat (Makrab) memakai scroll native: Lenis berhenti selama <html> punya kelas mk-route.
+    if (prefersReduced()) return undefined;
     const root = document.documentElement;
-    let stoppedByRoute = false;
-    const syncRoute = () => {
-      const priv = root.classList.contains('mk-route');
-      if (priv && !lenis.isStopped) { lenis.stop(); stoppedByRoute = true; }
-      else if (!priv && stoppedByRoute) { stoppedByRoute = false; lenis.start(); }
+    let lenis = null;
+    let id = 0;
+    const raf = (time) => { lenis?.raf(time); id = requestAnimationFrame(raf); };
+    const create = () => {
+      if (lenis) return;
+      lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      window.__lenis = lenis;
+      id = requestAnimationFrame(raf);
     };
-    syncRoute();
-    const mo = new MutationObserver(syncRoute);
+    const destroy = () => {
+      if (!lenis) return;
+      cancelAnimationFrame(id);
+      lenis.destroy();
+      lenis = null;
+      delete window.__lenis;
+    };
+    const sync = () => (root.classList.contains('mk-route') ? destroy() : create());
+    sync();
+    const mo = new MutationObserver(sync);
     mo.observe(root, { attributes: true, attributeFilter: ['class'] });
-    let id;
-    const raf = (time) => { lenis.raf(time); id = requestAnimationFrame(raf); };
-    id = requestAnimationFrame(raf);
-    return () => { mo.disconnect(); cancelAnimationFrame(id); lenis.destroy(); delete window.__lenis; };
+    return () => { mo.disconnect(); destroy(); };
   }, []);
   return <div ref={containerRef}>{children}</div>;
 }
