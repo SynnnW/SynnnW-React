@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@/styles/dashboard.css';
+import MkSheet from '@/components/makrab/MkSheet';
+import DanaView from '@/components/makrab/Dana';
+import { DANA_CSS } from '@/components/makrab/danaCss';
+import { PullIndicator } from '@/components/makrab/PullToRefresh';
+import { usePullToRefresh } from '@/components/makrab/usePullToRefresh';
 import { getTheme, setTheme as setGlobalTheme } from '@/lib/theme';
 import { supabase, auth } from '@/supabaseClient';
 import {
@@ -76,7 +81,7 @@ const OVERRIDE_CSS = `
 .mk-brand b { font-family: var(--d-display); font-weight: 600; }
 .mk-side { background: var(--mk-surface); }
 .mk-nav-btn { position: relative; min-height: 38px; transition: background-color 0.12s ease-out, color 0.12s ease-out; }
-.mk-nav-btn:hover { background: var(--d-hover); color: var(--mk-ink); }
+@media (hover: hover) { .mk-nav-btn:hover { background: var(--d-hover); color: var(--mk-ink); } }
 .mk-nav-btn.on { background: var(--d-hover); color: var(--mk-ink); font-weight: 500; }
 .mk-nav-btn.on::before { content: ''; position: absolute; left: 0; top: 7px; bottom: 7px; width: 2px; background: var(--mk-accent); }
 .mk-nav-btn em, .mk-dot, .mk-check.done span { color: var(--mk-accent-ink); }
@@ -84,12 +89,12 @@ const OVERRIDE_CSS = `
 .mk-bottom button { transition: color 0.12s ease-out; }
 .mk-bottom button.on { color: var(--mk-ink); }
 .mk-btn { transition: background-color 0.12s ease-out, border-color 0.12s ease-out, color 0.12s ease-out; }
-.mk-btn:hover { background: var(--d-hover); border-color: var(--d-border-strong); }
-.mk-btn--primary:hover { background: var(--mk-accent-hover); border-color: var(--mk-accent-hover); }
+@media (hover: hover) { .mk-btn:hover { background: var(--d-hover); border-color: var(--d-border-strong); } }
+@media (hover: hover) { .mk-btn--primary:hover { background: var(--mk-accent-hover); border-color: var(--mk-accent-hover); } }
 .mk input:focus-visible, .mk select:focus-visible, .mk textarea:focus-visible { outline: 2px solid var(--mk-accent); outline-offset: 0; }
 .mk[data-theme="light"] :focus-visible { outline-color: var(--d-text); }
 .mk-row { min-height: 44px; align-items: center; padding: 8px 0; transition: background-color 0.12s ease-out; }
-.mk-row:hover { background: var(--d-hover); }
+@media (hover: hover) { .mk-row:hover { background: var(--d-hover); } }
 .mk-meta { font-family: var(--d-mono); font-size: 12px; }
 .mk-st::before { width: 8px; height: 8px; border-radius: 50%; }
 .mk-check span { border-radius: 50%; transition: background-color 0.12s ease-out, border-color 0.12s ease-out; }
@@ -106,7 +111,7 @@ const OVERRIDE_CSS = `
 @media (min-width: 900px) { .mk-sheet { max-width: 560px; border-radius: 4px; } }
 .mk-chipline span, .mk-pill { border-radius: 3px; font-family: var(--d-mono); font-size: 11px; }
 .mk-review { border-radius: 0 3px 3px 0; border-left-width: 2px; }
-.mk-btn, .mk-nav-btn, .mk-bottom button, .mk-chips button { min-height: 40px; }
+.mk-btn, .mk-nav-btn, .mk-bottom button, .mk-chips button { min-height: 44px; }
 @media (prefers-reduced-motion: reduce) { .mk * { transition: none !important; } .mk-sheet, .mk-toast { animation: none; } }
 `;
 
@@ -163,7 +168,7 @@ const CSS = `
   border-radius: var(--mk-radius-sm); color: var(--mk-ink-2);
 }
 .mk-nav-btn i { width: 18px; text-align: center; }
-.mk-nav-btn:hover { background: rgba(122, 31, 43, 0.06); }
+@media (hover: hover) { .mk-nav-btn:hover { background: rgba(122, 31, 43, 0.06); } }
 .mk-nav-btn.on { background: var(--mk-accent-soft); color: var(--mk-accent-text); font-weight: 500; }
 .mk-nav-btn em { margin-left: auto; font-style: normal; font-size: 12px; min-width: 20px; text-align: center; padding: 1px 6px; border-radius: 99px; background: var(--mk-accent); color: #fff; }
 .mk-side-foot { margin-top: auto; padding: 12px 10px 0; border-top: 1px solid var(--mk-line); font-size: 13px; }
@@ -174,14 +179,14 @@ const CSS = `
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--mk-tap); padding: 0 18px;
   border-radius: var(--mk-radius-sm); border: 1px solid var(--mk-line); background: var(--mk-surface); font-weight: 500; text-decoration: none; color: var(--mk-ink);
 }
-.mk-btn:hover { border-color: var(--mk-ink-3); }
+@media (hover: hover) { .mk-btn:hover { border-color: var(--mk-ink-3); } }
 .mk-btn--primary { background: var(--mk-accent); border-color: var(--mk-accent); color: var(--mk-accent-ink); }
-.mk-btn--primary:hover { background: var(--mk-accent-hover); border-color: var(--mk-accent-hover); }
+@media (hover: hover) { .mk-btn--primary:hover { background: var(--mk-accent-hover); border-color: var(--mk-accent-hover); } }
 .mk-btn--danger { color: var(--mk-bad); }
 .mk-btn--sm { min-height: 36px; padding: 0 12px; font-size: 13px; }
 .mk-btn[disabled] { opacity: 0.45; cursor: not-allowed; }
 .mk-icon-btn { position: relative; width: var(--mk-tap); height: var(--mk-tap); border: 0; background: none; border-radius: var(--mk-radius-sm); display: grid; place-items: center; color: var(--mk-ink-2); }
-.mk-icon-btn:hover { background: var(--mk-surface-2); }
+@media (hover: hover) { .mk-icon-btn:hover { background: var(--mk-surface-2); } }
 .mk-dot { position: absolute; top: 8px; right: 8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 99px; background: var(--mk-accent); color: #fff; font-size: 10px; display: grid; place-items: center; }
 .mk-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
 .mk-field > label, .mk-label { font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--mk-ink-3); }
@@ -228,7 +233,7 @@ const CSS = `
 .mk-st.selesai::before { background: var(--mk-ok); }
 .mk-reorder { display: flex; flex-direction: column; flex: 0 0 auto; }
 .mk-reorder button { width: 32px; height: 22px; border: 0; background: none; color: var(--mk-ink-3); font-size: 11px; }
-.mk-reorder button:hover { color: var(--mk-ink); }
+@media (hover: hover) { .mk-reorder button:hover { color: var(--mk-ink); } }
 
 /* ── Tile ringkasan ── */
 .mk-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -261,16 +266,17 @@ const CSS = `
 /* ── Sheet / modal ── */
 .mk-overlay { position: fixed; inset: 0; z-index: 100; background: var(--mk-overlay); display: flex; align-items: flex-end; justify-content: center; }
 .mk-sheet {
-  width: 100%; max-height: 94dvh; overflow-y: auto; background: var(--mk-bg); border-radius: 20px 20px 0 0;
-  padding: 0 16px calc(24px + env(safe-area-inset-bottom)); box-shadow: var(--mk-shadow); animation: mkUp 0.24s ease-out;
+  display: flex; flex-direction: column; width: 100%; max-height: 92dvh; overflow: hidden; background: var(--mk-bg); border-radius: 20px 20px 0 0;
+  box-shadow: var(--mk-shadow); animation: mkUp 0.24s ease-out; outline: none;
 }
-.mk-sheet-h { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 8px; padding: 14px 0 10px; background: var(--mk-bg); border-bottom: 1px solid var(--mk-line); margin-bottom: 14px; }
+.mk-sheet-h { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; margin: 0 16px; padding: 6px 0 10px; background: var(--mk-bg); border-bottom: 1px solid var(--mk-line); }
+.mk-sheet-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding: 14px 16px calc(24px + env(safe-area-inset-bottom)); }
 .mk-sheet-h h2 { flex: 1; font-size: 1.1rem; overflow-wrap: anywhere; }
 .mk-grip { width: 38px; height: 4px; border-radius: 2px; background: var(--mk-line); margin: 8px auto 0; }
 @keyframes mkUp { from { transform: translateY(40px); opacity: 0.4; } to { transform: none; opacity: 1; } }
 @media (min-width: 900px) {
   .mk-overlay { align-items: center; }
-  .mk-sheet { max-width: 680px; border-radius: 18px; padding-bottom: 24px; }
+  .mk-sheet { max-width: 680px; border-radius: 18px; }
   .mk-grip { display: none; }
 }
 
@@ -305,7 +311,7 @@ const CSS = `
 @media (prefers-reduced-motion: reduce) { .mk-sheet, .mk-toast { animation: none; } }
 /* ── Divisi, dana, nota ── */
 .mk-div { display: block; width: 100%; text-align: left; border: 1px solid var(--mk-line); background: var(--mk-surface); border-radius: var(--mk-radius); padding: 14px; margin-bottom: 10px; }
-.mk-div:hover { border-color: var(--mk-ink-3); }
+@media (hover: hover) { .mk-div:hover { border-color: var(--mk-ink-3); } }
 .mk-div h3 { font-size: 1.02rem; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
 .mk-div small { color: var(--mk-ink-3); font-weight: 400; font-size: 13px; }
 .mk-div p { margin-top: 4px; font-size: 13px; color: var(--mk-ink-2); }
@@ -328,7 +334,6 @@ const CSS = `
 ══════════════════════════════════════════════════════════════ */
 const ADMIN_EMAILS = { 'aldokraksaan@gmail.com': 'Aldo', 'aprilmeijuni1904@gmail.com': 'April' };
 const PERAN = { admin: 'Admin', koordinator: 'Koordinator', anggota: 'Anggota' };
-const EXP_STATUS = { menunggu: 'Menunggu persetujuan', disetujui: 'Disetujui', ditolak: 'Ditolak' };
 const KAT = { kuliah: 'Tugas Kuliah', makrab: 'Tugas Makrab', admin: 'To-do Admin' };
 const STATUS = { todo: 'Belum', proses: 'Proses', review: 'Review', selesai: 'Selesai' };
 const SUB_STATUS = { menunggu: 'Menunggu review', perlu_revisi: 'Perlu revisi', disetujui: 'Disetujui' };
@@ -555,7 +560,8 @@ function useMakrabData(me, isAdmin, onEvent) {
     setDb(prev => applyChange(prev, name, { eventType: 'DELETE', old: oldRow }));
   }, []);
 
-  return { db, ready, live, error, reload: loadAll, upsertLocal, removeLocal };
+  const reload = useCallback(async () => { await loadAll(); setReady(true); setError(''); }, [loadAll]);
+  return { db, ready, live, error, reload, upsertLocal, removeLocal };
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -615,28 +621,7 @@ const I = ({ n, className = '' }) => <i className={`fa-solid fa-${n} ${className
 /* ══════════════════════════════════════════════════════════════
    KOMPONEN DASAR
 ══════════════════════════════════════════════════════════════ */
-function Sheet({ title, onClose, actions, children }) {
-  useEffect(() => {
-    const onKey = e => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
-  }, [onClose]);
-  return (
-    <div className="mk-overlay" role="dialog" aria-modal="true" aria-label={title} onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="mk-sheet">
-        <div className="mk-grip" />
-        <div className="mk-sheet-h">
-          <h2>{title}</h2>
-          {actions}
-          <button className="mk-icon-btn" onClick={onClose} aria-label="Tutup"><I n="xmark" /></button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
+const Sheet = MkSheet;
 
 function TaskRow({ t, ctx, sub = false, reorder = false }) {
   const { db, nameOf, actions, canManage } = ctx;
@@ -1623,117 +1608,7 @@ function DivisionDetail({ ctx, division, onBack, go, onView, setDivFilter }) {
 }
 
 /* ── Dana & pengeluaran ── */
-function BudgetEditor({ d, actions }) {
-  const [v, setV] = useState(String(d.budget || ''));
-  const num = Number(v.replace(/\D/g, '')) || 0;
-  return (
-    <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-      <input className="mk-input" inputMode="numeric" aria-label={`Budget ${d.nama}`} value={v} onChange={e => setV(e.target.value.replace(/\D/g, ''))} placeholder="Budget (Rp)" />
-      <button className="mk-btn" disabled={num === Number(d.budget)} onClick={() => actions.setBudget(d.id, num)}>Simpan</button>
-    </div>
-  );
-}
-
-function ExpensesView({ ctx, divFilter, setDivFilter }) {
-  const { db, isAdmin, actions, me } = ctx;
-  const fixed = isAdmin ? '' : me.division_id;
-  const selected = fixed || divFilter;
-  const divs = isAdmin ? db.divisions : db.divisions.filter(d => d.id === me.division_id);
-  const shown = selected ? divs.filter(d => d.id === selected) : divs;
-  const canAdd = !!selected && ctx.canManageDivision(selected);
-  const list = db.expenses.filter(e => !selected || e.division_id === selected).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-  const [f, setF] = useState({ tanggal: new Date().toISOString().slice(0, 10), keterangan: '', jumlah: '' });
-  const [file, setFile] = useState(null);
-  const [busy, setBusy] = useState(false);
-  const [fileKey, setFileKey] = useState(0);
-  const jumlah = Number(String(f.jumlah).replace(/\D/g, '')) || 0;
-  const submit = async e => {
-    e.preventDefault();
-    if (!file) { actions.toast('Foto nota wajib diunggah', 'err'); return; }
-    setBusy(true);
-    const ok = await actions.addExpense({ division_id: selected, tanggal: f.tanggal, keterangan: f.keterangan.trim(), jumlah, file });
-    setBusy(false);
-    if (ok) { setF(v => ({ ...v, keterangan: '', jumlah: '' })); setFile(null); setFileKey(k => k + 1); }
-  };
-
-  return (
-    <>
-      <div className="mk-page-h"><div><h2>Dana & pengeluaran</h2><p className="mk-hint">Setiap pengeluaran wajib disertai foto nota. Admin yang menyetujui dan mengatur budget.</p></div></div>
-      {isAdmin && (
-        <div className="mk-field">
-          <select className="mk-select" aria-label="Pilih divisi" value={divFilter} onChange={e => setDivFilter(e.target.value)}>
-            <option value="">Semua divisi</option>
-            {db.divisions.map(d => <option key={d.id} value={d.id}>{d.nama}</option>)}
-          </select>
-        </div>
-      )}
-
-      {shown.map(d => {
-        const t = expenseTotals(db.expenses, d.id);
-        const sisa = Number(d.budget) - t.approved;
-        return (
-          <div key={d.id} className="mk-card">
-            <div className="mk-card-h"><b>{d.nama}</b><span className="mk-money">Budget {rp(d.budget)}</span></div>
-            <DanaBar budget={Number(d.budget)} approved={t.approved} pending={t.pending} />
-            <p className="mk-hint mk-money" style={{ marginTop: 8 }}>
-              Terpakai {rp(t.approved)} · menunggu {rp(t.pending)} · <span className={sisa < 0 ? 'mk-warn' : ''}>sisa {rp(sisa)}</span>
-            </p>
-            {isAdmin && <BudgetEditor key={`${d.id}-${d.budget}`} d={d} actions={actions} />}
-          </div>
-        );
-      })}
-
-      {canAdd && (
-        <Section title="Catat pengeluaran">
-          <form onSubmit={submit} className="mk-card">
-            <div className="mk-row-2">
-              <div className="mk-field"><label htmlFor="x-tgl">Tanggal</label><input id="x-tgl" className="mk-input" type="date" value={f.tanggal} onChange={e => setF(v => ({ ...v, tanggal: e.target.value }))} required /></div>
-              <div className="mk-field"><label htmlFor="x-jml">Jumlah (Rp)</label><input id="x-jml" className="mk-input" inputMode="numeric" value={f.jumlah} onChange={e => setF(v => ({ ...v, jumlah: e.target.value.replace(/\D/g, '') }))} placeholder="50000" required /></div>
-            </div>
-            <p className="mk-hint mk-money" style={{ marginTop: -6, marginBottom: 10 }}>{jumlah > 0 ? rp(jumlah) : ''}</p>
-            <div className="mk-field"><label htmlFor="x-ket">Untuk apa</label><input id="x-ket" className="mk-input" value={f.keterangan} onChange={e => setF(v => ({ ...v, keterangan: e.target.value }))} maxLength={300} required /></div>
-            <div className="mk-field">
-              <label htmlFor="x-file">Foto nota (wajib)</label>
-              <input key={fileKey} id="x-file" className="mk-input" type="file" accept="image/jpeg,image/png,image/webp,application/pdf,image/*" onChange={e => setFile(e.target.files?.[0] || null)} required />
-              <p className="mk-file-note">JPG, PNG, atau PDF. Foto dikecilkan otomatis. Maksimal 5 MB.</p>
-            </div>
-            <button className="mk-btn mk-btn--primary" disabled={busy || !file || !f.keterangan.trim() || jumlah <= 0}>{busy ? 'Mengunggah…' : 'Simpan pengeluaran'}</button>
-          </form>
-        </Section>
-      )}
-      {isAdmin && !selected && <p className="mk-hint" style={{ marginTop: 12 }}>Pilih satu divisi di atas untuk mencatat pengeluaran atas namanya.</p>}
-
-      <Section title="Riwayat" note={`${list.length} catatan`}>
-        {list.length === 0 && <p className="mk-empty">Belum ada pengeluaran.</p>}
-        {list.map(e => {
-          const own = e.dibuat_oleh === me.id;
-          return (
-            <div key={e.id} className="mk-exp">
-              <div>
-                <span style={{ fontWeight: 500, overflowWrap: 'anywhere' }}>{e.keterangan}</span>
-                <p className="mk-hint">
-                  {new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric', timeZone: TZ }).format(new Date(`${e.tanggal}T12:00:00+07:00`))}
-                  {!selected ? ` · ${ctx.divisionName(e.division_id)}` : ''} · {ctx.nameOf(e.dibuat_oleh)}
-                </p>
-                <p className="mk-hint"><span className={`mk-st ${e.status === 'disetujui' ? 'selesai' : e.status === 'ditolak' ? '' : 'review'}`}>{EXP_STATUS[e.status]}</span></p>
-                {e.catatan && <p className="mk-hint">Catatan: {e.catatan}</p>}
-              </div>
-              <b>{rp(e.jumlah)}</b>
-              <div className="mk-exp-actions">
-                <button className="mk-btn mk-btn--sm" onClick={() => actions.openNota(e)}><I n="receipt" /> Lihat nota</button>
-                {e.nota_drive_url && <a className="mk-btn mk-btn--sm" href={e.nota_drive_url} target="_blank" rel="noopener noreferrer"><I n="folder-open" /> Drive</a>}
-                {isAdmin && e.status !== 'disetujui' && <button className="mk-btn mk-btn--sm mk-btn--primary" onClick={() => actions.setExpenseStatus(e, { status: 'disetujui', catatan: null })}>Setujui</button>}
-                {isAdmin && e.status !== 'ditolak' && <button className="mk-btn mk-btn--sm" onClick={() => { const c = window.prompt('Alasan ditolak (boleh kosong)'); if (c !== null) actions.setExpenseStatus(e, { status: 'ditolak', catatan: c.trim() || null }); }}>Tolak</button>}
-                {(isAdmin || (own && e.status === 'menunggu')) && <button className="mk-btn mk-btn--sm mk-btn--danger" onClick={() => actions.deleteExpense(e)}><I n="trash" /></button>}
-              </div>
-            </div>
-          );
-        })}
-      </Section>
-    </>
-  );
-}
+const ExpensesView = DanaView;
 
 /* ══════════════════════════════════════════════════════════════
    UPLOAD NOTA: kecilkan foto di browser sebelum diunggah
@@ -1836,6 +1711,18 @@ function Workspace({ user, me, theme, onTheme }) {
 
   const { db, ready, live, error, reload, upsertLocal, removeLocal } = useMakrabData(me, isAdmin, onEvent);
   useEffect(() => { dbRef.current = db; });
+
+  /* Refresh: ambil ulang data lewat loader yang sama; satu per satu; data lama tetap tampil bila gagal */
+  const refreshing = useRef(false);
+  const [refreshBusy, setRefreshBusy] = useState(false);
+  const refresh = useCallback(async () => {
+    if (refreshing.current) return false;
+    refreshing.current = true; setRefreshBusy(true);
+    try { await reload(); return true; }
+    catch (e) { toast(friendlyError(e), 'err'); return false; }
+    finally { refreshing.current = false; setRefreshBusy(false); }
+  }, [reload, toast]);
+  const ptr = usePullToRefresh(refresh, !!sheet);
 
   const nameOf = useCallback(id => db.members.find(m => m.id === id)?.nama || 'Seseorang', [db.members]);
   const divisionName = useCallback(id => db.divisions.find(d => d.id === id)?.nama || '', [db.divisions]);
@@ -2169,6 +2056,10 @@ function Workspace({ user, me, theme, onTheme }) {
         <header className="mk-top">
           <h1>Makrab 2026<small> · {roleLabel}</small></h1>
           <span className={`mk-live${live ? ' on' : ''}`} title={live ? 'Tersambung (live)' : 'Belum tersambung ke update langsung'} role="status" aria-label={live ? 'Live' : 'Offline'} />
+          <button className={`mk-icon-btn${refreshBusy ? ' is-busy' : ''}`} disabled={refreshBusy} aria-busy={refreshBusy || undefined} aria-label="Segarkan data"
+            onClick={async () => { if (await refresh()) toast('Data diperbarui'); }}>
+            <I n="rotate" />
+          </button>
           <button className="mk-icon-btn" onClick={() => onTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? 'Ganti ke mode terang' : 'Ganti ke mode gelap'}>
             <I n={theme === 'dark' ? 'sun' : 'moon'} />
           </button>
@@ -2206,6 +2097,7 @@ function Workspace({ user, me, theme, onTheme }) {
         <NotifPanel ctx={ctx} notices={notices} seen={seen} onClose={closeSheet} onMarkSeen={markSeen} />
       )}
 
+      <PullIndicator pull={ptr.pull} phase={ptr.phase} />
       <div className="mk-toasts" aria-live="polite">
         {toasts.map(t => <div key={t.id} className={`mk-toast${t.type === 'err' ? ' err' : ''}`}>{t.text}</div>)}
       </div>
@@ -2236,8 +2128,7 @@ export default function Makrab() {
   useEffect(() => {
     const root = document.documentElement;
     root.classList.add('mk-route');
-    try { window.__lenis?.stop(); } catch { /* ignore */ }
-    return () => { root.classList.remove('mk-route'); try { window.__lenis?.start(); } catch { /* ignore */ } };
+    return () => { root.classList.remove('mk-route'); };
   }, []);
 
   /* Halaman privat: jangan diindeks */
@@ -2286,7 +2177,7 @@ export default function Makrab() {
 
   return (
     <div className="mk dash" data-theme={theme}>
-      <style>{THEME_CSS + CSS + OVERRIDE_CSS}</style>
+      <style>{THEME_CSS + CSS + OVERRIDE_CSS + DANA_CSS}</style>
       {phase === 'loading' && <Loading />}
       {phase === 'login' && <LoginGate />}
       {phase === 'unregistered' && user && <NotRegistered user={user} unverified={!user.emailVerified} />}
