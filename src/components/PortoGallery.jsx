@@ -2,7 +2,9 @@ import { useRef, useState, useEffect, useCallback } from 'react';
 import { Reveal } from './BentoKit';
 
 const TOTAL = 11;
-const SLIDES = Array.from({ length: TOTAL }, (_, i) => `/assets/porto/porto-${String(i + 1).padStart(2, '0')}.webp`);
+const pad = n => String(n).padStart(2, '0');
+const SLIDES = Array.from({ length: TOTAL }, (_, i) => `/assets/porto/porto-${pad(i + 1)}.webp`);
+const HD = i => `/assets/porto/hd/synnnw-portofolio-${pad(i + 1)}.png`;
 
 /* Galeri geser — scroll-snap native (swipe di HP, drag/roda di desktop), tanpa library tambahan */
 export default function PortoGallery({ isID }) {
@@ -10,6 +12,26 @@ export default function PortoGallery({ isID }) {
   const rail = useRef(null);
   const [idx, setIdx] = useState(0);
   const drag = useRef({ on: false, x: 0, left: 0, moved: false });
+  const [open, setOpen] = useState(null);
+
+  /* Lightbox: Esc / panah, kunci scroll body */
+  useEffect(() => {
+    if (open === null) return;
+    const onKey = e => {
+      if (e.key === 'Escape') setOpen(null);
+      if (e.key === 'ArrowRight') setOpen(o => Math.min(TOTAL - 1, o + 1));
+      if (e.key === 'ArrowLeft') setOpen(o => Math.max(0, o - 1));
+    };
+    window.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [open]);
+
+  const pick = i => {
+    if (drag.current.moved) { drag.current.moved = false; return; }
+    setOpen(i);
+  };
 
   const go = useCallback(i => {
     const el = rail.current;
@@ -67,6 +89,7 @@ export default function PortoGallery({ isID }) {
       >
         {SLIDES.map((src, i) => (
           <figure className="bn-gal-slide" key={src} aria-label={`${i + 1} / ${TOTAL}`}>
+            <button type="button" className="bn-gal-open" onClick={() => pick(i)} aria-label={L(`Open slide ${i + 1}`, `Buka slide ${i + 1}`)} />
             <img
               src={src} alt={L(`Portfolio slide ${i + 1}`, `Slide portofolio ${i + 1}`)}
               width="1600" height="900" draggable={false}
@@ -89,6 +112,23 @@ export default function PortoGallery({ isID }) {
           <button type="button" onClick={() => go(idx + 1)} disabled={idx === TOTAL - 1} aria-label={L('Next', 'Berikutnya')}><i className="fa-solid fa-arrow-right" /></button>
         </div>
       </div>
+
+      {open !== null && (
+        <div className="bn-modal bn-gal-modal" onClick={() => setOpen(null)} role="dialog" aria-modal="true" aria-label={L('Portfolio slide', 'Slide portofolio')}>
+          <div className="bn-modal-box bn-gal-box" onClick={e => e.stopPropagation()}>
+            <button className="bn-modal-x" onClick={() => setOpen(null)} aria-label={L('Close', 'Tutup')}><i className="fa-solid fa-xmark" /></button>
+            <img src={SLIDES[open]} alt={L(`Portfolio slide ${open + 1}`, `Slide portofolio ${open + 1}`)} draggable={false} onContextMenu={e => e.preventDefault()} />
+            <div className="bn-gal-modal-bar">
+              <button type="button" className="bn-gal-arrow" onClick={() => setOpen(open - 1)} disabled={open === 0} aria-label={L('Previous', 'Sebelumnya')}><i className="fa-solid fa-arrow-left" /></button>
+              <a className="bn-btn bn-btn--solid" href={HD(open)} download={`synnnw-portofolio-${pad(open + 1)}-HD.png`}>
+                <i className="fa-solid fa-download" /> {L('Download HD (PNG)', 'Unduh HD (PNG)')}
+              </a>
+              <button type="button" className="bn-gal-arrow" onClick={() => setOpen(open + 1)} disabled={open === TOTAL - 1} aria-label={L('Next', 'Berikutnya')}><i className="fa-solid fa-arrow-right" /></button>
+            </div>
+            <p>{pad(open + 1)} / {pad(TOTAL)} · 1920×1080</p>
+          </div>
+        </div>
+      )}
     </Reveal>
   );
 }
