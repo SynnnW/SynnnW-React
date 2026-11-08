@@ -272,3 +272,45 @@
 .wk-bento .bn-work:hover .bn-work-in img { transform: scale(1.02); transition: transform .2s ease-out; }
 .wk-bento .bn-work:hover .bn-work-go { transform: translateX(4px); transition: transform .2s ease-out; }
 @media (prefers-reduced-motion: reduce) { .wk-bento .bn-work-in img, .wk-bento .bn-work-go { transition: none !important; } }
+
+/* ══════════ CV (About) ══════════ */
+.bn-cv { display: flex; flex-direction: column; gap: 14px; padding: clamp(20px, 2.6vw, 28px); }
+.bn-cv h3 { font-size: 1.2rem; line-height: 1.25; }
+.bn-cv-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.bn-cv-list--wide { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(20px, 3vw, 40px); }
+.bn-cv-list li { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid var(--border); }
+.bn-cv-year { font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--accent-text); white-space: nowrap; }
+.bn-cv-text { font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+
+/* ══════════ GALERI PORTO (About) ══════════ */
+.bn-gal { position: relative; min-width: 0; }
+.bn-gal-rail {
+  display: flex; gap: var(--bn-gap); overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scrollbar-width: none; cursor: grab; outline-offset: 6px;
+  padding: 2px calc((100% - min(100%, 900px)) / 2); -webkit-overflow-scrolling: touch;
+}
+.bn-gal-rail::-webkit-scrollbar { display: none; }
+.bn-gal-rail.is-drag { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+.bn-gal-slide {
+  flex: 0 0 min(100%, 900px); margin: 0; aspect-ratio: 16 / 9; scroll-snap-align: center;
+  border-radius: var(--bn-r); overflow: hidden; border: 1px solid var(--border2); background: var(--bg2);
+}
+.bn-gal-slide img { width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; -webkit-user-drag: none; pointer-events: none; }
+.bn-gal-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 18px auto 0; max-width: 900px; }
+.bn-gal-count { font-size: 0.72rem; letter-spacing: 0.16em; color: var(--text-dim); }
+.bn-gal-count b { color: var(--accent-text); font-weight: 500; }
+.bn-gal-dots { display: flex; gap: 6px; flex: 1; justify-content: center; flex-wrap: wrap; }
+.bn-gal-dots button { width: 18px; height: 3px; padding: 0; border: 0; border-radius: 2px; background: var(--border2); cursor: pointer; transition: width .3s ease, background .3s ease; }
+.bn-gal-dots button.on { width: 34px; background: var(--accent); }
+.bn-gal-nav { display: flex; gap: 8px; }
+.bn-gal-nav button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border2); background: transparent; color: var(--text); cursor: pointer; transition: background .2s ease, color .2s ease; }
+.bn-gal-nav button:hover:not(:disabled) { background: var(--accent); color: var(--on-accent); }
+.bn-gal-nav button:disabled { opacity: .3; cursor: default; }
+@media (max-width: 1000px) { .bn-cv-list--wide { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .bn-cv-list li { grid-template-columns: 1fr; gap: 2px; }
+  .bn-gal-rail { padding: 2px 0; }
+  .bn-gal-slide { flex-basis: 92%; }
+  .bn-gal-dots { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .bn-gal-dots button { transition: none; } }

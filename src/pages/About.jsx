@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { ThumbImg, Reveal, Arrow, ContactCard } from '../components/BentoKit';
 import { useLang, waLink, IG_URL, evenSpans } from '../lib/bento';
 import { SHOWCASE_COUNT } from '../data/showcase';
+import AboutCV from '../components/AboutCV';
+import PortoGallery from '../components/PortoGallery';
 
 /* ══════════════════════════════════════════════════════
    DATA — skills, layanan, tools, sertifikat (isi tidak diubah,
@@ -364,6 +366,14 @@ export default function About({ lang: propLang }) {
             </motion.button>
           ))}
         </div>
+
+        {/* ── CV ── */}
+        <SecHead kicker="05 / CV">{L('Experience &', 'Pengalaman &')} <span className="bn-dim">{L('organizations.', 'organisasi.')}</span></SecHead>
+        <AboutCV isID={isID} />
+
+        {/* ── Galeri portofolio ── */}
+        <SecHead kicker="06 / Gallery">{L('Portfolio', 'Galeri')} <span className="bn-dim">{L('gallery.', 'portofolio.')}</span></SecHead>
+        <PortoGallery isID={isID} />
 
         {/* ── CTA ── */}
         <ContactCard
