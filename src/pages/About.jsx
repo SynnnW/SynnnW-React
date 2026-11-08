@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ThumbImg, Reveal, Arrow, ContactCard } from '../components/BentoKit';
 import { useLang, waLink, IG_URL, evenSpans } from '../lib/bento';
 import { SHOWCASE_COUNT } from '../data/showcase';
+import { lockScroll } from '../lib/scrollLock';
 import AboutCV from '../components/AboutCV';
 import PortoGallery from '../components/PortoGallery';
 
@@ -180,11 +181,10 @@ function CertifModal({ src, filename, onClose }) {
   useEffect(() => {
     const onKey = e => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const unlock = lockScroll();
     return () => {
       window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prev;
+      unlock();
     };
   }, [onClose]);
 

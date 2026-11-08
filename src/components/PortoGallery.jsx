@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { Reveal } from './BentoKit';
+import { lockScroll } from '../lib/scrollLock';
 
 const TOTAL = 11;
 const pad = n => String(n).padStart(2, '0');
@@ -14,19 +15,25 @@ export default function PortoGallery({ isID }) {
   const drag = useRef({ on: false, x: 0, left: 0, moved: false });
   const [open, setOpen] = useState(null);
 
-  /* Lightbox: Esc / panah, kunci scroll body */
+  /* Lightbox: kunci scroll (body fixed + Lenis stop) selama terbuka */
+  const isOpen = open !== null;
   useEffect(() => {
-    if (open === null) return;
+    if (!isOpen) return undefined;
+    const unlock = lockScroll();
+    return unlock;
+  }, [isOpen]);
+
+  /* Lightbox: Esc / panah */
+  useEffect(() => {
+    if (!isOpen) return undefined;
     const onKey = e => {
       if (e.key === 'Escape') setOpen(null);
-      if (e.key === 'ArrowRight') setOpen(o => Math.min(TOTAL - 1, o + 1));
-      if (e.key === 'ArrowLeft') setOpen(o => Math.max(0, o - 1));
+      if (e.key === 'ArrowRight') setOpen(o => (o === null ? o : Math.min(TOTAL - 1, o + 1)));
+      if (e.key === 'ArrowLeft') setOpen(o => (o === null ? o : Math.max(0, o - 1)));
     };
     window.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
-  }, [open]);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen]);
 
   const pick = i => {
     if (drag.current.moved) { drag.current.moved = false; return; }
