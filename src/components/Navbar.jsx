@@ -15,6 +15,7 @@ const NAV_LINKS = [
   { to: '/journal',   label: 'Journal', key: 'journal', dropdownKey: null      },
   { to: '/price-list', label: 'Price', key: 'price', dropdownKey: null       },
   { to: '/quiziz',    label: 'Quiziz',  key: 'quiziz',  dropdownKey: null      },
+  { to: '/26menfess', label: 'Menfess', key: 'menfess', dropdownKey: null      },
 ];
 
 const DROPDOWN_ITEMS = {

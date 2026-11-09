@@ -1,6 +1,6 @@
 // ─── MenfessApp — shell & nested routes ──────────────────────────────────────
 import { lazy, Suspense, useEffect, Component, useContext } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MfAuthContext, useMfAuthState } from '@/lib/menfess/useMfAuth';
 import '@/styles/menfess.css';
 
@@ -66,8 +66,13 @@ function useMfCtx() {
 
 function RequireAuth({ children }) {
   const { user, ready } = useMfCtx();
+  const location = useLocation();
   if (!ready) return <MfLoader />;
-  if (!user)  return <Navigate to="/26menfess/masuk" replace />;
+  if (!user) {
+    // Bawa tujuan asli lewat ?next= supaya setelah login lanjut ke sini, bukan ke /app
+    const dest = location.pathname + location.search;
+    return <Navigate to={`/26menfess/masuk?next=${encodeURIComponent(dest)}`} replace />;
+  }
   return children;
 }
 
