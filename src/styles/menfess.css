@@ -396,3 +396,16 @@
 .mf {
   color-scheme: light;
 }
+
+/* ─── Tombol Trakteer (melayang) ─────────────────────────────────── */
+.mf-trakteer {
+  position: fixed;
+  right:    16px;
+  bottom:   calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index:  150;
+  padding:  8px 16px;
+  font-size: .85rem;
+}
+@media (max-width: 480px) {
+  .mf-trakteer { right: 12px; padding: 8px 14px; font-size: .8rem; }
+}

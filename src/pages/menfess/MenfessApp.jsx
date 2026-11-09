@@ -118,6 +118,20 @@ class MfErrorBoundary extends Component {
   }
 }
 
+function TrakteerButton() {
+  return (
+    <a
+      href="https://trakteer.id/aldo_leo_saputra"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mf-btn mf-btn-primary mf-trakteer"
+      aria-label="Traktir cendol lewat Trakteer"
+    >
+      <span aria-hidden="true">🥤</span> Trakteer Cendol
+    </a>
+  );
+}
+
 // ─── Shell ────────────────────────────────────────────────────────────────────
 export default function MenfessApp() {
   const authState = useMfAuthState();
@@ -149,6 +163,7 @@ export default function MenfessApp() {
               <Route path="*"       element={<Navigate to="/26menfess" replace />} />
             </Routes>
           </Suspense>
+          <TrakteerButton />
         </div>
       </MfErrorBoundary>
     </MfAuthContext.Provider>
