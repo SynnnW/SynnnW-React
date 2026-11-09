@@ -32,6 +32,7 @@ const WorkDetail2     = lazy(() => import('./pages/WorkDetail2'));
 const WorkDetail3     = lazy(() => import('./pages/WorkDetail3'));
 const WorkDetail4     = lazy(() => import('./pages/WorkDetail4'));
 const About           = lazy(() => import('./pages/About'));
+const CV              = lazy(() => import('./pages/CV'));
 const ClientDashboard = lazy(() => import('./pages/ClientDashboard'));
 const AdminDashboard  = lazy(() => import('./pages/AdminDashboard'));
 const CompleteProfile = lazy(() => import('./pages/CompleteProfile'));
@@ -223,6 +224,7 @@ function Layout({ user, loadingAuth }) {
                 {/* ── PUBLIC PAGES ── */}
                 <Route path="/"               element={<Home t={t} lang={lang} toggleLang={toggleLang} />} />
                 <Route path="/about"          element={<About t={t} lang={lang} toggleLang={toggleLang} />} />
+                <Route path="/cv"             element={<CV />} />
                 <Route path="/price-list"     element={<PriceList t={t} lang={lang} toggleLang={toggleLang} />} />
                 <Route path="/terms"          element={<Terms t={t} lang={lang} toggleLang={toggleLang} />} />
                 <Route path="/contact"        element={<Contact t={t} lang={lang} toggleLang={toggleLang} />} />

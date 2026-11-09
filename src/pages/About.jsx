@@ -254,6 +254,7 @@ export default function About({ lang: propLang }) {
             <div className="bn-social">
               <a href={IG_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fa-brands fa-instagram" /></a>
               <a href={waLink(L('Hi Aldo, I want to get in touch.', 'Halo Aldo, aku mau ngobrol.'))} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i className="fa-brands fa-whatsapp" /></a>
+              <a href="/cv" target="_blank" rel="noopener noreferrer" aria-label="Download CV"><i className="fa-solid fa-file-arrow-down" /></a>
             </div>
             <h1 className="bn-title">
               {L('Hi, I’m Aldo.', 'Halo, aku Aldo.')}{' '}

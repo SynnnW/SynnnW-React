@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap');
+
+.cv-page{
+  --blue:#446ddc; --ink:#232323; --sub:#5b5b5b; --line:#e3e3e3; --bg:#fff; --card:#f6f7fb;
+  background:var(--bg); color:var(--ink);
+  font-family:'Source Sans 3', Arial, Helvetica, sans-serif;
+  font-weight:600;
+  min-height:100vh;
+}
+.cv-page *{box-sizing:border-box;}
+
+.cv-toolbar{
+  max-width:900px; margin:0 auto; padding:18px 16px 10px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+}
+.cv-toolbar p{margin:0; font-size:13px; color:var(--sub); font-weight:600;}
+.cv-dl{
+  background:var(--blue); color:#fff; border:none; border-radius:10px;
+  padding:11px 20px; font-family:inherit; font-weight:800; font-size:14px;
+  cursor:pointer; box-shadow:0 6px 16px rgba(68,109,220,.35);
+}
+.cv-dl:active{transform:translateY(1px);}
+
+#cv-print{
+  width:210mm; min-height:297mm; margin:4px auto 0; background:var(--bg);
+  box-shadow:0 10px 40px rgba(0,0,0,.12); padding:13mm 14mm; position:relative;
+}
+
+.cv-head{display:flex; justify-content:space-between; align-items:flex-end; border-bottom:4px solid var(--ink); padding-bottom:8px; margin-bottom:10px; gap:14px;}
+.cv-name{font-size:30px; line-height:1.02; font-weight:800; margin:0;}
+.cv-name .f{color:var(--blue);}
+.cv-name .l{color:var(--ink);}
+.cv-role{margin:4px 0 0; font-size:12.5px; font-weight:700; color:var(--sub); text-transform:uppercase; letter-spacing:.6px;}
+.cv-contact{text-align:right; font-size:10.3px; font-weight:600; color:var(--sub); line-height:1.65;}
+.cv-contact a{color:var(--blue); text-decoration:none; font-weight:700;}
+
+.cv-grid{display:grid; grid-template-columns:62mm 1fr; gap:9mm; margin-top:10px;}
+.cv-page h2{font-size:11px; font-weight:800; letter-spacing:1.1px; text-transform:uppercase; color:var(--blue); margin:0 0 6px; padding-bottom:4px; border-bottom:1.5px solid var(--line);}
+.cv-side section, .cv-main section{margin-bottom:11px;}
+
+.cv-edu-item{margin-bottom:7px;}
+.cv-edu-item b{display:block; font-size:11px; font-weight:800;}
+.cv-edu-item .sub{display:block; font-size:9.3px; color:var(--sub); font-weight:600; margin-top:1px;}
+
+.cv-taglist{display:flex; flex-wrap:wrap; gap:4px;}
+.cv-taglist span{background:var(--card); border:1px solid var(--line); font-size:8.6px; font-weight:700; padding:2.5px 6px; border-radius:5px;}
+.cv-skillblock{margin-bottom:7px;}
+.cv-skillblock .k{font-size:9.8px; font-weight:800; display:block; margin-bottom:3px;}
+
+.cv-award{font-size:9.6px; font-weight:600; line-height:1.4; margin:0 0 6px; padding-left:10px; position:relative;}
+.cv-award:before{content:"▸"; color:var(--blue); position:absolute; left:0;}
+.cv-award .y{color:var(--blue); font-weight:800;}
+
+.cv-exp-item{display:grid; grid-template-columns:19mm 1fr; gap:6mm; font-size:9.7px; margin-bottom:7px;}
+.cv-exp-item .y{font-weight:800; color:var(--blue); font-size:9.3px;}
+.cv-exp-item .role-t{font-weight:800;}
+.cv-exp-item .desc{font-weight:600; color:var(--sub); line-height:1.42;}
+
+.cv-org-item{font-size:9.5px; font-weight:600; color:var(--sub); line-height:1.45; margin:0 0 5px; padding-left:10px; position:relative;}
+.cv-org-item:before{content:"—"; position:absolute; left:0; color:var(--blue); font-weight:800;}
+.cv-org-item .y{color:var(--blue); font-weight:800;}
+
+.cv-foot{margin-top:8px; padding-top:6px; border-top:1px solid var(--line); font-size:8.4px; color:var(--sub); font-weight:600; text-align:center;}
+
+/* ── Portfolio grid (tidak ikut print) ── */
+.cv-porto{max-width:1040px; margin:34px auto 60px; padding:0 16px;}
+.cv-porto-head{text-align:center; margin-bottom:26px;}
+.cv-porto-head .kicker{font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--blue);}
+.cv-porto-head h2{border:none !important; font-size:26px; color:var(--ink); text-transform:none; letter-spacing:0; margin-top:4px;}
+.cv-porto-sub{margin:30px 0 14px; font-size:16px; font-weight:800; display:flex; align-items:center; gap:8px;}
+.cv-porto-sub .n{background:var(--blue); color:#fff; font-size:11px; border-radius:999px; padding:2px 9px;}
+.cv-pgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px;}
+.pcard{background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; display:flex; flex-direction:column;}
+.pcard-img{aspect-ratio:16/9; overflow:hidden; background:#111;}
+.pcard-img img{width:100%; height:100%; object-fit:cover; display:block;}
+.pcard-body{padding:12px 13px 14px;}
+.pcard-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;}
+.pcard-cat{font-size:9.5px; font-weight:800; color:var(--blue); text-transform:uppercase; letter-spacing:.4px;}
+.pcard-year{font-size:9.5px; font-weight:700; color:var(--sub);}
+.pcard-body h4{margin:0; font-size:13.5px; font-weight:800; line-height:1.25;}
+.pcard-award{display:inline-flex; align-items:center; gap:4px; margin-top:8px; font-size:10px; font-weight:800; color:#b5860a; background:#fff6e0; border:1px solid #f0dca8; padding:3px 8px; border-radius:7px;}
+
+.cv-cgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px;}
+.cv-ccard{display:flex; gap:12px; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px;}
+.cv-ccard img{width:74px; height:74px; object-fit:cover; border-radius:8px; flex:none;}
+.cv-ccard div{display:flex; flex-direction:column; gap:3px;}
+.cv-ccard b{font-size:12px; font-weight:800; line-height:1.25;}
+.cv-ccard span{font-size:10px; color:var(--sub); font-weight:600; line-height:1.3;}
+
+@media print{
+  body *{visibility:hidden;}
+  #cv-print, #cv-print *{visibility:visible;}
+  #cv-print{position:absolute; left:0; top:0; box-shadow:none; margin:0; width:auto; min-height:auto;}
+  .noprint{display:none !important;}
+  @page{size:A4; margin:0;}
+}
+@media (max-width:760px){
+  #cv-print{width:100%; padding:7mm;}
+  .cv-grid{grid-template-columns:1fr;}
+  .cv-head{flex-direction:column; align-items:flex-start;}
+  .cv-contact{text-align:left;}
+}
