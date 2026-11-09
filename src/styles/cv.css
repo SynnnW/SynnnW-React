@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&family=Bricolage+Grotesque:wght@600;800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600&display=swap');
 
 .cv-page{
   --blue:#446ddc; --ink:#232323; --sub:#5b5b5b; --line:#e3e3e3; --bg:#fff; --card:#f6f7fb;
@@ -87,13 +87,117 @@
 .cv-ccard b{font-size:12px; font-weight:800; line-height:1.25;}
 .cv-ccard span{font-size:10px; color:var(--sub); font-weight:600; line-height:1.3;}
 
-@media print{
-  body *{visibility:hidden;}
-  #cv-print, #cv-print *{visibility:visible;}
-  #cv-print{position:absolute; left:0; top:0; box-shadow:none; margin:0; width:auto; min-height:auto;}
-  .noprint{display:none !important;}
-  @page{size:A4; margin:0;}
+
+/* ── Toolbar opsi: pilih desain + toggle portofolio ── */
+.cv-opts{max-width:900px; margin:0 auto; padding:0 16px 12px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+.cv-themes{display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
+.cv-opts-l{font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--sub); margin-right:2px;}
+.cv-theme-btn{font-family:inherit; font-size:13px; font-weight:700; color:var(--ink); background:var(--card); border:1.5px solid var(--line); border-radius:999px; padding:6px 13px 6px 8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;}
+.cv-theme-btn b{width:20px; height:20px; border-radius:50%; background:var(--line); display:inline-grid; place-items:center; font-size:11px;}
+.cv-theme-btn[aria-pressed="true"]{background:var(--blue); color:#fff; border-color:var(--blue);}
+.cv-theme-btn[aria-pressed="true"] b{background:rgba(255,255,255,.25);}
+.cv-check{font-size:12.5px; font-weight:700; color:var(--sub); display:inline-flex; align-items:center; gap:7px; cursor:pointer;}
+.cv-check input{width:16px; height:16px; accent-color:var(--blue);}
+
+/* ═══════════ DESAIN 2 — IMUT ♡ ═══════════ */
+.cv-page[data-theme="cute"]{
+  --blue:#ec5d93; --ink:#4a3340; --sub:#8c6f7e; --line:#f8d6e4; --bg:#fff7fa; --card:#ffedf4;
+  font-family:'Quicksand','Source Sans 3',sans-serif; font-weight:600;
 }
+.cv-page[data-theme="cute"] #cv-print{border-radius:22px; background:#fffafc; box-shadow:0 10px 40px rgba(236,93,147,.18);}
+.cv-page[data-theme="cute"] .cv-head{background:#ffe3ee; border:2px dashed #f5a9c6; border-radius:18px; padding:12px 16px; align-items:center;}
+.cv-page[data-theme="cute"] .cv-name{font-family:'Fredoka',sans-serif; font-weight:700; font-size:30px;}
+.cv-page[data-theme="cute"] .cv-name::after{content:" ✿"; color:#f5a9c6; font-size:22px;}
+.cv-page[data-theme="cute"] .cv-role{text-transform:none; letter-spacing:.2px; font-size:12.5px;}
+.cv-page[data-theme="cute"] h2{display:inline-block; font-family:'Fredoka',sans-serif; font-weight:600; letter-spacing:.6px; background:#ffd9e8; color:#d6407c; border:none; border-radius:999px; padding:3px 13px; margin-bottom:8px;}
+.cv-page[data-theme="cute"] h2::before{content:"♡ ";}
+.cv-page[data-theme="cute"] .cv-taglist span{border:none; border-radius:999px; padding:3px 9px; font-weight:700;}
+.cv-page[data-theme="cute"] .cv-taglist span:nth-child(4n+1){background:#ffd9e8; color:#c23a71;}
+.cv-page[data-theme="cute"] .cv-taglist span:nth-child(4n+2){background:#ffe8d2; color:#b5601c;}
+.cv-page[data-theme="cute"] .cv-taglist span:nth-child(4n+3){background:#d8f5e6; color:#2f8a5b;}
+.cv-page[data-theme="cute"] .cv-taglist span:nth-child(4n+4){background:#dcecff; color:#3a6bb5;}
+.cv-page[data-theme="cute"] .cv-award:before{content:"★"; color:#f4b63d;}
+.cv-page[data-theme="cute"] .cv-org-item:before{content:"✿"; color:#f08db3;}
+.cv-page[data-theme="cute"] .cv-exp-item .y{background:#ffe8d2; color:#b5601c; border-radius:999px; padding:1px 8px; height:max-content; text-align:center; font-weight:700;}
+.cv-page[data-theme="cute"] .cv-foot{border-top:2px dashed #f5a9c6;}
+.cv-page[data-theme="cute"] .cv-foot::before{content:"♡ ";} .cv-page[data-theme="cute"] .cv-foot::after{content:" ♡";}
+.cv-page[data-theme="cute"] .pcard, .cv-page[data-theme="cute"] .cv-ccard{border:2px solid #f8d6e4; border-radius:20px; background:#fff; box-shadow:0 4px 0 #f8d6e4;}
+.cv-page[data-theme="cute"] .pcard-img{border-radius:16px 16px 0 0;}
+.cv-page[data-theme="cute"] .pcard-body h4, .cv-page[data-theme="cute"] .cv-porto-sub{font-family:'Fredoka',sans-serif; font-weight:600;}
+.cv-page[data-theme="cute"] .pcard-award{background:#fff3c9; border-color:#f4dc86; color:#9a6b00; border-radius:999px;}
+.cv-page[data-theme="cute"] .cv-porto-head h2{background:none; padding:0; font-size:26px; color:var(--ink);}
+.cv-page[data-theme="cute"] .cv-porto-head h2::before{content:"";}
+.cv-page[data-theme="cute"] .cv-dl{border-radius:999px; box-shadow:0 5px 0 #c23a71;}
+
+/* ═══════════ DESAIN 3 — LIME (selaras tema website) ═══════════ */
+.cv-page[data-theme="lime"]{
+  --blue:#14161a; --ink:#14161a; --sub:#4d5258; --line:#d9dce1; --bg:#fbfbf8; --card:#f2f3ee; --lime:#D7FF3A;
+  font-family:'Geist','Source Sans 3',sans-serif; font-weight:500;
+}
+.cv-page[data-theme="lime"] #cv-print{background:#fbfbf8;}
+.cv-page[data-theme="lime"] .cv-head{border-bottom:3px solid #14161a;}
+.cv-page[data-theme="lime"] .cv-name{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:32px; letter-spacing:-.5px;}
+.cv-page[data-theme="lime"] .cv-name .f{background:var(--lime); color:#14161a; padding:0 8px; border-radius:4px;}
+.cv-page[data-theme="lime"] .cv-role{font-family:'Geist Mono',monospace; font-weight:600; font-size:10.5px; letter-spacing:.5px;}
+.cv-page[data-theme="lime"] .cv-contact{font-family:'Geist Mono',monospace; font-size:9.6px;}
+.cv-page[data-theme="lime"] .cv-contact a{color:#14161a; text-decoration:underline; text-decoration-color:var(--lime); text-decoration-thickness:3px; text-underline-offset:2px;}
+.cv-page[data-theme="lime"] h2{display:inline-block; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:.8px; background:var(--lime); color:#14161a; border:none; border-radius:4px; padding:3px 9px; margin-bottom:8px;}
+.cv-page[data-theme="lime"] .cv-taglist span{font-family:'Geist Mono',monospace; font-weight:600; background:#fff; border:1.5px solid #14161a; border-radius:4px;}
+.cv-page[data-theme="lime"] .cv-award:before{color:#14161a;}
+.cv-page[data-theme="lime"] .cv-award .y, .cv-page[data-theme="lime"] .cv-org-item .y, .cv-page[data-theme="lime"] .cv-exp-item .y{color:#14161a; box-shadow:inset 0 -.55em 0 var(--lime); width:max-content; height:max-content; font-family:'Geist Mono',monospace;}
+.cv-page[data-theme="lime"] .cv-org-item:before{color:#14161a;}
+.cv-page[data-theme="lime"] .cv-foot{font-family:'Geist Mono',monospace;}
+.cv-page[data-theme="lime"] .pcard, .cv-page[data-theme="lime"] .cv-ccard{background:#fff; border:2px solid #14161a; border-radius:8px; box-shadow:3px 3px 0 #14161a;}
+.cv-page[data-theme="lime"] .pcard-img{border-radius:0; border-bottom:2px solid #14161a;}
+.cv-page[data-theme="lime"] .pcard-cat{color:#14161a; background:var(--lime); padding:1px 6px; border-radius:3px;}
+.cv-page[data-theme="lime"] .pcard-body h4, .cv-page[data-theme="lime"] .cv-porto-sub{font-family:'Bricolage Grotesque',sans-serif;}
+.cv-page[data-theme="lime"] .pcard-award{background:var(--lime); border-color:#14161a; color:#14161a; border-radius:4px;}
+.cv-page[data-theme="lime"] .cv-porto-sub .n{background:#14161a; color:var(--lime);}
+.cv-page[data-theme="lime"] .cv-porto-head .kicker{color:#14161a; background:var(--lime); padding:2px 8px; border-radius:3px;}
+.cv-page[data-theme="lime"] .cv-porto-head h2{background:none; padding:0; font-size:28px; letter-spacing:-.4px;}
+.cv-page[data-theme="lime"] .cv-dl{background:#14161a; color:var(--lime); border-radius:8px; box-shadow:3px 3px 0 var(--lime);}
+.cv-page[data-theme="lime"] .cv-theme-btn[aria-pressed="true"]{color:var(--lime);}
+
+/* ═══════════ PRINT — CV (hal. 1, tanpa margin) + portofolio (hal. 2+) ═══════════ */
+.cv-page, .cv-page *{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+
+.cv-porto-head .kicker{display:inline-block;}
+.cv-page .cv-porto-head h2{display:block;}
+
+@media print{
+  /* warna kertas halaman ikut desain */
+  html, body.cv-route{background:#fff !important;}
+  body.cv-route:has(.cv-page[data-theme="cute"]){background:#fff7fa !important;}
+  body.cv-route:has(.cv-page[data-theme="lime"]){background:#fbfbf8 !important;}
+  /* sembunyikan chrome website */
+  body.cv-route > *:not(#root){display:none !important;}
+  body.cv-route #root :has(#main) > :not(:has(#main)):not(#main){display:none !important;}
+  body.cv-route main#main{padding:0 !important;}
+  .noprint{display:none !important;}
+
+  .cv-page{min-height:0; background:var(--bg);}
+  #cv-print{page:cvfirst; width:auto; min-height:296mm; margin:0; box-shadow:none; border-radius:0 !important;}
+  .cv-porto{page:cvporto; break-before:page; max-width:none; margin:0; padding:0;}
+  .cv-noporto .cv-porto{display:none !important;}
+  .cv-porto-head{margin-bottom:14px;}
+  .cv-porto-head h2{font-size:22px;}
+  .cv-porto-sub{margin:18px 0 10px; break-after:avoid;}
+  .cv-pgrid{grid-template-columns:repeat(3,1fr); gap:10px;}
+  .cv-cgrid{grid-template-columns:repeat(2,1fr); gap:10px;}
+  .pcard, .cv-ccard{break-inside:avoid; box-shadow:none;}
+  .cv-page[data-theme="cute"] .pcard, .cv-page[data-theme="cute"] .cv-ccard{box-shadow:0 3px 0 #f8d6e4;}
+  .cv-page[data-theme="lime"] .pcard, .cv-page[data-theme="lime"] .cv-ccard{box-shadow:2px 2px 0 #14161a;}
+  .pcard-body{padding:8px 9px 10px;}
+  .pcard-body h4{font-size:11px;}
+  .pcard-cat, .pcard-year{font-size:8px;}
+  .pcard-award{font-size:8px; margin-top:5px;}
+  .cv-ccard img{width:56px; height:56px;}
+  .cv-ccard b{font-size:10px;} .cv-ccard span{font-size:8.5px;}
+}
+@page cvfirst{size:A4; margin:0;}
+@page cvporto{size:A4; margin:12mm 14mm;}
+@page{size:A4; margin:0;}
+
 @media (max-width:760px){
   #cv-print{width:100%; padding:7mm;}
   .cv-grid{grid-template-columns:1fr;}

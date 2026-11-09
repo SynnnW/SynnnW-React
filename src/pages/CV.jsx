@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import '../styles/cv.css';
 
 /* ══════════════════════════════════════════════════════
@@ -92,7 +93,7 @@ const CERTS = [
 function PCard({ w }) {
   return (
     <div className="pcard">
-      <div className="pcard-img"><img src={w.thumb} alt={w.title} loading="lazy" /></div>
+      <div className="pcard-img"><img src={w.thumb} alt={w.title} /></div>
       <div className="pcard-body">
         <div className="pcard-top"><span className="pcard-cat">{w.cat}</span><span className="pcard-year">{w.year}</span></div>
         <h4>{w.title}</h4>
@@ -102,12 +103,51 @@ function PCard({ w }) {
   );
 }
 
+const THEMES = [
+  { id: 'classic', n: 1, label: 'Klasik' },
+  { id: 'cute', n: 2, label: 'Imut ♡' },
+  { id: 'lime', n: 3, label: 'Lime' },
+];
+
+function readLS(k, d) { try { return localStorage.getItem(k) ?? d; } catch { return d; } }
+function writeLS(k, v) { try { localStorage.setItem(k, v); } catch { /* abaikan */ } }
+
 export default function CV() {
+  const [theme, setTheme] = useState(() => {
+    const t = readLS('cv-theme', 'classic');
+    return THEMES.some(x => x.id === t) ? t : 'classic';
+  });
+  const [withPorto, setWithPorto] = useState(() => readLS('cv-porto', '1') !== '0');
+
+  useEffect(() => { writeLS('cv-theme', theme); }, [theme]);
+  useEffect(() => { writeLS('cv-porto', withPorto ? '1' : '0'); }, [withPorto]);
+
+  /* tandai body supaya navbar/footer/mascot disembunyikan saat print */
+  useEffect(() => {
+    document.body.classList.add('cv-route');
+    return () => document.body.classList.remove('cv-route');
+  }, []);
+
   return (
-    <main className="cv-page">
+    <main className={`cv-page${withPorto ? '' : ' cv-noporto'}`} data-theme={theme}>
       <div className="cv-toolbar noprint">
         <p>Curriculum Vitae — Aldo Leo Saputra</p>
         <button className="cv-dl" onClick={() => window.print()}>⬇ Download CV (PDF)</button>
+      </div>
+
+      <div className="cv-opts noprint">
+        <div className="cv-themes" role="group" aria-label="Pilih desain CV">
+          <span className="cv-opts-l">Desain</span>
+          {THEMES.map(t => (
+            <button key={t.id} type="button" className="cv-theme-btn" aria-pressed={theme === t.id} onClick={() => setTheme(t.id)}>
+              <b>{t.n}</b> {t.label}
+            </button>
+          ))}
+        </div>
+        <label className="cv-check">
+          <input type="checkbox" checked={withPorto} onChange={e => setWithPorto(e.target.checked)} />
+          Sertakan portofolio bergambar di PDF
+        </label>
       </div>
 
       <div id="cv-print">
@@ -171,11 +211,11 @@ export default function CV() {
             </section>
           </div>
         </div>
-        <div className="cv-foot">Portofolio lengkap bergambar di bawah halaman ini & di synnnw.com</div>
+        <div className="cv-foot">{withPorto ? 'Portofolio bergambar ada di halaman berikutnya & di synnnw.com' : 'Portofolio lengkap bergambar di synnnw.com'}</div>
       </div>
 
-      {/* ── Portofolio bergambar, tidak ikut ke-print ── */}
-      <div className="cv-porto noprint">
+      {/* ── Portofolio bergambar (ikut ke-print kecuali dicentang off) ── */}
+      <div className="cv-porto">
         <div className="cv-porto-head">
           <span className="kicker">Portofolio lengkap</span>
           <h2>Semua karya, satu per satu.</h2>
@@ -191,7 +231,7 @@ export default function CV() {
         <div className="cv-cgrid">
           {CERTS.map(c => (
             <div className="cv-ccard" key={c.title}>
-              <img src={c.thumb} alt={c.title} loading="lazy" />
+              <img src={c.thumb} alt={c.title} />
               <div><b>{c.title}</b><span>{c.desc}</span></div>
             </div>
           ))}
