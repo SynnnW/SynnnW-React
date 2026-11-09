@@ -300,7 +300,9 @@ function buildCaption(post, hashtags) {
   const cat = categoryLabel(post.category);
   const to   = post.to_label   ? `untuk: ${post.to_label}` : '';
   const from = post.from_alias ? `\ndari: ${post.from_alias}` : '\ndari: Anonim';
-  const song = post.song_title ? `\n♪ ${post.song_title}${post.song_artist ? ` — ${post.song_artist}` : ''}` : '';
+  const song = post.song_title
+    ? `\n♪ ${post.song_title}${post.song_artist ? ` — ${post.song_artist}` : ''}`
+    : (post.song ? `\n♪ ${post.song}` : '');
   return `[${cat}] ${to}\n${post.body}${from}${song}\n${hashtags}`;
 }
 

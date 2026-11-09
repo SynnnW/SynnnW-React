@@ -93,7 +93,7 @@ export async function fetchAdminPosts({
 } = {}) {
   let q = supabase
     .from('menfess_posts')
-    .select('id,to_label,from_alias,category,song,body,design,status,reject_reason,public_note,admin_note,ig_url,posted_at,created_at,updated_at,decided_by,decided_at,hold_until,rules_version,user_id')
+    .select('id,to_label,from_alias,category,song,song_title,song_artist,song_artwork_url,song_url,body,design,status,reject_reason,public_note,admin_note,ig_url,posted_at,created_at,updated_at,decided_by,decided_at,hold_until,rules_version,user_id')
     .order('created_at', { ascending: false })
     .limit(limit);
   if (status)   q = q.eq('status', status);
