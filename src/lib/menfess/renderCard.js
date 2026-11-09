@@ -150,7 +150,9 @@ export async function drawCard(canvas, opts, scale = 1) {
   }
 
   // 3. Hitung apakah ada pil lagu — sisihkan ruang di bawah
-  const hasSong = !!(song_title || song_artist);
+  // Pil lagu sengaja dimatikan: gambar kartu hanya berisi saran/pesan.
+  // Judul lagu cukup di pencarian & caption (bukan di frame/download).
+  const hasSong = false;
   const songPilH = hasSong ? ah * 0.09 : 0;
   const bodyAreaH = ah - (title ? (CARD.sizes.sm || 56) * scale * CARD.lineHeight : 0) - songPilH - (curY - ay > 0 ? 0 : 0);
 
