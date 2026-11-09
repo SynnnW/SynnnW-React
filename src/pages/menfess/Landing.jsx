@@ -8,6 +8,7 @@ import { WELCOME_TITLE, WELCOME_TEXT, WHAT_IS_TEXT, RULES } from '@/lib/menfess/
 import { categoryLabel } from '@/lib/menfess/renderCard';
 import { formatRelative } from '@/components/menfess/utils';
 import StatusBadge from '@/components/menfess/StatusBadge';
+import SongPreviewButton from '@/components/menfess/SongPreviewButton';
 
 export default function Landing() {
   const auth     = useContext(MfAuthContext);
@@ -200,6 +201,12 @@ export default function Landing() {
                     <p style={{ fontSize: '.82rem', margin: 0, opacity: .7, textAlign: 'right' }}>
                       — {post.from_alias}
                     </p>
+                  )}
+                  {post.song && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                      <p style={{ fontSize: '.82rem', margin: 0, opacity: .75 }}>♪ {post.song}</p>
+                      <SongPreviewButton query={post.song} />
+                    </div>
                   )}
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4, flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '.75rem', opacity: .55 }}>{formatRelative(post.posted_at)}</span>

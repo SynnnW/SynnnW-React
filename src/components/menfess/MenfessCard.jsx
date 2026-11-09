@@ -4,6 +4,7 @@
 
 import { categoryLabel } from '@/lib/menfess/renderCard';
 import StatusBadge       from './StatusBadge';
+import SongPreviewButton from './SongPreviewButton';
 import { formatRelative } from './utils';
 
 /**
@@ -54,7 +55,10 @@ export default function MenfessCard({
 
         {/* Songfess */}
         {post.song && (
-          <p style={{ fontSize: '.82rem', opacity: .75 }}>♪ {post.song}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <p style={{ fontSize: '.82rem', opacity: .75, margin: 0 }}>♪ {post.song}</p>
+            <SongPreviewButton query={post.song} />
+          </div>
         )}
 
         {/* Status */}
