@@ -17,6 +17,36 @@ import { PullIndicator } from '@/components/makrab/PullToRefresh';
 import { usePullToRefresh } from '@/components/makrab/usePullToRefresh';
 // usePullToRefresh(onRefresh, disabled) → { pull, phase }
 
+// ─── Notifikasi menfess baru ─────────────────────────────────────────────────
+const POLL_MS = 30000;
+
+function beep() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.35);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.4);
+    osc.onended = () => { try { ctx.close(); } catch { /* abaikan */ } };
+  } catch { /* browser memblokir audio — abaikan */ }
+}
+
+function systemNotify(title, body) {
+  try {
+    if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+    new Notification(title, { body, tag: 'mf-new-post', icon: '/favicon.svg' });
+  } catch { /* beberapa browser HP tidak mengizinkan — cukup toast/judul tab */ }
+}
+
 const TABS = [
   { id: 'upload', label: '📤 Upload' },
   { id: 'queue',  label: '⏳ Antrean' },
@@ -40,14 +70,72 @@ export default function AdminDashboard() {
     setTimeout(() => setToast(''), 3500);
   }
 
-  const refreshCounts = useCallback(async () => {
+  const prevPendingRef = useRef(null);   // jumlah pending sebelumnya (null = belum pernah dimuat)
+  const showToastRef   = useRef(showToast);
+  const unreadRef      = useRef(0);
+  const baseTitleRef   = useRef('');
+  const [notifPerm, setNotifPerm] = useState(
+    typeof Notification !== 'undefined' ? Notification.permission : 'unsupported'
+  );
+
+  useEffect(() => { showToastRef.current = showToast; });
+
+  // Judul tab kembali normal saat admin balik ke halaman ini
+  useEffect(() => {
+    const onVisible = () => {
+      if (!document.hidden && unreadRef.current) {
+        unreadRef.current = 0;
+        document.title = baseTitleRef.current;
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible);
+      if (unreadRef.current) document.title = baseTitleRef.current;
+    };
+  }, []);
+
+  const notifyNew = useCallback((added, total) => {
+    showToastRef.current?.(added === 1 ? '📩 1 menfess baru masuk!' : `📩 ${added} menfess baru masuk!`);
+    beep();
+    try { navigator.vibrate?.([120, 60, 120]); } catch { /* abaikan */ }
+    if (document.hidden) {
+      if (!unreadRef.current) baseTitleRef.current = document.title;
+      unreadRef.current += added;
+      document.title = `(${unreadRef.current}) Menfess baru • ${baseTitleRef.current}`;
+      systemNotify('26Menfess — menfess baru', `${added} menfess baru menunggu di antrean (total ${total}).`);
+    }
+  }, []);
+
+  // silent=true: dipanggil setelah aksi admin sendiri (approve/tolak/buka lagi) → jangan bunyi
+  const refreshCounts = useCallback(async (silent = false) => {
     try {
       const c = await fetchAdminCounts();
       setCounts(c);
+      const pending = Number(c?.pending ?? 0);
+      const prev = prevPendingRef.current;
+      prevPendingRef.current = pending;
+      if (silent !== true && prev !== null && pending > prev) notifyNew(pending - prev, pending);
     } catch { /* ignore */ }
-  }, []);
+  }, [notifyNew]);
+
+  const afterAction = useCallback(() => refreshCounts(true), [refreshCounts]);
 
   useEffect(() => { refreshCounts(); }, []);
+
+  // Cek menfess baru tiap 30 detik selama dashboard admin terbuka
+  useEffect(() => {
+    const id = setInterval(() => refreshCounts(), POLL_MS);
+    return () => clearInterval(id);
+  }, [refreshCounts]);
+
+  async function enableNotif() {
+    try {
+      const p = await Notification.requestPermission();
+      setNotifPerm(p);
+      showToast(p === 'granted' ? '🔔 Notifikasi aktif' : 'Notifikasi tidak diizinkan di browser', p !== 'granted');
+    } catch { setNotifPerm('denied'); }
+  }
 
   // Refresh saat tab kembali aktif
   useEffect(() => {
@@ -73,6 +161,12 @@ export default function AdminDashboard() {
           🛡️ Admin 26Menfess
         </span>
         <div style={{ display:'flex',gap:6 }}>
+          {notifPerm === 'default' && (
+            <button className="mf-btn mf-btn-ghost" onClick={enableNotif}
+              aria-label="Aktifkan notifikasi menfess baru" style={{ fontSize:'.8rem',padding:'6px 10px' }}>
+              🔔 Notif
+            </button>
+          )}
           <a href="/26menfess/app" className="mf-btn mf-btn-ghost" style={{ fontSize:'.8rem',padding:'6px 10px' }}>
             ← Dashboard
           </a>
@@ -88,9 +182,9 @@ export default function AdminDashboard() {
           <button key={t.id} className={`mf-tab ${tab === t.id ? 'active' : ''}`}
             onClick={() => setParams({ tab: t.id })}>
             {t.label}
-            {counts[t.id] > 0 && t.id !== 'studio' && t.id !== 'owner' && (
+            {(counts[t.id === 'queue' ? 'pending' : t.id] > 0) && t.id !== 'studio' && t.id !== 'owner' && (
               <span style={{ background:'var(--mf-brick)',color:'#fff',borderRadius:999,padding:'1px 5px',fontSize:'.72rem',marginLeft:4 }}>
-                {counts[t.id]}
+                {counts[t.id === 'queue' ? 'pending' : t.id]}
               </span>
             )}
           </button>
@@ -98,10 +192,10 @@ export default function AdminDashboard() {
       </div>
 
       <main className="mf-page" style={{ paddingTop:24 }}>
-        {tab === 'upload' && <UploadMode onDone={refreshCounts} showToast={showToast} />}
-        {tab === 'queue'  && <Queue status="pending" onDone={refreshCounts} showToast={showToast} />}
-        {tab === 'hold'   && <Queue status="hold"    onDone={refreshCounts} showToast={showToast} />}
-        {tab === 'posted' && <Queue status="posted"  onDone={refreshCounts} showToast={showToast} />}
+        {tab === 'upload' && <UploadMode onDone={afterAction} showToast={showToast} />}
+        {tab === 'queue'  && <Queue status="pending" onDone={afterAction} showToast={showToast} />}
+        {tab === 'hold'   && <Queue status="hold"    onDone={afterAction} showToast={showToast} />}
+        {tab === 'posted' && <Queue status="posted"  onDone={afterAction} showToast={showToast} />}
         {tab === 'studio' && <Studio showToast={showToast} />}
         {tab === 'owner'  && isOwner && <OwnerPanel showToast={showToast} />}
       </main>
