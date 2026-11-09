@@ -1,0 +1,15 @@
+{
+  "name": "26Menfess",
+  "short_name": "26Menfess",
+  "description": "Menfess anonim untuk FKEP 2026",
+  "start_url": "/26menfess/app",
+  "scope": "/26menfess/",
+  "display": "standalone",
+  "background_color": "#FEEEE6",
+  "theme_color": "#FEEEE6",
+  "icons": [
+    { "src": "/26menfess/icons/icon-192.png",         "sizes": "192x192", "type": "image/png" },
+    { "src": "/26menfess/icons/icon-512.png",         "sizes": "512x512", "type": "image/png" },
+    { "src": "/26menfess/icons/icon-maskable-512.png","sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,398 @@
+/* ═══════════════════════════════════════════════════════════════════
+   26Menfess — Global styles
+   Semua di-scope ke .mf supaya tidak bocor ke halaman SynnnW lain.
+   Font: Fredoka (heading), Plus Jakarta Sans (body), Kanit (kartu).
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Token warna brand ─────────────────────────────────────────── */
+.mf {
+  --mf-teal:   #AFCCCB;
+  --mf-mauve:  #BE98AE;
+  --mf-peach:  #FDC58A;
+  --mf-brick:  #C25B58;
+  --mf-cream:  #FEEEE6;
+  --mf-ink:    #2A2B2C;
+
+  /* Tema pink (default) */
+  --mf-primary:  #D94C95;
+  --mf-mid:      #E3A7C1;
+  --mf-soft:     #ECC8D7;
+  --mf-tint:     #F8E6EE;
+  --mf-accent2:  #BE98AE;
+
+  /* Tipografi */
+  --mf-font-brand: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
+  --mf-font-body:  'Plus Jakarta Sans', sans-serif;
+  --mf-font-card:  'Kanit', sans-serif;
+
+  /* Layout */
+  --mf-radius:    24px;
+  --mf-radius-sm: 12px;
+  --mf-radius-pill: 999px;
+  --mf-shadow:    4px 4px 0 var(--mf-ink);
+  --mf-shadow-sm: 3px 3px 0 var(--mf-ink);
+  --mf-gap:       16px;
+  --mf-tap:       44px;
+  --mf-max-w:     1080px;
+
+  /* Base */
+  background: var(--mf-cream);
+  color:       var(--mf-ink);
+  font-family: var(--mf-font-body);
+  font-size:   15px;
+  line-height: 1.5;
+  min-height:  100dvh;
+  box-sizing:  border-box;
+}
+
+/* ─── Tema hijau ─────────────────────────────────────────────────── */
+.mf[data-mf-theme="green"] {
+  --mf-primary:  #70B88E;
+  --mf-mid:      #9AC49D;
+  --mf-soft:     #A3CAAE;
+  --mf-tint:     #EFECB6;
+  --mf-accent2:  #CEDBA3;
+}
+
+.mf * { box-sizing: inherit; }
+
+/* ─── Tipografi ──────────────────────────────────────────────────── */
+.mf h1,.mf h2,.mf h3,.mf h4 {
+  font-family: var(--mf-font-brand);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--mf-ink);
+}
+.mf h1 { font-size: clamp(1.8rem, 5vw, 3rem); }
+.mf h2 { font-size: clamp(1.3rem, 3.5vw, 2rem); }
+.mf h3 { font-size: 1.15rem; }
+.mf p  { margin: 0 0 .75em; }
+
+/* ─── Tombol "soft sticker" ──────────────────────────────────────── */
+.mf-btn {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             6px;
+  padding:         10px 22px;
+  border-radius:   var(--mf-radius-pill);
+  border:          2px solid var(--mf-ink);
+  box-shadow:      var(--mf-shadow-sm);
+  font-family:     var(--mf-font-body);
+  font-size:       .9rem;
+  font-weight:     700;
+  cursor:          pointer;
+  transition:      transform .1s, box-shadow .1s;
+  min-height:      var(--mf-tap);
+  user-select:     none;
+  text-decoration: none;
+  white-space:     nowrap;
+}
+.mf-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--mf-ink); }
+.mf-btn-primary { background: var(--mf-primary); color: var(--mf-ink); }
+.mf-btn-secondary { background: var(--mf-cream); color: var(--mf-ink); }
+.mf-btn-ghost { background: transparent; box-shadow: none; border-color: transparent; }
+.mf-btn-danger { background: var(--mf-brick); color: #fff; border-color: var(--mf-ink); }
+.mf-btn:disabled,.mf-btn[aria-disabled="true"] {
+  opacity: .5; cursor: not-allowed; transform: none; box-shadow: var(--mf-shadow-sm);
+}
+.mf-btn:focus-visible {
+  outline: 2px solid var(--mf-ink);
+  outline-offset: 2px;
+}
+
+/* ─── Kartu ──────────────────────────────────────────────────────── */
+.mf-card {
+  background:    var(--mf-tint);
+  border:        2px solid var(--mf-ink);
+  border-radius: var(--mf-radius);
+  box-shadow:    var(--mf-shadow);
+  padding:       var(--mf-gap);
+  position:      relative;
+}
+.mf-card-surface {
+  background: white;
+  border: 2px solid var(--mf-ink);
+  border-radius: var(--mf-radius);
+  box-shadow: var(--mf-shadow);
+  padding: var(--mf-gap);
+}
+
+/* ─── Badge status ───────────────────────────────────────────────── */
+.mf-badge {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           4px;
+  padding:       4px 10px;
+  border-radius: var(--mf-radius-pill);
+  border:        1.5px solid var(--mf-ink);
+  font-size:     .78rem;
+  font-weight:   700;
+  white-space:   nowrap;
+}
+.mf-badge-pending  { background: var(--mf-teal); }
+.mf-badge-hold     { background: var(--mf-peach); }
+.mf-badge-approved { background: var(--mf-mauve); }
+.mf-badge-posted   { background: var(--mf-primary); }
+.mf-badge-rejected { background: var(--mf-brick); color: #fff; }
+.mf-badge-withdrawn,.mf-badge-removed { background: #ccc; }
+
+/* ─── Form ───────────────────────────────────────────────────────── */
+.mf-label {
+  display:     block;
+  font-weight: 700;
+  font-size:   .88rem;
+  margin-bottom: 4px;
+}
+.mf-input, .mf-textarea, .mf-select {
+  width:         100%;
+  padding:       10px 14px;
+  border-radius: var(--mf-radius-sm);
+  border:        2px solid var(--mf-ink);
+  font-family:   var(--mf-font-body);
+  font-size:     .95rem;
+  background:    white;
+  color:         var(--mf-ink);
+  outline:       none;
+  transition:    box-shadow .15s;
+}
+.mf-input:focus,.mf-textarea:focus,.mf-select:focus {
+  box-shadow: 0 0 0 3px var(--mf-primary);
+}
+.mf-textarea { min-height: 120px; resize: vertical; }
+.mf-counter  { font-size: .78rem; text-align: right; color: color-mix(in srgb, var(--mf-ink) 60%, transparent); }
+.mf-counter.over { color: var(--mf-brick); font-weight: 700; }
+
+/* ─── Chip kategori ──────────────────────────────────────────────── */
+.mf-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.mf-chip {
+  padding:         6px 14px;
+  border-radius:   var(--mf-radius-pill);
+  border:          2px solid var(--mf-ink);
+  font-size:       .82rem;
+  font-weight:     700;
+  cursor:          pointer;
+  background:      white;
+  transition:      background .12s, transform .1s;
+  min-height:      var(--mf-tap);
+  display:         flex;
+  align-items:     center;
+}
+.mf-chip:active { transform: scale(.97); }
+.mf-chip.selected { background: var(--mf-primary); }
+.mf-chip:focus-visible { outline: 2px solid var(--mf-ink); outline-offset: 2px; }
+
+/* ─── Kartu desain (picker) ──────────────────────────────────────── */
+.mf-design-picker { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mf-gap); }
+.mf-design-card {
+  aspect-ratio:  4 / 5;
+  border-radius: var(--mf-radius);
+  border:        3px solid var(--mf-ink);
+  box-shadow:    var(--mf-shadow);
+  cursor:        pointer;
+  overflow:      hidden;
+  transition:    transform .12s, box-shadow .12s;
+  position:      relative;
+}
+.mf-design-card.selected { border-color: var(--mf-primary); box-shadow: 0 0 0 4px var(--mf-primary); transform: translateY(-3px); }
+.mf-design-card:focus-visible { outline: 3px solid var(--mf-ink); outline-offset: 2px; }
+
+/* ─── Preview kartu teks ─────────────────────────────────────────── */
+.mf-preview {
+  aspect-ratio:  4 / 5;
+  border-radius: var(--mf-radius);
+  border:        2px solid var(--mf-ink);
+  box-shadow:    var(--mf-shadow);
+  overflow:      hidden;
+  position:      relative;
+  display:       flex;
+  flex-direction: column;
+  padding:       8%;
+}
+.mf-preview-bg-pink  { background: linear-gradient(160deg, #D94C95 0%, #ECC8D7 55%, #F8E6EE 100%); }
+.mf-preview-bg-green { background: linear-gradient(160deg, #70B88E 0%, #CEDBA3 55%, #EFECB6 100%); }
+.mf-preview-label    { font-size: .7rem; font-weight: 700; opacity: .75; font-family: var(--mf-font-card); }
+.mf-preview-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-family: var(--mf-font-card);
+  font-weight: 800;
+  font-size:   clamp(.9rem, 2.5vw, 1.4rem);
+  line-height: 1.25;
+  color:       var(--mf-ink);
+  word-break:  break-word;
+  overflow:    hidden;
+}
+.mf-preview-watermark {
+  font-size: .6rem;
+  opacity:   .4;
+  text-align: right;
+  font-family: var(--mf-font-card);
+}
+
+/* ─── Layout halaman ─────────────────────────────────────────────── */
+.mf-page {
+  max-width: var(--mf-max-w);
+  margin:    0 auto;
+  padding:   0 var(--mf-gap) calc(var(--mf-gap) * 4);
+  width:     100%;
+}
+.mf-topbar {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         12px var(--mf-gap);
+  position:        sticky;
+  top:             0;
+  z-index:         50;
+  background:      var(--mf-cream);
+  border-bottom:   2px solid var(--mf-ink);
+  gap:             8px;
+}
+.mf-tabs {
+  display:  flex;
+  gap:      4px;
+  border-bottom: 2px solid var(--mf-ink);
+  padding:  0 var(--mf-gap);
+}
+.mf-tab {
+  padding:        10px 18px;
+  border:         none;
+  background:     transparent;
+  font-weight:    700;
+  font-size:      .9rem;
+  cursor:         pointer;
+  border-bottom:  3px solid transparent;
+  margin-bottom: -2px;
+  font-family:    var(--mf-font-body);
+  color:          var(--mf-ink);
+  opacity:        .6;
+  transition:     opacity .12s;
+  min-height:     var(--mf-tap);
+}
+.mf-tab.active { border-bottom-color: var(--mf-primary); opacity: 1; }
+.mf-tab:focus-visible { outline: 2px solid var(--mf-ink); }
+
+/* ─── Toast ──────────────────────────────────────────────────────── */
+.mf-toast-wrap {
+  position:  fixed;
+  bottom:    24px;
+  left:      50%;
+  transform: translateX(-50%);
+  z-index:   1000;
+  display:   flex;
+  flex-direction: column;
+  align-items: center;
+  gap:       8px;
+  pointer-events: none;
+}
+.mf-toast {
+  background:    var(--mf-ink);
+  color:         var(--mf-cream);
+  padding:       10px 20px;
+  border-radius: var(--mf-radius-pill);
+  font-weight:   700;
+  font-size:     .88rem;
+  pointer-events: auto;
+  animation:     mf-toast-in .2s ease;
+}
+.mf-toast.error { background: var(--mf-brick); }
+@keyframes mf-toast-in { from { opacity: 0; transform: translateY(8px); } }
+
+/* ─── Modal ──────────────────────────────────────────────────────── */
+.mf-overlay {
+  position:   fixed;
+  inset:      0;
+  background: rgba(42,43,44,.55);
+  z-index:    200;
+  display:    flex;
+  align-items: center;
+  justify-content: center;
+  padding:    var(--mf-gap);
+}
+.mf-modal {
+  background:    var(--mf-cream);
+  border:        2px solid var(--mf-ink);
+  border-radius: var(--mf-radius);
+  box-shadow:    var(--mf-shadow);
+  max-width:     540px;
+  width:         100%;
+  max-height:    90dvh;
+  overflow-y:    auto;
+  padding:       calc(var(--mf-gap) * 1.5);
+}
+
+/* ─── Skeleton loading ───────────────────────────────────────────── */
+.mf-skeleton {
+  background:    linear-gradient(90deg, var(--mf-soft) 25%, var(--mf-tint) 50%, var(--mf-soft) 75%);
+  background-size: 200% 100%;
+  animation:     mf-skeleton-wave 1.5s infinite;
+  border-radius: var(--mf-radius-sm);
+}
+@keyframes mf-skeleton-wave { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* ─── Peringatan in-app browser ──────────────────────────────────── */
+.mf-inapp-notice {
+  background:    var(--mf-peach);
+  border:        2px solid var(--mf-ink);
+  border-radius: var(--mf-radius-sm);
+  padding:       12px var(--mf-gap);
+  font-size:     .88rem;
+  font-weight:   600;
+  display:       flex;
+  flex-direction: column;
+  gap:           8px;
+}
+
+/* ─── Empty state ────────────────────────────────────────────────── */
+.mf-empty {
+  text-align:  center;
+  padding:     48px var(--mf-gap);
+  opacity:     .7;
+}
+.mf-empty-icon { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+/* ─── Peringatan doxxing ─────────────────────────────────────────── */
+.mf-warn-banner {
+  background:    var(--mf-peach);
+  border:        2px solid var(--mf-ink);
+  border-radius: var(--mf-radius-sm);
+  padding:       10px 14px;
+  font-size:     .85rem;
+  font-weight:   600;
+}
+
+/* ─── Responsif ──────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .mf-design-picker { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mf-modal { border-radius: var(--mf-radius-sm) var(--mf-radius-sm) 0 0; align-self: flex-end; max-height: 95dvh; }
+  .mf-overlay { align-items: flex-end; }
+}
+
+/* ─── reduced-motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mf-skeleton { animation: none; background: var(--mf-soft); }
+  .mf-toast { animation: none; }
+}
+
+/* ─── Focus ring global di dalam .mf ────────────────────────────── */
+.mf :focus-visible {
+  outline: 2px solid var(--mf-ink);
+  outline-offset: 2px;
+}
+
+/* ─── Izinkan pilih teks/paste di dalam .mf-allow ───────────────── */
+.mf-allow { user-select: text; -webkit-user-select: text; }
+
+/* ─── Kunci warna terang pada canvas & preview kartu (tidak terpengaruh dark mode HP) ── */
+.mf canvas,
+.mf-preview,
+.mf-design-card {
+  color-scheme: light;
+}
+
+/* Pastikan root .mf juga terkunci terang */
+.mf {
+  color-scheme: light;
+}

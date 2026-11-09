@@ -1,6 +1,6 @@
 // Light "barrier" against casual copying: long-press menu, image save/drag, text selection and copy.
 // This only stops casual attempts; it cannot stop screenshots or dev tools.
-const ALLOW = 'input, textarea, select, [contenteditable="true"], .allow-select, .dash, .mk';
+const ALLOW = 'input, textarea, select, [contenteditable="true"], .allow-select, .dash, .mk, .mf-allow';
 
 const isAllowed = (target) => {
   const el = target instanceof Element ? target : target && target.parentElement;

@@ -67,6 +67,7 @@ const NotFound    = lazy(() => import('./pages/NotFound'));
 
 /* ── Makrab 2026 (privat, tidak ada di navbar) ── */
 const Makrab      = lazy(() => import('./pages/Makrab'));
+const MenfessApp  = lazy(() => import('./pages/menfess/MenfessApp'));
 
 /* ── Quiz pages — fullscreen, tidak ada di navbar ──
  *  Untuk menambah quiz baru:
@@ -127,7 +128,7 @@ export default function App() {
       <Preloader />
       {loadingAuth && <LoadingScreen />}
       <BrowserRouter>
-        <Layout user={user} />
+        <Layout user={user} loadingAuth={loadingAuth} />
       </BrowserRouter>
     </>
   );
@@ -145,7 +146,7 @@ function ScrollToTop() {
 /* ══════════════════════════════════════════════════════
    LAYOUT — theme, lang, navbar, footer, routes
 ══════════════════════════════════════════════════════ */
-function Layout({ user }) {
+function Layout({ user, loadingAuth }) {
   const { theme, toggleTheme } = useTheme();
   const { lang, t, toggleLang } = useLang();
   const location = useLocation();
@@ -179,7 +180,9 @@ function Layout({ user }) {
   }, [user]);
 
   /* ── Halaman fullscreen: tidak pakai Navbar & Footer ── */
-  const isFullscreen = [
+  const isMenfess = pathname.startsWith('/26menfess');
+
+  const isFullscreen = isMenfess || [
     '/Dashboard',
     '/admin-dashboard',
     '/login',
@@ -188,8 +191,8 @@ function Layout({ user }) {
     ...QUIZ_PATHS,
   ].includes(pathname);
 
-  /* ── Halaman quiz: sembunyikan FloatingUtils ── */
-  const isQuizPage = QUIZ_PATHS.includes(pathname) || pathname === '/makrab';
+  /* ── Halaman quiz/menfess: sembunyikan FloatingUtils & Mascot ── */
+  const isQuizPage = isMenfess || QUIZ_PATHS.includes(pathname) || pathname === '/makrab';
 
   return (
     <>
@@ -215,7 +218,7 @@ function Layout({ user }) {
         <AnimatePresence mode="wait">
           <Suspense fallback={<PageLoader />}>
             <PageTransition>
-              <Routes location={location} key={location.pathname}>
+              <Routes location={location} key={isMenfess ? '/26menfess' : location.pathname}>
 
                 {/* ── PUBLIC PAGES ── */}
                 <Route path="/"               element={<Home t={t} lang={lang} toggleLang={toggleLang} />} />
@@ -283,13 +286,14 @@ function Layout({ user }) {
 
                 <Route
                   path="/checkout"
-                  element={user ? <CheckoutQRIS /> : <Navigate to="/login" replace />}
+                  element={loadingAuth ? <PageLoader /> : user ? <CheckoutQRIS /> : <Navigate to="/login" replace />}
                 />
 
                 {/* ── CLIENT DASHBOARD ── */}
                 <Route
                   path="/Dashboard"
                   element={
+                    loadingAuth ? <PageLoader /> :
                     user
                       ? (!userProfileComplete
                           ? <Navigate to="/complete-profile" replace />
@@ -302,6 +306,7 @@ function Layout({ user }) {
                 <Route
                   path="/admin-dashboard"
                   element={
+                    loadingAuth ? <PageLoader /> :
                     user && user.email === ADMIN_EMAIL
                       ? <AdminDashboard />
                       : <Navigate to="/login" replace />
@@ -324,6 +329,9 @@ function Layout({ user }) {
                 <Route path="/quiziz/ibd"                    element={<QuizIBD />} />
                 <Route path="/quiziz/komdas"                 element={<QuizKomdas />} />
                 {/* <Route path="/quiz-farmakologi" element={<FarmakologiQuiz />} /> */}
+
+                {/* ── 26MENFESS — menfess anonim FKEP 2026 ── */}
+                <Route path="/26menfess/*" element={<MenfessApp />} />
 
                 {/* ── MAKRAB 2026 — privat; akses dicek di dalam halaman (RLS) ── */}
                 <Route path="/makrab" element={<Makrab />} />
