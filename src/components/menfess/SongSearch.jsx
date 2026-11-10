@@ -102,7 +102,7 @@ export default function SongSearch({ value, onChange }) {
           <div className="mf-grow"><SongPill song={value} preview={false} /></div>
           <IconButton icon="close" label="Hapus lagu" variant="secondary" onClick={clearSong} />
         </div>
-        <SongPreviewButton labeled title={value.song_title} artist={value.song_artist} />
+        <SongPreviewButton labeled title={value.song_title} artist={value.song_artist} previewUrl={value.song_preview_url} />
       </div>
     );
   }

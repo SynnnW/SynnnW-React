@@ -15,7 +15,7 @@ export default function SongPill({ song, preview = true }) {
         <div className="mf-song-t">{title}</div>
         {artist && <div className="mf-song-a">{artist}</div>}
       </div>
-      {preview && <SongPreviewButton title={title} artist={artist} />}
+      {preview && <SongPreviewButton title={title} artist={artist} previewUrl={song.song_preview_url} />}
     </div>
   );
 }

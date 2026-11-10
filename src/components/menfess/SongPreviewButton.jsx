@@ -14,8 +14,8 @@ function stopActive() {
   active = null;
 }
 
-// Sumber preview: Audius (open source, Open Audio Protocol) — bukan Apple Music.
-// Tidak semua lagu ada di Audius; kalau tidak ketemu yang cocok, preview dinyatakan tidak tersedia.
+// Sumber preview: iTunes dulu, lalu Audius (open source) sebagai cadangan.
+// Kalau dua-duanya tidak punya lagunya, preview dinyatakan tidak tersedia.
 const APP = '26Menfess';
 const HOSTS = ['https://api.audius.co', 'https://discoveryprovider.audius.co'];
 
@@ -35,9 +35,27 @@ function pick(tracks, title, artist) {
   return null;
 }
 
-async function findPreview({ title, artist }) {
+async function findItunes(title, artist) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 6000);
+  try {
+    const q = `${title} ${artist || ''}`.trim();
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=5&country=ID`, { signal: ctrl.signal });
+    const data = await res.json();
+    const wantT = norm(title);
+    const hit = (data?.results || []).find(r => r.previewUrl && (norm(r.trackName) === wantT || norm(r.trackName).includes(wantT) || wantT.includes(norm(r.trackName))));
+    return hit?.previewUrl || null;
+  } catch { return null; }
+  finally { clearTimeout(timer); }
+}
+
+// Urutan: preview tersimpan (iTunes) → cari di iTunes → Audius (open source) → tidak tersedia
+async function findPreview({ title, artist, previewUrl }) {
+  if (previewUrl) return previewUrl;
   const key = `${title}|${artist}`;
   if (CACHE.has(key)) return CACHE.get(key);
+  const it = await findItunes(title, artist);
+  if (it) { CACHE.set(key, it); return it; }
   const q = `${title} ${artist || ''}`.trim();
   for (const host of HOSTS) {
     const ctrl = new AbortController();
@@ -57,7 +75,7 @@ async function findPreview({ title, artist }) {
 }
 
 /** @param {{ title: string, artist?: string, labeled?: boolean }} props */
-export default function SongPreviewButton({ title, artist, labeled }) {
+export default function SongPreviewButton({ title, artist, previewUrl, labeled }) {
   const [state, setState] = useState('idle'); // idle | loading | playing | error
   const audioRef = useRef(null);
   const aliveRef = useRef(true);
@@ -80,7 +98,7 @@ export default function SongPreviewButton({ title, artist, labeled }) {
     stopActive();
     safeSet('loading');
     try {
-      const url = await findPreview({ title, artist });
+      const url = await findPreview({ title, artist, previewUrl });
       if (!url) { safeSet('error'); return; }
 
       const audio = new Audio(url);
@@ -113,7 +131,7 @@ export default function SongPreviewButton({ title, artist, labeled }) {
           {icon}{state === 'loading' ? 'Mencari lagu…' : state === 'error' ? 'Tidak tersedia' : state === 'playing' ? 'Jeda' : 'Putar lagu'}
         </button>
         {state === 'error' && <span className="mf-xs mf-muted" role="status">Lagu ini belum tersedia untuk diputar. Tetap bisa dikirim kok.</span>}
-        {state === 'playing' && <span className="mf-xs mf-muted">Sumber: Audius (open source)</span>}
+        {state === 'playing' && <span className="mf-xs mf-muted">Preview 30 detik</span>}
       </div>
     );
   }
