@@ -54,6 +54,17 @@ export const TEMPLATE_PATH = {
   picnic: '/26menfess/templates/picnic.webp', // hasil render ringan (aslinya SVG 396 MB)
 };
 
+/** Versi kecil (600×750) untuk preview/thumbnail; versi penuh hanya dimuat saat unduh. */
+export const TEMPLATE_PATH_SMALL = {
+  picnic: '/26menfess/templates/picnic-s.webp',
+};
+
+/** Pilih berkas template sesuai skala render (hemat bandwidth di HP). */
+export function templateSrc(design, scale = 1) {
+  if (scale <= 0.5 && TEMPLATE_PATH_SMALL[design]) return TEMPLATE_PATH_SMALL[design];
+  return TEMPLATE_PATH[design] || TEMPLATE_PATH.pink;
+}
+
 /** Thumbnail kecil untuk picker (hemat bandwidth). */
 export const TEMPLATE_THUMB = {
   picnic: '/26menfess/templates/picnic-thumb.webp',

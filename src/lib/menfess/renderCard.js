@@ -9,7 +9,7 @@
 //   renderCardBlob(opts)                             → Promise<Blob>
 //   cardFilename(id, design)                         → string
 
-import { CARD, safeAreaPx, TEMPLATE_PATH, FALLBACK_GRADIENT, CARD_TEXT_COLOR } from './templateConfig';
+import { CARD, safeAreaPx, TEMPLATE_PATH, templateSrc, FALLBACK_GRADIENT, CARD_TEXT_COLOR } from './templateConfig';
 import { CATEGORIES } from './rules';
 
 // ─── Utility ─────────────────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ export async function drawCard(canvas, opts, scale = 1) {
   const ctx = canvas.getContext('2d');
 
   // 1. Latar: SVG template atau fallback gradient
-  const tmpl = await loadImage(TEMPLATE_PATH[design] || TEMPLATE_PATH.pink);
+  const tmpl = await loadImage(templateSrc(design, scale));
   if (tmpl) {
     ctx.drawImage(tmpl, 0, 0, W, H);
   } else {
