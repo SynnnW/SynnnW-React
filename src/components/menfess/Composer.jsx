@@ -203,11 +203,9 @@ export default function Composer({ settings, onSent, goHistory }) {
           {error && <Callout kind="bad" icon="alert">{error}</Callout>}
         </div>
 
-        <aside className="mf-compose-preview mf-stack" aria-label="Preview">
-          <div className="mf-preview-desktop" style={{ display: 'contents' }}>
-            <div className="mf-hide-sm"><PreviewCanvas opts={cardOpts} scale={0.3} /></div>
-          </div>
-          <div className="mf-hide-sm"><Button variant="secondary" icon="download" block onClick={download} disabled={empty}>Unduh PNG</Button></div>
+        <aside className="mf-compose-preview mf-stack mf-hide-sm" aria-label="Preview">
+          <PreviewCanvas opts={cardOpts} scale={0.3} />
+          <Button variant="secondary" icon="download" block onClick={download} disabled={empty}>Unduh PNG</Button>
         </aside>
       </div>
 

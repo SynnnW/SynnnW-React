@@ -129,7 +129,7 @@ function TopBar({ onLogout }) {
         </nav>
         <div className="mf-grow" />
         {ready && !user && <Button to="/26menfess/masuk" size="sm" state={{ from: loc.pathname + loc.search }}>Masuk</Button>}
-        {ready && user && !onApp && <Button to="/26menfess/app?tab=kirim" size="sm" icon="send">Tulis menfess</Button>}
+        {ready && user && !onApp && <Button to="/26menfess/app?tab=kirim" size="sm" icon="send"><span className="mf-hide-xs">Tulis menfess</span></Button>}
         {ready && user && <UserMenu onLogout={onLogout} />}
       </div>
     </header>
@@ -198,9 +198,9 @@ export default function MfShell() {
       <a className="mf-sr" href="#mf-main">Lewati ke konten</a>
       <ScrollManager />
       <TopBar onLogout={() => setLogout(true)} />
-      <main id="mf-main" tabIndex={-1} className={`mf-main${showBottom ? ' has-bottom-nav' : ''}`} style={isAdminRoute ? { maxWidth: 1240 } : undefined}>
+      <div id="mf-main" tabIndex={-1} className={`mf-main${showBottom ? ' has-bottom-nav' : ''}`} style={isAdminRoute ? { maxWidth: 1240 } : undefined}>
         <Outlet context={{ openLogout: () => setLogout(true) }} />
-      </main>
+      </div>
       <Footer padBottom={showBottom} />
       {showBottom && <BottomNav />}
       <LogoutDialog open={logout} onClose={() => setLogout(false)} />

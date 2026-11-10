@@ -10,7 +10,7 @@ import {
 import { renderCardBlob, cardFilename, categoryLabel } from '@/lib/menfess/renderCard';
 import { REJECT_REASONS } from '@/lib/menfess/rules';
 import { formatRelative } from '@/components/menfess/utils';
-import { PullIndicator } from '@/components/makrab/PullToRefresh';
+import PullHint from '@/components/menfess/ui/PullHint';
 import { usePullToRefresh } from '@/components/makrab/usePullToRefresh';
 import { Sheet, ConfirmDialog } from '@/components/menfess/ui/Sheet';
 import { Badge, Button, EmptyState, ErrorState, Field, Icon, Segmented, Skeleton, StatusBadge, Tabs } from '@/components/menfess/ui';
@@ -142,19 +142,23 @@ export default function AdminDashboard() {
     return () => document.removeEventListener('visibilitychange', onVis);
   }, [refreshCounts]);
 
-  const { pull, phase } = usePullToRefresh(refreshCounts);
+  const { pull, phase } = usePullToRefresh(async () => { await refreshCounts(true); return true; });
   const visible = TABS.filter(t => t.id !== 'owner' || isOwner);
   const withCounts = visible.map(t => ({ ...t, count: t.count ? Number(counts[t.count] || 0) : 0 }));
 
   return (
     <div className="mf-stack">
-      <PullIndicator pull={pull} phase={phase} />
-      <div className="mf-row-wrap" style={{ alignItems: 'center' }}>
-        <h1 className="mf-grow" style={{ margin: 0, fontSize: 'var(--mf-fs-6)' }}>Panel admin</h1>
-        {lastCheck && <span className="mf-xs mf-muted">Terakhir cek {lastCheck.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>}
-        {notifPerm === 'default' && <Button variant="secondary" size="sm" icon="bell" onClick={enableNotif}>Aktifkan notifikasi</Button>}
-        <Button to="/26menfess/app?tab=kirim" variant="secondary" size="sm" icon="back">Dashboard</Button>
-        <Button variant="ghost" size="sm" icon="logout" onClick={openLogout}>Keluar</Button>
+      <PullHint pull={pull} phase={phase} />
+      <div className="mf-adminhead">
+        <div className="mf-grow">
+          <h1 style={{ margin: 0, fontSize: 'var(--mf-fs-6)' }}>Panel admin</h1>
+          {lastCheck && <span className="mf-xs mf-muted">Terakhir cek {lastCheck.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>}
+        </div>
+        <div className="mf-row-wrap">
+          {notifPerm === 'default' && <Button variant="secondary" size="sm" icon="bell" onClick={enableNotif}>Notifikasi</Button>}
+          <Button to="/26menfess/app?tab=kirim" variant="secondary" size="sm" icon="back">Dashboard</Button>
+          <Button variant="ghost" size="sm" icon="logout" onClick={openLogout}>Keluar</Button>
+        </div>
       </div>
 
       <div className="mf-admin">

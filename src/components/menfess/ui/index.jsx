@@ -1,5 +1,5 @@
 // Pustaka UI 26Menfess — komponen kecil, tanpa inline style statis.
-import { useId } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from './Icon';
 
@@ -67,17 +67,21 @@ export function Segmented({ value, onChange, options, label }) {
 }
 
 export function Tabs({ tabs, value, onChange, label }) {
+  const wrap = useRef(null);
+  useEffect(() => {
+    const w = wrap.current; const el = w?.querySelector('[aria-selected="true"]');
+    if (w && el) w.scrollTo({ left: el.offsetLeft - (w.clientWidth - el.offsetWidth) / 2, behavior: 'smooth' });
+  }, [value]);
   const onKey = (e) => {
     const i = tabs.findIndex(t => t.id === value);
     if (e.key === 'ArrowRight') { e.preventDefault(); onChange(tabs[(i + 1) % tabs.length].id); }
     if (e.key === 'ArrowLeft') { e.preventDefault(); onChange(tabs[(i - 1 + tabs.length) % tabs.length].id); }
   };
   return (
-    <div className="mf-tabs" role="tablist" aria-label={label} onKeyDown={onKey}>
+    <div className="mf-tabs" role="tablist" aria-label={label} onKeyDown={onKey} ref={wrap}>
       {tabs.map(t => (
         <button key={t.id} type="button" role="tab" id={`tab-${t.id}`} aria-selected={value === t.id} tabIndex={value === t.id ? 0 : -1}
-          className="mf-tab" onClick={() => onChange(t.id)}
-          ref={el => { if (el && value === t.id) el.scrollIntoView?.({ block: 'nearest', inline: 'center' }); }}>
+          className="mf-tab" onClick={() => onChange(t.id)}>
           {t.icon && <Icon name={t.icon} size={18} />}{t.label}{t.count > 0 && <span className="mf-count">{t.count}</span>}
         </button>
       ))}

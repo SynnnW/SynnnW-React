@@ -14,7 +14,7 @@ import CardThumb from '@/components/menfess/ui/CardThumb';
 import SongPill from '@/components/menfess/ui/SongPill';
 import { useMfToast } from '@/components/menfess/ui/Toast';
 import { TRAKTEER, IG } from '@/components/menfess/ui/Shell';
-import { PullIndicator } from '@/components/makrab/PullToRefresh';
+import PullHint from '@/components/menfess/ui/PullHint';
 import { usePullToRefresh } from '@/components/makrab/usePullToRefresh';
 
 const TABS = [{ id: 'kirim', label: 'Kirim', icon: 'send' }, { id: 'riwayat', label: 'Riwayat', icon: 'history' }, { id: 'akun', label: 'Akun', icon: 'user' }];
@@ -76,7 +76,7 @@ export default function ClientDashboard() {
     return () => document.removeEventListener('visibilitychange', onVis);
   }, [refresh]);
 
-  const { pull, phase } = usePullToRefresh(() => refresh(true), tab !== 'riwayat');
+  const { pull, phase } = usePullToRefresh(async () => { await refresh(true); return true; }, tab !== 'riwayat');
 
   useEffect(() => {
     if (tab === 'riwayat' && posts.length) {
@@ -127,7 +127,7 @@ export default function ClientDashboard() {
 
   return (
     <div className="mf-stack">
-      <PullIndicator pull={pull} phase={phase} />
+      <PullHint pull={pull} phase={phase} />
       <div className="mf-desk"><div style={{ width: '100%' }}><Tabs tabs={TABS.map(t => ({ ...t, count: t.id === 'riwayat' ? unseenTotal : 0 }))} value={tab} onChange={setTab} label="Menu dashboard" /></div></div>
 
       {isAnon && !anonHidden && tab !== 'akun' && (

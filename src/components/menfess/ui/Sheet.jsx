@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Icon from './Icon';
 import { Button } from './index';
+import { lockScroll } from '@/lib/scrollLock';
 
 const FOCUSABLE = 'a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])';
 
@@ -15,8 +16,7 @@ export function Sheet({ open, onClose, title, children, footer, labelledBy }) {
   useEffect(() => {
     if (!open) return undefined;
     lastFocus.current = document.activeElement;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const unlock = lockScroll();
     const node = ref.current;
     const first = node?.querySelector(FOCUSABLE);
     (first || node)?.focus?.();
@@ -32,7 +32,7 @@ export function Sheet({ open, onClose, title, children, footer, labelledBy }) {
     document.addEventListener('keydown', onKey, true);
     return () => {
       document.removeEventListener('keydown', onKey, true);
-      document.body.style.overflow = prevOverflow;
+      unlock();
       try { lastFocus.current?.focus?.(); } catch { /* abaikan */ }
     };
   }, [open]);

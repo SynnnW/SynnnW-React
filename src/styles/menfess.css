@@ -303,3 +303,22 @@
 .mf-desk { display:none; }
 @media (min-width:800px){ .mf-desk{ display:flex; } }
 .mf-chips.wrap-sm { flex-wrap:wrap; }
+
+/* ── Perbaikan mobile ── */
+.mf-shell { overflow-x:clip; }
+.mf-ptr { position:fixed; left:50%; top:var(--mf-nav-h); z-index:calc(var(--mf-z-nav) + 10); display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:var(--mf-r-pill); background:var(--mf-surface); border:1.5px solid var(--mf-ink); font-size:var(--mf-fs-1); font-weight:700; pointer-events:none; }
+.mf-adminhead { display:flex; flex-direction:column; gap:var(--mf-s-3); }
+@media (min-width:700px){ .mf-adminhead{ flex-direction:row; align-items:center; justify-content:space-between; } }
+@media (max-width:479px){
+  .mf-hide-xs { display:none; }
+  .mf-topbar { padding:0 var(--mf-s-3); }
+  .mf-topbar-inner { gap:var(--mf-s-2); }
+  .mf-main { padding-inline:var(--mf-s-3); }
+  .mf-actionbar { margin-inline:calc(var(--mf-s-3) * -1); padding-inline:var(--mf-s-3); gap:var(--mf-s-2); }
+  .mf-announce { margin-inline:calc(var(--mf-s-3) * -1) !important; }
+  .mf-qrow { flex-direction:column; }
+  .mf-qrow .mf-thumb { width:96px; }
+  .mf-btn { padding:0 var(--mf-s-4); }
+  .mf-pageheader h1 { font-size:var(--mf-fs-5); }
+  .mf-sheet { padding-inline:var(--mf-s-3); }
+}
