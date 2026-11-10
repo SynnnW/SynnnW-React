@@ -1,41 +1,36 @@
-// ─── Rules — /26menfess/aturan ───────────────────────────────────────────────
-import { Link } from 'react-router-dom';
+// Aturan /26menfess/aturan
+import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
+import { MfAuthContext } from '@/lib/menfess/useMfAuth';
 import { RULES, PROCESS_NOTES } from '@/lib/menfess/rules';
+import { PageHeader } from '@/components/menfess/ui/Shell';
+import { Badge, Button, Card, Icon } from '@/components/menfess/ui';
 
 export default function Rules() {
+  const { user } = useContext(MfAuthContext);
+  const loc = useLocation();
   return (
-    <div className="mf" style={{ minHeight: '100dvh' }}>
-      <header className="mf-topbar">
-        <span style={{ fontFamily: 'var(--mf-font-brand)', fontWeight: 700 }}>📋 Aturan 26Menfess</span>
-        <Link to="/26menfess" className="mf-btn mf-btn-ghost" style={{ fontSize: '.82rem' }}>← Kembali</Link>
-      </header>
-
-      <main className="mf-page" style={{ paddingTop: 32, maxWidth: 640 }}>
-        <h1 style={{ marginBottom: 24 }}>Aturan Lengkap</h1>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 40 }}>
-          {RULES.map(r => (
-            <div key={r.id} className="mf-card" style={{ background: r.suggested ? 'white' : 'var(--mf-soft)' }}>
-              <h3 style={{ color: 'var(--mf-brick)', marginBottom: 8 }}>
-                {r.id}. {r.title}
-                {r.suggested && <span style={{ fontSize: '.75rem', background: 'var(--mf-teal)', padding: '2px 6px', borderRadius: 4, marginLeft: 8, fontWeight: 400, verticalAlign: 'middle' }}>tambahan</span>}
-              </h3>
-              <p style={{ margin: 0 }}>{r.body}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mf-card" style={{ background: 'white', marginBottom: 40 }}>
-          <h2 style={{ marginBottom: 12 }}>Ketentuan Proses</h2>
-          <ul style={{ margin: 0, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {PROCESS_NOTES.map((n, i) => <li key={i} style={{ lineHeight: 1.5 }}>{n}</li>)}
-          </ul>
-        </div>
-
-        <div style={{ textAlign: 'center', paddingBottom: 48 }}>
-          <Link to="/26menfess/masuk" className="mf-btn mf-btn-primary">Masuk & Kirim Menfess</Link>
-        </div>
-      </main>
+    <div className="mf-narrow mf-stack">
+      <PageHeader title="Aturan" />
+      <div className="mf-stack">
+        {RULES.map(r => (
+          <div key={r.id} className="mf-rule">
+            <span className="mf-rule-n">{r.id}</span>
+            <div><h3>{r.title} {r.suggested && <Badge>Tambahan</Badge>}</h3><p className="mf-muted" style={{ margin: 0 }}>{r.body}</p></div>
+          </div>
+        ))}
+      </div>
+      <Card tone="tint">
+        <h2>Ketentuan proses</h2>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }} className="mf-stack">
+          {PROCESS_NOTES.map(n => <li key={n} className="mf-row" style={{ alignItems: 'flex-start' }}><Icon name="check" /><span>{n}</span></li>)}
+        </ul>
+      </Card>
+      <div className="mf-stickycta">
+        {user
+          ? <Button to="/26menfess/app?tab=kirim" icon="send">Tulis menfess</Button>
+          : <Button to="/26menfess/masuk" state={{ from: loc.pathname }} icon="send">Masuk & kirim menfess</Button>}
+      </div>
     </div>
   );
 }

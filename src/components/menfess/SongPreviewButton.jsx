@@ -2,6 +2,7 @@
 // Tidak menyentuh backend: cari preview ke iTunes saat tombol diklik,
 // cache per sesi, hanya satu lagu yang bisa main sekaligus, semua error ditangkap.
 import { useState, useEffect, useRef } from 'react';
+import Icon from './ui/Icon';
 
 const CACHE = new Map();   // query -> previewUrl | null
 let active = null;         // { audio, reset } — lagu yang sedang main
@@ -32,7 +33,7 @@ async function findPreview(query) {
 }
 
 /** @param {{ query: string }} props — teks lagu, mis. "Judul — Artis" */
-export default function SongPreviewButton({ query }) {
+export default function SongPreviewButton({ query, previewUrl }) {
   const [state, setState] = useState('idle'); // idle | loading | playing | error
   const audioRef = useRef(null);
   const aliveRef = useRef(true);
@@ -51,12 +52,13 @@ export default function SongPreviewButton({ query }) {
     if (state === 'loading') return;
     if (state === 'playing') { stopActive(); return; }
     const q = (query || '').trim();
-    if (!q) return;
+    if (!q && !previewUrl) return;
 
     stopActive();
     safeSet('loading');
     try {
-      const url = await findPreview(q);
+      // pakai preview tersimpan dulu; kalau tidak ada baru cari ke iTunes
+      const url = previewUrl || await findPreview(q);
       if (!url) { safeSet('error'); return; }
 
       const audio = new Audio(url);
@@ -83,14 +85,14 @@ export default function SongPreviewButton({ query }) {
   return (
     <button
       type="button"
-      className="mf-btn mf-btn-secondary"
+      className="mf-btn mf-btn-secondary mf-iconbtn"
       onClick={toggle}
       disabled={state === 'loading' || state === 'error'}
       aria-label={label}
       title={label}
-      style={{ fontSize: '.75rem', padding: '4px 10px', minHeight: 'auto' }}
     >
-      {state === 'loading' ? '…' : state === 'playing' ? '⏸ Jeda' : state === 'error' ? 'Tidak ada preview' : '▶ Preview'}
+      {state === 'loading' ? <span className="mf-spin" aria-hidden="true" />
+        : <Icon name={state === 'playing' ? 'pause2' : state === 'error' ? 'ban' : 'play'} size={18} />}
     </button>
   );
 }

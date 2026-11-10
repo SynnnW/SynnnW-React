@@ -67,6 +67,7 @@ export function getMfTheme() {
 }
 export function setMfTheme(t) {
   try { localStorage.setItem(THEME_KEY, t); } catch { /* ignore */ }
+  try { window.dispatchEvent(new Event('mf:theme')); } catch { /* ignore */ }
 }
 
 /** Status terakhir yang dilihat (untuk titik notifikasi). */

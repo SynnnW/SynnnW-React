@@ -3,10 +3,14 @@ import { lazy, Suspense, useEffect, Component, useContext } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MfAuthContext, useMfAuthState } from '@/lib/menfess/useMfAuth';
 import '@/styles/menfess.css';
+import MfShell from '@/components/menfess/ui/Shell';
+import { ToastProvider } from '@/components/menfess/ui/Toast';
+import { Button, EmptyState } from '@/components/menfess/ui';
 
 const Landing         = lazy(() => import('./Landing'));
 const Login           = lazy(() => import('./Login'));
 const Rules           = lazy(() => import('./Rules'));
+const Feed            = lazy(() => import('./Feed'));
 const ClientDashboard = lazy(() => import('./ClientDashboard'));
 const AdminDashboard  = lazy(() => import('./AdminDashboard'));
 
@@ -14,6 +18,10 @@ const AdminDashboard  = lazy(() => import('./AdminDashboard'));
 const FONT_ID = 'mf-fonts';
 function injectFonts() {
   if (document.getElementById(FONT_ID)) return;
+  [['https://fonts.googleapis.com',false],['https://fonts.gstatic.com',true]].forEach(([h,c]) => {
+    if (document.querySelector(`link[rel='preconnect'][href='${h}']`)) return;
+    const l = document.createElement('link'); l.rel='preconnect'; l.href=h; if (c) l.crossOrigin=''; l.dataset.mf='1'; document.head.appendChild(l);
+  });
   const link = document.createElement('link');
   link.id   = FONT_ID;
   link.rel  = 'stylesheet';
@@ -21,7 +29,7 @@ function injectFonts() {
   link.href = 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap&subset=latin';
   document.head.appendChild(link);
 }
-function removeFonts() { document.getElementById(FONT_ID)?.remove(); }
+function removeFonts() { document.getElementById(FONT_ID)?.remove(); document.querySelectorAll('link[data-mf="1"]').forEach(n => n.remove()); }
 
 // ─── Favicon / title swap ────────────────────────────────────────────────────
 let origTitle = '', origFavicon = '', origApple = '', origManifest = '', origTheme = '';
@@ -64,12 +72,15 @@ function useMfCtx() {
   return useContext(MfAuthContext) ?? { user: null, ready: true, isAdmin: false, isOwner: false, isAnon: false };
 }
 
+function MfLoader() {
+  return <div className="mf-state" role="status"><span className="mf-spin" aria-hidden="true" /><p>Memuat…</p></div>;
+}
+
 function RequireAuth({ children }) {
   const { user, ready } = useMfCtx();
   const location = useLocation();
   if (!ready) return <MfLoader />;
   if (!user) {
-    // Bawa tujuan asli lewat ?next= supaya setelah login lanjut ke sini, bukan ke /app
     const dest = location.pathname + location.search;
     return <Navigate to={`/26menfess/masuk?next=${encodeURIComponent(dest)}`} replace />;
   }
@@ -78,24 +89,29 @@ function RequireAuth({ children }) {
 
 function RequireAdmin({ children }) {
   const { user, isAdmin, ready } = useMfCtx();
+  const location = useLocation();
   if (!ready) return <MfLoader />;
-  if (!user || !isAdmin) {
+  if (!user) {
+    const dest = location.pathname + location.search;
+    return <Navigate to={`/26menfess/masuk?next=${encodeURIComponent(dest)}`} replace />;
+  }
+  if (!isAdmin) {
     return (
-      <div className="mf" style={{ display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'60vh',gap:16 }}>
-        <p style={{ fontSize:'2rem' }}>🚫</p>
-        <p><strong>Kamu bukan admin 26Menfess.</strong></p>
-        <a href="/26menfess/app" className="mf-btn mf-btn-secondary">Kembali ke Dashboard</a>
-      </div>
+      <EmptyState icon="shield" title="Halaman ini khusus admin"
+        action={<div className="mf-row-wrap"><Button to="/26menfess/app?tab=kirim" icon="send">Ke dashboard</Button><Button to="/26menfess" variant="secondary" icon="home">Ke beranda</Button></div>}>
+        Akun yang kamu pakai belum terdaftar sebagai admin 26Menfess.
+      </EmptyState>
     );
   }
   return children;
 }
 
-function MfLoader() {
+function NotFound() {
   return (
-    <div className="mf" style={{ display:'flex',alignItems:'center',justifyContent:'center',minHeight:'50vh' }}>
-      <p style={{ opacity:.6 }}>Memuat…</p>
-    </div>
+    <EmptyState icon="search" title="Halaman tidak ditemukan"
+      action={<div className="mf-row-wrap"><Button to="/26menfess" icon="home">Beranda</Button><Button variant="secondary" onClick={() => window.history.back()} icon="back">Kembali</Button></div>}>
+      Alamat yang kamu buka tidak ada di 26Menfess.
+    </EmptyState>
   );
 }
 
@@ -104,41 +120,27 @@ class MfErrorBoundary extends Component {
   constructor(p) { super(p); this.state = { err: null }; }
   static getDerivedStateFromError(e) { return { err: e }; }
   render() {
-    if (this.state.err) {
-      return (
-        <div className="mf" style={{ padding:32,textAlign:'center' }}>
-          <p style={{ fontSize:'2rem' }}>💥</p>
-          <p><strong>Ada yang error di 26Menfess.</strong></p>
-          <p style={{ opacity:.7,fontSize:'.9rem' }}>{this.state.err.message}</p>
-          <button className="mf-btn mf-btn-secondary" onClick={() => window.location.reload()}>Muat ulang</button>
-        </div>
-      );
-    }
-    return this.props.children;
+    if (!this.state.err) return this.props.children;
+    return (
+      <div className="mf mf-shell">
+        <main className="mf-main">
+          <EmptyState icon="alert" title="Ada yang error di 26Menfess"
+            action={<div className="mf-row-wrap"><Button onClick={() => window.location.reload()} icon="refresh">Muat ulang</Button><Button href="/26menfess" variant="secondary" icon="home">Ke beranda</Button></div>}>
+            Coba muat ulang halaman. Kalau masih terjadi, kabari admin.
+          </EmptyState>
+          <details className="mf-narrow mf-small mf-muted"><summary>Detail teknis</summary><pre className="mf-allow">{String(this.state.err?.message || this.state.err)}</pre></details>
+        </main>
+      </div>
+    );
   }
 }
 
-function TrakteerButton() {
-  return (
-    <a
-      href="https://trakteer.id/aldo_leo_saputra"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="mf-btn mf-btn-primary mf-trakteer"
-      aria-label="Traktir cendol lewat Trakteer"
-    >
-      <span aria-hidden="true">🥤</span> Trakteer Cendol
-    </a>
-  );
-}
-
-// ─── Shell ────────────────────────────────────────────────────────────────────
+// ─── Root ─────────────────────────────────────────────────────────────────────
 export default function MenfessApp() {
   const authState = useMfAuthState();
 
   useEffect(() => {
-    // Aktifkan mk-route agar Lenis mati (sama seperti Makrab — commit a0ad6c7)
-    document.documentElement.classList.add('mk-route');
+    document.documentElement.classList.add('mk-route'); // matikan Lenis (sama seperti Makrab)
     injectFonts();
     pushMfBranding();
     return () => {
@@ -151,20 +153,21 @@ export default function MenfessApp() {
   return (
     <MfAuthContext.Provider value={authState}>
       <MfErrorBoundary>
-        {/* colorScheme=light: kunci preview kartu selalu terang, tidak terpengaruh dark-mode HP */}
-        <div className="mf" style={{ colorScheme: 'light' }}>
-          <Suspense fallback={<MfLoader />}>
+        <ToastProvider>
+          <Suspense fallback={<div className="mf mf-shell"><MfLoader /></div>}>
             <Routes>
-              <Route path="/"       element={<Landing />} />
-              <Route path="/masuk"  element={<Login />} />
-              <Route path="/aturan" element={<Rules />} />
-              <Route path="/app"    element={<RequireAuth><ClientDashboard /></RequireAuth>} />
-              <Route path="/admin"  element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
-              <Route path="*"       element={<Navigate to="/26menfess" replace />} />
+              <Route element={<MfShell />}>
+                <Route path="/"       element={<Landing />} />
+                <Route path="/feed"   element={<Feed />} />
+                <Route path="/masuk"  element={<Login />} />
+                <Route path="/aturan" element={<Rules />} />
+                <Route path="/app"    element={<RequireAuth><ClientDashboard /></RequireAuth>} />
+                <Route path="/admin"  element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
+                <Route path="*"       element={<NotFound />} />
+              </Route>
             </Routes>
           </Suspense>
-          <TrakteerButton />
-        </div>
+        </ToastProvider>
       </MfErrorBoundary>
     </MfAuthContext.Provider>
   );

@@ -33,7 +33,7 @@ export async function fetchPublicSettings() {
 export async function fetchMyPosts({ limit = 30, before = null } = {}) {
   let q = supabase
     .from('menfess_my_posts')
-    .select('id,to_label,from_alias,category,song,body,design,status,reject_reason,public_note,ig_url,posted_at,created_at,updated_at,rules_version')
+    .select('id,to_label,from_alias,category,song,song_title,song_artist,song_artwork_url,song_preview_url,song_url,song_source,body,design,text_size,text_color,align,title,status,reject_reason,public_note,ig_url,posted_at,created_at,updated_at,rules_version')
     .order('created_at', { ascending: false })
     .limit(limit);
   if (before) q = q.lt('created_at', before);
