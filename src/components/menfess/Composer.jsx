@@ -11,7 +11,6 @@ import RulesGate from './RulesGate';
 import { Sheet, ConfirmDialog } from './ui/Sheet';
 import { Button, Callout, Chip, ChipGroup, EmptyState, Field, Icon, Segmented } from './ui';
 import CardThumb from './ui/CardThumb';
-import SongPill from './ui/SongPill';
 import { TRAKTEER } from './ui/Shell';
 import { useMfToast } from './ui/Toast';
 
@@ -140,7 +139,7 @@ export default function Composer({ settings, onSent, goHistory }) {
               const a = document.createElement('a'); a.href = u; a.download = cardFilename(sent.id, sent.design); a.click(); setTimeout(() => URL.revokeObjectURL(u), 5000);
             }}>Unduh PNG</Button>
           </div>
-          <a className="mf-small mf-muted" href={TRAKTEER} target="_blank" rel="noopener noreferrer"><Icon name="cup" size={16} /> Traktir cendol buat admin</a>
+          <Button block variant="secondary" icon="cup" href={TRAKTEER} target="_blank" rel="noopener noreferrer">Traktir admin cendol</Button>
         </div>
       </div>
     );
@@ -199,7 +198,6 @@ export default function Composer({ settings, onSent, goHistory }) {
               {textColor === 'white' && <Callout kind="warn" icon="alert">Teks terang kontrasnya rendah di panel kaca template ini. Cek preview sebelum kirim.</Callout>}
             </div>
           </div>
-          {song && <SongPill song={song} />}
           {error && <Callout kind="bad" icon="alert">{error}</Callout>}
         </div>
 

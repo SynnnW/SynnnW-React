@@ -6,7 +6,6 @@ export default function SongPill({ song, preview = true }) {
   const title = song?.song_title || song?.song;
   if (!title) return null;
   const artist = song.song_artist;
-  const q = `${title}${artist ? ` ${artist}` : ''}`;
   return (
     <div className="mf-song">
       {song.song_artwork_url
@@ -16,7 +15,7 @@ export default function SongPill({ song, preview = true }) {
         <div className="mf-song-t">{title}</div>
         {artist && <div className="mf-song-a">{artist}</div>}
       </div>
-      {preview && <SongPreviewButton query={q} previewUrl={song.song_preview_url} />}
+      {preview && <SongPreviewButton title={title} artist={artist} />}
     </div>
   );
 }

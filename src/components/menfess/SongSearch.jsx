@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { Button, Icon, IconButton } from './ui';
 import SongPill from './ui/SongPill';
+import SongPreviewButton from './SongPreviewButton';
 
 const MEMO_CACHE = new Map(); // cache per sesi di memori
 
@@ -96,9 +97,12 @@ export default function SongSearch({ value, onChange }) {
 
   if (value?.song_title) {
     return (
-      <div className="mf-row">
-        <div className="mf-grow"><SongPill song={value} preview={false} /></div>
-        <IconButton icon="close" label="Hapus lagu" variant="secondary" onClick={clearSong} />
+      <div className="mf-stack">
+        <div className="mf-row">
+          <div className="mf-grow"><SongPill song={value} preview={false} /></div>
+          <IconButton icon="close" label="Hapus lagu" variant="secondary" onClick={clearSong} />
+        </div>
+        <SongPreviewButton labeled title={value.song_title} artist={value.song_artist} />
       </div>
     );
   }

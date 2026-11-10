@@ -1,10 +1,10 @@
-// ─── SongPreviewButton — putar preview 30 detik lagu (iTunes) ────────────────
-// Tidak menyentuh backend: cari preview ke iTunes saat tombol diklik,
+// ─── SongPreviewButton — putar lagu via Audius (open source) ─────────────────
+// Tidak menyentuh backend: cari lagu ke Audius saat tombol diklik,
 // cache per sesi, hanya satu lagu yang bisa main sekaligus, semua error ditangkap.
 import { useState, useEffect, useRef } from 'react';
 import Icon from './ui/Icon';
 
-const CACHE = new Map();   // query -> previewUrl | null
+const CACHE = new Map();   // judul|artis -> streamUrl | null
 let active = null;         // { audio, reset } — lagu yang sedang main
 
 function stopActive() {
@@ -14,26 +14,50 @@ function stopActive() {
   active = null;
 }
 
-async function findPreview(query) {
-  if (CACHE.has(query)) return CACHE.get(query);
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 6000);
-  try {
-    const res = await fetch(
-      `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=1&country=ID`,
-      { signal: ctrl.signal }
-    );
-    const data = await res.json();
-    const url = data?.results?.[0]?.previewUrl || null;
-    CACHE.set(query, url);
-    return url;
-  } finally {
-    clearTimeout(timer);
+// Sumber preview: Audius (open source, Open Audio Protocol) — bukan Apple Music.
+// Tidak semua lagu ada di Audius; kalau tidak ketemu yang cocok, preview dinyatakan tidak tersedia.
+const APP = '26Menfess';
+const HOSTS = ['https://api.audius.co', 'https://discoveryprovider.audius.co'];
+
+const norm = (t) => (t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\(.*?\)|\[.*?\]/g, ' ').replace(/\b(feat|ft|featuring)\b.*$/, ' ').replace(/[^a-z0-9]+/g, ' ').trim();
+
+function pick(tracks, title, artist) {
+  const wantT = norm(title), wantA = norm(artist);
+  if (!wantT) return null;
+  for (const t of tracks || []) {
+    const gotT = norm(t.title), gotA = norm(t.user?.name);
+    const titleOk = gotT === wantT || gotT.startsWith(`${wantT} `) || gotT.endsWith(` ${wantT}`) || (wantT.length > 5 && gotT.includes(wantT));
+    if (!titleOk || t.is_streamable === false) continue;
+    // artis harus cocok (nama pengunggah atau ada di judul); tanpa artis → judul harus persis sama
+    const artistOk = wantA ? (gotA && (gotA.includes(wantA) || wantA.includes(gotA))) || gotT.includes(wantA) : gotT === wantT;
+    if (artistOk) return t;
   }
+  return null;
 }
 
-/** @param {{ query: string }} props — teks lagu, mis. "Judul — Artis" */
-export default function SongPreviewButton({ query, previewUrl }) {
+async function findPreview({ title, artist }) {
+  const key = `${title}|${artist}`;
+  if (CACHE.has(key)) return CACHE.get(key);
+  const q = `${title} ${artist || ''}`.trim();
+  for (const host of HOSTS) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 7000);
+    try {
+      const res = await fetch(`${host}/v1/tracks/search?query=${encodeURIComponent(q)}&limit=8&app_name=${APP}`, { signal: ctrl.signal });
+      if (!res.ok) continue;
+      const data = await res.json();
+      const t = pick(data?.data, title, artist);
+      const url = t ? `${host}/v1/tracks/${t.id}/stream?app_name=${APP}` : null;
+      CACHE.set(key, url);
+      return url;
+    } catch { /* coba host berikutnya */ }
+    finally { clearTimeout(timer); }
+  }
+  return null; // gagal jaringan: jangan di-cache supaya bisa dicoba lagi
+}
+
+/** @param {{ title: string, artist?: string, labeled?: boolean }} props */
+export default function SongPreviewButton({ title, artist, labeled }) {
   const [state, setState] = useState('idle'); // idle | loading | playing | error
   const audioRef = useRef(null);
   const aliveRef = useRef(true);
@@ -51,14 +75,12 @@ export default function SongPreviewButton({ query, previewUrl }) {
   async function toggle() {
     if (state === 'loading') return;
     if (state === 'playing') { stopActive(); return; }
-    const q = (query || '').trim();
-    if (!q && !previewUrl) return;
+    if (!(title || '').trim()) return;
 
     stopActive();
     safeSet('loading');
     try {
-      // pakai preview tersimpan dulu; kalau tidak ada baru cari ke iTunes
-      const url = previewUrl || await findPreview(q);
+      const url = await findPreview({ title, artist });
       if (!url) { safeSet('error'); return; }
 
       const audio = new Audio(url);
@@ -78,21 +100,25 @@ export default function SongPreviewButton({ query, previewUrl }) {
   }
 
   const label =
-    state === 'playing' ? 'Jeda preview lagu'
-    : state === 'error' ? 'Preview tidak tersedia'
-    : 'Putar preview lagu';
+    state === 'playing' ? 'Jeda lagu'
+    : state === 'error' ? 'Lagu ini belum tersedia untuk diputar'
+    : 'Putar lagu';
+  const icon = state === 'loading' ? <span className="mf-spin" aria-hidden="true" />
+    : <Icon name={state === 'playing' ? 'pause2' : state === 'error' ? 'ban' : 'play'} size={18} />;
 
+  if (labeled) {
+    return (
+      <div className="mf-stack" style={{ gap: 6 }}>
+        <button type="button" className="mf-btn mf-btn-secondary mf-btn-block" onClick={toggle} disabled={state === 'loading' || state === 'error'} aria-label={label}>
+          {icon}{state === 'loading' ? 'Mencari lagu…' : state === 'error' ? 'Tidak tersedia' : state === 'playing' ? 'Jeda' : 'Putar lagu'}
+        </button>
+        {state === 'error' && <span className="mf-xs mf-muted" role="status">Lagu ini belum tersedia untuk diputar. Tetap bisa dikirim kok.</span>}
+        {state === 'playing' && <span className="mf-xs mf-muted">Sumber: Audius (open source)</span>}
+      </div>
+    );
+  }
   return (
-    <button
-      type="button"
-      className="mf-btn mf-btn-secondary mf-iconbtn"
-      onClick={toggle}
-      disabled={state === 'loading' || state === 'error'}
-      aria-label={label}
-      title={label}
-    >
-      {state === 'loading' ? <span className="mf-spin" aria-hidden="true" />
-        : <Icon name={state === 'playing' ? 'pause2' : state === 'error' ? 'ban' : 'play'} size={18} />}
-    </button>
+    <button type="button" className="mf-btn mf-btn-secondary mf-iconbtn" onClick={toggle}
+      disabled={state === 'loading' || state === 'error'} aria-label={label} title={label}>{icon}</button>
   );
 }
