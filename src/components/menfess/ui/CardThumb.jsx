@@ -78,7 +78,7 @@ export default function CardThumb({ post, scale = 0.25, onClick, label, classNam
       onClick={onClick} aria-label={onClick ? (label || 'Buka kartu') : undefined}>
       {src && <img src={src} alt={`Kartu menfess: ${(post.body || '').slice(0, 80)}`} width="300" height="375" decoding="async" />}
       {!src && !failed && <span className="mf-skeleton mf-thumb-sk" aria-hidden="true" style={{ position: 'absolute', inset: 0, borderRadius: 0 }} />}
-      {failed && <span className={`mf-thumb-fallback ${post.design === 'green' ? 'green' : 'pink'}`}>{(post.body || '').slice(0, 120)}</span>}
+      {failed && <span className={`mf-thumb-fallback ${['green', 'picnic'].includes(post.design) ? post.design : 'pink'}`}>{(post.body || '').slice(0, 120)}</span>}
     </Tag>
   );
 }

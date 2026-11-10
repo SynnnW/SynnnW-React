@@ -21,9 +21,18 @@ export const CARD = {
   },
 };
 
-// Area teks efektif dalam px untuk kanvas 1200×1500
-export function safeAreaPx() {
-  const { W, H, area, padX, padY } = CARD;
+// Area panel kaca per tema (pecahan W/H). Tema tanpa entri memakai CARD.area.
+// picnic: panel kaca mulai di bawah logo/pil (±24%), stroberi di kanan masuk sedikit ke panel,
+// jadi padding kanan/kiri dilebihkan lewat `pad` agar teks tidak menyentuh dekorasi.
+export const DESIGN_AREA = {
+  picnic: { area: { top: 0.245, bottom: 0.915, left: 0.092, right: 0.92 }, padX: 0.06, padY: 0.04 },
+};
+
+// Area teks (barrier) dalam px untuk kanvas 1200×1500, per tema
+export function safeAreaPx(design) {
+  const { W, H } = CARD;
+  const cfg = DESIGN_AREA[design] || { area: CARD.area, padX: CARD.padX, padY: CARD.padY };
+  const { area, padX, padY } = cfg;
   const x  = area.left  * W  + padX * W;
   const y  = area.top   * H  + padY * H;
   const x2 = area.right * W  - padX * W;
@@ -31,16 +40,30 @@ export function safeAreaPx() {
   return { x, y, w: x2 - x, h: y2 - y };
 }
 
+/** Daftar tema kartu untuk picker (id = nilai kolom `design`). */
+export const DESIGNS = [
+  { id: 'pink',   label: 'Pink' },
+  { id: 'green',  label: 'Hijau' },
+  { id: 'picnic', label: 'Piknik' },
+];
+
 /** Path SVG template. */
 export const TEMPLATE_PATH = {
-  pink:  '/26menfess/templates/pink.svg',
-  green: '/26menfess/templates/green.svg',
+  pink:   '/26menfess/templates/pink.svg',
+  green:  '/26menfess/templates/green.svg',
+  picnic: '/26menfess/templates/picnic.webp', // hasil render ringan (aslinya SVG 396 MB)
+};
+
+/** Thumbnail kecil untuk picker (hemat bandwidth). */
+export const TEMPLATE_THUMB = {
+  picnic: '/26menfess/templates/picnic-thumb.webp',
 };
 
 /** Fallback gradient CSS kalau SVG gagal dimuat. */
 export const FALLBACK_GRADIENT = {
   pink:  'linear-gradient(160deg, #D94C95 0%, #ECC8D7 55%, #F8E6EE 100%)',
   green: 'linear-gradient(160deg, #70B88E 0%, #CEDBA3 55%, #EFECB6 100%)',
+  picnic: 'linear-gradient(160deg, #3F6B1E 0%, #7FA05A 55%, #C9D8A8 100%)',
 };
 
 /** Warna teks konstan (tidak terpengaruh dark/light mode HP). */

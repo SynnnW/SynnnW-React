@@ -121,13 +121,15 @@ export async function drawCard(canvas, opts, scale = 1) {
     const grad = ctx.createLinearGradient(0, 0, W, H);
     const stops = design === 'green'
       ? [['0','#70B88E'],['0.5','#CEDBA3'],['1','#EFECB6']]
-      : [['0','#D94C95'],['0.5','#ECC8D7'],['1','#F8E6EE']];
+      : design === 'picnic'
+        ? [['0','#3F6B1E'],['0.5','#7FA05A'],['1','#C9D8A8']]
+        : [['0','#D94C95'],['0.5','#ECC8D7'],['1','#F8E6EE']];
     stops.forEach(([o, c]) => grad.addColorStop(Number(o), c));
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
   }
 
-  const area = safeAreaPx();
+  const area = safeAreaPx(design);
   const ax = area.x * scale;
   const ay = area.y * scale;
   const aw = area.w * scale;
@@ -135,6 +137,14 @@ export async function drawCard(canvas, opts, scale = 1) {
 
   const color  = CARD_TEXT_COLOR[text_color] || CARD_TEXT_COLOR.dark;
   const isCenter = align === 'center';
+
+  // BARRIER: semua teks isi/judul di-clip ke area aman panel. Layout sudah memuat teks
+  // di dalam area; clip ini pengaman terakhir supaya tidak pernah keluar dari panel.
+  const pad = 6 * scale;
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(ax - pad, ay - pad, aw + pad * 2, ah + pad * 2);
+  ctx.clip();
 
   // 2. Judul (opsional, admin Studio)
   let curY = ay;
@@ -174,6 +184,7 @@ export async function drawCard(canvas, opts, scale = 1) {
     const lx = isCenter ? ax + aw / 2 : ax;
     ctx.fillText(line, lx, startY + i * lineH);
   });
+  ctx.restore(); // akhir barrier
 
   // 6. Label Untuk/Dari (kecil)
   const labelSz = Math.round(28 * scale);

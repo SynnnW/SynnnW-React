@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { CATEGORIES, SONG_CATEGORIES, RULES_VERSION } from '@/lib/menfess/rules';
 import { submitPost } from '@/lib/menfess/api';
 import { drawCard, renderCardBlob, cardFilename } from '@/lib/menfess/renderCard';
-import { TEMPLATE_PATH } from '@/lib/menfess/templateConfig';
+import { TEMPLATE_PATH, TEMPLATE_THUMB, DESIGNS } from '@/lib/menfess/templateConfig';
 import { saveDraft, loadDraft, clearDraft, detectDoxxing } from './utils';
 import SongSearch from './SongSearch';
 import RulesGate from './RulesGate';
@@ -38,6 +38,7 @@ function mapError(msg = '', s) {
   if (msg.includes('ditutup') || msg.includes('accepting')) return 'Pengiriman menfess sedang ditutup sementara.';
   if (msg.includes('harian') || msg.includes('daily')) return `Kamu sudah mencapai batas ${s?.daily_limit || 5} menfess dalam 24 jam.`;
   if (msg.includes('Tunggu') || msg.includes('cooldown')) return `Tunggu ${s?.cooldown_seconds || 30} detik sebelum kirim lagi.`;
+  if (msg.includes('design_check') || msg.includes('design')) return 'Tema kartu ini belum aktif di server. Pilih Pink/Hijau dulu, atau kabari admin.';
   if (msg.includes('body') || msg.includes('kosong')) return 'Isi menfess tidak boleh kosong atau lebih dari 400 karakter.';
   return 'Gagal mengirim. Cek koneksi lalu coba lagi.';
 }
@@ -187,9 +188,9 @@ export default function Composer({ settings, onSent, goHistory }) {
           <div className="mf-stack">
             <h3>Gaya kartu</h3>
             <div className="mf-designs" role="radiogroup" aria-label="Desain kartu">
-              {['pink', 'green'].map(k => (
-                <button key={k} type="button" role="radio" aria-checked={design === k} className="mf-design" onClick={() => setDesign(k)}>
-                  <img src={TEMPLATE_PATH[k]} alt="" loading="lazy" width="120" height="150" /><span>{k === 'pink' ? 'Pink' : 'Hijau'}</span>
+              {DESIGNS.map(({ id, label }) => (
+                <button key={id} type="button" role="radio" aria-checked={design === id} className="mf-design" onClick={() => setDesign(id)}>
+                  <img src={TEMPLATE_THUMB[id] || TEMPLATE_PATH[id]} alt="" loading="lazy" width="120" height="150" /><span>{label}</span>
                 </button>
               ))}
             </div>
