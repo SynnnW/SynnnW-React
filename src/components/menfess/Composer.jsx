@@ -209,6 +209,7 @@ export default function Composer({ settings, onSent, goHistory }) {
         </aside>
       </div>
 
+      <div className="mf-actionspacer" aria-hidden="true" />
       <div className="mf-actionbar">
         <button type="button" className="mf-mini" onClick={() => setPreviewOpen(true)} aria-label="Lihat preview kartu"><PreviewCanvas opts={cardOpts} scale={0.1} className="" label="Mini preview" /></button>
         <div className="mf-grow">
