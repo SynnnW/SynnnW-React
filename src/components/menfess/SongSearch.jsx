@@ -1,6 +1,8 @@
 // ─── SongSearch — pencarian lagu (iTunes API) + mode manual ─────────────────
 // Tanpa API key. Debounce 500ms, AbortController, cache memori per sesi.
 import { useState, useRef, useCallback } from 'react';
+import { Button, Icon, IconButton } from './ui';
+import SongPill from './ui/SongPill';
 
 const MEMO_CACHE = new Map(); // cache per sesi di memori
 
@@ -94,91 +96,49 @@ export default function SongSearch({ value, onChange }) {
 
   if (value?.song_title) {
     return (
-      <div style={{ display:'flex',alignItems:'center',gap:10,background:'var(--mf-soft)',borderRadius:'var(--mf-radius-sm)',padding:'8px 12px',border:'2px solid var(--mf-ink)' }}>
-        {value.song_artwork_url && (
-          <img src={value.song_artwork_url} alt="" width={40} height={40}
-            style={{ borderRadius:6,flexShrink:0 }} loading="lazy" />
-        )}
-        <div style={{ flex:1,minWidth:0 }}>
-          <p style={{ margin:0,fontWeight:700,fontSize:'.88rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>
-            ♪ {value.song_title}
-          </p>
-          {value.song_artist && (
-            <p style={{ margin:0,fontSize:'.78rem',opacity:.7,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>
-              {value.song_artist}
-            </p>
-          )}
-        </div>
-        <button className="mf-btn mf-btn-ghost" style={{ padding:'4px 8px',fontSize:'.8rem',flexShrink:0 }} onClick={clearSong}>
-          ✕ Hapus
-        </button>
+      <div className="mf-row">
+        <div className="mf-grow"><SongPill song={value} preview={false} /></div>
+        <IconButton icon="close" label="Hapus lagu" variant="secondary" onClick={clearSong} />
       </div>
     );
   }
 
   return (
-    <div style={{ display:'flex',flexDirection:'column',gap:8 }}>
+    <div className="mf-stack">
       {!manual ? (
         <>
-          <div style={{ display:'flex',gap:8 }}>
-            <input
-              className="mf-input mf-allow"
-              type="search"
-              value={query}
-              onChange={handleQueryChange}
-              placeholder="🔍 Cari lagu… (min 3 huruf)"
-              style={{ flex:1 }}
-            />
-            <button className="mf-btn mf-btn-ghost" style={{ flexShrink:0,fontSize:'.8rem' }} onClick={() => setManual(true)}>
-              Ketik manual
-            </button>
+          <div className="mf-row">
+            <input className="mf-input mf-allow" type="search" value={query} onChange={handleQueryChange}
+              placeholder="Cari lagu… (min 3 huruf)" aria-label="Cari lagu" autoComplete="off" />
+            <Button variant="ghost" size="sm" onClick={() => setManual(true)}>Ketik manual</Button>
           </div>
-
-          {loading && <p style={{ fontSize:'.8rem',opacity:.6 }}>Mencari…</p>}
-
+          {loading && <p className="mf-small mf-muted" role="status">Mencari…</p>}
           {!loading && results.length > 0 && (
-            <div style={{ display:'flex',flexDirection:'column',gap:4,maxHeight:260,overflowY:'auto',border:'2px solid var(--mf-ink)',borderRadius:'var(--mf-radius-sm)',background:'white' }}>
+            <div className="mf-stack" role="listbox" aria-label="Hasil pencarian lagu">
               {results.map((s, i) => (
-                <button key={i} className="mf-btn mf-btn-ghost"
-                  style={{ justifyContent:'flex-start',gap:10,padding:'8px 12px',borderRadius:0,borderBottom:'1px solid var(--mf-soft)' }}
-                  onClick={() => selectSong(s)}>
-                  {s.song_artwork_url && (
-                    <img src={s.song_artwork_url} alt="" width={36} height={36}
-                      style={{ borderRadius:4,flexShrink:0 }} loading="lazy" />
-                  )}
-                  <div style={{ textAlign:'left',minWidth:0 }}>
-                    <p style={{ margin:0,fontWeight:700,fontSize:'.85rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>
-                      {s.song_title}
-                    </p>
-                    <p style={{ margin:0,fontSize:'.75rem',opacity:.7 }}>{s.song_artist}</p>
-                  </div>
+                <button key={i} type="button" role="option" className="mf-song" style={{ cursor: 'pointer', textAlign: 'left' }} onClick={() => selectSong(s)}>
+                  {s.song_artwork_url ? <img src={s.song_artwork_url} alt="" width="40" height="40" loading="lazy" /> : <span className="mf-song-art"><Icon name="music" size={18} /></span>}
+                  <span className="mf-grow"><div className="mf-song-t">{s.song_title}</div><div className="mf-song-a">{s.song_artist}</div></span>
                 </button>
               ))}
             </div>
           )}
-
           {!loading && query.length >= 3 && results.length === 0 && (
-            <p style={{ fontSize:'.8rem',opacity:.6 }}>
-              Tidak ditemukan. <button className="mf-btn mf-btn-ghost" style={{ padding:'2px 6px',fontSize:'.8rem' }} onClick={() => setManual(true)}>Ketik manual →</button>
-            </p>
+            <p className="mf-small mf-muted">Tidak ditemukan. <button type="button" className="mf-btn mf-btn-ghost mf-btn-sm" onClick={() => setManual(true)}>Ketik manual</button></p>
           )}
         </>
       ) : (
-        <div style={{ display:'flex',flexDirection:'column',gap:8,background:'var(--mf-tint)',borderRadius:'var(--mf-radius-sm)',padding:12,border:'2px solid var(--mf-ink)' }}>
-          <input className="mf-input mf-allow" type="text" placeholder="Judul lagu *"
-            value={manualForm.song_title}
+        <div className="mf-stack">
+          <input className="mf-input mf-allow" type="text" placeholder="Judul lagu *" aria-label="Judul lagu" value={manualForm.song_title}
             onChange={e => setManualForm(f => ({ ...f, song_title: e.target.value }))} />
-          <input className="mf-input mf-allow" type="text" placeholder="Artis (opsional)"
-            value={manualForm.song_artist}
+          <input className="mf-input mf-allow" type="text" placeholder="Artis (opsional)" aria-label="Artis" value={manualForm.song_artist}
             onChange={e => setManualForm(f => ({ ...f, song_artist: e.target.value }))} />
-          <input className="mf-input mf-allow" type="url" placeholder="Link Spotify/YouTube/Apple Music (opsional)"
-            value={manualForm.song_url}
+          <input className="mf-input mf-allow" type="url" placeholder="Link Spotify/YouTube/Apple Music (opsional)" aria-label="Link lagu" value={manualForm.song_url}
             onChange={e => { setManualForm(f => ({ ...f, song_url: e.target.value })); setUrlError(''); }} />
-          {urlError && <p style={{ color:'var(--mf-brick)',fontSize:'.8rem',margin:0 }}>{urlError}</p>}
-          <div style={{ display:'flex',gap:8 }}>
-            <button className="mf-btn mf-btn-primary" style={{ flex:1 }} onClick={submitManual}
-              disabled={!manualForm.song_title.trim()}>Pakai lagu ini</button>
-            <button className="mf-btn mf-btn-ghost" onClick={() => { setManual(false); setUrlError(''); }}>Batal</button>
+          {urlError && <span className="mf-error" role="alert">{urlError}</span>}
+          <div className="mf-row">
+            <Button onClick={submitManual} disabled={!manualForm.song_title.trim()}>Pakai lagu ini</Button>
+            <Button variant="ghost" onClick={() => { setManual(false); setUrlError(''); }}>Batal</Button>
           </div>
         </div>
       )}

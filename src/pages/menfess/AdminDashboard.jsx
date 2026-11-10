@@ -1,21 +1,24 @@
 // ─── AdminDashboard — /26menfess/admin ───────────────────────────────────────
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/supabaseClient';
 import { useMfAuth } from '@/lib/menfess/useMfAuth';
 import {
   fetchAdminCounts, fetchAdminPosts, adminSetStatus,
-  fetchSettings, updateSettings, fetchAdminList, upsertAdmin, removeAdmin,
-  checkIsOwner, shortCode,
+  fetchSettings, updateSettings, fetchAdminList, upsertAdmin, removeAdmin, shortCode,
 } from '@/lib/menfess/api';
-import { cacheGet, cacheSet, cacheInvalidate, TTL } from '@/lib/menfess/cache';
-import { renderCardBlob, drawCard, cardFilename, categoryLabel } from '@/lib/menfess/renderCard';
+import { renderCardBlob, cardFilename, categoryLabel } from '@/lib/menfess/renderCard';
 import { REJECT_REASONS } from '@/lib/menfess/rules';
-import StatusBadge from '@/components/menfess/StatusBadge';
 import { formatRelative } from '@/components/menfess/utils';
 import { PullIndicator } from '@/components/makrab/PullToRefresh';
 import { usePullToRefresh } from '@/components/makrab/usePullToRefresh';
-// usePullToRefresh(onRefresh, disabled) → { pull, phase }
+import { Sheet, ConfirmDialog } from '@/components/menfess/ui/Sheet';
+import { Badge, Button, EmptyState, ErrorState, Field, Icon, Segmented, Skeleton, StatusBadge, Tabs } from '@/components/menfess/ui';
+import CardThumb from '@/components/menfess/ui/CardThumb';
+import SongPill from '@/components/menfess/ui/SongPill';
+import { PreviewCanvas } from '@/components/menfess/Composer';
+import { useMfToast } from '@/components/menfess/ui/Toast';
+import { IG } from '@/components/menfess/ui/Shell';
 
 // ─── Notifikasi menfess baru ─────────────────────────────────────────────────
 const POLL_MS = 30000;
@@ -48,45 +51,38 @@ function systemNotify(title, body) {
 }
 
 const TABS = [
-  { id: 'upload', label: '📤 Upload' },
-  { id: 'queue',  label: '⏳ Antrean' },
-  { id: 'hold',   label: '⏸️ Ditahan' },
-  { id: 'posted', label: '📸 Tayang' },
-  { id: 'studio', label: '🎨 Studio' },
-  { id: 'owner',  label: '👑 Owner' },
+  { id: 'upload', label: 'Upload',  icon: 'send',   count: 'approved' },
+  { id: 'queue',  label: 'Antrean', icon: 'clock',  count: 'pending' },
+  { id: 'hold',   label: 'Ditahan', icon: 'pause2', count: 'hold' },
+  { id: 'posted', label: 'Tayang',  icon: 'instagram', count: 'posted' },
+  { id: 'studio', label: 'Studio',  icon: 'edit' },
+  { id: 'owner',  label: 'Owner',   icon: 'shield' },
 ];
 
 export default function AdminDashboard() {
-  const { user, isOwner } = useMfAuth();
+  const { isOwner } = useMfAuth();
+  const { openLogout } = useOutletContext() || {};
+  const toast = useToastBridge();
+  const showToast = toast.show;
   const [params, setParams] = useSearchParams();
-  const tab = params.get('tab') || 'upload';
+  const tab = TABS.some(t => t.id === params.get('tab')) ? params.get('tab') : 'upload';
+  const setTab = (t) => setParams({ tab: t }, { replace: true });
 
-  const [counts,  setCounts]  = useState({});
-  const [toast,   setToast]   = useState('');
+  const [counts, setCounts] = useState({});
+  const [lastCheck, setLastCheck] = useState(null);
   const lastFetchRef = useRef(0);
-
-  function showToast(msg, isErr = false) {
-    setToast({ msg, isErr });
-    setTimeout(() => setToast(''), 3500);
-  }
-
-  const prevPendingRef = useRef(null);   // jumlah pending sebelumnya (null = belum pernah dimuat)
-  const showToastRef   = useRef(showToast);
-  const unreadRef      = useRef(0);
-  const baseTitleRef   = useRef('');
-  const [notifPerm, setNotifPerm] = useState(
-    typeof Notification !== 'undefined' ? Notification.permission : 'unsupported'
-  );
+  const prevPendingRef = useRef(null);
+  const showToastRef = useRef(showToast);
+  const unreadRef = useRef(0);
+  const baseTitleRef = useRef('');
+  const [notifPerm, setNotifPerm] = useState(typeof Notification !== 'undefined' ? Notification.permission : 'unsupported');
 
   useEffect(() => { showToastRef.current = showToast; });
 
   // Judul tab kembali normal saat admin balik ke halaman ini
   useEffect(() => {
     const onVisible = () => {
-      if (!document.hidden && unreadRef.current) {
-        unreadRef.current = 0;
-        document.title = baseTitleRef.current;
-      }
+      if (!document.hidden && unreadRef.current) { unreadRef.current = 0; document.title = baseTitleRef.current; }
     };
     document.addEventListener('visibilitychange', onVisible);
     return () => {
@@ -96,7 +92,7 @@ export default function AdminDashboard() {
   }, []);
 
   const notifyNew = useCallback((added, total) => {
-    showToastRef.current?.(added === 1 ? '📩 1 menfess baru masuk!' : `📩 ${added} menfess baru masuk!`);
+    showToastRef.current?.(added === 1 ? '1 menfess baru masuk!' : `${added} menfess baru masuk!`);
     beep();
     try { navigator.vibrate?.([120, 60, 120]); } catch { /* abaikan */ }
     if (document.hidden) {
@@ -107,11 +103,12 @@ export default function AdminDashboard() {
     }
   }, []);
 
-  // silent=true: dipanggil setelah aksi admin sendiri (approve/tolak/buka lagi) → jangan bunyi
+  // silent=true: dipanggil setelah aksi admin sendiri → jangan bunyi
   const refreshCounts = useCallback(async (silent = false) => {
     try {
       const c = await fetchAdminCounts();
-      setCounts(c);
+      setCounts(c || {});
+      setLastCheck(new Date());
       const pending = Number(c?.pending ?? 0);
       const prev = prevPendingRef.current;
       prevPendingRef.current = pending;
@@ -121,8 +118,7 @@ export default function AdminDashboard() {
 
   const afterAction = useCallback(() => refreshCounts(true), [refreshCounts]);
 
-  useEffect(() => { refreshCounts(); }, []);
-
+  useEffect(() => { refreshCounts(); }, [refreshCounts]);
   // Cek menfess baru tiap 30 detik selama dashboard admin terbuka
   useEffect(() => {
     const id = setInterval(() => refreshCounts(), POLL_MS);
@@ -133,127 +129,105 @@ export default function AdminDashboard() {
     try {
       const p = await Notification.requestPermission();
       setNotifPerm(p);
-      showToast(p === 'granted' ? '🔔 Notifikasi aktif' : 'Notifikasi tidak diizinkan di browser', p !== 'granted');
+      showToast(p === 'granted' ? 'Notifikasi aktif' : 'Notifikasi tidak diizinkan di browser', p !== 'granted');
     } catch { setNotifPerm('denied'); }
   }
 
-  // Refresh saat tab kembali aktif
   useEffect(() => {
     const onVis = () => {
       const now = Date.now();
-      if (!document.hidden && now - lastFetchRef.current > 30000) {
-        lastFetchRef.current = now;
-        refreshCounts();
-      }
+      if (!document.hidden && now - lastFetchRef.current > 30000) { lastFetchRef.current = now; refreshCounts(); }
     };
     document.addEventListener('visibilitychange', onVis);
     return () => document.removeEventListener('visibilitychange', onVis);
   }, [refreshCounts]);
 
   const { pull, phase } = usePullToRefresh(refreshCounts);
+  const visible = TABS.filter(t => t.id !== 'owner' || isOwner);
+  const withCounts = visible.map(t => ({ ...t, count: t.count ? Number(counts[t.count] || 0) : 0 }));
 
   return (
-    <div className="mf" style={{ colorScheme: 'light' }}>
+    <div className="mf-stack">
       <PullIndicator pull={pull} phase={phase} />
-
-      <header className="mf-topbar">
-        <span style={{ fontFamily:'var(--mf-font-brand)',fontWeight:700,fontSize:'1rem' }}>
-          🛡️ Admin 26Menfess
-        </span>
-        <div style={{ display:'flex',gap:6 }}>
-          {notifPerm === 'default' && (
-            <button className="mf-btn mf-btn-ghost" onClick={enableNotif}
-              aria-label="Aktifkan notifikasi menfess baru" style={{ fontSize:'.8rem',padding:'6px 10px' }}>
-              🔔 Notif
-            </button>
-          )}
-          <a href="/26menfess/app" className="mf-btn mf-btn-ghost" style={{ fontSize:'.8rem',padding:'6px 10px' }}>
-            ← Dashboard
-          </a>
-          <button className="mf-btn mf-btn-ghost" onClick={() => supabase.auth.signOut()} style={{ fontSize:'.8rem',padding:'6px 10px' }}>
-            Keluar
-          </button>
-        </div>
-      </header>
-
-      {/* Tab bar */}
-      <div className="mf-tabs" style={{ overflowX:'auto',scrollbarWidth:'none' }}>
-        {TABS.filter(t => t.id !== 'owner' || isOwner).map(t => (
-          <button key={t.id} className={`mf-tab ${tab === t.id ? 'active' : ''}`}
-            onClick={() => setParams({ tab: t.id })}>
-            {t.label}
-            {(counts[t.id === 'queue' ? 'pending' : t.id] > 0) && t.id !== 'studio' && t.id !== 'owner' && (
-              <span style={{ background:'var(--mf-brick)',color:'#fff',borderRadius:999,padding:'1px 5px',fontSize:'.72rem',marginLeft:4 }}>
-                {counts[t.id === 'queue' ? 'pending' : t.id]}
-              </span>
-            )}
-          </button>
-        ))}
+      <div className="mf-row-wrap" style={{ alignItems: 'center' }}>
+        <h1 className="mf-grow" style={{ margin: 0, fontSize: 'var(--mf-fs-6)' }}>Panel admin</h1>
+        {lastCheck && <span className="mf-xs mf-muted">Terakhir cek {lastCheck.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>}
+        {notifPerm === 'default' && <Button variant="secondary" size="sm" icon="bell" onClick={enableNotif}>Aktifkan notifikasi</Button>}
+        <Button to="/26menfess/app?tab=kirim" variant="secondary" size="sm" icon="back">Dashboard</Button>
+        <Button variant="ghost" size="sm" icon="logout" onClick={openLogout}>Keluar</Button>
       </div>
 
-      <main className="mf-page" style={{ paddingTop:24 }}>
-        {tab === 'upload' && <UploadMode onDone={afterAction} showToast={showToast} />}
-        {tab === 'queue'  && <Queue status="pending" onDone={afterAction} showToast={showToast} />}
-        {tab === 'hold'   && <Queue status="hold"    onDone={afterAction} showToast={showToast} />}
-        {tab === 'posted' && <Queue status="posted"  onDone={afterAction} showToast={showToast} />}
-        {tab === 'studio' && <Studio showToast={showToast} />}
-        {tab === 'owner'  && isOwner && <OwnerPanel showToast={showToast} />}
-      </main>
-
-      {toast && (
-        <div className="mf-toast-wrap" aria-live="polite">
-          <div className={`mf-toast ${toast.isErr ? 'error' : ''}`}>{toast.msg}</div>
+      <div className="mf-admin">
+        <nav className="mf-side" aria-label="Menu admin">
+          {withCounts.map(t => (
+            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => setTab(t.id)}>
+              <Icon name={t.icon} />{t.label}{t.count > 0 && <span className="mf-count">{t.count}</span>}
+            </button>
+          ))}
+        </nav>
+        <div style={{ minWidth: 0 }}>
+          <Tabs tabs={withCounts} value={tab} onChange={setTab} label="Menu admin" />
+          {tab === 'upload' && <UploadMode onDone={afterAction} showToast={showToast} />}
+          {tab === 'queue'  && <Queue status="pending" onDone={afterAction} showToast={showToast} />}
+          {tab === 'hold'   && <Queue status="hold"    onDone={afterAction} showToast={showToast} />}
+          {tab === 'posted' && <Queue status="posted"  onDone={afterAction} showToast={showToast} />}
+          {tab === 'studio' && <Studio showToast={showToast} />}
+          {tab === 'owner'  && isOwner && <OwnerPanel showToast={showToast} />}
         </div>
-      )}
+      </div>
     </div>
   );
 }
 
-// ─── Mode Upload ─────────────────────────────────────────────────────────────
+/** Jembatan: pertahankan signature showToast(msg, isErr) yang dipakai komponen anak. */
+function useToastBridge() {
+  const t = useMfToast();
+  return { show: (msg, isErr = false) => t.show(msg, isErr ? 'error' : 'ok') };
+}
+
+async function downloadPng(post, showToast) {
+  try {
+    await document.fonts.load('800 48px Nunito');
+    const blob = await renderCardBlob(post);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = cardFilename(post.id, post.design); a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  } catch (e) { showToast('Gagal unduh: ' + (e?.message || ''), true); }
+}
+
+// ─── Mode Upload (stepper fokus) ─────────────────────────────────────────────
 
 function UploadMode({ onDone, showToast }) {
-  const [queue,     setQueue]     = useState([]);
-  const [idx,       setIdx]       = useState(0);
-  const [loading,   setLoading]   = useState(true);
-  const [igUrl,     setIgUrl]     = useState('');
-  const [acting,    setActing]    = useState(false);
-  const [holdNote,  setHoldNote]  = useState('');
-  const [showHold,  setShowHold]  = useState(false);
-  const [rejectReason, setRejectReason] = useState('');
-  const [showReject,   setShowReject]   = useState(false);
-  const previewRef = useRef(null);
+  const [queue, setQueue] = useState([]);
+  const [idx, setIdx] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [igUrl, setIgUrl] = useState('');
+  const [acting, setActing] = useState(false);
+  const [holdNote, setHoldNote] = useState('');
+  const [sheet, setSheet] = useState('');   // '' | 'more' | 'hold'
+  const [got, setGot] = useState(false);
+  const [openedIg, setOpenedIg] = useState(false);
 
   const { settings } = useSettings();
   const defaultHashtags = settings?.default_hashtags || '#26menfess #FKEP2026';
 
-  useEffect(() => { load(); }, []);
-
-  async function load() {
-    setLoading(true);
+  const load = useCallback(async () => {
+    setLoading(true); setError(false);
     try {
       const data = await fetchAdminPosts({ status: 'approved', limit: 30 });
-      // FIFO: terlama dulu
-      setQueue([...data].reverse());
+      setQueue([...data].reverse());   // FIFO: terlama dulu
       setIdx(0);
-    } catch { /* ignore */ }
+    } catch { setError(true); }
     setLoading(false);
-  }
+  }, []);
+  useEffect(() => { load(); }, [load]);
 
   const post = queue[idx];
-
-  // Render preview canvas saat post berubah
-  useEffect(() => {
-    if (!post || !previewRef.current) return;
-    let alive = true;
-    (async () => {
-      await document.fonts.load('800 48px Nunito');
-      if (!alive) return;
-      await drawCard(previewRef.current, post, 0.25); // 300×375
-    })();
-    return () => { alive = false; };
-  }, [post]);
-
   const caption = post ? buildCaption(post, defaultHashtags) : '';
+  const step = openedIg || igUrl ? 3 : got ? 2 : 1;
+  const resetStep = () => { setGot(false); setOpenedIg(false); setIgUrl(''); };
 
   async function handlePosted() {
     if (!post) return;
@@ -262,10 +236,9 @@ function UploadMode({ onDone, showToast }) {
     }
     setActing(true);
     try {
-      await adminSetStatus({ id: post.id, action: 'post',
-        igUrl: igUrl || null });
-      showToast('✅ Ditandai sudah diposting!');
-      setIgUrl('');
+      await adminSetStatus({ id: post.id, action: 'post', igUrl: igUrl || null });
+      showToast('Ditandai sudah diposting!');
+      resetStep();
       setQueue(prev => prev.filter(p => p.id !== post.id));
       setIdx(0);
       onDone();
@@ -278,8 +251,8 @@ function UploadMode({ onDone, showToast }) {
     setActing(true);
     try {
       await adminSetStatus({ id: post.id, action: 'hold', adminNote: holdNote });
-      showToast('⏸️ Ditahan.');
-      setHoldNote(''); setShowHold(false);
+      showToast('Ditahan.');
+      setHoldNote(''); setSheet(''); resetStep();
       setQueue(prev => prev.filter(p => p.id !== post.id));
       setIdx(0);
       onDone();
@@ -287,17 +260,7 @@ function UploadMode({ onDone, showToast }) {
     setActing(false);
   }
 
-  async function handleDownload() {
-    if (!post) return;
-    try {
-      await document.fonts.load('800 48px Nunito');
-      const blob = await renderCardBlob(post);
-      const url  = URL.createObjectURL(blob);
-      const a    = document.createElement('a');
-      a.href = url; a.download = cardFilename(post.id, post.design); a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 5000);
-    } catch (e) { showToast('Gagal unduh: ' + e.message, true); }
-  }
+  async function handleDownload() { if (post) { await downloadPng(post, showToast); setGot(true); } }
 
   async function handleShare() {
     if (!post) return;
@@ -305,87 +268,70 @@ function UploadMode({ onDone, showToast }) {
       await document.fonts.load('800 48px Nunito');
       const blob = await renderCardBlob(post);
       const file = new File([blob], cardFilename(post.id, post.design), { type: 'image/png' });
-      if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], text: caption });
-      } else {
-        handleDownload();
-      }
+      if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], text: caption }); setGot(true); }
+      else handleDownload();
     } catch { handleDownload(); }
   }
 
-  function skip() {
-    setIdx(prev => (prev + 1) % Math.max(1, queue.length));
-    setShowHold(false); setShowReject(false);
+  function skip() { setIdx(prev => (prev + 1) % Math.max(1, queue.length)); setSheet(''); resetStep(); }
+
+  async function copyCaption() {
+    try { await navigator.clipboard.writeText(caption); showToast('Caption disalin!'); setGot(true); }
+    catch { showToast('Gagal menyalin caption.', true); }
   }
 
-  if (loading) return <div className="mf-skeleton" style={{ height:400 }} />;
-
+  if (loading) return <Skeleton h={420} />;
+  if (error) return <ErrorState onRetry={load} />;
   if (!post) {
-    return (
-      <div className="mf-empty">
-        <span className="mf-empty-icon">🎉</span>
-        <p><strong>Tidak ada menfess yang siap diupload saat ini.</strong></p>
-        <button className="mf-btn mf-btn-secondary" onClick={load}>Segarkan</button>
-      </div>
-    );
+    return <EmptyState icon="check" title="Semua sudah diupload" action={<Button variant="secondary" icon="refresh" onClick={load}>Segarkan</Button>}>Tidak ada menfess yang siap diupload saat ini.</EmptyState>;
   }
 
   return (
-    <div style={{ display:'flex',flexDirection:'column',gap:16,maxWidth:480,margin:'0 auto' }}>
-      {/* Counter */}
-      <p style={{ textAlign:'center',opacity:.6,fontSize:'.85rem' }}>
-        Kartu {idx+1} / {queue.length} siap upload
-      </p>
-
-      {/* Preview canvas — WYSIWYG, selalu terang */}
-      <div style={{ position:'relative',width:'100%',aspectRatio:'4/5',borderRadius:'var(--mf-radius)',overflow:'hidden',border:'2px solid var(--mf-ink)',boxShadow:'var(--mf-shadow)' }}>
-        <canvas ref={previewRef} style={{ width:'100%',height:'100%',display:'block',colorScheme:'light' }} />
+    <div className="mf-stack">
+      <div className="mf-row">
+        <b className="mf-grow">Kartu {idx + 1} dari {queue.length}</b>
+        <Button variant="ghost" size="sm" icon="more" onClick={() => setSheet('more')} aria-label="Lainnya">Lainnya</Button>
       </div>
+      <div className="mf-upload">
+        <PreviewCanvas opts={post} scale={0.3} />
+        <div className="mf-stack mf-allow">
+          <div className="mf-steps-up" aria-hidden="true"><span className="on" /><span className={step >= 2 ? 'on' : ''} /><span className={step >= 3 ? 'on' : ''} /></div>
 
-      {/* Caption */}
-      <div style={{ display:'flex',gap:8 }}>
-        <textarea className="mf-textarea mf-allow" value={caption} readOnly
-          style={{ flex:1,minHeight:96,fontSize:'.82rem',resize:'vertical' }} />
-        <button className="mf-btn mf-btn-secondary" style={{ alignSelf:'flex-start' }}
-          onClick={() => { navigator.clipboard.writeText(caption); showToast('Caption disalin!'); }}>
-          📋 Salin
-        </button>
-      </div>
+          <section className="mf-card mf-stack" aria-labelledby="s1">
+            <h3 id="s1">1. Ambil kartu</h3>
+            <div className="mf-row-wrap">
+              <Button icon="download" onClick={handleDownload}>Unduh PNG</Button>
+              <Button variant="secondary" icon="share" onClick={handleShare}>Bagikan</Button>
+            </div>
+            <textarea className="mf-textarea" style={{ minHeight: 120 }} value={caption} readOnly aria-label="Caption" />
+            <div><Button variant="secondary" size="sm" icon="copy" onClick={copyCaption}>Salin caption</Button></div>
+            {post.song_title && <SongPill song={post} />}
+          </section>
 
-      {/* Tombol aksi */}
-      <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:10 }}>
-        <button className="mf-btn mf-btn-primary" onClick={handleDownload}>📥 Unduh PNG</button>
-        <button className="mf-btn mf-btn-secondary" onClick={handleShare}>🔗 Bagikan</button>
-        <a href="https://www.instagram.com/secretmenfess.26/" target="_blank" rel="noopener noreferrer"
-          className="mf-btn mf-btn-secondary" style={{ textAlign:'center' }}>
-          📸 Buka IG
-        </a>
-        <button className="mf-btn mf-btn-ghost" onClick={skip} disabled={acting}>Lewati →</button>
-      </div>
+          <section className="mf-card mf-stack" aria-labelledby="s2">
+            <h3 id="s2">2. Posting di Instagram</h3>
+            <div><Button variant="secondary" icon="instagram" href={IG} target="_blank" rel="noopener noreferrer" onClick={() => setOpenedIg(true)}>Buka @secretmenfess.26</Button></div>
+            <Field label="Link post (opsional)" htmlFor="ig-url">
+              {(id) => <input id={id} className="mf-input" type="url" value={igUrl} onChange={e => setIgUrl(e.target.value)} placeholder="https://www.instagram.com/p/…" />}
+            </Field>
+          </section>
 
-      {/* Link IG opsional */}
-      <input className="mf-input mf-allow" type="url" value={igUrl} onChange={e => setIgUrl(e.target.value)}
-        placeholder="https://www.instagram.com/p/... (opsional)" />
-
-      {/* Sudah diposting */}
-      <button className="mf-btn mf-btn-primary" style={{ background:'var(--mf-teal)' }}
-        onClick={handlePosted} disabled={acting}>
-        {acting ? 'Memproses…' : '✔ Sudah Diposting'}
-      </button>
-
-      {/* Tahan */}
-      {!showHold ? (
-        <button className="mf-btn mf-btn-ghost" onClick={() => setShowHold(true)}>⏸️ Tahan dulu</button>
-      ) : (
-        <div style={{ display:'flex',flexDirection:'column',gap:8 }}>
-          <textarea className="mf-textarea mf-allow" value={holdNote} onChange={e => setHoldNote(e.target.value)}
-            placeholder="Alasan tahan (wajib)…" rows={3} />
-          <div style={{ display:'flex',gap:8 }}>
-            <button className="mf-btn mf-btn-primary" style={{ flex:1 }} onClick={handleHold} disabled={acting}>Konfirmasi Tahan</button>
-            <button className="mf-btn mf-btn-ghost" onClick={() => setShowHold(false)}>Batal</button>
-          </div>
+          <Button block icon="check" loading={acting} onClick={handlePosted}>3. Sudah diposting</Button>
         </div>
-      )}
+      </div>
+
+      <Sheet open={sheet === 'more'} onClose={() => setSheet('')} title="Lainnya">
+        <div className="mf-stack">
+          <Button variant="secondary" icon="pause2" onClick={() => setSheet('hold')}>Tahan dulu</Button>
+          <Button variant="secondary" icon="back" onClick={skip}>Lewati ke kartu berikutnya</Button>
+        </div>
+      </Sheet>
+      <Sheet open={sheet === 'hold'} onClose={() => setSheet('')} title="Tahan menfess"
+        footer={<><Button variant="secondary" onClick={() => setSheet('')}>Batal</Button><Button loading={acting} onClick={handleHold}>Tahan</Button></>}>
+        <Field label="Alasan tahan (wajib)" htmlFor="hold-note">
+          {(id) => <textarea id={id} className="mf-textarea mf-allow" style={{ minHeight: 100 }} value={holdNote} onChange={e => setHoldNote(e.target.value)} />}
+        </Field>
+      </Sheet>
     </div>
   );
 }
@@ -400,139 +346,93 @@ function buildCaption(post, hashtags) {
   return `[${cat}] ${to}\n${post.body}${from}${song}\n${hashtags}`;
 }
 
-// ─── Queue tab (antrean / ditahan / tayang) ───────────────────────────────────
+// ─── Queue (antrean / ditahan / tayang) ──────────────────────────────────────
 
 function Queue({ status, onDone, showToast }) {
-  const [posts,   setPosts]   = useState([]);
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search,  setSearch]  = useState('');
+  const [error, setError] = useState(false);
+  const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
+  const [menu, setMenu] = useState(null);       // post untuk sheet aksi
+  const [reject, setReject] = useState(null);   // post untuk sheet tolak
+  const [reason, setReason] = useState('');
+  const [takedown, setTakedown] = useState(null);
+  const [acting, setActing] = useState(false);
 
-  useEffect(() => { load(); }, [status, debouncedSearch]);
-
-  async function load() {
-    setLoading(true);
+  const load = useCallback(async () => {
+    setLoading(true); setError(false);
     try {
-      const data = await fetchAdminPosts({ status: status === 'pending' ? 'pending' : status, search: debouncedSearch || null, limit: 20 });
+      const data = await fetchAdminPosts({ status, search: debouncedSearch || null, limit: 20 });
       setPosts(status === 'pending' ? [...data].reverse() : data);
-    } catch { /* ignore */ }
+    } catch { setError(true); }
     setLoading(false);
-  }
+  }, [status, debouncedSearch]);
+  useEffect(() => { load(); }, [load]);
 
   async function action(post, act, extra = {}) {
+    setActing(true);
     try {
       await adminSetStatus({ id: post.id, action: act, ...extra });
-      showToast('✅ Berhasil.');
+      showToast('Berhasil.');
+      setMenu(null); setReject(null); setTakedown(null); setReason('');
       load(); onDone();
     } catch (e) { showToast(e.message || 'Gagal.', true); }
+    setActing(false);
   }
 
-  async function downloadPost(post) {
-    try {
-      await document.fonts.load('800 48px Nunito');
-      const blob = await renderCardBlob(post);
-      const url  = URL.createObjectURL(blob);
-      const a    = document.createElement('a');
-      a.href = url; a.download = cardFilename(post.id, post.design); a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 5000);
-    } catch (e) { showToast('Gagal unduh.', true); }
-  }
-
-  if (loading) return <div style={{ display:'flex',flexDirection:'column',gap:12 }}>{[1,2,3].map(i => <div key={i} className="mf-skeleton" style={{ height:120 }} />)}</div>;
-
   return (
-    <div>
-      <div style={{ marginBottom:16,display:'flex',gap:10 }}>
-        <input className="mf-input mf-allow" type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 Cari isi…" style={{ flex:1 }} />
-        <button className="mf-btn mf-btn-secondary" onClick={load} style={{ flexShrink:0 }}>🔄</button>
+    <div className="mf-stack">
+      <div className="mf-row">
+        <input className="mf-input mf-allow" type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder="Cari isi menfess…" aria-label="Cari isi menfess" />
+        <Button variant="secondary" className="mf-iconbtn" style={{ padding: 0 }} icon="refresh" onClick={load} aria-label="Segarkan" />
       </div>
 
-      {posts.length === 0 && <div className="mf-empty"><span className="mf-empty-icon">📭</span><p>Kosong.</p></div>}
-
-      <div style={{ display:'flex',flexDirection:'column',gap:12 }}>
-        {posts.map(post => (
-          <AdminCard key={post.id} post={post} onAction={action} onDownload={downloadPost} showToast={showToast} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function AdminCard({ post, onAction, onDownload, showToast }) {
-  const [showReject, setShowReject] = useState(false);
-  const [rejectReason, setRejectReason] = useState('');
-  const [igUrl, setIgUrl] = useState('');
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    if (!canvasRef.current) return;
-    let alive = true;
-    (async () => {
-      await document.fonts.load('800 48px Nunito');
-      if (!alive) return;
-      await drawCard(canvasRef.current, post, 0.15); // mini 180×225
-    })();
-    return () => { alive = false; };
-  }, [post]);
-
-  return (
-    <div className="mf-card mf-allow" style={{ display:'flex',gap:12 }}>
-      <canvas ref={canvasRef} style={{ width:90,height:112,flexShrink:0,borderRadius:8,border:'1px solid var(--mf-ink)',colorScheme:'light' }} />
-
-      <div style={{ flex:1,minWidth:0 }}>
-        <div style={{ display:'flex',gap:6,flexWrap:'wrap',marginBottom:6 }}>
-          <StatusBadge status={post.status} />
-          <span className="mf-badge" style={{ background:'var(--mf-soft)' }}>{categoryLabel(post.category)}</span>
-          <span style={{ fontSize:'.75rem',opacity:.5 }}>#{shortCode(post.user_id)}</span>
+      {loading && <div className="mf-stack">{[1, 2, 3].map(i => <Skeleton key={i} h={104} />)}</div>}
+      {!loading && error && <ErrorState onRetry={load} />}
+      {!loading && !error && posts.length === 0 && <EmptyState icon="inbox" title="Kosong">Tidak ada menfess di sini.</EmptyState>}
+      {!loading && !error && posts.map(post => (
+        <div key={post.id} className="mf-qrow">
+          <CardThumb post={post} onClick={() => setMenu(post)} label="Buka aksi menfess" />
+          <div className="mf-grow">
+            <div className="mf-row-wrap" style={{ marginBottom: 4 }}>
+              <StatusBadge status={post.status} /><Badge>{categoryLabel(post.category)}</Badge>
+              <span className="mf-xs mf-muted">#{shortCode(post.user_id)} · {formatRelative(post.created_at)}</span>
+            </div>
+            <p className="mf-clamp2 mf-allow" style={{ margin: '0 0 8px' }}>{post.body}</p>
+            <div className="mf-row-wrap">
+              {(post.status === 'pending' || post.status === 'hold') && <Button size="sm" icon="check" onClick={() => action(post, 'approve')} disabled={acting}>Setujui</Button>}
+              {post.status === 'approved' && <Button size="sm" icon="instagram" onClick={() => action(post, 'post', { igUrl: null })} disabled={acting}>Tandai diposting</Button>}
+              {post.status === 'posted' && <Button size="sm" variant="secondary" icon="download" onClick={() => downloadPng(post, showToast)}>PNG</Button>}
+              <Button size="sm" variant="ghost" icon="more" aria-label="Aksi lain" onClick={() => setMenu(post)} />
+            </div>
+          </div>
         </div>
+      ))}
 
-        {post.to_label && <p style={{ fontSize:'.8rem',opacity:.7,margin:'2px 0' }}>Untuk: {post.to_label}</p>}
-        <p style={{ fontSize:'.9rem',marginBottom:4,wordBreak:'break-word',
-          overflow:'hidden',display:'-webkit-box',WebkitLineClamp:3,WebkitBoxOrient:'vertical' }}>
-          {post.body}
-        </p>
-        <p style={{ fontSize:'.75rem',opacity:.5 }}>{formatRelative(post.created_at)}</p>
-
-        <div style={{ display:'flex',gap:6,flexWrap:'wrap',marginTop:8 }}>
-          {post.status === 'pending' && <>
-            <button className="mf-btn mf-btn-primary" style={{ fontSize:'.78rem',padding:'6px 10px' }}
-              onClick={() => onAction(post, 'approve')}>✅ Setujui</button>
-            <button className="mf-btn mf-btn-ghost" style={{ fontSize:'.78rem',padding:'6px 10px' }}
-              onClick={() => setShowReject(!showReject)}>❌ Tolak</button>
-          </>}
-          {post.status === 'hold' && <>
-            <button className="mf-btn mf-btn-primary" style={{ fontSize:'.78rem',padding:'6px 10px' }}
-              onClick={() => onAction(post, 'approve')}>✅ Setujui</button>
-            <button className="mf-btn mf-btn-ghost" style={{ fontSize:'.78rem',padding:'6px 10px' }}
-              onClick={() => setShowReject(!showReject)}>❌ Tolak</button>
-          </>}
-          {post.status === 'approved' && <>
-            <input className="mf-input mf-allow" type="url" value={igUrl} onChange={e => setIgUrl(e.target.value)}
-              placeholder="https://instagram.com/p/…" style={{ fontSize:'.78rem',padding:'6px 8px' }} />
-            <button className="mf-btn mf-btn-primary" style={{ fontSize:'.78rem',padding:'6px 10px' }}
-              onClick={() => onAction(post, 'post', { igUrl: igUrl || null })}>📸 Tandai Diposting</button>
-          </>}
-          {post.status === 'posted' && <>
-            <button className="mf-btn mf-btn-ghost" style={{ fontSize:'.78rem',padding:'6px 10px' }}
-              onClick={() => onAction(post, 'takedown')}>🗑️ Turunkan</button>
-          </>}
-          <button className="mf-btn mf-btn-secondary" style={{ fontSize:'.78rem',padding:'6px 10px' }}
-            onClick={() => onDownload(post)}>📥 PNG</button>
-        </div>
-
-        {showReject && (
-          <div style={{ marginTop:8,display:'flex',flexDirection:'column',gap:6 }}>
-            <select className="mf-select" value={rejectReason} onChange={e => setRejectReason(e.target.value)}>
-              <option value="">— Pilih alasan —</option>
-              {REJECT_REASONS.map(r => <option key={r}>{r}</option>)}
-            </select>
-            <button className="mf-btn mf-btn-danger" disabled={!rejectReason}
-              onClick={() => { onAction(post, 'reject', { reason: rejectReason }); setShowReject(false); }}>
-              Konfirmasi Tolak
-            </button>
+      <Sheet open={!!menu} onClose={() => setMenu(null)} title="Aksi menfess">
+        {menu && (
+          <div className="mf-stack">
+            <div style={{ width: 'min(100%,240px)', margin: '0 auto' }}><CardThumb post={menu} scale={0.3} eager className="static" /></div>
+            <p className="mf-allow">{menu.body}</p>
+            <SongPill song={menu} />
+            <Button variant="secondary" icon="download" onClick={() => downloadPng(menu, showToast)}>Unduh PNG</Button>
+            {(menu.status === 'pending' || menu.status === 'hold') && <Button variant="danger" icon="ban" onClick={() => { setReject(menu); setMenu(null); }}>Tolak…</Button>}
+            {menu.status === 'posted' && <Button variant="danger" icon="trash" onClick={() => { setTakedown(menu); setMenu(null); }}>Turunkan…</Button>}
           </div>
         )}
-      </div>
+      </Sheet>
+
+      <Sheet open={!!reject} onClose={() => { setReject(null); setReason(''); }} title="Tolak menfess"
+        footer={<><Button variant="secondary" onClick={() => { setReject(null); setReason(''); }}>Batal</Button><Button variant="danger" disabled={!reason} loading={acting} onClick={() => action(reject, 'reject', { reason })}>Tolak</Button></>}>
+        <Field label="Alasan (terlihat pengirim)" htmlFor="rj">
+          {(id) => <select id={id} className="mf-select" value={reason} onChange={e => setReason(e.target.value)}><option value="">— Pilih alasan —</option>{REJECT_REASONS.map(r => <option key={r}>{r}</option>)}</select>}
+        </Field>
+      </Sheet>
+
+      <ConfirmDialog open={!!takedown} title="Turunkan dari feed?" danger confirmLabel="Turunkan" loading={acting} onConfirm={() => action(takedown, 'takedown')} onCancel={() => setTakedown(null)}>
+        <p>Menfess hilang dari feed publik. Post di Instagram perlu dihapus manual.</p>
+      </ConfirmDialog>
     </div>
   );
 }
@@ -542,7 +442,7 @@ function AdminCard({ post, onAction, onDownload, showToast }) {
 function Studio({ showToast }) {
   const DRAFT_KEY = 'mf:studio';
   const load = () => { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch { return null; } };
-  const save = (d)  => { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch { /* ignore */ } };
+  const save = (d) => { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch { /* ignore */ } };
 
   const draft = load() || {};
   const [form, setForm] = useState({
@@ -551,37 +451,12 @@ function Studio({ showToast }) {
     text_color: draft.text_color || 'dark', align: draft.align || 'center',
     category: draft.category || 'info',
   });
-  const canvasRef = useRef(null);
+  const [saving, setSaving] = useState('');
 
-  function update(key, val) {
-    const next = { ...form, [key]: val };
-    setForm(next);
-    save(next);
-  }
-
-  useEffect(() => {
-    if (!canvasRef.current) return;
-    let alive = true;
-    (async () => {
-      await document.fonts.load('800 48px Nunito');
-      if (!alive) return;
-      await drawCard(canvasRef.current, { ...form, body: form.body || '(preview)' }, 0.25);
-    })();
-    return () => { alive = false; };
-  }, [form]);
-
-  async function handleDownload() {
-    try {
-      await document.fonts.load('800 48px Nunito');
-      const blob = await renderCardBlob(form);
-      const url  = URL.createObjectURL(blob);
-      const a    = document.createElement('a');
-      a.href = url; a.download = `26menfess-studio-${form.design}.png`; a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 5000);
-    } catch (e) { showToast('Gagal: ' + e.message, true); }
-  }
+  function update(key, val) { const next = { ...form, [key]: val }; setForm(next); save(next); }
 
   async function handleSave(asPosted = false) {
+    setSaving(asPosted ? 'posted' : 'approved');
     try {
       const { error } = await supabase.from('menfess_posts').insert({
         ...form, source: 'admin', status: asPosted ? 'posted' : 'approved',
@@ -590,60 +465,25 @@ function Studio({ showToast }) {
       if (error) throw error;
       showToast(asPosted ? 'Disimpan & ditandai tayang!' : 'Disimpan ke daftar!');
     } catch (e) { showToast(e.message || 'Gagal.', true); }
+    setSaving('');
   }
 
   return (
-    <div style={{ display:'flex',flexDirection:'column',gap:16,maxWidth:480,margin:'0 auto' }}>
-      <h2 style={{ marginBottom:0 }}>🎨 Studio Kartu Admin</h2>
-
-      {/* Preview */}
-      <canvas ref={canvasRef} style={{ width:'100%',aspectRatio:'4/5',display:'block',borderRadius:'var(--mf-radius)',border:'2px solid var(--mf-ink)',colorScheme:'light' }} />
-
-      {/* Form */}
-      <div style={{ display:'flex',flexDirection:'column',gap:12 }}>
-        <input className="mf-input mf-allow" type="text" placeholder="Judul (opsional)" value={form.title} onChange={e => update('title', e.target.value)} />
-        <textarea className="mf-textarea mf-allow" value={form.body} onChange={e => update('body', e.target.value)} placeholder="Isi kartu…" rows={5} />
-
-        <div style={{ display:'flex',gap:10,flexWrap:'wrap' }}>
-          {['pink','green'].map(d => (
-            <button key={d} className={`mf-btn ${form.design === d ? 'mf-btn-primary' : 'mf-btn-secondary'}`}
-              onClick={() => update('design', d)}>
-              {d === 'pink' ? '🌸 Pink' : '🌿 Hijau'}
-            </button>
-          ))}
-        </div>
-
-        <div style={{ display:'flex',gap:8,flexWrap:'wrap' }}>
-          {['auto','xs','sm','md','lg'].map(s => (
-            <button key={s} className={`mf-btn ${form.text_size === s ? 'mf-btn-primary' : 'mf-btn-secondary'}`}
-              style={{ flex:1 }} onClick={() => update('text_size', s)}>
-              {s.toUpperCase()}
-            </button>
-          ))}
-        </div>
-
-        <div style={{ display:'flex',gap:10 }}>
-          <button className={`mf-btn ${form.text_color === 'dark' ? 'mf-btn-primary' : 'mf-btn-secondary'}`}
-            style={{ flex:1 }} onClick={() => update('text_color', 'dark')}>⬛ Gelap</button>
-          <button className={`mf-btn ${form.text_color === 'white' ? 'mf-btn-primary' : 'mf-btn-secondary'}`}
-            style={{ flex:1 }} onClick={() => update('text_color', 'white')}>⬜ Terang</button>
-        </div>
-
-        <div style={{ display:'flex',gap:10 }}>
-          <button className={`mf-btn ${form.align === 'center' ? 'mf-btn-primary' : 'mf-btn-secondary'}`}
-            style={{ flex:1 }} onClick={() => update('align', 'center')}>≡ Tengah</button>
-          <button className={`mf-btn ${form.align === 'left' ? 'mf-btn-primary' : 'mf-btn-secondary'}`}
-            style={{ flex:1 }} onClick={() => update('align', 'left')}>≡ Kiri</button>
-        </div>
+    <div className="mf-compose">
+      <div className="mf-stack mf-allow">
+        <Field label="Judul (opsional)" htmlFor="st-t">{(id) => <input id={id} className="mf-input" value={form.title} onChange={e => update('title', e.target.value)} />}</Field>
+        <Field label="Isi kartu" htmlFor="st-b">{(id) => <textarea id={id} className="mf-textarea" value={form.body} onChange={e => update('body', e.target.value)} />}</Field>
+        <div className="mf-field"><span className="mf-label">Desain</span><Segmented label="Desain" value={form.design} onChange={v => update('design', v)} options={[{ value: 'pink', label: 'Pink' }, { value: 'green', label: 'Hijau' }]} /></div>
+        <div className="mf-field"><span className="mf-label">Ukuran teks</span><Segmented label="Ukuran teks" value={form.text_size} onChange={v => update('text_size', v)} options={['auto', 'xs', 'sm', 'md', 'lg'].map(v => ({ value: v, label: v === 'auto' ? 'Auto' : v.toUpperCase() }))} /></div>
+        <div className="mf-field"><span className="mf-label">Warna teks</span><Segmented label="Warna teks" value={form.text_color} onChange={v => update('text_color', v)} options={[{ value: 'dark', label: 'Gelap' }, { value: 'white', label: 'Terang' }]} /></div>
+        <div className="mf-field"><span className="mf-label">Rata teks</span><Segmented label="Rata teks" value={form.align} onChange={v => update('align', v)} options={[{ value: 'center', label: 'Tengah' }, { value: 'left', label: 'Kiri' }]} /></div>
       </div>
-
-      <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:10 }}>
-        <button className="mf-btn mf-btn-primary" onClick={handleDownload}>📥 Unduh PNG</button>
-        <button className="mf-btn mf-btn-secondary" onClick={() => handleSave(false)}>💾 Simpan ke Daftar</button>
-        <button className="mf-btn mf-btn-secondary" onClick={() => handleSave(true)} style={{ gridColumn:'1/-1' }}>
-          📸 Simpan & Tandai Tayang
-        </button>
-      </div>
+      <aside className="mf-compose-preview mf-stack">
+        <PreviewCanvas opts={{ ...form, body: form.body || '(preview)' }} scale={0.3} />
+        <Button icon="download" onClick={() => downloadPng({ ...form, id: 'studio' }, showToast)}>Unduh PNG</Button>
+        <Button variant="secondary" icon="plus" loading={saving === 'approved'} onClick={() => handleSave(false)}>Simpan ke daftar</Button>
+        <Button variant="secondary" icon="instagram" loading={saving === 'posted'} onClick={() => handleSave(true)}>Simpan & tandai tayang</Button>
+      </aside>
     </div>
   );
 }
@@ -651,112 +491,73 @@ function Studio({ showToast }) {
 // ─── Owner Panel ──────────────────────────────────────────────────────────────
 
 function OwnerPanel({ showToast }) {
-  const [admins,   setAdmins]   = useState([]);
+  const [admins, setAdmins] = useState([]);
   const [settings, setSettings] = useState(null);
   const [newEmail, setNewEmail] = useState('');
-  const [newRole,  setNewRole]  = useState('admin');
+  const [newRole, setNewRole] = useState('admin');
+  const [removing, setRemoving] = useState(null);
+  const [saved, setSaved] = useState(false);
+  const [err, setErr] = useState(false);
 
-  useEffect(() => {
-    fetchAdminList().then(setAdmins).catch(() => {});
-    fetchSettings().then(setSettings).catch(() => {});
+  const loadAll = useCallback(() => {
+    setErr(false);
+    fetchAdminList().then(setAdmins).catch(() => setErr(true));
+    fetchSettings().then(setSettings).catch(() => setErr(true));
   }, []);
+  useEffect(() => { loadAll(); }, [loadAll]);
 
   async function add() {
     if (!newEmail.includes('@')) { showToast('Email tidak valid.', true); return; }
-    try {
-      await upsertAdmin(newEmail.trim().toLowerCase(), newRole);
-      showToast('Admin ditambahkan!');
-      setNewEmail('');
-      fetchAdminList().then(setAdmins);
-    } catch (e) { showToast(e.message || 'Gagal.', true); }
+    try { await upsertAdmin(newEmail.trim().toLowerCase(), newRole); showToast('Admin ditambahkan!'); setNewEmail(''); fetchAdminList().then(setAdmins); }
+    catch (e) { showToast(e.message || 'Gagal.', true); }
   }
-
-  async function remove(email) {
-    if (!confirm(`Hapus ${email}?`)) return;
-    try {
-      await removeAdmin(email);
-      showToast('Dihapus.');
-      fetchAdminList().then(setAdmins);
-    } catch (e) { showToast(e.message || 'Gagal.', true); }
+  async function doRemove() {
+    try { await removeAdmin(removing); showToast('Dihapus.'); setRemoving(null); fetchAdminList().then(setAdmins); }
+    catch (e) { showToast(e.message || 'Gagal.', true); setRemoving(null); }
   }
-
   async function saveSettings(patch) {
-    try {
-      await updateSettings(patch);
-      setSettings(s => ({ ...s, ...patch }));
-      showToast('Pengaturan disimpan.');
-    } catch (e) { showToast(e.message || 'Gagal.', true); }
+    try { await updateSettings(patch); setSettings(s => ({ ...s, ...patch })); setSaved(true); setTimeout(() => setSaved(false), 4000); }
+    catch (e) { showToast(e.message || 'Gagal menyimpan.', true); }
   }
+
+  if (err && !settings) return <ErrorState onRetry={loadAll} />;
 
   return (
-    <div style={{ display:'flex',flexDirection:'column',gap:24 }}>
-      {/* Admin list */}
-      <section>
-        <h2 style={{ marginBottom:12 }}>👥 Kelola Admin</h2>
-        {admins.map(a => (
-          <div key={a.email} className="mf-card" style={{ background:'white',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8 }}>
-            <div>
-              <strong>{a.email}</strong>
-              <span className="mf-badge" style={{ background: a.role === 'owner' ? 'var(--mf-peach)' : 'var(--mf-soft)',marginLeft:8 }}>{a.role}</span>
+    <div className="mf-stack-lg mf-allow">
+      {saved && <span className="mf-saved" role="status">Tersimpan ✓</span>}
+      {settings && (
+        <>
+          <section className="mf-card mf-stack"><h2>Penerimaan</h2>
+            <label className="mf-switch"><input type="checkbox" checked={!!settings.accepting} onChange={e => saveSettings({ accepting: e.target.checked })} /><span><b>Terima menfess</b> — {settings.accepting ? 'aktif' : 'ditutup'}</span></label>
+            {!settings.accepting && <Field label="Pesan saat ditutup" htmlFor="o-cm">{(id) => <input id={id} className="mf-input" defaultValue={settings.closed_message || ''} onBlur={e => saveSettings({ closed_message: e.target.value })} />}</Field>}
+          </section>
+          <section className="mf-card mf-stack"><h2>Pembatasan</h2>
+            <div className="mf-row" style={{ alignItems: 'flex-start' }}>
+              <div className="mf-grow"><Field label="Batas harian" htmlFor="o-dl">{(id) => <input id={id} className="mf-input" type="number" min="1" defaultValue={settings.daily_limit || 5} onBlur={e => saveSettings({ daily_limit: parseInt(e.target.value, 10) || 5 })} />}</Field></div>
+              <div className="mf-grow"><Field label="Jeda (detik)" htmlFor="o-cd">{(id) => <input id={id} className="mf-input" type="number" min="0" defaultValue={settings.cooldown_seconds || 30} onBlur={e => saveSettings({ cooldown_seconds: parseInt(e.target.value, 10) || 30 })} />}</Field></div>
             </div>
-            <button className="mf-btn mf-btn-ghost" style={{ color:'var(--mf-brick)',fontSize:'.8rem' }} onClick={() => remove(a.email)}>Hapus</button>
+          </section>
+          <section className="mf-card mf-stack"><h2>Konten</h2>
+            <Field label="Hashtag default caption" htmlFor="o-ht">{(id) => <input id={id} className="mf-input" defaultValue={settings.default_hashtags || '#26menfess #FKEP2026'} onBlur={e => saveSettings({ default_hashtags: e.target.value })} />}</Field>
+            <Field label="Pengumuman di landing (opsional)" htmlFor="o-an">{(id) => <input id={id} className="mf-input" defaultValue={settings.announcement || ''} onBlur={e => saveSettings({ announcement: e.target.value || null })} />}</Field>
+          </section>
+        </>
+      )}
+      <section className="mf-card mf-stack"><h2>Kelola admin</h2>
+        {admins.map(a => (
+          <div key={a.email} className="mf-row">
+            <div className="mf-grow" style={{ overflowWrap: 'anywhere' }}><b>{a.email}</b></div>
+            <Badge>{a.role}</Badge>
+            <Button variant="ghost" size="sm" icon="trash" aria-label={`Hapus ${a.email}`} onClick={() => setRemoving(a.email)} />
           </div>
         ))}
-        <div style={{ display:'flex',gap:8,marginTop:12,flexWrap:'wrap' }}>
-          <input className="mf-input mf-allow" type="email" value={newEmail} onChange={e => setNewEmail(e.target.value)} placeholder="email@google.com" style={{ flex:1 }} />
-          <select className="mf-select" value={newRole} onChange={e => setNewRole(e.target.value)} style={{ flex:'0 0 auto',width:100 }}>
-            <option value="admin">admin</option>
-            <option value="owner">owner</option>
-          </select>
-          <button className="mf-btn mf-btn-primary" onClick={add}>+ Tambah</button>
+        <div className="mf-row-wrap">
+          <input className="mf-input" style={{ flex: '1 1 200px' }} type="email" value={newEmail} onChange={e => setNewEmail(e.target.value)} placeholder="email@gmail.com" aria-label="Email admin baru" />
+          <select className="mf-select" style={{ width: 110 }} value={newRole} onChange={e => setNewRole(e.target.value)} aria-label="Peran"><option value="admin">admin</option><option value="owner">owner</option></select>
+          <Button icon="plus" onClick={add}>Tambah</Button>
         </div>
       </section>
-
-      {/* Settings */}
-      {settings && (
-        <section>
-          <h2 style={{ marginBottom:12 }}>⚙️ Pengaturan</h2>
-          <div style={{ display:'flex',flexDirection:'column',gap:12 }}>
-            <label style={{ display:'flex',gap:12,alignItems:'center' }}>
-              <input type="checkbox" checked={!!settings.accepting} onChange={e => saveSettings({ accepting: e.target.checked })} style={{ width:18,height:18 }} />
-              <span><strong>Terima menfess</strong> {settings.accepting ? '(aktif)' : '(ditutup)'}</span>
-            </label>
-
-            {!settings.accepting && (
-              <div>
-                <label className="mf-label">Pesan saat ditutup</label>
-                <input className="mf-input mf-allow" type="text" defaultValue={settings.closed_message || ''}
-                  onBlur={e => saveSettings({ closed_message: e.target.value })} />
-              </div>
-            )}
-
-            <div>
-              <label className="mf-label">Hashtag default caption</label>
-              <input className="mf-input mf-allow" type="text" defaultValue={settings.default_hashtags || '#26menfess #FKEP2026'}
-                onBlur={e => saveSettings({ default_hashtags: e.target.value })} />
-            </div>
-
-            <div>
-              <label className="mf-label">Pengumuman di landing (opsional)</label>
-              <input className="mf-input mf-allow" type="text" defaultValue={settings.announcement || ''}
-                onBlur={e => saveSettings({ announcement: e.target.value || null })} />
-            </div>
-
-            <div style={{ display:'flex',gap:12 }}>
-              <div style={{ flex:1 }}>
-                <label className="mf-label">Batas harian</label>
-                <input className="mf-input" type="number" defaultValue={settings.daily_limit || 5}
-                  onBlur={e => saveSettings({ daily_limit: parseInt(e.target.value) || 5 })} />
-              </div>
-              <div style={{ flex:1 }}>
-                <label className="mf-label">Jeda (detik)</label>
-                <input className="mf-input" type="number" defaultValue={settings.cooldown_seconds || 30}
-                  onBlur={e => saveSettings({ cooldown_seconds: parseInt(e.target.value) || 30 })} />
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+      <ConfirmDialog open={!!removing} title="Hapus admin?" danger confirmLabel="Hapus" onConfirm={doRemove} onCancel={() => setRemoving(null)}><p>{removing} tidak lagi bisa mengakses panel admin.</p></ConfirmDialog>
     </div>
   );
 }

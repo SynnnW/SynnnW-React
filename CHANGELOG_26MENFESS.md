@@ -40,3 +40,9 @@
 - Database: `menfess26.sql` — tabel, RLS, fungsi, trigger, seed owner
 - Branding: favicon/title swap, manifest.webmanifest
 - Semua CSS di-scope ke `.mf`, lock `color-scheme: light`
+
+## v3 — Redesign frontend
+- Shell baru (TopBar, BottomNav, Footer), halaman Feed & Akun, 404, ScrollManager.
+- Landing/Login/Aturan/Composer/Riwayat/Admin dirombak; kartu asli (CardThumb) di Feed & Riwayat.
+- Pustaka `components/menfess/ui/` (Button, Sheet, Toast, Tabs, dll) + token CSS.
+- Logika kartu, lagu, auth, SQL tidak berubah. Detail: `docs/26MENFESS_REDESIGN.md`.

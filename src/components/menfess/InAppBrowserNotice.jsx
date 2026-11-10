@@ -1,23 +1,17 @@
+import { Button, Callout } from './ui';
+import { useMfToast } from './ui/Toast';
+
 export default function InAppBrowserNotice() {
-  function copyLink() {
-    try {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link disalin! Buka di Chrome atau Safari.');
-    } catch {
-      alert('Salin link ini: ' + window.location.href);
-    }
+  const toast = useMfToast();
+  async function copyLink() {
+    try { await navigator.clipboard.writeText(window.location.href); toast.show('Link disalin. Tempel di Chrome/Safari.', 'ok'); }
+    catch { toast.show('Gagal menyalin. Tahan lama di bilah alamat untuk menyalin.', 'error'); }
   }
   return (
-    <div className="mf-inapp-notice" role="alert">
-      <strong>⚠️ Kamu membuka ini di aplikasi Instagram/Facebook/Line.</strong>
-      <p style={{ margin: 0 }}>
-        Google <strong>tidak mengizinkan login</strong> di browser bawaan aplikasi ini.
-        Buka di <strong>Chrome</strong> atau <strong>Safari</strong> untuk bisa login Google,
-        atau pilih Masuk Anonim di bawah.
-      </p>
-      <button className="mf-btn mf-btn-secondary" style={{ alignSelf: 'flex-start' }} onClick={copyLink}>
-        📋 Salin link untuk dibuka di browser
-      </button>
-    </div>
+    <Callout kind="warn" icon="alert">
+      <b>Kamu membuka lewat aplikasi (Instagram/Facebook/TikTok).</b>
+      <p className="mf-small">Google menolak login di browser bawaan aplikasi. Ketuk <b>⋯</b> lalu <b>Buka di browser</b>, atau salin link ini. Login anonim tetap bisa dipakai di sini.</p>
+      <Button variant="secondary" size="sm" icon="copy" onClick={copyLink}>Salin link</Button>
+    </Callout>
   );
 }
