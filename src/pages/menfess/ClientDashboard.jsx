@@ -112,7 +112,7 @@ export default function ClientDashboard() {
   function resend(p) {
     saveDraft({
       to: p.to_label || '', from: p.from_alias || '', category: p.category, body: p.body, design: p.design,
-      text_size: p.text_size || 'auto', text_color: p.text_color || 'dark', align: p.align || 'center',
+      text_size: p.text_size || 'auto', text_color: p.text_color || 'auto', align: p.align || 'right', font: p.font || 'nunito', line_space: p.line_space || 'normal',
       song: p.song_title ? { song_title: p.song_title, song_artist: p.song_artist, song_artwork_url: p.song_artwork_url, song_preview_url: p.song_preview_url, song_url: p.song_url, song_source: p.song_source || 'manual' } : null,
     });
     setOpenPost(null); setTab('kirim'); toast.show('Draft diisi dari menfess yang ditolak.', 'ok');

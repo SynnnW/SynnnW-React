@@ -7,6 +7,10 @@ import { supabase } from '@/supabaseClient';
 
 // ─── PUBLIC (anon + authenticated) ──────────────────────────────────────────
 
+const MY_COLS = 'id,to_label,from_alias,category,song,song_title,song_artist,song_artwork_url,song_preview_url,song_url,song_source,body,design,text_size,text_color,align,title,status,reject_reason,public_note,ig_url,posted_at,created_at,updated_at,rules_version';
+const ADMIN_COLS = 'id,to_label,from_alias,category,song,song_title,song_artist,song_artwork_url,song_url,body,design,text_size,text_color,align,title,status,reject_reason,public_note,admin_note,ig_url,posted_at,created_at,updated_at,decided_by,decided_at,hold_until,rules_version,user_id';
+const isMissingCol = (e) => e?.code === '42703' || /column .* does not exist|font|line_space/i.test(e?.message || '');
+
 /** Feed publik: hanya status=posted, via RPC aman (tanpa user_id). */
 export async function fetchPublicFeed({ limit = 12, before = null } = {}) {
   const { data, error } = await supabase.rpc('menfess_public_feed', {
@@ -33,11 +37,16 @@ export async function fetchPublicSettings() {
 export async function fetchMyPosts({ limit = 30, before = null } = {}) {
   let q = supabase
     .from('menfess_my_posts')
-    .select('id,to_label,from_alias,category,song,song_title,song_artist,song_artwork_url,song_preview_url,song_url,song_source,body,design,text_size,text_color,align,title,status,reject_reason,public_note,ig_url,posted_at,created_at,updated_at,rules_version')
+    .select(MY_COLS + ',font,line_space')
     .order('created_at', { ascending: false })
     .limit(limit);
   if (before) q = q.lt('created_at', before);
-  const { data, error } = await q;
+  let { data, error } = await q;
+  if (error && isMissingCol(error)) { // SQL v4 belum dijalankan
+    let q2 = supabase.from('menfess_my_posts').select(MY_COLS).order('created_at', { ascending: false }).limit(limit);
+    if (before) q2 = q2.lt('created_at', before);
+    ({ data, error } = await q2);
+  }
   if (error) throw error;
   return data ?? [];
 }
@@ -91,19 +100,29 @@ export async function fetchAdminPosts({
   limit    = 20,
   before   = null,
 } = {}) {
-  let q = supabase
-    .from('menfess_posts')
-    .select('id,to_label,from_alias,category,song,song_title,song_artist,song_artwork_url,song_url,body,design,status,reject_reason,public_note,admin_note,ig_url,posted_at,created_at,updated_at,decided_by,decided_at,hold_until,rules_version,user_id')
-    .order('created_at', { ascending: false })
-    .limit(limit);
-  if (status)   q = q.eq('status', status);
-  if (design)   q = q.eq('design', design);
-  if (category) q = q.eq('category', category);
-  if (search)   q = q.ilike('body', `%${search}%`);
-  if (before)   q = q.lt('created_at', before);
-  const { data, error } = await q;
+  const build = (cols) => {
+    let q = supabase.from('menfess_posts').select(cols).order('created_at', { ascending: false }).limit(limit);
+    if (status)   q = q.eq('status', status);
+    if (design)   q = q.eq('design', design);
+    if (category) q = q.eq('category', category);
+    if (search)   q = q.ilike('body', `%${search}%`);
+    if (before)   q = q.lt('created_at', before);
+    return q;
+  };
+  // Kolom text_color/align/title/dll WAJIB ikut diambil, kalau tidak kartu admin selalu tampil default (teks hitam).
+  let { data, error } = await build(ADMIN_COLS + ',font,line_space');
+  if (error && isMissingCol(error)) ({ data, error } = await build(ADMIN_COLS)); // SQL v4 belum dijalankan
   if (error) throw error;
   return data ?? [];
+}
+
+/** Admin edit isi + gaya kartu (RPC menfess_admin_edit, ada di menfess26-v4.sql). */
+export async function adminEditPost(id, f) {
+  const { error } = await supabase.rpc('menfess_admin_edit', {
+    p_id: id, p_body: f.body, p_design: f.design, p_text_size: f.text_size, p_text_color: f.text_color,
+    p_font: f.font, p_align: f.align, p_line_space: f.line_space,
+  });
+  if (error) throw error;
 }
 
 /**

@@ -4,20 +4,19 @@ import { Link, useLocation } from 'react-router-dom';
 import { CATEGORIES, SONG_CATEGORIES, RULES_VERSION } from '@/lib/menfess/rules';
 import { submitPost } from '@/lib/menfess/api';
 import { drawCard, renderCardBlob, cardFilename } from '@/lib/menfess/renderCard';
-import { TEMPLATE_PATH, TEMPLATE_THUMB, DESIGNS } from '@/lib/menfess/templateConfig';
+import StyleControls from './StyleControls';
+import { ensureCardFonts } from '@/lib/menfess/fonts';
 import { saveDraft, loadDraft, clearDraft, detectDoxxing } from './utils';
 import SongSearch from './SongSearch';
 import RulesGate from './RulesGate';
 import { Sheet, ConfirmDialog } from './ui/Sheet';
-import { Button, Callout, Chip, ChipGroup, EmptyState, Field, Icon, Segmented } from './ui';
+import { Button, Callout, Chip, ChipGroup, EmptyState, Field, Icon } from './ui';
 import CardThumb from './ui/CardThumb';
 import { TRAKTEER } from './ui/Shell';
 import { useMfToast } from './ui/Toast';
 
 const MAX_BODY = 400;
 const MAX_LABEL = 30;
-const SIZES = [['auto', 'Auto'], ['xs', 'XS'], ['sm', 'S'], ['md', 'M'], ['lg', 'L']].map(([value, label]) => ({ value, label }));
-const COLORS = [{ value: 'dark', label: 'Gelap' }, { value: 'white', label: 'Terang' }];
 
 /** Canvas preview WYSIWYG (drawCard yang sama dengan PNG). */
 export function PreviewCanvas({ opts, scale = 0.3, className = 'mf-preview-canvas', label = 'Preview kartu menfess' }) {
@@ -26,7 +25,7 @@ export function PreviewCanvas({ opts, scale = 0.3, className = 'mf-preview-canva
   useEffect(() => {
     const t = setTimeout(async () => {
       if (!ref.current || document.hidden) return;
-      try { await document.fonts.load('800 48px Nunito'); await drawCard(ref.current, opts, scale); } catch { /* preview gagal: biarkan kosong */ }
+      try { await ensureCardFonts(opts.font); await drawCard(ref.current, opts, scale); } catch { /* preview gagal: biarkan kosong */ }
     }, 100);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,7 +37,8 @@ function mapError(msg = '', s) {
   if (msg.includes('ditutup') || msg.includes('accepting')) return 'Pengiriman menfess sedang ditutup sementara.';
   if (msg.includes('harian') || msg.includes('daily')) return `Kamu sudah mencapai batas ${s?.daily_limit || 5} menfess dalam 24 jam.`;
   if (msg.includes('Tunggu') || msg.includes('cooldown')) return `Tunggu ${s?.cooldown_seconds || 30} detik sebelum kirim lagi.`;
-  if (msg.includes('design_check') || msg.includes('design')) return 'Tema kartu ini belum aktif di server. Pilih Pink/Hijau dulu, atau kabari admin.';
+  if (msg.includes('font') || msg.includes('line_space') || msg.includes('align_check') || msg.includes('text_color')) return 'Database belum diperbarui untuk fitur font/warna baru. Kabari admin (menfess26-v4.sql).';
+  if (msg.includes('design_check') || msg.includes('design')) return 'Tema kartu ini belum aktif di server. Pilih tema lain dulu, atau kabari admin.';
   if (msg.includes('body') || msg.includes('kosong')) return 'Isi menfess tidak boleh kosong atau lebih dari 400 karakter.';
   return 'Gagal mengirim. Cek koneksi lalu coba lagi.';
 }
@@ -54,7 +54,10 @@ export default function Composer({ settings, onSent, goHistory }) {
   const [song, setSong] = useState(d.song && typeof d.song === 'object' ? d.song : null);
   const [design, setDesign] = useState(d.design || 'pink');
   const [textSize, setTextSize] = useState(d.text_size || 'auto');
-  const [textColor, setTextColor] = useState(d.text_color || 'dark');
+  const [textColor, setTextColor] = useState(d.text_color || 'auto');
+  const [font, setFont] = useState(d.font || 'nunito');
+  const [align, setAlign] = useState(d.align || 'right');
+  const [lineSpace, setLineSpace] = useState(d.line_space || 'normal');
   const [confirm, setConfirm] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,16 +72,16 @@ export default function Composer({ settings, onSent, goHistory }) {
   const counterCls = over ? 'over' : len >= 350 ? 'near' : '';
 
   const cardOpts = {
-    body: body || 'Isi menfessmu akan tampil di sini…', design, text_size: textSize, text_color: textColor, category,
+    body: body || 'Isi menfessmu akan tampil di sini…', design, text_size: textSize, text_color: textColor, font, align, line_space: lineSpace, category,
     song_title: song?.song_title || '', song_artist: song?.song_artist || '', song_artwork_url: song?.song_artwork_url || '',
   };
 
   useEffect(() => {
-    saveDraft({ to, from, category, body, design, text_size: textSize, text_color: textColor, song });
+    saveDraft({ to, from, category, body, design, text_size: textSize, text_color: textColor, font, align, line_space: lineSpace, song });
     setSaved(true);
     const t = setTimeout(() => setSaved(false), 1500);
     return () => clearTimeout(t);
-  }, [to, from, category, body, design, textSize, textColor, song]);
+  }, [to, from, category, body, design, textSize, textColor, font, align, lineSpace, song]);
 
   const download = useCallback(async () => {
     try {
@@ -89,19 +92,19 @@ export default function Composer({ settings, onSent, goHistory }) {
       setTimeout(() => URL.revokeObjectURL(url), 5000);
     } catch { toast.show('Gagal membuat PNG. Coba lagi.', 'error'); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [body, design, textSize, textColor, song]);
+  }, [body, design, textSize, textColor, font, align, lineSpace, song]);
 
   async function send() {
     setError(''); setLoading(true);
     try {
       const res = await submitPost({
         to_label: to.trim() || null, from_alias: from.trim() || null, category, body: body.trim(), design,
-        text_size: textSize, text_color: textColor,
+        text_size: textSize, text_color: textColor, font, align, line_space: lineSpace,
         song_title: song?.song_title || null, song_artist: song?.song_artist || null, song_artwork_url: song?.song_artwork_url || null,
         song_preview_url: song?.song_preview_url || null, song_url: song?.song_url || null, song_source: song?.song_source || null,
         rules_version: RULES_VERSION,
       });
-      const post = { id: res?.id, created_at: res?.created_at, status: 'pending', body: body.trim(), design, text_size: textSize, text_color: textColor,
+      const post = { id: res?.id, created_at: res?.created_at, status: 'pending', body: body.trim(), design, text_size: textSize, text_color: textColor, font, align, line_space: lineSpace,
         category, to_label: to.trim() || null, from_alias: from.trim() || null, ...(song || {}) };
       clearDraft();
       setConfirm(false);
@@ -187,17 +190,10 @@ export default function Composer({ settings, onSent, goHistory }) {
 
           <div className="mf-stack">
             <h3>Gaya kartu</h3>
-            <div className="mf-designs" role="radiogroup" aria-label="Desain kartu">
-              {DESIGNS.map(({ id, label }) => (
-                <button key={id} type="button" role="radio" aria-checked={design === id} className="mf-design" onClick={() => setDesign(id)}>
-                  <img src={TEMPLATE_THUMB[id] || TEMPLATE_PATH[id]} alt="" loading="lazy" width="120" height="150" /><span>{label}</span>
-                </button>
-              ))}
-            </div>
-            <div className="mf-field"><span className="mf-label">Ukuran teks</span><Segmented label="Ukuran teks" value={textSize} onChange={setTextSize} options={SIZES} /></div>
-            <div className="mf-field"><span className="mf-label">Warna teks</span><Segmented label="Warna teks" value={textColor} onChange={setTextColor} options={COLORS} />
-              {textColor === 'white' && <Callout kind="warn" icon="alert">Teks terang kontrasnya rendah di panel kaca template ini. Cek preview sebelum kirim.</Callout>}
-            </div>
+            <StyleControls
+              value={{ design, font, text_color: textColor, align, line_space: lineSpace, text_size: textSize }}
+              onChange={(k, v) => ({ design: setDesign, font: setFont, text_color: setTextColor, align: setAlign, line_space: setLineSpace, text_size: setTextSize })[k](v)}
+            />
           </div>
           {error && <Callout kind="bad" icon="alert">{error}</Callout>}
         </div>

@@ -46,3 +46,10 @@
 - Landing/Login/Aturan/Composer/Riwayat/Admin dirombak; kartu asli (CardThumb) di Feed & Riwayat.
 - Pustaka `components/menfess/ui/` (Button, Sheet, Toast, Tabs, dll) + token CSS.
 - Logika kartu, lagu, auth, SQL tidak berubah. Detail: `docs/26MENFESS_REDESIGN.md`.
+
+## v4 — Tema Putih/Hitam/Krem, font, warna, rata paragraf
+- Tema baru: Putih, Hitam, Krem (template SVG dari menfes_tema_4/5). Teks otomatis: latar hitam → putih, latar terang → hitam.
+- Warna teks: Otomatis / Hitam / Putih / Merah. Rata paragraf: kiri/tengah/kanan/rata; spasi baris; default rata kanan (termasuk Untuk/Dari).
+- 9 font self-host (@fontsource, dimuat lazy lewat code). Teks dalam tanda petik "…" yang sudah ditutup otomatis italic + font tulisan tangan (Caveat).
+- Admin: edit isi teks + gaya kartu (Antrean & Mode Upload). FIX: kartu di admin selalu hitam karena query admin tidak mengambil kolom text_color/align/dll.
+- SQL: `supabase/menfess26-v4.sql` (jalankan manual di Supabase SQL Editor). Kode tetap jalan sebelum SQL dijalankan (fallback kolom).

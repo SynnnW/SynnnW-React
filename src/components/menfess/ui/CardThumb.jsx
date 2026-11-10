@@ -9,7 +9,7 @@ let running = 0;
 const MAX_PAR = 2;
 
 function keyOf(post, scale) {
-  return [post.id || 'x', post.updated_at || '', post.body, post.design, post.text_size, post.text_color, post.align, post.title, scale].join('|');
+  return [post.id || 'x', post.updated_at || '', post.body, post.design, post.text_size, post.text_color, post.align, post.title, post.font, post.line_space, scale].join('|');
 }
 
 function pump() {
@@ -27,7 +27,6 @@ function enqueue(fn) {
 }
 
 async function renderToUrl(post, scale) {
-  try { await document.fonts.load('800 48px Nunito'); } catch { /* lanjut */ }
   const canvas = document.createElement('canvas');
   await drawCard(canvas, post, scale);
   const blob = await new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('toBlob'))), 'image/png'));

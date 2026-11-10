@@ -4,7 +4,7 @@ import { useOutletContext, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/supabaseClient';
 import { useMfAuth } from '@/lib/menfess/useMfAuth';
 import {
-  fetchAdminCounts, fetchAdminPosts, adminSetStatus,
+  fetchAdminCounts, fetchAdminPosts, adminSetStatus, adminEditPost,
   fetchSettings, updateSettings, fetchAdminList, upsertAdmin, removeAdmin, shortCode,
 } from '@/lib/menfess/api';
 import { renderCardBlob, cardFilename, categoryLabel } from '@/lib/menfess/renderCard';
@@ -17,6 +17,7 @@ import { Badge, Button, EmptyState, ErrorState, Field, Icon, Segmented, Skeleton
 import CardThumb from '@/components/menfess/ui/CardThumb';
 import SongPill from '@/components/menfess/ui/SongPill';
 import { PreviewCanvas } from '@/components/menfess/Composer';
+import StyleControls, { STYLE_DEFAULTS } from '@/components/menfess/StyleControls';
 import { useMfToast } from '@/components/menfess/ui/Toast';
 import { IG } from '@/components/menfess/ui/Shell';
 
@@ -326,10 +327,13 @@ function UploadMode({ onDone, showToast }) {
 
       <Sheet open={sheet === 'more'} onClose={() => setSheet('')} title="Lainnya">
         <div className="mf-stack">
+          <Button variant="secondary" icon="edit" onClick={() => setSheet('edit')}>Edit kartu (teks, warna, font)</Button>
           <Button variant="secondary" icon="pause2" onClick={() => setSheet('hold')}>Tahan dulu</Button>
           <Button variant="secondary" icon="back" onClick={skip}>Lewati ke kartu berikutnya</Button>
         </div>
       </Sheet>
+      <EditCardSheet post={sheet === 'edit' ? post : null} onClose={() => setSheet('')} showToast={showToast}
+        onSaved={(u) => setQueue(q => q.map(x => (x.id === u.id ? { ...x, ...u, updated_at: new Date().toISOString() } : x)))} />
       <Sheet open={sheet === 'hold'} onClose={() => setSheet('')} title="Tahan menfess"
         footer={<><Button variant="secondary" onClick={() => setSheet('')}>Batal</Button><Button loading={acting} onClick={handleHold}>Tahan</Button></>}>
         <Field label="Alasan tahan (wajib)" htmlFor="hold-note">
@@ -337,6 +341,41 @@ function UploadMode({ onDone, showToast }) {
         </Field>
       </Sheet>
     </div>
+  );
+}
+
+// ─── Edit kartu (isi teks + warna/font/rata) ─────────────────────────────────
+function EditCardSheet({ post, onClose, onSaved, showToast }) {
+  const [form, setForm] = useState(null);
+  const [saving, setSaving] = useState(false);
+  useEffect(() => {
+    if (post) setForm({ ...post, ...STYLE_DEFAULTS, ...Object.fromEntries(Object.entries({ design: post.design, font: post.font, text_color: post.text_color, align: post.align, line_space: post.line_space, text_size: post.text_size }).filter(([, v]) => v)), body: post.body || '' });
+  }, [post]);
+  const upd = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  async function save() {
+    if (!form.body.trim() || form.body.length > 400) { showToast('Isi harus 1–400 karakter.', true); return; }
+    setSaving(true);
+    try {
+      await adminEditPost(post.id, form);
+      showToast('Kartu diperbarui.');
+      onSaved({ id: post.id, body: form.body.trim(), design: form.design, font: form.font, text_color: form.text_color, align: form.align, line_space: form.line_space, text_size: form.text_size });
+      onClose();
+    } catch (e) { showToast(/menfess_admin_edit|font|line_space|check/i.test(e?.message || '') ? 'Jalankan menfess26-v4.sql di Supabase dulu.' : (e?.message || 'Gagal menyimpan.'), true); }
+    setSaving(false);
+  }
+  return (
+    <Sheet open={!!post} onClose={onClose} title="Edit kartu"
+      footer={<><Button variant="secondary" onClick={onClose}>Batal</Button><Button loading={saving} onClick={save}>Simpan</Button></>}>
+      {form && (
+        <div className="mf-stack mf-allow">
+          <div style={{ width: 'min(100%,240px)', margin: '0 auto' }}><PreviewCanvas opts={form} scale={0.25} /></div>
+          <Field label={`Isi teks (${form.body.length}/400)`} htmlFor="ed-body">
+            {(id) => <textarea id={id} className="mf-textarea" value={form.body} onChange={e => upd('body', e.target.value)} />}
+          </Field>
+          <StyleControls value={form} onChange={upd} />
+        </div>
+      )}
+    </Sheet>
   );
 }
 
@@ -363,6 +402,7 @@ function Queue({ status, onDone, showToast }) {
   const [reason, setReason] = useState('');
   const [takedown, setTakedown] = useState(null);
   const [acting, setActing] = useState(false);
+  const [editing, setEditing] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true); setError(false);
@@ -420,12 +460,16 @@ function Queue({ status, onDone, showToast }) {
             <div style={{ width: 'min(100%,240px)', margin: '0 auto' }}><CardThumb post={menu} scale={0.3} eager className="static" /></div>
             <p className="mf-allow">{menu.body}</p>
             <SongPill song={menu} />
+            <Button variant="secondary" icon="edit" onClick={() => { setEditing(menu); setMenu(null); }}>Edit kartu (teks, warna, font)</Button>
             <Button variant="secondary" icon="download" onClick={() => downloadPng(menu, showToast)}>Unduh PNG</Button>
             {(menu.status === 'pending' || menu.status === 'hold') && <Button variant="danger" icon="ban" onClick={() => { setReject(menu); setMenu(null); }}>Tolak…</Button>}
             {menu.status === 'posted' && <Button variant="danger" icon="trash" onClick={() => { setTakedown(menu); setMenu(null); }}>Turunkan…</Button>}
           </div>
         )}
       </Sheet>
+
+      <EditCardSheet post={editing} onClose={() => setEditing(null)} showToast={showToast}
+        onSaved={(u) => setPosts(p => p.map(x => (x.id === u.id ? { ...x, ...u, updated_at: new Date().toISOString() } : x)))} />
 
       <Sheet open={!!reject} onClose={() => { setReject(null); setReason(''); }} title="Tolak menfess"
         footer={<><Button variant="secondary" onClick={() => { setReject(null); setReason(''); }}>Batal</Button><Button variant="danger" disabled={!reason} loading={acting} onClick={() => action(reject, 'reject', { reason })}>Tolak</Button></>}>
@@ -452,7 +496,7 @@ function Studio({ showToast }) {
   const [form, setForm] = useState({
     body: draft.body || '', title: draft.title || '', to_label: '', from_alias: '',
     design: draft.design || 'pink', text_size: draft.text_size || 'auto',
-    text_color: draft.text_color || 'dark', align: draft.align || 'center',
+    text_color: draft.text_color || 'auto', align: draft.align || 'right', font: draft.font || 'nunito', line_space: draft.line_space || 'normal',
     category: draft.category || 'info',
   });
   const [saving, setSaving] = useState('');
@@ -477,10 +521,7 @@ function Studio({ showToast }) {
       <div className="mf-stack mf-allow">
         <Field label="Judul (opsional)" htmlFor="st-t">{(id) => <input id={id} className="mf-input" value={form.title} onChange={e => update('title', e.target.value)} />}</Field>
         <Field label="Isi kartu" htmlFor="st-b">{(id) => <textarea id={id} className="mf-textarea" value={form.body} onChange={e => update('body', e.target.value)} />}</Field>
-        <div className="mf-field"><span className="mf-label">Desain</span><Segmented label="Desain" value={form.design} onChange={v => update('design', v)} options={[{ value: 'pink', label: 'Pink' }, { value: 'green', label: 'Hijau' }, { value: 'picnic', label: 'Piknik' }]} /></div>
-        <div className="mf-field"><span className="mf-label">Ukuran teks</span><Segmented label="Ukuran teks" value={form.text_size} onChange={v => update('text_size', v)} options={['auto', 'xs', 'sm', 'md', 'lg'].map(v => ({ value: v, label: v === 'auto' ? 'Auto' : v.toUpperCase() }))} /></div>
-        <div className="mf-field"><span className="mf-label">Warna teks</span><Segmented label="Warna teks" value={form.text_color} onChange={v => update('text_color', v)} options={[{ value: 'dark', label: 'Gelap' }, { value: 'white', label: 'Terang' }]} /></div>
-        <div className="mf-field"><span className="mf-label">Rata teks</span><Segmented label="Rata teks" value={form.align} onChange={v => update('align', v)} options={[{ value: 'center', label: 'Tengah' }, { value: 'left', label: 'Kiri' }]} /></div>
+        <StyleControls value={form} onChange={update} />
       </div>
       <aside className="mf-compose-preview mf-stack">
         <PreviewCanvas opts={{ ...form, body: form.body || '(preview)' }} scale={0.3} />

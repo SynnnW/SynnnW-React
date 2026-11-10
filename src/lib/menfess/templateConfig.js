@@ -26,6 +26,10 @@ export const CARD = {
 // jadi padding kanan/kiri dilebihkan lewat `pad` agar teks tidak menyentuh dekorasi.
 export const DESIGN_AREA = {
   picnic: { area: { top: 0.245, bottom: 0.915, left: 0.092, right: 0.92 }, padX: 0.06, padY: 0.04 },
+  // Tema polos (putih/hitam/krem): logo di kiri atas, sisanya kosong → area lebar
+  white: { area: { top: 0.19, bottom: 0.90, left: 0.08, right: 0.92 }, padX: 0.03, padY: 0.03 },
+  black: { area: { top: 0.19, bottom: 0.90, left: 0.08, right: 0.92 }, padX: 0.03, padY: 0.03 },
+  cream: { area: { top: 0.19, bottom: 0.90, left: 0.08, right: 0.92 }, padX: 0.03, padY: 0.03 },
 };
 
 // Area teks (barrier) dalam px untuk kanvas 1200×1500, per tema
@@ -45,13 +49,45 @@ export const DESIGNS = [
   { id: 'pink',   label: 'Pink' },
   { id: 'green',  label: 'Hijau' },
   { id: 'picnic', label: 'Piknik' },
+  { id: 'white',  label: 'Putih' },
+  { id: 'black',  label: 'Hitam' },
+  { id: 'cream',  label: 'Krem' },
 ];
+export const DESIGN_IDS = DESIGNS.map(d => d.id);
+
+/** Warna latar tema polos (template putih/krem transparan → diisi warna ini). */
+export const DESIGN_BG = { white: '#ffffff', black: '#000000', cream: '#F3E9D8' };
+/** Palet warna teks pilihan. 'auto' = menyesuaikan latar. */
+export const TEXT_COLORS = [
+  { value: 'auto',  label: 'Otomatis', swatch: 'linear-gradient(90deg,#1a1a2e 50%,#fff 50%)' },
+  { value: 'dark',  label: 'Hitam',    swatch: '#1a1a2e' },
+  { value: 'white', label: 'Putih',    swatch: '#ffffff' },
+  { value: 'red',   label: 'Merah',    swatch: '#E11D2E' },
+];
+export const ALIGNS = [
+  { value: 'left', label: 'Kiri' }, { value: 'center', label: 'Tengah' },
+  { value: 'right', label: 'Kanan' }, { value: 'justify', label: 'Rata' },
+];
+export const LINE_SPACES = [
+  { value: 'tight', label: 'Rapat', lh: 1.25 }, { value: 'normal', label: 'Normal', lh: 1.52 }, { value: 'loose', label: 'Lega', lh: 1.8 },
+];
+export const lineHeightOf = (v) => (LINE_SPACES.find(l => l.value === v) || LINE_SPACES[1]).lh;
+/** Teks default per tema: latar hitam → putih, latar terang → hitam. */
+export function resolveTextColor(design, color) {
+  if (color === 'red') return '#E11D2E';
+  if (color === 'white') return design === 'black' ? '#ffffff' : CARD_TEXT_COLOR.white;
+  if (color === 'dark') return CARD_TEXT_COLOR.dark;
+  return design === 'black' ? '#ffffff' : CARD_TEXT_COLOR.dark; // auto
+}
 
 /** Path SVG template. */
 export const TEMPLATE_PATH = {
   pink:   '/26menfess/templates/pink.svg',
   green:  '/26menfess/templates/green.svg',
   picnic: '/26menfess/templates/picnic.webp', // hasil render ringan (aslinya SVG 396 MB)
+  white:  '/26menfess/templates/white.svg',
+  black:  '/26menfess/templates/black.svg',
+  cream:  '/26menfess/templates/white.svg',   // logo sama, latar diisi warna krem
 };
 
 /** Versi kecil (600×750) untuk preview/thumbnail; versi penuh hanya dimuat saat unduh. */
@@ -75,6 +111,7 @@ export const FALLBACK_GRADIENT = {
   pink:  'linear-gradient(160deg, #D94C95 0%, #ECC8D7 55%, #F8E6EE 100%)',
   green: 'linear-gradient(160deg, #70B88E 0%, #CEDBA3 55%, #EFECB6 100%)',
   picnic: 'linear-gradient(160deg, #3F6B1E 0%, #7FA05A 55%, #C9D8A8 100%)',
+  white: '#ffffff', black: '#000000', cream: '#F3E9D8',
 };
 
 /** Warna teks konstan (tidak terpengaruh dark/light mode HP). */

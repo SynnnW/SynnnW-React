@@ -331,3 +331,12 @@
   .mf-shell:has(.mf-compose input:focus) .mf-bottomnav { display:none; }
 }
 .mf-designs .mf-design img { max-height:220px; }
+
+/* ─── Kontrol gaya kartu (font / warna) ─── */
+.mf-fontgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:var(--mf-s-2); }
+.mf-fontopt { padding:10px 8px; border:2px solid var(--mf-line-2); border-radius:var(--mf-r-md); background:var(--mf-surface); color:var(--mf-ink); font-size:var(--mf-fs-3,16px); cursor:pointer; text-align:center; line-height:1.2; }
+.mf-fontopt[aria-checked="true"] { border-color:var(--mf-ink); background:var(--mf-primary); color:var(--mf-on-primary); box-shadow:var(--mf-shadow-sm); }
+.mf-colorrow { display:flex; flex-wrap:wrap; gap:var(--mf-s-2); }
+.mf-coloropt { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:2px solid var(--mf-line-2); border-radius:999px; background:var(--mf-surface); color:var(--mf-ink); font-weight:700; cursor:pointer; }
+.mf-coloropt i { width:18px; height:18px; border-radius:50%; border:1px solid rgba(0,0,0,.25); display:inline-block; }
+.mf-coloropt[aria-checked="true"] { border-color:var(--mf-ink); box-shadow:var(--mf-shadow-sm); }
