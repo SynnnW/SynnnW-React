@@ -155,6 +155,10 @@ export default function Composer({ settings, onSent, goHistory }) {
     <RulesGate>
       <div className="mf-compose mf-allow">
         <div className="mf-stack-lg">
+          <div className="mf-livepreview mf-show-sm" aria-label="Preview langsung">
+            <PreviewCanvas opts={cardOpts} scale={0.3} />
+            <span className="mf-xs mf-muted">Preview langsung — ikut berubah saat kamu mengetik &amp; ganti gaya</span>
+          </div>
           <Field label="Isi menfess" htmlFor="mf-body"
             counter={<span className={`mf-counter ${counterCls}`} aria-live="polite">{len}/{MAX_BODY}</span>}
             hint={saved ? undefined : 'Draft tersimpan otomatis.'}>

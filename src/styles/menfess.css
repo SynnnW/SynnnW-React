@@ -340,3 +340,9 @@
 .mf-coloropt { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:2px solid var(--mf-line-2); border-radius:999px; background:var(--mf-surface); color:var(--mf-ink); font-weight:700; cursor:pointer; }
 .mf-coloropt i { width:18px; height:18px; border-radius:50%; border:1px solid rgba(0,0,0,.25); display:inline-block; }
 .mf-coloropt[aria-checked="true"] { border-color:var(--mf-ink); box-shadow:var(--mf-shadow-sm); }
+
+/* Preview langsung di atas kotak tulis (HP). Desktop pakai preview kanan. */
+.mf-livepreview { display:flex; flex-direction:column; align-items:center; gap:var(--mf-s-2); text-align:center; }
+.mf-livepreview .mf-preview-canvas { width:min(70%,260px); }
+.mf-show-sm { display:flex; }
+@media (min-width:900px){ .mf-show-sm{ display:none; } }
