@@ -17,6 +17,7 @@ import { Badge, Button, EmptyState, ErrorState, Field, Icon, Segmented, Skeleton
 import CardThumb from '@/components/menfess/ui/CardThumb';
 import SongPill from '@/components/menfess/ui/SongPill';
 import { PreviewCanvas } from '@/components/menfess/Composer';
+import ColorTextarea from '@/components/menfess/ColorTextarea';
 import StyleControls, { STYLE_DEFAULTS } from '@/components/menfess/StyleControls';
 import { useMfToast } from '@/components/menfess/ui/Toast';
 import { IG } from '@/components/menfess/ui/Shell';
@@ -370,7 +371,7 @@ function EditCardSheet({ post, onClose, onSaved, showToast }) {
         <div className="mf-stack mf-allow">
           <div style={{ width: 'min(100%,240px)', margin: '0 auto' }}><PreviewCanvas opts={form} scale={0.25} /></div>
           <Field label={`Isi teks (${form.body.length}/400)`} htmlFor="ed-body">
-            {(id) => <textarea id={id} className="mf-textarea" value={form.body} onChange={e => upd('body', e.target.value)} />}
+            {(id) => <ColorTextarea id={id} value={form.body} onChange={v => upd('body', v)} onHint={m => showToast(m, true)} />}
           </Field>
           <StyleControls value={form} onChange={upd} />
         </div>

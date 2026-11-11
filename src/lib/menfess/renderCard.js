@@ -11,29 +11,34 @@ import { CATEGORIES } from './rules';
 // ─── Tokenisasi: kata → potongan (run) biasa / dalam tanda petik ─────────────
 const QUOTE_RE = /"[^"\n]*"|\u201C[^\u201D\n]*\u201D/g;
 
-function splitRuns(para) {
-  const runs = [];
-  let last = 0;
-  for (const m of para.matchAll(QUOTE_RE)) {
-    if (m.index > last) runs.push({ t: para.slice(last, m.index), q: false });
-    runs.push({ t: m[0], q: true });
+// Penanda warna sebagian teks: [merah]..[/merah], [putih]..[/putih], [hitam]..[/hitam]
+const TAG_RE = /\[(merah|putih|hitam)\]([\s\S]*?)\[\/\1\]/g;
+const TAG_COLOR = { merah: 'red', putih: 'white', hitam: 'dark' };
+
+/** Buang penanda; kembalikan teks polos + warna per karakter (null = warna kartu). */
+export function parseColorTags(text) {
+  let plain = ''; const cols = []; let last = 0;
+  for (const m of text.matchAll(TAG_RE)) {
+    const pre = text.slice(last, m.index);
+    plain += pre; for (let i = 0; i < pre.length; i++) cols.push(null);
+    plain += m[2]; for (let i = 0; i < m[2].length; i++) cols.push(TAG_COLOR[m[1]]);
     last = m.index + m[0].length;
   }
-  if (last < para.length) runs.push({ t: para.slice(last), q: false });
-  return runs;
+  const rest = text.slice(last);
+  plain += rest; for (let i = 0; i < rest.length; i++) cols.push(null);
+  return { plain, cols };
 }
 
-/** Pecah paragraf jadi "unit kata" (tiap unit = beberapa run tanpa spasi). */
-function toUnits(para) {
-  const units = [];
-  let cur = [];
-  for (const run of splitRuns(para)) {
-    const parts = run.t.split(/(\s+)/);
-    for (const part of parts) {
-      if (!part) continue;
-      if (/^\s+$/.test(part)) { if (cur.length) { units.push(cur); cur = []; } }
-      else cur.push({ t: part, q: run.q });
-    }
+/** Pecah paragraf jadi "unit kata" (tiap unit = beberapa run tanpa spasi; run punya q=petik, c=warna). */
+function toUnits(para, cols) {
+  const q = new Array(para.length).fill(false);
+  for (const m of para.matchAll(QUOTE_RE)) for (let i = m.index; i < m.index + m[0].length; i++) q[i] = true;
+  const units = []; let cur = [];
+  for (let i = 0; i < para.length; i++) {
+    const ch = para[i];
+    if (/\s/.test(ch)) { if (cur.length) { units.push(cur); cur = []; } continue; }
+    const c = cols[i] || null; const last = cur[cur.length - 1];
+    if (last && last.q === q[i] && last.c === c) last.t += ch; else cur.push({ t: ch, q: q[i], c });
   }
   if (cur.length) units.push(cur);
   return units;
@@ -54,7 +59,7 @@ function breakUnit(ctx, u, maxW, sz, fam, weight) {
       const cw = runW(ctx, { t: ch, q: r.q }, sz, fam, weight);
       if (w + cw > maxW && cur.length) { out.push(cur); cur = []; w = 0; }
       const lastRun = cur[cur.length - 1];
-      if (lastRun && lastRun.q === r.q) lastRun.t += ch; else cur.push({ t: ch, q: r.q });
+      if (lastRun && lastRun.q === r.q && lastRun.c === r.c) lastRun.t += ch; else cur.push({ t: ch, q: r.q, c: r.c });
       w += cw;
     }
   }
@@ -62,12 +67,12 @@ function breakUnit(ctx, u, maxW, sz, fam, weight) {
   return out;
 }
 
-function wrapPara(ctx, para, maxW, sz, fam, weight) {
+function wrapPara(ctx, para, cols, maxW, sz, fam, weight) {
   if (!para.trim()) return [{ units: [], w: 0, last: true }];
   const spaceW = (ctx.font = fontStr(false, sz, fam, weight), ctx.measureText(' ').width);
   const lines = []; let units = []; let w = 0;
   const flush = (last) => { lines.push({ units, w, last }); units = []; w = 0; };
-  for (const u0 of toUnits(para)) {
+  for (const u0 of toUnits(para, cols)) {
     const pieces = unitW(ctx, u0, sz, fam, weight) > maxW ? breakUnit(ctx, u0, maxW, sz, fam, weight) : [u0];
     pieces.forEach((u, idx) => {
       const uw = unitW(ctx, u, sz, fam, weight);
@@ -88,8 +93,10 @@ export function layoutCard(ctx, text, areaW, areaH, fixedSize = null, style = {}
   const f = getFont(style.font);
   const fam = f.family; const weight = f.weight;
   const lh = lineHeightOf(style.line_space);
+  const { plain, cols } = parseColorTags(text);
   const trySize = (sz) => {
-    const lines = text.split('\n').flatMap(p => wrapPara(ctx, p, areaW, sz, fam, weight));
+    let off = 0;
+    const lines = plain.split('\n').flatMap(p => { const r = wrapPara(ctx, p, cols.slice(off, off + p.length), areaW, sz, fam, weight); off += p.length + 1; return r; });
     return { lines, totalH: lines.length * sz * lh, fits: lines.length * sz * lh <= areaH };
   };
   if (fixedSize) {
@@ -106,7 +113,7 @@ export function layoutCard(ctx, text, areaW, areaH, fixedSize = null, style = {}
   return { fontPx: best, lines: bestLines, lineH: best * lh, shrunk: false, fam, weight };
 }
 
-function drawLine(ctx, line, x0, y, areaW, align, sz, fam, weight, color) {
+function drawLine(ctx, line, x0, y, areaW, align, sz, fam, weight, color, colorOf) {
   const { units, spaceW } = line;
   if (!units.length) return;
   const natural = units.reduce((a, u) => a + unitW(ctx, u, sz, fam, weight), 0) + spaceW * (units.length - 1);
@@ -118,6 +125,7 @@ function drawLine(ctx, line, x0, y, areaW, align, sz, fam, weight, color) {
   for (const u of units) {
     for (const r of u) {
       ctx.font = fontStr(r.q, sz, fam, weight);
+      ctx.fillStyle = r.c ? colorOf(r.c) : color;
       // tulisan tangan sedikit turun supaya sebaris dengan huruf biasa
       const dy = r.q ? -sz * 0.06 : 0;
       ctx.fillText(r.t, x, y + dy);
@@ -199,7 +207,7 @@ export async function drawCard(canvas, opts, scale = 1) {
   const { fontPx, lines, lineH, shrunk, fam, weight } = layoutCard(ctx, body, aw, bodyAreaH, fixedSz ? fixedSz * scale : null, { font, line_space });
   const totalH = lines.length * lineH;
   const startY = curY + (bodyAreaH - totalH) / 2;
-  lines.forEach((line, i) => drawLine(ctx, line, ax, startY + i * lineH, aw, al, fontPx, fam, weight, color));
+  lines.forEach((line, i) => drawLine(ctx, line, ax, startY + i * lineH, aw, al, fontPx, fam, weight, color, (c) => resolveTextColor(design, c)));
   ctx.restore();
 
   // 4. Untuk / Dari — ikut rata teks (default kanan, atas sampai bawah)

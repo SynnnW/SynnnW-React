@@ -346,3 +346,5 @@
 .mf-livepreview .mf-preview-canvas { width:min(70%,260px); }
 .mf-show-sm { display:flex; }
 @media (min-width:900px){ .mf-show-sm{ display:none; } }
+.mf-colortools { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+.mf-colortools .mf-coloropt { padding:4px 10px; font-size:var(--mf-fs-2,13px); }

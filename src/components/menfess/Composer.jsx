@@ -5,6 +5,7 @@ import { CATEGORIES, SONG_CATEGORIES, RULES_VERSION } from '@/lib/menfess/rules'
 import { submitPost } from '@/lib/menfess/api';
 import { drawCard, renderCardBlob, cardFilename } from '@/lib/menfess/renderCard';
 import StyleControls from './StyleControls';
+import ColorTextarea from './ColorTextarea';
 import { ensureCardFonts } from '@/lib/menfess/fonts';
 import { saveDraft, loadDraft, clearDraft, detectDoxxing } from './utils';
 import SongSearch from './SongSearch';
@@ -162,7 +163,7 @@ export default function Composer({ settings, onSent, goHistory }) {
           <Field label="Isi menfess" htmlFor="mf-body"
             counter={<span className={`mf-counter ${counterCls}`} aria-live="polite">{len}/{MAX_BODY}</span>}
             hint={saved ? undefined : 'Draft tersimpan otomatis.'}>
-            {(id) => <textarea id={id} className="mf-textarea" value={body} onChange={e => setBody(e.target.value)} placeholder="Tulis menfessmu di sini…" autoFocus={typeof window !== 'undefined' && window.innerWidth >= 900} />}
+            {(id) => <ColorTextarea id={id} value={body} onChange={setBody} onHint={setError} placeholder="Tulis menfessmu di sini…" autoFocus={typeof window !== 'undefined' && window.innerWidth >= 900} />}
           </Field>
           {saved && <span className="mf-saved" role="status" style={{ marginTop: -16 }}>Draft tersimpan ✓</span>}
           {doxx && (
