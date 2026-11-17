@@ -1,0 +1,43 @@
+/* src/styles/quizGate.css — halaman gate (/quiziz/masuk) & kuesioner. Pakai token yang sudah ada, tanpa warna/font baru. */
+.qg-wrap { display: grid; gap: 1rem; padding-bottom: 3rem; }
+.qg-head h1 { font-family: var(--font-display), Georgia, serif; font-size: clamp(1.5rem, 4vw, 2rem); margin: .25rem 0 .35rem; color: var(--text); }
+.qg-head p { margin: 0; color: var(--text-dim, var(--text-faint)); font-size: .92rem; line-height: 1.6; }
+.qg-steps { display: flex; gap: .5rem; flex-wrap: wrap; font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.qg-step { padding: 3px 10px; border: 1px solid var(--border); border-radius: 2px; color: var(--text-dim, var(--text-faint)); }
+.qg-step.on { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.qg-step.done { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--border)); }
+
+.qg-scroll {
+  max-height: min(46vh, 430px); overflow-y: auto; padding: 1rem 1.1rem;
+  border: 1px solid var(--border); border-radius: 2px;
+  background: color-mix(in srgb, var(--nm-bg) 96%, var(--text));
+  font-size: .92rem; line-height: 1.75; color: var(--text);
+  overscroll-behavior: contain; scrollbar-gutter: stable;
+}
+.qg-scroll h2 { font-size: 1rem; margin: 1.1rem 0 .3rem; color: var(--text); }
+.qg-scroll h2:first-child { margin-top: 0; }
+.qg-scroll p, .qg-scroll li { margin: .35rem 0; }
+.qg-scroll ul { padding-left: 1.2rem; margin: .35rem 0; }
+.qg-hint { font-size: .78rem; color: var(--text-dim, var(--text-faint)); margin: .4rem 0 0; min-height: 1.1em; }
+
+.qg-check { display: flex; align-items: flex-start; gap: .6rem; padding: .7rem .9rem; border: 1px solid var(--border); border-radius: 2px; cursor: pointer; font-size: .92rem; line-height: 1.5; }
+.qg-check input { margin-top: .2rem; width: 1.05rem; height: 1.05rem; accent-color: var(--accent); }
+.qg-check.disabled { opacity: .55; cursor: not-allowed; }
+
+.qg-actions { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+.qg-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  padding: .7rem 1.25rem; border-radius: 2px; border: 1px solid var(--accent);
+  background: var(--accent); color: #fff; font: inherit; font-weight: 700; font-size: .92rem; cursor: pointer;
+}
+.qg-btn:disabled { opacity: .45; cursor: not-allowed; }
+.qg-btn.ghost { background: transparent; color: var(--text); border-color: var(--border); }
+.qg-safe { font-size: .88rem; line-height: 1.6; padding: .8rem 1rem; border: 1px solid color-mix(in srgb, var(--ok) 30%, var(--border)); border-radius: 2px; background: color-mix(in srgb, var(--ok) 6%, transparent); }
+.qg-err { color: var(--warn); font-size: .88rem; margin: 0; }
+
+.qg-q { border: 1px solid var(--border); border-radius: 2px; padding: 1rem 1.1rem; margin: 0; }
+.qg-q legend { padding: 0 .4rem; font-weight: 700; font-size: .95rem; color: var(--text); }
+.qg-opt { display: flex; gap: .6rem; align-items: flex-start; padding: .5rem .3rem; cursor: pointer; font-size: .92rem; line-height: 1.5; }
+.qg-opt input { margin-top: .2rem; accent-color: var(--accent); }
+.qg-text { width: 100%; min-height: 90px; margin-top: .6rem; padding: .6rem .75rem; border: 1px solid var(--border); border-radius: 2px; background: var(--nm-bg); color: var(--text); font: inherit; resize: vertical; box-sizing: border-box; }
+.qg-loading { display: grid; place-items: center; min-height: 40vh; color: var(--text-dim, var(--text-faint)); font-size: .9rem; }

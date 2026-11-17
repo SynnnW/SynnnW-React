@@ -1,0 +1,20 @@
+/* src/styles/leoAI.css — widget Leo AI (tombol mengambang + panel chat). Pakai token tema yang sudah ada. */
+.leo-fab { position: fixed; right: 18px; bottom: 18px; z-index: 900; display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1rem; border-radius: 999px; border: 1px solid var(--accent); background: var(--accent); color: #fff; font: inherit; font-weight: 700; font-size: .88rem; cursor: pointer; box-shadow: 0 6px 22px rgba(0,0,0,.22); }
+.leo-panel { position: fixed; right: 18px; bottom: 76px; z-index: 901; width: min(380px, calc(100vw - 24px)); height: min(560px, calc(100dvh - 110px)); display: flex; flex-direction: column; background: var(--nm-bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 14px 44px rgba(0,0,0,.28); overflow: hidden; }
+.leo-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .7rem .9rem; border-bottom: 1px solid var(--border); }
+.leo-head b { font-size: .95rem; }
+.leo-head small { display: block; color: var(--text-dim, var(--text-faint)); font-size: .72rem; font-weight: 400; margin-top: 1px; }
+.leo-x { background: none; border: 0; color: inherit; font-size: 1.1rem; cursor: pointer; padding: 4px 8px; }
+.leo-list { flex: 1; overflow-y: auto; padding: .8rem; display: flex; flex-direction: column; gap: .55rem; overscroll-behavior: contain; }
+.leo-msg { max-width: 88%; padding: .55rem .75rem; border-radius: 10px; font-size: .88rem; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.leo-msg.user { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 3px; }
+.leo-msg.model { align-self: flex-start; background: color-mix(in srgb, var(--text) 7%, transparent); border-bottom-left-radius: 3px; }
+.leo-msg.err { color: var(--warn); }
+.leo-typing { align-self: flex-start; font-size: .8rem; color: var(--text-dim, var(--text-faint)); }
+.leo-foot { border-top: 1px solid var(--border); padding: .6rem; display: grid; gap: .4rem; }
+.leo-row { display: flex; gap: .45rem; align-items: flex-end; }
+.leo-input { flex: 1; resize: none; max-height: 110px; min-height: 40px; padding: .5rem .65rem; border: 1px solid var(--border); border-radius: 6px; background: var(--nm-bg); color: var(--text); font: inherit; font-size: .88rem; box-sizing: border-box; }
+.leo-send { padding: .55rem .9rem; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; font: inherit; font-weight: 700; font-size: .85rem; cursor: pointer; white-space: nowrap; }
+.leo-send:disabled { opacity: .5; cursor: not-allowed; }
+.leo-note { font-size: .7rem; color: var(--text-dim, var(--text-faint)); line-height: 1.4; }
+@media (max-width: 520px) { .leo-panel { right: 8px; bottom: 70px; } .leo-fab { right: 12px; bottom: 12px; } }

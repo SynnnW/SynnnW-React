@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
+import QuizOnboardingGate from './components/quiz/QuizOnboardingGate';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { useTheme, useLang } from './hooks/useApp';
@@ -88,6 +89,10 @@ const QuizPancasila          = lazy(() => import('./pages/quiziz/QuizPancasila')
 const QuizKesglob            = lazy(() => import('./pages/quiziz/QuizKesglob'));
 const QuizIBD                = lazy(() => import('./pages/quiziz/QuizIBD'));
 const QuizKomdas             = lazy(() => import('./pages/quiziz/QuizKomdas'));
+const QuizMasuk              = lazy(() => import('./pages/quiziz/QuizMasuk'));
+const QuizKuesioner          = lazy(() => import('./pages/quiziz/QuizKuesioner'));
+const MateriHub              = lazy(() => import('./pages/quiziz/MateriHub'));
+const MateriMatkul           = lazy(() => import('./pages/quiziz/MateriMatkul'));
 // const FarmakologiQuiz = lazy(() => import('./pages/FarmakologiQuiz')); // ← contoh tambah baru
 
 const MascotMount = lazy(() => import('./components/MascotMount'));
@@ -107,6 +112,8 @@ const QUIZ_PATHS = [
   '/quiziz/komdas',
   // '/quiz-farmakologi', // ← tambahkan di sini juga
 ];
+/** Semua halaman Quiziz (termasuk masuk, kuesioner, materi, praktikum) tampil fullscreen */
+const isQuizPath = (p) => p === '/quizizuas' || p === '/quiziz' || p.startsWith('/quiziz/') || QUIZ_PATHS.includes(p);
 
 /* ══════════════════════════════════════════════════════
    ROOT APP — auth state di level tertinggi
@@ -189,11 +196,10 @@ function Layout({ user, loadingAuth }) {
     '/login',
     '/complete-profile',
     '/makrab',
-    ...QUIZ_PATHS,
-  ].includes(pathname);
+  ].includes(pathname) || isQuizPath(pathname);
 
   /* ── Halaman quiz/menfess: sembunyikan FloatingUtils & Mascot ── */
-  const isQuizPage = isMenfess || QUIZ_PATHS.includes(pathname) || pathname === '/makrab';
+  const isQuizPage = isMenfess || isQuizPath(pathname) || pathname === '/makrab';
 
   return (
     <>
@@ -319,17 +325,30 @@ function Layout({ user, loadingAuth }) {
                     QUIZ PAGES — fullscreen, tidak di navbar
                     Untuk tambah quiz baru: ikuti pola di sini
                 ══════════════════════════════════════════ */}
-                <Route path="/quiziz"                      element={<Quiziz />} />
-                <Route path="/quizizuas"                    element={<QuizizUAS />} />
-                <Route path="/quiziz/bahasainggris"         element={<QuizBahasaInggris />} />
-                <Route path="/quiziz/bahasainggris/materi"  element={<MateriBahasaInggris />} />
-                <Route path="/quiziz/ftk"                   element={<QuizFTK />} />
-                <Route path="/quiziz/pai"                   element={<QuizPAI />} />
-                <Route path="/quiziz/kdk"                   element={<QuizKDK />} />
-                <Route path="/quiziz/pancasila"             element={<QuizPancasila />} />
-                <Route path="/quiziz/kesglob"                element={<QuizKesglob />} />
-                <Route path="/quiziz/ibd"                    element={<QuizIBD />} />
-                <Route path="/quiziz/komdas"                 element={<QuizKomdas />} />
+                {/* Gate: halaman masuk & kuesioner di luar guard; semua halaman Quiziz lain di dalamnya */}
+                <Route path="/quiziz/masuk"                element={<QuizMasuk />} />
+                <Route path="/quiziz/kuesioner"            element={<QuizKuesioner />} />
+                <Route element={<QuizOnboardingGate />}>
+                  <Route path="/quiziz"                      element={<Quiziz />} />
+                  <Route path="/quizizuas"                    element={<QuizizUAS />} />
+                  <Route path="/quiziz/bahasainggris"         element={<QuizBahasaInggris />} />
+                  <Route path="/quiziz/bahasainggris/materi"  element={<MateriBahasaInggris />} />
+                  <Route path="/quiziz/ftk"                   element={<QuizFTK />} />
+                  <Route path="/quiziz/pai"                   element={<QuizPAI />} />
+                  <Route path="/quiziz/kdk"                   element={<QuizKDK />} />
+                  <Route path="/quiziz/pancasila"             element={<QuizPancasila />} />
+                  <Route path="/quiziz/kesglob"                element={<QuizKesglob />} />
+                  <Route path="/quiziz/ibd"                    element={<QuizIBD />} />
+                  <Route path="/quiziz/komdas"                 element={<QuizKomdas />} />
+                  <Route path="/quiziz/materi"             element={<MateriHub />} />
+                  <Route path="/quiziz/komdas/materi"      element={<MateriMatkul slug="komdas" />} />
+                  <Route path="/quiziz/ibd/materi"         element={<MateriMatkul slug="ibd" />} />
+                  <Route path="/quiziz/kesglob/materi"     element={<MateriMatkul slug="kesglob" />} />
+                  <Route path="/quiziz/kdk/materi"         element={<MateriMatkul slug="kdk" />} />
+                  <Route path="/quiziz/ftk/materi"         element={<MateriMatkul slug="ftk" />} />
+                  <Route path="/quiziz/komdas/praktikum"   element={<MateriMatkul slug="komdas" mode="praktikum" />} />
+                  <Route path="/quiziz/ibd/praktikum"      element={<MateriMatkul slug="ibd" mode="praktikum" />} />
+                </Route>
                 {/* <Route path="/quiz-farmakologi" element={<FarmakologiQuiz />} /> */}
 
                 {/* ── 26MENFESS — menfess anonim FKEP 2026 ── */}

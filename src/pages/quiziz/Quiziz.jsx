@@ -2,7 +2,7 @@
 // Landing "Quiziz Mingguan (Latsol)" — desain bento (sama dengan Works/Price/Terms).
 // Urutan konten dipertahankan: judul -> disclaimer -> 8 kartu matkul ->
 // segera hadir (link ke UAS) -> komentar -> saran & masukan.
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import SubjectComments from '../../components/SubjectComments';
 import SaranWebsite from '../../components/SaranWebsite';
 import useQuizAuth from '../../components/quiz/useQuizAuth';
@@ -24,10 +24,51 @@ const SUBJECTS = [
 export default function Quiziz() {
   const navigate = useNavigate();
   const user = useQuizAuth();
+  const [params, setParams] = useSearchParams();
+
+  // Layer pilihan: "Materi" atau "Quiziz". "Quiziz" menampilkan daftar matkul lama apa adanya (?view=quiz).
+  if (params.get('view') !== 'quiz') {
+    return (
+      <QuizShell maxWidth={1180}>
+        <div className="qz-landing">
+          <div className="bn-grid">
+            <Reveal className="bn-card bn-hello bn-span-6">
+              <span className="bn-kicker">Quiziz</span>
+              <h1 className="bn-title">Mau belajar <span>apa hari ini?</span></h1>
+              <p className="bn-lead">Baca materi per bab dulu, atau langsung latihan soal. Pilih salah satu.</p>
+            </Reveal>
+          </div>
+          <div className="bn-grid">
+            <Reveal className="bn-span-3">
+              <button className="bn-card qz-subj" style={{ '--c': 'var(--accent-text)', width: '100%' }} onClick={() => navigate('/quiziz/materi')}>
+                <span className="qz-subj-ico"><Ico e="📚" /></span>
+                <span>
+                  <span className="qz-subj-name">Materi</span>
+                  <span className="qz-subj-go"><span>Baca materi per bab + Leo AI</span><Arrow /></span>
+                </span>
+              </button>
+            </Reveal>
+            <Reveal className="bn-span-3" delay={0.06}>
+              <button className="bn-card qz-subj" style={{ '--c': 'var(--accent-text)', width: '100%' }} onClick={() => setParams({ view: 'quiz' })}>
+                <span className="qz-subj-ico"><Ico e="📝" /></span>
+                <span>
+                  <span className="qz-subj-name">Quiziz</span>
+                  <span className="qz-subj-go"><span>Latihan soal per mata kuliah</span><Arrow /></span>
+                </span>
+              </button>
+            </Reveal>
+          </div>
+        </div>
+      </QuizShell>
+    );
+  }
 
   return (
     <QuizShell maxWidth={1180}>
       <div className="qz-landing">
+        <button className="bn-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setParams({})}>
+          <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Kembali
+        </button>
         <div className="bn-grid">
           <Reveal className="bn-card bn-hello bn-span-4">
             <span className="bn-kicker">Quiziz · Latsol Mingguan</span>

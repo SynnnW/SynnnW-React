@@ -16,14 +16,20 @@ import { Link, useLocation } from 'react-router-dom';
 import ThemeToggle from '../ThemeToggle';
 
 const LINKS = [
-  { to: '/quiziz',    label: 'Latsol Mingguan' },
-  { to: '/quizizuas', label: 'UAS' },
+  { to: '/quiziz/materi',     label: 'Materi' },
+  { to: '/quiziz?view=quiz',  label: 'Latsol Mingguan' },
+  { to: '/quizizuas',         label: 'UAS' },
 ];
 
 export default function QuizNavbar() {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
-  const isActive = (to) => pathname === to;
+  const { pathname, search } = useLocation();
+  // Materi aktif di semua halaman materi/praktikum; Latsol aktif di /quiziz?view=quiz dan halaman latihan per matkul
+  const isActive = (to) => {
+    if (to === '/quiziz/materi') return pathname === to || pathname.endsWith('/materi') || pathname.endsWith('/praktikum');
+    if (to.startsWith('/quiziz?')) return pathname === '/quiziz' ? search === '?view=quiz' : pathname.startsWith('/quiziz/') && !pathname.endsWith('/materi') && !pathname.endsWith('/praktikum') && !pathname.startsWith('/quiziz/masuk') && !pathname.startsWith('/quiziz/kuesioner');
+    return pathname === to;
+  };
 
   return (
     <>
