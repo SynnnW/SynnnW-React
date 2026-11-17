@@ -26,10 +26,10 @@ drop policy if exists "quiz_onboarding update own" on public.quiz_onboarding;
 create policy "quiz_onboarding update own" on public.quiz_onboarding
   for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
--- Admin boleh membaca semua jawaban kuesioner (buat riset/pengembangan).
+-- Admin (email yang sama dengan ADMIN_EMAIL di useQuizAuth.js) boleh membaca semua jawaban kuesioner.
 drop policy if exists "quiz_onboarding admin read" on public.quiz_onboarding;
 create policy "quiz_onboarding admin read" on public.quiz_onboarding
-  for select using (public.is_admin());
+  for select using (lower(coalesce(auth.jwt()->>'email','')) = 'aldokraksaan@gmail.com');
 
 -- ─────────────────────────────────────────────────────────────
 -- 2) Cache penjelasan soal dari Leo AI (key = id soal).
@@ -47,8 +47,8 @@ alter table public.quiz_ai_explanations enable row level security;
 
 drop policy if exists "quiz_ai_explanations read" on public.quiz_ai_explanations;
 create policy "quiz_ai_explanations read" on public.quiz_ai_explanations
-  for select using (auth.role() = 'authenticated');
+  for select to authenticated using (true);
 
 drop policy if exists "quiz_ai_explanations admin all" on public.quiz_ai_explanations;
 create policy "quiz_ai_explanations admin all" on public.quiz_ai_explanations
-  for all using (public.is_admin()) with check (public.is_admin());
+  for all using (lower(coalesce(auth.jwt()->>'email','')) = 'aldokraksaan@gmail.com') with check (lower(coalesce(auth.jwt()->>'email','')) = 'aldokraksaan@gmail.com');
