@@ -243,9 +243,16 @@ def build():
             return '\n'.join(out) + '\n'
         extra = ''
         if slug == 'ftk':
-            lines = ["  { category: 'Buku Teori Keperawatan (acuan utama ujian)', segera: true, babs: ["]
-            for (bid, label) in cfg['buku_placeholder']:
-                lines.append(f"    {{ id: {json.dumps(bid)}, label: {json.dumps(label, ensure_ascii=False)}, badge: {json.dumps(bid.upper().replace('-', ' '))}, segera: true }},")
+            idx_path = os.path.join(HERE, 'ftk-buku-index.json')
+            if os.path.exists(idx_path):      # hasil build-ftk-buku.py: bab buku sungguhan
+                idx = json.load(open(idx_path, encoding='utf-8'))
+                lines = ["  { category: 'Buku Teori Keperawatan (acuan utama ujian)', babs: ["]
+                for e in idx:
+                    lines.append(f"    {{ id: {json.dumps(e['id'])}, label: {json.dumps(e['label'], ensure_ascii=False)}, badge: {json.dumps(e['badge'])}, load: () => import('./{e['file']}') }},")
+            else:                             # belum ada bukunya: daftar "Segera"
+                lines = ["  { category: 'Buku Teori Keperawatan (acuan utama ujian)', segera: true, babs: ["]
+                for (bid, label) in cfg['buku_placeholder']:
+                    lines.append(f"    {{ id: {json.dumps(bid)}, label: {json.dumps(label, ensure_ascii=False)}, badge: {json.dumps(bid.upper().replace('-', ' '))}, segera: true }},")
             lines.append('  ] },')
             extra = '\n'.join(lines)
         text = manifest_js('manifest', main, extra)

@@ -15,7 +15,7 @@ export const MATERI = {
   kesglob: { slug: 'kesglob', title: 'Kesehatan Global',               sub: 'Indikator, AMR, PHC/UHC, ketenagaan',            icon: '🌍', manifest: kesglob },
   kdk:     { slug: 'kdk',     title: 'Konsep Dasar Keperawatan',       sub: 'Caring, profesi, etika & advokasi',              icon: '📋', manifest: kdk },
   ftk:     { slug: 'ftk',     title: 'Falsafah dan Teori Keperawatan', sub: 'Acuan ujian: Buku Teori Keperawatan (dosen)',    icon: '🩺', manifest: ftk,
-           note: 'Acuan ujian FTK adalah Buku Teori Keperawatan dari dosen (BAB 1–14). Daftar BAB buku di bawah menyusul; ringkasan dari PPT dosen hanya sumber tambahan dan kalau berbeda, ikuti buku.' },
+           note: 'Acuan ujian FTK adalah Buku Teori Keperawatan dari dosen (BAB 1–14, grup paling atas). Ringkasan dari PPT dosen di bagian bawah hanya sumber tambahan, dan kalau berbeda, ikuti buku. Soal latihan dan kuncinya diambil dari lampiran buku; beberapa soal tidak ditampilkan karena teksnya terpotong di file buku.' },
 };
 
 export const hasBabs = (manifest = []) => manifest.some((g) => g.babs.some((b) => !b.segera));
