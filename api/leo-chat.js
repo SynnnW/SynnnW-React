@@ -90,11 +90,17 @@ async function callGemini(apiKey, system, contents) {
   } finally { clearTimeout(timer); }
 }
 
+// Key lama (service_role, berbentuk JWT "eyJ...") dikirim di apikey + Authorization.
+// Key baru (secret key "sb_secret_...") bukan JWT: cukup di header apikey.
+const svcHeaders = () => (SERVICE_KEY && SERVICE_KEY.startsWith('eyJ')
+  ? { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` }
+  : { apikey: SERVICE_KEY });
+
 async function cacheGet(id) {
   if (!SERVICE_KEY || !SUPABASE_URL) return null;
   try {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/quiz_ai_explanations?question_id=eq.${encodeURIComponent(id)}&select=explanation&limit=1`, {
-      headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` },
+      headers: svcHeaders(),
     });
     if (!r.ok) return null;
     const rows = await r.json();
@@ -106,7 +112,7 @@ async function cachePut(id, explanation) {
   try {
     await fetch(`${SUPABASE_URL}/rest/v1/quiz_ai_explanations?on_conflict=question_id`, {
       method: 'POST',
-      headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, 'Content-Type': 'application/json', Prefer: 'resolution=ignore-duplicates,return=minimal' },
+      headers: { ...svcHeaders(), 'Content-Type': 'application/json', Prefer: 'resolution=ignore-duplicates,return=minimal' },
       body: JSON.stringify({ question_id: id, explanation, model: MODEL }),
     });
   } catch { /* cache gagal bukan masalah besar */ }

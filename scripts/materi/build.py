@@ -77,7 +77,14 @@ CONFIG = {
       ('materi-ibd-integumen-cairan.md', r'^Sistem Integumen', 'integumen', 'Sistem Integumen', 'UAS', 'Cakupan UAS'),
       ('materi-ibd-integumen-cairan.md', r'^Keseimbangan Cairan', 'cairan', 'Keseimbangan Cairan, Elektrolit & Asam-Basa', 'UAS', 'Cakupan UAS'),
     ],
-    'praktikum': [],  # 10 modul LKP menyusul (lihat catatan di laporan)
+    'praktikum': [],
+    # modul LKP praktikum: satu file markdown = satu bab (sisanya menyusul dari paket md hasil analisis)
+    'praktikum_files': [
+      ('ibd-prak-saraf.md',   'saraf',   'Praktikum Sistem Saraf',   'Praktikum', 'Modul praktikum'),
+      ('ibd-prak-endokrin.md','endokrin','Praktikum Sistem Endokrin','Praktikum', 'Modul praktikum'),
+      ('ibd-prak-rangka.md',  'rangka',  'Praktikum Sistem Rangka',  'Praktikum', 'Modul praktikum'),
+      ('ibd-prak-otot.md',    'otot',    'Praktikum Sistem Otot',    'Praktikum', 'Modul praktikum'),
+    ],
   },
   'kesglob': {
     'title': 'Kesehatan Global', 'sub': 'Indikator, AMR, PHC/UHC, ketenagaan',
@@ -145,7 +152,9 @@ def parse_blocks(lines):
         if para:
             txt = clean_inline(' '.join(p.strip() for p in para))
             if txt:
-                if re.match(r'^\*\(.*\)\*$', txt) or re.match(r'^\*[^*].*[^*]\*$', txt) and len(txt) < 400 and txt.startswith('*(') :
+                if txt.startswith('⚠'):
+                    blocks.append({'t': 'box', 'v': 'warn', 'x': txt.lstrip('⚠️ ').strip()})
+                elif re.match(r'^\*\(.*\)\*$', txt) or re.match(r'^\*[^*].*[^*]\*$', txt) and len(txt) < 400 and txt.startswith('*(') :
                     blocks.append({'t': 'box', 'v': 'tip', 'x': txt.strip('*')})
                 else:
                     blocks.append({'t': 'p', 'x': txt})
@@ -224,8 +233,22 @@ def build():
                 made[key] = fn
                 entries.append((tag + bid, label, badge, group, fn))
             return entries
+        def make_files(items):
+            entries = []
+            for (f, bid, label, badge, group) in items:
+                text = open(os.path.join(SRC, f), encoding='utf-8').read()
+                lines = [l for l in text.split('\n') if not l.startswith('# ')]
+                lines = [('### ' + l[3:]) if l.startswith('## ') else l for l in lines]
+                blocks = parse_blocks(lines)
+                fn = f'bab-p-{bid}.js'
+                with open(os.path.join(base, fn), 'w', encoding='utf-8') as fh:
+                    fh.write('// DIHASILKAN oleh scripts/materi/build.py — jangan edit manual, ubah sumbernya di scripts/materi/src/\n')
+                    fh.write('export default ' + js({'id': 'p-' + bid, 'title': label, 'sumber': f, 'blocks': blocks}) + ';\n')
+                entries.append(('p-' + bid, label, badge, group, fn))
+            return entries
         main = make(cfg['items'], '')
         prak = make(cfg.get('praktikum', []), 'p-') if cfg.get('praktikum') is not None else []
+        prak += make_files(cfg.get('praktikum_files', []))
         def manifest_js(name, entries, extra=''):
             groups = []
             for (_id, label, badge, group, fn) in entries:

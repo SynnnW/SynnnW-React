@@ -138,7 +138,7 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
             </div>
             {flat.length === 0 && (
               <div className="bim-card"><p className="bim-body" style={{ margin: 0 }}>
-                {isPrak ? 'Modul praktikum untuk matkul ini belum tersedia. Menyusul begitu semua modulnya selesai diperiksa.' : 'Belum ada bab yang tersedia.'}
+                {isPrak ? 'Modul praktikum untuk matkul ini belum tersedia.' : 'Belum ada bab yang tersedia.'}
               </p></div>
             )}
             {manifest.map((g) => (
