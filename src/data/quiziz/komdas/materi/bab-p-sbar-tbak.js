@@ -1,7 +1,7 @@
 // DIHASILKAN oleh scripts/materi/build.py — jangan edit manual, ubah sumbernya di scripts/materi/src/
 export default {
  "id": "p-sbar-tbak",
- "title": "Komunikasi SBAR & TBAK",
+ "title": "Ringkasan SBAR & TBAK",
  "sumber": "TM 7 (Praktikum) — Komunikasi SBAR & TBAK dalam Pelaporan Antar-Nakes",
  "blocks": [
   {

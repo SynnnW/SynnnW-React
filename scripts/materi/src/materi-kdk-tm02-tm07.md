@@ -5,7 +5,7 @@
 ---
 
 ## TM 2 — Konsep dan Teori Caring dalam Keperawatan
-*Sumber: Ns. Dicky Endrian Kurniawan, M.Kep.*
+*Sumber: dosen pengampu*
 
 **Kenapa caring penting.** Perawat adalah tenaga kesehatan yang paling lama dan paling sering berinteraksi langsung dengan pasien dibanding profesi kesehatan lain — jadi secara alami berada di posisi paling pas untuk memimpin asuhan yang berpusat pada pasien. Sejak tahun 1950-an, caring mulai dibahas serius sebagai inti ilmu keperawatan, bukan sekadar "sifat baik" perawat.
 
@@ -62,7 +62,7 @@ Keempat elemen ini saling terhubung: paradigma membentuk teori keperawatan, yang
 ---
 
 ## TM 4 — Pelayanan Keperawatan dalam Sistem Pelayanan Kesehatan
-*Sumber: Ns. Dicky Endrian Kurniawan, M.Kep.*
+*Sumber: dosen pengampu*
 
 **Lanskap sistem kesehatan Indonesia.** Sistem kesehatan nasional sifatnya terintegrasi sekaligus terdesentralisasi — dikelola bersama oleh pemerintah pusat, daerah, dan swasta, dengan BPJS Kesehatan sebagai penyelenggara Jaminan Kesehatan Nasional (JKN). Dasar hukumnya UUD 1945 dan UU Kesehatan terkait.
 

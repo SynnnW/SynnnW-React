@@ -69,7 +69,7 @@
 ---
 
 ## TM 4 — Faktor yang Memengaruhi Komunikasi Efektif
-*Sumber: Ns. Salwa Nirwanawati, M.Kep.*
+*Sumber: dosen pengampu*
 
 **6 faktor yang memengaruhi komunikasi** (kerangka inti TM ini):
 1. **Kredibilitas pemberi pesan** — dimensi *expertise* (penguasaan ilmu & ketepatan klinis) dan *trustworthiness* (jujur, empatik, konsisten kata-tindakan).
@@ -86,7 +86,7 @@
 ---
 
 ## TM 6 — Nilai, Norma, dan Komunikasi Budaya di Lingkungan Agronursing
-*Sumber: Ns. Wahyu Dini Candra Susila, M.Kep., Sp.Kep.J*
+*Sumber: dosen pengampu*
 
 **Agronursing** = penatalaksanaan asuhan keperawatan dalam ruang lingkup pertanian, perkebunan, perikanan, peternakan, dan agroindustri — fokus pada keselamatan-kesehatan kerja, promosi, pencegahan penyakit akibat kerja di sektor itu, dan rehabilitasi. Wilayah sasarannya: petani, peternak, pekerja kebun/hutan/tambak/agroindustri, nelayan.
 

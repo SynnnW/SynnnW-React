@@ -6,7 +6,7 @@ export default {
  "blocks": [
   {
    "t": "p",
-   "x": "*Sumber: Ns. Hamidah Retno Wardani, M.Ked.Trop*"
+   "x": "*Sumber: dosen pengampu*"
   },
   {
    "t": "p",

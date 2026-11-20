@@ -29,7 +29,7 @@ Plus: **pembaruan sel** (regenerasi epidermis) dan **sintesis vitamin D** (UVB �
 ---
 
 ## Keseimbangan Cairan, Elektrolit & Asam-Basa
-*Sumber: Ns. Farida Nur Qomariyah, MNS*
+*Sumber: dosen pengampu*
 
 **Elektrolit vs Non-elektrolit** — elektrolit terionisasi & hantar listrik (Na⁺, K⁺, Cl⁻, Ca²⁺, Mg²⁺, bikarbonat); non-elektrolit tidak terionisasi (glukosa, asam amino, urea, lipid, O2, CO2).
 

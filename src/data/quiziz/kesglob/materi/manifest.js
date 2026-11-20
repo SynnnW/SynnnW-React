@@ -8,5 +8,11 @@ const manifest = [
     { id: "phc-uhc", label: "Sistem Kesehatan, PHC & UHC", badge: "Minggu 7", load: () => import('./bab-phc-uhc.js') },
     { id: "ketenagaan", label: "Ketenagaan Kesehatan Global", badge: "Minggu 9", load: () => import('./bab-ketenagaan.js') },
   ] },
+  { category: "Dokumen kuliah tambahan", babs: [
+    { id: "emerging", label: "Emerging dan Re-emerging Diseases", badge: "Dokumen", load: () => import('./bab-emerging.js') },
+    { id: "ptm", label: "Penyakit Tidak Menular", badge: "Dokumen", load: () => import('./bab-ptm.js') },
+    { id: "panduan-ptm", label: "Panduan PTM dan Faktor Risiko", badge: "Panduan", load: () => import('./bab-panduan-ptm.js') },
+    { id: "lkm", label: "LKM Kesehatan Global", badge: "LKM", load: () => import('./bab-lkm.js') },
+  ] },
 ];
 export default manifest;

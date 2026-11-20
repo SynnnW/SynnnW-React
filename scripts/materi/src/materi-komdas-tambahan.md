@@ -3,7 +3,7 @@
 > Folder ini isinya kebanyakan duplikat dari materi Komdas yang sudah ada (TM1, 2, 4, 6 — isinya konsisten/sama). Dua yang genuinely baru: **TM5 akhirnya berhasil diekstrak** (sebelumnya terblokir karena filenya hasil scan), dan **TM7 Praktikum** (SBAR/TBAK) yang belum pernah diolah.
 
 ## TM 5 — Komunikasi dalam Konteks Sosial dan Latar Belakang Budaya (akhirnya terbaca!)
-*Sumber: Ns. Erti Ikhtiarini Dewi*
+*Sumber: dosen pengampu*
 
 **Komunikasi Sosial** = komunikasi yang diarahkan untuk mencapai integrasi sosial — proses saling memengaruhi untuk mencapai keterkaitan sosial antar individu di masyarakat. Fungsinya: membentuk konsep diri, menyatakan eksistensi diri, dan untuk kelangsungan hidup/memupuk hubungan/kebahagiaan.
 

@@ -15,7 +15,7 @@
 ---
 
 ## 2. Sistem Perkemihan
-*Sumber: Ns. Farida Nur Qomariyah, MNS*
+*Sumber: dosen pengampu*
 
 **Susunan:** 2 ginjal → 2 ureter → 1 vesika urinaria (VU) → 1 uretra. **Ginjal**: korteks (badan Malpighi = glomerulus + kapsula Bowman) dan medula (tubulus, muara ke pelvis renalis); ±1 juta nefron/ginjal.
 
@@ -31,7 +31,7 @@
 ---
 
 ## 3. Sistem Pernapasan
-*Sumber: Ns. Hamidah Retno Wardani, M.Ked.Trop*
+*Sumber: dosen pengampu*
 
 **Saluran atas:** hidung (menyaring-menghangatkan-melembabkan) → faring (nasofaring/orofaring/laringofaring) → laring (6 kartilago: tiroid, krikoid, epiglotis, aritenoid, kornikulat, kuneiform — epiglotis menutup trakea saat menelan).
 
@@ -72,7 +72,7 @@
 ---
 
 ## 5. Sistem Hematologi, Limfatik & Imunologi Dasar
-*Sumber: Miratul Hasanah, Bd., M.Ked.Trop*
+*Sumber: dosen pengampu*
 
 **Darah** — volume 5-6 L (7-8% BB), pH 7,35-7,45 (selalu alkali). Komponen: plasma (55%, isinya air+albumin+globulin+fibrinogen) dan elemen selular (45%): eritrosit, leukosit, trombosit.
 

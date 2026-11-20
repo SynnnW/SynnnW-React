@@ -6,7 +6,7 @@ export default {
  "blocks": [
   {
    "t": "p",
-   "x": "*Sumber: Modul dan LKP Praktikum Sistem Rangka (dosen/CO), dilengkapi PPT \"Anatomi dan Fisiologi Sistem Rangka (Skeletal)\" (Ns. Sinta Wijayanti, M.Kep., Sp.Kep.MB). Indikator capaian: ketepatan identifikasi anatomi-fisiologi tulang dan jenis sendi pada model rangka.*"
+   "x": "*Sumber: Modul dan LKP Praktikum Sistem Rangka (dosen/CO), dilengkapi PPT \"Anatomi dan Fisiologi Sistem Rangka (Skeletal)\". Indikator capaian: ketepatan identifikasi anatomi-fisiologi tulang dan jenis sendi pada model rangka.*"
   },
   {
    "t": "h",

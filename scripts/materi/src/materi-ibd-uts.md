@@ -5,7 +5,7 @@
 ---
 
 ## 1. Konsep Dasar Ilmu Biomedik
-*Sumber: Ns. Sinta Wijayanti, M.Kep., Sp.Kep.MB*
+*Sumber: dosen pengampu*
 
 **Hierarki organisasi tubuh manusia** (urutan dari sederhana ke kompleks — sering jadi soal urutan): **Molekul → Sel → Jaringan → Organ → Sistem Organ → Organisme.** Tiap tingkatan punya fungsi spesifik yang saling terintegrasi untuk menjaga homeostasis dan kelangsungan hidup.
 
@@ -39,7 +39,7 @@
 ---
 
 ## 2. Sistem Persarafan
-*Sumber: Ns. Farida Nur Qomariyah, MNS*
+*Sumber: dosen pengampu*
 
 **Pembagian anatomi:** Sistem Saraf Pusat (SSP) = otak + medula spinalis (pusat komando, memproses & mengintegrasikan informasi); Sistem Saraf Tepi (SST) = saraf kranial (12 pasang) + saraf spinal (31 pasang) — kabel komunikasi SSP ke reseptor/otot/organ.
 
@@ -141,7 +141,7 @@ Catatan penting: enzim proteolitik disekresi sebagai zimogen (bentuk tidak aktif
 ---
 
 ## 5. Sistem Rangka
-*Sumber: Ns. Sinta Wijayanti, M.Kep., Sp.Kep.MB*
+*Sumber: dosen pengampu*
 
 **Jumlah & pembagian:** rangka dewasa ≈ 206 tulang, terbagi:
 - **Rangka Aksial** (80 tulang) — kranium (8), tulang wajah (14), hioid (1), osikula auditiva (6), kolumna vertebra (26), kosta (24), sternum (1). Fungsi utama: **melindungi organ vital** (otak, jantung, paru).
@@ -169,7 +169,7 @@ Catatan penting: enzim proteolitik disekresi sebagai zimogen (bentuk tidak aktif
 ---
 
 ## 6. Sistem Otot
-*Sumber: Ns. Farida Nur Qomariyah, MNS & tim*
+*Sumber: dosen pengampu & tim*
 
 **3 jenis otot** (dibedakan dari ciri sel):
 
@@ -197,7 +197,7 @@ Catatan: lurik bukan berarti volunter — otot jantung berlurik tapi bekerja inv
 ---
 
 ## 7. Sistem Kardiovaskular
-*Sumber: Miratul Hasanah, Bd., M.Ked.Trop.*
+*Sumber: dosen pengampu*
 
 **Struktur umum:** terdiri dari jantung (kardio) + pembuluh darah (vaskular) — sistem tertutup, volume darah beredar ≈ 5 L, tekanan darah dijaga stabil. Letak jantung: dada bagian depan, sedikit ke kiri sternum, di antara kedua paru (makanya paru kiri sedikit lebih kecil).
 

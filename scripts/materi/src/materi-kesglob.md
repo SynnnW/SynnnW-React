@@ -3,7 +3,7 @@
 > Matkul ini belum pernah disentuh sama sekali sebelumnya — ternyata folder "DARI CO/KESGLOB" punya ~25 file (PPT dosen resmi per minggu + 5 PPT tugas kelompok mahasiswa + beberapa dokumen referensi lepas). Di bawah ini materi dari **6 PPT dosen resmi** yang ditemukan (Minggu 1, 2, 5, 6, 7, 9 dari total 12 minggu di kontrak kuliah). Minggu 3, 4, 8, 10, 11, 12 belum ada file dosennya — tapi PPT 5 kelompok mahasiswa (isinya penyakit menular/IHR, migran-pengungsi-EDRM, perubahan iklim, ketenagaan-AMR-One Health, transkultural-HAM-etika) kemungkinan besar menutupi beberapa topik itu sebagai bahan pembanding, belum diolah di sesi ini.
 
 ## Minggu 1 — Konsep, Sejarah, Ruang Lingkup & Prinsip Dasar
-*Sumber: Ns. Siswoyo, S.Kep., M.Kep.*
+*Sumber: dosen pengampu*
 
 **Kenapa kesehatan jadi isu global:** penyakit melampaui batas negara (mobilitas & perdagangan mempercepat penyebaran risiko), ketimpangan kesehatan (kesempatan hidup sehat tidak merata), respons harus kolaboratif lintas profesi-sektor-negara.
 
@@ -75,7 +75,7 @@
 ---
 
 ## Minggu 6 — Kesehatan Sepanjang Daur Kehidupan & Kelompok Rentan
-*Sumber: Kushariyadi, S.Kep., Ns., M.Kep.*
+*Sumber: dosen pengampu*
 
 **Pendekatan Daur Kehidupan (Life-Course Approach)** — 3 konsep inti:
 1. **Akumulasi Risiko (Cumulative Risk)** — dampak paparan bahaya lingkungan/sosial menumpuk sepanjang hidup.

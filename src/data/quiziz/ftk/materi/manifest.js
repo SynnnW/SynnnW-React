@@ -19,6 +19,7 @@ const manifest = [
   { category: "PPT dosen / sumber tambahan", babs: [
     { id: "orem", label: "Teori Dorothea Orem (ringkasan PPT)", badge: "PPT TM 9", load: () => import('./bab-orem.js') },
     { id: "kolcaba", label: "Teori Katharine Kolcaba (ringkasan PPT)", badge: "PPT TM 12", load: () => import('./bab-kolcaba.js') },
+    { id: "lkm", label: "LKM 1–3 FTK (studi kasus)", badge: "LKM", load: () => import('./bab-lkm.js') },
   ] },
 ];
 export default manifest;

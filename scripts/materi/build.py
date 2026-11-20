@@ -49,13 +49,21 @@ CONFIG = {
       ('materi-komdas.md', r'^TM 9 ',  'tren-isu',       'Perspektif, Tren & Isu Komunikasi Pelayanan Kesehatan', 'TM 9', 'Setelah UTS'),
       ('materi-komdas.md', r'^TM 10 ', 'tren-agronursing','Tren & Isu Komunikasi Agronursing', 'TM 10', 'Setelah UTS'),
       ('materi-komdas.md', r'^TM 11 ', 'klien',          'Komunikasi Efektif dengan Klien', 'TM 11', 'Setelah UTS'),
-      ('materi-komdas-tm12-tm13.md', r'^TM 12 ', 'keluarga', 'Komunikasi dengan Keluarga (SOP Praktikum)', 'TM 12', 'Setelah UTS'),
       ('materi-komdas-tm12-tm13.md', r'^TM 13 ', 'kelompok', 'Komunikasi Efektif dengan Kelompok', 'TM 13', 'Setelah UTS'),
     ],
     # halaman materi praktikum (route /quiziz/komdas/praktikum)
+    'items_files': [
+      ('komdas-tm12-materi.md', 'keluarga', 'Komunikasi Efektif dengan Keluarga (PPT)', 'TM 12', 'Setelah UTS'),
+      ('komdas-pr10-kasus.md', 'pr10-kasus', 'PR 10: Kasus Komunikasi dengan Pasien', 'PR 10', 'Studi kasus'),
+    ],
     'praktikum': [
-      ('materi-komdas-tambahan.md', r'^TM 7 \(Praktikum\)', 'sbar-tbak', 'Komunikasi SBAR & TBAK', 'Praktikum', 'Praktikum Komdas'),
-      ('materi-komdas-tm12-tm13.md', r'^TM 12 ', 'sop-keluarga', 'SOP: Komunikasi dengan Keluarga', 'Praktikum', 'Praktikum Komdas'),
+      ('materi-komdas-tambahan.md', r'^TM 7 \(Praktikum\)', 'sbar-tbak', 'Ringkasan SBAR & TBAK', 'TM 7 ringkasan', 'Praktikum Komdas'),
+    ],
+    'praktikum_files': [
+      ('komdas-tm12-sop.md', 'sop-keluarga', 'SOP Praktikum: Komunikasi dengan Keluarga (TM 12)', 'TM 12', 'Praktikum Komdas'),
+      ('komdas-prak-tm5.md', 'tm5', 'Praktikum Komunikasi Sosial Budaya (TM 5)', 'TM 5', 'Praktikum Komdas'),
+      ('komdas-prak-tm7-a.md', 'tm7a', 'Praktikum Komunikasi Multidisiplin: Slide 1–7 (TM 7)', 'TM 7', 'Praktikum Komdas'),
+      ('komdas-prak-tm7-b.md', 'tm7b', 'Praktikum Komunikasi Multidisiplin: Slide 8–13 (TM 7)', 'TM 7', 'Praktikum Komdas'),
     ],
   },
   'ibd': {
@@ -84,6 +92,21 @@ CONFIG = {
       ('ibd-prak-endokrin.md','endokrin','Praktikum Sistem Endokrin','Praktikum', 'Modul praktikum'),
       ('ibd-prak-rangka.md',  'rangka',  'Praktikum Sistem Rangka',  'Praktikum', 'Modul praktikum'),
       ('ibd-prak-otot.md',    'otot',    'Praktikum Sistem Otot',    'Praktikum', 'Modul praktikum'),
+      ('ibd-prak-pencernaan.md','pencernaan','Praktikum Sistem Pencernaan','Praktikum', 'Modul praktikum'),
+      ('ibd-prak-kardiovaskular.md','kardiovaskular','Praktikum Sistem Kardiovaskular','Praktikum', 'Modul praktikum'),
+      ('ibd-prak-respirasi.md','respirasi','Praktikum Sistem Respirasi','Praktikum', 'Modul praktikum'),
+      ('ibd-prak-perkemihan.md','perkemihan','Praktikum Sistem Perkemihan','Praktikum', 'Modul praktikum'),
+      ('ibd-prak-penginderaan.md','penginderaan','Praktikum Sistem Penginderaan','Praktikum', 'Modul praktikum'),
+      ('ibd-prak-reproduksi.md','reproduksi','Praktikum Sistem Reproduksi','Praktikum', 'Modul praktikum'),
+      ('ibd-prak-integumen.md','integumen','Praktikum Sistem Integumen','Praktikum', 'Modul praktikum'),
+      ('ibd-pandu-umum.md','pandu-umum','Panduan Pengerjaan Tugas LKP (umum)','Panduan', 'Panduan pengerjaan LKP'),
+      ('ibd-pandu-endokrin.md','pandu-endokrin','Panduan LKP Endokrin','Panduan', 'Panduan pengerjaan LKP'),
+      ('ibd-pandu-otot.md','pandu-otot','Panduan LKP Otot','Panduan', 'Panduan pengerjaan LKP'),
+      ('ibd-pandu-pencernaan.md','pandu-pencernaan','Panduan LKP Pencernaan','Panduan', 'Panduan pengerjaan LKP'),
+      ('ibd-pandu-kardiovaskular.md','pandu-kardiovaskular','Panduan LKP Kardiovaskular','Panduan', 'Panduan pengerjaan LKP'),
+      ('ibd-pandu-pernapasan.md','pandu-pernapasan','Panduan LKP Pernapasan','Panduan', 'Panduan pengerjaan LKP'),
+      ('ibd-pandu-perkemihan.md','pandu-perkemihan','Panduan LKP Perkemihan','Panduan', 'Panduan pengerjaan LKP'),
+      ('ibd-pandu-penginderaan.md','pandu-penginderaan','Petunjuk LKP Penginderaan','Panduan', 'Panduan pengerjaan LKP'),
     ],
   },
   'kesglob': {
@@ -97,6 +120,12 @@ CONFIG = {
       ('materi-kesglob.md', r'^Minggu 7 ', 'phc-uhc',     'Sistem Kesehatan, PHC & UHC', 'Minggu 7', 'Materi dosen'),
       ('materi-kesglob.md', r'^Minggu 9 ', 'ketenagaan',  'Ketenagaan Kesehatan Global', 'Minggu 9', 'Materi dosen'),
     ],
+    'items_files': [
+      ('kesglob-emerging.md', 'emerging', 'Emerging dan Re-emerging Diseases', 'Dokumen', 'Dokumen kuliah tambahan'),
+      ('kesglob-ptm.md', 'ptm', 'Penyakit Tidak Menular', 'Dokumen', 'Dokumen kuliah tambahan'),
+      ('kesglob-panduan-ptm.md', 'panduan-ptm', 'Panduan PTM dan Faktor Risiko', 'Panduan', 'Dokumen kuliah tambahan'),
+      ('kesglob-lkm.md', 'lkm', 'LKM Kesehatan Global', 'LKM', 'Dokumen kuliah tambahan'),
+    ],
   },
   'ftk': {
     'title': 'Falsafah dan Teori Keperawatan', 'sub': 'Acuan ujian: Buku Teori Keperawatan (dosen)',
@@ -104,6 +133,9 @@ CONFIG = {
     'items': [
       ('materi-ftk-tambahan-uas.md', r'^TM 9 ',  'orem',    'Teori Dorothea Orem (ringkasan PPT)', 'PPT TM 9', 'PPT dosen / sumber tambahan'),
       ('materi-ftk-tambahan-uas.md', r'^TM 12 ', 'kolcaba', 'Teori Katharine Kolcaba (ringkasan PPT)', 'PPT TM 12', 'PPT dosen / sumber tambahan'),
+    ],
+    'items_files': [
+      ('ftk-lkm.md', 'lkm', 'LKM 1–3 FTK (studi kasus)', 'LKM', 'PPT dosen / sumber tambahan'),
     ],
     # BAB 1–14 buku: ditampilkan sebagai daftar "segera" sampai isinya dimasukkan (lihat catatan hak cipta)
     'buku_placeholder': [
@@ -233,21 +265,22 @@ def build():
                 made[key] = fn
                 entries.append((tag + bid, label, badge, group, fn))
             return entries
-        def make_files(items):
+        def make_files(items, tag='p-'):
             entries = []
             for (f, bid, label, badge, group) in items:
                 text = open(os.path.join(SRC, f), encoding='utf-8').read()
                 lines = [l for l in text.split('\n') if not l.startswith('# ')]
                 lines = [('### ' + l[3:]) if l.startswith('## ') else l for l in lines]
                 blocks = parse_blocks(lines)
-                fn = f'bab-p-{bid}.js'
+                fn = f'bab-{tag}{bid}.js'
                 with open(os.path.join(base, fn), 'w', encoding='utf-8') as fh:
                     fh.write('// DIHASILKAN oleh scripts/materi/build.py — jangan edit manual, ubah sumbernya di scripts/materi/src/\n')
-                    fh.write('export default ' + js({'id': 'p-' + bid, 'title': label, 'sumber': f, 'blocks': blocks}) + ';\n')
-                entries.append(('p-' + bid, label, badge, group, fn))
+                    fh.write('export default ' + js({'id': tag + bid, 'title': label, 'sumber': f, 'blocks': blocks}) + ';\n')
+                entries.append((tag + bid, label, badge, group, fn))
             return entries
         main = make(cfg['items'], '')
         prak = make(cfg.get('praktikum', []), 'p-') if cfg.get('praktikum') is not None else []
+        main += make_files(cfg.get('items_files', []), '')
         prak += make_files(cfg.get('praktikum_files', []))
         def manifest_js(name, entries, extra=''):
             groups = []
@@ -255,6 +288,9 @@ def build():
                 g = next((x for x in groups if x['category'] == group), None)
                 if not g: g = {'category': group, 'babs': []}; groups.append(g)
                 g['babs'].append((_id, label, badge, fn))
+            for g in groups:
+                nums = [re.search(r'(\d+)', b[2]) for b in g['babs']]
+                if all(nums): g['babs'] = [b for _, b in sorted(zip([int(n.group(1)) for n in nums], g['babs']), key=lambda x: x[0])]
             out = [f"// DIHASILKAN oleh scripts/materi/build.py", f"const {name} = ["]
             if extra: out.append(extra)
             for g in groups:

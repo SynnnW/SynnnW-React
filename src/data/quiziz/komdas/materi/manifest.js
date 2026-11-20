@@ -13,8 +13,11 @@ const manifest = [
     { id: "tren-isu", label: "Perspektif, Tren & Isu Komunikasi Pelayanan Kesehatan", badge: "TM 9", load: () => import('./bab-tren-isu.js') },
     { id: "tren-agronursing", label: "Tren & Isu Komunikasi Agronursing", badge: "TM 10", load: () => import('./bab-tren-agronursing.js') },
     { id: "klien", label: "Komunikasi Efektif dengan Klien", badge: "TM 11", load: () => import('./bab-klien.js') },
-    { id: "keluarga", label: "Komunikasi dengan Keluarga (SOP Praktikum)", badge: "TM 12", load: () => import('./bab-keluarga.js') },
+    { id: "keluarga", label: "Komunikasi Efektif dengan Keluarga (PPT)", badge: "TM 12", load: () => import('./bab-keluarga.js') },
     { id: "kelompok", label: "Komunikasi Efektif dengan Kelompok", badge: "TM 13", load: () => import('./bab-kelompok.js') },
+  ] },
+  { category: "Studi kasus", babs: [
+    { id: "pr10-kasus", label: "PR 10: Kasus Komunikasi dengan Pasien", badge: "PR 10", load: () => import('./bab-pr10-kasus.js') },
   ] },
 ];
 export default manifest;
