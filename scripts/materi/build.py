@@ -125,6 +125,12 @@ CONFIG = {
       ('kesglob-ptm.md', 'ptm', 'Penyakit Tidak Menular', 'Dokumen', 'Dokumen kuliah tambahan'),
       ('kesglob-panduan-ptm.md', 'panduan-ptm', 'Panduan PTM dan Faktor Risiko', 'Panduan', 'Dokumen kuliah tambahan'),
       ('kesglob-lkm.md', 'lkm', 'LKM Kesehatan Global', 'LKM', 'Dokumen kuliah tambahan'),
+      ('kesglob-klp1.md', 'klp1', 'Penyakit Menular, Keamanan Kesehatan, Surveilans, dan Kesiapan Wabah', 'Kelompok 1', 'Presentasi kelompok mahasiswa'),
+      ('kesglob-klp2.md', 'klp2', 'Keperawatan Migran pada Bencana, Konflik, dan Krisis Kemanusiaan', 'Kelompok 2', 'Presentasi kelompok mahasiswa'),
+      ('kesglob-klp3.md', 'klp3', 'Perubahan Iklim, Kesehatan Lingkungan, dan Panas Ekstrem', 'Kelompok 3', 'Presentasi kelompok mahasiswa'),
+      ('kesglob-klp4.md', 'klp4', 'Ketenagaan, Migrasi, dan Resistensi Antimikroba', 'Kelompok 4', 'Presentasi kelompok mahasiswa'),
+      ('kesglob-mk2.md', 'mk2', 'Makalah Kelompok 2: Keperawatan Migran pada Bencana dan Konflik', 'Kelompok 2', 'Makalah kelompok mahasiswa'),
+      ('kesglob-mk4.md', 'mk4', 'Makalah Kelompok 4: Ketenagaan Keperawatan Global, Migrasi, dan AMR', 'Kelompok 4', 'Makalah kelompok mahasiswa'),
     ],
   },
   'ftk': {

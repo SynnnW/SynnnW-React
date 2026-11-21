@@ -14,5 +14,15 @@ const manifest = [
     { id: "panduan-ptm", label: "Panduan PTM dan Faktor Risiko", badge: "Panduan", load: () => import('./bab-panduan-ptm.js') },
     { id: "lkm", label: "LKM Kesehatan Global", badge: "LKM", load: () => import('./bab-lkm.js') },
   ] },
+  { category: "Presentasi kelompok mahasiswa", babs: [
+    { id: "klp1", label: "Penyakit Menular, Keamanan Kesehatan, Surveilans, dan Kesiapan Wabah", badge: "Kelompok 1", load: () => import('./bab-klp1.js') },
+    { id: "klp2", label: "Keperawatan Migran pada Bencana, Konflik, dan Krisis Kemanusiaan", badge: "Kelompok 2", load: () => import('./bab-klp2.js') },
+    { id: "klp3", label: "Perubahan Iklim, Kesehatan Lingkungan, dan Panas Ekstrem", badge: "Kelompok 3", load: () => import('./bab-klp3.js') },
+    { id: "klp4", label: "Ketenagaan, Migrasi, dan Resistensi Antimikroba", badge: "Kelompok 4", load: () => import('./bab-klp4.js') },
+  ] },
+  { category: "Makalah kelompok mahasiswa", babs: [
+    { id: "mk2", label: "Makalah Kelompok 2: Keperawatan Migran pada Bencana dan Konflik", badge: "Kelompok 2", load: () => import('./bab-mk2.js') },
+    { id: "mk4", label: "Makalah Kelompok 4: Ketenagaan Keperawatan Global, Migrasi, dan AMR", badge: "Kelompok 4", load: () => import('./bab-mk4.js') },
+  ] },
 ];
 export default manifest;
