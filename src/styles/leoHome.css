@@ -1,0 +1,41 @@
+/* src/styles/leoHome.css — chat Leo di bagian atas beranda Quiziz. Prefix .qz-leo-*, hanya token tema (dark/light otomatis).
+   Neumorphism: raised = wadah/aksi, inset = sumur pesan dan kotak tulis. Lime hanya untuk aksi utama dan pesan pengguna. */
+.qz-leo { display: flex; flex-direction: column; gap: 14px; width: 100%; padding: 18px; background: var(--nm-bg); color: var(--text); border: 1px solid var(--nm-edge); border-radius: var(--r-m); box-shadow: var(--nm-raise); }
+.qz-leo-head { display: flex; align-items: center; gap: 14px; }
+.qz-leo-head .mascot { flex-shrink: 0; }
+.qz-leo-title { margin: 0; font-weight: 600; font-size: clamp(1.45rem, 5vw, 2.1rem); line-height: 1.1; letter-spacing: -0.03em; }
+.qz-leo-lead { margin: 6px 0 0; color: var(--text-dim); font-size: .92rem; line-height: 1.5; }
+
+.qz-leo-list { display: flex; flex-direction: column; gap: 10px; max-height: min(420px, 55dvh); overflow-y: auto; overscroll-behavior: contain; padding: 12px; background: var(--nm-bg); border: 1px solid var(--nm-edge); border-radius: var(--r-m); box-shadow: var(--nm-inset-sm); }
+.qz-leo-turn { display: flex; flex-direction: column; gap: 6px; max-width: min(92%, 68ch); }
+.qz-leo-turn.user { align-self: flex-end; align-items: flex-end; }
+.qz-leo-turn.model { align-self: flex-start; align-items: flex-start; }
+.qz-leo-msg { padding: 10px 13px; border-radius: var(--r-m); font-size: .92rem; line-height: 1.6; overflow-wrap: anywhere; }
+.qz-leo-msg.model { background: color-mix(in srgb, var(--text) 7%, transparent); border-bottom-left-radius: 3px; }
+.qz-leo-msg.user { background: var(--accent); color: var(--on-accent); border-bottom-right-radius: 3px; white-space: pre-wrap; }
+.qz-leo-msg.err { border: 1px solid color-mix(in srgb, var(--warn) 55%, transparent); }
+.qz-leo-msg.failed { opacity: .6; }
+.qz-leo-msg p { margin: 0; }
+.qz-leo-msg :is(p, ul, ol) + :is(p, ul, ol) { margin-top: .55em; }
+.qz-leo-msg :is(ul, ol) { margin: 0; padding-left: 1.2em; }
+.qz-leo-msg code { font-family: var(--font-mono); font-size: .86em; padding: 1px 5px; border-radius: 4px; background: color-mix(in srgb, var(--text) 10%, transparent); }
+.qz-leo-status { align-self: flex-start; color: var(--text-dim); font-size: .8rem; }
+
+.qz-leo-links, .qz-leo-starters { display: flex; flex-wrap: wrap; gap: 8px; }
+.qz-leo-chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--nm-edge); border-radius: 999px; background: var(--nm-bg); box-shadow: var(--nm-raise-sm); color: var(--text); font: inherit; font-size: .84rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: box-shadow var(--dur-fast) ease, transform var(--dur-fast) ease; }
+.qz-leo-chip:active { box-shadow: var(--nm-inset-sm); transform: translateY(1px); }
+
+.qz-leo-foot { display: grid; gap: 8px; }
+.qz-leo-row { display: flex; align-items: flex-end; gap: 10px; }
+.qz-leo-input { flex: 1; min-width: 0; min-height: 48px; max-height: 120px; padding: 12px 14px; resize: none; field-sizing: content; background: var(--nm-bg); color: var(--text); border: 1px solid color-mix(in srgb, var(--text) 24%, transparent); border-radius: var(--r-s); box-shadow: var(--nm-inset-sm); font: inherit; font-size: 1rem; line-height: 1.4; }
+.qz-leo-input::placeholder { color: var(--text-faint); }
+.qz-leo-send { min-height: 48px; padding: 0 22px; border: 0; border-radius: var(--r-notch); background: var(--accent); color: var(--on-accent); font: inherit; font-size: .86rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: transform var(--dur-fast) ease; }
+.qz-leo-send:active:not(:disabled) { transform: translateY(1px); }
+.qz-leo-send:disabled { opacity: .5; cursor: not-allowed; }
+.qz-leo-note { margin: 0; color: var(--text-dim); font-size: var(--fs-meta); line-height: 1.45; }
+
+@media (max-width: 520px) {
+  .qz-leo { padding: 14px; }
+  .qz-leo-turn { max-width: 96%; }
+  .qz-leo-send { padding: 0 16px; }
+}

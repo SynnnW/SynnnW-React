@@ -1,12 +1,14 @@
 // src/pages/quiziz/Quiziz.jsx — route: /quiziz
 // Landing "Quiziz Mingguan (Latsol)" — desain bento (sama dengan Works/Price/Terms).
-// Urutan konten dipertahankan: judul -> disclaimer -> 8 kartu matkul ->
+// Layar awal: chat Leo AI paling atas (bisa langsung bertanya), lalu pilihan Materi / Quiziz.
+// Daftar latsol (?view=quiz): judul -> disclaimer -> 8 kartu matkul ->
 // segera hadir (link ke UAS) -> komentar -> saran & masukan.
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SubjectComments from '../../components/SubjectComments';
 import SaranWebsite from '../../components/SaranWebsite';
 import useQuizAuth from '../../components/quiz/useQuizAuth';
 import QuizShell from '../../components/quiz/QuizShell';
+import LeoHomeChat from '../../components/quiz/LeoHomeChat';
 import { Reveal, Arrow } from '../../components/BentoKit';
 import Ico from '../../components/Ico';
 
@@ -31,13 +33,7 @@ export default function Quiziz() {
     return (
       <QuizShell maxWidth={1180}>
         <div className="qz-landing">
-          <div className="bn-grid">
-            <Reveal className="bn-card bn-hello bn-span-6">
-              <span className="bn-kicker">Quiziz</span>
-              <h1 className="bn-title">Mau belajar <span>apa hari ini?</span></h1>
-              <p className="bn-lead">Baca materi per bab dulu, atau langsung latihan soal. Pilih salah satu.</p>
-            </Reveal>
-          </div>
+          <LeoHomeChat />
           <div className="bn-grid">
             <Reveal className="bn-span-3">
               <button className="bn-card qz-subj" style={{ '--c': 'var(--accent-text)', width: '100%' }} onClick={() => navigate('/quiziz/materi')}>
