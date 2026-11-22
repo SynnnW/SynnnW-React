@@ -53,7 +53,7 @@ export default function QuizMasuk() {
 
   const step = !ack ? 1 : 2;
   return (
-    <QuizShell maxWidth={760}>
+    <QuizShell maxWidth={760} variant="focus">
       <div className="qg-wrap">
         <div className="qg-head">
           <div className="qg-steps" aria-label="Langkah">

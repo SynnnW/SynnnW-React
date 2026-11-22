@@ -1,0 +1,55 @@
+/* src/styles/quizShell.css — chrome tunggal Quiziz: top bar, tab bar bawah, state galat.
+   Token baru berprefix --qz-* dan ter-scope ke [data-area='quiziz'] (dipasang QuizShell), jadi tidak menyentuh halaman publik.
+   Bahasa visual: neumorphism subtle (raised = bisa diklik, inset = sumur/aktif-tertekan); lime hanya untuk item aktif. */
+[data-area='quiziz'] {
+  --qz-s1: 4px; --qz-s2: 8px; --qz-s3: 12px; --qz-s4: 16px; --qz-s5: 24px; --qz-s6: 32px;
+  --qz-topbar-h: 64px;
+  --qz-tabbar-h: 60px;
+  --qz-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ── Top bar ── */
+[data-area='quiziz'] .qz-top { position: fixed; inset: 0 0 auto 0; z-index: var(--z-nav); height: var(--qz-topbar-h); display: flex; align-items: center; justify-content: space-between; gap: var(--qz-s3); padding: 0 var(--qz-s5); background: var(--qzg-bg); border-bottom: 1px solid var(--qzg-border-1); box-shadow: 0 8px 20px -16px var(--nm-lo); }
+[data-area='quiziz'] .qz-top-logo { display: inline-flex; align-items: center; gap: var(--qz-s2); min-height: 44px; text-decoration: none; flex-shrink: 0; }
+[data-area='quiziz'] .qz-top-mark { font-size: 1.1rem; line-height: 1; color: var(--accent-text); }
+[data-area='quiziz'] .qz-top-name { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 1.3rem; letter-spacing: -0.02em; color: var(--qzg-text); white-space: nowrap; }
+[data-area='quiziz'] .qz-top-name span { color: var(--qzg-primary2); }
+
+[data-area='quiziz'] .qz-top-nav { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: var(--qz-s1); padding: 5px; background: var(--qzg-glass-1); border: 1px solid var(--qzg-border-1); border-radius: var(--qzg-r-pill); box-shadow: var(--nm-inset-sm); }
+[data-area='quiziz'] .qz-top-link { display: inline-flex; align-items: center; min-height: 40px; padding: 0 var(--qz-s4); border-radius: var(--qzg-r-pill); font-size: .78rem; font-weight: 600; letter-spacing: .02em; color: var(--qzg-text-dim); text-decoration: none; white-space: nowrap; transition: color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; }
+[data-area='quiziz'] .qz-top-link:hover { color: var(--qzg-text); }
+[data-area='quiziz'] .qz-top-link[aria-current='page'] { background: var(--accent); color: var(--on-accent); font-weight: 700; box-shadow: var(--nm-raise-sm); }
+
+[data-area='quiziz'] .qz-top-actions { display: flex; align-items: center; gap: var(--qz-s2); flex-shrink: 0; }
+[data-area='quiziz'] .qz-top-main { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 14px; font-family: var(--font-mono); font-size: .68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--qzg-text-dim); text-decoration: none; background: var(--qzg-glass-1); border: 1px solid var(--qzg-border-1); border-radius: var(--qzg-r-pill); box-shadow: var(--nm-raise-sm); transition: color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; }
+[data-area='quiziz'] .qz-top-main:hover { color: var(--qzg-text); }
+[data-area='quiziz'] .qz-top-main:active { box-shadow: var(--nm-inset-sm); }
+/* Tombol tema: satu bentuk dengan tombol lain di bar, tidak bergantung CSS dashboard (yang tidak dimuat di Quiziz). */
+[data-area='quiziz'] .qz-top .theme-toggle { display: inline-grid; place-items: center; width: 44px; height: 44px; min-width: 44px; padding: 0; color: var(--qzg-text); background: var(--qzg-glass-1); border: 1px solid var(--qzg-border-1); border-radius: 50%; box-shadow: var(--nm-raise-sm); cursor: pointer; transition: color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; }
+[data-area='quiziz'] .qz-top .theme-toggle:hover { color: var(--accent-text); }
+[data-area='quiziz'] .qz-top .theme-toggle:active { box-shadow: var(--nm-inset-sm); }
+
+/* ── Tab bar bawah (mobile) ── */
+[data-area='quiziz'] .qz-tabbar { display: none; position: fixed; inset: auto 0 0 0; z-index: var(--z-nav); grid-template-columns: repeat(4, 1fr); gap: var(--qz-s1); padding: 6px var(--qz-s2) calc(6px + var(--qz-safe-bottom)); background: var(--qzg-bg); border-top: 1px solid var(--qzg-border-1); box-shadow: 0 -8px 20px -16px var(--nm-lo); }
+[data-area='quiziz'] .qz-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 48px; border-radius: var(--r-s); font-size: var(--fs-meta); font-weight: 600; color: var(--qzg-text-dim); text-decoration: none; }
+[data-area='quiziz'] .qz-tab-ico { display: grid; place-items: center; width: 52px; height: 28px; border-radius: var(--qzg-r-pill); font-size: 1rem; transition: background-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; }
+[data-area='quiziz'] .qz-tab[aria-current='page'] { color: var(--qzg-text); font-weight: 700; }
+[data-area='quiziz'] .qz-tab[aria-current='page'] .qz-tab-ico { background: var(--accent); color: var(--on-accent); box-shadow: var(--nm-raise-sm); }
+[data-area='quiziz'] .qz-tab:active .qz-tab-ico { box-shadow: var(--nm-inset-sm); }
+
+@media (max-width: 760px) {
+  [data-area='quiziz'] .qz-top { padding: 0 var(--qz-s4); }
+  [data-area='quiziz'] .qz-top-nav { display: none; }
+  [data-area='quiziz'] .qz-top-main { width: 44px; padding: 0; }
+  [data-area='quiziz'] .qz-top-main span { display: none; }
+  [data-area='quiziz'] .qz-tabbar { display: grid; }
+  [data-area='quiziz'][data-variant='full'] .qz-shell-inner { padding-bottom: calc(var(--qz-tabbar-h) + var(--qz-safe-bottom) + var(--qz-s6)); }
+}
+
+/* ── State galat ── */
+[data-area='quiziz'] .qz-state { display: grid; justify-items: center; gap: var(--qz-s3); max-width: 520px; margin: var(--qz-s6) auto; padding: var(--qz-s6) var(--qz-s5); text-align: center; background: var(--nm-bg); border: 1px solid var(--nm-edge); border-radius: var(--r-m); box-shadow: var(--nm-raise); }
+[data-area='quiziz'] .qz-state-ico { display: grid; place-items: center; width: 56px; height: 56px; font-size: 1.25rem; color: var(--warn); background: var(--nm-bg); border: 1px solid var(--nm-edge); border-radius: 50%; box-shadow: var(--nm-inset-sm); }
+[data-area='quiziz'] .qz-state-title { margin: 0; font-size: 1.25rem; font-weight: 600; }
+[data-area='quiziz'] .qz-state-text { margin: 0; font-size: .92rem; line-height: 1.6; color: var(--qzg-text-dim); }
+[data-area='quiziz'] .qz-state-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--qz-s2); margin-top: var(--qz-s2); }
+[data-area='quiziz'] .qz-state-actions a { text-decoration: none; }

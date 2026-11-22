@@ -29,13 +29,17 @@
 .qz-leo-row { display: flex; align-items: flex-end; gap: 10px; }
 .qz-leo-input { flex: 1; min-width: 0; min-height: 48px; max-height: 120px; padding: 12px 14px; resize: none; field-sizing: content; background: var(--nm-bg); color: var(--text); border: 1px solid color-mix(in srgb, var(--text) 24%, transparent); border-radius: var(--r-s); box-shadow: var(--nm-inset-sm); font: inherit; font-size: 1rem; line-height: 1.4; }
 .qz-leo-input::placeholder { color: var(--text-faint); }
-.qz-leo-send { min-height: 48px; padding: 0 22px; border: 0; border-radius: var(--r-notch); background: var(--accent); color: var(--on-accent); font: inherit; font-size: .86rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: transform var(--dur-fast) ease; }
+.qz-leo-send { min-height: 48px; padding: 0 22px; border: 1px solid transparent; border-radius: var(--r-notch); background: var(--accent); color: var(--on-accent); font: inherit; font-size: .86rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: transform var(--dur-fast) ease; }
 .qz-leo-send:active:not(:disabled) { transform: translateY(1px); }
-.qz-leo-send:disabled { opacity: .5; cursor: not-allowed; }
+.qz-leo-send:disabled { opacity: .5; cursor: not-allowed; border-style: dashed; border-color: currentColor; }
 .qz-leo-note { margin: 0; color: var(--text-dim); font-size: var(--fs-meta); line-height: 1.45; }
 
 @media (max-width: 520px) {
   .qz-leo { padding: 14px; }
+  /* Satu baris yang bisa digeser: hemat tinggi layar, chip ketiga yang mengintip jadi petunjuk. Padding menampung bayangan chip. */
+  .qz-leo-starters { flex-wrap: nowrap; overflow-x: auto; margin: -6px -8px -10px; padding: 6px 8px 12px; scrollbar-width: none; scroll-snap-type: x proximity; scroll-padding-inline: 8px; }
+  .qz-leo-starters::-webkit-scrollbar { display: none; }
+  .qz-leo-starters .qz-leo-chip { flex: none; white-space: nowrap; scroll-snap-align: start; }
   .qz-leo-turn { max-width: 96%; }
   .qz-leo-send { padding: 0 16px; }
 }

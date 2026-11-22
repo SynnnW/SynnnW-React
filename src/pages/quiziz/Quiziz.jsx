@@ -11,17 +11,10 @@ import QuizShell from '../../components/quiz/QuizShell';
 import LeoHomeChat from '../../components/quiz/LeoHomeChat';
 import { Reveal, Arrow } from '../../components/BentoKit';
 import Ico from '../../components/Ico';
+import { SUBJECTS } from '../../data/quiziz/registry';
 
-const SUBJECTS = [
-  { slug: 'bahasainggris', name: 'Bahasa Inggris', icon: '🇬🇧', color: 'var(--accent-text)' },
-  { slug: 'pai', name: 'Pendidikan Agama Islam', icon: '🕌', color: 'var(--accent-text)' },
-  { slug: 'ftk', name: 'Falsafah dan Teori Keperawatan', icon: '🩺', color: 'var(--text)' },
-  { slug: 'kdk', name: 'Konsep Dasar Keperawatan', icon: '📋', color: 'var(--accent-text)' },
-  { slug: 'pancasila', name: 'Pendidikan Pancasila', icon: '🇮🇩', color: 'var(--accent-text)' },
-  { slug: 'kesglob', name: 'Kesehatan Global', icon: '🌍', color: 'var(--accent-text)' },
-  { slug: 'ibd', name: 'Ilmu Biomedik Dasar', icon: '🧬', color: 'var(--accent-text)' },
-  { slug: 'komdas', name: 'Komunikasi Dasar Keperawatan', icon: '💬', color: 'var(--accent-text)' },
-];
+// Daftar matkul datang dari registry tunggal; warna ikon FTK memakai teks biasa (sama seperti sebelumnya).
+const iconColor = (slug) => (slug === 'ftk' ? 'var(--text)' : 'var(--accent-text)');
 
 export default function Quiziz() {
   const navigate = useNavigate();
@@ -74,7 +67,7 @@ export default function Quiziz() {
           <Reveal className="bn-card bn-hot bn-span-2" delay={0.08}>
             <span className="bn-kicker" style={{ color: 'rgba(255,255,255,.85)' }}>Mata kuliah</span>
             <div>
-              <div className="bn-big">{SUBJECTS.length}</div>
+              <div className="bn-big">{SUBJECTS.filter((x) => x.latsol).length}</div>
               <small>siap dikerjakan</small>
             </div>
             <button className="bn-btn" style={{ color: '#fff', borderColor: 'rgba(255,255,255,.55)', alignSelf: 'flex-start' }} onClick={() => navigate('/quizizuas')}>
@@ -95,7 +88,7 @@ export default function Quiziz() {
         <div className="bn-grid">
           {SUBJECTS.map((s, i) => (
             <Reveal key={s.slug} className="bn-span-2" delay={(i % 3) * 0.06}>
-              <button className="bn-card qz-subj" style={{ '--c': s.color, width: '100%' }} onClick={() => navigate(`/quiziz/${s.slug}`)}>
+              <button className="bn-card qz-subj" style={{ '--c': iconColor(s.slug), width: '100%' }} onClick={() => navigate(s.paths.latsol)}>
                 <span className="qz-subj-ico"><Ico e={s.icon} /></span>
                 <span>
                   <span className="qz-subj-name">{s.name}</span>

@@ -59,7 +59,7 @@ export default function QuizKuesioner() {
   };
 
   return (
-    <QuizShell maxWidth={760}>
+    <QuizShell maxWidth={760} variant="focus">
       <form className="qg-wrap" onSubmit={submit}>
         <div className="qg-head">
           <div className="qg-steps"><span className="qg-step done">1 · Penjelasan</span><span className="qg-step done">2 · Login</span><span className="qg-step on">3 · Kuesioner</span></div>

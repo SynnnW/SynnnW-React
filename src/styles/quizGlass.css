@@ -3,7 +3,7 @@
    Berlaku untuk rute /quiziz*, /quizizuas, picker bab/TM, dan navbar kuis.
    Token --qzg-* sekarang alias ke token global → otomatis dark/light.
    Aturan: dual-shadow = bentuk; kontras teks + tepi hairline + focus ring = fungsi.
-   Class lama dipertahankan (qz-, qzn-, tmp-, cp-, qlz-) supaya markup tidak berubah.
+   Class lama dipertahankan (qz-, tmp-, cp-, qlz-); chrome navigasi ada di quizShell.css supaya markup tidak berubah.
 ══════════════════════════════════════════════════════════════════════ */
 :root, [data-theme="dark"], [data-theme="light"] {
   --qzg-bg: var(--nm-bg); --qzg-bg2: var(--bg2); --qzg-bg3: var(--bg3);
@@ -25,7 +25,7 @@
 /* latar polos; ornamen kaca dihapus */
 .qz-ambient { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--qzg-bg); }
 .qz-orb, .qz-grain, .qz-orb-1, .qz-orb-2, .qz-orb-3 { display: none; }
-.qz-shell-main { position: relative; z-index: var(--z-base); padding-top: var(--qzg-nav-h); }
+.qz-shell-main { position: relative; z-index: var(--z-base); padding-top: var(--qz-topbar-h, var(--qzg-nav-h)); }
 .qz-shell-inner { max-width: 720px; margin: 0 auto; padding: 28px 16px 72px; }
 
 /* ── Permukaan ── */
@@ -67,42 +67,6 @@ textarea.qz-field { resize: vertical; min-height: 100px; }
 .qz-badge-open { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 55%, transparent); }
 .qz-badge-milestone { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 55%, transparent); }
 .qz-badge-soon { color: var(--qzg-text-faint); }
-
-/* ══════════ NAVBAR KUIS ══════════ */
-.qzn-root { position: fixed; top: 0; left: 0; right: 0; z-index: var(--z-nav); height: var(--qzg-nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; background: var(--qzg-bg); border-bottom: 1px solid var(--qzg-border-1); box-shadow: 0 8px 20px -16px var(--nm-lo); }
-.qzn-logo { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; flex-shrink: 0; }
-.qzn-logo-mark { font-size: 1.1rem; line-height: 1; color: var(--accent-text); }
-.qzn-logo-text { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 1.3rem; color: var(--qzg-text); letter-spacing: -0.02em; }
-.qzn-logo-text span { color: var(--qzg-primary2); }
-.qzn-pill { display: flex; align-items: center; gap: 4px; background: var(--qzg-glass-1); border: 1px solid var(--qzg-border-1); border-radius: var(--qzg-r-pill); padding: 5px; position: absolute; left: 50%; transform: translateX(-50%); box-shadow: var(--nm-inset-sm); }
-.qzn-link { font-family: var(--qzg-font); font-size: .74rem; font-weight: 600; letter-spacing: .04em; color: var(--qzg-text-dim); padding: 0 16px; min-height: 36px; display: inline-flex; align-items: center; border-radius: var(--qzg-r-pill); text-decoration: none; transition: color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; white-space: nowrap; }
-.qzn-link:hover { color: var(--qzg-text); }
-.qzn-link.qzn-active { color: var(--on-accent); background: var(--accent); font-weight: 700; box-shadow: var(--nm-raise-sm); }
-.qzn-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.qzn-main-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: .68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--qzg-text-dim); text-decoration: none; padding: 0 14px; min-height: 40px; border-radius: var(--qzg-r-pill); border: 1px solid var(--qzg-border-1); background: var(--qzg-glass-1); box-shadow: var(--nm-raise-sm); transition: color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; }
-.qzn-main-link:hover { color: var(--qzg-text); }
-.qzn-main-link:active { box-shadow: var(--nm-inset-sm); }
-.qzn-hamburger { display: none; background: var(--qzg-glass-1); border: 1px solid var(--qzg-border-1); color: var(--qzg-text); width: 44px; height: 44px; border-radius: 50%; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; box-shadow: var(--nm-raise-sm); }
-.qzn-hamburger:active { box-shadow: var(--nm-inset-sm); }
-.qzn-backdrop { position: fixed; inset: 0; z-index: calc(var(--z-float) - 1); background: color-mix(in srgb, var(--nm-lo) 75%, transparent); }
-.qzn-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 80%; max-width: 330px; z-index: var(--z-float); background: var(--qzg-bg); border-left: 1px solid var(--qzg-border-2); box-shadow: var(--nm-raise-lg); padding: 84px 24px 32px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
-@media (prefers-reduced-motion: no-preference) {
-  .qzn-backdrop { animation: qz-fade var(--dur-base) ease; }
-  .qzn-drawer { animation: qz-slide-in var(--dur-route) var(--ease-out); }
-}
-@keyframes qz-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes qz-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
-.qzn-drawer-close { position: absolute; top: 14px; right: 16px; background: var(--qzg-glass-1); border: 1px solid var(--qzg-border-1); color: var(--qzg-text); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; box-shadow: var(--nm-raise-sm); }
-.qzn-drawer-link { font-size: 1.1rem; font-weight: 600; color: var(--qzg-text-dim); text-decoration: none; padding: 12px 10px; min-height: 48px; border-radius: var(--qzg-r-sm); transition: color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; display: flex; align-items: center; }
-.qzn-drawer-link:hover { color: var(--qzg-text); }
-.qzn-drawer-link.qzn-active { color: var(--qzg-text); box-shadow: var(--nm-inset-sm); border-left: 3px solid var(--accent); }
-.qzn-drawer-divider { height: 1px; background: var(--qzg-border-1); margin: 10px 0; }
-.qzn-drawer-main { margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; justify-content: center; background: var(--accent); color: var(--on-accent); border: none; border-radius: var(--qzg-r-pill); min-height: 48px; font-weight: 700; font-size: .84rem; text-decoration: none; }
-@media (max-width: 760px) {
-  .qzn-pill, .qzn-main-link { display: none !important; }
-  .qzn-hamburger { display: flex; }
-  .qzn-root { padding: 0 1rem; }
-}
 
 /* ══════════ PICKER TM / BAB ══════════ */
 .tmp-root, .cp-root { font-family: var(--qzg-font); color: var(--qzg-text); }
