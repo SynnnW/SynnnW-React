@@ -1,5 +1,5 @@
 // src/data/quiziz/routes.js
-// Peta rute Quiziz: SATU tempat untuk path, item navigasi, dan "item mana yang aktif".
+// Peta rute Quiziz: SATU tempat untuk path, item navigasi, filter beranda, dan "item mana yang aktif".
 // Sengaja murni (tanpa fitur Vite, tanpa impor data) supaya ringan dimuat shell di semua halaman Quiziz
 // dan bisa diimpor skrip Node. URL lama TIDAK boleh berubah; yang baru hanya boleh ditambah.
 // Kesesuaian dengan router di App.jsx dicek oleh `npm run check:quiziz`.
@@ -9,33 +9,47 @@ export const SUBJECT_SLUGS = ['bahasainggris', 'pai', 'ftk', 'kdk', 'pancasila',
 
 export const PATHS = {
   beranda: '/quiziz',
-  latsolLama: '/quiziz?view=quiz', // alias lama: daftar matkul latsol di beranda (tetap valid)
-  materiHub: '/quiziz/materi',
+  latsolLama: '/quiziz?view=quiz',            // alias lama (tetap valid): filter Latsol di beranda
+  materiHub: '/quiziz/materi',                // alias lama (tetap valid): dialihkan ke filter Materi di beranda
+  berandaMateri: '/quiziz?view=materi',
+  berandaPraktikum: '/quiziz?view=praktikum',
   uas: '/quizizuas',
   masuk: '/quiziz/masuk',
   kuesioner: '/quiziz/kuesioner',
 };
 
+/** Filter katalog di beranda <-> nilai ?view= di URL. `quiz` dipertahankan sebagai nama lama untuk Latsol. */
+export const FILTER_VIEW = { semua: '', latsol: 'quiz', materi: 'materi', praktikum: 'praktikum' };
+export function filterFromView(view) {
+  const hit = Object.entries(FILTER_VIEW).find(([, v]) => v && v === view);
+  return hit ? hit[0] : 'semua';
+}
+
 export const latsolPath = (slug) => `/quiziz/${slug}`;
 export const materiPath = (slug) => `/quiziz/${slug}/materi`;
 export const praktikumPath = (slug) => `/quiziz/${slug}/praktikum`;
+/** Buka reader langsung di sebuah bab. Sementara lewat ?bab= pada rute lama; deep link per-path menyusul di Fase 3. */
+export const babPath = (slug, mode, babId) => `/quiziz/${slug}/${mode === 'praktikum' ? 'praktikum' : 'materi'}?bab=${encodeURIComponent(babId)}`;
 
 /** Navigasi utama: satu daftar untuk top bar (desktop/tablet) dan tab bar bawah (mobile). */
 export const NAV_ITEMS = [
   { id: 'beranda', label: 'Beranda', to: PATHS.beranda, icon: 'fa-house' },
-  { id: 'materi', label: 'Materi', to: PATHS.materiHub, icon: 'fa-book-open' },
+  { id: 'materi', label: 'Materi', to: PATHS.berandaMateri, icon: 'fa-book-open' },
   { id: 'latsol', label: 'Latsol', to: PATHS.latsolLama, icon: 'fa-list-check' },
   { id: 'uas', label: 'UAS', to: PATHS.uas, icon: 'fa-graduation-cap' },
 ];
 
 /**
  * Item navigasi yang aktif untuk sebuah lokasi, atau null (mis. login, kuesioner, rute tak dikenal).
- * Materi: hub + semua halaman materi/praktikum. Latsol: beranda `?view=quiz` + halaman latihan per matkul.
+ * Materi: filter Materi/Praktikum di beranda + semua halaman materi/praktikum. Latsol: filter Latsol + halaman latihan per matkul.
  */
 export function activeNav(pathname, search = '') {
   const path = String(pathname).replace(/\/+$/, '') || '/';
   if (path === PATHS.uas) return 'uas';
-  if (path === PATHS.beranda) return new URLSearchParams(search).get('view') === 'quiz' ? 'latsol' : 'beranda';
+  if (path === PATHS.beranda) {
+    const f = filterFromView(new URLSearchParams(search).get('view'));
+    return f === 'latsol' ? 'latsol' : f === 'materi' || f === 'praktikum' ? 'materi' : 'beranda';
+  }
   const [, root, slug, section] = path.split('/');
   if (root !== 'quiziz') return null;
   if (slug === 'materi' && !section) return 'materi';

@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import TMPicker from '../../components/quiz/TMPicker';
 import QuizShell from '../../components/quiz/QuizShell';
+import CourseWorkspace from '../../components/quiz/CourseWorkspace';
 import { AiDisclaimer } from './QuizBahasaInggris';
 import { availableTM } from '../../data/quiziz/kesglob/manifest';
 
@@ -15,13 +16,15 @@ export default function QuizKesglob() {
 
   return (
     <QuizShell>
-      <AiDisclaimer />
-      <TMPicker subjectName="Kesehatan Global" subjectSlug="kesglob" availableTM={availableTM} onSelectTM={setTm} />
-      {tm !== null && (
-        <p style={{ textAlign: 'center', color: 'var(--qzg-text-dim)', fontSize: 13, marginTop: 16 }}>
-          TM {tm} belum ada kontennya.
-        </p>
-      )}
+      <CourseWorkspace slug="kesglob" active="latsol">
+        <AiDisclaimer />
+        <TMPicker subjectName="Kesehatan Global" subjectSlug="kesglob" availableTM={availableTM} onSelectTM={setTm} />
+        {tm !== null && (
+          <p style={{ textAlign: 'center', color: 'var(--qzg-text-dim)', fontSize: 13, marginTop: 16 }}>
+            TM {tm} belum ada kontennya.
+          </p>
+        )}
+      </CourseWorkspace>
     </QuizShell>
   );
 }

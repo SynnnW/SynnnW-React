@@ -15,7 +15,7 @@ export const CATALOG_TEXT = [
   }),
   'Beberapa bab materi memuat latihan soal di dalam halaman bab; itu terpisah dari Latsol.',
   'Quiziz UAS: belum tersedia (segera hadir).',
-  'Cara pakai: pilih "Materi" untuk membaca per bab (halaman materi punya Leo AI sendiri), atau pilih "Quiziz" untuk latihan soal (Latsol): pilih mata kuliah lalu TM. Mata kuliah yang latsol-nya belum tersedia tampil sebagai Coming Soon.',
+  'Cara pakai: beranda Quiziz berisi daftar mata kuliah dengan filter (Semua, Ada materi, Ada latsol, Praktikum). Pilih matkul, lalu baca materi per bab (halaman materi punya Leo AI sendiri) atau kerjakan Latsol per TM. Tombol cari (Ctrl atau ⌘ + K, atau tombol "/") mencari matkul dan bab. Matkul yang belum punya materi atau latsol ditandai "belum ada" atau "belum tersedia".',
 ].join('\n');
 
 const norm = (s) => ` ${String(s).toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim()} `;

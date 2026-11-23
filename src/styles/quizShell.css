@@ -29,6 +29,19 @@
 [data-area='quiziz'] .qz-top .theme-toggle:hover { color: var(--accent-text); }
 [data-area='quiziz'] .qz-top .theme-toggle:active { box-shadow: var(--nm-inset-sm); }
 
+/* Tombol cari: kolom kecil bergaya inset (kotak cari) di desktop; ikon bulat di layar lebih sempit. */
+[data-area='quiziz'] .qz-top-search { display: inline-flex; align-items: center; gap: var(--qz-s2); min-height: 44px; padding: 0 14px; font: inherit; font-size: .82rem; font-weight: 600; color: var(--qzg-text-dim); background: var(--qzg-glass-1); border: 1px solid var(--qzg-border-1); border-radius: var(--qzg-r-pill); box-shadow: var(--nm-inset-sm); cursor: pointer; transition: color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; }
+[data-area='quiziz'] .qz-top-search:hover { color: var(--qzg-text); }
+[data-area='quiziz'] .qz-top-kbd { font-family: var(--font-mono); font-size: .68rem; padding: 2px 6px; color: var(--qzg-text-dim); border: 1px solid var(--qzg-border-1); border-radius: 6px; }
+
+@media (max-width: 1100px) {
+  [data-area='quiziz'] .qz-top-search-text, [data-area='quiziz'] .qz-top-kbd { display: none; }
+  [data-area='quiziz'] .qz-top-search { justify-content: center; width: 44px; padding: 0; border-radius: 50%; box-shadow: var(--nm-raise-sm); }
+  [data-area='quiziz'] .qz-top-main { width: 44px; padding: 0; }
+  [data-area='quiziz'] .qz-top-main span { display: none; }
+}
+@media (max-width: 359px) { [data-area='quiziz'] .qz-top-main { display: none; } }
+
 /* ── Tab bar bawah (mobile) ── */
 [data-area='quiziz'] .qz-tabbar { display: none; position: fixed; inset: auto 0 0 0; z-index: var(--z-nav); grid-template-columns: repeat(4, 1fr); gap: var(--qz-s1); padding: 6px var(--qz-s2) calc(6px + var(--qz-safe-bottom)); background: var(--qzg-bg); border-top: 1px solid var(--qzg-border-1); box-shadow: 0 -8px 20px -16px var(--nm-lo); }
 [data-area='quiziz'] .qz-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 48px; border-radius: var(--r-s); font-size: var(--fs-meta); font-weight: 600; color: var(--qzg-text-dim); text-decoration: none; }
@@ -40,8 +53,6 @@
 @media (max-width: 760px) {
   [data-area='quiziz'] .qz-top { padding: 0 var(--qz-s4); }
   [data-area='quiziz'] .qz-top-nav { display: none; }
-  [data-area='quiziz'] .qz-top-main { width: 44px; padding: 0; }
-  [data-area='quiziz'] .qz-top-main span { display: none; }
   [data-area='quiziz'] .qz-tabbar { display: grid; }
   [data-area='quiziz'][data-variant='full'] .qz-shell-inner { padding-bottom: calc(var(--qz-tabbar-h) + var(--qz-safe-bottom) + var(--qz-s6)); }
 }

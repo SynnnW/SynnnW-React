@@ -2,8 +2,10 @@
 // Halaman materi per bab, data-driven. Pola tampilan sama dengan MateriBahasaInggris.jsx
 // (sidebar bab, pencarian, penanda progres, drawer di mobile), komponennya dari MateriKit.jsx.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, useSearchParams, Navigate } from 'react-router-dom';
 import { MATERI } from '../../data/quiziz/materi/registry';
+import { PATHS } from '../../data/quiziz/routes';
+import { setLastRead } from '../../data/quiziz/reading';
 import { useMateriStyles, Blocks, Badge, blocksToText } from '../../components/quiz/MateriKit';
 import LeoAIChat from '../../components/quiz/LeoAIChat';
 
@@ -31,10 +33,22 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
   const select = useCallback((id) => {
     const entry = flat.find((b) => b.id === id);
     if (!entry) return;
+    setLastRead({ slug, mode, babId: id });
     setActiveId(id); setSidebarOpen(false); setLoading(true); setLoadErr(false);
     entry.load().then((m) => { setBab(m.default); setLoading(false); }).catch(() => { setLoadErr(true); setLoading(false); });
     window.scrollTo(0, 0); mainRef.current?.scrollTo?.(0, 0);
-  }, [flat]);
+  }, [flat, slug, mode]);
+
+  // Buka langsung di sebuah bab lewat ?bab=<id> (dipakai kartu Lanjutkan dan pencarian). Dijadwalkan agar select() tidak
+  // mengatur state secara sinkron di dalam effect; ref menjaga agar hanya sekali per kunjungan.
+  const [params] = useSearchParams();
+  const resumed = useRef(false);
+  useEffect(() => {
+    const id = params.get('bab');
+    if (!id || resumed.current) return;
+    resumed.current = true;
+    setTimeout(() => select(id), 0);
+  }, [params, select]);
 
   const markDone = useCallback((id) => {
     setProgress((prev) => {
@@ -64,7 +78,7 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
     }).slice(0, 12);
   }, [term, index]);
 
-  if (!cfg) return <Navigate to="/quiziz/materi" replace />;
+  if (!cfg) return <Navigate to={PATHS.berandaMateri} replace />;
 
   const title = isPrak ? `Praktikum ${cfg.title}` : cfg.title;
   const idx = flat.findIndex((b) => b.id === activeId);
@@ -77,7 +91,7 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
 
       <aside className={`bim-sidebar${sidebarOpen ? ' open' : ''}`}>
         <div className="bim-sb-head">
-          <button className="bim-sb-back" onClick={() => navigate('/quiziz/materi')}>← Kembali ke daftar materi</button>
+          <button className="bim-sb-back" onClick={() => navigate(PATHS.berandaMateri)}>← Kembali ke daftar materi</button>
           <div className="bim-sb-title">{title}</div>
           <div className="bim-sb-sub">{cfg.sub}</div>
           <input className="bim-search" type="search" placeholder="Cari di materi ini…" value={term}
@@ -125,7 +139,7 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
       <main ref={mainRef} style={{ flex: 1, padding: '2rem 2rem 6rem', maxWidth: 900, margin: '0 auto', width: '100%', overflowX: 'hidden' }}>
         <div className="bim-mobile-bar">
           <button className="bim-mobile-toggler" onClick={() => setSidebarOpen((o) => !o)}>{bab ? bab.title : 'Menu Materi'}</button>
-          <button className="bim-mobile-toggler" onClick={() => navigate('/quiziz/materi')}>← Daftar materi</button>
+          <button className="bim-mobile-toggler" onClick={() => navigate(PATHS.berandaMateri)}>← Daftar materi</button>
         </div>
 
         {!activeId && (

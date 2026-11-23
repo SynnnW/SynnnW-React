@@ -91,7 +91,6 @@ const QuizIBD                = lazy(() => import('./pages/quiziz/QuizIBD'));
 const QuizKomdas             = lazy(() => import('./pages/quiziz/QuizKomdas'));
 const QuizMasuk              = lazy(() => import('./pages/quiziz/QuizMasuk'));
 const QuizKuesioner          = lazy(() => import('./pages/quiziz/QuizKuesioner'));
-const MateriHub              = lazy(() => import('./pages/quiziz/MateriHub'));
 const MateriMatkul           = lazy(() => import('./pages/quiziz/MateriMatkul'));
 // const FarmakologiQuiz = lazy(() => import('./pages/FarmakologiQuiz')); // ← contoh tambah baru
 
@@ -340,7 +339,7 @@ function Layout({ user, loadingAuth }) {
                   <Route path="/quiziz/kesglob"                element={<QuizKesglob />} />
                   <Route path="/quiziz/ibd"                    element={<QuizIBD />} />
                   <Route path="/quiziz/komdas"                 element={<QuizKomdas />} />
-                  <Route path="/quiziz/materi"             element={<MateriHub />} />
+                  <Route path="/quiziz/materi"             element={<Navigate to="/quiziz?view=materi" replace />} />
                   <Route path="/quiziz/komdas/materi"      element={<MateriMatkul slug="komdas" />} />
                   <Route path="/quiziz/ibd/materi"         element={<MateriMatkul slug="ibd" />} />
                   <Route path="/quiziz/kesglob/materi"     element={<MateriMatkul slug="kesglob" />} />

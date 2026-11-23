@@ -11,7 +11,8 @@ import { availableTM as tmPancasila } from './pancasila/manifest';
 import { availableTM as tmKesglob } from './kesglob/manifest';
 import { availableTM as tmIbd } from './ibd/manifest';
 import { availableTM as tmKomdas } from './komdas/manifest';
-import { NAV_ITEMS, PATHS, SUBJECT_SLUGS, latsolPath, materiPath, praktikumPath } from './routes';
+import { NAV_ITEMS, PATHS, SUBJECT_SLUGS, babPath, latsolPath, materiPath, praktikumPath } from './routes';
+import { doneIds, getLastRead, relativeTime } from './reading';
 
 // FTK memakai skema lain: latsol per bab (folder ftk/<bab>/soal-latihan.js). Glob tanpa eager = hanya daftar nama file.
 const FTK_LATSOL = Object.keys(import.meta.glob('./ftk/*/soal-latihan.js'));
@@ -58,10 +59,52 @@ export const getSubject = (slug) => SUBJECTS.find((s) => s.slug === slug) || nul
 
 export { NAV_ITEMS, PATHS };
 
+let babCache = null;
+/** Daftar bab (tanpa isi) untuk pencarian dan "Lanjutkan". Bab bertanda `segera` tidak ikut. Bentuk: { slug, mode, id, label, category }. */
+export function listBabs() {
+  if (!babCache) {
+    babCache = [];
+    SUBJECTS.forEach((s) => {
+      const m = MATERI[s.slug];
+      if (!m) return;
+      [['materi', m.manifest], ['praktikum', m.praktikum]].forEach(([mode, groups]) => {
+        (groups || []).forEach((g) => g.babs.forEach((b) => {
+          if (!b.segera) babCache.push({ slug: s.slug, mode, id: b.id, label: b.label, category: g.category });
+        }));
+      });
+    });
+  }
+  return babCache;
+}
+export const findBab = (slug, mode, id) => listBabs().find((b) => b.slug === slug && b.mode === mode && b.id === id) || null;
+
+/** Jumlah bab yang ditandai selesai di reader (hanya id yang masih ada di manifest; kunci progres lama dipertahankan). */
+export function doneCount(slug, mode = 'materi') {
+  const live = new Set(listBabs().filter((b) => b.slug === slug && b.mode === mode).map((b) => b.id));
+  return doneIds(slug, mode).filter((id) => live.has(id)).length;
+}
+
+/** Filter katalog beranda. Dihitung dari status registry, jadi ikut berubah saat konten bertambah. */
+export const FILTERS = [
+  { id: 'semua', label: 'Semua', test: () => true },
+  { id: 'materi', label: 'Ada materi', test: (s) => !!s.materi },
+  { id: 'latsol', label: 'Ada latsol', test: (s) => !!s.latsol },
+  { id: 'praktikum', label: 'Praktikum', test: (s) => !!s.praktikum },
+];
+
+/** Bacaan terakhir yang benar-benar tersimpan dan masih valid terhadap registry; selain itu null (tidak ada kartu kosong). */
+export function resolveLastRead() {
+  const last = getLastRead();
+  const subject = last && getSubject(last.slug);
+  const bab = subject && findBab(last.slug, last.mode, last.babId);
+  return bab ? { subject, bab, to: babPath(last.slug, last.mode, last.babId), ago: relativeTime(last.at) } : null;
+}
+
 /** Semua path internal (tanpa query) yang bisa dihasilkan registry dan navigasi: [label, path]. Dicek terhadap router. */
 export function allPaths() {
   const out = [
     ...NAV_ITEMS.map((n) => [`nav:${n.id}`, n.to.split('?')[0]]),
+    ['alias:materiHub', PATHS.materiHub],
     ['masuk', PATHS.masuk],
     ['kuesioner', PATHS.kuesioner],
   ];

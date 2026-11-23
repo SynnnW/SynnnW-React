@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import TMPicker from '../../components/quiz/TMPicker';
 import QuizShell from '../../components/quiz/QuizShell';
+import CourseWorkspace from '../../components/quiz/CourseWorkspace';
 import { AiDisclaimer } from './QuizBahasaInggris';
 import { availableTM } from '../../data/quiziz/ibd/manifest';
 
@@ -15,13 +16,15 @@ export default function QuizIBD() {
 
   return (
     <QuizShell>
-      <AiDisclaimer />
-      <TMPicker subjectName="Ilmu Biomedik Dasar" subjectSlug="ibd" availableTM={availableTM} onSelectTM={setTm} />
-      {tm !== null && (
-        <p style={{ textAlign: 'center', color: 'var(--qzg-text-dim)', fontSize: 13, marginTop: 16 }}>
-          TM {tm} belum ada kontennya.
-        </p>
-      )}
+      <CourseWorkspace slug="ibd" active="latsol">
+        <AiDisclaimer />
+        <TMPicker subjectName="Ilmu Biomedik Dasar" subjectSlug="ibd" availableTM={availableTM} onSelectTM={setTm} />
+        {tm !== null && (
+          <p style={{ textAlign: 'center', color: 'var(--qzg-text-dim)', fontSize: 13, marginTop: 16 }}>
+            TM {tm} belum ada kontennya.
+          </p>
+        )}
+      </CourseWorkspace>
     </QuizShell>
   );
 }

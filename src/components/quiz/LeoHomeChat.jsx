@@ -4,7 +4,7 @@
 // - Konteks = katalog matkul dari data nyata (data/quiziz/leoHome.js). Server menganggapnya rujukan, bukan perintah.
 // - Chip tautan dibuat dari pesan pengguna sendiri + katalog, tidak pernah dari teks balasan model.
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Mascot from '../mascot/Mascot';
 import { sendChat } from './leoClient';
 import { CATALOG_TEXT, linksFor, matchSubjects } from '../../data/quiziz/leoHome';
@@ -62,6 +62,10 @@ export default function LeoHomeChat() {
   const alive = useRef(true);
   const seq = useRef(0);
   const waveTimer = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const latest = useRef({ busy: false, cool: 0, send: null });
+  const asked = useRef(null);
 
   useEffect(() => {
     alive.current = true;
@@ -107,6 +111,23 @@ export default function LeoHomeChat() {
     }
   };
 
+  useEffect(() => { latest.current = { busy, cool, send }; });
+
+  // Pertanyaan dari command palette ("Tanya Leo: ..."): dikirim sekali per navigasi. Bila Leo sedang sibuk atau cooldown,
+  // teksnya dimasukkan ke kotak tulis supaya tidak hilang. State asal dibersihkan agar refresh/kembali tidak mengirim ulang.
+  useEffect(() => {
+    const ask = location.state?.ask;
+    if (!ask || asked.current === location.key) return;
+    asked.current = location.key;
+    setTimeout(() => {
+      const q = String(ask).slice(0, 2000);
+      const cur = latest.current;
+      if (cur.busy || cur.cool > 0) setText((t) => t || q);
+      else cur.send(q);
+      navigate(`${location.pathname}${location.search}`, { replace: true, state: null });
+    }, 0);
+  }, [location, navigate]);
+
   const onKey = (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } };
   const mood = busy ? 'thinking' : wave ? 'wave' : 'idle';
 
@@ -116,7 +137,7 @@ export default function LeoHomeChat() {
         <Mascot mood={mood} size={64} force2D decorative trackPointer={false} className="qz-leo-pico" />
         <div>
           <h1 id="qz-leo-title" className="qz-leo-title">Mau belajar apa hari ini?</h1>
-          <p className="qz-leo-lead">Tanya Leo langsung di sini, atau pilih Materi dan Quiziz di bawah.</p>
+          <p className="qz-leo-lead">Tanya Leo langsung di sini, atau pilih mata kuliah di bawah.</p>
         </div>
       </div>
 

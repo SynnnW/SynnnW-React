@@ -1,112 +1,52 @@
 // src/pages/quiziz/Quiziz.jsx — route: /quiziz
-// Landing "Quiziz Mingguan (Latsol)" — desain bento (sama dengan Works/Price/Terms).
-// Layar awal: chat Leo AI paling atas (bisa langsung bertanya), lalu pilihan Materi / Quiziz.
-// Daftar latsol (?view=quiz): judul -> disclaimer -> 8 kartu matkul ->
-// segera hadir (link ke UAS) -> komentar -> saran & masukan.
-import { useNavigate, useSearchParams } from 'react-router-dom';
+// Beranda ruang belajar: chat Leo di atas, "Lanjutkan" bila ada bacaan terakhir yang tersimpan, lalu katalog mata kuliah.
+// Materi dan Latsol adalah FILTER pada katalog yang sama, bukan halaman terpisah. Alias lama tetap valid:
+//   /quiziz?view=quiz -> filter Latsol,  /quiziz?view=materi (dan /quiziz/materi, dialihkan di App.jsx) -> filter Materi.
+// Status tiap matkul dibaca dari registry (data/quiziz/registry.js), tidak ditulis tangan. Komentar dan saran ada di akhir.
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import SubjectComments from '../../components/SubjectComments';
 import SaranWebsite from '../../components/SaranWebsite';
 import useQuizAuth from '../../components/quiz/useQuizAuth';
 import QuizShell from '../../components/quiz/QuizShell';
 import LeoHomeChat from '../../components/quiz/LeoHomeChat';
-import { Reveal, Arrow } from '../../components/BentoKit';
-import Ico from '../../components/Ico';
-import { SUBJECTS } from '../../data/quiziz/registry';
-
-// Daftar matkul datang dari registry tunggal; warna ikon FTK memakai teks biasa (sama seperti sebelumnya).
-const iconColor = (slug) => (slug === 'ftk' ? 'var(--text)' : 'var(--accent-text)');
+import { ContinueCard, CourseRow, FilterChips, SearchButton, UasRow } from '../../components/quiz/Catalog';
+import { FILTERS, SUBJECTS, resolveLastRead } from '../../data/quiziz/registry';
+import { FILTER_VIEW, filterFromView } from '../../data/quiziz/routes';
 
 export default function Quiziz() {
-  const navigate = useNavigate();
   const user = useQuizAuth();
   const [params, setParams] = useSearchParams();
+  const [last] = useState(resolveLastRead);
+  const filter = filterFromView(params.get('view'));
+  const rows = SUBJECTS.filter(FILTERS.find((f) => f.id === filter).test);
 
-  // Layer pilihan: "Materi" atau "Quiziz". "Quiziz" menampilkan daftar matkul lama apa adanya (?view=quiz).
-  if (params.get('view') !== 'quiz') {
-    return (
-      <QuizShell maxWidth={1180}>
-        <div className="qz-landing">
-          <LeoHomeChat />
-          <div className="bn-grid">
-            <Reveal className="bn-span-3">
-              <button className="bn-card qz-subj" style={{ '--c': 'var(--accent-text)', width: '100%' }} onClick={() => navigate('/quiziz/materi')}>
-                <span className="qz-subj-ico"><Ico e="📚" /></span>
-                <span>
-                  <span className="qz-subj-name">Materi</span>
-                  <span className="qz-subj-go"><span>Baca materi per bab + Leo AI</span><Arrow /></span>
-                </span>
-              </button>
-            </Reveal>
-            <Reveal className="bn-span-3" delay={0.06}>
-              <button className="bn-card qz-subj" style={{ '--c': 'var(--accent-text)', width: '100%' }} onClick={() => setParams({ view: 'quiz' })}>
-                <span className="qz-subj-ico"><Ico e="📝" /></span>
-                <span>
-                  <span className="qz-subj-name">Quiziz</span>
-                  <span className="qz-subj-go"><span>Latihan soal per mata kuliah</span><Arrow /></span>
-                </span>
-              </button>
-            </Reveal>
-          </div>
-        </div>
-      </QuizShell>
-    );
-  }
+  const setFilter = (id) => setParams(id === 'semua' ? {} : { view: FILTER_VIEW[id] }, { replace: true });
 
   return (
     <QuizShell maxWidth={1180}>
-      <div className="qz-landing">
-        <button className="bn-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setParams({})}>
-          <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Kembali
-        </button>
-        <div className="bn-grid">
-          <Reveal className="bn-card bn-hello bn-span-4">
-            <span className="bn-kicker">Quiziz · Latsol Mingguan</span>
-            <h1 className="bn-title">Quiz <span>Keperawatan</span></h1>
-            <p className="bn-lead">Latihan soal HOTS berbasis PPT dosen / LKM praktikum. Pilih mata kuliah, langsung kerjakan.</p>
-          </Reveal>
-          <Reveal className="bn-card bn-hot bn-span-2" delay={0.08}>
-            <span className="bn-kicker" style={{ color: 'rgba(255,255,255,.85)' }}>Mata kuliah</span>
+      <div className="qz-home">
+        <LeoHomeChat />
+        {last && <ContinueCard item={last} />}
+
+        <section className="qz-catalog" aria-labelledby="qz-catalog-title">
+          <div className="qz-catalog-head">
             <div>
-              <div className="bn-big">{SUBJECTS.filter((x) => x.latsol).length}</div>
-              <small>siap dikerjakan</small>
+              <h2 id="qz-catalog-title" className="qz-catalog-title">Mata kuliah</h2>
+              <p className="qz-catalog-lead">Pilih matkul untuk baca materi atau latihan soal. Status tiap matkul sesuai isi website sekarang.</p>
             </div>
-            <button className="bn-btn" style={{ color: '#fff', borderColor: 'rgba(255,255,255,.55)', alignSelf: 'flex-start' }} onClick={() => navigate('/quizizuas')}>
-              Quiziz UAS <Arrow />
-            </button>
-          </Reveal>
-        </div>
-
-        <Reveal className="bn-card qz-note">
-          <span className="qz-note-ico"><i className="fa-solid fa-robot" aria-hidden="true" /></span>
-          <div>
-            <b>Disclaimer AI</b>
-            <p>Semua soal, penjelasan, dan penyusunan materi di halaman ini dibuat dengan bantuan AI.
-            Gunakan sebagai bahan latihan mandiri, bukan pengganti materi resmi dari dosen pengampu.</p>
+            <SearchButton />
           </div>
-        </Reveal>
-
-        <div className="bn-grid">
-          {SUBJECTS.map((s, i) => (
-            <Reveal key={s.slug} className="bn-span-2" delay={(i % 3) * 0.06}>
-              <button className="bn-card qz-subj" style={{ '--c': iconColor(s.slug), width: '100%' }} onClick={() => navigate(s.paths.latsol)}>
-                <span className="qz-subj-ico"><Ico e={s.icon} /></span>
-                <span>
-                  <span className="qz-subj-name">{s.name}</span>
-                  <span className="qz-subj-go"><span>Mulai latihan</span><Arrow /></span>
-                </span>
-              </button>
-            </Reveal>
-          ))}
-        </div>
-
-        <button className="bn-card qz-link-card" onClick={() => navigate('/quizizuas')}>
-          <span style={{ fontSize: '1.5rem' }}></span>
-          <span>
-            <b style={{ fontWeight: 500 }}>Segera Hadir</b>
-            <small>Website QUIZIZ UAS LATSOL</small>
-          </span>
-          <span className="qz-go">→</span>
-        </button>
+          <FilterChips value={filter} onChange={setFilter} />
+          <p className="qz-aibar">
+            <i className="fa-solid fa-robot" aria-hidden="true" />
+            <span><b>Disclaimer AI:</b> semua soal, penjelasan, dan penyusunan materi dibuat dengan bantuan AI. Gunakan sebagai bahan latihan mandiri, bukan pengganti materi resmi dari dosen pengampu.</span>
+          </p>
+          <ul className="qz-rows">
+            {rows.map((s) => <CourseRow key={s.slug} subject={s} filter={filter} />)}
+            {filter === 'semua' && <UasRow />}
+          </ul>
+        </section>
 
         <div className="qz-section"><SubjectComments subjectKey="quizizLatsol" user={user} /></div>
         <div className="qz-section"><SaranWebsite user={user} /></div>

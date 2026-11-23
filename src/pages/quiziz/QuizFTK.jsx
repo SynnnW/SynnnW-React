@@ -12,6 +12,7 @@ import ChapterPicker from '../../components/quiz/ChapterPicker';
 import NovelReader from '../../components/NovelReader';
 import QuizEngine from '../../components/quiz/QuizEngine';
 import QuizShell from '../../components/quiz/QuizShell';
+import CourseWorkspace from '../../components/quiz/CourseWorkspace';
 import { AiDisclaimer } from './QuizBahasaInggris';
 import { chapters } from '../../data/quiziz/ftk/manifest';
 import '../../styles/quizGlass.css';
@@ -50,13 +51,15 @@ export default function QuizFTK() {
   if (!chapterId) {
     return (
       <QuizShell>
-        <AiDisclaimer />
-        <ChapterPicker
-          subjectName="Falsafah dan Teori Keperawatan"
-          subjectSlug="ftk"
-          chapters={chapters}
-          onSelectChapter={setChapterId}
-        />
+        <CourseWorkspace slug="ftk" active="latsol">
+          <AiDisclaimer />
+          <ChapterPicker
+            subjectName="Falsafah dan Teori Keperawatan"
+            subjectSlug="ftk"
+            chapters={chapters}
+            onSelectChapter={setChapterId}
+          />
+        </CourseWorkspace>
       </QuizShell>
     );
   }

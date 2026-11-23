@@ -12,6 +12,7 @@ import { getFirestore, doc, getDoc } from '@/lib/firestoreCompat';
 import TMPicker from '../../components/quiz/TMPicker';
 import QuizEngine from '../../components/quiz/QuizEngine';
 import QuizShell from '../../components/quiz/QuizShell';
+import CourseWorkspace from '../../components/quiz/CourseWorkspace';
 import { availableTM } from '../../data/quiziz/bahasaInggris/manifest';
 import { soalBelajar } from '../../data/quiziz/bahasaInggris/tm01/soal-belajar';
 import { soalLatihan } from '../../data/quiziz/bahasaInggris/tm01/soal-latihan';
@@ -162,15 +163,17 @@ export default function QuizBahasaInggris() {
   if (tm === null) {
     return (
       <QuizShell>
-        <AiDisclaimer />
-        <TMPicker
-          subjectName="Bahasa Inggris"
-          subjectSlug="bahasaInggris"
-          availableTM={availableTM}
-          onSelectTM={setTm}
-          milestones={BI_MILESTONES}
-          tmInfo={BI_TM_INFO}
-        />
+        <CourseWorkspace slug="bahasainggris" active="latsol">
+          <AiDisclaimer />
+          <TMPicker
+            subjectName="Bahasa Inggris"
+            subjectSlug="bahasaInggris"
+            availableTM={availableTM}
+            onSelectTM={setTm}
+            milestones={BI_MILESTONES}
+            tmInfo={BI_TM_INFO}
+          />
+        </CourseWorkspace>
       </QuizShell>
     );
   }
