@@ -331,7 +331,7 @@ function Layout({ user, loadingAuth }) {
                   <Route path="/quiziz"                      element={<Quiziz />} />
                   <Route path="/quizizuas"                    element={<QuizizUAS />} />
                   <Route path="/quiziz/bahasainggris"         element={<QuizBahasaInggris />} />
-                  <Route path="/quiziz/bahasainggris/materi"  element={<MateriBahasaInggris />} />
+                  <Route path="/quiziz/bahasainggris/materi/:babId?"  element={<MateriBahasaInggris />} />
                   <Route path="/quiziz/ftk"                   element={<QuizFTK />} />
                   <Route path="/quiziz/pai"                   element={<QuizPAI />} />
                   <Route path="/quiziz/kdk"                   element={<QuizKDK />} />
@@ -340,13 +340,13 @@ function Layout({ user, loadingAuth }) {
                   <Route path="/quiziz/ibd"                    element={<QuizIBD />} />
                   <Route path="/quiziz/komdas"                 element={<QuizKomdas />} />
                   <Route path="/quiziz/materi"             element={<Navigate to="/quiziz?view=materi" replace />} />
-                  <Route path="/quiziz/komdas/materi"      element={<MateriMatkul slug="komdas" />} />
-                  <Route path="/quiziz/ibd/materi"         element={<MateriMatkul slug="ibd" />} />
-                  <Route path="/quiziz/kesglob/materi"     element={<MateriMatkul slug="kesglob" />} />
-                  <Route path="/quiziz/kdk/materi"         element={<MateriMatkul slug="kdk" />} />
-                  <Route path="/quiziz/ftk/materi"         element={<MateriMatkul slug="ftk" />} />
-                  <Route path="/quiziz/komdas/praktikum"   element={<MateriMatkul slug="komdas" mode="praktikum" />} />
-                  <Route path="/quiziz/ibd/praktikum"      element={<MateriMatkul slug="ibd" mode="praktikum" />} />
+                  <Route path="/quiziz/komdas/materi/:babId?"      element={<MateriMatkul slug="komdas" />} />
+                  <Route path="/quiziz/ibd/materi/:babId?"         element={<MateriMatkul slug="ibd" />} />
+                  <Route path="/quiziz/kesglob/materi/:babId?"     element={<MateriMatkul slug="kesglob" />} />
+                  <Route path="/quiziz/kdk/materi/:babId?"         element={<MateriMatkul slug="kdk" />} />
+                  <Route path="/quiziz/ftk/materi/:babId?"         element={<MateriMatkul slug="ftk" />} />
+                  <Route path="/quiziz/komdas/praktikum/:babId?"   element={<MateriMatkul slug="komdas" mode="praktikum" />} />
+                  <Route path="/quiziz/ibd/praktikum/:babId?"      element={<MateriMatkul slug="ibd" mode="praktikum" />} />
                 </Route>
                 {/* <Route path="/quiz-farmakologi" element={<FarmakologiQuiz />} /> */}
 

@@ -1,5 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { getSubject } from '../../data/quiziz/registry';
+import { PATHS, babPath, materiPath } from '../../data/quiziz/routes';
+import { countWords, readingMinutes } from '../../data/quiziz/reading';
+import { useReadPosition, useReaderPrefs } from '../../components/quiz/useReader';
+import { ChapterFooter, ReaderMeta, ReaderTools } from '../../components/quiz/ReaderParts';
+import LeoAIChat from '../../components/quiz/LeoAIChat';
+import '../../styles/reader.css';
 import { topics as NAV_ITEMS, readingExamples } from '../../data/quiziz/bahasaInggris/tm01/materi';
 import Ico from '../../components/Ico';
 
@@ -1283,13 +1290,20 @@ function LandingDashboard({ onSelectTopic, progress, navigate }) {
 ────────────────────────────────────────────────────────── */
 export default function BahasaInggrisMateri() {
   const navigate = useNavigate();
-  const [activeTopic, setActiveTopic] = useState(null);
+  const { babId } = useParams();
+  const [params] = useSearchParams();
   const [progress, setProgress] = useState(() => {
     try { return JSON.parse(localStorage.getItem('bi_materi_progress') || '{}'); }
     catch { return {}; }
   });
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const mainRef = useRef(null);
+  const [topicText, setTopicText] = useState({ id: null, value: '' });
+  const cardRef = useRef(null);
+  const { prefs, canSmaller, canBigger, smaller, bigger, toggleFocus } = useReaderPrefs();
+
+  // URL adalah sumber kebenaran topik yang dibuka (refresh, back/forward, dan tautan dibagikan membuka topik yang sama).
+  const activeTopic = babId && TOPIC_COMPONENTS[babId] ? babId : null;
+  useReadPosition({ slug: 'bahasainggris', mode: 'materi', babId: activeTopic, ready: !!activeTopic });
 
   // Inject CSS
   useEffect(() => {
@@ -1300,18 +1314,39 @@ export default function BahasaInggrisMateri() {
     return () => document.getElementById('bim-page-styles')?.remove();
   }, []);
 
+  // Teks topik yang sedang tampil untuk Leo dan estimasi waktu baca. Isi topik berupa JSX (bukan data), jadi dibaca dari kartu
+  // yang sudah dirender, hanya kartu topik ini (bukan halaman), dan diikat ke id topik: teks topik lama tidak pernah dipasangkan dengan judul baru.
+  useEffect(() => {
+    if (!activeTopic) return undefined;
+    const raf = requestAnimationFrame(() => {
+      const el = cardRef.current;
+      setTopicText({ id: activeTopic, value: String(el?.innerText ?? el?.textContent ?? '').slice(0, 14000) });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [activeTopic]);
+  const leoText = topicText.id === activeTopic ? topicText.value : '';
+
   const selectTopic = useCallback((id) => {
-    setActiveTopic(id);
     setSidebarOpen(false);
-    setProgress(prev => {
-      const next = { ...prev, [id]: true };
+    navigate(babPath('bahasainggris', 'materi', id));
+  }, [navigate]);
+
+  // Membuka topik TIDAK lagi otomatis menandainya selesai; penanda hanya lewat tombol "Tandai selesai" (bisa dibatalkan).
+  const setDone = useCallback((id, value) => {
+    setProgress((prev) => {
+      const next = { ...prev };
+      if (value) next[id] = true; else delete next[id];
       try { localStorage.setItem('bi_materi_progress', JSON.stringify(next)); } catch { /* abaikan */ }
       return next;
     });
-    if (mainRef.current) mainRef.current.scrollTo(0, 0);
-    window.scrollTo(0, 0);
   }, []);
 
+  const legacy = params.get('bab');
+  if (!babId && legacy && TOPIC_COMPONENTS[legacy]) return <Navigate to={babPath('bahasainggris', 'materi', legacy)} replace />;
+  if (babId && !activeTopic) return <Navigate to={materiPath('bahasainggris')} replace />;
+
+  const base = materiPath('bahasainggris');
+  const subject = getSubject('bahasainggris');
   const topicInfo     = activeTopic ? TOPIC_COMPONENTS[activeTopic] : null;
   const TopicComponent= topicInfo?.Component;
   const currentCat   = NAV_ITEMS.find(n => n.topics.some(t => t.id === activeTopic));
@@ -1320,11 +1355,11 @@ export default function BahasaInggrisMateri() {
   // Prev / next navigation
   const allFlat = NAV_ITEMS.flatMap(n => n.topics);
   const topicIdx = allFlat.findIndex(t => t.id === activeTopic);
-  const prevTopic = allFlat[topicIdx - 1];
-  const nextTopic = allFlat[topicIdx + 1];
+  const toLink = (t) => t && { to: babPath('bahasainggris', 'materi', t.id), label: t.label };
+  const minutes = leoText ? readingMinutes(countWords(leoText)) : 0;
 
   return (
-    <div className="bim-page">
+    <div className={`bim-page${prefs.focus ? ' bim-focus' : ''}`}>
       {/* Overlay (mobile) */}
       <div
         className={`bim-sb-overlay${sidebarOpen ? ' open' : ''}`}
@@ -1334,14 +1369,14 @@ export default function BahasaInggrisMateri() {
       {/* ── SIDEBAR ── */}
       <aside className={`bim-sidebar${sidebarOpen ? ' open' : ''}`}>
         <div className="bim-sb-head">
-          <button className="bim-sb-back" onClick={() => navigate(-1)}>← Kembali</button>
+          <button className="bim-sb-back" onClick={() => navigate(PATHS.berandaMateri)}>← Kembali ke daftar materi</button>
           <div className="bim-sb-title">Materi Bahasa Inggris</div>
           <div className="bim-sb-sub">TM 1–7 · Angkatan 2026</div>
         </div>
 
         <button
           className={`bim-sb-dash${!activeTopic ? ' active' : ''}`}
-          onClick={() => { setActiveTopic(null); setSidebarOpen(false); }}
+          onClick={() => { setSidebarOpen(false); navigate(base); }}
         >
           <i className="fa-solid fa-house" aria-hidden="true" /> Dashboard
         </button>
@@ -1356,6 +1391,7 @@ export default function BahasaInggrisMateri() {
                 key={t.id}
                 className={`bim-sb-btn${activeTopic === t.id ? ' active' : ''}`}
                 style={activeTopic === t.id ? { borderLeftColor: n.color } : {}}
+                aria-current={activeTopic === t.id ? 'page' : undefined}
                 onClick={() => selectTopic(t.id)}
               >
                 <span>
@@ -1369,22 +1405,24 @@ export default function BahasaInggrisMateri() {
         ))}
 
         <div className="bim-sb-quiz">
-          <button className="bim-sb-quizbtn" onClick={() => navigate('/quiziz/bahasainggris')}>
-            <i className="fa-solid fa-pencil" aria-hidden="true" /> Mulai Kuis
-          </button>
+          {subject?.latsol
+            ? (
+              <button className="bim-sb-quizbtn" onClick={() => navigate(subject.latsol.path)}>
+                <i className="fa-solid fa-pencil" aria-hidden="true" /> Latsol {subject.short}
+              </button>
+            )
+            : <p className="bim-muted" style={{ margin: 0, padding: '0 1rem' }}>Latsol mata kuliah ini belum tersedia.</p>}
         </div>
       </aside>
 
       {/* ── MAIN ── */}
-      <main ref={mainRef} style={{ flex: 1, padding: '2rem 2rem 6rem', maxWidth: 900, margin: '0 auto', width: '100%', overflowX: 'hidden' }}>
+      <main style={{ flex: 1, padding: '2rem 2rem 6rem', maxWidth: 900, margin: '0 auto', width: '100%', overflowX: 'hidden' }}>
         {/* Mobile bar */}
         <div className="bim-mobile-bar">
           <button className="bim-mobile-toggler" onClick={() => setSidebarOpen(o => !o)}>
              {activeTopic ? topicInfo?.label : 'Menu Materi'}
           </button>
-          <button className="bim-mobile-toggler" onClick={() => navigate('/quiziz/bahasainggris')}>
-            <i className="fa-solid fa-pencil" aria-hidden="true" /> Kuis
-          </button>
+          <button className="bim-mobile-toggler" onClick={() => navigate(PATHS.berandaMateri)}>← Daftar materi</button>
         </div>
 
         {/* LANDING */}
@@ -1395,48 +1433,23 @@ export default function BahasaInggrisMateri() {
         {/* TOPIC CONTENT */}
         {activeTopic && topicInfo && (
           <>
-            {/* Breadcrumb */}
-            <div className="bim-crumb">
-              <button className="bim-crumb-btn" onClick={() => setActiveTopic(null)}>← Dashboard</button>
-              <span>›</span>
-              <span style={{ color: catColor, fontWeight: 600 }}>{currentCat?.category}</span>
-            </div>
+            <ReaderTools crumbs={[{ label: subject?.short || 'Bahasa Inggris', to: base }, { label: currentCat?.category }]}
+              prefs={prefs} canSmaller={canSmaller} canBigger={canBigger} onSmaller={smaller} onBigger={bigger} onFocus={toggleFocus} />
 
             {/* Content card */}
-            <div className="bim-card" style={{ borderTop: `3px solid ${catColor}` }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', gap: 12, flexWrap: 'wrap' }}>
-                <h2 className="bim-h2">{topicInfo.label}</h2>
-                {progress[activeTopic]
-                  ? <Badge color="var(--ok)">✓ Selesai dibaca</Badge>
-                  : <button onClick={() => selectTopic(activeTopic)}
-                      style={{ background: 'none', border: `1px solid ${catColor}44`, borderRadius: 2,
-                        padding: '2px 12px', fontSize: 11.5, fontWeight: 700, color: catColor,
-                        cursor: 'pointer', fontFamily: 'inherit' }}>
-                      Tandai Selesai
-                    </button>
-                }
-              </div>
+            <div ref={cardRef} className="bim-card bim-read" style={{ borderTop: `3px solid ${catColor}`, '--bim-scale': prefs.font }}>
+              <h2 id="bim-title" tabIndex={-1} className="bim-h2" style={{ marginBottom: '1.25rem' }}>{topicInfo.label}</h2>
+              <ReaderMeta minutes={minutes} />
               <TopicComponent />
             </div>
 
-            {/* Prev / Next */}
-            {(prevTopic || nextTopic) && (
-              <div className="bim-nav-row">
-                {prevTopic && (
-                  <button className="bim-nav-btn bim-nav-prev" onClick={() => selectTopic(prevTopic.id)}>
-                    ← {prevTopic.label}
-                  </button>
-                )}
-                {nextTopic && (
-                  <button className="bim-nav-btn bim-nav-next" style={{ background: catColor }} onClick={() => selectTopic(nextTopic.id)}>
-                    {nextTopic.label} →
-                  </button>
-                )}
-              </div>
-            )}
+            <ChapterFooter done={!!progress[activeTopic]} onDone={() => setDone(activeTopic, true)} onUndo={() => setDone(activeTopic, false)}
+              prev={toLink(allFlat[topicIdx - 1])} next={toLink(allFlat[topicIdx + 1])} accent={catColor} latsol={subject?.latsol} />
           </>
         )}
       </main>
+
+      <LeoAIChat pageContext={{ matkul: 'Bahasa Inggris', bab: leoText ? topicInfo?.label || '' : '', babId: leoText ? activeTopic || '' : '' }} materiText={leoText} />
     </div>
   );
 }

@@ -464,11 +464,11 @@ export function LatihanSoal({ q, num, ctx }) {
 }
 
 /* ───────── renderer blok ───────── */
-export function Blocks({ blocks = [], hl = '', ctx }) {
+export function Blocks({ blocks = [], hl = '', ctx, ids }) {
   let quizNo = 0;
   return blocks.map((b, i) => {
     switch (b.t) {
-      case 'h': return <h3 key={i} className="bim-h3" style={{ margin: '1.25rem 0 .4rem' }}><Inline text={b.x} hl={hl} /></h3>;
+      case 'h': return <h3 key={i} id={ids?.get(b)} className="bim-h3" style={{ margin: '1.25rem 0 .4rem' }}><Inline text={b.x} hl={hl} /></h3>;
       case 'p': return <p key={i} className="bim-body" style={{ margin: '0 0 .8rem' }}><Inline text={b.x} hl={hl} /></p>;
       case 'ul':
       case 'ol': {

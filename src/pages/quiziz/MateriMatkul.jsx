@@ -1,58 +1,56 @@
-// src/pages/quiziz/MateriMatkul.jsx — routes: /quiziz/<slug>/materi dan /quiziz/<slug>/praktikum
-// Halaman materi per bab, data-driven. Pola tampilan sama dengan MateriBahasaInggris.jsx
-// (sidebar bab, pencarian, penanda progres, drawer di mobile), komponennya dari MateriKit.jsx.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate, useSearchParams, Navigate } from 'react-router-dom';
+// src/pages/quiziz/MateriMatkul.jsx — routes: /quiziz/<slug>/materi[/:babId] dan /quiziz/<slug>/praktikum[/:babId]
+// Reader materi per bab, data-driven (komponen blok dari MateriKit). URL adalah SUMBER KEBENARAN bab yang dibuka:
+// refresh, back/forward, dan tautan yang dibagikan membuka tempat yang benar; `?bab=` (alias lama) dialihkan ke bentuk path.
+// Isi bab hanya tampil bila sudah dimuat UNTUK bab yang sedang aktif (lihat useBabLoader), jadi pindah bab cepat tidak pernah
+// menampilkan isi bab lama di bawah judul bab baru, dan Leo tidak pernah menerima judul dan isi dari bab yang berbeda.
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { MATERI } from '../../data/quiziz/materi/registry';
-import { PATHS } from '../../data/quiziz/routes';
-import { setLastRead } from '../../data/quiziz/reading';
-import { useMateriStyles, Blocks, Badge, blocksToText } from '../../components/quiz/MateriKit';
+import { getSubject } from '../../data/quiziz/registry';
+import { PATHS, babPath, readerBase } from '../../data/quiziz/routes';
+import { countWords, readingMinutes } from '../../data/quiziz/reading';
+import { useMateriStyles, Blocks, blocksToText } from '../../components/quiz/MateriKit';
+import { buildHeadingIds, headingItems } from '../../components/quiz/readerText';
+import { useBabLoader, useReadPosition, useReaderPrefs } from '../../components/quiz/useReader';
+import { ChapterFooter, ReaderMeta, ReaderTools, Toc } from '../../components/quiz/ReaderParts';
 import LeoAIChat from '../../components/quiz/LeoAIChat';
+import '../../styles/reader.css';
 
 export default function MateriMatkul({ slug, mode = 'materi' }) {
   useMateriStyles();
   const navigate = useNavigate();
+  const { babId } = useParams();
+  const [params] = useSearchParams();
   const cfg = MATERI[slug];
+  const subject = getSubject(slug);
   const isPrak = mode === 'praktikum';
+  const base = readerBase(slug, mode);
   const manifest = useMemo(() => (cfg ? (isPrak ? cfg.praktikum || [] : cfg.manifest) : []), [cfg, isPrak]);
   const flat = useMemo(() => manifest.flatMap((g) => g.babs.filter((b) => !b.segera).map((b) => ({ ...b, category: g.category }))), [manifest]);
 
   const storeKey = `materi_progress_${slug}_${mode}`;
-  const [activeId, setActiveId] = useState(null);
-  const [bab, setBab] = useState(null);        // modul bab yang sedang dibuka
-  const [loading, setLoading] = useState(false);
-  const [loadErr, setLoadErr] = useState(false);
   const [progress, setProgress] = useState(() => { try { return JSON.parse(localStorage.getItem(storeKey) || '{}'); } catch { return {}; } });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [term, setTerm] = useState('');
   const [index, setIndex] = useState(null);    // [{id, label, text}] untuk pencarian
   const [hl, setHl] = useState('');
-  const mainRef = useRef(null);
+  const { prefs, canSmaller, canBigger, smaller, bigger, toggleFocus } = useReaderPrefs();
+
+  const entry = useMemo(() => flat.find((b) => b.id === babId) || null, [flat, babId]);
+  const activeId = entry ? entry.id : null;
+  const { bab, ready, loading, error, retry } = useBabLoader(entry);
+  useReadPosition({ slug, mode, babId: activeId, ready: ready && !error });
+
   const babText = useMemo(() => (bab ? blocksToText(bab.blocks) : ''), [bab]); // konteks Leo AI
+  const ids = useMemo(() => (bab ? buildHeadingIds(bab.blocks) : new Map()), [bab]);
+  const toc = useMemo(() => headingItems(ids), [ids]);
+  const minutes = bab ? readingMinutes(countWords(babText)) : 0;
 
-  const select = useCallback((id) => {
-    const entry = flat.find((b) => b.id === id);
-    if (!entry) return;
-    setLastRead({ slug, mode, babId: id });
-    setActiveId(id); setSidebarOpen(false); setLoading(true); setLoadErr(false);
-    entry.load().then((m) => { setBab(m.default); setLoading(false); }).catch(() => { setLoadErr(true); setLoading(false); });
-    window.scrollTo(0, 0); mainRef.current?.scrollTo?.(0, 0);
-  }, [flat, slug, mode]);
-
-  // Buka langsung di sebuah bab lewat ?bab=<id> (dipakai kartu Lanjutkan dan pencarian). Dijadwalkan agar select() tidak
-  // mengatur state secara sinkron di dalam effect; ref menjaga agar hanya sekali per kunjungan.
-  const [params] = useSearchParams();
-  const resumed = useRef(false);
-  useEffect(() => {
-    const id = params.get('bab');
-    if (!id || resumed.current) return;
-    resumed.current = true;
-    setTimeout(() => select(id), 0);
-  }, [params, select]);
-
-  const markDone = useCallback((id) => {
+  const go = useCallback((id) => { setSidebarOpen(false); navigate(babPath(slug, mode, id)); }, [navigate, slug, mode]);
+  const setDone = useCallback((id, value) => {
     setProgress((prev) => {
-      const next = { ...prev, [id]: true };
+      const next = { ...prev };
+      if (value) next[id] = true; else delete next[id];
       try { localStorage.setItem(storeKey, JSON.stringify(next)); } catch { /* abaikan */ }
       return next;
     });
@@ -60,7 +58,7 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
 
   // Pencarian teks biasa: muat semua bab matkul ini sekali, lalu cari di teks polosnya
   useEffect(() => {
-    if (term.trim().length < 2 || index) return;
+    if (term.trim().length < 2 || index) return undefined;
     let alive = true;
     Promise.all(flat.map((b) => b.load().then((m) => ({ id: b.id, label: b.label, text: blocksToText(m.default.blocks) })).catch(() => null)))
       .then((rows) => { if (alive) setIndex(rows.filter(Boolean)); });
@@ -79,14 +77,17 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
   }, [term, index]);
 
   if (!cfg) return <Navigate to={PATHS.berandaMateri} replace />;
+  const legacy = params.get('bab');
+  if (!babId && legacy && flat.some((b) => b.id === legacy)) return <Navigate to={babPath(slug, mode, legacy)} replace />;
+  if (babId && !entry) return <Navigate to={base} replace />;
 
   const title = isPrak ? `Praktikum ${cfg.title}` : cfg.title;
-  const idx = flat.findIndex((b) => b.id === activeId);
-  const prev = flat[idx - 1]; const next = flat[idx + 1];
-  const ctx = { matkul: title, bab: bab?.title || '', babId: activeId || '' };
+  const at = flat.findIndex((b) => b.id === activeId);
+  const toLink = (b) => b && { to: babPath(slug, mode, b.id), label: b.label };
+  const ctx = { matkul: title, bab: bab ? bab.title || entry.label : '', babId: bab ? activeId : '' };
 
   return (
-    <div className="bim-page">
+    <div className={`bim-page${prefs.focus ? ' bim-focus' : ''}`}>
       <div className={`bim-sb-overlay${sidebarOpen ? ' open' : ''}`} onClick={() => setSidebarOpen(false)} />
 
       <aside className={`bim-sidebar${sidebarOpen ? ' open' : ''}`}>
@@ -103,14 +104,14 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
             {!index && <div className="bim-muted" style={{ padding: '0 1rem' }}>Memuat…</div>}
             {index && results.length === 0 && <div className="bim-muted" style={{ padding: '0 1rem' }}>Tidak ada hasil.</div>}
             {results.map((r) => (
-              <button key={r.id} className="bim-search-result-btn" onClick={() => { setHl(term.trim()); select(r.id); }}>
+              <button key={r.id} className="bim-search-result-btn" onClick={() => { setHl(term.trim()); go(r.id); }}>
                 <strong>{r.label}</strong><br /><span className="bim-muted">{r.snippet}</span>
               </button>
             ))}
           </div>
         )}
 
-        <button className={`bim-sb-dash${!activeId ? ' active' : ''}`} onClick={() => { setActiveId(null); setBab(null); setSidebarOpen(false); }}>
+        <button className={`bim-sb-dash${!activeId ? ' active' : ''}`} onClick={() => { setSidebarOpen(false); navigate(base); }}>
           <i className="fa-solid fa-house" aria-hidden="true" /> Dashboard
         </button>
 
@@ -119,7 +120,7 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
             <div className="bim-sb-cat">{g.category}</div>
             {g.babs.map((b) => (
               <button key={b.id} className={`bim-sb-btn${activeId === b.id ? ' active' : ''}${b.segera ? ' soon' : ''}`}
-                disabled={!!b.segera} onClick={() => select(b.id)}>
+                aria-current={activeId === b.id ? 'page' : undefined} disabled={!!b.segera} onClick={() => go(b.id)}>
                 <span>{progress[b.id] && <span className="bim-sb-check">✓</span>}{b.label}</span>
                 <span className="bim-sb-tm">{b.segera ? 'Segera' : b.badge}</span>
               </button>
@@ -129,16 +130,20 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
 
         {!isPrak && (
           <div className="bim-sb-quiz">
-            <button className="bim-sb-quizbtn" onClick={() => navigate(`/quiziz/${slug}`)}>
-              <i className="fa-solid fa-pencil" aria-hidden="true" /> Mulai Kuis
-            </button>
+            {subject?.latsol
+              ? (
+                <button className="bim-sb-quizbtn" onClick={() => navigate(subject.latsol.path)}>
+                  <i className="fa-solid fa-pencil" aria-hidden="true" /> Latsol {subject.short}
+                </button>
+              )
+              : <p className="bim-muted" style={{ margin: 0, padding: '0 1rem' }}>Latsol mata kuliah ini belum tersedia.</p>}
           </div>
         )}
       </aside>
 
-      <main ref={mainRef} style={{ flex: 1, padding: '2rem 2rem 6rem', maxWidth: 900, margin: '0 auto', width: '100%', overflowX: 'hidden' }}>
+      <main style={{ flex: 1, padding: '2rem 2rem 6rem', maxWidth: 900, margin: '0 auto', width: '100%', overflowX: 'hidden' }}>
         <div className="bim-mobile-bar">
-          <button className="bim-mobile-toggler" onClick={() => setSidebarOpen((o) => !o)}>{bab ? bab.title : 'Menu Materi'}</button>
+          <button className="bim-mobile-toggler" onClick={() => setSidebarOpen((o) => !o)}>{entry ? entry.label : 'Menu Materi'}</button>
           <button className="bim-mobile-toggler" onClick={() => navigate(PATHS.berandaMateri)}>← Daftar materi</button>
         </div>
 
@@ -160,7 +165,7 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
                 <h2 className="bim-h2" style={{ fontSize: '1.05rem', marginBottom: '.6rem' }}>{g.category}</h2>
                 <div className="bim-land-grid">
                   {g.babs.map((b) => (
-                    <button key={b.id} className="bim-land-cat-btn" disabled={!!b.segera} onClick={() => select(b.id)}
+                    <button key={b.id} className="bim-land-cat-btn" disabled={!!b.segera} onClick={() => go(b.id)}
                       style={b.segera ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}>
                       <div className="bim-land-cat-title">{progress[b.id] ? '✓ ' : ''}{b.label}</div>
                       <div className="bim-land-cat-desc">{b.segera ? 'Segera' : b.badge}</div>
@@ -174,30 +179,24 @@ export default function MateriMatkul({ slug, mode = 'materi' }) {
 
         {activeId && (
           <>
-            <div className="bim-crumb">
-              <button className="bim-crumb-btn" onClick={() => { setActiveId(null); setBab(null); }}>← Dashboard</button>
-              <span>›</span>
-              <span style={{ fontWeight: 600 }}>{flat[idx]?.category}</span>
-            </div>
-            <div className="bim-card" style={{ borderTop: '3px solid var(--accent)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', gap: 12, flexWrap: 'wrap' }}>
-                <h2 className="bim-h2">{flat[idx]?.label}</h2>
-                {progress[activeId]
-                  ? <Badge color="var(--ok)">✓ Selesai dibaca</Badge>
-                  : <button onClick={() => markDone(activeId)} style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 2, padding: '2px 12px', fontSize: 11.5, fontWeight: 700, color: 'var(--accent-text)', cursor: 'pointer', fontFamily: 'inherit' }}>Tandai Selesai</button>}
-              </div>
+            <ReaderTools crumbs={[{ label: subject?.short || title, to: base }, { label: entry.category }]}
+              prefs={prefs} canSmaller={canSmaller} canBigger={canBigger} onSmaller={smaller} onBigger={bigger} onFocus={toggleFocus} />
+            <div className="bim-card bim-read" style={{ borderTop: '3px solid var(--accent)', '--bim-scale': prefs.font }}>
+              <h2 id="bim-title" tabIndex={-1} className="bim-h2" style={{ marginBottom: '1.25rem' }}>{entry.label}</h2>
+              {bab && <ReaderMeta source={bab.sumber} minutes={minutes} />}
               {hl && <div className="bim-banner" style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
                 <span>Menyorot “{hl}”</span><button className="bim-crumb-btn" onClick={() => setHl('')}>Hapus sorotan</button></div>}
               {loading && <p className="bim-muted" role="status">Memuat bab…</p>}
-              {loadErr && <p className="bim-body" role="alert">Bab gagal dimuat. Periksa koneksi lalu coba lagi.</p>}
-              {bab && !loading && <Blocks blocks={bab.blocks} hl={hl} ctx={ctx} />}
-              {bab && !loading && bab.sumber && <p className="bim-muted" style={{ marginTop: '1.2rem' }}>Sumber bab: {bab.sumber}</p>}
+              {error && (
+                <p className="bim-body" role="alert">
+                  Bab gagal dimuat. Periksa koneksi lalu <button type="button" className="bim-crumb-btn" onClick={retry}>coba lagi</button>.
+                </p>
+              )}
+              {bab && <><Toc items={toc} /><Blocks blocks={bab.blocks} hl={hl} ctx={ctx} ids={ids} /></>}
             </div>
-            {(prev || next) && (
-              <div className="bim-nav-row">
-                {prev && <button className="bim-nav-btn bim-nav-prev" onClick={() => select(prev.id)}>← {prev.label}</button>}
-                {next && <button className="bim-nav-btn bim-nav-next" style={{ background: 'var(--accent)' }} onClick={() => select(next.id)}>{next.label} →</button>}
-              </div>
+            {bab && (
+              <ChapterFooter done={!!progress[activeId]} onDone={() => setDone(activeId, true)} onUndo={() => setDone(activeId, false)}
+                prev={toLink(flat[at - 1])} next={toLink(flat[at + 1])} latsol={!isPrak ? subject?.latsol : null} />
             )}
           </>
         )}

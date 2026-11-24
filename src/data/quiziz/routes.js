@@ -28,8 +28,10 @@ export function filterFromView(view) {
 export const latsolPath = (slug) => `/quiziz/${slug}`;
 export const materiPath = (slug) => `/quiziz/${slug}/materi`;
 export const praktikumPath = (slug) => `/quiziz/${slug}/praktikum`;
-/** Buka reader langsung di sebuah bab. Sementara lewat ?bab= pada rute lama; deep link per-path menyusul di Fase 3. */
-export const babPath = (slug, mode, babId) => `/quiziz/${slug}/${mode === 'praktikum' ? 'praktikum' : 'materi'}?bab=${encodeURIComponent(babId)}`;
+/** Deep link kanonis ke sebuah bab: /quiziz/:slug/(materi|praktikum)/:babId (+ #anchor subbagian). `?bab=` hanya alias lama. */
+export const babPath = (slug, mode, babId) => `/quiziz/${slug}/${mode === 'praktikum' ? 'praktikum' : 'materi'}/${encodeURIComponent(babId)}`;
+/** Halaman awal (dashboard) reader sebuah matkul. */
+export const readerBase = (slug, mode) => (mode === 'praktikum' ? praktikumPath(slug) : materiPath(slug));
 
 /** Navigasi utama: satu daftar untuk top bar (desktop/tablet) dan tab bar bawah (mobile). */
 export const NAV_ITEMS = [

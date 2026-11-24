@@ -11,6 +11,7 @@ import { availableTM as tmPancasila } from './pancasila/manifest';
 import { availableTM as tmKesglob } from './kesglob/manifest';
 import { availableTM as tmIbd } from './ibd/manifest';
 import { availableTM as tmKomdas } from './komdas/manifest';
+import { topics as INGGRIS_TOPICS } from './bahasaInggris/tm01/topics';
 import { NAV_ITEMS, PATHS, SUBJECT_SLUGS, babPath, latsolPath, materiPath, praktikumPath } from './routes';
 import { doneIds, getLastRead, relativeTime } from './reading';
 
@@ -40,7 +41,7 @@ const META = {
 export const SUBJECTS = SUBJECT_SLUGS.map((slug) => {
   const meta = META[slug];
   const m = MATERI[slug];
-  const babs = m ? countBabs(m.manifest) : 0;
+  const babs = slug === 'bahasainggris' ? INGGRIS_TOPICS.reduce((n, c) => n + c.topics.length, 0) : m ? countBabs(m.manifest) : 0;
   const modul = m?.praktikum ? countBabs(m.praktikum) : 0;
   return {
     slug,
@@ -65,7 +66,9 @@ export function listBabs() {
   if (!babCache) {
     babCache = [];
     SUBJECTS.forEach((s) => {
-      const m = MATERI[s.slug];
+      const m = s.slug === 'bahasainggris'
+        ? { manifest: INGGRIS_TOPICS.map((n) => ({ category: n.category, babs: n.topics.map((t) => ({ id: t.id, label: t.label })) })) }
+        : MATERI[s.slug];
       if (!m) return;
       [['materi', m.manifest], ['praktikum', m.praktikum]].forEach(([mode, groups]) => {
         (groups || []).forEach((g) => g.babs.forEach((b) => {
@@ -101,6 +104,11 @@ export function resolveLastRead() {
 }
 
 /** Semua path internal (tanpa query) yang bisa dihasilkan registry dan navigasi: [label, path]. Dicek terhadap router. */
+/** Pangkalan reader yang wajib mendukung deep link `/:babId` di router (App.jsx). */
+export function deepLinkBases() {
+  return SUBJECTS.flatMap((s) => [s.materi && s.materi.path, s.praktikum && s.praktikum.path].filter(Boolean));
+}
+
 export function allPaths() {
   const out = [
     ...NAV_ITEMS.map((n) => [`nav:${n.id}`, n.to.split('?')[0]]),
