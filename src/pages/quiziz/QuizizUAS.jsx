@@ -10,6 +10,7 @@ import useQuizAuth from '../../components/quiz/useQuizAuth';
 import QuizShell from '../../components/quiz/QuizShell';
 import { Reveal } from '../../components/BentoKit';
 import Ico from '../../components/Ico';
+import '../../styles/quizOsce.css';
 
 const SUBJECTS = [
   { name: 'Bahasa Inggris', icon: '🇬🇧', color: 'var(--accent-text)' },
@@ -71,13 +72,14 @@ export default function QuizizUAS() {
           ))}
         </div>
 
-        <Reveal className="bn-card qz-note" style={{ borderStyle: 'dashed' }}>
-          <span className="qz-note-ico"><i className="fa-solid fa-gamepad" aria-hidden="true" /></span>
-          <div>
-            <b>Mode Multiplayer</b>
-            <p>Belum aktif, menunggu materi UAS tersedia.</p>
-          </div>
-        </Reveal>
+        <button type="button" className="bn-card qz-link-card osce-entry-card" onClick={() => navigate('/quizizuas/osce')}>
+          <span style={{ fontSize: '1.5rem' }}><i className="fa-solid fa-comments" aria-hidden="true" /></span>
+          <span>
+            <b style={{ fontWeight: 500 }}>Simulasi OSCE Komunikasi <span className="qz-chip osce-entry-badge">Baru</span></b>
+            <small>Latihan praktikum Komdas, solo atau berdua</small>
+          </span>
+          <span className="qz-go">→</span>
+        </button>
 
         <Reveal className="bn-card qz-note">
           <span className="qz-note-ico"><i className="fa-solid fa-robot" aria-hidden="true" /></span>

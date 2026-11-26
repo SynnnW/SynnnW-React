@@ -89,6 +89,9 @@ const QuizPancasila          = lazy(() => import('./pages/quiziz/QuizPancasila')
 const QuizKesglob            = lazy(() => import('./pages/quiziz/QuizKesglob'));
 const QuizIBD                = lazy(() => import('./pages/quiziz/QuizIBD'));
 const QuizKomdas             = lazy(() => import('./pages/quiziz/QuizKomdas'));
+const OsceHub                = lazy(() => import('./pages/quiziz/osce/OsceHub'));
+const OsceSolo                = lazy(() => import('./pages/quiziz/osce/OsceSolo'));
+const OsceRoom                = lazy(() => import('./pages/quiziz/osce/OsceRoom'));
 const QuizMasuk              = lazy(() => import('./pages/quiziz/QuizMasuk'));
 const QuizKuesioner          = lazy(() => import('./pages/quiziz/QuizKuesioner'));
 const MateriMatkul           = lazy(() => import('./pages/quiziz/MateriMatkul'));
@@ -111,8 +114,8 @@ const QUIZ_PATHS = [
   '/quiziz/komdas',
   // '/quiz-farmakologi', // ← tambahkan di sini juga
 ];
-/** Semua halaman Quiziz (termasuk masuk, kuesioner, materi, praktikum) tampil fullscreen */
-const isQuizPath = (p) => p === '/quizizuas' || p === '/quiziz' || p.startsWith('/quiziz/') || QUIZ_PATHS.includes(p);
+/** Semua halaman Quiziz (termasuk masuk, kuesioner, materi, praktikum, OSCE) tampil fullscreen */
+const isQuizPath = (p) => p === '/quiziz' || p.startsWith('/quiziz/') || p.startsWith('/quizizuas') || QUIZ_PATHS.includes(p);
 
 /* ══════════════════════════════════════════════════════
    ROOT APP — auth state di level tertinggi
@@ -330,6 +333,9 @@ function Layout({ user, loadingAuth }) {
                 <Route element={<QuizOnboardingGate />}>
                   <Route path="/quiziz"                      element={<Quiziz />} />
                   <Route path="/quizizuas"                    element={<QuizizUAS />} />
+                  <Route path="/quizizuas/osce"               element={<OsceHub />} />
+                  <Route path="/quizizuas/osce/solo/:caseId"  element={<OsceSolo />} />
+                  <Route path="/quizizuas/osce/room/:code"    element={<OsceRoom />} />
                   <Route path="/quiziz/bahasainggris"         element={<QuizBahasaInggris />} />
                   <Route path="/quiziz/bahasainggris/materi/:babId?"  element={<MateriBahasaInggris />} />
                   <Route path="/quiziz/ftk"                   element={<QuizFTK />} />

@@ -16,7 +16,14 @@ export const PATHS = {
   uas: '/quizizuas',
   masuk: '/quiziz/masuk',
   kuesioner: '/quiziz/kuesioner',
+  osce: '/quizizuas/osce',
+  osceSolo: '/quizizuas/osce/solo/:caseId',
+  osceRoom: '/quizizuas/osce/room/:code',
 };
+
+export const osceHub = () => PATHS.osce;
+export const osceSoloPath = (caseId) => `/quizizuas/osce/solo/${encodeURIComponent(caseId)}`;
+export const osceRoomPath = (code) => `/quizizuas/osce/room/${encodeURIComponent(code)}`;
 
 /** Filter katalog di beranda <-> nilai ?view= di URL. `quiz` dipertahankan sebagai nama lama untuk Latsol. */
 export const FILTER_VIEW = { semua: '', latsol: 'quiz', materi: 'materi', praktikum: 'praktikum' };
@@ -47,7 +54,7 @@ export const NAV_ITEMS = [
  */
 export function activeNav(pathname, search = '') {
   const path = String(pathname).replace(/\/+$/, '') || '/';
-  if (path === PATHS.uas) return 'uas';
+  if (path === PATHS.uas || path.startsWith(PATHS.uas + '/')) return 'uas';
   if (path === PATHS.beranda) {
     const f = filterFromView(new URLSearchParams(search).get('view'));
     return f === 'latsol' ? 'latsol' : f === 'materi' || f === 'praktikum' ? 'materi' : 'beranda';
