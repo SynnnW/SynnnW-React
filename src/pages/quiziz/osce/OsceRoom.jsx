@@ -1,5 +1,5 @@
 // src/pages/quiziz/osce/OsceRoom.jsx — route: /quizizuas/osce/room/:code
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import QuizShell from '../../../components/quiz/QuizShell';
 import ErrorState from '../../../components/quiz/ErrorState';
@@ -18,32 +18,23 @@ export default function OsceRoom() {
   const { code } = useParams();
   const navigate = useNavigate();
   const user = useQuizAuth();
-  const { room, myRole, isHost, status: liveStatus, error, actions } = useOsceRoom(code, user?.uid);
+  const joinInfo = useMemo(
+    () => (user?.uid ? { name: user.displayName || '', photo: user.photoURL || null } : null),
+    [user],
+  );
+  const { room, myRole, isHost, status: liveStatus, error, actions } = useOsceRoom(code, user?.uid, joinInfo);
 
   const [caseData, setCaseData] = useState(undefined);
   const [completedPhases, setCompletedPhases] = useState(0);
   const [finishedAt, setFinishedAt] = useState(null);
   const [saveState, setSaveState] = useState('idle');
   const savedRef = useRef(false);
-  const joinAttemptedRef = useRef(false);
   const [feedback, setFeedback] = useState([]);
   const [partnerLeftAck, setPartnerLeftAck] = useState(false);
   const [guestLeftMidSession, setGuestLeftMidSession] = useState(false);
   const prevGuest = useRef(undefined);
 
   useEffect(() => { document.title = 'Sesi Multiplayer OSCE · Quiziz UAS'; }, []);
-
-  const isParticipant = !!room && !!user?.uid && (room.host_id === user.uid || room.guest_id === user.uid);
-
-  // Auto-join kalau belum anggota dan slot masih kosong. joinAttemptedRef hanya
-  // untuk mencegah dobel panggilan RPC, tidak perlu memicu render.
-  useEffect(() => {
-    if (!room || !user?.uid || isParticipant || joinAttemptedRef.current) return;
-    if (room.guest_id || room.status === 'closed' || room.status === 'finished') return;
-    joinAttemptedRef.current = true;
-    actions.join(user.displayName || '', user.photoURL || null).catch(() => { joinAttemptedRef.current = false; });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [room, user, isParticipant]);
 
   useEffect(() => {
     if (!room?.case_id) return;
@@ -98,10 +89,7 @@ export default function OsceRoom() {
   };
 
   if (error) {
-    return <QuizShell variant="focus" maxWidth={860}><ErrorState title="Terjadi masalah" text={describeOsceError({ message: error })} onRetry={actions.clearError} /></QuizShell>;
-  }
-  if (room === null) {
-    return <QuizShell variant="focus" maxWidth={860}><ErrorState title="Room tidak ditemukan" text="Kode room salah, atau room sudah dihapus." /></QuizShell>;
+    return <QuizShell variant="focus" maxWidth={860}><ErrorState title="Terjadi masalah" text={describeOsceError({ message: error })} onRetry={actions.retry} /></QuizShell>;
   }
   if (!room) {
     return <QuizShell variant="focus" maxWidth={860}><div className="qz-state" role="status"><p className="qz-state-text">Memuat room…</p></div></QuizShell>;

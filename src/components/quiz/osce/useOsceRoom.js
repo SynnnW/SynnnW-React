@@ -7,24 +7,46 @@ const POLL_MS = 4000;
 /**
  * @param {string} code - kode room 6 karakter
  * @param {string} uid - auth.users.id pemain saat ini
+ * @param {{name?: string, photo?: string}} [joinInfo] - kalau diisi, hook akan
+ *   otomatis mencoba gabung lewat RPC saat baris room tidak terbaca langsung.
+ *   Ini WAJIB untuk tamu: sebelum resmi jadi anggota, RLS `osce_rooms` memang
+ *   menyembunyikan baris itu dari select langsung (lihat supabase/osce.sql),
+ *   jadi satu-satunya cara tamu "menemukan" room adalah lewat RPC osce_join_room
+ *   (security definer, bisa lihat row-nya) — bukan dengan membaca tabel dulu.
  */
-export default function useOsceRoom(code, uid) {
-  const [room, setRoom] = useState(null);
+export default function useOsceRoom(code, uid, joinInfo) {
+  const [room, setRoom] = useState(undefined); // undefined = belum selesai dimuat, null = tidak akan dipakai lagi
   const [channelStatus, setChannelStatus] = useState('connecting'); // connecting | live | offline
   const [error, setError] = useState('');
   const refetchTimer = useRef(null);
   const pollId = useRef(null);
   const alive = useRef(true);
+  const joinTried = useRef(false);
 
   const refetch = useCallback(async () => {
     if (!code) return;
     try {
-      const row = await osceApi.getRoom(code);
-      if (alive.current) setRoom(row);
+      let row = await osceApi.getRoom(code);
+      if (!row && joinInfo && !joinTried.current) {
+        // Belum kebaca langsung (biasanya: tamu yang belum resmi gabung, diblokir RLS).
+        // Coba gabung lewat RPC — itu yang benar-benar menentukan room ada/penuh/tertutup.
+        joinTried.current = true;
+        row = await osceApi.joinRoom({ code, name: joinInfo.name, photo: joinInfo.photo });
+      }
+      if (alive.current) { setRoom(row); setError(''); }
     } catch (e) {
+      // cannot_join_own_room = sebenarnya ini host, tapi select tadi entah kenapa kosong duluan.
+      // Coba sekali lagi baca langsung (biasanya race kondisi awal saja), tanpa mencoba join lagi.
+      if (e?.message === 'cannot_join_own_room') {
+        try {
+          const row = await osceApi.getRoom(code);
+          if (alive.current) { setRoom(row); setError(''); }
+          return;
+        } catch { /* lanjut ke penanganan error di bawah */ }
+      }
       if (alive.current) setError(e?.message || 'gagal memuat room');
     }
-  }, [code]);
+  }, [code, joinInfo]);
 
   const refetchSoon = useCallback(() => {
     clearTimeout(refetchTimer.current);
@@ -33,6 +55,7 @@ export default function useOsceRoom(code, uid) {
 
   useEffect(() => {
     alive.current = true;
+    joinTried.current = false;
     if (!code) return undefined;
 
     // eslint-disable-next-line react-hooks/set-state-in-effect -- muat data room awal dari Supabase (sistem eksternal) saat kode room berganti
@@ -93,6 +116,7 @@ export default function useOsceRoom(code, uid) {
     finish: wrap(() => osceApi.finishRoom(code)),
     swapRoles: wrap(() => osceApi.swapRoles(code)),
     clearError: () => setError(''),
+    retry: () => { joinTried.current = false; setError(''); refetch(); },
   };
 
   return {
